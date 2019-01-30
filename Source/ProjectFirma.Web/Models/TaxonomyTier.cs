@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProjectFirmaModels.Models;
@@ -17,9 +18,25 @@ namespace ProjectFirma.Web.Models
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> TaxonomyTierPerformanceMeasures { get; }
         public int? SortOrder { get; }
 
+        private TaxonomyLevelEnum TaxonomyLevel { get; }
+
+        private TaxonomyLeaf TaxonomyLeaf { get; }
+        private TaxonomyBranch TaxonomyBranch { get; }
+        private TaxonomyTrunk TaxonomyTrunk { get; }
+
         public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
-            return new FancyTreeNode("", "", false);
+            switch (TaxonomyLevel)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return TaxonomyLeaf.ToFancyTreeNode(currentPerson);
+                case TaxonomyLevelEnum.Branch:
+                    return TaxonomyBranch.ToFancyTreeNode(currentPerson);
+                case TaxonomyLevelEnum.Trunk:
+                    return TaxonomyTrunk.ToFancyTreeNode(currentPerson);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public TaxonomyTier(TaxonomyLeaf taxonomyLeaf)
@@ -31,6 +48,10 @@ namespace ProjectFirma.Web.Models
             DetailUrl = taxonomyLeaf.GetDetailUrl();
             TaxonomyTierPerformanceMeasures = taxonomyLeaf.GetTaxonomyTierPerformanceMeasures();
             SortOrder = taxonomyLeaf.TaxonomyLeafSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Leaf;
+            TaxonomyLeaf = taxonomyLeaf;
+            TaxonomyBranch = null;
+            TaxonomyTrunk = null;
         }
 
         public TaxonomyTier(TaxonomyBranch taxonomyBranch)
@@ -42,6 +63,10 @@ namespace ProjectFirma.Web.Models
             DetailUrl = taxonomyBranch.GetDetailUrl();
             TaxonomyTierPerformanceMeasures = taxonomyBranch.GetTaxonomyTierPerformanceMeasures();
             SortOrder = taxonomyBranch.TaxonomyBranchSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Branch;
+            TaxonomyLeaf = null;
+            TaxonomyBranch = taxonomyBranch;
+            TaxonomyTrunk = null;
         }
 
         public TaxonomyTier(TaxonomyTrunk taxonomyTrunk)
@@ -53,6 +78,10 @@ namespace ProjectFirma.Web.Models
             DetailUrl = taxonomyTrunk.GetDetailUrl();
             TaxonomyTierPerformanceMeasures = taxonomyTrunk.GetTaxonomyTierPerformanceMeasures();
             SortOrder = taxonomyTrunk.TaxonomyTrunkSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Trunk;
+            TaxonomyLeaf = null;
+            TaxonomyBranch = null;
+            TaxonomyTrunk = taxonomyTrunk;
         }
     }
 }
