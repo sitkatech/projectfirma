@@ -649,5 +649,11 @@ namespace ProjectFirmaModels.Models
             }
             return featureCollection;
         }
+
+        public static List<Person> GetProjectStewardPeople(this Project project)
+        {
+            var projectStewards = project.GetProjectStewards() ?? new List<Person>();
+            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(projectStewards, new HavePrimaryKeyComparer<Person>()).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+        }
     }
 }
