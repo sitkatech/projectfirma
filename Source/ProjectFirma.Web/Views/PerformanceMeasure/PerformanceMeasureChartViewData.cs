@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
             ChartTotalUnit = PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             
-            var currentPersonHasManagePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
 
             ShowLastUpdatedDate = showLastUpdatedDate;

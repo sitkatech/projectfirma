@@ -18,10 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
+
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -42,7 +40,7 @@ namespace ProjectFirma.Web.Views.Classification
         {
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
 
-            HasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson);
+            HasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             GridSpec = new IndexGridSpec(HasClassificationManagePermissions, classificationSystem)
             {
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,

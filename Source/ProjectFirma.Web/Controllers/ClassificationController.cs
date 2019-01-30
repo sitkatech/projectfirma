@@ -22,11 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Classification;
 using ProjectFirma.Web.Views.Project;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ClassificationController : FirmaBaseController
     {
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
@@ -50,17 +50,17 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
+            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
             var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
 
         [HttpGet]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditViewModel viewModel)
         {
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult Edit(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ClassificationPrimaryKey classificationPrimaryKey, EditViewModel viewModel)
         {
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult DeleteClassification(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
@@ -142,7 +142,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteClassification(ClassificationPrimaryKey classificationPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -155,7 +155,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        [PerformanceMeasureViewFeature]
+        [AnonymousUnclassifiedFeature]
         public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
@@ -163,7 +163,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        [PerformanceMeasureViewFeature]
+        [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
@@ -172,7 +172,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
@@ -187,7 +187,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditSortOrder(ClassificationSystemPrimaryKey classificationSystemPrimaryKey, EditSortOrderViewModel viewModel)
         {

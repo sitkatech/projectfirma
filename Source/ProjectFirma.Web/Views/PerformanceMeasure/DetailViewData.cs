@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public EntityNotesViewData EntityNotesViewData { get; }
 
         public bool UserHasPerformanceMeasureOverviewManagePermissions { get; }
+        public bool IsAdmin { get; }
 
         public string EditPerformanceMeasureUrl { get; }
         public string EditSubcategoriesAndOptionsUrl { get; }
@@ -58,7 +59,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
             EntityNotesViewData entityNotesViewData,
-            bool userHasPerformanceMeasureManagePermissions) : base(currentPerson)
+            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentPerson)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";
@@ -67,6 +68,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureChartViewData = performanceMeasureChartViewData;
             EntityNotesViewData = entityNotesViewData;
             UserHasPerformanceMeasureOverviewManagePermissions = userHasPerformanceMeasureManagePermissions;
+            IsAdmin = isAdmin;
 
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));

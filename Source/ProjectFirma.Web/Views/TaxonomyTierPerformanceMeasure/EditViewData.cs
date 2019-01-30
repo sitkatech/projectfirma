@@ -27,19 +27,24 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewData : FirmaUserControlViewData
     {
+        private readonly ProjectFirmaModels.Models.FieldDefinition _fieldDefinitionForTaxonomyTier;
         public List<TaxonomyTierSimple> AllTaxonomyTiers { get; }
         public PerformanceMeasureSimple PerformanceMeasure { get; }
         public string TaxonomyTierDisplayName { get; }
         public string TaxonomyTierDisplayNamePluralized { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTaxonomyTier { get; }
+
+        public ProjectFirmaModels.Models.FieldDefinition GetFieldDefinitionForTaxonomyTier()
+        {
+            return _fieldDefinitionForTaxonomyTier;
+        }
 
         public EditViewData(PerformanceMeasureSimple performanceMeasure, List<TaxonomyTierSimple> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
             PerformanceMeasure = performanceMeasure;
             AllTaxonomyTiers = taxonomyTiers;
-            FieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
-            TaxonomyTierDisplayName = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel();
-            TaxonomyTierDisplayNamePluralized = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabelPluralized();
+            _fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
+            TaxonomyTierDisplayName = GetFieldDefinitionForTaxonomyTier().GetFieldDefinitionLabel();
+            TaxonomyTierDisplayNamePluralized = GetFieldDefinitionForTaxonomyTier().GetFieldDefinitionLabelPluralized();
         }
     }
 }

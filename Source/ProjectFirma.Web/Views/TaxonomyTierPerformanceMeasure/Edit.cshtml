@@ -107,7 +107,7 @@
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-12 col-sm-3">
-                @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
+                @Html.LabelWithSugarFor(ViewDataTyped.GetFieldDefinitionForTaxonomyTier(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
             </div>
             <div class="col-xs-12 col-sm-9">
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.IsPrimaryTaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Primary {0}?", ViewDataTyped.TaxonomyTierDisplayName))

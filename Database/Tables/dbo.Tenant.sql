@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[Tenant](
 	[ReportingYearStartDate] [datetime] NOT NULL,
 	[UseFiscalYears] [bit] NOT NULL,
 	[UsesTechnicalAssistanceParameters] [bit] NOT NULL,
+	[ArePerformanceMeasuresExternallySourced] [bit] NOT NULL,
  CONSTRAINT [PK_Tenant_TenantID] PRIMARY KEY CLUSTERED 
 (
 	[TenantID] ASC
