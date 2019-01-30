@@ -22,12 +22,17 @@ using LtInfo.Common.HtmlHelperExtensions;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class FieldDefinitionData : IFieldDefinitionData
+    public partial class FieldDefinitionData : IFieldDefinitionData, IAuditableEntity
     {
         public FieldDefinitionData(int fieldDefinitionID, string fieldDefinitionDataValue)
         {
             FieldDefinitionID = fieldDefinitionID;
             FieldDefinitionDataValue = fieldDefinitionDataValue;
+        }
+
+        public string GetAuditDescriptionString()
+        {
+            return $"{FieldDefinition.FieldDefinitionDisplayName} updated";
         }
     }
 }

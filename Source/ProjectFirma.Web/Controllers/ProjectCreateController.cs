@@ -587,7 +587,7 @@ namespace ProjectFirma.Web.Controllers
             var selectedProjectClassifications = project.ProjectClassifications;
 
             var projectClassificationSimples =
-                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.GetDisplayName()).Select(x => new ProjectClassificationSimple
+                HttpRequestStorage.DatabaseEntities.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications).OrderBy(x => x.DisplayName).Select(x => new ProjectClassificationSimple
                 {
                     ClassificationID = x.ClassificationID,
                     ClassificationSystemID = x.ClassificationSystemID,

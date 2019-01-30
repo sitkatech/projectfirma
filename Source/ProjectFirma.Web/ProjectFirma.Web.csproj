@@ -1259,16 +1259,13 @@
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\ApprovalTests.3.0.11\lib\net40\ApprovalTests.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\NuGetPackages\ApprovalTests.3.0.13\lib\net40\ApprovalTests.dll</HintPath>
     </Reference>
     <Reference Include="ApprovalUtilities, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.11\lib\net45\ApprovalUtilities.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.dll</HintPath>
     </Reference>
     <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.11\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
     </Reference>
     <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1334,16 +1331,14 @@
       <HintPath>..\NuGetPackages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectApproval, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\ObjectApproval.1.4.0\Lib\NET40\ObjectApproval.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ObjectApproval, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7a34512ecd69090, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ObjectApproval.2.2.0.0\lib\NET40\ObjectApproval.dll</HintPath>
     </Reference>
     <Reference Include="OpenExcel">
       <HintPath>..\Libraries\DhtmlxGrid\OpenExcel.dll</HintPath>

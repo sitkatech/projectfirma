@@ -22,7 +22,7 @@ using System.Web;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class FirmaPage : IFirmaPage
+    public partial class FirmaPage : IFirmaPage, IAuditableEntity
     {
         public HtmlString GetFirmaPageContentHtmlString()
         {
@@ -31,5 +31,9 @@ namespace ProjectFirmaModels.Models
 
         public string GetFirmaPageDisplayName() => FirmaPageType.FirmaPageTypeDisplayName;
         public bool HasPageContent() => !string.IsNullOrWhiteSpace(FirmaPageContent);
+        public string GetAuditDescriptionString()
+        {
+            return $"{FirmaPageType.FirmaPageTypeDisplayName} updated";
+        }
     }
 }
