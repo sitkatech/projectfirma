@@ -46,7 +46,7 @@
                         <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
                                name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
                                value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
-                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0)
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
                             {
@@ -71,7 +71,7 @@
                                    name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
                                    value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
                         }
-                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0)
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
                             {
@@ -91,7 +91,7 @@
                                 </option>
                             }
                         </select>
-                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0)
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
                             {
@@ -111,7 +111,7 @@
                             <label for="@string.Format("multiselect_{0}", option)">@option</label>
                             <br />
                         }
-                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0)
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
                             {
@@ -123,7 +123,7 @@
                         <input class="form-control" type="text" style="width: auto;"
                                name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
                                value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
-                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0)
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
                             {
