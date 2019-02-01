@@ -148,7 +148,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 yield return new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID);
             }
 
-            if (!ProjectFirmaModels.Models.ProjectModelExtensions.IsProjectNameUnique(projects, ProjectName, ProjectID))
+            if (!ProjectModelExtensions.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 yield return new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName);
             }
@@ -192,7 +192,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             if ((ProjectStageID == ProjectStage.Completed.ProjectStageID ||
-                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear > currentYear)
+                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && (!CompletionYear.HasValue || CompletionYear.Value > currentYear))
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear);
             }

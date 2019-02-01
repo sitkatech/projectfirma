@@ -24,21 +24,21 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
-using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    [Validator(typeof(BasicsViewModelValidator))]
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
         [StringLength(ProjectModelExtensions.MaxLengthForProjectDescription)]
+        [Required]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [Required]
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
