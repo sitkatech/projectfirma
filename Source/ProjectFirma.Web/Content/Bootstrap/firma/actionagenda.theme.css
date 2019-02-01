@@ -75,7 +75,6 @@ span.keyPhotoButton label {
   color: #fff;
   vertical-align: bottom;
   text-transform: uppercase;
-  letter-spacing: 3px;
   margin-bottom: 0;
 }
 .header .headerText a {
@@ -110,9 +109,15 @@ span.keyPhotoButton label {
   margin-left: 0.5rem;
   height: 50px;
 }
+@media only screen and (max-width: 768px) {
+  .projectFirmaNavbar.actionAgendaCustomSiteExplorer .menuDivider {
+    display: none;
+  }
+}
 .projectFirmaNavbar.actionAgendaCustomSiteExplorer .siteLink {
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 700;
+  text-transform: uppercase;
 }
 .projectFirmaNavbar.actionAgendaCustomSiteExplorer .nav li a {
   color: #fff;
