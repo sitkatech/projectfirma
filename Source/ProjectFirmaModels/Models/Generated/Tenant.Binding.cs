@@ -216,6 +216,6 @@ namespace ProjectFirmaModels.Models
     public partial class TenantActionAgendaForPugetSound : Tenant
     {
         private TenantActionAgendaForPugetSound(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced) {}
-        public static readonly TenantActionAgendaForPugetSound Instance = new TenantActionAgendaForPugetSound(11, @"ActionAgendaForPugetSound", @"actionagendatracker.localhost.projectfirma.com", @"actionagendatracker.qa.projectfirma.com", @"actionagendatracker.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, true);
+        public static readonly TenantActionAgendaForPugetSound Instance = new TenantActionAgendaForPugetSound(11, @"ActionAgendaForPugetSound", @"actionagendatracker.localhost.projectfirma.com", @"qa-actionagenda.pugetsoundinfo.wa.gov", @"actionagenda.pugetsoundinfo.wa.gov", DateTime.Parse("01/01/1990"), false, false, true);
     }
 }
