@@ -169,7 +169,6 @@ span.keyPhotoButton label {
         color: @firma-logoHeaderText-color;
         vertical-align: bottom;
         text-transform: uppercase;
-        letter-spacing: 3px;
         margin-bottom: 0;
 
         a {
@@ -214,9 +213,16 @@ span.keyPhotoButton label {
             height: 50px;
         }
 
+        @media only screen and (max-width: 768px) {
+            .menuDivider {
+                display: none;
+            }
+        }
+
         .siteLink {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
+            text-transform: uppercase;
         }
 
         .nav li {
