@@ -24,11 +24,17 @@ namespace ProjectFirmaModels.Models
             System.Data.Entity.Database.SetInitializer<DatabaseEntities>(null);
         }
 
-        public int TenantID { get; set; }
+        public int TenantID { get; }
+
+        public DatabaseEntities(int tenantID, string connectionString) : base(connectionString)
+        {
+            TenantID = tenantID;
+        }
+
         public DatabaseEntities(int tenantID)
             : base("name=DatabaseEntities")
         {
-            TenantID = tenantID;
+           TenantID = tenantID;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

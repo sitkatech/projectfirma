@@ -36,11 +36,9 @@ namespace ProjectFirma.Web.ScheduledJobs
             {
                 var notifications = new List<Notification>();
                 var tenant = projectUpdateSetting.Tenant;
-                HttpRequestStorage
-                    .SetTenantForHangfire(
-                        tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
-                // now that HRS.Tenant is set to the one we want, this is just that tenant's projects.
-                var projects = DbContext.Projects;
+
+                var databaseEntities = new DatabaseEntities(tenant.TenantID);
+                var projects = databaseEntities.Projects;
 
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
@@ -71,8 +69,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                     }
                 }
 
-                DbContext.AllNotifications.AddRange(notifications);
-                DbContext.SaveChangesWithNoAuditing();
+                databaseEntities.AllNotifications.AddRange(notifications);
+                databaseEntities.SaveChangesWithNoAuditing();
             }
         }
 

@@ -94,12 +94,6 @@ namespace ProjectFirma.Web.Common
             SetValue(DatabaseContextKey, context);
         }
 
-        public static void SetTenantForHangfire(Tenant tenant)
-        {
-            SetValue(TenantKey, tenant);
-            DatabaseEntities.TenantID = tenant.TenantID;
-        }
-
         public static void EndContextForTest()
         {
             if (!BackingStore.Contains(DatabaseContextKey))
