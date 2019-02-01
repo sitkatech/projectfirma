@@ -130,7 +130,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectImageUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var fileResource in projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource))
+            var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource).ToList();
+            foreach (var fileResource in fileResources)
             {
                 fileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -138,7 +139,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectExternalLinkUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectNoteUpdate in projectUpdateBatch.ProjectExternalLinkUpdates)
+            var projectExternalLinkUpdates = projectUpdateBatch.ProjectExternalLinkUpdates.ToList();
+            foreach (var projectNoteUpdate in projectExternalLinkUpdates)
             {
                 projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -146,7 +148,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectNoteUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectNoteUpdate in projectUpdateBatch.ProjectNoteUpdates)
+            var projectNoteUpdates = projectUpdateBatch.ProjectNoteUpdates.ToList();
+            foreach (var projectNoteUpdate in projectNoteUpdates)
             {
                 projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -154,7 +157,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectDocumentUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectDocumentUpdate in projectUpdateBatch.ProjectDocumentUpdates)
+            var projectDocumentUpdates = projectUpdateBatch.ProjectDocumentUpdates.ToList();
+            foreach (var projectDocumentUpdate in projectDocumentUpdates)
             {
                 projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -180,7 +184,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectFundingSourceExpenditureUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectFundingSourceExpenditureUpdate in projectUpdateBatch.ProjectFundingSourceExpenditureUpdates)
+            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            foreach (var projectFundingSourceExpenditureUpdate in projectFundingSourceExpenditureUpdates)
             {
                 projectFundingSourceExpenditureUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -188,7 +193,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectFundingSourceRequestUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectFundingSourceRequestUpdate in projectUpdateBatch.ProjectFundingSourceRequestUpdates)
+            var projectFundingSourceRequestUpdates = projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList();
+            foreach (var projectFundingSourceRequestUpdate in projectFundingSourceRequestUpdates)
             {
                 projectFundingSourceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -196,7 +202,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeletePerformanceMeasureActualUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var performanceMeasureActualUpdate in projectUpdateBatch.PerformanceMeasureActualUpdates)
+            var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
+            foreach (var performanceMeasureActualUpdate in performanceMeasureActualUpdates)
             {
                 performanceMeasureActualUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -204,7 +211,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectLocationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectLocationUpdate in projectUpdateBatch.ProjectLocationUpdates)
+            var projectLocationUpdates = projectUpdateBatch.ProjectLocationUpdates.ToList();
+            foreach (var projectLocationUpdate in projectLocationUpdates)
             {
                 projectLocationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -212,7 +220,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectLocationStagingUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectLocationStagingUpdate in projectUpdateBatch.ProjectLocationStagingUpdates)
+            var projectLocationStagingUpdates = projectUpdateBatch.ProjectLocationStagingUpdates.ToList();
+            foreach (var projectLocationStagingUpdate in projectLocationStagingUpdates)
             {
                 projectLocationStagingUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -220,7 +229,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectGeospatialAreaUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectGeospatialAreaUpdate in projectUpdateBatch.ProjectGeospatialAreaUpdates)
+            var projectGeospatialAreaUpdates = projectUpdateBatch.ProjectGeospatialAreaUpdates.ToList();
+            foreach (var projectGeospatialAreaUpdate in projectGeospatialAreaUpdates)
             {
                 projectGeospatialAreaUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -228,7 +238,8 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectOrganizationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            foreach (var projectOrganizationUpdate in projectUpdateBatch.ProjectOrganizationUpdates)
+            var projectOrganizationUpdates = projectUpdateBatch.ProjectOrganizationUpdates.ToList();
+            foreach (var projectOrganizationUpdate in projectOrganizationUpdates)
             {
                 projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
