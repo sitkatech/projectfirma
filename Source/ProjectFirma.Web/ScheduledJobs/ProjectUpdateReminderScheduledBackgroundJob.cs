@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             {
                 var notifications = new List<Notification>();
                 var databaseEntities = new DatabaseEntities(projectUpdateSetting.TenantID);
-                var projects = databaseEntities.Projects;
+                var projects = databaseEntities.Projects.ToList();
 
                 var tenantAttribute = databaseEntities.TenantAttributes.Single();
                 if (projectUpdateSetting.EnableProjectUpdateReminders)
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// <param name="introContent"></param>
         /// <param name="notifyOnAll"></param>
         /// <param name="attribute"></param>
-        private List<Notification> RunNotifications(IQueryable<Project> projectsForTenant, string reminderSubject,
+        private List<Notification> RunNotifications(IEnumerable<Project> projectsForTenant, string reminderSubject,
             string introContent, bool notifyOnAll, TenantAttribute attribute)
         {
             // Constrain to tenant boundaries.
