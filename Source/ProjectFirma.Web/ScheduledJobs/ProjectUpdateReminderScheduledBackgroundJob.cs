@@ -35,7 +35,8 @@ namespace ProjectFirma.Web.ScheduledJobs
             foreach (var projectUpdateSetting in projectUpdateSettings)
             {
                 var notifications = new List<Notification>();
-                var databaseEntities = new DatabaseEntities(projectUpdateSetting.TenantID);
+                var tenantID = projectUpdateSetting.TenantID;
+                var databaseEntities = new DatabaseEntities(tenantID);
                 var projects = databaseEntities.Projects.ToList();
 
                 var tenantAttribute = databaseEntities.TenantAttributes.Single();
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 }
 
                 databaseEntities.AllNotifications.AddRange(notifications);
-                databaseEntities.SaveChangesWithNoAuditing();
+                databaseEntities.SaveChangesWithNoAuditing(tenantID);
             }
         }
 

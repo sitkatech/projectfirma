@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
                 CurrentPerson.LastActivityDate = DateTime.Now;
                 HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
                 HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing();
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
             }
             base.OnAuthorization(filterContext);
         }

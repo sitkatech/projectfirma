@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
@@ -46,8 +48,11 @@ namespace ProjectFirmaModels.Models
             return SaveChanges(Person);
         }
 
-        public int SaveChangesWithNoAuditing()
+        public int SaveChangesWithNoAuditing(int tenantID)
         {
+            ChangeTracker.DetectChanges();
+            var dbEntityEntries = ChangeTracker.Entries().ToList();
+            SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
             return base.SaveChanges();
         }
 
@@ -63,16 +68,7 @@ namespace ProjectFirmaModels.Models
 
             var tenantID = tenant.TenantID;
 
-            /*
-             * This is where we are setting it to the TenantID of the current thread or HttpRequestStorage.Tenant;
-             */
-            foreach (var entry in dbEntityEntries.Where(entry => (entry.State == EntityState.Added || entry.State == EntityState.Deleted || entry.State == EntityState.Modified) && entry.Entity is IHaveATenantID))
-            {
-                if (entry.Entity is IHaveATenantID haveATenantID && haveATenantID.TenantID <= 0)
-                {
-                    haveATenantID.TenantID = tenantID;
-                }
-            }
+            SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
 
             foreach (var entry in modifiedEntries)
             {
@@ -119,6 +115,22 @@ namespace ProjectFirmaModels.Models
 
             scope.Complete();
             return changes;
+        }
+
+        private static void SetTenantIDForAllModifiedEntries(List<DbEntityEntry> dbEntityEntries, int tenantID)
+        {
+/*
+             * This is where we are setting it to the TenantID of the current thread or HttpRequestStorage.Tenant;
+             */
+            foreach (var entry in dbEntityEntries.Where(entry =>
+                (entry.State == EntityState.Added || entry.State == EntityState.Deleted ||
+                 entry.State == EntityState.Modified) && entry.Entity is IHaveATenantID))
+            {
+                if (entry.Entity is IHaveATenantID haveATenantID && haveATenantID.TenantID <= 0)
+                {
+                    haveATenantID.TenantID = tenantID;
+                }
+            }
         }
 
         public DbContext GetDbContext()
