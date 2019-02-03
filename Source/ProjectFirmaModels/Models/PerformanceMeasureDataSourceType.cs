@@ -5,12 +5,7 @@ namespace ProjectFirmaModels.Models
 {
     public abstract partial class PerformanceMeasureDataSourceType
     {
-        public const int TechnicalAssistanceProvidedPMID = 2147;
-        public const int ProvidedSubcategoryOptionID = 2935;
-        public const int EngineeringAssistanceSubcategoryOptionID = 2938;
-        public const int ProvidedToConservationDistrictionsSubcategoryOptionID = 2994;
-
-        public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(DatabaseEntities databaseEntities, PerformanceMeasure performanceMeasure, List<Project> projects)
+        public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             List<PerformanceMeasureActual> performanceMeasureActualsFiltered;
             if (projects == null || !projects.Any())
