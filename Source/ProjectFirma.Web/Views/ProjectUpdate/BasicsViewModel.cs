@@ -24,20 +24,20 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using FluentValidation.Attributes;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    [Validator(typeof(BasicsViewModelValidator))]
     public class BasicsViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
         [StringLength(Models.Project.MaxLengthForProjectDescription)]
+        [Required]
         public string ProjectDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [Required]
         public int ProjectStageID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.PlanningDesignStartYear)]
@@ -112,6 +112,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+            }
+
+            if (ProjectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
+            {
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
             }
 
             var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;

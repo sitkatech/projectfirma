@@ -1408,8 +1408,6 @@
     <Compile Include="Views\ProjectUpdate\BasicsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\BasicsViewModelTest.cs" />
-    <Compile Include="Views\ProjectUpdate\BasicsViewModelValidator.cs" />
-    <Compile Include="Views\ProjectUpdate\BasicsViewModelValidatorTest.cs" />
     <Compile Include="Views\ProjectUpdate\CustomNotification.cs" />
     <Compile Include="Views\ProjectUpdate\CustomNotificationModalDialogForm.cs" />
     <Compile Include="Views\ProjectUpdate\CustomNotificationViewData.cs" />
