@@ -160,5 +160,12 @@ namespace ProjectFirma.Web.Models
             return explicitOrganizations.DistinctBy(x => new {x.Project.ProjectID, x.Organization.OrganizationID})
                 .ToList();
         }
+
+        public static List<Person> GetProjectStewardPeople(this Project project)
+        {
+            var projectStewards = project.GetProjectStewards() ?? new List<Person>();
+            var peopleWhoReceiveNotifications = HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications();
+            return peopleWhoReceiveNotifications.Union(projectStewards).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
+        }
     }
 }

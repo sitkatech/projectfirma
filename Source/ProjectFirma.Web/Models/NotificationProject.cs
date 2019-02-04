@@ -61,8 +61,7 @@ namespace ProjectFirma.Web.Models
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
 
-            var mailMessage1 = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
-            var mailMessage = mailMessage1;
+            var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
 
             SendMessageAndLogNotificationForProjectUpdateTransition(projectUpdateBatch, mailMessage, emailsToSendTo, submitterEmails, new List<string>(), NotificationType.ProjectUpdateSubmitted);
         }
@@ -179,7 +178,7 @@ Thank you,<br />
 <p>You received this email because you are assigned to receive support notifications within the ProjectFirma tool.</p>
 ";
             var mailMessage = new MailMessage { Subject = subject, Body = message, IsBodyHtml = true };
-            var emailsToSendTo = GetProjectStewardPeople(project).Select(x => x.Email).Distinct().ToList();
+            var emailsToSendTo = project.GetProjectStewardPeople().Select(x => x.Email).Distinct().ToList();
             var emailsToReplyTo = new List<string> { submitterPerson.Email };
             var primaryContactPerson = project.PrimaryContactPerson;
             if (primaryContactPerson != null && !string.Equals(primaryContactPerson.Email, submitterPerson.Email, StringComparison.InvariantCultureIgnoreCase))
@@ -217,8 +216,8 @@ Thank you,<br />
             SendMessageAndLogNotification(project,
                 mailMessage,
                 emailsToSendTo,
-                emailsToReplyTo,
-                GetProjectStewardPeople(project).Select(x => x.Email).ToList(),
+                emailsToReplyTo, 
+                project.GetProjectStewardPeople().Select(x => x.Email).ToList(),
                 NotificationType.ProjectUpdateApproved);
         }
 
@@ -244,7 +243,7 @@ Thank you,<br />
                 emailsToSendTo.Add(primaryContactPerson.Email);
             }
             var emailsToReplyTo = new List<string> { project.ReviewedByPerson.Email };
-            var emailsToCc = GetProjectStewardPeople(project).Select(x => x.Email).ToList();
+            var emailsToCc = project.GetProjectStewardPeople().Select(x => x.Email).ToList();
             SendMessageAndLogNotification(project, mailMessage, emailsToSendTo, emailsToReplyTo, emailsToCc, NotificationType.ProjectReturned);
         }
 
@@ -273,11 +272,6 @@ Thank you,<br />
                 notifications.Add(notification);
             }
             return notifications;
-        }
-
-        private static List<Person> GetProjectStewardPeople(Project project)
-        {
-            return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(project.GetProjectStewards()).Distinct().OrderBy(ht => ht.FullNameLastFirst).ToList();
         }
     }
 }
