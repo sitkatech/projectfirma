@@ -505,7 +505,9 @@
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
+    <Compile Include="Models\PerformanceMeasureExpectedValueSimple.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
+    <Compile Include="Models\PerformanceMeasureReportedValueSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />

@@ -22,3 +22,4 @@
 # /Source/ProjectFirma.Web/
 /Source/ProjectFirma.Web/*.user
 /Source/ProjectFirma.Web/Web.config
+/Source/ProjectFirma.Api/Web.config
