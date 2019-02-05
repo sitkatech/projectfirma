@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsReadyToApprove(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.IsPassingAllValidationRules();
 
-        public static bool InEditableState(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.Project.IsActiveProject() && (projectUpdateBatch.IsCreated() || projectUpdateBatch.IsReturned());
+        public static bool InEditableState(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.Project.IsActiveProject() && !projectUpdateBatch.IsNew() &&  (projectUpdateBatch.IsCreated() || projectUpdateBatch.IsReturned());
 
         public static List<ProjectExemptReportingYearUpdate> GetPerformanceMeasuresExemptReportingYears(this ProjectUpdateBatch project)
         {
