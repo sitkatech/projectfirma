@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
                    areAllProjectGeospatialAreasValid;
         }
 
-        public bool InEditableState => Project.IsActiveProject() && (IsCreated || IsReturned);
+        public bool InEditableState => Project.IsActiveProject() && !IsNew && (IsCreated || IsReturned);
 
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {
