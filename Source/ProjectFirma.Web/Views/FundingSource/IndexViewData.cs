@@ -20,33 +20,33 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
-using LtInfo.Common;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
+            PageTitle = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
 
             GridSpec = new IndexGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
             if (new FundingSourceCreateFeature().HasPermissionByPerson(currentPerson))
             {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), $"Create a new {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()}");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), $"Create a new {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}");
             }
 
             GridName = "fundingSourcesGrid";

@@ -23,7 +23,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.User;
@@ -32,8 +32,9 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
-using Organization = ProjectFirma.Web.Models.Organization;
+using Organization = ProjectFirmaModels.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.UsersList);
+            var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -51,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.FullNameLastFirst).ToList();
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.GetFullNameLastFirst()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -100,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !person.HasDependentObjects() && person != CurrentPerson;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete {person.FullNameFirstLastAndOrg}?"
+                ? $"Are you sure you want to delete {person.GetFullNameFirstLastAndOrg()}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person", SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -117,7 +118,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDelete(person, viewModel);
             }
-            person.DeletePerson();
+            person.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -129,8 +130,8 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{FieldDefinition.Project.GetFieldDefinitionLabel()} where {person.FullNameFirstLast} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} where {person.FullNameFirstLast} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
@@ -153,7 +154,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.DisplayName).ToList();
+            var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -185,18 +186,18 @@ namespace ProjectFirma.Web.Controllers
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
-                        $@"You cannot inactive user '{person.FullNameFirstLast}' because {person.FirstName} is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.PrimaryContactOrganizations.Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
+                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
-                    confirmMessage = $"Are you sure you want to inactivate user '{person.FullNameFirstLast}'?";
+                    confirmMessage = $"Are you sure you want to inactivate user '{person.GetFullNameFirstLast()}'?";
                 }
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, !isPrimaryContactForAnyOrganization);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
             }
             else
             {
-                confirmMessage = $"Are you sure you want to activate user '{person.FullNameFirstLast}'?";
+                confirmMessage = $"Are you sure you want to activate user '{person.GetFullNameFirstLast()}'?";
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
                 return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
             }
@@ -211,9 +212,9 @@ namespace ProjectFirma.Web.Controllers
             if (person.IsActive)
             {
                 Check.Require(!person.OrganizationsWhereYouAreThePrimaryContactPerson.Any(),
-                    $@"You cannot inactive user '{person.FullNameFirstLast}' because {
+                    $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {
                             person.FirstName
-                        } is the {FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} for one or more {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}!");
+                        } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
             }
             if (!ModelState.IsValid)
             {
@@ -252,13 +253,13 @@ namespace ProjectFirma.Web.Controllers
             UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
             if (keystoneUser == null)
             {
-                SetErrorForDisplay($"Person not added. The {FieldDefinition.Username.GetFieldDefinitionLabel()} was not found in Keystone");
+                SetErrorForDisplay($"Person not added. The {FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()} was not found in Keystone");
                 return new ModalDialogFormJsonResult();    
             }
             
             if (!keystoneUser.OrganizationGuid.HasValue)
             {
-                SetErrorForDisplay($"Person not added. They have no {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
+                SetErrorForDisplay($"Person not added. They have no {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
             }
 
             KeystoneDataService.Organization keystoneOrganization = null;
@@ -268,7 +269,7 @@ namespace ProjectFirma.Web.Controllers
             }
             catch (Exception)
             {
-                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinition.Organization.GetFieldDefinitionLabel()} in Keystone");
+                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
             }
 
             if (keystoneOrganization == null)
@@ -364,7 +365,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
 
-            SetMessageForDisplay($"Assigned {FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()} successfully changed for {person.FullNameFirstLast}.");
+            SetMessageForDisplay($"Assigned {FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()} successfully changed for {person.GetFullNameFirstLast()}.");
             return new ModalDialogFormJsonResult();
         }
 

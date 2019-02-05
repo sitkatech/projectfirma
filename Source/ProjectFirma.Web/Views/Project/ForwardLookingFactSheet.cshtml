@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Project
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.Views
@@ -27,6 +27,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ForwardLookingFactSheet
 
 @{
@@ -71,7 +72,7 @@
 <div class="container noPrint">
     <div style="margin: 15px 0;">
         <div class="pull-right">
-            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinition.Project.GetFieldDefinitionLabel() Details</a>
+            <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
             <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
@@ -84,7 +85,7 @@
             @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
-                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().FileResourceUrl" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().DisplayNameWithoutAbbreviation" />
+                <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().GetFileResourceUrl()" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
             }
         </div>
         <div class="col-sm-10 col-md-10 headerPanel">
@@ -104,7 +105,7 @@
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong>
+                        <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName
@@ -126,7 +127,7 @@
                 </div>
             }
             @{
-                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.FundingOrganizationNamesForFactSheet;
+                var projectFundingOrganizationNamesForFactSheet = ViewDataTyped.Project.GetFundingOrganizationNamesForFactSheet();
             }
             @if (projectFundingOrganizationNamesForFactSheet != string.Empty)
             {
@@ -141,13 +142,13 @@
             }
 
             @{
-                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.ProjectOrganizationNamesForFactSheet;
+                var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
             }
             @if (projectOtherOrganizationNamesForFactSheet != string.Empty)
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong>
+                        <strong>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         @projectOtherOrganizationNamesForFactSheet
@@ -162,7 +163,7 @@
                     @if (ViewDataTyped.Project.GetPrimaryContact() != null)
                     {
                         <span>
-                            @ViewDataTyped.Project.GetPrimaryContact().FullNameFirstLast (@ViewDataTyped.Project.GetPrimaryContact().Email)
+                            @ViewDataTyped.Project.GetPrimaryContact().GetFullNameFirstLast() (@ViewDataTyped.Project.GetPrimaryContact().Email)
                         </span>
                     }
                     else
@@ -173,7 +174,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>@FieldDefinition.ProjectStage.GetFieldDefinitionLabel()</strong>
+                    <strong>@FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
@@ -182,18 +183,18 @@
                     <strong>Duration</strong>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    @ViewDataTyped.Project.Duration
+                    @ViewDataTyped.Project.GetDuration()
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong>@FieldDefinition.EstimatedTotalCost.GetFieldDefinitionLabel()</strong>
+                    <strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.EstimatedTotalCost
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong> @FieldDefinition.SecuredFunding.GetFieldDefinitionLabel()</strong>
+                    <strong> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.SecuredFunding
@@ -207,7 +208,7 @@
                     @ViewDataTyped.NoFundingSourceIdentified
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong> @FieldDefinition.UnsecuredFunding.GetFieldDefinitionLabel()</strong>
+                    <strong> @FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.UnsecuredFunding
@@ -243,9 +244,9 @@
                         {
                             if (performanceMeasureGroup.Key.IsAggregatable)
                             {
-                                if (performanceMeasureGroup.Any(x => x.ReportedValue != null))
+                                if (performanceMeasureGroup.Any(x => x.GetReportedValue() != null))
                                 {
-                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
+                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue())) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
                                 }
                                 else
                                 {
@@ -264,7 +265,7 @@
                                         <li>
                                             @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName)
                                             <strong>
-                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureExpectedValues.Sum(x => x.ReportedValue)) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
+                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureExpectedValues.Sum(x => x.GetReportedValue())) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName
                                             </strong>
                                         </li>
                                     }
@@ -281,20 +282,20 @@
                 @foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
                 {
                     <div class="col-xs-12">
-                        <h4>@classificationSystem.ClassificationSystemNamePluralized</h4>
+                        <h4>@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h4>
                         @if (ViewDataTyped.Classifications.Any(x => x.ClassificationSystem == classificationSystem))
                         {
                             <ul>
                                 @foreach (var classification in ViewDataTyped.Classifications.Where(x => x.ClassificationSystem == classificationSystem))
                                 {
 
-                                    <li>@classification.DisplayName</li>
+                                    <li>@classification.GetDisplayName()</li>
                                 }
                             </ul>
                         }
                         else
                         {
-                            <div class="systemText">No @classificationSystem.ClassificationSystemNamePluralized provided</div>
+                            <div class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) provided</div>
                         }
                     </div>
                 }
@@ -305,7 +306,7 @@
             @if (ViewDataTyped.KeyPhoto != null)
             {
                 <div class="keyPhoto">
-                    <img class="img-responsive" src="@(ViewDataTyped.KeyPhoto.PhotoUrlScaledForPrint)" alt="@ViewDataTyped.KeyPhoto.CaptionOnFullView" />
+                    <img class="img-responsive" src="@ViewDataTyped.KeyPhoto.GetPhotoUrlScaledForPrint()" alt="@ViewDataTyped.KeyPhoto.GetCaptionOnFullView()" />
                     <span class="captionText">@ViewDataTyped.KeyPhoto.Caption</span>
                 </div>
             }
@@ -364,13 +365,13 @@
                     <strong>@projectImagesGroupedByTiming.Key.ProjectImageTimingDisplayName</strong>
                 </div>
                 <div class="col-xs-12" style="margin: 0 15px;">
-                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.Orientation).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
+                    @foreach (var projectImageBatch in projectImagesGroupedByTiming.OrderBy(x => x.FileResource.GetOrientation()).Take(ViewDataTyped.ProjectImagesPerTimingGroup).Batch(2))
                     {
                         <div class="row">
                             @foreach (var projectImage in projectImageBatch)
                             {
                                 <div class="col-sm-12 col-md-6">
-                                    <img class="img-responsive" src="@projectImage.PhotoUrlScaledForPrint" alt="@projectImage.CaptionOnFullView" />
+                                    <img class="img-responsive" src="@projectImage.GetPhotoUrlScaledForPrint()" alt="@projectImage.GetCaptionOnFullView()" />
                                     <div class="captionText">@projectImage.Caption</div>
                                 </div>
                             }
@@ -393,6 +394,6 @@
         </div>
     </div>
 
-    <div class="pull-right onlyOnPrint"><hr />@FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-right onlyOnPrint"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
 </div>
 

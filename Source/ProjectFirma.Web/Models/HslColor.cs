@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     /// <summary>
     /// Code sourced from https://richnewman.wordpress.com/about/code-listings-and-diagrams/hslcolor-class/

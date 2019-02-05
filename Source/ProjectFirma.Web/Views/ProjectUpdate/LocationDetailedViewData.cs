@@ -20,8 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 
@@ -36,13 +37,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string UploadGisFileUrl;
 
 
-        public LocationDetailedViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, UpdateStatus updateStatus)
-            : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName)
+        public LocationDetailedViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, ProjectUpdateStatus projectUpdateStatus)
+            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
             UploadGisFileUrl = uploadGisFileUrl;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectLocationDetailed(projectUpdateBatch.Project));
-            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.LocationDetailedComment, projectUpdateBatch.IsReturned);
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.LocationDetailedComment, projectUpdateBatch.IsReturned());
         }
     }
 }

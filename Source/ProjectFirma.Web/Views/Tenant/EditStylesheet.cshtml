@@ -18,16 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Tenant
 @inherits EditStylesheet
 
 @using (Html.BeginForm())
 {
 <div class="form-horizontal">
-    @Html.HiddenFor(m => m.TenantID)
-   
     <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.TenantStyleSheetFileResourceData)</div>
         <div class="col-md-8">

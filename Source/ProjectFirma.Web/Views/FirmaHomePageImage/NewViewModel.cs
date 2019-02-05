@@ -22,9 +22,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FirmaHomePageImage
 {
@@ -35,16 +36,16 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
         [SitkaFileExtensions("jpg|jpeg|gif|png|tiff|bmp")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(Models.FirmaHomePageImage firmaHomePageImage, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, Person person)
         {
             base.UpdateModel(firmaHomePageImage, person);
-            firmaHomePageImage.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            firmaHomePageImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
             return errors;
         }
     }

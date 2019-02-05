@@ -25,11 +25,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.KeystoneDataService;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Organization
@@ -39,12 +40,12 @@ namespace ProjectFirma.Web.Views.Organization
         public int OrganizationID { get; set; }
 
         [Required]
-        [StringLength(Models.Organization.FieldLengths.OrganizationName)]
+        [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationName)]
         [DisplayName("Name")]
         public string OrganizationName { get; set; }
 
         [Required]
-        [StringLength(Models.Organization.FieldLengths.OrganizationShortName)]
+        [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName)]
         [DisplayName("Short Name")]
         public string OrganizationShortName { get; set; }
 
@@ -76,7 +77,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
         }
 
-        public EditViewModel(Models.Organization organization)
+        public EditViewModel(ProjectFirmaModels.Models.Organization organization)
         {
             OrganizationID = organization.OrganizationID;
             OrganizationName = organization.OrganizationName;
@@ -89,7 +90,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationGuid = organization.OrganizationGuid;
         }
 
-        public void UpdateModel(Models.Organization organization, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, Person currentPerson)
         {
             organization.OrganizationName = OrganizationName;
             organization.OrganizationShortName = OrganizationShortName;
@@ -99,7 +100,7 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationUrl = OrganizationUrl;
             if (LogoFileResourceData != null)
             {
-                organization.LogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
+                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
             }
 
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);

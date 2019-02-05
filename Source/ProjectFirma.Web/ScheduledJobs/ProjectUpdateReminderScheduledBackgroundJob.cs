@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -29,93 +29,85 @@ namespace ProjectFirma.Web.ScheduledJobs
             Logger.Info($"Processing '{JobName}' notifications.");
 
             // we're "tenant-agnostic" right now
-            var projectUpdateConfigurations = DbContext.AllProjectUpdateConfigurations.ToList();
+            var projectUpdateSettings = DbContext.AllProjectUpdateSettings.ToList();
             var reminderSubject = "Time to update your Projects";
 
-            foreach (var projectUpdateConfiguration in projectUpdateConfigurations)
+            foreach (var projectUpdateSetting in projectUpdateSettings)
             {
-                List<Notification> notifications = new List<Notification>();
-                var tenant = projectUpdateConfiguration.Tenant;
-                HttpRequestStorage
-                    .SetTenantForHangfire(
-                        tenant); // we're intentionally overriding the HRS tenant here because Hangfire doesn't live in tenant-world
-                // now that HRS.Tenant is set to the one we want, this is just that tenant's projects.
-                var projects = DbContext.Projects;
+                var notifications = new List<Notification>();
+                var tenantID = projectUpdateSetting.TenantID;
+                var databaseEntities = new DatabaseEntities(tenantID);
+                var projects = databaseEntities.Projects.ToList();
 
-                if (projectUpdateConfiguration.EnableProjectUpdateReminders)
+                var tenantAttribute = databaseEntities.TenantAttributes.Single();
+                if (projectUpdateSetting.EnableProjectUpdateReminders)
                 {
-                    var projectUpdateKickOffDate = projectUpdateConfiguration.ProjectUpdateKickOffDate;
+                    var projectUpdateKickOffDate = projectUpdateSetting.ProjectUpdateKickOffDate;
                     if (DateTime.Today == projectUpdateKickOffDate.GetValueOrDefault().Date)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                                                        projectUpdateConfiguration.ProjectUpdateKickOffIntroContent, tenant, true));
+                                                        projectUpdateSetting.ProjectUpdateKickOffIntroContent, true, tenantAttribute));
                     }
                 }
 
-                if (projectUpdateConfiguration.SendPeriodicReminders)
+                if (projectUpdateSetting.SendPeriodicReminders)
                 {
-                    if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateConfiguration))
+                    if (TodayIsReminderDayForProjectUpdateConfiguration(projectUpdateSetting))
                     {
-                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateConfiguration.ProjectUpdateReminderIntroContent, tenant, false));
-                        // notiftyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
+                        notifications.AddRange(RunNotifications(projects, reminderSubject, projectUpdateSetting.ProjectUpdateReminderIntroContent, false, tenantAttribute));
+                        // notifyOnAll is false b/c we only send periodic reminders for projects whose updates haven't been submitted yet.
                     }
                 }
 
-                if (projectUpdateConfiguration.SendCloseOutNotification)
+                if (projectUpdateSetting.SendCloseOutNotification)
                 {
-                    var projectUpdateCloseOutDate = projectUpdateConfiguration.ProjectUpdateCloseOutDate;
+                    var projectUpdateCloseOutDate = projectUpdateSetting.ProjectUpdateCloseOutDate;
                     if (DateTime.Today == projectUpdateCloseOutDate.GetValueOrDefault().Date)
                     {
                         notifications.AddRange(RunNotifications(projects, reminderSubject,
-                            projectUpdateConfiguration.ProjectUpdateCloseOutIntroContent, tenant, false));
+                            projectUpdateSetting.ProjectUpdateCloseOutIntroContent, false, tenantAttribute));
                     }
                 }
 
-                DbContext.AllNotifications.AddRange(notifications);
-                DbContext.SaveChanges();
+                databaseEntities.AllNotifications.AddRange(notifications);
+                databaseEntities.SaveChangesWithNoAuditing(tenantID);
             }
         }
 
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(
-            ProjectUpdateConfiguration projectUpdateConfiguration)
+            ProjectUpdateSetting projectUpdateSetting)
         {
-            return (DateTime.Today - projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
-                   .Days % projectUpdateConfiguration.ProjectUpdateReminderInterval == 0;
+            return (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
+                   .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
         }
 
         /// <summary>
         /// Sends a notification to all the primary contacts for the given tenant's projects.
         /// </summary>
-        /// <param name="allProjects"></param>
+        /// <param name="projectsForTenant"></param>
         /// <param name="reminderSubject"></param>
         /// <param name="introContent"></param>
-        /// <param name="tenant"></param>
         /// <param name="notifyOnAll"></param>
-        private List<Notification> RunNotifications(IQueryable<Project> allProjects, string reminderSubject,
-            string introContent, Tenant tenant, bool notifyOnAll)
+        /// <param name="attribute"></param>
+        private List<Notification> RunNotifications(IEnumerable<Project> projectsForTenant, string reminderSubject,
+            string introContent, bool notifyOnAll, TenantAttribute attribute)
         {
             // Constrain to tenant boundaries.
-            var tenantProjects = allProjects.Where(x => x.TenantID == tenant.TenantID).ToList();
-            var tenantAttribute = DbContext.AllTenantAttributes.Single(a => a.TenantID == tenant.TenantID);
-            var toolDisplayName = tenantAttribute.ToolDisplayName;
+            var toolDisplayName = attribute.ToolDisplayName;
 
-            var contactSupportEmail = tenantAttribute.PrimaryContactPerson.Email;
+            var contactSupportEmail = attribute.PrimaryContactPerson.Email;
 
-            var toolLogo = tenantAttribute.TenantSquareLogoFileResource;
+            var toolLogo = attribute.TenantSquareLogoFileResource;
 
-            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail,
-                introContent,
-                reminderSubject,
-                toolLogo,
-                toolDisplayName
-            );
+            var projectUpdateNotificationHelper = new ProjectUpdateNotificationHelper(contactSupportEmail, introContent, reminderSubject, toolLogo, toolDisplayName);
 
             var projectsToNotifyOn = notifyOnAll
-                ? tenantProjects.AsQueryable().GetUpdatableProjects()
-                : tenantProjects.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
+                ? projectsForTenant.AsQueryable().GetUpdatableProjects()
+                : projectsForTenant.AsQueryable().GetUpdatableProjectsThatHaveNotBeenSubmitted();
 
             var projectsGroupedByPrimaryContact =
-                projectsToNotifyOn.Where(x=>x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact()).ToList();
+                projectsToNotifyOn.Where(x => x.GetPrimaryContact() != null).GroupBy(x => x.GetPrimaryContact())
+                    .ToList();
 
             var notifications = projectsGroupedByPrimaryContact
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();

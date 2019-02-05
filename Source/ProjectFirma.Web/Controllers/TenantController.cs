@@ -30,6 +30,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
             var editClassificationSystemsUrl = new SitkaRoute<TenantController>(c => c.EditClassificationSystems()).BuildUrlFromExpression();
@@ -99,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditBasics()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new EditBasicsViewModel(tenant, tenantAttribute);
             return ViewEditBasics(viewModel);
         }
@@ -122,7 +123,11 @@ namespace ProjectFirma.Web.Controllers
 
             if (clearOutTaxonomyLeafPerformanceMeasures)
             {
-                HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.Select(x => x.TaxonomyLeafPerformanceMeasureID).ToList().DeleteTaxonomyLeafPerformanceMeasure();
+                var taxonomyLeafPerformanceMeasures = HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.ToList();
+                foreach (var taxonomyLeafPerformanceMeasure in taxonomyLeafPerformanceMeasures)
+                {                    
+                    taxonomyLeafPerformanceMeasure.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
             }
 
             // if we are shrinking the number of tiers, we need to collapse child records to hidden parent record(s) named "Default"
@@ -143,7 +148,11 @@ namespace ProjectFirma.Web.Controllers
                         taxonomyBranch.TaxonomyTrunk = newTaxonomyTrunkDefault;
                     }
                     HttpRequestStorage.DatabaseEntities.SaveChanges();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
+                    foreach (var taxonomyTrunk in taxonomyTrunks)
+                    {
+                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
                 }
                 else if (newTaxonomyLevel == TaxonomyLevel.Leaf)
                 {
@@ -157,8 +166,17 @@ namespace ProjectFirma.Web.Controllers
                         taxonomyLeaf.TaxonomyBranch = newTaxonomyBranchDefault;
                     }
                     HttpRequestStorage.DatabaseEntities.SaveChanges();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).Select(x => x.TaxonomyBranchID).ToList().DeleteTaxonomyBranch();
-                    HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).Select(x => x.TaxonomyTrunkID).ToList().DeleteTaxonomyTrunk();
+                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).ToList();
+                    foreach (var taxonomyBranch in taxonomyBranches)
+                    {
+                        taxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
+
+                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
+                    foreach (var taxonomyTrunk in taxonomyTrunks)
+                    {
+                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    }
                 }
             }
 
@@ -168,7 +186,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditBasics(EditBasicsViewModel viewModel)
         {
             var adminFeature = new FirmaAdminFeature();
-            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.FullNameFirstLast);
+            var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.GetFullNameFirstLast());
             var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
             var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
@@ -179,8 +197,7 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public PartialViewResult EditStylesheet()
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var viewModel = new EditStylesheetViewModel(tenant);
+            var viewModel = new EditStylesheetViewModel();
             return ViewEditStylesheet(viewModel);
         }
 
@@ -194,10 +211,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditStylesheet(viewModel);
             }
 
-            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
-           
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
-            
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();           
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson);            
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
@@ -229,7 +244,7 @@ namespace ProjectFirma.Web.Controllers
 
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
 
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            viewModel.UpdateModel(tenantAttribute, CurrentPerson, HttpRequestStorage.DatabaseEntities);
 
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
@@ -245,7 +260,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditBoundingBox()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new EditBoundingBoxViewModel(tenantAttribute);
             return ViewEditBoundingBox(viewModel, tenantAttribute);
         }
@@ -258,7 +273,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var tenant = HttpRequestStorage.Tenant;
-                var tenantAttribute = tenant.GetTenantAttribute();
+                var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
                 return ViewEditBoundingBox(viewModel, tenantAttribute);
             }
 
@@ -325,7 +340,7 @@ namespace ProjectFirma.Web.Controllers
                 return HttpNotFound();
             }
 
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var fileResource = tenantAttribute.TenantStyleSheetFileResource;
 
             Check.Assert(fileResource != null, "Tenant Attribute must have an associated Tenant Style Sheet File Resource.");
@@ -339,7 +354,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantBannerLogoFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
         }
@@ -349,14 +364,15 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
-            var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantBannerLogoFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantBannerLogoFileResource.DeleteFileResource();
+            var tenantAttributeTenantBannerLogoFileResource = tenantAttribute.TenantBannerLogoFileResource;
+            tenantAttribute.TenantBannerLogoFileResource = null;
+            tenantAttributeTenantBannerLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -372,7 +388,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantSquareLogoFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
         }
@@ -383,13 +399,15 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantSquareLogoFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantSquareLogoFileResource.DeleteFileResource();
+            var tenantAttributeTenantSquareLogoFileResource = tenantAttribute.TenantSquareLogoFileResource;
+            tenantAttribute.TenantSquareLogoFileResource = null;
+            tenantAttributeTenantSquareLogoFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -405,7 +423,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteTenantStyleSheetFileResource()
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfirmDialogFormViewModel(tenant.TenantID);
             return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
         }
@@ -416,13 +434,15 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult DeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel)
         {
             var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             if (!ModelState.IsValid)
             {
                 return ViewDeleteTenantStyleSheetFileResource(viewModel, tenantAttribute);
             }
 
-            tenantAttribute.TenantStyleSheetFileResource.DeleteFileResource();
+            var tenantAttributeTenantStyleSheetFileResource = tenantAttribute.TenantStyleSheetFileResource;
+            tenantAttribute.TenantStyleSheetFileResource = null;
+            tenantAttributeTenantStyleSheetFileResource.Delete(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 

@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,11 +26,13 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
+using ProjectFirmaModels.UnitTestCommon;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Models
 {
@@ -50,12 +53,12 @@ namespace ProjectFirma.Web.Models
             var person = TestFramework.TestPerson.Create();
 
             // Act
-            var fileResource = FileResource.CreateNewFromHttpPostedFile(testImageFile, person);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(testImageFile, person);
 
             // Assert
             //Assert.That(fileResource.FileResourceData, Is.EqualTo(testImageFile.InputStream));
             Assert.That(fileResource.FileResourceMimeType, Is.EqualTo(testImageFile.FileResourceMimeType));
-            Assert.That(fileResource.OriginalCompleteFileName, Is.EqualTo(testImageFile.FileName));
+            Assert.That(fileResource.GetOriginalCompleteFileName(), Is.EqualTo(testImageFile.FileName));
             Assert.That(fileResource.CreatePersonID, Is.EqualTo(person.PersonID));
         }
 
@@ -63,7 +66,7 @@ namespace ProjectFirma.Web.Models
         public void GuidRegexWorksTest()
         {
             var a = TestFramework.TestFileResource.Create();
-            var results = FileResource.FindAllFileResourceGuidsFromStringContainingFileResourceUrls(a.FileResourceUrl);
+            var results = FileResourceModelExtensions.FindAllFileResourceGuidsFromStringContainingFileResourceUrls(a.GetFileResourceUrl());
 
             Assert.That(results, Is.EquivalentTo(new[] {a.FileResourceGUID}));
         }
@@ -159,7 +162,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<Guid> FindAllFileResourceGuidsFromStringContainingFileResourceUrls(string textWithReferences)
         {
-            var guidCaptures = FileResource.FileResourceUrlRegEx.Matches(textWithReferences).Cast<Match>().Select(x => x.Groups["fileResourceGuidCapture"].Value).ToList();
+            var guidCaptures = FileResourceModelExtensions.FileResourceUrlRegEx.Matches(textWithReferences).Cast<Match>().Select(x => x.Groups["fileResourceGuidCapture"].Value).ToList();
             var theseGuids = guidCaptures.Select(x => new Guid(x)).Distinct().ToList();
             return theseGuids;
         }

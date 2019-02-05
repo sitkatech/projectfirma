@@ -22,7 +22,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using NUnit.Framework;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     [TestFixture]
     public abstract class FirmaTestWithContext

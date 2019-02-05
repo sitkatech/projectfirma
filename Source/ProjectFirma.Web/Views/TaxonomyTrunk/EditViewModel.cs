@@ -24,9 +24,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         public int TaxonomyTrunkID { get; set; }
 
         [Required]
-        [StringLength(Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName)]
+        [StringLength(ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName)]
         [DisplayName("Name")]
         public string TaxonomyTrunkName { get; set; }
 
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         {
         }
 
-        public EditViewModel(Models.TaxonomyTrunk taxonomyTrunk)
+        public EditViewModel(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk)
         {
             TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
             TaxonomyTrunkName = taxonomyTrunk.TaxonomyTrunkName;
@@ -62,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             ThemeColor = taxonomyTrunk.ThemeColor;
         }
 
-        public void UpdateModel(Models.TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk, Person currentPerson)
         {
             taxonomyTrunk.TaxonomyTrunkName = TaxonomyTrunkName;
             taxonomyTrunk.TaxonomyTrunkDescriptionHtmlString = TaxonomyTrunkDescription;
@@ -74,7 +75,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             var errors = new List<ValidationResult>();
 
             var existingTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
-            if (!Models.TaxonomyTrunk.IsTaxonomyTrunkNameUnique(existingTaxonomyTrunks, TaxonomyTrunkName, TaxonomyTrunkID))
+            if (!existingTaxonomyTrunks.IsTaxonomyTrunkNameUnique(TaxonomyTrunkName, TaxonomyTrunkID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>("Name already exists", x => x.TaxonomyTrunkName));
             }

@@ -22,17 +22,17 @@ using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Common
 {
     public class PdfResult : FileResourceResult
     {
-        public PdfResult(FileResource fileResource) : base(fileResource.OriginalCompleteFileName, fileResource.FileResourceData, FileResourceMimeType.PDF)
+        public PdfResult(FileResource fileResource) : base(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData, FileResourceMimeType.PDF)
         {
             Check.Require(fileResource.FileResourceMimeType == FileResourceMimeType.PDF, "Only a real PDF file can be saved off as PDF");
-            ConstructorImpl(fileResource.OriginalCompleteFileName);
+            ConstructorImpl(fileResource.GetOriginalCompleteFileName());
         }
 
         private void ConstructorImpl(string fileName)
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Common
 
             context.Response.AddHeader("Content-Type", fileResourceMimeType.FileResourceMimeTypeContentTypeName);
 
-            context.Response.AddHeader("Content-Disposition", String.Format("inline;filename=\"{0}\"", fileName));
+            context.Response.AddHeader("Content-Disposition", $"inline;filename=\"{fileName}\"");
             context.Response.AddHeader("Content-Length", memoryStream.Length.ToString());
             memoryStream.WriteTo(context.Response.OutputStream);
             memoryStream.Close();

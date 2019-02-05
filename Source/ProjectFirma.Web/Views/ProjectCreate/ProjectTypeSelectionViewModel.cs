@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             // Should only be able to import external when project external data source is set on tenant attribute
             if (CreateType == ProjectCreateType.ImportExternal &&
-                !HttpRequestStorage.Tenant.GetTenantAttribute().ProjectExternalDataSourceEnabled)
+                !MultiTenantHelpers.GetTenantAttribute().ProjectExternalDataSourceEnabled)
             {
                 errors.Add(new SitkaValidationResult<ProjectTypeSelectionViewModel, ProjectCreateType?>("Invalid option.", m => m.CreateType));
             }

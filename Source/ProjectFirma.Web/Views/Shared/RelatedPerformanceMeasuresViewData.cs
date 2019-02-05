@@ -22,10 +22,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using LtInfo.Common.HtmlHelperExtensions;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -33,17 +33,17 @@ namespace ProjectFirma.Web.Views.Shared
     {
         public string PerformanceMeasureDisplayNamePluralized { get; set; }
         public string PerformanceMeasureDisplayName { get; set; }
-        public IEnumerable<IGrouping<Models.PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> TaxonomyTierPerformanceMeasures { get; }
+        public IEnumerable<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> TaxonomyTierPerformanceMeasures { get; }
         public HtmlString PerformanceMeasureHeaderDisplayName { get; }
         public HtmlString IsPrimaryTaxonomyTierHeaderDisplayName { get; }
         public string PerformanceMeasuresUrl { get; }
         public bool CanHaveAssociatedPerformanceMeasures { get; }
 
-        public RelatedPerformanceMeasuresViewData(TaxonomyLevel associatePerformanceMeasureTaxonomyLevel, bool showHelpLinks, IEnumerable<IGrouping<Models.PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> taxonomyTierPerformanceMeasures, bool canHaveAssociatedPerformanceMeasures)
+        public RelatedPerformanceMeasuresViewData(TaxonomyLevel associatePerformanceMeasureTaxonomyLevel, bool showHelpLinks, IEnumerable<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> taxonomyTierPerformanceMeasures, bool canHaveAssociatedPerformanceMeasures)
         {
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
             TaxonomyTierPerformanceMeasures = taxonomyTierPerformanceMeasures;
-            var fieldDefinitionForPerformanceMeasure = Models.FieldDefinition.PerformanceMeasure;
+            var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure.ToType();
             PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel();
             PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
             PerformanceMeasureHeaderDisplayName = showHelpLinks
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Shared
                     LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, PerformanceMeasureDisplayName)
                 : new HtmlString(PerformanceMeasureDisplayName);
             var fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
-            var fieldDefinitionIsPrimaryTaxonomyBranch = Models.FieldDefinition.IsPrimaryTaxonomyBranch;
+            var fieldDefinitionIsPrimaryTaxonomyBranch = FieldDefinitionEnum.IsPrimaryTaxonomyBranch.ToType();
             var isPrimaryTaxonomyBranchLabel = $"Is Primary {fieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel()}";
             IsPrimaryTaxonomyTierHeaderDisplayName = showHelpLinks
                 ? LabelWithSugarForExtensions.LabelWithSugarFor(

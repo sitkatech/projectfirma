@@ -1,4 +1,5 @@
 ﻿using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {

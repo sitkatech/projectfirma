@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
@@ -30,12 +30,13 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
     public class DetailViewData : FirmaViewData
     {
-        public Models.TaxonomyTrunk TaxonomyTrunk { get; }
+        public ProjectFirmaModels.Models.TaxonomyTrunk TaxonomyTrunk { get; }
         public bool UserHasTaxonomyTrunkManagePermissions { get; }
         public bool UserHasProjectTaxonomyTrunkExpenditureManagePermissions { get; }
         public string EditTaxonomyTrunkUrl { get; }
@@ -64,24 +65,24 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         public string EditChildrenSortOrderUrl { get; }
 
         public DetailViewData(Person currentPerson,
-            Models.TaxonomyTrunk taxonomyTrunk,
+            ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyTrunk = taxonomyTrunk;
-            TaxonomyTrunkDisplayName = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
-            TaxonomyTrunkDisplayNamePluralized = Models.FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized();
-            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
-            TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+            TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
+            TaxonomyTrunkDisplayNamePluralized = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized();
+            TaxonomyBranchDisplayNamePluralized = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
 
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
-            PageTitle = taxonomyTrunk.DisplayName;
+            PageTitle = taxonomyTrunk.GetDisplayName();
             EntityName = TaxonomyTrunkDisplayName;
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
@@ -93,8 +94,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             BasicProjectInfoGridName = "taxonomyTrunkProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {TaxonomyTrunkDisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} with this {TaxonomyTrunkDisplayName}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {TaxonomyTrunkDisplayName}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {TaxonomyTrunkDisplayName}",
                 SaveFiltersInCookie = true
             };
 

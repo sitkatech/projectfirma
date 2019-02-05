@@ -20,10 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Tag
 {
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Tag
             // Arrange
             var tag = TestFramework.TestTag.Create();
             var viewModel = new EditViewModel(tag);
-            viewModel.TagName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TagName), Models.Tag.FieldLengths.TagName);
+            viewModel.TagName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TagName), ProjectFirmaModels.Models.Tag.FieldLengths.TagName);
 
             // Act
             viewModel.UpdateModel(tag, TestFramework.TestPerson.Create());
@@ -80,16 +80,16 @@ namespace ProjectFirma.Web.Views.Tag
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.TagName = TestFramework.MakeTestNameLongerThan(nameOfTagName, Models.Tag.FieldLengths.TagName);
+            viewModel.TagName = TestFramework.MakeTestNameLongerThan(nameOfTagName, ProjectFirmaModels.Models.Tag.FieldLengths.TagName);
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.AtLeast(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfTagName, Models.Tag.FieldLengths.TagName);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfTagName, ProjectFirmaModels.Models.Tag.FieldLengths.TagName);
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.TagName = TestFramework.MakeTestName(string.Format("{0}&", nameOfTagName), Models.Tag.FieldLengths.TagName);
+            viewModel.TagName = TestFramework.MakeTestName(string.Format("{0}&", nameOfTagName), ProjectFirmaModels.Models.Tag.FieldLengths.TagName);
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
 
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.Tag
 
             // Act
             // Happy path
-            viewModel.TagName = TestFramework.MakeTestNameWithoutCertainCharacters(nameOfTagName, Models.Tag.FieldLengths.TagName, @"[^a-zA-Z0-9-_\s]");
+            viewModel.TagName = TestFramework.MakeTestNameWithoutCertainCharacters(nameOfTagName, ProjectFirmaModels.Models.Tag.FieldLengths.TagName, @"[^a-zA-Z0-9-_\s]");
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

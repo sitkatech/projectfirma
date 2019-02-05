@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             LegendText = legendText;
         }
 
-        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<ITaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
+        public static Dictionary<string, List<ProjectMapLegendElement>> BuildLegendFormatDictionary(List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
         {
             var legendFormats = new Dictionary<string, List<ProjectMapLegendElement>>
             {

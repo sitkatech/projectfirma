@@ -19,22 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.User
 {
-    public class EditRolesViewModel : FormViewModel, IValidatableObject
+    public class EditRolesViewModel : FormViewModel
     {
-        [Required]
-        public int PersonID { get; set; }
+        [Required] public int PersonID { get; set; }
 
-        [Required]
-        [DisplayName("Role")]
-        public int? RoleID { get; set; }
+        [Required] [DisplayName("Role")] public int? RoleID { get; set; }
 
         [Required]
         [DisplayName("Should Receive Support Emails?")]
@@ -57,10 +54,11 @@ namespace ProjectFirma.Web.Views.User
 
         public void UpdateModel(Person person, Person currentPerson)
         {
-            var downgradingFromSteward = person.Role == Models.Role.ProjectSteward &&
-                                         RoleID != Models.Role.ProjectSteward.RoleID &&
-                                         RoleID != Models.Role.Admin.RoleID && RoleID != Models.Role.SitkaAdmin.RoleID;
-            
+            var downgradingFromSteward = person.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
+                                         RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&
+                                         RoleID != ProjectFirmaModels.Models.Role.Admin.RoleID &&
+                                         RoleID != ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID;
+
             person.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
 
@@ -75,29 +73,21 @@ namespace ProjectFirma.Web.Views.User
 
             if (downgradingFromSteward)
             {
-                person.PersonStewardGeospatialAreas.DeletePersonStewardGeospatialArea();
-                person.PersonStewardTaxonomyBranches.DeletePersonStewardTaxonomyBranch();
-                person.PersonStewardOrganizations.DeletePersonStewardOrganization();
-            }
-        }
+                foreach (var personStewardGeospatialArea in person.PersonStewardGeospatialAreas)
+                {
+                    personStewardGeospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            yield break;
-            // NJP 10/24 It's unclear to me that this is still a legal validation rule, but I need confirmation from a BA/PO before I remove the code.
-            //var person = HttpRequestStorage.DatabaseEntities.People.GetPerson(PersonID);
-            //if (RoleID == Models.Role.ProjectSteward.RoleID)
-            //{
-            //    if (!person.Organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
-            //        x.RelationshipType.CanStewardProjects))
-            //    {
-            //        yield return new SitkaValidationResult<EditRolesViewModel, int?>(
-            //            $"Cannot assign role {Models.Role.ProjectSteward.RoleDisplayName} to a person " +
-            //            $"whose {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} cannot " +
-            //            $"steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}.",
-            //            m => m.RoleID);
-            //    }
-            //}
+                foreach (var personStewardTaxonomyBranch in person.PersonStewardTaxonomyBranches)
+                {
+                    personStewardTaxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+
+                foreach (var personStewardOrganization in person.PersonStewardOrganizations)
+                {
+                    personStewardOrganization.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+            }
         }
     }
 }

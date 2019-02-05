@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -19,7 +21,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
         }
 
-        public EditProjectBoundingBoxViewModel(Models.Project project)
+        public EditProjectBoundingBoxViewModel(ProjectFirmaModels.Models.Project project)
         {
             if (project.DefaultBoundingBox != null)
             {
@@ -46,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             }
         }
 
-        public void UpdateModel(Models.Project project)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project)
         {
             project.DefaultBoundingBox = North.HasValue && South.HasValue && East.HasValue && West.HasValue
                 ? DbGeometry.FromText(
@@ -62,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             var coords = new List<decimal?> {North, South, East, West}.Where(x => x != null).ToList();
             if (coords.Count != 0 && coords.Count != 4) // Either expect all or none of the coordinates
             {
-                errors.Add(new ValidationResult($"Invalid coordinates provided for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Bounding Box."));
+                errors.Add(new ValidationResult($"Invalid coordinates provided for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Bounding Box."));
             }
 
             return errors;

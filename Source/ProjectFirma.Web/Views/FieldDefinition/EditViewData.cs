@@ -19,19 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
     public class EditViewData : FirmaViewData
     {
-        public readonly string FileBrowserImageUploadUrl;
-        public readonly Models.FieldDefinition FieldDefinition;
-        public readonly string CancelUrl;
+        public string FileBrowserImageUploadUrl { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinition { get; }
+        public string CancelUrl { get; }
 
-        public EditViewData(Person currentPerson, Models.FieldDefinition fieldDefinition) : base(currentPerson)
+        public EditViewData(Person currentPerson, ProjectFirmaModels.Models.FieldDefinition fieldDefinition) : base(currentPerson)
         {
             FieldDefinition = fieldDefinition;
             FileBrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForFieldDefinition(FieldDefinition, null));

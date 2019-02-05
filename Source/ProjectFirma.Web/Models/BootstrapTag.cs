@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Models
 {
     public class BootstrapTag
@@ -35,7 +38,7 @@ namespace ProjectFirma.Web.Models
             this.num = num;
         }
 
-        public BootstrapTag(Tag tag) : this(tag.TagName, tag.TagName, tag.SummaryUrl, tag.ProjectTags.Count)
+        public BootstrapTag(Tag tag) : this(tag.TagName, tag.TagName, TagModelExtensions.GetDetailUrl(tag), tag.ProjectTags.Count)
         {
         }
     }

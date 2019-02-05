@@ -19,11 +19,12 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Project
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectCreate
 @inherits Index
 
@@ -37,7 +38,7 @@
     @if (ViewDataTyped.DisplayActionButtons)
     {
         @ProjectCreateHelper.AddProjectButton()
-        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
+        <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
     }
 }
 

@@ -18,14 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Tag.Detail
 
 @section JavascriptAndStylesContent
@@ -35,18 +36,18 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0}", ViewDataTyped.Tag.DisplayName), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
+        <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTagUrl, string.Format("Edit {0}", ViewDataTyped.Tag.GetDisplayName()), ViewDataTyped.UserHasTagManagePermissions) Basics</h2>
     </div>
     <div class="panel-body">
         <table class="summaryLayout">
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinition.TagName)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagName.ToType())</th>
                 <td>
                     @ViewDataTyped.Tag.TagName
                 </td>
             </tr>
             <tr>
-                <th>@Html.LabelWithSugarFor(FieldDefinition.TagDescription)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.TagDescription.ToType())</th>
                 <td>
                     @Html.Raw(ViewDataTyped.Tag.TagDescription.HtmlEncodeWithBreaks())
                 </td>
@@ -57,7 +58,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+        <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
 
     <div class="panel-body">

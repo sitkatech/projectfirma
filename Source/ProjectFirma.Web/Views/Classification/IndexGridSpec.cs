@@ -19,15 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
-    public class IndexGridSpec : GridSpec<Models.Classification>
+    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Classification>
     {
-        public IndexGridSpec(bool hasDeletePermissions, Models.ClassificationSystem classificationSystem)
+        public IndexGridSpec(bool hasDeletePermissions, ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             if (hasDeletePermissions)
             {
@@ -37,9 +38,9 @@ namespace ProjectFirma.Web.Views.Classification
             }
 
             Add(classificationSystem.ToGridHeaderString(), a => a.GetDisplayNameAsUrl(), 250);
-            Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
-            Add(Models.FieldDefinition.ClassificationDescription.ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
+            Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
+            Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
             Add("Sort Order", a => a.ClassificationSortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
         }
     }

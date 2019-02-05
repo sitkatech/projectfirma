@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -28,10 +28,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly List<AssessmentGoal> AssessmentGoals;
         public readonly string ProjectName;
 
-        public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
+        public EditAssessmentViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<AssessmentGoal> assessmentGoals, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSectionDisplayName, proposalSectionsStatus)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             AssessmentGoals = assessmentGoals;
         }
     }

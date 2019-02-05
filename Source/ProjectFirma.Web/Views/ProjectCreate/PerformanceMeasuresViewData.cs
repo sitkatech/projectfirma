@@ -20,11 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -40,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public string ReportingYearLabel { get; }
 
-        public PerformanceMeasuresViewData(Person currentPerson, Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
+        public PerformanceMeasuresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedPerformanceMeasures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(project));

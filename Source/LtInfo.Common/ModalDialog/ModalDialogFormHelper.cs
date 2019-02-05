@@ -206,5 +206,26 @@ namespace LtInfo.Common.ModalDialog
         {
             return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit blue").ToString(), dialogUrl, dialogTitle, width, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, null) : new HtmlString(string.Empty);
         }
+
+        public static HtmlString MakeNewIconButton(string dialogUrl, string dialogTitle, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} {dialogTitle}", dialogUrl, dialogTitle, DefaultDialogWidth, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
+        }
+
+        public static HtmlString MakeDeleteIconButton(string dialogUrl, string dialogTitle, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")} {dialogTitle}", dialogUrl, dialogTitle, DefaultDialogWidth, "Delete", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
+        }
+
+        public static HtmlString MakeNewIconButton(string dialogUrl, string linkText, string dialogTitle, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} {linkText}", dialogUrl, dialogTitle, DefaultDialogWidth, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
+        }
+
+        public static HtmlString MakeEditIconButton(string dialogUrl, string linkText, string dialogTitle, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")} {linkText}", dialogUrl, dialogTitle, DefaultDialogWidth, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
+        }
+
     }
 }

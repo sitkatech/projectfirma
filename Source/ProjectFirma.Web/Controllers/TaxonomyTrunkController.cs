@@ -23,12 +23,13 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using Detail = ProjectFirma.Web.Views.TaxonomyTrunk.Detail;
@@ -58,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TaxonomyTrunkList);
+            var firmaPage = FirmaPageTypeEnum.TaxonomyTrunkList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -81,15 +82,15 @@ namespace ProjectFirma.Web.Controllers
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyTrunk,
                 new List<int> {taxonomyTrunk.TaxonomyTrunkID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson =
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(taxonomyTrunkProjects, true, true), "red", 1,
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                    taxonomyTrunkProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, "TaxonomyTrunkProjectMap");
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
-                CurrentPerson.CanViewProposals);
+                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
                 MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
@@ -136,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(
-                $"New {FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel()} {taxonomyTrunk.GetDisplayNameAsUrl()} successfully created!");
+                $"New {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} {taxonomyTrunk.GetDisplayNameAsUrl()} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -185,10 +186,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !taxonomyTrunk.HasDependentObjects() &&
                             HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Count() > 1;
-            var taxonomyTrunkDisplayName = FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel();
+            var taxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? string.Format("Are you sure you want to delete this {0} '{1}'?", taxonomyTrunkDisplayName,
-                    taxonomyTrunk.DisplayName)
+                    taxonomyTrunk.GetDisplayName())
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(taxonomyTrunkDisplayName,
                     SitkaRoute<TaxonomyTrunkController>.BuildLinkFromExpression(x => x.Detail(taxonomyTrunk), "here"));
 
@@ -209,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteTaxonomyTrunk(taxonomyTrunk, viewModel);
             }
 
-            taxonomyTrunk.DeleteTaxonomyTrunk();
+            taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -232,7 +233,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(IEnumerable<TaxonomyTrunk> taxonomyTrunks, EditSortOrderViewModel viewModel)
         {
-            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTrunks), FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized());
+            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyTrunks), FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
@@ -250,7 +251,7 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyTrunks));
             SetMessageForDisplay(
-                $"Successfully Updated {FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel()} Sort Order");
+                $"Successfully Updated {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
 
@@ -265,7 +266,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditChildrenSortOrder(ICollection<TaxonomyBranch> taxonomyBranches,
             EditSortOrderViewModel viewModel)
         {
-            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyBranches), FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabelPluralized());
+            var viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(taxonomyBranches), FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
@@ -282,7 +283,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(new List<IHaveASortOrder>(taxonomyBranches));
-            SetMessageForDisplay($"Successfully Updated {FieldDefinition.TaxonomyTrunk.GetFieldDefinitionLabel()} Sort Order");
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
     }

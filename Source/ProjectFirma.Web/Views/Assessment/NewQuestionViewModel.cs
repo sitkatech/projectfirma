@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Assessment

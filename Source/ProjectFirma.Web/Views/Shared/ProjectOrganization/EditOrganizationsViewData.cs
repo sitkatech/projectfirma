@@ -20,12 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
@@ -36,10 +34,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<RelationshipTypeSimple> AllRelationshipTypes { get; }
         public Dictionary<int, OrganizationSimple> OrganizationContainingProjectSimpleLocation { get; }
         public RelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
-        public int? DefaultPrimaryContactPersonID { get; }
-        public string DefaultPrimaryContactPersonName { get; }
 
-        public EditOrganizationsViewData(IProject project, IEnumerable<Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
+        public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
         {            
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
             AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
@@ -56,8 +52,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 ? new RelationshipTypeSimple(primaryContactRelationshipType)
                 : null;
             AllRelationshipTypes = allRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new RelationshipTypeSimple(x)).ToList();
-            DefaultPrimaryContactPersonID = defaultPrimaryContactPerson?.PersonID;
-            DefaultPrimaryContactPersonName = defaultPrimaryContactPerson?.FullNameFirstLastAndOrgShortName ?? "nobody";            
         }
     }
 }

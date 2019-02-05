@@ -26,18 +26,18 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProjectCalendarYearExpenditure
     {
-        public Models.Project Project;
+        public ProjectFirmaModels.Models.Project Project;
         public Dictionary<int, decimal?> CalendarYearExpenditure;
 
-        public ProjectCalendarYearExpenditure(Models.Project project, Dictionary<int, decimal?> calendarYearExpenditure)
+        public ProjectCalendarYearExpenditure(ProjectFirmaModels.Models.Project project, Dictionary<int, decimal?> calendarYearExpenditure)
         {
             Project = project;
             CalendarYearExpenditure = calendarYearExpenditure;
         }
 
-        public static List<ProjectCalendarYearExpenditure> CreateFromProjectsAndCalendarYears(List<Models.ProjectFundingSourceExpenditure> projectProjectExpenditures, List<int> calendarYears)
+        public static List<ProjectCalendarYearExpenditure> CreateFromProjectsAndCalendarYears(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectProjectExpenditures, List<int> calendarYears)
         {
-            var distinctProjects = projectProjectExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<Models.Project>());
+            var distinctProjects = projectProjectExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.Project>());
             var projectsCrossJoinCalendarYears =
                 distinctProjects.Select(x => new ProjectCalendarYearExpenditure(x, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null))).ToList();
 

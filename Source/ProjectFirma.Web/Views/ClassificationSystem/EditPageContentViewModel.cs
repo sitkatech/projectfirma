@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Views.ClassificationSystem
         {
         }
         
-        public EditPageContentViewModel(Models.ClassificationSystem classificationSystem)
+        public EditPageContentViewModel(ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystemPageContentHtmlString = classificationSystem != null ? classificationSystem.ClassificationSystemListPageContentHtmlString : null;
         }
 
-        public void UpdateModel(Models.ClassificationSystem classificationSystem)
+        public void UpdateModel(ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             classificationSystem.ClassificationSystemListPageContentHtmlString = ClassificationSystemPageContentHtmlString == null || string.IsNullOrWhiteSpace(ClassificationSystemPageContentHtmlString.ToString()) ? null : ClassificationSystemPageContentHtmlString;
         }

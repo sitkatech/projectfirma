@@ -25,11 +25,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationsMapViewData : FirmaUserControlViewData
     {        
-        public readonly string MapDivID;
-        public readonly string LegendTitle;
-        public readonly Dictionary<string, List<ProjectMapLegendElement>> LegendFormats;
+        public string MapDivID { get; }
+        public string LegendTitle { get; }
+        public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
 
-        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<ITaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
+        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
         {
             MapDivID = mapDivID;
             LegendTitle = legendTitle;

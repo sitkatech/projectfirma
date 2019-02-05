@@ -18,9 +18,9 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.HtmlHelperExtensions
-@using MoreLinq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.EditProjectClassificationsForProject
 
 <div class="validationError">
@@ -39,17 +39,17 @@
 @using (Html.BeginForm())
 {
 <div>
-    Click the checkboxes below to associate this @FieldDefinition.Project.GetFieldDefinitionLabel() with one or more @ViewDataTyped.ClassificationSystem.ClassificationSystemNamePluralized.
+    Click the checkboxes below to associate this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with one or more @(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem)).
 </div>
     <div>
             @{ var classificationIndex = 0;}
-            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.DisplayName).ToList())
+            @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.GetDisplayName()).ToList())
             {
                 <div class="row" style="padding-top:20px">
                     <div class="col-xs-12 col-sm-4">
                         <label>
                             @Html.CheckBoxFor(x => x.ProjectClassificationSimples[classificationIndex].Selected)
-                            <span style="font-weight: bold">@classification.DisplayName</span>
+                            <span style="font-weight: bold">@classification.GetDisplayName()</span>
                         </label>
                         <div class="help-block">
                             @classification.ClassificationDescription
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-8">
                         <div>
-                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 3), string.Format("Select the {0} and describe how it applies to the {1}.", ViewDataTyped.ClassificationSystem.ClassificationSystemName, FieldDefinition.Project.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                            @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 3), string.Format("Select the {0} and describe how it applies to the {1}.", ViewDataTyped.ClassificationSystem.ClassificationSystemName, FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), new List<string> { "form-control" })
                         </div>
                         @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
                         @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
@@ -75,7 +75,7 @@
     // <![CDATA[
 
     jQuery(document).ready(function () {
-        @for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.DisplayName).ToList().Count; i++)
+        @for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.GetDisplayName()).ToList().Count; i++)
         {
             <text>
         var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");

@@ -32,6 +32,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Organization;
 using ProjectFirma.Web.Views.Project;
@@ -41,7 +42,7 @@ using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
-using Organization = ProjectFirma.Web.Models.Organization;
+using Organization = ProjectFirmaModels.Models.Organization;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.OrganizationsList);
+            var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new IndexGridSpec(CurrentPerson, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.DisplayName).ToList();
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(organization, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Organization {organization.DisplayName} successfully created.");
+            SetMessageForDisplay($"Organization {organization.GetDisplayName()} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -97,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(organization);
-            return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
+            return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
         }
 
         [HttpPost]
@@ -108,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, organization.IsInKeystone, organization.PrimaryContactPerson);
+                return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
             }
             viewModel.UpdateModel(organization, CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -125,8 +126,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 activePeople.Add(currentPrimaryContactPerson);
             }
-            var people = activePeople.OrderBy(x => x.FullNameLastFirst).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
-                x => x.FullNameFirstLastAndOrg);
+            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFullNameFirstLastAndOrg());
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
@@ -182,11 +183,11 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Projects", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
             }
 
-            var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.GetProjectLocationDetails()).ToGeoJsonFeatureCollection();
+            var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.ProjectLocations).ToGeoJsonFeatureCollection();
             if (projectDetailLocationsFeatureCollection.Features.Any())
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Hide));
+                layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Hide));
             }
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
@@ -201,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures =
                 organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures);
 
-            var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.FundingSource.GetFieldDefinitionLabel()}";
+            var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
             var filterValues = organization.FundingSources.Select(x => x.FundingSourceName).ToList();
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.FundingSourceName,
@@ -223,7 +224,7 @@ namespace ProjectFirma.Web.Controllers
             var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentPerson).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
-            var chartTitle = $"{FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()} By {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()}";
+            var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
             var filterValues = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).Select(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName).Distinct().ToList();
 
@@ -475,7 +476,7 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var viewData = new ConfirmDialogFormViewData(
-                $"Are you sure you want to delete the boundary for this {FieldDefinition.Organization.GetFieldDefinitionLabel()} '{organization.OrganizationName}'?");
+                $"Are you sure you want to delete the boundary for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} '{organization.OrganizationName}'?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
                 viewModel);
         }

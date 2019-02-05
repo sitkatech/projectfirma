@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Common;
 
@@ -28,17 +28,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleViewData : ProjectUpdateViewData
     {
-        public readonly ProjectLocationSimpleViewData ProjectLocationSimpleViewData;
-        public readonly ProjectLocationSummaryViewData ProjectLocationSummaryViewData;
-        public readonly string RefreshUrl;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
+        public ProjectLocationSimpleViewData ProjectLocationSimpleViewData { get; }
+        public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
+        public string RefreshUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
 
         public LocationSimpleViewData(Person currentPerson,
-            Models.ProjectUpdate projectUpdate,
+            ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData,
-            LocationSimpleValidationResult locationSimpleValidationResult, UpdateStatus updateStatus) : base(
-            currentPerson, projectUpdate.ProjectUpdateBatch, updateStatus,
+            LocationSimpleValidationResult locationSimpleValidationResult, ProjectUpdateStatus projectUpdateStatus) : base(
+            currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus,
             locationSimpleValidationResult.GetWarningMessages(),
             ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName)
         {
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x =>
                 x.RefreshProjectLocationSimple(projectUpdate.ProjectUpdateBatch.Project));
             SectionCommentsViewData = new SectionCommentsViewData(
-                projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned);
+                projectUpdate.ProjectUpdateBatch.LocationSimpleComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             ValidationWarnings = locationSimpleValidationResult.GetWarningMessages();
         }
     }

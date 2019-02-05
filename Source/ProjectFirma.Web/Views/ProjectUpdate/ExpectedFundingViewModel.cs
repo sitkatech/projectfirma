@@ -23,9 +23,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -92,7 +93,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
                     yield return new ValidationResult(
-                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.");
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.");
                 }
             }
         }

@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.Index
 @section JavascriptAndStylesContent
 {
@@ -29,14 +30,14 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 <br/>
 <div>
-    <h4>@FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()</h4>
+    <h4>@FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()</h4>
 </div>
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.OrganizationTypeGridSpec, ViewDataTyped.OrganizationTypeGridName, ViewDataTyped.OrganizationTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 <br/>
 <div>
-    <h4>@FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabelPluralized()</h4>
+    <h4>@FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>
 </div>
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.RelationshipTypeGridSpec, ViewDataTyped.RelationshipTypeGridName, ViewDataTyped.RelationshipTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

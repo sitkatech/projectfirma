@@ -18,20 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class EditTenantLogoViewModel : FormViewModel, IValidatableObject
+    public class EditTenantLogoViewModel : FormViewModel
     {
         [Required]
         public int? TenantID { get; set; }
@@ -54,31 +53,26 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditTenantLogoViewModel(Models.Tenant tenant)
+        public EditTenantLogoViewModel(ProjectFirmaModels.Models.Tenant tenant)
         {
             TenantID = tenant.TenantID;
         }
 
-        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, Person currentPerson, DatabaseEntities databaseEntities)
         {
            
             if (TenantSquareLogoFileResourceData != null)
             {
-                attribute.TenantSquareLogoFileResource?.DeleteFileResource();
-                attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                var attributeTenantSquareLogoFileResource = attribute.TenantSquareLogoFileResource;
+                attribute.TenantSquareLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
+                attributeTenantSquareLogoFileResource?.Delete(databaseEntities);
             }
             if (TenantBannerLogoFileResourceData != null)
             {
-                attribute.TenantBannerLogoFileResource?.DeleteFileResource();
-                attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                var attributeTenantBannerLogoFileResource = attribute.TenantBannerLogoFileResource;
+                attribute.TenantBannerLogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
+                attributeTenantBannerLogoFileResource?.Delete(databaseEntities);
             }
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-
-            return errors;
         }
     }
 }

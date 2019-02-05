@@ -20,30 +20,30 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PeopleReceivingReminderGridSpec : GridSpec<Person>
     {
-        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person person)
+        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person currentPerson)
         {
             if (showCheckbox)
             {
                 AddCheckBoxColumn();
                 Add("PersonID", x => x.PersonID, 0);
             }
-            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
+            Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Requiring Update",
-                x => x.GetPrimaryContactUpdatableProjects(person).Count,
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Requiring Update",
+                x => x.GetPrimaryContactUpdatableProjects(currentPerson).Count,
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Not Started",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
@@ -55,37 +55,37 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Updates In Progress",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated;
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsCreated();
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Submitted",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted;
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsSubmitted();
                     });
                 },
                 75, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Returned",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestNotApprovedUpdateBatch = y.GetLatestNotApprovedUpdateBatch();
-                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned;
+                        return latestNotApprovedUpdateBatch != null && latestNotApprovedUpdateBatch.IsReturned();
                     });
                 },
                 70, DhtmlxGridColumnAggregationType.Total);
             Add("Updates Approved",
                 x =>
                 {
-                    return x.GetPrimaryContactUpdatableProjects(person).Count(y =>
+                    return x.GetPrimaryContactUpdatableProjects(currentPerson).Count(y =>
                     {
                         var latestApprovedUpdateBatch = y.GetLatestApprovedUpdateBatch();
                         return latestApprovedUpdateBatch != null && latestApprovedUpdateBatch.LastUpdateDate >= FirmaDateUtilities.LastReportingPeriodStartDate();

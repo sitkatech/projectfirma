@@ -12,6 +12,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -20,7 +21,7 @@ namespace ProjectFirma.Web.Views.Organization
         [Required, DisplayName("GIS File to Upload"), SitkaFileExtensions("zip")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public void UpdateModel(Models.Organization organization)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization)
         {
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".gdb.zip"))
             {
@@ -28,7 +29,7 @@ namespace ProjectFirma.Web.Views.Organization
                 FileResourceData.SaveAs(gdbFile.FullName);
                 HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization.OrganizationBoundaryStagings.ToList());
                 organization.OrganizationBoundaryStagings.Clear();
-                OrganizationBoundaryStaging.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, organization);
+                OrganizationModelExtensions.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, organization);
             }
         }
 
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.Organization
         {
             var errors = new List<ValidationResult>();
 
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
 
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".gdb.zip"))
             {

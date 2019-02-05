@@ -23,10 +23,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure;
+using TaxonomyTierSimple = ProjectFirma.Web.Models.TaxonomyTierSimple;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -40,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierPerformanceMeasureSimples = performanceMeasure.GetTaxonomyTiers().Select(x =>
                     new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID,
                         x.First().IsPrimaryTaxonomyLeaf)).ToList();
-            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
+            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier().TaxonomyTierID;
             var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples, primaryTaxonomyTierID);
             return ViewEdit(viewModel, performanceMeasure);
         }
@@ -63,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel, PerformanceMeasure performanceMeasure)
         {
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            var taxonomyBranchSimples = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyTier(x)).ToList();
+            var taxonomyBranchSimples = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(p => p.DisplayName).ToList().Select(x => new TaxonomyTierSimple(x)).ToList();
             var viewData = new EditViewData(new PerformanceMeasureSimple(performanceMeasure), taxonomyBranchSimples, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }

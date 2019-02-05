@@ -26,7 +26,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using NUnit.Framework;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     [ModelBinder(typeof(PointModelBinder))] // ModelBinder is for Action parameter parsing
     public class Point : IEquatable<Point>

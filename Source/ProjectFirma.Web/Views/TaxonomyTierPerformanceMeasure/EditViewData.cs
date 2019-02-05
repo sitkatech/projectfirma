@@ -20,24 +20,31 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using TaxonomyTierSimple = ProjectFirma.Web.Models.TaxonomyTierSimple;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public List<TaxonomyTier> AllTaxonomyTiers { get; }
+        private readonly ProjectFirmaModels.Models.FieldDefinition _fieldDefinitionForTaxonomyTier;
+        public List<TaxonomyTierSimple> AllTaxonomyTiers { get; }
         public PerformanceMeasureSimple PerformanceMeasure { get; }
         public string TaxonomyTierDisplayName { get; }
         public string TaxonomyTierDisplayNamePluralized { get; }
-        public Models.FieldDefinition FieldDefinitionForTaxonomyTier { get; }
 
-        public EditViewData(PerformanceMeasureSimple performanceMeasure, List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
+        public ProjectFirmaModels.Models.FieldDefinition GetFieldDefinitionForTaxonomyTier()
+        {
+            return _fieldDefinitionForTaxonomyTier;
+        }
+
+        public EditViewData(PerformanceMeasureSimple performanceMeasure, List<TaxonomyTierSimple> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
             PerformanceMeasure = performanceMeasure;
             AllTaxonomyTiers = taxonomyTiers;
-            FieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
-            TaxonomyTierDisplayName = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel();
-            TaxonomyTierDisplayNamePluralized = FieldDefinitionForTaxonomyTier.GetFieldDefinitionLabelPluralized();
+            _fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
+            TaxonomyTierDisplayName = GetFieldDefinitionForTaxonomyTier().GetFieldDefinitionLabel();
+            TaxonomyTierDisplayNamePluralized = GetFieldDefinitionForTaxonomyTier().GetFieldDefinitionLabelPluralized();
         }
     }
 }

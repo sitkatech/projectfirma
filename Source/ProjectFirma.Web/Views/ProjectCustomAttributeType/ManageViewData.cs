@@ -1,6 +1,7 @@
-﻿using ProjectFirma.Web.Common;
+﻿using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
@@ -13,7 +14,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public string NewProjectCustomAttributeTypeUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ManageViewData(Person currentPerson, Models.FirmaPage neptunePage)
+        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage neptunePage)
             : base(currentPerson, neptunePage)
         {
             EntityName = "Attribute Type";

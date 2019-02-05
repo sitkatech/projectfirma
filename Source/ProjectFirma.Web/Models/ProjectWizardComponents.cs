@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using System.Web;
 using LtInfo.Common.BootstrapWrappers;
 
@@ -30,23 +30,5 @@ namespace ProjectFirma.Web.Models
             "Required information has not been completely provided (not ready to submit)");
         public static readonly HtmlString RequiredInfoOkSubmitReadyIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-ok black", "Required information has been provided (ready to submit)");
         public static readonly HtmlString SectionHasUpdatesIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-flag", "This section has been updated");
-
-        public static HtmlString MakeDisabledSectionLink(string sectionLabel)
-        {
-            return BootstrapHtmlHelpers.MakeModalDialogAlertLink(string.Format("Unable to edit {0} until Basics are complete", sectionLabel),
-                string.Format("Unable to Edit {0}", sectionLabel),
-                "Close",
-                sectionLabel,
-                new List<string>{"disabledSection"});
-        }
-
-        public static HtmlString MakeDisabledSectionLinkForApprovedAndRejectedProjects(string sectionLabel)
-        {
-            return BootstrapHtmlHelpers.MakeModalDialogAlertLink($"Unable to edit {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} through this wizard.",
-                string.Format("Unable to Edit {0}", sectionLabel),
-                "Close",
-                sectionLabel,
-                new List<string> { "disabledSection" });
-        }
     }
 }

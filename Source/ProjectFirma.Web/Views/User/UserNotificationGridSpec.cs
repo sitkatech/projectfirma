@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -32,12 +33,9 @@ namespace ProjectFirma.Web.Views.User
         {
             Add("Date", x => x.NotificationDate, 120);
             Add("Notification Type", x => x.NotificationType.NotificationTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Notification",
-                x => x.NotificationType.GetFullDescriptionFromUserPerspective(x),
-                500,
-                DhtmlxGridColumnFilterType.Html);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", x =>
+            Add("Notification", x => x.GetFullDescriptionFromUserPerspective(), 500, DhtmlxGridColumnFilterType.Html);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", x => x.NotificationProjects.Count, 100);
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x =>
             {
                 if (x.NotificationType == NotificationType.ProjectUpdateReminder)
                 {
@@ -48,7 +46,7 @@ namespace ProjectFirma.Web.Views.User
                 {
                     return new HtmlString(string.Empty);
                 }
-                return notificationProject.Project.DisplayNameAsUrl;
+                return notificationProject.Project.GetDisplayNameAsUrl();
             }, 200, DhtmlxGridColumnFilterType.Html);
         }
     }

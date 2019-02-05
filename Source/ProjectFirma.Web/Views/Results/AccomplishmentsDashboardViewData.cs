@@ -21,11 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -37,23 +37,23 @@ namespace ProjectFirma.Web.Views.Results
         public string SpendingByOrganizationTypeAndOrganizationUrl { get; }
         public string ParticipatingOrganizationsUrl { get; }
 
-        public List<Models.Organization> Organizations { get; }
+        public List<ProjectFirmaModels.Models.Organization> Organizations { get; }
         public List<int> CalendarYears { get; }
         public int DefaultBeginYear { get; }
         public int DefaultEndYear { get; }
-        public List<ITaxonomyTier> TaxonomyTiers { get; }
+        public List<TaxonomyTier> TaxonomyTiers { get; }
         public string AccomplishmentsDashboardOrganizationTypeName { get; }
         public string TaxonomyTierDisplayName { get; }
         public bool HasSitkaAdminPermissions { get; set; }
         public string ConfigureAccomplishmentsDashboardUrl { get; set; }
         public TenantAttribute TenantAttribute { get; set; }
 
-        public AccomplishmentsDashboardViewData(Person currentPerson, Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
-            List<Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
-            List<ITaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentPerson, firmaPage)
+        public AccomplishmentsDashboardViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
+            List<ProjectFirmaModels.Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
+            List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentPerson, firmaPage)
         {
-            var accomplishmentsDashboardOrganizationTypeName = Models.FieldDefinition.ProjectStewardOrganizationDisplayName
-                .GetFieldDefinitionLabelPluralized();
+            var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
+                .ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = "Accomplishments Dashboard";
             TenantAttribute = tenantAttribute;
             Organizations = organizations;

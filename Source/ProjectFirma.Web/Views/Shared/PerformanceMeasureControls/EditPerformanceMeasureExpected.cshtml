@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.EditPerformanceMeasureExpected
 
 <script type="text/javascript">
@@ -97,7 +97,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>   
             <br/>
             <div ng-hide="AngularModel.PerformanceMeasureExpecteds.length > 0">
-                <p style="font-style: italic">Use the list above to select your @FieldDefinition.Project.GetFieldDefinitionLabel()'s anticipated accomplishments. @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() will appear here when added.</p>
+                <p style="font-style: italic">Use the list above to select your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s anticipated accomplishments. @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() will appear here when added.</p>
             </div>
 
             @if (ViewDataTyped.UsePanelLayout)

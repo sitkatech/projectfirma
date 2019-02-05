@@ -18,11 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
-@using Microsoft.Web.Mvc.Html
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits EditSubcategoriesAndOptions
 
@@ -63,13 +62,13 @@ Source code is available upon request via <support@sitkatech.com>.
         <div>
             <button type="button" class="btn btn-sm btn-firma" ng-click="addSubcategory()">
                 <span class="glyphicon glyphicon-plus"></span>
-                Add @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()
+                Add @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()
             </button>
         </div>
 
         <div class="alert alert-danger"
              ng-show="!AngularModel.PerformanceMeasureSubcategorySimples || !AngularModel.PerformanceMeasureSubcategorySimples.length || AngularModel.PerformanceMeasureSubcategorySimples.length < 1">
-            There are currently no @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() on this @MultiTenantHelpers.GetPerformanceMeasureName()
+            There are currently no @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() on this @MultiTenantHelpers.GetPerformanceMeasureName()
         </div>
 
         <div class="panel-group" id="accordion">
@@ -78,12 +77,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="panel-heading panelTitle">
                         <span class="panel-heading-left">
                             <a ng-show="!subcategoryHasAssociatedActuals(subcategorySimple)" ng-click="removeSubcategory(subcategorySimple)" style="cursor: pointer">
-                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()" alt="Remove @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel()"></i>
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()"></i>
                             </a>
                         </span>
                         <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsed collapsePanel">
                             <span>
-                                @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel(): {{subcategorySimple.PerformanceMeasureSubcategoryDisplayName}}
+                                @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel(): {{subcategorySimple.PerformanceMeasureSubcategoryDisplayName}}
                             </span>
                         </a>
                     </div>
@@ -94,7 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             <div class="form-horizontal">
                                 <div class="form-group-condensed">
                                     <div ng-class="{'has-error': validateSubcategoryDisplayName(subcategorySimple).length != 0}">
-                                        <label class="col-sm-2 control-label text-right">@FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel() Name</label>
+                                        <label class="col-sm-2 control-label text-right">@FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel() Name</label>
                                         <div class="col-md-5">
                                             <input type="text" class="form-control" ng-model="subcategorySimple.PerformanceMeasureSubcategoryDisplayName"
                                                    name="PerformanceMeasureSubcategorySimples[{{$index}}].PerformanceMeasureSubcategoryDisplayName" />
@@ -120,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <tbody>
                                             <tr ng-show="!subcategorySimple.PerformanceMeasureSubcategoryOptions || !subcategorySimple.PerformanceMeasureSubcategoryOptions.length || subcategorySimple.PerformanceMeasureSubcategoryOptions.length < 1">
                                                 <td colspan="3">
-                                                    <div class="alert alert-danger">There are currently no @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized() on this @FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel().</div>
+                                                    <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()).</div>
                                                 </td>
                                             </tr>
                                             <tr ng-repeat="optionSimple in subcategorySimple.PerformanceMeasureSubcategoryOptions | orderBy: 'SortOrder'">
@@ -136,7 +135,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                                         <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
                                                     </a>
                                                     <a href="javascript:void(0)" ng-show="!optionSimple.HasAssociatedActuals" ng-click="removeSubcategoryOption(subcategorySimple, optionSimple)">
-                                                        <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()" alt="Remove  @FieldDefinition.PerformanceMeasureSubcategoryOption.GetFieldDefinitionLabel()"></i>
+                                                        <i class="glyphicon glyphicon-trash" title="Remove  @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabel()"></i>
                                                     </a>
                                                 </td>
                                                 <td>

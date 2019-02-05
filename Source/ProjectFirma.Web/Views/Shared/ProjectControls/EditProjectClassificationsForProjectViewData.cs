@@ -23,12 +23,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class EditProjectClassificationsForProjectViewData : FirmaUserControlViewData
     {
-        public readonly Models.ClassificationSystem ClassificationSystem;
+        public readonly ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem;
         public readonly string ProjectName;
 
-        public EditProjectClassificationsForProjectViewData(Models.Project project, Models.ClassificationSystem classificationSystem)
+        public EditProjectClassificationsForProjectViewData(ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             ClassificationSystem = classificationSystem;
         }
     }

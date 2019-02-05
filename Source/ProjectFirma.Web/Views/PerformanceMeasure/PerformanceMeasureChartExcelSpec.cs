@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -11,7 +13,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public PerformanceMeasureChartExcelSpec(List<GoogleChartColumn> googleChartColumns)
         {
-            AddColumn(Models.FieldDefinition.ReportingYear.GetFieldDefinitionLabel(), x => x.Year);
+            AddColumn(FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel(), x => x.Year);
 
             foreach (var googleChartColumn in googleChartColumns)
             {

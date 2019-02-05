@@ -21,10 +21,11 @@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @inherits ProjectFirma.Web.Views.ProjectCreate.DocumentsAndNotes
 
-<p>Add document and notes to the @FieldDefinition.Project.GetFieldDefinitionLabel(). When approved, the documents and notes will be publicly visible.</p>
+<p>Add document and notes to the @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). When approved, the documents and notes will be publicly visible.</p>
 
 <hr />
 

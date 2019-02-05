@@ -18,18 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureExpectedSummary
 
 @if (ViewDataTyped.PerformanceMeasureExpecteds.Any())
 {
     <table class="summaryLayout table table-borderless">
         <tr>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
-            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasureSubcategory)</th>
-            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinition.ExpectedValue)</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
+            <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
         </tr>
         @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
         {
@@ -41,9 +41,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
             <tr>
                 <td>@performanceMeasureExpected.PerformanceMeasure.GetDisplayNameAsUrl()</td>
-                <td>@performanceMeasureExpected.PerformanceMeasureSubcategoriesAsString</td>
+                <td>@performanceMeasureExpected.GetPerformanceMeasureSubcategoriesAsString()</td>
                 <td style="text-align: right;">
-                    @(performanceMeasureExpected.ReportedValue.HasValue ? new HtmlString(performanceMeasureExpected.ReportedValue + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
+                    @(performanceMeasureExpected.GetReportedValue().HasValue ? new HtmlString(performanceMeasureExpected.GetReportedValue() + measurementUnitTypeDisplayName) : new HtmlString("<span class='systemText'>Not Provided</span>"))</td>
 
             </tr>
         }
@@ -51,5 +51,5 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 else
 {
-    <p class="systemText">No expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized().ToLower() set for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized().ToLower() set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }

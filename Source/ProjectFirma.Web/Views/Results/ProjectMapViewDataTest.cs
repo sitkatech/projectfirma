@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 

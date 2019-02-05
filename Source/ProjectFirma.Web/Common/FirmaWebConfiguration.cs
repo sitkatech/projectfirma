@@ -25,7 +25,7 @@ using System.Linq;
 using System.Web.Configuration;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Common
     {
         public static readonly int MaximumAllowedUploadFileSize = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MaximumAllowedUploadFileSize"));
         public static readonly int MaximumAllowedUploadImageSize = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("MaximumAllowedUploadImageSize"));
-        public static readonly string DatabaseConnectionString = SitkaConfiguration.GetRequiredAppSetting("DatabaseConnectionString");
         public static readonly string RecaptchaValidatorUrl = SitkaConfiguration.GetRequiredAppSettingNotNullNotEmptyNotWhitespace("RecaptchaValidatorUrl");
         public static readonly string SitkaSupportEmail = SitkaConfiguration.GetRequiredAppSettingNotNullNotEmptyNotWhitespace("SitkaSupportEmail");
         public static readonly string DoNotReplyEmail = SitkaConfiguration.GetRequiredAppSettingNotNullNotEmptyNotWhitespace("DoNotReplyEmail");
@@ -70,7 +69,6 @@ namespace ProjectFirma.Web.Common
                 return result;
             }
 
-            //Use the domain name  (laketahoeinfo.org -->  should use www.laketahoeinfo.org for the match)
             var canonicalHost = canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
             if (canonicalHost == null && FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Prod &&
                 hostName.Equals("www.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))

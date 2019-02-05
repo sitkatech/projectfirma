@@ -26,7 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
@@ -92,12 +92,12 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
         {
             var errors = new List<ValidationResult>();
             var existingOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-            if (!OrganizationType.IsOrganizationTypeNameUnique(existingOrganizationType, OrganizationTypeName, OrganizationTypeID))
+            if (!OrganizationTypeModelExtensions.IsOrganizationTypeNameUnique(existingOrganizationType, OrganizationTypeName, OrganizationTypeID))
             {
                 errors.Add(new SitkaValidationResult<EditOrganizationTypeViewModel, string>("Name is already used for another organization type", x => x.OrganizationTypeName));
             }
 
-            if (!OrganizationType.IsOrganizationTypeAbbreviationUnique(existingOrganizationType, OrganizationTypeAbbreviation, OrganizationTypeID))
+            if (!OrganizationTypeModelExtensions.IsOrganizationTypeAbbreviationUnique(existingOrganizationType, OrganizationTypeAbbreviation, OrganizationTypeID))
             {
                 errors.Add(new SitkaValidationResult<EditOrganizationTypeViewModel, string>("Abbreviation is already used for another organization type", x => x.OrganizationTypeAbbreviation));
             }

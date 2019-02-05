@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -46,12 +46,12 @@ namespace ProjectFirma.Web.Service.ServiceModels
             EndDate = project.CompletionYear;
             Stage = project.ProjectStage.ProjectStageDisplayName;
 
-            Latitude = project.ProjectLocationPointLatitude;
-            Longitude = project.ProjectLocationPointLongitude;
+            Latitude = project.ProjectLocationPoint?.YCoordinate;
+            Longitude = project.ProjectLocationPoint?.XCoordinate;
 
             Datum = "WGS84";
             
-            ProjectState = project.ProjectLocationStateProvince;
+            ProjectState = project.GetProjectLocationStateProvince();
             ProjectGeospatialArea = project.ProjectGeospatialAreas.Any()
                 ? string.Join(", ", project.ProjectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GeospatialAreaName))
                 : ViewUtilities.NaString;

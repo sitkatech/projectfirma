@@ -24,13 +24,13 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Tag;
 using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using Detail = ProjectFirma.Web.Views.Tag.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Tag.DetailViewData;
 using Edit = ProjectFirma.Web.Views.Tag.Edit;
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.TagList);
+            var firmaPage = FirmaPageTypeEnum.TagList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(tag, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"Tag {tag.DisplayNameAsUrl} successfully created.");
+            SetMessageForDisplay($"Tag {tag.GetDisplayNameAsUrl()} successfully created.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -151,8 +151,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteTag(tag, viewModel);
             }
-            tag.ProjectTags.DeleteProjectTag();
-            tag.DeleteTag();
+            tag.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -177,10 +176,7 @@ namespace ProjectFirma.Web.Controllers
             }
             // find tag, remove it from this project
             var existingTag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(viewModel.TagName);
-            if (existingTag != null)
-            {
-                existingTag.ProjectTags.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList().DeleteProjectTag();
-            }
+            existingTag.DeleteChildren(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -284,7 +280,7 @@ namespace ProjectFirma.Web.Controllers
             if (viewModel.ProjectIDList != null)
             {
                 var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
-                projectDisplayNames = projects.Select(x => x.DisplayName).ToList();
+                projectDisplayNames = projects.Select(x => x.GetDisplayName()).ToList();
             }
             var viewData = new BulkTagProjectsViewData(projectDisplayNames);
             return RazorPartialView<BulkTagProjects, BulkTagProjectsViewData, BulkTagProjectsViewModel>(viewData, viewModel);

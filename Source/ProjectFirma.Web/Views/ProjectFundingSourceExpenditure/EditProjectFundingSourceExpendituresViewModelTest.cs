@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
@@ -44,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
             TestFramework.TestProjectFundingSourceExpenditure.Create(project, fundingSource3);
             TestFramework.TestProjectFundingSourceExpenditure.Create(project, fundingSource4);
 
-            var allFundingSources = new List<Models.FundingSource> {fundingSource1, fundingSource2, fundingSource3, fundingSource4};
+            var allFundingSources = new List<ProjectFirmaModels.Models.FundingSource> {fundingSource1, fundingSource2, fundingSource3, fundingSource4};
 
             // Act
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();

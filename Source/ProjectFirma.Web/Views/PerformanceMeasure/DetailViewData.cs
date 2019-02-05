@@ -21,19 +21,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class DetailViewData : FirmaViewData
     {
-        public Models.PerformanceMeasure PerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public PerformanceMeasureChartViewData PerformanceMeasureChartViewData { get; }
         public EntityNotesViewData EntityNotesViewData { get; }
 
         public bool UserHasPerformanceMeasureOverviewManagePermissions { get; }
+        public bool IsAdmin { get; }
 
         public string EditPerformanceMeasureUrl { get; }
         public string EditSubcategoriesAndOptionsUrl { get; }
@@ -54,10 +56,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string TaxonomyTierDisplayNamePluralized { get; }
 
         public DetailViewData(Person currentPerson,
-            Models.PerformanceMeasure performanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
             EntityNotesViewData entityNotesViewData,
-            bool userHasPerformanceMeasureManagePermissions) : base(currentPerson)
+            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentPerson)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";
@@ -66,6 +68,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureChartViewData = performanceMeasureChartViewData;
             EntityNotesViewData = entityNotesViewData;
             UserHasPerformanceMeasureOverviewManagePermissions = userHasPerformanceMeasureManagePermissions;
+            IsAdmin = isAdmin;
 
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
@@ -82,8 +85,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.ReportedValue.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.ReportedValue.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ReportedValue.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
@@ -92,8 +95,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedGridSpec = new PerformanceMeasureExpectedGridSpec(performanceMeasure)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.ExpectedValue.GetFieldDefinitionLabel()} for {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.ExpectedValue.GetFieldDefinitionLabelPluralized()} for {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.ExpectedValue.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ExpectedValue.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

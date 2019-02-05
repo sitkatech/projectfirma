@@ -21,10 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Role;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -51,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var role = Role.AllLookupDictionary[roleID];
             var gridSpec = new PersonWithRoleGridSpec();
-            var peopleWithRole = role.GetPeopleWithRole();
+            var peopleWithRole = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID == role.RoleID).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(peopleWithRole, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -66,19 +69,22 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Anonymous()
         {
-            return ViewDetail(new AnonymousRole());
+            var role = new AnonymousRole();
+            return ViewDetail(role, role.GetFeaturePermissions(typeof(AnonymousUnclassifiedFeature)), role.RoleDisplayName);
         }
 
         [FirmaAdminFeature]
         public ViewResult Detail(int roleID)
         {
             var role = Role.AllLookupDictionary[roleID];
-            return ViewDetail(role);
+            var featurePermissions = role.GetFeaturePermissions(typeof(FirmaFeature));
+            featurePermissions.AddRange(role.GetFeaturePermissions(typeof(FirmaFeatureWithContext)));
+            return ViewDetail(role, featurePermissions, role.GetRoleDisplayName());
         }
 
-        private ViewResult ViewDetail(IRole role)
+        private ViewResult ViewDetail(IRole role, List<FeaturePermission> featurePermissions, string roleName)
         {
-            var viewData = new DetailViewData(CurrentPerson, role);
+            var viewData = new DetailViewData(CurrentPerson, role, featurePermissions, roleName);
             return RazorView<Detail, DetailViewData>(viewData);
         }
     }

@@ -21,11 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Photos
 
 <p>
-    You may upload new photos for your @FieldDefinition.Project.GetFieldDefinitionLabel(), or edit information on existing photos from here. You may also flag photos for deletion
-    (they won't actually be deleted until this @FieldDefinition.Project.GetFieldDefinitionLabel() Update is approved).
+    You may upload new photos for your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), or edit information on existing photos from here. You may also flag photos for deletion
+    (they won't actually be deleted until this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update is approved).
 </p>
 
 <hr />
@@ -41,9 +42,9 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-sm-5">
                 @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                @if (ViewDataTyped.UpdateStatus.IsPhotosUpdated)
+                @if (ViewDataTyped.ProjectUpdateStatus.IsPhotosUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Photos", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Photos", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                 }
             </div>
             <div class="col-sm-7 text-right">

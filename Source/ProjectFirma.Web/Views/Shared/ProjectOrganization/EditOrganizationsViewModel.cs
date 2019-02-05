@@ -26,6 +26,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         {
         }
 
-        public EditOrganizationsViewModel(Models.Project project, List<Models.ProjectOrganization> projectOrganizations,
+        public EditOrganizationsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectOrganization> projectOrganizations,
             Person currentPerson)
         {           
             PrimaryContactPersonID = project.PrimaryContactPersonID;
@@ -62,12 +63,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             }
         }
 
-        public void UpdateModel(Models.Project project, ICollection<Models.ProjectOrganization> allProjectOrganizations)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, ICollection<ProjectFirmaModels.Models.ProjectOrganization> allProjectOrganizations)
         {
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
             var projectOrganizationsUpdated = ProjectOrganizationSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.OrganizationID)).Select(x =>
-                new Models.ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
+                new ProjectFirmaModels.Models.ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
 
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
@@ -90,7 +91,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 
             if (ProjectOrganizationSimples.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
             {
-                errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} multiple times."));
+                errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times."));
             }
             
             var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
@@ -101,12 +102,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
-                    $"Cannot have more than one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
+                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
-                    $"Must have one {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} with a {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
+                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\".")));
 
             var allValidRelationshipTypes = ProjectOrganizationSimples.All(x =>
             {

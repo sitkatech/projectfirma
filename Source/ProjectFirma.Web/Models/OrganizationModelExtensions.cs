@@ -19,15 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
-using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -41,13 +47,13 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetDisplayNameAsUrl(this Organization organization)
         {          
-            return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayName) : new HtmlString(null);
+            return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.GetDisplayName()) : new HtmlString(null);
         }
 
         public static HtmlString GetDisplayNameWithoutAbbreviationAsUrl(this Organization organization)
         {
             return organization != null
-                ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.DisplayNameWithoutAbbreviation)
+                ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.GetDisplayNameWithoutAbbreviation())
                 : new HtmlString(null);
         }
 
@@ -60,6 +66,31 @@ namespace ProjectFirma.Web.Models
         public static string GetDetailUrl(this Organization organization)
         {
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
+        }
+
+        public static string GetDisplayNameWithoutAbbreviation(this Organization organization) => organization.IsUnknown()
+            ? "Unknown or unspecified"
+            : $"{organization.OrganizationName}{(!organization.IsActive ? " (Inactive)" : String.Empty)}";
+
+        public static string GetOrganizationNamePossessive(this Organization organization)
+        {
+            if (organization.IsUnknown())
+            {
+                return organization.OrganizationName;
+            }
+
+            var postFix = organization.OrganizationName.EndsWith("s") ? "'" : "'s";
+            return $"{organization.OrganizationName}{postFix}";
+        }
+
+        public static string GetOrganizationShortNameIfAvailable(this Organization organization)
+        {
+            if (organization.IsUnknown())
+            {
+                return "Unknown or Unassigned";
+            }
+
+            return organization.OrganizationShortName ?? organization.OrganizationName;
         }
 
         public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
@@ -76,7 +107,7 @@ namespace ProjectFirma.Web.Models
             return organizationsToShow.GroupBy(x => x.OrganizationType, (organizationType, organizationList) =>
             {
                 return new LayerGeoJson(
-                    $"{organizationType.OrganizationTypeName} {FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
+                    $"{organizationType.OrganizationTypeName} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                     new FeatureCollection(organizationList.Select(organization =>
                     {
                         var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(organization.OrganizationBoundary);
@@ -100,7 +131,7 @@ namespace ProjectFirma.Web.Models
 
         public static  List<Project> GetAllActiveProjectsAndProposals(this Organization organization, Person person)
         {
-            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals);
+            return organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
         public static List<Project> GetAllActiveProjects(this Organization organization, Person person)
@@ -115,12 +146,12 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAllPendingProjects(this Organization organization, Person person)
         {
-            return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects);
+            return organization.GetAllAssociatedProjects().GetPendingProjects(person.CanViewPendingProjects());
         }
 
         public static List<Project> GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(this Organization organization, Person person)
         {
-            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals);
+            var allActiveProjectsAndProposals = organization.GetAllAssociatedProjects().GetActiveProjectsAndProposals(person.CanViewProposals());
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
@@ -138,5 +169,96 @@ namespace ProjectFirma.Web.Models
                 .Where(x => x.GetOrganizationsToReportInAccomplishments().Any(y => y == organization))
                 .ToList();
         }
+
+        public static bool CanBeAnApprovingOrganization(this Organization organization)
+        {
+            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public static bool CanBeReportedInAccomplishmentsDashboard(this Organization organization)
+        {
+            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
+                x.RelationshipTypeID == MultiTenantHelpers
+                    .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID);
+        }
+
+        public static bool CanBeAPrimaryContactOrganization(this Organization organization)
+        {
+            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public static bool CanStewardProjects(this Organization organization)
+        {
+            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+        }
+
+        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(this Organization organization,
+            PerformanceMeasure performanceMeasure, Person currentPerson)
+        {
+            var projects = organization.GetAllActiveProjectsAndProposals(currentPerson).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
+        }
+
+        public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)
+        {
+            var organization =
+                organizations.SingleOrDefault(x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationName, organizationName, StringComparison.InvariantCultureIgnoreCase));
+            return organization == null;
+        }
+
+        public static bool IsOrganizationShortNameUniqueIfProvided(IEnumerable<Organization> organizations, string organizationShortName, int currentOrganizationID)
+        {
+            // Nulls don't trip the unique check
+            if (organizationShortName == null)
+            {
+                return true;
+            }
+            var existingOrganization =
+                organizations.SingleOrDefault(
+                    x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationShortName, organizationShortName, StringComparison.InvariantCultureIgnoreCase));
+            return existingOrganization == null;
+        }
+
+        public static List<OrganizationBoundaryStaging> CreateOrganizationBoundaryStagingStagingListFromGdb(
+            FileInfo gisFile, Organization organization)
+        {
+            var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
+                Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
+                FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
+
+            var geoJsons =
+                OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gisFile, Ogr2OgrCommandLineRunner.DefaultTimeOut)
+                    .ToDictionary(x => x, x => ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gisFile, x, false))
+                    .Where(x => OrganizationBoundaryStaging.IsUsableFeatureCollectionGeoJson(JsonTools.DeserializeObject<FeatureCollection>(x.Value)))
+                    .ToDictionary(x => x.Key, x => new FeatureCollection(JsonTools.DeserializeObject<FeatureCollection>(x.Value).Features.Where(OrganizationBoundaryStaging.IsUsableFeatureGeoJson).ToList()).ToGeoJsonString());
+
+            Check.Assert(geoJsons.Count != 0, "Number of usable Feature Classes in uploaded file must be greater than 0.");
+
+            return geoJsons.Select(x => new OrganizationBoundaryStaging(organization, x.Key, x.Value)).ToList();
+        }
+
+        public static HtmlString GetPrimaryContactPersonAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        public static HtmlString GetPrimaryContactPersonWithOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        /// <summary>
+        /// Use for security situations where the user summary is not displayable, but the Organization is.
+        /// </summary>
+        public static HtmlString GetPrimaryContactPersonAsStringAndOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
+            : new HtmlString(ViewUtilities.NoneString);
+
+        public static string GetPrimaryContactPersonWithOrgAsString(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrg()
+            : ViewUtilities.NoneString;
+
+        public static string GetPrimaryContactPersonAsString(this Organization organization) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLast()
+            : ViewUtilities.NoneString;
+
     }
 }

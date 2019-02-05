@@ -113,16 +113,13 @@
       <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GeoJSON.Net, Version=0.1.47.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\GeoJSON.Net.0.1.47\lib\portable-net40+sl5+wp80+win8+wpa81\GeoJSON.Net.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
@@ -137,9 +134,8 @@
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.Mvc.Futures.5.0.0\lib\net40\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -212,10 +208,7 @@
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
-    <Compile Include="HtmlHelperExtensions\FieldDefinitionHelpers.cs" />
-    <Compile Include="HtmlHelperExtensions\FieldDefinitionInterfaces.cs" />
-    <Compile Include="HtmlHelperExtensions\LabelForExtensions.cs" />
-    <Compile Include="HtmlHelperExtensions\LabelForExtensionsTest.cs" />
+    <Compile Include="HtmlHelperExtensions\IFieldDefinitionData.cs" />
     <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpers.cs" />
     <Compile Include="HtmlHelperExtensions\TextAreaForExtensions.cs" />
     <Compile Include="LoggingFilters\SemRushFilter.cs" />
@@ -258,6 +251,7 @@
     <Compile Include="LoggingFilters\UnsupportedHttpMethodHandler.cs" />
     <Compile Include="LtInfoVersionInfo.cs" />
     <Compile Include="Mvc\InMemorySessionStateStore.cs" />
+    <Compile Include="Mvc\ISitkaDbContext.cs" />
     <Compile Include="PDFUtility.cs" />
     <Compile Include="SitkaWebConfiguration.cs" />
     <Compile Include="ModalDialog\ModalDialogFormHelper.cs" />
@@ -454,10 +448,6 @@
     <Content Include="Copyright.txt" />
     <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.BuildGridColumnsTest.approved.txt" />
     <Content Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.VerifyJavascriptForDhtmlxGrid.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForGridHeaderTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
-    <Content Include="HtmlHelperExtensions\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

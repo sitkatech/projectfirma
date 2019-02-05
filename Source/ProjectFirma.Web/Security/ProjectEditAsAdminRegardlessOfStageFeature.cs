@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -27,7 +28,7 @@ namespace ProjectFirma.Web.Security
             if (forbidAdmin)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}");
+                    $"You don't have permission to edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
             return new PermissionCheckResult();
         }

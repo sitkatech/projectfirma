@@ -18,10 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -32,7 +33,7 @@ namespace ProjectFirma.Web.Views.Shared
             Add("Date", a => a.AuditLogDate, 120);
             Add("User", a => a.Person.GetFullNameFirstLastAndOrgAsUrl(), 300);
             Add("Section", a => a.TableName.ToProperCase(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Description", a => a.AuditDescriptionDisplay, 400);
+            Add("Description", a => a.GetAuditDescriptionDisplay(), 400);
         }
     }
 }

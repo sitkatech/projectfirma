@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.ParticipatingOrganizations
 
 
@@ -36,7 +37,7 @@
                         <figure style="text-align: center;">
                             @if (organizationGrouping.Key.LogoFileResource != null)
                             {
-                                <img class="img-responsive logoImage" src="@organizationGrouping.Key.LogoFileResource.FileResourceUrl" alt="Organization Logo">
+                                <img class="img-responsive logoImage" src="@organizationGrouping.Key.LogoFileResource.GetFileResourceUrl()" alt="Organization Logo">
                             }
                         </figure>
                     </div>
@@ -44,7 +45,7 @@
                         <h4 class="list-group-item-heading">@organizationGrouping.Key.OrganizationName</h4>
                         @{
                             var projectCount = organizationGrouping.Count();
-                            var projectCountLabel = projectCount.Equals(1) ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized();
+                            var projectCountLabel = projectCount.Equals(1) ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized();
                         }
                         <p class="list-group-item-text">
                             @projectCount @projectCountLabel
@@ -61,7 +62,7 @@ else
     <div class="row">
         <div class="col-xs-12">
             <p class="text-center systemText">
-                There are no Partner @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Organization.GetFieldDefinitionLabel()
+                There are no Partner @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() to report for this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
             </p>
         </div>
     </div>

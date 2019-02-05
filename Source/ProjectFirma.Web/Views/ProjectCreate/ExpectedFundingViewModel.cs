@@ -23,9 +23,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -41,17 +42,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpectedFundingViewModel(List<Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
+        public ExpectedFundingViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
         {
             ProjectFundingSourceRequests = projectFundingSourceRequests
                 .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
         }
 
-        public void UpdateModel(Models.Project project,
-            List<Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
-            IList<Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project,
+            List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
         {
-            var projectFundingSourceRequestsUpdated = new List<Models.ProjectFundingSourceRequest>();
+            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceRequest>();
             if (ProjectFundingSourceRequests != null)
             {
                 // Completely rebuild the list
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
                     yield return new ValidationResult(
-                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.DisplayName}. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.");
+                        $"Secured Funding and Unsecured Funding cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.");
                 }
             }
         }

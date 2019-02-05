@@ -23,14 +23,16 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using log4net;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Controllers
 {
     [ValidateInput(false)]
-    public abstract class FirmaBaseController : SitkaController
+    public abstract class FirmaBaseController : Common.SitkaController
     {
         public static ControllerContext ControllerContextStatic = null;
 
@@ -41,8 +43,9 @@ namespace ProjectFirma.Web.Controllers
             if (!IsCurrentUserAnonymous())
             {
                 CurrentPerson.LastActivityDate = DateTime.Now;
+                HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
                 HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing();
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
             }
             base.OnAuthorization(filterContext);
         }
@@ -62,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
 
         protected override bool IsCurrentUserAnonymous()
         {
-            return CurrentPerson == null || CurrentPerson.IsAnonymousUser;
+            return CurrentPerson == null || CurrentPerson.IsAnonymousUser();
         }
 
         protected override string LoginUrl => FirmaHelpers.GenerateLogInUrlWithReturnUrl();

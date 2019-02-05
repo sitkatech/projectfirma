@@ -21,30 +21,31 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class FundingSourceCalendarYearExpenditure
     {
-        public readonly Models.FundingSource FundingSource;
+        public readonly ProjectFirmaModels.Models.FundingSource FundingSource;
         public int FundingSourceID
         {
             get { return FundingSource == null ? ModelObjectHelpers.NotYetAssignedID : FundingSource.FundingSourceID; }
         }
         public string FundingSourceName
         {
-            get { return FundingSource == null ? "Unknown" : FundingSource.DisplayName; }
+            get { return FundingSource == null ? "Unknown" : FundingSource.GetDisplayName(); }
         }
         public string OrganizationName
         {
-            get { return FundingSource == null ? "Unknown" : FundingSource.Organization.DisplayName; }
+            get { return FundingSource == null ? "Unknown" : FundingSource.Organization.GetDisplayName(); }
         }
         public HtmlString FundingSourceNameAsUrl
         {
-            get { return FundingSource == null ? new HtmlString("Unknown") : FundingSource.DisplayNameAsUrl; }
+            get { return FundingSource == null ? new HtmlString("Unknown") : FundingSource.GetDisplayNameAsUrl(); }
         }
         public HtmlString OrganizationNameAsUrl
         {
@@ -54,7 +55,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly Dictionary<int, decimal?> CalendarYearExpenditure;
         public string DisplayCssClass;
 
-        public FundingSourceCalendarYearExpenditure(Models.FundingSource fundingSource, Dictionary<int, decimal?> calendarYearExpenditure, string displayCssClass)
+        public FundingSourceCalendarYearExpenditure(ProjectFirmaModels.Models.FundingSource fundingSource, Dictionary<int, decimal?> calendarYearExpenditure, string displayCssClass)
         {
             FundingSource = fundingSource;
             CalendarYearExpenditure = calendarYearExpenditure;
@@ -67,7 +68,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public static List<FundingSourceCalendarYearExpenditure> CreateFromFundingSourcesAndCalendarYears(List<IFundingSourceExpenditure> fundingSourceExpenditures, List<int> calendarYears)
         {
-            var distinctFundingSources = fundingSourceExpenditures.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<Models.FundingSource>());
+            var distinctFundingSources = fundingSourceExpenditures.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.FundingSource>());
             var fundingSourcesCrossJoinCalendarYears =
                 distinctFundingSources.Select(x => new FundingSourceCalendarYearExpenditure(x, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null), null))
                     .ToList();
@@ -78,7 +79,7 @@ namespace ProjectFirma.Web.Views.Project
                 foreach (var calendarYear in calendarYears)
                 {
                     current.CalendarYearExpenditure[calendarYear] =
-                        projectFundingSourceExpenditure.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.MonetaryAmount).Sum();
+                        projectFundingSourceExpenditure.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount()).Sum();
                 }
             }
             return fundingSourcesCrossJoinCalendarYears;

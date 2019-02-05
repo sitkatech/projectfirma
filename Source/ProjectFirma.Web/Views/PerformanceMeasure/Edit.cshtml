@@ -18,8 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.Edit
 
 <style>.radio-inline {
@@ -49,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinition.MeasurementUnit.GetFieldDefinitionLabel()))
+            @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinitionEnum.MeasurementUnit.ToType().GetFieldDefinitionLabel()))
         </div>
         <div class="col-sm-9">
             @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { @class = "form-control" })

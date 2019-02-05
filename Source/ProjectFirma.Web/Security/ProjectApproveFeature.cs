@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
         {
-            var projectLabel = FieldDefinition.Project.GetFieldDefinitionLabel();
+            var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             if (!HasPermissionByPerson(person))
             {
                 return new PermissionCheckResult($"You do not have permission to approve this {projectLabel}.");
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Security
             if (person.Role.RoleID == Role.ProjectSteward.RoleID &&
                 !person.CanStewardProject(contextModelObject))
             {
-                var organizationLabel = FieldDefinition.Organization.GetFieldDefinitionLabel();
+                var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
                 return new PermissionCheckResult($"You do not have permission to approve this {projectLabel} based on your relationship to the {projectLabel}'s {organizationLabel}.");
             }
 

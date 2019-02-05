@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Shared.TextControls
@@ -45,63 +45,18 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             Note = note;
         }
 
-        public void UpdateModel(ProjectNote projectNote, Person currentPerson)
+        public void UpdateModel(IEntityNote entityNote, Person currentPerson)
         {
-            projectNote.Note = Note;
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectNote.ProjectNoteID))
+            entityNote.Note = Note;
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(entityNote.PrimaryKey))
             {
-                projectNote.CreateDate = DateTime.Now;
-                projectNote.CreatePerson = currentPerson;
+                entityNote.CreateDate = DateTime.Now;
+                entityNote.CreatePerson = currentPerson;
             }
             else
             {
-                projectNote.UpdateDate = DateTime.Now;
-                projectNote.UpdatePerson = currentPerson;
-            }
-        }
-
-        public void UpdateModel(PerformanceMeasureNote performanceMeasureNote, Person currentPerson)
-        {
-            performanceMeasureNote.Note = Note;
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(performanceMeasureNote.PerformanceMeasureNoteID))
-            {
-                performanceMeasureNote.CreateDate = DateTime.Now;
-                performanceMeasureNote.CreatePerson = currentPerson;
-            }
-            else
-            {
-                performanceMeasureNote.UpdateDate = DateTime.Now;
-                performanceMeasureNote.UpdatePerson = currentPerson;
-            }
-        }
-        
-        public void UpdateModel(ProjectNoteUpdate projectNoteUpdate, Person currentPerson)
-        {
-            projectNoteUpdate.Note = Note;
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectNoteUpdate.ProjectNoteUpdateID))
-            {
-                projectNoteUpdate.CreateDate = DateTime.Now;
-                projectNoteUpdate.CreatePerson = currentPerson;
-            }
-            else
-            {
-                projectNoteUpdate.UpdateDate = DateTime.Now;
-                projectNoteUpdate.UpdatePerson = currentPerson;
-            }
-        }
-
-        public void UpdateModel(ProjectInternalNote projectInternalNote, Person currentPerson)
-        {
-            projectInternalNote.Note = Note;
-            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectInternalNote.ProjectInternalNoteID))
-            {
-                projectInternalNote.CreateDate = DateTime.Now;
-                projectInternalNote.CreatePerson = currentPerson;
-            }
-            else
-            {
-                projectInternalNote.UpdateDate = DateTime.Now;
-                projectInternalNote.UpdatePerson = currentPerson;
+                entityNote.UpdateDate = DateTime.Now;
+                entityNote.UpdatePerson = currentPerson;
             }
         }
     }

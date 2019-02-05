@@ -22,6 +22,7 @@ using ApprovalTests;
 using ApprovalTests.Reporters;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using NUnit.Framework;
 
 namespace ProjectFirma.Web.Common

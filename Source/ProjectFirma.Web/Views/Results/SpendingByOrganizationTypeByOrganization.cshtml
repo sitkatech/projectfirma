@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.Results.SpendingByOrganizationTypeByOrganization
 
@@ -32,10 +31,10 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         <th style="text-align: right">Total</th>
     </tr>
-    @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers.SortByOrderThenName())
+    @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers.OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase))
     {
         <tr>
-            <td>@taxonomyTier.GetDisplayNameAsUrl()</td>
+            <td>@taxonomyTier.DisplayNameAsUrl</td>
             @foreach (var organizationType in ViewDataTyped.OrganizationTypes)
             {
             <td style="text-align: right">

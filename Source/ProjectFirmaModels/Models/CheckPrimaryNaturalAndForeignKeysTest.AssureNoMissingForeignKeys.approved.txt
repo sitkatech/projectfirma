@@ -1,0 +1,3 @@
+﻿TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
+AuditLog	ProjectID					
+AuditLog	RecordID					

@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData;
 
         public ExpectedPerformanceMeasureValuesViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EditPerformanceMeasureExpectedViewData editPerformanceMeasureExpectedViewData)
             : base(currentPerson, project, ProjectCreateSection.ExpectedPerformanceMeasures.ProjectCreateSectionDisplayName, proposalSectionsStatus)

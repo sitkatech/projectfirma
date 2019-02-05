@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
 {
@@ -29,10 +29,10 @@ namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
         public readonly List<AssessmentGoal> AssessmentGoals;
         public readonly string ProjectName;
         
-        public EditAssessmentViewData(Person currentPerson, Models.Project project, List<AssessmentGoal> assessmentGoals)
+        public EditAssessmentViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<AssessmentGoal> assessmentGoals)
             : base(currentPerson, project)
         {
-            ProjectName = project.DisplayName;
+            ProjectName = project.GetDisplayName();
             AssessmentGoals = assessmentGoals;
         }
     }

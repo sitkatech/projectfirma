@@ -19,9 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -31,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ViewDataForAngularClass ViewDataForAngular;
 
         public ExpectedFundingViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ViewDataForAngularClass viewDataForAngularClass) : base(currentPerson, project, ProjectCreateSection.ExpectedFunding.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
@@ -46,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public readonly int ProjectID;
             public readonly decimal EstimatedTotalCost;
 
-            public ViewDataForAngularClass(Models.Project projectProposedBatch,
+            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project projectProposedBatch,
                 List<FundingSourceSimple> allFundingSources,
                 decimal estimatedTotalCost)
             {

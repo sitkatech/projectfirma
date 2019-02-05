@@ -19,15 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public Models.ClassificationSystem ClassificationSystem { get; }
+        public ProjectFirmaModels.Models.ClassificationSystem ClassificationSystem { get; }
 
-        public EditViewData(Models.ClassificationSystem classificationSystem)
+        public EditViewData(ProjectFirmaModels.Models.ClassificationSystem classificationSystem)
         {
             ClassificationSystem = classificationSystem;
         }

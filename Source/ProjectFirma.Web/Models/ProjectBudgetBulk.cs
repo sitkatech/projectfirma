@@ -18,10 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -89,32 +91,7 @@ namespace ProjectFirma.Web.Models
                 projectBudget.ProjectID == ProjectID && projectBudget.FundingSourceID == FundingSourceID &&
                 projectBudget.ProjectCostTypeID == ProjectCostTypeID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID and CostTypeID");
-            CalendarYearBudgets.Add(new CalendarYearMonetaryAmount(projectBudget.CalendarYear, projectBudget.MonetaryAmount));
-        }
-
-        public List<ProjectBudget> ToProjectBudgets()
-        {
-            // ReSharper disable PossibleInvalidOperationException
-            return
-                CalendarYearBudgets.Where(x => x.MonetaryAmount.HasValue)
-                    .Select(x => new ProjectBudget(ProjectID, FundingSourceID, ProjectCostTypeID, x.CalendarYear, x.MonetaryAmount.Value))
-                    .ToList();
-            // ReSharper restore PossibleInvalidOperationException
-        }
-
-        public List<ProjectBudgetUpdate> ToProjectBudgetUpdates(ProjectUpdateBatch projectUpdateBatch)
-        {
-            // ReSharper disable PossibleInvalidOperationException
-            return
-                CalendarYearBudgets.Where(x => x.MonetaryAmount.HasValue)
-                    .Select(
-                        x =>
-                            new ProjectBudgetUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, ProjectCostTypeID, x.CalendarYear)
-                            {
-                                BudgetedAmount = x.MonetaryAmount
-                            })
-                    .ToList();
-            // ReSharper restore PossibleInvalidOperationException
+            CalendarYearBudgets.Add(new CalendarYearMonetaryAmount(projectBudget.CalendarYear, projectBudget.GetMonetaryAmount()));
         }
     }
 }

@@ -23,6 +23,7 @@ using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (emptyRows?.Any() ?? false)
             {
-                errors.Add($"The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report.");
+                errors.Add($"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report.");
             }
 
             // get distinct Funding Sources
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
                 else
                 {
-                    var missingFundingSourceYears = new Dictionary<Models.FundingSource, IEnumerable<int>>();
+                    var missingFundingSourceYears = new Dictionary<ProjectFirmaModels.Models.FundingSource, IEnumerable<int>>();
                     foreach (var fundingSource in fundingSources)
                     {
                         var currentFundingSource = fundingSource;
@@ -107,7 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     foreach (var fundingSource in missingFundingSourceYears)
                     {
                         var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(fundingSource.Value));
-                        errors.Add($"Missing Expenditures for {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} '{fundingSource.Key.DisplayName}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
+                        errors.Add($"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
                     }
                 }
             }

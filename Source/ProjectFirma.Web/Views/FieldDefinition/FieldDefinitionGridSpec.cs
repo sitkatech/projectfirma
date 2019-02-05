@@ -24,10 +24,11 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
-    public class FieldDefinitionGridSpec : GridSpec<Models.FieldDefinition>
+    public class FieldDefinitionGridSpec : GridSpec<ProjectFirmaModels.Models.FieldDefinition>
     {
         public FieldDefinitionGridSpec(bool hasManagePermissions)
         {            

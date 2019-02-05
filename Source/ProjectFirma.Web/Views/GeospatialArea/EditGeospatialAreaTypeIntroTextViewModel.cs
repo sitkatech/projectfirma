@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         {
         }
         
-        public EditGeospatialAreaTypeIntroTextViewModel(Models.GeospatialAreaType geospatialAreaType)
+        public EditGeospatialAreaTypeIntroTextViewModel(ProjectFirmaModels.Models.GeospatialAreaType geospatialAreaType)
         {
             GeospatialAreaIntroContentHtmlString = geospatialAreaType?.GeospatialAreaIntroContentHtmlString;
         }
 
-        public void UpdateModel(Models.GeospatialAreaType geospatialAreaType)
+        public void UpdateModel(ProjectFirmaModels.Models.GeospatialAreaType geospatialAreaType)
         {
             geospatialAreaType.GeospatialAreaIntroContentHtmlString = GeospatialAreaIntroContentHtmlString == null || string.IsNullOrWhiteSpace(GeospatialAreaIntroContentHtmlString.ToString()) ? null : GeospatialAreaIntroContentHtmlString;
         }

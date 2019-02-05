@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
         
-        public void UpdateModel(Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
         {
             base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
         }

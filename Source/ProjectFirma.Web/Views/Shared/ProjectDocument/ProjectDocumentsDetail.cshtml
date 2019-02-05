@@ -1,6 +1,7 @@
 ﻿@using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 
 @inherits ProjectFirma.Web.Views.Shared.ProjectDocument.ProjectDocumentsDetail
@@ -11,25 +12,25 @@
 
 @if (!ViewDataTyped.Documents.Any())
 {
-    <p class="systemText">No documents associated with this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No documents associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }
 
 @foreach (var projectDocument in ViewDataTyped.Documents)
 {
-    <div class="@projectDocument.DisplayCssClass">
+    <div class="@projectDocument.GetDisplayCssClass()">
         @if (ViewDataTyped.CanEditDocuments)
         {
         <span style="margin-left: 7px;">
-            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.EditUrl, "Edit Document", null, true)
+            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectDocument.GetEditUrl(), "Edit Document", null, true)
         </span>
         <span style="margin-left: 8px; margin-right: 8px;">
-            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.DeleteUrl, null, true)
+            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectDocument.GetDeleteUrl(), null, true)
         </span>
         }
 
         @if (ViewDataTyped.ShowDownload)
         {
-        <a href="@projectDocument.FileResource.FileResourceUrl">
+        <a href="@projectDocument.FileResource.GetFileResourceUrl()">
             @projectDocument.DisplayName
             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
         </a>

@@ -20,8 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 
@@ -30,10 +31,10 @@ namespace ProjectFirma.Web.Views.CostParameterSet
     public class DetailViewData : FirmaViewData
     {
         public readonly string EditCostParameterSet;
-        public readonly Models.CostParameterSet CostParameterSet;
+        public readonly ProjectFirmaModels.Models.CostParameterSet CostParameterSet;
         public readonly bool HasEditPermissions;
 
-        public DetailViewData(Person currentPerson, Models.FirmaPage firmaPage, Models.CostParameterSet costParameterSet)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.CostParameterSet costParameterSet)
             : base(currentPerson, firmaPage)
         {
             PageTitle = " Cost Parameters";

@@ -27,6 +27,7 @@ using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
@@ -38,29 +39,29 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             if (hasManagePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
-                        $"Edit {Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} \"{a.RelationshipTypeName}\"")),
+                        $"Edit {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.RelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
-            Add($"{Models.FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
-            Add($"Can Steward {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add($"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
+            Add($"Can Steward {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add($"Must be Related to a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
-            Add($"Show on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Fact Sheet", a => a.ShowOnFactSheet.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add($"Must be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
+            Add($"Show on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheet", a => a.ShowOnFactSheet.ToCheckboxImageOrEmptyForGrid(), 90);
 
             foreach (var organizationType in allOrganizationTypes)
             {
-                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganiztionType(organizationType).ToCheckboxImageOrEmptyForGrid(), 90);
+                Add(organizationType.OrganizationTypeName, a => a.IsAssociatedWithOrganizationType(organizationType).ToCheckboxImageOrEmptyForGrid(), 90);
             }
 
             GroupingHeader =
                 BuildGroupingHeader(new ColumnHeaderGroupingList
                 {
                     {"", basicsColumnGroupCount},
-                    {$"Applicable to the following {Models.FieldDefinition.OrganizationType.GetFieldDefinitionLabelPluralized()}:", allOrganizationTypes.Count}                    
+                    {$"Applicable to the following {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}:", allOrganizationTypes.Count}                    
                 });
 
         }

@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ProjectLocationDetailViewData ProjectLocationDetailViewData;
 
         public LocationDetailedViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ProjectLocationDetailViewData projectLocationDetailViewData)
             : base(currentPerson, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName, proposalSectionsStatus)

@@ -22,9 +22,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
@@ -34,12 +35,12 @@ namespace ProjectFirma.Web.Views.Tag
         public int TagID { get; set; }
 
         [Required]
-        [StringLength(Models.Tag.FieldLengths.TagName)]
+        [StringLength(ProjectFirmaModels.Models.Tag.FieldLengths.TagName)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TagName)]
         [RegularExpression(@"^[a-zA-Z0-9-_\s]{1,}$", ErrorMessage = FirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)]
         public string TagName { get; set; }
 
-        [StringLength(Models.Tag.FieldLengths.TagDescription)]
+        [StringLength(ProjectFirmaModels.Models.Tag.FieldLengths.TagDescription)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.TagDescription)]
         public string TagDescription { get; set; }
 
@@ -50,14 +51,14 @@ namespace ProjectFirma.Web.Views.Tag
         {
         }
 
-        public EditViewModel(Models.Tag tag)
+        public EditViewModel(ProjectFirmaModels.Models.Tag tag)
         {
             TagID = tag.TagID;
             TagName = tag.TagName;
             TagDescription = tag.TagDescription;
         }
 
-        public void UpdateModel(Models.Tag tag, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Tag tag, Person currentPerson)
         {
             tag.TagName = TagName;
             tag.TagDescription = TagDescription;
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Views.Tag
             var errors = new List<ValidationResult>();
 
             var existingTags = HttpRequestStorage.DatabaseEntities.Tags.ToList();
-            if (!Models.Tag.IsTagNameUnique(existingTags, TagName, TagID))
+            if (!TagModelExtensions.IsTagNameUnique(existingTags, TagName, TagID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.TagNameUnique, x => x.TagName));
             }

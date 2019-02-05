@@ -18,15 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.User.Detail
 
 @section JavascriptAndStylesContent
@@ -69,7 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-4 fieldLabel text-right">Name</div>
-                        <div class="col-xs-8">@ViewDataTyped.Person.FullNameFirstLast</div>
+                        <div class="col-xs-8">@ViewDataTyped.Person.GetFullNameFirstLast()</div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 fieldLabel text-right">Email</div>
@@ -80,11 +82,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-8">@ViewDataTyped.Person.Phone.ToPhoneNumberString()</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinition.Username.GetFieldDefinitionLabel()</div>
+                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.LoginName</div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinition.Organization.GetFieldDefinitionLabel()</div>
+                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
                     </div>
                     @if (ViewDataTyped.UserHasPersonManagePermissions)
@@ -142,29 +144,29 @@ Source code is available upon request via <support@sitkatech.com>.
                         {
                             <span>
                                 @ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditStewardshipAreas(ViewDataTyped.Person)),
-                                string.Format("Edit {1} for User - {0}", ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()),
-                                true)
+                                    string.Format("Edit {1} for User - {0}", ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()),
+                                    true)
                             </span>
                         }
-                        Assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized()
+                        Assigned @FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()
                     </div>
                     <div class="panel-body">
                         @if (ViewDataTyped.Person.IsAdministrator())
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is an Administrator and can manage all @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized().
+                                @ViewDataTyped.Person.GetFullNameFirstLast() is an Administrator and can manage all @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()).
                             </p>
                         }
-                        else if (ViewDataTyped.Person.IsAnonymousOrUnassigned)
+                        else if (ViewDataTyped.Person.IsAnonymousOrUnassigned())
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is not assigned a role and cannot add or edit any @FieldDefinition.Project.GetFieldDefinitionLabelPluralized().
+                                @ViewDataTyped.Person.GetFullNameFirstLast() is not assigned a role and cannot add or edit any @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()).
                             </p>
                         }
                         else if (ViewDataTyped.Person.Role == Role.Normal)
                         {
                             <p class="systemText">
-                                @ViewDataTyped.Person.FullNameFirstLast is a @FieldDefinition.NormalUser.GetFieldDefinitionLabel() and can add @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() to any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel(), but cannot edit/manage @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() that are not their own.
+                                @ViewDataTyped.Person.GetFullNameFirstLast() is a @FieldDefinitionEnum.NormalUser.ToType().GetFieldDefinitionLabel() and can add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() to any @FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabel(), but cannot edit/manage @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that are not their own.
                             </p>
                         }
                         else
@@ -172,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             var projectStewardshipAreaHtmlStringList = ViewDataTyped.Person.GetProjectStewardshipAreaHtmlStringList();
                             if (!ViewDataTyped.TenantHasStewardshipAreas)
                             {
-                            <p class="systemText">@FieldDefinition.ProjectSteward.GetFieldDefinitionLabelPluralized() can approve @FieldDefinition.Project.GetFieldDefinitionLabel() Proposals, create new @FieldDefinition.Project.GetFieldDefinitionLabelPluralized(), and approve @FieldDefinition.Project.GetFieldDefinitionLabel() Updates for all @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</p>
+                            <p class="systemText">@FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabelPluralized() can approve @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Proposals, create new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), and approve @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Updates for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p>
                             }
                             else if (projectStewardshipAreaHtmlStringList.Any())
                             {
@@ -187,7 +189,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                             else
                             {
-                            <p class="systemText">@ViewDataTyped.Person.FullNameFirstLast is not assigned to manage @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() in any @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabel().</p>
+                            <p class="systemText">@ViewDataTyped.Person.GetFullNameFirstLast() is not assigned to manage @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in any @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabel()).</p>
                             }
                         }
 
@@ -201,13 +203,13 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit {0} for which {1} is a {2}", FieldDefinition.Organization.GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a {1}", ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel())
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPersonOrganizationPrimaryContactUrl, string.Format("Edit {0} for which {1} is a {2}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasPersonManagePermissions) @string.Format("Organizations for which {0} is a {1}", ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel())
             </div>
             <div class="panel-body">
-                @if (ViewDataTyped.Person.PrimaryContactOrganizations.Any())
+                @if (ViewDataTyped.Person.GetPrimaryContactOrganizations().Any())
                 {
                     <ul style="margin: 5px 0">
-                        @foreach (var organization in ViewDataTyped.Person.PrimaryContactOrganizations)
+                        @foreach (var organization in ViewDataTyped.Person.GetPrimaryContactOrganizations())
                         {
                             <li>@organization.GetDisplayNameAsUrl()</li>
                         }
@@ -222,7 +224,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                @string.Format("{0} for which {1} is a {2}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Person.FullNameFirstLast, FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel())
+                @string.Format("{0} for which {1} is a {2}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel())
             </div>
             <div class="panel-body">
                 @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

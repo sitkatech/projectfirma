@@ -21,10 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -98,8 +99,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectNoteUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectNoteUpdate.ProjectUpdateBatch.Project.DisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.ProjectNote.GetFieldDefinitionLabel()}");
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectNoteUpdate.ProjectUpdateBatch.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
@@ -117,7 +118,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectNoteUpdate, viewModel);
             }
             projectNoteUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            projectNoteUpdate.DeleteProjectNoteUpdate();
+            projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

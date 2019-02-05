@@ -28,6 +28,7 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.Tenant.Detail
@@ -85,7 +86,7 @@
                     <div class="col-sm-7">
                         @if (ViewDataTyped.PrimaryContactRoute != null)
                         {
-                            @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.FullNameFirstLast)))
+                            @(new HtmlString(ViewDataTyped.PrimaryContactRoute.BuildLinkFromExpression(ViewDataTyped.TenantAttribute.PrimaryContactPerson.GetFullNameFirstLast())))
                         }
                         else
                         {
@@ -106,18 +107,18 @@
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.ShowProposalsToThePublic, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowProposalsToThePublic.GetFieldDefinitionLabel()</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ShowProposalsToThePublic.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowProposalsToThePublic.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinition.Project.GetFieldDefinitionLabel() External Data Source Enabled</div>
+                    <div class="col-sm-5 fieldLabel text-right">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() External Data Source Enabled</div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinition.ShowLeadImplementerLogoOnFactSheet, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.ShowLeadImplementerLogoOnFactSheet.GetFieldDefinitionLabel()
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowLeadImplementerLogoOnFactSheet.ToType().GetFieldDefinitionLabel()
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ShowLeadImplementerLogoOnFactSheet.ToYesNo()
@@ -186,7 +187,7 @@
                     @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                     {
                         <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.FileResourceUrl, new { style = "max-width: 100%;" })
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource.GetFileResourceUrl(), new { style = "max-width: 100%;" })
                         </div>
                     }
                     else
@@ -207,7 +208,7 @@
                     @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                     {
                         <div style="margin-bottom: 15px;">
-                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.FileResourceUrl, new { style = "max-width: 100%;" })
+                            @Html.Image(ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource.GetFileResourceUrl(), new { style = "max-width: 100%;" })
                         </div>
                     }
                     else
@@ -238,8 +239,8 @@
                     <div class="col-sm-7">
                         @if (ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource != null)
                         {
-                            <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.FileResourceUrl" target="_blank">
-                                @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.OriginalCompleteFileName
+                            <a href="@ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.GetFileResourceUrl()" target="_blank">
+                                @ViewDataTyped.TenantAttribute.TenantStyleSheetFileResource.GetOriginalCompleteFileName()
                             </a>
                         }
                         else
@@ -258,16 +259,16 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinition.ClassificationSystem.GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
-                @Html.LabelWithSugarFor(FieldDefinition.ClassificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                @FieldDefinition.ClassificationSystem.GetFieldDefinitionLabel()
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystem.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                @FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()
             </div>
             <div class="panel-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.ClassificationSystemName)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystemName.ToType())</th>
                             <th>@Html.Label("Description")</th>
                         </tr>
                     </thead>

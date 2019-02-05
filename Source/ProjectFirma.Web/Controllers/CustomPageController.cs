@@ -24,13 +24,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.CustomPage;
-using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using MoreLinq;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 
@@ -106,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var customPage = customPagePrimaryKey.EntityObject;
             var customPageContentHtmlString = customPage.CustomPageContentHtmlString;
-            if (!customPage.HasPageContent)
+            if (!customPage.HasPageContent())
             {
                 customPageContentHtmlString = new HtmlString(string.Format("No page content for Page \"{0}\".", customPage.CustomPageDisplayName));
             }
@@ -206,8 +204,7 @@ namespace ProjectFirma.Web.Controllers
             }
             SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully removed.");
 
-            customPage.CustomPageImages.DeleteCustomPageImage();
-            customPage.DeleteCustomPage();
+            customPage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

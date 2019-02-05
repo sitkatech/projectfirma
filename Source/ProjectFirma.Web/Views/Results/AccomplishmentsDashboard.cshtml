@@ -24,6 +24,7 @@
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.AccomplishmentsDashboard
 @section JavascriptAndStylesContent
 {
@@ -82,7 +83,7 @@
                     </select>
                 </div>
                 <div class="col-xs-12 col-sm-2">
-                    <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinition.Organization.GetFieldDefinitionLabel() Details</a>
+                    <a id="orgLink" href="#" target="_blank" style="font-size: 11px">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-new-window") View @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() Details</a>
                 </div>
             </div>
             <br style="margin: 20px 0;" />
@@ -98,7 +99,7 @@
                         <p class="systemText" style="font-size: 14px; font-weight: normal">Calculating...</p>
                     </div>
                     <div id="counterNumbers">
-                        <span id="projectCount" class="counter"></span> @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
+                        <span id="projectCount" class="counter"></span> @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
                         <span>$</span><span id="totalInvestment" class="counter"></span> Total Investment
                         <span class="bullet" style="margin: 0 10px;">&bull;</span><br class="break" />
@@ -148,7 +149,7 @@
                                     <select id="taxonomyTierDropdown" onchange="loadOrganizationAccomplishments()" class="selectpicker" data-live-search="true" data-width="100%">
                                         @foreach (var taxonomyTier in ViewDataTyped.TaxonomyTiers)
                                         {
-                                            <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.SummaryUrl">@taxonomyTier.DisplayName</option>
+                                            <option value="@taxonomyTier.TaxonomyTierID" data-detailUrl="@taxonomyTier.DetailUrl">@taxonomyTier.DisplayName</option>
                                         }
                                     </select>
                                 </div>

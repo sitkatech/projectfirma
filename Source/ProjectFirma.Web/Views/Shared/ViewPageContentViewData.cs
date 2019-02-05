@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Shared
@@ -14,27 +14,36 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool HasPageContent;
         public readonly string EditPageContentUrl;
 
-        public ViewPageContentViewData(IFirmaPage firmaPage, bool showEditButton)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton)
         {
-            FirmaPageContentHtmlString = firmaPage.FirmaPageContentHtmlString;
-            FirmaPageDisplayName = firmaPage.FirmaPageDisplayName;
+            FirmaPageContentHtmlString = firmaPage.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = firmaPage.GetFirmaPageDisplayName();
             ShowEditButton = showEditButton;
-            HasPageContent = firmaPage.HasPageContent;
-            EditPageContentUrl = firmaPage.GetEditPageContentUrl();
+            HasPageContent = firmaPage.HasPageContent();
+            EditPageContentUrl = SitkaRoute<FirmaPageController>.BuildUrlFromExpression(t => t.EditInDialog(firmaPage));
         }
 
-        public ViewPageContentViewData(Models.FirmaPage firmaPage, Person currentPerson)
-            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton)
         {
+            FirmaPageContentHtmlString = customPage.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = customPage.GetFirmaPageDisplayName();
+            ShowEditButton = showEditButton;
+            HasPageContent = customPage.HasPageContent();
+            EditPageContentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(customPage));
         }
 
         public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, Person currentPerson)
         {
-            FirmaPageContentHtmlString = geospatialAreaType.FirmaPageContentHtmlString;
-            FirmaPageDisplayName = geospatialAreaType.FirmaPageDisplayName;
+            FirmaPageContentHtmlString = geospatialAreaType.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = geospatialAreaType.GetFirmaPageDisplayName();
             ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
-            HasPageContent = geospatialAreaType.HasPageContent;
+            HasPageContent = geospatialAreaType.HasPageContent();
             EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditInDialog(geospatialAreaType));
+        }
+
+        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, Person currentPerson)
+            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
+        {
         }
     }
 }

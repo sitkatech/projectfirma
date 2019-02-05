@@ -18,17 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Organization.Edit
 @using (Html.BeginForm())
 {
     if (ViewDataTyped.IsInKeystone)
     {
-        <p class="systemText">This @FieldDefinition.Organization.GetFieldDefinitionLabel() is managed in Keystone. To change this @FieldDefinition.Organization.GetFieldDefinitionLabel()'s name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
+        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is managed in Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
     }
     <div class="form-horizontal">
         <div class="form-group">

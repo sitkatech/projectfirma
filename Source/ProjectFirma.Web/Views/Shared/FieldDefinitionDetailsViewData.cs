@@ -40,6 +40,15 @@ namespace ProjectFirma.Web.Views.Shared
             FieldDefinitionLabel = fieldDefinitionLabel;
         }
 
+        public FieldDefinitionDetailsViewData(ProjectFirmaModels.Models.ClassificationSystem fieldDefinitionData, bool showEditLink, string editUrl, HtmlString defaultDefinitionHtmlString, string fieldDefinitionLabel)
+        {
+            _fieldDefinitionData = fieldDefinitionData;
+            ShowEditLink = showEditLink;
+            EditUrl = editUrl;
+            DefaultDefinitionHtmlString = defaultDefinitionHtmlString;
+            FieldDefinitionLabel = fieldDefinitionLabel;
+        }
+
         public HtmlString GetFieldDefinition(HtmlString defaultDefinitionHtmlString, string fieldDefinitionLabel)
         {
             if (_fieldDefinitionData != null && _fieldDefinitionData.FieldDefinitionDataValueHtmlString != null)

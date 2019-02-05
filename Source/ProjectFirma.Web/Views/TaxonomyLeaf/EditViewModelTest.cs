@@ -21,10 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             // Arrange
             var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
             var viewModel = new EditViewModel(taxonomyLeaf);
-            viewModel.TaxonomyLeafName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyLeafName), Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
+            viewModel.TaxonomyLeafName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyLeafName), ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
 
             // Act
             viewModel.UpdateModel(taxonomyLeaf, TestFramework.TestPerson.Create());
@@ -79,17 +79,17 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.TaxonomyLeafName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyLeafName, Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
+            viewModel.TaxonomyLeafName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyLeafName, ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
             viewModel.TaxonomyLeafDescription = new HtmlString("Test Description");
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyLeafName, Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyLeafName, ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
 
             // Act
             // Happy path
-            viewModel.TaxonomyLeafName = TestFramework.MakeTestName(nameOfTaxonomyLeafName, Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
+            viewModel.TaxonomyLeafName = TestFramework.MakeTestName(nameOfTaxonomyLeafName, ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

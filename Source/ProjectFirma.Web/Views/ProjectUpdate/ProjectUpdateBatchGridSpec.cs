@@ -22,25 +22,27 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ProjectUpdateBatchGridSpec : GridSpec<ProjectUpdateBatch>
     {
-        private DateTime _detailTrackingStartDate = new DateTime(2016, 3, 8);
+        private readonly DateTime _detailTrackingStartDate = new DateTime(2016, 3, 8);
 
         public ProjectUpdateBatchGridSpec()
         {
             Add("Date", x => x.LastUpdateDate, 120);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Updated By", x => x.LastUpdatePerson.FullNameFirstLastAndOrgShortName, 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add($"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Details",
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Status", x => x.ProjectUpdateState.ProjectUpdateStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Updated By", x => x.LastUpdatePerson.GetFullNameFirstLastAndOrgShortName(), 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Details",
                 pub =>
                 {
                     if (pub.ProjectUpdateState == ProjectUpdateState.Approved && pub.LastUpdateDate.IsDateOnOrAfter(_detailTrackingStartDate))
@@ -49,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         return ModalDialogFormHelper.ModalDialogFormLink("diff-link-id",
                             "Show Details",
                             url,
-                            $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update Change Log",
+                            $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Change Log",
                             1000,
                             "hidden-save-button",
                             string.Empty,

@@ -24,7 +24,7 @@ using System.Data.Entity.Spatial;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {

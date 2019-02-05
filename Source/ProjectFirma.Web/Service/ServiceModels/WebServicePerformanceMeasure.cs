@@ -23,9 +23,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Service.ServiceModels
 {
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             PerformanceMeasureName = performanceMeasure.PerformanceMeasureDisplayName;
             PerformanceMeasureUnits = performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
 
-            if (performanceMeasure.HasRealSubcategories)
+            if (performanceMeasure.HasRealSubcategories())
             {
                 var currentSubcategoryIndex = 1;
                 foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
@@ -65,7 +66,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
                     }
                     else
                     {
-                        throw new NotImplementedException($"Cannot handle more than four subcategories on a {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
+                        throw new NotImplementedException($"Cannot handle more than four subcategories on a {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()}");
                     }
                     currentSubcategoryIndex++;
                 }

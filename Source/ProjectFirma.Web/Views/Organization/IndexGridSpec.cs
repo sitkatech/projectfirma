@@ -19,16 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class IndexGridSpec : GridSpec<Models.Organization>
+    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Organization>
     {
         public IndexGridSpec(Person currentPerson, bool hasDeletePermissions)
         {
@@ -37,16 +38,16 @@ namespace ProjectFirma.Web.Views.Organization
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             }
-            Add(Models.FieldDefinition.Organization.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.OrganizationName), 400, DhtmlxGridColumnFilterType.Html);
             Add("Short Name", a => a.OrganizationShortName, 100);
-            Add(Models.FieldDefinition.OrganizationType.ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.OrganizationPrimaryContact.ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.PrimaryContactPersonAsUrl : new HtmlString(a.PrimaryContactPersonAsString), 120);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentPerson).Count, 90);
-            if (currentPerson.CanViewProposals)
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => userViewFeature.HasPermission(currentPerson, a.PrimaryContactPerson).HasPermission ? a.GetPrimaryContactPersonAsUrl() : new HtmlString(a.GetPrimaryContactPersonAsString()), 120);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentPerson).Count, 90);
+            if (currentPerson.CanViewProposals())
             {
-                Add($"# of {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} associated with this {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}", a => a.GetProposalsVisibleToUser(currentPerson).Count, 90);
+                Add($"# of {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetProposalsVisibleToUser(currentPerson).Count, 90);
             }
-            Add($"# of {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 90);
+            Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 90);
             Add("# of Users", a => a.People.Count, 90);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);

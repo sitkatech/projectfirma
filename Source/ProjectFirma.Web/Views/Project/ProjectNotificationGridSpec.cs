@@ -18,13 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
-    public class ProjectNotificationGridSpec : GridSpec<Models.Notification>
+    public class ProjectNotificationGridSpec : GridSpec<ProjectFirmaModels.Models.Notification>
     {
         public ProjectNotificationGridSpec()
         {

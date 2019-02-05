@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Models
 {
     public class PerformanceMeasureExpectedSubcategoryOptionSimple
@@ -42,27 +45,14 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public PerformanceMeasureExpectedSubcategoryOptionSimple(PerformanceMeasureExpectedSubcategoryOption performanceMeasureExpectedSubcategoryOption)
-            : this()
-        {
-            PerformanceMeasureExpectedSubcategoryOptionID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureExpectedSubcategoryOptionID;
-            PerformanceMeasureExpectedID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureExpectedID;
-            PerformanceMeasureSubcategoryOptionID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
-            PerformanceMeasureID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID;
-            PerformanceMeasureSubcategoryID = performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID;
-        }
-
         public PerformanceMeasureExpectedSubcategoryOptionSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureExpectedSubcategoryOption,
             PerformanceMeasureExpected performanceMeasureExpected)
             : this(
                 performanceMeasureExpectedSubcategoryOption.PrimaryKey,
                 performanceMeasureExpected.PerformanceMeasureExpectedID,
                 performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
-                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID)
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
         {
         }
 

@@ -18,15 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Results
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits SpendingByPerformanceMeasureByProject
 
 @section JavascriptAndStylesContent
@@ -67,16 +67,16 @@ Source code is available upon request via <support@sitkatech.com>.
                             <col style="width: auto" />
                         </colgroup>
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.PerformanceMeasure)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
                             <td>
                                 <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()" onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.SelectedPerformanceMeasure.PerformanceMeasureDisplayName.ToJS(), @ViewDataTyped.SelectedPerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)"></span>
                                 <a href="@ViewDataTyped.SelectedPerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.SelectedPerformanceMeasure.PerformanceMeasureDisplayName</a>
                             </td>
                         </tr>
                         <tr>
-                            <th>@Html.LabelWithSugarFor(FieldDefinition.SpendingAssociatedWithPM)</th>
+                            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.SpendingAssociatedWithPM.ToType())</th>
                             <td>
-                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditure(ViewDataTyped.CurrentPerson).ToStringCurrency() - This includes all @FieldDefinition.Project.GetFieldDefinitionLabel() expenditures, even for @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() that have multiple @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments
+                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditure(ViewDataTyped.CurrentPerson).ToStringCurrency() - This includes all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() expenditures, even for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that have multiple @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments
                             </td>
                         </tr>
                         <tr>
@@ -114,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>@FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+                    <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
                 </div>
                 <div class="panel-body">
                     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:450px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

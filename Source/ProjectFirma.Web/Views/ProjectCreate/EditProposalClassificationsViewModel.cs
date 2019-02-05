@@ -22,9 +22,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using MoreLinq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -44,7 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectClassificationSimples = projectClassificationSimples;
         }
 
-        public void UpdateModel(Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
         {
             foreach (var projectClassificationSimple in projectClassificationSimples)
             {
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 else if (!projectClassificationSimple.Selected && alreadySelected)
                 {
                     var existingProjectClassification = project.ProjectClassifications.First(x => x.ClassificationID == projectClassificationSimple.ClassificationID);
-                    existingProjectClassification.DeleteProjectClassification();
+                    existingProjectClassification.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
             }
         }
@@ -85,7 +86,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             if (!ProjectClassificationSimples.Any())
             {
-                validationResults.Add(new ValidationResult($"You must select at least one {Models.FieldDefinition.Classification.GetFieldDefinitionLabel()} per {Models.FieldDefinition.ClassificationSystem.GetFieldDefinitionLabel()}"));
+                validationResults.Add(new ValidationResult($"You must select at least one {FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} per {FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()}"));
             }
 
             ProjectClassificationSimples.Select(x => x.ClassificationSystemID).Distinct().ForEach(s =>

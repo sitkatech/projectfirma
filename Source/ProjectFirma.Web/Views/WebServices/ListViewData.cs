@@ -24,7 +24,7 @@ using System.Linq;
 using System.Reflection;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Views.WebServices

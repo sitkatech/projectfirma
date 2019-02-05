@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
@@ -29,12 +29,13 @@ using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
     public class DetailViewData : FirmaViewData
     {
-        public Models.TaxonomyBranch TaxonomyBranch { get; }
+        public ProjectFirmaModels.Models.TaxonomyBranch TaxonomyBranch { get; }
 
         public bool UserHasTaxonomyBranchManagePermissions { get; }
         public string EditTaxonomyBranchUrl { get; }
@@ -61,18 +62,18 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public string EditChildrenSortOrderUrl { get; }
 
         public DetailViewData(Person currentPerson,
-            Models.TaxonomyBranch taxonomyBranch,
+            ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures, RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
         {
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
-            PageTitle = taxonomyBranch.DisplayName;
-            var taxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            PageTitle = taxonomyBranch.GetDisplayName();
+            var taxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
             TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
-            TaxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
-            TaxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+            TaxonomyBranchDisplayNamePluralized = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized();
+            TaxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
             EntityName = taxonomyBranchDisplayName;
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
@@ -85,8 +86,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             BasicProjectInfoProjectGridName = "taxonomyBranchProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
                 SaveFiltersInCookie = true
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyBranch));

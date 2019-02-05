@@ -1,45 +1,87 @@
-﻿/*-----------------------------------------------------------------------
-<copyright file="TaxonomyBranchSimple.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using ProjectFirmaModels.Models;
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
-
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Models
 {
     public class TaxonomyTier
     {
-        /// <summary>
-        /// Needed by ModelBinder
-        /// </summary>
-        public TaxonomyTier()
+        public int TaxonomyTierID { get; }
+        public string ThemeColor { get; }
+        public string DisplayName { get; }
+        public HtmlString DisplayNameAsUrl { get; }
+
+        public string DetailUrl { get; }
+
+        public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> TaxonomyTierPerformanceMeasures { get; }
+        public int? SortOrder { get; }
+
+        private TaxonomyLevelEnum TaxonomyLevel { get; }
+
+        private TaxonomyLeaf TaxonomyLeaf { get; }
+        private TaxonomyBranch TaxonomyBranch { get; }
+        private TaxonomyTrunk TaxonomyTrunk { get; }
+
+        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {
+            switch (TaxonomyLevel)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return TaxonomyLeaf.ToFancyTreeNode(currentPerson);
+                case TaxonomyLevelEnum.Branch:
+                    return TaxonomyBranch.ToFancyTreeNode(currentPerson);
+                case TaxonomyLevelEnum.Trunk:
+                    return TaxonomyTrunk.ToFancyTreeNode(currentPerson);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public TaxonomyTier(ITaxonomyTier taxonomyTier)
-            : this()
+        public TaxonomyTier(TaxonomyLeaf taxonomyLeaf)
         {
-            TaxonomyTierID = taxonomyTier.TaxonomyTierID;
-            DisplayName = taxonomyTier.DisplayName;
+            TaxonomyTierID = taxonomyLeaf.TaxonomyLeafID;
+            ThemeColor = taxonomyLeaf.ThemeColor;
+            DisplayName = taxonomyLeaf.GetDisplayName();
+            DisplayNameAsUrl = taxonomyLeaf.GetDisplayNameAsUrl();
+            DetailUrl = taxonomyLeaf.GetDetailUrl();
+            TaxonomyTierPerformanceMeasures = taxonomyLeaf.GetTaxonomyTierPerformanceMeasures();
+            SortOrder = taxonomyLeaf.TaxonomyLeafSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Leaf;
+            TaxonomyLeaf = taxonomyLeaf;
+            TaxonomyBranch = null;
+            TaxonomyTrunk = null;
         }
 
-        public int TaxonomyTierID { get; set; }
-        public string DisplayName { get; set; }
+        public TaxonomyTier(TaxonomyBranch taxonomyBranch)
+        {
+            TaxonomyTierID = taxonomyBranch.TaxonomyBranchID;
+            ThemeColor = taxonomyBranch.ThemeColor;
+            DisplayName = taxonomyBranch.GetDisplayName();
+            DisplayNameAsUrl = taxonomyBranch.GetDisplayNameAsUrl();
+            DetailUrl = taxonomyBranch.GetDetailUrl();
+            TaxonomyTierPerformanceMeasures = taxonomyBranch.GetTaxonomyTierPerformanceMeasures();
+            SortOrder = taxonomyBranch.TaxonomyBranchSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Branch;
+            TaxonomyLeaf = null;
+            TaxonomyBranch = taxonomyBranch;
+            TaxonomyTrunk = null;
+        }
+
+        public TaxonomyTier(TaxonomyTrunk taxonomyTrunk)
+        {
+            TaxonomyTierID = taxonomyTrunk.TaxonomyTrunkID;
+            ThemeColor = taxonomyTrunk.ThemeColor;
+            DisplayName = taxonomyTrunk.GetDisplayName();
+            DisplayNameAsUrl = taxonomyTrunk.GetDisplayNameAsUrl();
+            DetailUrl = taxonomyTrunk.GetDetailUrl();
+            TaxonomyTierPerformanceMeasures = taxonomyTrunk.GetTaxonomyTierPerformanceMeasures();
+            SortOrder = taxonomyTrunk.TaxonomyTrunkSortOrder;
+            TaxonomyLevel = TaxonomyLevelEnum.Trunk;
+            TaxonomyLeaf = null;
+            TaxonomyBranch = null;
+            TaxonomyTrunk = taxonomyTrunk;
+        }
     }
 }

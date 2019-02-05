@@ -19,10 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using LtInfo.Common.ModalDialog;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -33,27 +33,22 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string PerformanceMeasureGridDataUrl{ get; }
         public string EditSortOrderUrl { get; }
         public bool HasPerformanceMeasureManagePermissions { get; }
+        public string NewUrl { get; }
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
-            var hasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-
-            HasPerformanceMeasureManagePermissions = hasPerformanceMeasureManagePermissions;
+            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
             PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentPerson) {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true
             };
 
-            if (HasPerformanceMeasureManagePermissions)
-            {
-                var contentUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
-                PerformanceMeasureGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()}");
+            NewUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.New());
 
-            }
-            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {Models.FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized()}";
+            PerformanceMeasureGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             PerformanceMeasureGridSpec.CustomExcelDownloadUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
             PerformanceMeasureGridName = "performanceMeasuresGrid";

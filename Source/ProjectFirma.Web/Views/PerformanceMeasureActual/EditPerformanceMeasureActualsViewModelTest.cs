@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
@@ -44,7 +45,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure3);
             TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure4);
 
-            var allperformanceMeasures = new List<Models.PerformanceMeasure> {performanceMeasure1, performanceMeasure2, performanceMeasure3, performanceMeasure4};
+            var allperformanceMeasures = new List<ProjectFirmaModels.Models.PerformanceMeasure> {performanceMeasure1, performanceMeasure2, performanceMeasure3, performanceMeasure4};
 
             // Act
             var viewModel = new EditPerformanceMeasureActualsViewModel(project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(), "Test Explanation", null);

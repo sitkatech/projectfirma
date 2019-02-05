@@ -120,7 +120,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div>
             <ul class="filmStrip" style="margin-top: 5px;">
-                @foreach (var galleryImage in ViewDataTyped.GalleryImages.OrderBy(x => x.OrderBy))
+                @foreach (var galleryImage in ViewDataTyped.GalleryImages.OrderBy(ViewDataTyped.SortFunction))
                 {
                     <li style="overflow: hidden">
                         <div class="@Html.Raw(string.Join(" ", galleryImage.AdditionalCssClasses).HtmlEncodeWithBreaks())">

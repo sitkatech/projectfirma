@@ -25,10 +25,11 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasureActual;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Controllers
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditPerformanceMeasureActualsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.SortOrder).ThenBy(pam=>pam.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
+            var performanceMeasureActualSimples = project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.GetSortOrder()).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureActualSimple(x)).ToList();
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
             var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
             var endYear = DateTime.Now.Year;

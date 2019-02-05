@@ -21,18 +21,19 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Assessment
 {
-    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<Models.Project>
+    public class ProjectAssessmentExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.Project>
     {
         public ProjectAssessmentExcelSpec()
         {
-            AddColumn($"{Models.FieldDefinition.ProjectName.GetFieldDefinitionLabel()}", project => project.DisplayName);
+            AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", project => project.GetDisplayName());
 
             foreach (var assessmentQuestion in HttpRequestStorage.DatabaseEntities.AssessmentQuestions)
             {
@@ -51,8 +52,8 @@ namespace ProjectFirma.Web.Views.Assessment
         public QuestionsExcelSpec()
         {
             AddColumn("Question ID", question => question.AssessmentQuestionID);
-            AddColumn("Goal", question => question.AssessmentSubGoal.AssessmentGoal.DisplayName);
-            AddColumn("Sub Goal", question => question.AssessmentSubGoal.DisplayName);
+            AddColumn("Goal", question => question.AssessmentSubGoal.AssessmentGoal.GetDisplayName());
+            AddColumn("Sub Goal", question => question.AssessmentSubGoal.GetDisplayName());
             AddColumn("Question", question => question.AssessmentQuestionText);
             AddColumn("Count of Yes Answers", question => question.GetCountOfYesAnswers());
             AddColumn("Count of No Answers", question => question.GetCountOfNoAnswers());

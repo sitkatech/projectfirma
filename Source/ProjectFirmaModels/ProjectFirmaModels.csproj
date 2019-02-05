@@ -1,0 +1,773 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5C78FFE9-5DD5-4A8E-882C-F49549F6FBF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProjectFirmaModels</RootNamespace>
+    <AssemblyName>ProjectFirmaModels</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
+    <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentGoal.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AssessmentGoalConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentGoalPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentQuestion.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentQuestion.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AssessmentQuestionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentQuestionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentSubGoal.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentSubGoal.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AssessmentSubGoalConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AssessmentSubGoalPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AuditLog.Binding.cs" />
+    <Compile Include="Models\Generated\AuditLog.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AuditLogConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AuditLogEventType.Binding.cs" />
+    <Compile Include="Models\Generated\AuditLogEventTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AuditLogPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Classification.Binding.cs" />
+    <Compile Include="Models\Generated\Classification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPerformanceMeasurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationSystem.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationSystem.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ClassificationSystemConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ClassificationSystemPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CostParameterSet.Binding.cs" />
+    <Compile Include="Models\Generated\CostParameterSet.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CostParameterSetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CostParameterSetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\County.Binding.cs" />
+    <Compile Include="Models\Generated\County.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CountyConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CountyPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayType.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageDisplayTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CustomPageImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinition.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionData.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataImage.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDataPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FileResource.Binding.cs" />
+    <Compile Include="Models\Generated\FileResource.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FileResourceConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourceMimeType.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourceMimeTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FileResourcePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaHomePageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPage.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaPageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageImage.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaPageImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageRenderType.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageRenderTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageType.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaPageTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaPageTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FundingSource.Binding.cs" />
+    <Compile Include="Models\Generated\FundingSource.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FundingSourceConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FundingSourcePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FundingType.Binding.cs" />
+    <Compile Include="Models\Generated\FundingType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FundingTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FundingTypeData.Binding.cs" />
+    <Compile Include="Models\Generated\FundingTypeData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FundingTypeDataConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FundingTypeDataPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FundingTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialArea.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialArea.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaType.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GoogleChartType.Binding.cs" />
+    <Compile Include="Models\Generated\GoogleChartTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ImportExternalProjectStaging.Binding.cs" />
+    <Compile Include="Models\Generated\ImportExternalProjectStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ImportExternalProjectStagingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ImportExternalProjectStagingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MeasurementUnitType.Binding.cs" />
+    <Compile Include="Models\Generated\MeasurementUnitTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Notification.Binding.cs" />
+    <Compile Include="Models\Generated\Notification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\NotificationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationProject.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationProject.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\NotificationProjectConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationProjectPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationType.Binding.cs" />
+    <Compile Include="Models\Generated\NotificationTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Organization.Binding.cs" />
+    <Compile Include="Models\Generated\Organization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStagingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationBoundaryStagingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeRelationshipTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActual.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActual.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOption.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOption.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualSubcategoryOptionUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureActualUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceType.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureDataSourceTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpected.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpected.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOption.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOption.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOptionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureExpectedSubcategoryOptionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureNote.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureNoteConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategory.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOption.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOption.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOptionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOptionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureSubcategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTargetValueType.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTargetValueTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureType.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Person.Binding.cs" />
+    <Compile Include="Models\Generated\Person.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardGeospatialArea.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardGeospatialArea.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardGeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganization.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganizationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardOrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranch.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranchConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PersonStewardTaxonomyBranchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Project.Binding.cs" />
+    <Compile Include="Models\Generated\Project.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectApprovalStatus.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectApprovalStatusPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectAssessmentQuestion.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectAssessmentQuestion.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectAssessmentQuestionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectAssessmentQuestionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassification.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassification.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectColorByType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectColorByTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCostType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCostTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCreateSection.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCreateSectionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttribute.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttribute.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeDataType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeDataTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValueConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeUpdateValuePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeValueConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeValuePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocument.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectDocumentUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYear.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExemptReportingYearUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLink.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLink.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectExternalLinkUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditure.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditureUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditureUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditureUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceExpenditureUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequest.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequest.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectFundingSourceRequestUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialArea.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialArea.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNote.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaTypeNoteUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectGeospatialAreaUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImage.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImageTiming.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImageTimingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImageUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImageUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectImageUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectImageUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectInternalNote.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectInternalNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectInternalNoteConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectInternalNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocation.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectLocationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationFilterType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationFilterTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationSimpleType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationSimpleTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStaging.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStaging.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationStagingUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectLocationUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectLocationUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNote.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectNoteConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoteUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoteUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectNoteUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoteUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganization.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectOrganizationUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStewardshipAreaType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectStewardshipAreaTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectTag.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectTagConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateHistory.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateHistoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateHistoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSection.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSectionPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSetting.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSetting.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSettingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateSettingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateState.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateStatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWorkflowSectionGrouping.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectWorkflowSectionGroupingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\RelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Role.Binding.cs" />
+    <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\StateProvince.Binding.cs" />
+    <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\StateProvincePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\SupportRequestLog.Binding.cs" />
+    <Compile Include="Models\Generated\SupportRequestLog.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SupportRequestLogConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SupportRequestLogPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\SupportRequestType.Binding.cs" />
+    <Compile Include="Models\Generated\SupportRequestTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Tag.Binding.cs" />
+    <Compile Include="Models\Generated\Tag.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TagConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TagPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyBranch.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyBranch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyBranchConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyBranchPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeaf.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeaf.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasure.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPerformanceMeasurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLevel.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyLevelPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyTrunk.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TaxonomyTrunkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TaxonomyTrunkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameter.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameter.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameterConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceParameterPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Tenant.Binding.cs" />
+    <Compile Include="Models\Generated\TenantAttribute.Binding.cs" />
+    <Compile Include="Models\Generated\TenantAttribute.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TenantAttributeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TenantAttributePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TenantPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideo.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideo.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TrainingVideoConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\FieldDefinition.cs" />
+    <Compile Include="Models\FundingType.cs" />
+    <Compile Include="Models\FirmaHomePageImage.cs" />
+    <Compile Include="Models\FancyTreeNode.cs" />
+    <Compile Include="Models\AccomplishmentsDashboardFundingDisplayType.cs" />
+    <Compile Include="Models\AssessmentGoal.cs" />
+    <Compile Include="Models\AssessmentQuestion.cs" />
+    <Compile Include="Models\AssessmentSubGoal.cs" />
+    <Compile Include="Models\AuditLog.cs" />
+    <Compile Include="Models\AuditLog.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\AuditLogEventType.cs" />
+    <Compile Include="Models\CalendarYearMonetaryAmount.cs" />
+    <Compile Include="Models\CalendarYearReportedValue.cs" />
+    <Compile Include="Models\CheckPrimaryNaturalAndForeignKeysTest.cs" />
+    <Compile Include="Models\Classification.cs" />
+    <Compile Include="Models\ClassificationSystem.cs" />
+    <Compile Include="Models\ClassificationSystemSimple.cs" />
+    <Compile Include="Models\CostParameterSet.cs" />
+    <Compile Include="Models\CostParameterSet.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\County.cs" />
+    <Compile Include="Models\CustomPage.cs" />
+    <Compile Include="Models\CustomPageImage.cs" />
+    <Compile Include="Models\DatabaseEntities.cs" />
+    <Compile Include="Models\ExternalLink.cs" />
+    <Compile Include="Models\FieldDefinitionData.cs" />
+    <Compile Include="Models\FieldDefinitionData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\FileResource.cs" />
+    <Compile Include="Models\FileResourceMimeType.cs" />
+    <Compile Include="Models\FileResourceOrientation.cs" />
+    <Compile Include="Models\FirmaPage.cs" />
+    <Compile Include="Models\FundingSource.cs" />
+    <Compile Include="Models\FundingTypeData.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaType.cs" />
+    <Compile Include="Models\ICanDeleteFull.cs" />
+    <Compile Include="Models\PerformanceMeasure.cs" />
+    <Compile Include="Models\PerformanceMeasureExpectedValueSimple.cs" />
+    <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
+    <Compile Include="Models\PerformanceMeasureReportedValueSimple.cs" />
+    <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
+    <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectUpdateBatch.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\TaxonomyBranch.cs" />
+    <Compile Include="Models\TaxonomyLeaf.cs" />
+    <Compile Include="Models\TaxonomyTrunk.cs" />
+    <Compile Include="Models\TenantAttribute.cs" />
+    <Compile Include="UnitTestCommon\AssertCustom.cs" />
+    <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
+    <Compile Include="UnitTestCommon\TestClassification.cs" />
+    <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
+    <Compile Include="UnitTestCommon\TestCostParameterSet.cs" />
+    <Compile Include="UnitTestCommon\TestFileResource.cs" />
+    <Compile Include="UnitTestCommon\TestFramework.cs" />
+    <Compile Include="UnitTestCommon\TestFundingSource.cs" />
+    <Compile Include="UnitTestCommon\TestGeospatialArea.cs" />
+    <Compile Include="UnitTestCommon\TestGeospatialAreaType.cs" />
+    <Compile Include="UnitTestCommon\TestImageFile.cs" />
+    <Compile Include="UnitTestCommon\TestOrganization.cs" />
+    <Compile Include="UnitTestCommon\TestOrganizationType.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasure.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureActual.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureActualSubcategoryOption.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureActualUpdate.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureExpected.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureExpectedSubcategoryOption.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureNote.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
+    <Compile Include="UnitTestCommon\TestPerson.cs" />
+    <Compile Include="UnitTestCommon\TestProject.cs" />
+    <Compile Include="UnitTestCommon\TestProjectClassification.cs" />
+    <Compile Include="UnitTestCommon\TestProjectExemptReportingYear.cs" />
+    <Compile Include="UnitTestCommon\TestProjectFundingSourceExpenditure.cs" />
+    <Compile Include="UnitTestCommon\TestProjectFundingSourceExpenditureUpdate.cs" />
+    <Compile Include="UnitTestCommon\TestProjectGeospatialArea.cs" />
+    <Compile Include="UnitTestCommon\TestProjectNote.cs" />
+    <Compile Include="UnitTestCommon\TestProjectNoteUpdate.cs" />
+    <Compile Include="UnitTestCommon\TestProjectOrganization.cs" />
+    <Compile Include="UnitTestCommon\TestProjectUpdate.cs" />
+    <Compile Include="UnitTestCommon\TestProjectUpdateBatch.cs" />
+    <Compile Include="UnitTestCommon\TestProjectUpdateHistory.cs" />
+    <Compile Include="UnitTestCommon\TestTag.cs" />
+    <Compile Include="UnitTestCommon\TestTaxonomyBranch.cs" />
+    <Compile Include="UnitTestCommon\TestTaxonomyLeaf.cs" />
+    <Compile Include="UnitTestCommon\TestTaxonomyLeafPerformanceMeasure.cs" />
+    <Compile Include="UnitTestCommon\TestTaxonomyTrunk.cs" />
+    <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalTests.3.0.13\lib\net40\ApprovalTests.dll</HintPath>
+    </Reference>
+    <Reference Include="ApprovalUtilities, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Keystone.Common.OpenID, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.7\lib\net45\Keystone.Common.OpenID.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.8.19.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Z.EntityFramework.Plus.EF6.1.8.19\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\GeospatialArea.cs" />
+    <Compile Include="Models\GeospatialArea.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaSimple.cs" />
+    <Compile Include="Models\IAssessmentQuestionAnswer.cs" />
+    <Compile Include="Models\IAuditableEntity.cs" />
+    <Compile Include="Models\ICalendarYearMonetaryAmount.cs" />
+    <Compile Include="Models\IEntityClassification.cs" />
+    <Compile Include="Models\IEntityExternalLink.cs" />
+    <Compile Include="Models\IEntityNote.cs" />
+    <Compile Include="Models\IFirmaPage.cs" />
+    <Compile Include="Models\IFundingSourceExpenditure.cs" />
+    <Compile Include="Models\IFundingSourceRequestAmount.cs" />
+    <Compile Include="Models\IHaveASortOrder.cs" />
+    <Compile Include="Models\IHaveATenantID.cs" />
+    <Compile Include="Models\ImportExternalProjectStaging.cs" />
+    <Compile Include="Models\IPerformanceMeasureReported.cs" />
+    <Compile Include="Models\IPerformanceMeasureReportedSubcategoryOption.cs" />
+    <Compile Include="Models\IPerformanceMeasureReportedValue.cs" />
+    <Compile Include="Models\IPerformanceMeasureReportingPeriod.cs" />
+    <Compile Include="Models\IPerformanceMeasureValue.cs" />
+    <Compile Include="Models\IPerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Models\IPerformanceMeasureWithOnlyOneSubcategory.cs" />
+    <Compile Include="Models\IProject.cs" />
+    <Compile Include="Models\IProjectBudgetAmount.cs" />
+    <Compile Include="Models\IProjectCustomAttribute.cs" />
+    <Compile Include="Models\IProjectCustomAttributeValue.cs" />
+    <Compile Include="Models\IProjectLocation.cs" />
+    <Compile Include="Models\IProjectLocationStaging.cs" />
+    <Compile Include="Models\IProjectOrganization.cs" />
+    <Compile Include="Models\IRole.cs" />
+    <Compile Include="Models\MeasurementUnitType.cs" />
+    <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Organization.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\OrganizationBoundaryStaging.cs" />
+    <Compile Include="Models\OrganizationType.cs" />
+    <Compile Include="Models\OrganizationType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\OrganizationTypeRelationshipType.cs" />
+    <Compile Include="Models\PerformanceMeasureActual.cs" />
+    <Compile Include="Models\PerformanceMeasureActualSubcategoryOption.cs" />
+    <Compile Include="Models\PerformanceMeasureActualSubcategoryOptionUpdate.cs" />
+    <Compile Include="Models\PerformanceMeasureActualUpdate.cs" />
+    <Compile Include="Models\PerformanceMeasureDataSourceType.cs" />
+    <Compile Include="Models\PerformanceMeasureExpected.cs" />
+    <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOption.cs" />
+    <Compile Include="Models\PerformanceMeasureNote.cs" />
+    <Compile Include="Models\PerformanceMeasureReportingPeriod.cs" />
+    <Compile Include="Models\PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue.cs" />
+    <Compile Include="Models\PerformanceMeasureSubcategoryOption.cs" />
+    <Compile Include="Models\PerformanceMeasureTest.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\ProjectAssessmentQuestion.cs" />
+    <Compile Include="Models\ProjectAssessmentQuestionSimple.cs" />
+    <Compile Include="Models\ProjectClassification.cs" />
+    <Compile Include="Models\ProjectClassificationSimple.cs" />
+    <Compile Include="Models\ProjectCostTypeSimple.cs" />
+    <Compile Include="Models\ProjectCustomAttribute.cs" />
+    <Compile Include="Models\ProjectCustomAttributeDataType.cs" />
+    <Compile Include="Models\ProjectCustomAttributeSimple.cs" />
+    <Compile Include="Models\ProjectCustomAttributeType.cs" />
+    <Compile Include="Models\ProjectCustomAttributeTypeSimple.cs" />
+    <Compile Include="Models\ProjectCustomAttributeUpdate.cs" />
+    <Compile Include="Models\ProjectCustomAttributeUpdateValue.cs" />
+    <Compile Include="Models\ProjectCustomAttributeValue.cs" />
+    <Compile Include="Models\ProjectDocument.cs" />
+    <Compile Include="Models\ProjectDocumentUpdate.cs" />
+    <Compile Include="Models\ProjectExemptReportingYear.cs" />
+    <Compile Include="Models\ProjectExemptReportingYearUpdate.cs" />
+    <Compile Include="Models\ProjectExternalLink.cs" />
+    <Compile Include="Models\ProjectExternalLinkSimple.cs" />
+    <Compile Include="Models\ProjectExternalLinkUpdate.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditure.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditureUpdate.cs" />
+    <Compile Include="Models\ProjectFundingSourceRequest.cs" />
+    <Compile Include="Models\ProjectfundingSourceRequestSimple.cs" />
+    <Compile Include="Models\ProjectFundingSourceRequestUpdate.cs" />
+    <Compile Include="Models\ProjectGeospatialArea.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNote.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdate.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaUpdate.cs" />
+    <Compile Include="Models\ProjectImage.cs" />
+    <Compile Include="Models\ProjectImageUpdate.cs" />
+    <Compile Include="Models\ProjectInternalNote.cs" />
+    <Compile Include="Models\ProjectLocation.cs" />
+    <Compile Include="Models\ProjectLocationFilterType.cs" />
+    <Compile Include="Models\ProjectLocationStaging.cs" />
+    <Compile Include="Models\ProjectLocationStagingUpdate.cs" />
+    <Compile Include="Models\ProjectLocationUpdate.cs" />
+    <Compile Include="Models\ProjectNote.cs" />
+    <Compile Include="Models\ProjectNoteUpdate.cs" />
+    <Compile Include="Models\ProjectOrganization.cs" />
+    <Compile Include="Models\ProjectOrganizationRelationship.cs" />
+    <Compile Include="Models\ProjectOrganizationSimple.cs" />
+    <Compile Include="Models\ProjectOrganizationUpdate.cs" />
+    <Compile Include="Models\ProjectPerformanceMeasureReportingPeriodValue.cs" />
+    <Compile Include="Models\ProjectSectionSimple.cs" />
+    <Compile Include="Models\ProjectSimple.cs" />
+    <Compile Include="Models\ProjectStage.cs" />
+    <Compile Include="Models\ProjectStageTest.cs" />
+    <Compile Include="Models\ProjectStewardshipAreaType.cs" />
+    <Compile Include="Models\ProjectTag.cs" />
+    <Compile Include="Models\ProjectUpdate.cs" />
+    <Compile Include="Models\ProjectUpdateHistory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ProjectUpdateHistoryTest.cs" />
+    <Compile Include="Models\ProjectUpdateSection.cs" />
+    <Compile Include="Models\ProjectUpdateStatus.cs" />
+    <Compile Include="Models\ProjectUpdateTest.cs" />
+    <Compile Include="Models\RelationshipType.cs" />
+    <Compile Include="Models\RelationshipTypeSimple.cs" />
+    <Compile Include="Models\StewardshipAreaSimple.cs" />
+    <Compile Include="Models\SupportRequestTypeSimple.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\Tag.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\TaxonomyLeafPerformanceMeasure.cs" />
+    <Compile Include="Models\TaxonomyTierPerformanceMeasureSimple.cs" />
+    <Compile Include="Models\VirtualPerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj">
+      <Project>{8792e614-c20e-41d6-bde4-bcb3178fc796}</Project>
+      <Name>Keystone.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">
+      <Project>{c6586ad8-9357-4fa3-92ae-a2ed5eacdacc}</Project>
+      <Name>LtInfo.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureEachTableHasPrimaryKeyOrAlternateKey.approved.txt" />
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureNoMissingForeignKeys.approved.txt" />
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatForeignKeyNamesMatchNamingStandard.approved.txt" />
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryAndAlternateKeyNamesMatchNamingStandard.approved.txt" />
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatPrimaryKeyColumnMatchNamingStandard.approved.txt" />
+    <Content Include="Models\CheckPrimaryNaturalAndForeignKeysTest.AssureThatThereAreNoIndexesAlreadyDefinedByPrimaryOrAlternateKey.approved.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>

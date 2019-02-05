@@ -32,7 +32,7 @@
         @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyLeafPerformanceMeasures.OrderBy(x => x.Key.SortOrder).ThenBy(x => x.Key.DisplayName, StringComparer.InvariantCultureIgnoreCase))
         {
             <tr>
-                <td>@taxonomyTierPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
+                <td>@taxonomyTierPerformanceMeasure.Key.DisplayNameAsUrl</td>
                 <td style="text-align: center">@taxonomyTierPerformanceMeasure.First().IsPrimaryTaxonomyLeaf.ToCheckboxImageOrEmpty()</td>
             </tr>
         }

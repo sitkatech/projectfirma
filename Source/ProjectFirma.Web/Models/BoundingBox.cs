@@ -18,6 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
@@ -25,13 +26,12 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using GeoJSON.Net.Feature;
-using ProjectFirma.Web.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
-using Newtonsoft.Json;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
             }
             else
             {
-                DbGeometry geometry = MultiTenantHelpers.GetDefaultBoundingBox();
+                var geometry = MultiTenantHelpers.GetDefaultBoundingBox();
                 var pointCount = geometry.Envelope.ElementAt(1).PointCount.Value;
                 var envelope = geometry.Envelope.ElementAt(1);
                 var pointList1 = new List<Point>();
@@ -122,10 +122,10 @@ namespace ProjectFirma.Web.Models
 
             Check.Require(match.Success, $"Value \"{urlParameter}\" does not parse as a {GetType().Name}.");
 
-            var north = Decimal.Parse(match.Groups["north"].Value);
-            var south = Decimal.Parse(match.Groups["south"].Value);
-            var east = Decimal.Parse(match.Groups["east"].Value);
-            var west = Decimal.Parse(match.Groups["west"].Value);
+            var north = decimal.Parse(match.Groups["north"].Value);
+            var south = decimal.Parse(match.Groups["south"].Value);
+            var east = decimal.Parse(match.Groups["east"].Value);
+            var west = decimal.Parse(match.Groups["west"].Value);
 
             var southwest = new Point(south, west);
             var northeast = new Point(north, east);
@@ -216,7 +216,7 @@ namespace ProjectFirma.Web.Models
 
             if (project.GetProjectLocationDetails().Any())
             {
-                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.ProjectLocationGeometry));
+                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.GetProjectLocationGeometry()));
             }
 
             if (project.ProjectLocationPoint != null)

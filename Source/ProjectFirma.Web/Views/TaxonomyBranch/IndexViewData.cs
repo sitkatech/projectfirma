@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
@@ -35,16 +36,16 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public bool OfferEditSortOrder { get; }
         public bool HasTaxonomyBranchManagePermissions { get; }
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            var taxonomyBranchDisplayNamePluralized = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabelPluralized();
+            var taxonomyBranchDisplayNamePluralized = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyBranchDisplayNamePluralized;
 
             // only let them sort tier two taxonomy if that's the highest level.
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
             HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
-            var taxonomyBranchDisplayName = Models.FieldDefinition.TaxonomyBranch.GetFieldDefinitionLabel();
+            var taxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson)
             {
                 ObjectNameSingular = taxonomyBranchDisplayName,

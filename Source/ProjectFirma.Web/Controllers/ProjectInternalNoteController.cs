@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -76,8 +77,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectInternalNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectInternalNote.Project.DisplayName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.ProjectInternalNote.GetFieldDefinitionLabel()}");
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectInternalNote.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectInternalNote.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteProjectInternalNote(projectInternalNote, viewModel);
             }
-            projectInternalNote.DeleteProjectInternalNote();
+            projectInternalNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

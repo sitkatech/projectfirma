@@ -29,20 +29,10 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Common
 {
-    public enum SitkaRouteSecurity
-    {
-        Unsecured,
-        SSL
-    }
-
-    internal static class SitkaRouteRandomizer
-    {
-        internal static Random RandomGenerator = new Random(); 
-    }
-
     public class SitkaRoute<T> where T : Controller
     {
         public string ControllerName { get; private set; }
@@ -52,7 +42,7 @@ namespace ProjectFirma.Web.Common
         public Expression<Action<T>> RouteExpression { get; private set; }
 
         private static readonly Lazy<RequestContext> GenericRequestContextLazy = new Lazy<RequestContext>(() =>
-        // ReSharper restore StaticFieldInGenericType
+            // ReSharper restore StaticFieldInGenericType
         {
             var sw = new StringWriter();
             var url = string.Format("http://{0}{1}", FirmaWebConfiguration.CanonicalHostName, SitkaWebConfiguration.WebApplicationRootPath);
@@ -79,7 +69,7 @@ namespace ProjectFirma.Web.Common
         public SitkaRoute(Expression<Action<T>> routeExpression) 
         {
             RouteExpression = routeExpression;
-            ControllerName = ProjectFirma.Web.Common.SitkaController.ControllerTypeToControllerName(typeof(T));
+            ControllerName = SitkaController.ControllerTypeToControllerName(typeof(T));
             Body = GetRouteExpressionBody(routeExpression);
 
             var actionName = Body.Method.Name;
@@ -241,5 +231,16 @@ namespace ProjectFirma.Web.Common
         }
 
         #endregion
+    }
+
+    internal static class SitkaRouteRandomizer
+    {
+        internal static Random RandomGenerator = new Random(); 
+    }
+
+    public enum SitkaRouteSecurity
+    {
+        Unsecured,
+        SSL
     }
 }

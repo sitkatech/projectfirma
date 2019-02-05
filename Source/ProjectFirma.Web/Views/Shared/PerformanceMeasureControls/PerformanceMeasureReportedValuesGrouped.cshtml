@@ -18,11 +18,10 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.PerformanceMeasureControls.PerformanceMeasureReportedValuesGrouped
 
 @{ const string fixedWidthStyleForYearTotalAndUnits = "min-width:75px; width:75px; max-width: 75px;";}
@@ -188,7 +187,7 @@
 }
 else
 {
-    <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName().ToLower() accomplishments entered for this @FieldDefinition.Project.GetFieldDefinitionLabel().</p>
+    <p class="systemText">No annual @MultiTenantHelpers.GetPerformanceMeasureName().ToLower() accomplishments entered for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }
 
 @if (ViewDataTyped.ExemptReportingYears.Any())

@@ -20,7 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.FundingSource.Edit
 
 @using (Html.BeginForm())
@@ -48,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.Organization) <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType()) <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
             </div>
             <div class="col-xs-12 col-sm-9">
                 @if (ViewDataTyped.AllowPersonToSetOrganization)
@@ -58,7 +60,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 else
                 {
                     <select disabled class="form-control">
-                        <option>@ViewDataTyped.CurrentPerson.Organization.DisplayName</option>
+                        <option>@ViewDataTyped.CurrentPerson.Organization.GetDisplayName()</option>
                     </select>
                     @Html.HiddenFor(m => m.OrganizationID)
                 }
@@ -85,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.FundingSourceAmount)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceAmount.ToType())
             </div>
             <div class="col-xs-12 col-sm-9">
                 @Html.EditorFor(m => m.FundingSourceAmount, new { @class = "form-control" })

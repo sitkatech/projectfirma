@@ -27,7 +27,6 @@ values
 (38, 'Proposals', 'Proposals', 1),
 (39, 'MyOrganizationsProjects', 'My Organization''s Projects', 1),
 (41, 'ManageUpdateNotifications', 'Manage Project Update Notifications', 1),
-(44, 'MonitoringProgramsList', 'Monitoring Programs', 1),
 (45, 'ProposeProjectInstructions', 'Propose Project Instructions', 2),
 (46, 'ProjectStewardOrganizationList', 'ProjectStewardOrganizationList', 1),
 (47, 'EnterHistoricProjectInstructions', 'Enter Historic Project Instructions', 2),

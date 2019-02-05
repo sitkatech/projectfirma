@@ -20,10 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.TextControls
 {
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             // Arrange
             var projectNote = TestFramework.TestProjectNote.Create();
             var viewModel = new EditNoteViewModel(projectNote.Note);
-            viewModel.Note = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.Note), Models.ProjectNote.FieldLengths.Note);
+            viewModel.Note = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.Note), ProjectFirmaModels.Models.ProjectNote.FieldLengths.Note);
 
             // Act
             viewModel.UpdateModel(projectNote, TestFramework.TestPerson.Create());
@@ -79,16 +79,16 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.Note = TestFramework.MakeTestNameLongerThan(nameOfNote, Models.ProjectNote.FieldLengths.Note);
+            viewModel.Note = TestFramework.MakeTestNameLongerThan(nameOfNote, ProjectFirmaModels.Models.ProjectNote.FieldLengths.Note);
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfNote, Models.ProjectNote.FieldLengths.Note);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfNote, ProjectFirmaModels.Models.ProjectNote.FieldLengths.Note);
 
             // Act
             // Happy path
-            viewModel.Note = TestFramework.MakeTestName(nameOfNote, Models.ProjectNote.FieldLengths.Note);
+            viewModel.Note = TestFramework.MakeTestName(nameOfNote, ProjectFirmaModels.Models.ProjectNote.FieldLengths.Note);
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

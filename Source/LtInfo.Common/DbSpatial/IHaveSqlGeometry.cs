@@ -25,7 +25,8 @@ namespace LtInfo.Common.DbSpatial
 {
     public interface IHaveSqlGeometry
     {
-        DbGeometry DbGeometry { get; set; }
-        SqlGeometry SqlGeometry { get; }
+        void SetDbGeometry(DbGeometry value);
+        DbGeometry GetDbGeometry();
+        SqlGeometry GetSqlGeometry();
     }
 }

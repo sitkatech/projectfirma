@@ -22,9 +22,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Service.ServiceModels
 {
@@ -37,8 +38,8 @@ namespace ProjectFirma.Web.Service.ServiceModels
             OrganizationName = organization.OrganizationName;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationType = organization.OrganizationType?.OrganizationTypeName;
-            PrimaryContact = organization.PrimaryContactPersonAsString;
-            ProjectCount = organization.GetAllActiveProjectsAndProposals(Person.GetAnonymousSitkaUser()).Count;
+            PrimaryContact = organization.GetPrimaryContactPersonAsString();
+            ProjectCount = organization.GetAllActiveProjectsAndProposals(PersonModelExtensions.GetAnonymousSitkaUser()).Count;
             FundingSourceCount = organization.FundingSources.Count;
             UserCount = organization.People.Count;
             OrganizationSummaryUrl = organization.GetDetailUrl();

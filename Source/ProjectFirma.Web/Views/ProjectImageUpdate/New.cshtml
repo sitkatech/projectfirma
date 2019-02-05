@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Controllers
 @using LtInfo.Common.Mvc
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectImageUpdate.New
 @using (Html.BeginForm<ProjectImageUpdateController>(x => x.New(ViewDataTyped.ProjectUpdateBatch, null), FormMethod.Post, new {enctype = "multipart/form-data"}))
 {

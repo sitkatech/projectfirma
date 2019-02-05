@@ -23,7 +23,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.FirmaHomePageImage
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
     {
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCaption)]
-        [StringLength(Models.ProjectImage.FieldLengths.Caption)]
+        [StringLength(ProjectFirmaModels.Models.ProjectImage.FieldLengths.Caption)]
         public string Caption { get; set; }
 
         [Required]
@@ -46,13 +46,13 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
         {
         }
 
-        public EditViewModel(Models.FirmaHomePageImage firmaHomePageImage)
+        public EditViewModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage)
         {
             Caption = firmaHomePageImage.Caption;
             SortOrder = firmaHomePageImage.SortOrder;
         }
 
-        public virtual void UpdateModel(Models.FirmaHomePageImage firmaHomePageImage, Person person)
+        public virtual void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, Person person)
         {
             firmaHomePageImage.Caption = Caption;
             firmaHomePageImage.SortOrder = SortOrder;

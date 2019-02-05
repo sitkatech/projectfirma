@@ -20,11 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             // Arrange
             var taxonomyBranch = TestFramework.TestTaxonomyBranch.Create();
             var viewModel = new EditViewModel(taxonomyBranch);
-            viewModel.TaxonomyBranchName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyBranchName), Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);            
+            viewModel.TaxonomyBranchName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyBranchName), ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);            
 
             // Act
             viewModel.UpdateModel(taxonomyBranch, TestFramework.TestPerson.Create());
@@ -79,16 +79,16 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.TaxonomyBranchName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyBranchName, Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
+            viewModel.TaxonomyBranchName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyBranchName, ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyBranchName, Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyBranchName, ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
 
             // Act
             // Happy path
-            viewModel.TaxonomyBranchName = TestFramework.MakeTestName(nameOfTaxonomyBranchName, Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
+            viewModel.TaxonomyBranchName = TestFramework.MakeTestName(nameOfTaxonomyBranchName, ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

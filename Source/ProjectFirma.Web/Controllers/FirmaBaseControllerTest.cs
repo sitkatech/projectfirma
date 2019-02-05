@@ -48,7 +48,6 @@ namespace ProjectFirma.Web.Controllers
                 "FileResourceController.GetFileResourceResized",
                 "FieldDefinitionController.Edit",
                 "FieldDefinitionController.FieldDefinitionDetails",
-                "FirmaPageController.FirmaPageDetails",
                 "ResultsController.SpendingByOrganizationTypeByOrganization",
                 "ResultsController.SpendingByOrganizationTypeByOrganizationExcelDownload",
                 "PerformanceMeasureController.SaveChartConfiguration",

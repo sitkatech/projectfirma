@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.SortOrder
 {
@@ -36,17 +36,14 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
         {
         }
 
-        public void UpdateModel(ICollection<IHaveASortOrder> classificationSystemClassifications)
+        public void UpdateModel(ICollection<IHaveASortOrder> collectionOfSortOrders)
         {
             for (var i = 0; i < ReorderedSortableIDs.Count; i++)
             {
-                var theGuy = classificationSystemClassifications
-                    .SingleOrDefault(x => x.ID == ReorderedSortableIDs[i]);
+                var current = collectionOfSortOrders
+                    .SingleOrDefault(x => x.GetID() == ReorderedSortableIDs[i]);
 
-                if (theGuy != null)
-                {
-                    theGuy.SortOrder = i*_10; // magic number
-                }
+                current?.SetSortOrder(i*_10); // magic number
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {

@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectDocument
 {
@@ -13,7 +15,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
         {
         }
 
-        public EditProjectDocumentUpdatesViewModel(Models.ProjectDocumentUpdate projectDocumentUpdate)
+        public EditProjectDocumentUpdatesViewModel(ProjectFirmaModels.Models.ProjectDocumentUpdate projectDocumentUpdate)
         {
             ParentID = projectDocumentUpdate.ProjectUpdateBatchID;
             DocumentID = projectDocumentUpdate.ProjectDocumentUpdateID;
@@ -28,7 +30,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectDocument
             if (HttpRequestStorage.DatabaseEntities.ProjectDocumentUpdates.Where(x => x.ProjectUpdateBatchID == ParentID && x.ProjectDocumentUpdateID != DocumentID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>($"The Display Name must be unique for each Document attached to a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update", m => m.DisplayName));
+                validationResults.Add(new SitkaValidationResult<NewProjectDocumentViewModel, string>($"The Display Name must be unique for each Document attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update", m => m.DisplayName));
             }
 
             return validationResults;

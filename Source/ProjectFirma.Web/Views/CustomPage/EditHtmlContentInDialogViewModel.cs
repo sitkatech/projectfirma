@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Views.CustomPage
         {
         }
         
-        public EditHtmlContentInDialogViewModel(Models.CustomPage customPage)
+        public EditHtmlContentInDialogViewModel(ProjectFirmaModels.Models.CustomPage customPage)
         {
             CustomPageContentHtmlString = customPage != null ? customPage.CustomPageContentHtmlString : null;
         }
 
-        public void UpdateModel(Models.CustomPage customPage)
+        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage)
         {
             customPage.CustomPageContentHtmlString = CustomPageContentHtmlString == null || string.IsNullOrWhiteSpace(CustomPageContentHtmlString.ToString()) ? null : CustomPageContentHtmlString;
         }

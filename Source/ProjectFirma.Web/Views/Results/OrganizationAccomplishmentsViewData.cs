@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 
 namespace ProjectFirma.Web.Views.Results
@@ -28,21 +29,21 @@ namespace ProjectFirma.Web.Views.Results
     public class OrganizationAccomplishmentsViewData
     {
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
-        public ITaxonomyTier TaxonomyTier { get; }
+        public TaxonomyTier TaxonomyTier { get; }
         public string PerformanceMeasureDisplayName { get; }
         public string OrganizationDisplayName { get; }
         public string PerformanceMeasureDisplayNamePluralized { get; }
         public string TaxonomyTierDisplayName { get; }
 
-        public OrganizationAccomplishmentsViewData(List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, ITaxonomyTier taxonomyTier, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
+        public OrganizationAccomplishmentsViewData(List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyTier taxonomyTier, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel)
         {
             PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
             TaxonomyTier = taxonomyTier;
             TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
-            var fieldDefinitionForPerformanceMeasure = Models.FieldDefinition.PerformanceMeasure;
-            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel();
-            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
-            OrganizationDisplayName = Models.FieldDefinition.Organization.GetFieldDefinitionLabel();
+            var fieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure;
+            PerformanceMeasureDisplayName = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabel();
+            PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized();
+            OrganizationDisplayName = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
         }
     }
 }

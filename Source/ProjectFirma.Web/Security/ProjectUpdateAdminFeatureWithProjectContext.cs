@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -20,7 +21,7 @@ namespace ProjectFirma.Web.Security
         {
             if (contextModelObject.IsProposal())
             {
-                return new PermissionCheckResult($"{FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()} cannot be updated through the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update process.");
+                return new PermissionCheckResult($"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} cannot be updated through the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process.");
             }
 
             var forbidAdmin = !HasPermissionByPerson(person) ||
@@ -29,7 +30,7 @@ namespace ProjectFirma.Web.Security
             
             return forbidAdmin
                 ? new PermissionCheckResult(
-                    $"You don't have permission to make Administrative actions on {FieldDefinition.Project.GetFieldDefinitionLabel()} {contextModelObject.DisplayName}")
+                    $"You don't have permission to make Administrative actions on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}")
                 : new PermissionCheckResult();
         }
 

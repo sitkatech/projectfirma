@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 @inherits EditProjectGeospatialAreas
 
@@ -52,9 +53,9 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Select one or more @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower() to associate with this @FieldDefinition.Project.GetFieldDefinitionLabel().ToLower().
+            Select one or more @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower() to associate with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().ToLower()).
             You can select @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower() by clicking on the map or searching by @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.ToLower() name.
-            If your @FieldDefinition.Project.GetFieldDefinitionLabel().ToLower() is not associated with any @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower(), please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes).ToString().ToLower() field.
+            If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().ToLower() is not associated with any @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower(), please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes).ToString().ToLower() field.
         </p>
     </div>
 </div>
@@ -90,7 +91,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </span>
             </div>
             <div class="alert alert-warning" ng-if="noGeospatialAreasSelected()">
-                No @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized selected for this @FieldDefinition.Project.GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.
+                No @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized selected for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.
             </div>
             <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1">
                 <table class="table">
@@ -131,7 +132,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @if (ViewDataTyped.HasProjectLocationPoint || ViewDataTyped.HasProjectLocationDetail)
         {
             <div>
-                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple and/or Detailed @FieldDefinition.Project.GetFieldDefinitionLabel() location (for reference)
+                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple and/or Detailed @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
             </div>
         }        
     </div>

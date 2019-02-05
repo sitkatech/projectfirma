@@ -21,11 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.PersonOrganization;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {

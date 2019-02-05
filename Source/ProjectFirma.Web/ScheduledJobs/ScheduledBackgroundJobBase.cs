@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using log4net;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         protected ScheduledBackgroundJobBase()
         {
             Logger = LogManager.GetLogger(GetType());
-            var databaseEntities = new DatabaseEntities();
+            var databaseEntities = new DatabaseEntities(Tenant.SitkaTechnologyGroup.TenantID); // default to Sitka
             databaseEntities.Configuration.AutoDetectChangesEnabled = false;
             DbContext = databaseEntities;
         }
@@ -45,9 +45,9 @@ namespace ProjectFirma.Web.ScheduledJobs
 
                 try
                 {
-                    Logger.Info($"Begin Corral Job {JobName}");
+                    Logger.Info($"Begin Firma Job {JobName}");
                     RunJobImplementation();
-                    Logger.Info($"End Corral Job {JobName}");
+                    Logger.Info($"End Firma Job {JobName}");
                 }
                 catch (Exception ex)
                 {

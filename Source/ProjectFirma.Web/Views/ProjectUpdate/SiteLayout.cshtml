@@ -18,12 +18,12 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits SiteLayout
 
 @{
@@ -78,7 +78,7 @@
                 if (jQuery(this).hasClass("expanded")) {
                     if (!jQuery(event.target).is('a')) {
                         jQuery(this).removeClass("expanded");
-                        jQuery(this).addClass("collapsed")
+                        jQuery(this).addClass("collapsed");
                         jQuery(this).children("ul").addClass("collapsed");
                         jQuery(this).children("ul").removeClass("expanded");
 
@@ -133,7 +133,7 @@
 @if (Html.ViewData.ModelState.IsValid && ViewDataTyped.ValidationWarnings.Any())
 {
     <div class="alert alert-warning">
-        There are errors that need to be corrected before the @FieldDefinition.Project.GetFieldDefinitionLabel() Update can be submitted:
+        There are errors that need to be corrected before the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update can be submitted:
         <ul>
             @foreach (string warning in ViewDataTyped.ValidationWarnings)
             {
@@ -157,7 +157,7 @@
                 </li>
                 @foreach (var projectWorkflowSectionGrouping in ViewDataTyped.ProjectWorkflowSectionGroupings.OrderBy(x => x.SortOrder))
                 {
-                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.UpdateStatus, false);
+                    var projectUpdateSectionsForGroup = projectWorkflowSectionGrouping.GetProjectUpdateSections(ViewDataTyped.ProjectUpdateBatch, ViewDataTyped.ProjectUpdateStatus, false);
                     if (projectUpdateSectionsForGroup.Any())
                     {
                         var isGroupingActive = projectUpdateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
@@ -237,13 +237,13 @@
     <div class="row">
         <div class="col-sm-12" style="padding-left: 0;">
             <div class="pull-left">
-                @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted)
+                @if (ViewDataTyped.ProjectUpdateBatch.IsSubmitted())
                 {
-                    <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.UpdatePerson.FullNameFirstLastAndOrgShortName on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistorySubmitted.TransitionDate.ToStringDateTime()</span>
+                    <span>Submitted by @ViewDataTyped.ProjectUpdateBatch.GetLatestProjectUpdateHistorySubmitted().UpdatePerson.GetFullNameFirstLastAndOrgShortName() on @ViewDataTyped.ProjectUpdateBatch.GetLatestProjectUpdateHistorySubmitted().TransitionDate.ToStringDateTime()</span>
                 }
-                else if (ViewDataTyped.ProjectUpdateBatch.IsReturned)
+                else if (ViewDataTyped.ProjectUpdateBatch.IsReturned())
                 {
-                    <span>Returned by @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.UpdatePerson.FullNameFirstLastAndOrg on @ViewDataTyped.ProjectUpdateBatch.LatestProjectUpdateHistoryReturned.TransitionDate.ToStringDateTime()</span>
+                    <span>Returned by @ViewDataTyped.ProjectUpdateBatch.GetLatestProjectUpdateHistoryReturned().UpdatePerson.GetFullNameFirstLastAndOrg() on @ViewDataTyped.ProjectUpdateBatch.GetLatestProjectUpdateHistoryReturned().TransitionDate.ToStringDateTime()</span>
                 }
             </div>
         </div>
@@ -253,17 +253,17 @@
         </div>
         <div class="col-sm-3 col-md-3 col-xs-3">
             <div class="pull-right">
-                @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit)
+                @if (ViewDataTyped.ProjectUpdateBatch.IsReadyToSubmit())
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Submit", ViewDataTyped.SubmitUrl, string.Format("Submit {0} {1} for review", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                 }
                 else if (ViewDataTyped.ShowApproveAndReturnButton)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Return", ViewDataTyped.ReturnUrl, string.Format("Return {0} Updates for {0} {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                     if (ViewDataTyped.IsReadyToApprove)
                     {
                         <span>
-                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinition.Project.GetFieldDefinitionLabel(), ViewDataTyped.Project.DisplayName), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
+                            @ModalDialogFormHelper.ModalDialogFormLink("Approve", ViewDataTyped.ApproveUrl, string.Format("Approve {0} Updates for {0} {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Project.GetDisplayName()), 500, "Continue", "Cancel", new List<string> { "submitProject btn btn-xs btn-firma" }, null, null)
                         </span>
                     }
                     else

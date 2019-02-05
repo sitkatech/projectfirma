@@ -22,20 +22,20 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 {
     [TestFixture]
     public class EditOrganizationsViewModelTest
     {
-        private List<Models.ProjectOrganization> _projectOrganizations;
-        private Models.Project _project;
-        private List<Models.Organization> _allOrganizations;
-        private Models.Organization _organization1;
-        private Models.Organization _organization2;
-        private Models.Organization _organization3;
+        private List<ProjectFirmaModels.Models.ProjectOrganization> _projectOrganizations;
+        private ProjectFirmaModels.Models.Project _project;
+        private List<ProjectFirmaModels.Models.Organization> _allOrganizations;
+        private ProjectFirmaModels.Models.Organization _organization1;
+        private ProjectFirmaModels.Models.Organization _organization2;
+        private ProjectFirmaModels.Models.Organization _organization3;
 
         [SetUp]
         public void Setup()
@@ -55,8 +55,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             var projectOrganization1 = TestFramework.TestProjectOrganization.Create(_project, _organization1);
             var projectOrganization2 = TestFramework.TestProjectOrganization.Create(_project, _organization2);
             var projectOrganization3 = TestFramework.TestProjectOrganization.Create(_project, _organization3);
-            _projectOrganizations = new List<Models.ProjectOrganization> { projectOrganization1, projectOrganization2, projectOrganization3 };
-            _allOrganizations = new List<Models.Organization> {_organization1, _organization2, _organization3};
+            _projectOrganizations = new List<ProjectFirmaModels.Models.ProjectOrganization> { projectOrganization1, projectOrganization2, projectOrganization3 };
+            _allOrganizations = new List<ProjectFirmaModels.Models.Organization> {_organization1, _organization2, _organization3};
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public void AllViewModelFieldsAreSetFromConstructorTest()
         {
             // Act
-            var viewModel = new EditOrganizationsViewModel(_project, _projectOrganizations, Person.CreateNewBlank(Models.Role.Normal, Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
+            var viewModel = new EditOrganizationsViewModel(_project, _projectOrganizations, Person.CreateNewBlank(ProjectFirmaModels.Models.Role.Normal, ProjectFirmaModels.Models.Organization.CreateNewBlank(OrganizationType.CreateNewBlank())));
 
             // Assert
             Assert.That(viewModel.ProjectOrganizationSimples, Is.Not.Null);

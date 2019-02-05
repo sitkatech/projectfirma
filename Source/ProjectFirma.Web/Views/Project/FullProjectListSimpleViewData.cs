@@ -19,20 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class FullProjectListSimpleViewData : FirmaViewData
     {
-        public readonly List<Models.Project> Projects; 
+        public readonly List<ProjectFirmaModels.Models.Project> Projects; 
 
-        public FullProjectListSimpleViewData(Person currentPerson, Models.FirmaPage firmaPage, List<Models.Project> projects)
+        public FullProjectListSimpleViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.Project> projects)
             : base(currentPerson, firmaPage)
         {
             Projects = projects;
-            PageTitle = $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List (Simple)";
+            PageTitle = $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List (Simple)";
         }
     }
 }

@@ -24,8 +24,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -38,12 +39,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public int? TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
-        [StringLength(Models.Project.FieldLengths.ProjectName)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProjectName)]
         [Required]
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(Models.Project.MaxLengthForProjectDescription)]
+        [StringLength(ProjectFirmaModels.Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 
@@ -83,7 +84,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public BasicsViewModel(Models.Project project)
+        public BasicsViewModel(ProjectFirmaModels.Models.Project project)
         {
             TaxonomyLeafID = project.TaxonomyLeafID;
             ProjectID = project.ProjectID;
@@ -99,7 +100,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectCustomAttributes = new ProjectCustomAttributes(project);
         }
 
-        public void UpdateModel(Models.Project project, Person person)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
         {
             if (ImportExternalProjectStagingID.HasValue)
             {
@@ -115,13 +116,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectDescription = ProjectDescription;
             project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
             project.FundingTypeID = FundingTypeID;
-            if (FundingTypeID == FundingType.Capital.FundingTypeID)
+            if (FundingTypeID == (int) FundingTypeEnum.Capital)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.EstimatedAnnualOperatingCost = null;
                 
             }
-            else if (FundingTypeID == FundingType.OperationsAndMaintenance.FundingTypeID)
+            else if (FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
             {
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
@@ -147,7 +148,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 yield return new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID);
             }
 
-            if (!Models.Project.IsProjectNameUnique(projects, ProjectName, ProjectID))
+            if (!ProjectModelExtensions.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 yield return new SitkaValidationResult<BasicsViewModel, string>(FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName);
             }
@@ -181,22 +182,21 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ImplementationStartYear == null && ProjectStageID != ProjectStage.Terminated.ProjectStageID && ProjectStageID != ProjectStage.Deferred.ProjectStageID)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"Implementation year is required when the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} stage is not Deferred or Terminated",
+                    $"Implementation year is required when the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} stage is not Deferred or Terminated",
                     m => m.ImplementationStartYear);
             }
 
             if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Completed stage, the Completion year is required", m => m.CompletionYear);
             }
 
             if (ProjectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
+                yield return new SitkaValidationResult<BasicsViewModel, int?>($"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
             }
 
-            if ((ProjectStageID == ProjectStage.Completed.ProjectStageID ||
-                ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear > currentYear)
+            if ((ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID) && CompletionYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(FirmaValidationMessages.CompletionYearMustBePastOrPresentForCompletedProjects, m => m.CompletionYear);
             }
@@ -204,7 +204,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectStageID == ProjectStage.PlanningDesign.ProjectStageID && PlanningDesignStartYear > currentYear)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
-                    $"Since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year",
+                    $"Since the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Planning / Design stage, the Planning / Design start year must be less than or equal to the current year",
                     m => m.PlanningDesignStartYear);
             }
         }

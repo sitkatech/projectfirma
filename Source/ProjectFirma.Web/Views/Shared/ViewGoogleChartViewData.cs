@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Common;
 
@@ -40,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared
         public readonly bool HasData;
         public readonly bool ShowChartTitle;
         public readonly bool SortChartsByLegendTitle;
-        public readonly Models.PerformanceMeasure PerformanceMeasure;
+        public readonly ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure;
         public readonly bool HyperlinkPerformanceMeasureName;
 
         public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> {googleChartJson},
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared
             string downloadChartDataUrl,
             bool showChartTitle,
             bool sortChartsByLegendTitle,
-            Models.PerformanceMeasure performanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             bool hyperlinkPerformanceMeasureName)
         {
             GoogleChartJsons = googleChartJsons;

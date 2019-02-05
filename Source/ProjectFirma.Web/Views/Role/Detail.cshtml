@@ -18,12 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Role.Detail
 @section JavascriptAndStylesContent
 {
@@ -38,7 +39,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-2 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.RoleName)</div>
+                    <div class="col-xs-2 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RoleName.ToType())</div>
                     <div class="col-xs-10">@(ViewDataTyped.RoleName)</div>
                 </div>
                 <div class="row">

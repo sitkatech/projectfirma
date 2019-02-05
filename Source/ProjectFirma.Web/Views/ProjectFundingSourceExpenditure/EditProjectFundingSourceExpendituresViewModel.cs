@@ -22,10 +22,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         {
         }
 
-        public EditProjectFundingSourceExpendituresViewModel(Models.Project project,
+        public EditProjectFundingSourceExpendituresViewModel(ProjectFirmaModels.Models.Project project,
             List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditureBulks,
             List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
@@ -56,10 +57,10 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
             ProjectID = project.ProjectID;
         }
 
-        public void UpdateModel(List<Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
-            IList<Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures, Models.Project project)
+        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures, ProjectFirmaModels.Models.Project project)
         {
-            var projectFundingSourceExpendituresUpdated = new List<Models.ProjectFundingSourceExpenditure>();
+            var projectFundingSourceExpendituresUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>();
             if (ProjectFundingSourceExpenditures != null)
             {
                 // Completely rebuild the list

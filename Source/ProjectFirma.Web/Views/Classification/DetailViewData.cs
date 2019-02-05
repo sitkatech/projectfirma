@@ -18,46 +18,47 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common;
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly Models.Classification Classification;
-        public readonly string EditClassificationUrl;
-        public readonly string IndexUrl;
-        public readonly bool UserHasClassificationManagePermissions;
+        public ProjectFirmaModels.Models.Classification Classification { get; }
+        public string EditClassificationUrl { get; }
+        public string IndexUrl { get; }
+        public bool UserHasClassificationManagePermissions { get; }
 
-        public readonly BasicProjectInfoGridSpec BasicProjectInfoGridSpec;
-        public readonly string BasicProjectInfoGridName;
-        public readonly string BasicProjectInfoGridDataUrl;
+        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public string BasicProjectInfoGridName { get; }
+        public string BasicProjectInfoGridDataUrl { get; }
 
-        public readonly string ClassificationDisplayName;
-        public readonly string ClassificationDisplayNamePluralized;
+        public string ClassificationDisplayName { get; }
+        public string ClassificationDisplayNamePluralized { get; }
 
-        public DetailViewData(Person currentPerson, Models.Classification classification)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Classification classification)
             : base(currentPerson)
         {
             Classification = classification;
-            PageTitle = classification.ClassificationSystem.ClassificationSystemNamePluralized;
+            PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
 
-            UserHasClassificationManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            ClassificationDisplayNamePluralized = classification.ClassificationSystem.ClassificationSystemNamePluralized;
+            UserHasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
             BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.DisplayName}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
                 SaveFiltersInCookie = true
             };
 

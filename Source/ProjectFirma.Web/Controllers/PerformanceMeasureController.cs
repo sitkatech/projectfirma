@@ -28,13 +28,14 @@ using System.Web.Mvc;
 using ClosedXML.Excel;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.PerformanceMeasuresList);
+            var firmaPage = FirmaPageTypeEnum.PerformanceMeasuresList.GetFirmaPage();
             var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
@@ -80,6 +81,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
+            var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, true, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
 
@@ -92,12 +94,12 @@ namespace ProjectFirma.Web.Controllers
                 }
             });
 
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(performanceMeasure.PerformanceMeasureNotes)),
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
-                canManagePerformanceMeasure);
+                isAdmin);
 
-            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure);
+            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -189,14 +191,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public ContentResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID)
         {
             return new ContentResult();
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, GoogleChartConfigurationViewModel viewModel)
         {
@@ -214,7 +216,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
@@ -231,7 +233,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, ConfirmDialogFormViewModel viewModel)
         {
@@ -392,10 +394,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var excelWorkbook = new XLWorkbook();
-            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized()}");
+            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}");
 
             var row = 1;
-            var fieldDefinitionLabel = FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel();
+            var fieldDefinitionLabel = FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel();
             foreach (var performanceMeasure in performanceMeasures)
             {
                 var performanceMeasureHeaderCell = ws.Cell(row, 1);
@@ -407,7 +409,7 @@ namespace ProjectFirma.Web.Controllers
                 unitsHeaderCell.SetDataType(XLCellValues.Text);
                 unitsHeaderCell.Style.Font.SetBold();
                 var subcategoryHeaderCell = ws.Cell(row, 3);
-                subcategoryHeaderCell.SetValue(FieldDefinition.PerformanceMeasureSubcategory.GetFieldDefinitionLabel());
+                subcategoryHeaderCell.SetValue(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel());
                 subcategoryHeaderCell.SetDataType(XLCellValues.Text);
                 subcategoryHeaderCell.Style.Font.SetBold();
                 var numberOfOptionsHeaderCell = ws.Cell(row, 4);
@@ -453,7 +455,7 @@ namespace ProjectFirma.Web.Controllers
                     fieldDefinitionLabel));
         }
 
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult EditSortOrder()
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures;
@@ -463,12 +465,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(IQueryable<PerformanceMeasure> performanceMeasures, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(performanceMeasures), FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized());
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(performanceMeasures), FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [PerformanceMeasureManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
         {
@@ -481,7 +483,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(new List<IHaveASortOrder>(performanceMeasures));
-            SetMessageForDisplay($"Successfully Updated {FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} Sort Order");
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Sort Order");
             return new ModalDialogFormJsonResult();
         }
 

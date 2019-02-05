@@ -22,11 +22,12 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class TagGridSpec : GridSpec<Models.Tag>
+    public class TagGridSpec : GridSpec<ProjectFirmaModels.Models.Tag>
     {
         public TagGridSpec(bool hasManagePermissions)
         {            

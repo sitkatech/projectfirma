@@ -27,6 +27,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Tenant
@@ -98,7 +99,7 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public EditBasicsViewModel(Models.Tenant tenant, TenantAttribute tenantAttribute)
+        public EditBasicsViewModel(ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
             TenantDisplayName = tenantAttribute.TenantDisplayName;
@@ -131,24 +132,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             attribute.MinimumYear = MinimumYear ?? 0;
 
-
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
-
-            if (TenantStyleSheetFileResourceData != null)
-            {
-                attribute.TenantStyleSheetFileResource?.DeleteFileResource();
-                attribute.TenantStyleSheetFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
-            }
-            if (TenantSquareLogoFileResourceData != null)
-            {
-                attribute.TenantSquareLogoFileResource?.DeleteFileResource();
-                attribute.TenantSquareLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantSquareLogoFileResourceData, currentPerson);
-            }
-            if (TenantBannerLogoFileResourceData != null)
-            {
-                attribute.TenantBannerLogoFileResource?.DeleteFileResource();
-                attribute.TenantBannerLogoFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(TenantBannerLogoFileResourceData, currentPerson);
-            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -160,7 +144,7 @@ namespace ProjectFirma.Web.Views.Tenant
                 var primaryContact = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
                 if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
-                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{Models.FieldDefinition.OrganizationPrimaryContact.GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));
                 }
             }
 

@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSummary
 
 <style>
@@ -64,10 +65,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 @geospatialAreaType.GeospatialAreaTypeNamePluralized
             </label>
             <ul class="noListStyle">
-                @foreach (var geospatialArea in ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).OrderBy(x => x.DisplayName))
+                @foreach (var geospatialArea in ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).OrderBy(x => x.GetDisplayName()))
                 {
                     <li>
-                        <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.DisplayName</a>
+                        <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
                     </li>
                 }
                 @if (ViewDataTyped.GeospatialAreas.All(x => x.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID))

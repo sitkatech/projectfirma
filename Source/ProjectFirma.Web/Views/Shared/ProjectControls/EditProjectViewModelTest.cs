@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.UnitTestCommon;
+
 using LtInfo.Common;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -49,8 +50,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             var project = TestFramework.TestProject.Create();
             var person = TestFramework.TestPerson.Create();
             var viewModel = new EditProjectViewModel(project, false);
-            viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), Models.Project.FieldLengths.ProjectName);
-            viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), Models.Project.FieldLengths.ProjectDescription);
+            viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), ProjectFirmaModels.Models.Project.FieldLengths.ProjectName);
+            viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), ProjectFirmaModels.Models.Project.FieldLengths.ProjectDescription);
 
             // Act
             viewModel.UpdateModel(project, person);

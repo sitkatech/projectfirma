@@ -21,14 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.GeospatialArea;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.CustomPage;
 using Detail = ProjectFirma.Web.Views.GeospatialArea.Detail;
 using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
 using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
@@ -46,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             var layerGeoJsons = new List<LayerGeoJson>();
             layerGeoJsons = new List<LayerGeoJson>
             {
-                GeospatialArea.GetGeospatialAreaWmsLayerGeoJson(geospatialAreaType, "#59ACFF", 0.2m, LayerInitialVisibility.Show)
+                geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
             };
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
@@ -72,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"geospatialArea_{geospatialArea.GeospatialAreaID}_Map";
 
             var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentPerson);
-            var layers = GeospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(geospatialArea, associatedProjects);
+            var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(geospatialArea.GeospatialAreaFeature));
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
@@ -128,7 +131,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteGeospatialArea(geospatialArea, viewModel);
             }
-            geospatialArea.DeleteGeospatialArea();
+            geospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -148,27 +151,26 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
         }
 
-
         [HttpGet]
         [GeospatialAreaManageFeature]
-        public PartialViewResult EditInDialog(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        public PartialViewResult EditInDialog(GeospatialAreaTypePrimaryKey customPagePrimaryKey)
         {
-            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-            var viewModel = new EditGeospatialAreaTypeIntroTextViewModel(geospatialAreaType);
+            var customPage = customPagePrimaryKey.EntityObject;
+            var viewModel = new EditGeospatialAreaTypeIntroTextViewModel(customPage);
             return ViewEditInDialog(viewModel);
         }
 
         [HttpPost]
         [GeospatialAreaManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditInDialog(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey, EditGeospatialAreaTypeIntroTextViewModel viewModel)
+        public ActionResult EditInDialog(GeospatialAreaTypePrimaryKey customPagePrimaryKey, EditGeospatialAreaTypeIntroTextViewModel viewModel)
         {
-            var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+            var customPage = customPagePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewEditInDialog(viewModel);
             }
-            viewModel.UpdateModel(geospatialAreaType);
+            viewModel.UpdateModel(customPage);
             return new ModalDialogFormJsonResult();
         }
 

@@ -22,12 +22,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class PerformanceMeasureSubcategoriesCalendarYearReportedValue
     {
-        private readonly Models.PerformanceMeasure _performanceMeasure;
+        private readonly ProjectFirmaModels.Models.PerformanceMeasure _performanceMeasure;
         public int PerformanceMeasureID
         {
             get { return _performanceMeasure.PerformanceMeasureID; }
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly List<SubcategoriesReportedValue> SubcategoriesReportedValues;
         public string DisplayCssClass;
 
-        public PerformanceMeasureSubcategoriesCalendarYearReportedValue(Models.PerformanceMeasure performanceMeasure, List<SubcategoriesReportedValue> subcategoriesReportedValues, string displayCssClass)            
+        public PerformanceMeasureSubcategoriesCalendarYearReportedValue(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, List<SubcategoriesReportedValue> subcategoriesReportedValues, string displayCssClass)            
         {
             _performanceMeasure = performanceMeasure;
             SubcategoriesReportedValues = subcategoriesReportedValues;
@@ -74,14 +75,14 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var reportedValues in groupedByPerformanceMeasure)
             {
                 var performanceMeasure = reportedValues.Key;
-                var groupBy = reportedValues.GroupBy(x => x.PerformanceMeasureSubcategoriesAsString).ToList();
+                var groupBy = reportedValues.GroupBy(x => x.GetPerformanceMeasureSubcategoriesAsString()).ToList();
                 var subcategoriesReportedValues =
                     groupBy
                         .Select(
                             subcategoriesReportedValue =>
                             {
-                                return new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().PerformanceMeasureSubcategoryOptions,
-                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.ReportedValue)));
+                                return new SubcategoriesReportedValue(subcategoriesReportedValue.Key, subcategoriesReportedValue.First().GetPerformanceMeasureSubcategoryOptions(),
+                                    subcategoriesReportedValue.GroupBy(scrv => scrv.CalendarYear).ToDictionary(scrv => scrv.Key, scrv => scrv.Sum(rv => rv.GetReportedValue())));
                             })                                
                         .ToList();
                 var orderedSubcategoryReportedValues = subcategoriesReportedValues.OrderBy(srv =>

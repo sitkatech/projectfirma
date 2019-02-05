@@ -20,11 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -35,13 +37,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string DiffUrl;
         public readonly string ContinueUrl;
 
-        public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
+        public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
         {
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
             var selectKeyImageUrl = IsEditable ? SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int)) : string.Empty;
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
-                string.Format("ProjectImages{0}", projectUpdateBatch.Project.ProjectID),
-                projectUpdateBatch.ProjectImageUpdates,
+                $"ProjectImages{projectUpdateBatch.Project.ProjectID}",
+                projectUpdateBatch.ProjectImageUpdates.Select(x => new FileResourcePhoto(x)),
                 IsEditable,
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,

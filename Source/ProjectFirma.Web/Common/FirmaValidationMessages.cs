@@ -20,29 +20,30 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
     public static class FirmaValidationMessages
     {
-        public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
-        public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()}.";
-        public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinition.PlanningDesignStartYear.GetFieldDefinitionLabel()}.";
+        public static readonly string ImplementationStartYearGreaterThanPlanningDesignStartYear = $"{FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} must be greater than or equal to {FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()}.";
+        public static readonly string CompletionYearGreaterThanEqualToImplementationStartYear = $"{FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()}.";
+        public static readonly string CompletionYearGreaterThanEqualToPlanningDesignStartYear = $"{FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} must be greater than or equal to the {FieldDefinitionEnum.PlanningDesignStartYear.ToType().GetFieldDefinitionLabel()}.";
         public static readonly string UpdateSectionIsDependentUponBasicsSection = "Your project's \"Basics\" page must be complete before you can begin updating this section.";
-        public static readonly string ProjectNameUnique = $"{FieldDefinition.ProjectName.GetFieldDefinitionLabel()} already exists.";
-        public static readonly string OrganizationNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} name already exists.";
-        public static readonly string OrganizationShortNameUnique = $"{FieldDefinition.Organization.GetFieldDefinitionLabel()} short name already exists.";
-        public static readonly string FundingSourceNameUnique = $"{FieldDefinition.FundingSource.GetFieldDefinitionLabel()} name already exists.";
-        public static readonly string ClassificationNameUnique = $"{FieldDefinition.Classification.GetFieldDefinitionLabel()} name already exists.";
-        public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabel()} name already exists.";
-        public static readonly string ExplanationNecessaryForProjectExemptYears = $"Please provide an explanation of why the {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt.";
-        public static readonly string ExplanationNotNecessaryForProjectExemptYears = $"Explanation is not necessary since no {FieldDefinition.ReportingYear.GetFieldDefinitionLabelPluralized()} are exempt.";
-        public static readonly string TagNameUnique = $"{FieldDefinition.TagName.GetFieldDefinitionLabel()} already exists.";
-        public static readonly string CompletionYearMustBePastOrPresentForCompletedProjects = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the Completed and Post-Implementation stages cannot have a {FieldDefinition.CompletionYear.GetFieldDefinitionLabel()} in the future.";
+        public static readonly string ProjectNameUnique = $"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()} already exists.";
+        public static readonly string OrganizationNameUnique = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string OrganizationShortNameUnique = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} short name already exists.";
+        public static readonly string FundingSourceNameUnique = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string ClassificationNameUnique = $"{FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string PerformanceMeasureNameUnique = $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} name already exists.";
+        public static readonly string ExplanationNecessaryForProjectExemptYears = $"Please provide an explanation of why the {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";
+        public static readonly string ExplanationNotNecessaryForProjectExemptYears = $"Explanation is not necessary since no {FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabelPluralized()} are exempt.";
+        public static readonly string TagNameUnique = $"{FieldDefinitionEnum.TagName.ToType().GetFieldDefinitionLabel()} already exists.";
+        public static readonly string CompletionYearMustBePastOrPresentForCompletedProjects = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in the Completed and Post-Implementation stages cannot have a {FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()} in the future.";
         public const string LettersNumbersSpacesDashesAndUnderscoresOnly = "Only letters, numbers, spaces, dashes and underscores are allowed.";
         public const string LettersOnly = "Only letters are allowed.";
         public const string MoreThanOneProjectUpdateInProgress = "Cannot determine latest update state; more than one update is in progress.";
-        public static readonly string ImplementationYearMustBePastOrPresentForImplementationProjects = $"{FieldDefinition.Project.GetFieldDefinitionLabelPluralized()} in the Implementation stage cannot have an {FieldDefinition.ImplementationStartYear.GetFieldDefinitionLabel()} in the future.";
+        public static readonly string ImplementationYearMustBePastOrPresentForImplementationProjects = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in the Implementation stage cannot have an {FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel()} in the future.";
     }
 }
 

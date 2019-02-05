@@ -19,18 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Controllers
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Tag.BulkTagProjects
 
 @if (Model.ProjectIDList == null || !Model.ProjectIDList.Any())
 {
     
     <p>
-        No @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() selected to be tagged.
+        No @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() selected to be tagged.
     </p>
 
     <script type="text/javascript">

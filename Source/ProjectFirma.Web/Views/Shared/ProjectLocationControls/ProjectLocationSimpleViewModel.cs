@@ -23,12 +23,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Spatial;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -41,7 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public ProjectLocationSimpleTypeEnum ProjectLocationSimpleType { get; set; }
 
         [DisplayName("Notes")]
-        [StringLength(Models.Project.FieldLengths.ProjectLocationNotes)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProjectLocationNotes)]
         public string ProjectLocationNotes { get; set; }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public virtual void UpdateModel(IProject project)
         {
-            project.ProjectLocationSimpleTypeID = Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
+            project.ProjectLocationSimpleTypeID = ProjectFirmaModels.Models.ProjectLocationSimpleType.ToType(ProjectLocationSimpleType).ProjectLocationSimpleTypeID;
             switch (ProjectLocationSimpleType)
             {                
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
@@ -102,7 +103,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 errors.Add(
                     new SitkaValidationResult<ProjectLocationSimpleViewModel, string>(
-                        $"If a location point or general {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.",
+                        $"If a location point or general {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.",
                         x => x.ProjectLocationNotes));
             }
 

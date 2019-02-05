@@ -6,6 +6,7 @@ using System.Net.Mail;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -44,7 +45,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             if (projects.Count <= 0) return new List<Notification>();
 
             var mailMessage = GenerateReminderForPerson(primaryContactPerson, projects);
-            var sendProjectUpdateReminderMessage = Notification.SendMessageAndLogNotification(mailMessage,
+            var sendProjectUpdateReminderMessage = NotificationModelExtensions.SendMessageAndLogNotification(mailMessage,
                 new List<string> {primaryContactPerson.Email},
                 new List<string>(),
                 new List<string>(),
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                     x.MyProjectsRequiringAnUpdate());
 
             var emailContent = GetEmailContentWithGeneratedSignature(projectsRequiringAnUpdateUrl,
-                person.FullNameFirstLast, String.Join("<br/>", projectListAsHtmlStrings));
+                person.GetFullNameFirstLast(), String.Join("<br/>", projectListAsHtmlStrings));
 
             var htmlView = AlternateView.CreateAlternateViewFromString(emailContent, null, "text/html");
             htmlView.LinkedResources.Add(
@@ -112,7 +113,7 @@ namespace ProjectFirma.Web.ScheduledJobs
             IReadOnlyCollection<Project> projects)
         {
             var projectsRemaining = projects;
-            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.DisplayName).Select(project =>
+            var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.GetDisplayName()).Select(project =>
             {
                 var projectUrl =
                     SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>
@@ -125,7 +126,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 
         private string GetReminderMessageSignature(bool isPreview)
         {
-            var logoUrl = isPreview ? ToolLogo.FileResourceUrl : "cid:tool-logo";
+            var logoUrl = isPreview ? ToolLogo.GetFileResourceUrl() : "cid:tool-logo";
 
             return $@"
 Thank you,<br />

@@ -20,23 +20,25 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class IndexGridSpec : GridSpec<Models.Tag>
+    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Tag>
     {
         public IndexGridSpec(bool hasDeletePermissions)
         {            
             if (hasDeletePermissions)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.DeleteUrl, true), 30);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(TagModelExtensions.GetDeleteUrl(x), true), 30);
             }
 
-            Add(Models.FieldDefinition.TagName.ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.SummaryUrl, a.DisplayName), 200, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.TagDescription.ToGridHeaderString(), a => a.TagDescription, 600);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
+            Add(FieldDefinitionEnum.TagName.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(a), a.GetDisplayName()), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TagDescription.ToType().ToGridHeaderString(), a => a.TagDescription, 600);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectTags.Count, 65);
         }
     }
 }

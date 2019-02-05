@@ -28,8 +28,10 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Keystone.Common;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -71,7 +73,7 @@ namespace ProjectFirma.Web.Security
 
         public virtual bool HasPermissionByPerson(Person person)
         {
-            if (!HttpRequestStorage.Tenant.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned)
+            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned())
             {
                 return false;
             }

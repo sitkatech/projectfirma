@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationSimple
 
 <script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectLocationControls/ProjectLocationSimpleController.js")"></script>
@@ -58,9 +59,15 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Enter your @FieldDefinition.Project.GetFieldDefinitionLabel()’s approximate location by plotting a point on the map.
-            This "Simple" information is used to indicate the general location of your @FieldDefinition.Project.GetFieldDefinitionLabel() within the region. 
-            If your @FieldDefinition.Project.GetFieldDefinitionLabel()'s location cannot be approximated by a point, provide a brief explanation of the location information in the @Html.DisplayNameFor(m => m.ProjectLocationNotes) field.
+            Enter your
+            @{
+                var fieldDefinitionForProject = ViewDataTyped.FieldDefinitionForProject;
+            }
+
+
+            @fieldDefinitionForProject.GetFieldDefinitionLabel()’s approximate location by plotting a point on the map.
+            This "Simple" information is used to indicate the general location of your @fieldDefinitionForProject.GetFieldDefinitionLabel() within the region. 
+            If your @fieldDefinitionForProject.GetFieldDefinitionLabel()'s location cannot be approximated by a point, provide a brief explanation of the location information in the @Html.DisplayNameFor(m => m.ProjectLocationNotes) field.
         </p>
     </div>
 </div>
@@ -69,8 +76,8 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="ProjectLocationSimpleController">
     <div class="col-xs-12 col-md-5 col-lg-4">
         <form method="POST" action="@ViewDataTyped.MapPostUrl" id="@ViewDataTyped.MapFormID">
-            @Html.LabelWithSugarFor(FieldDefinition.ProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-            <strong>How do you want to specify your simple @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()?</strong>
+            @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+            <strong>How do you want to specify your simple @ViewDataTyped.FieldDefinitionForProjectLocation.GetFieldDefinitionLabel()?</strong>
             <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></span>
 
             <div class="form-group">

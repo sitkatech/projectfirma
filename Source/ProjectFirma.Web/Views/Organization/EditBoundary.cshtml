@@ -1,5 +1,6 @@
 ﻿@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Organization
 @using ProjectFirma.Web.Views.Shared
 
@@ -69,7 +70,7 @@
     <div class="col-xs-12 col-sm-4">
         <p>You may provide a map of your existing boundary location. Here is a list of requirements for upload:</p>
         <ul>
-            <li>A single ArcGIS file geodatabase containing only features associated with the current @FieldDefinition.Project.GetFieldDefinitionLabel()</li>
+            <li>A single ArcGIS file geodatabase containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</li>
             <li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li>
             <li>The zip file must contain only one file geodatabase and no other data</li>
             <li>Geodatabased using ESRI Smart Database Compression (SDC) are not supported. Please uncompress before zipping and uploading</li>
@@ -77,7 +78,7 @@
         </ul>
         <p>
             After you upload your file, you will be able to preview and verify the uploaded data. Note that once you accept the uploaded data,
-            any existing @(FieldDefinition.Organization.GetFieldDefinitionLabel()) boundary for <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
+            any existing @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary for <strong>@(ViewDataTyped.Organization.OrganizationName)</strong> will be overwritten.
         </p>
         <form id="uploadGisForm" method="post" action="@ViewDataTyped.EditBoundaryUrl" endtype="multipart/form-data">
             <div class="form-group">
@@ -92,7 +93,7 @@
     <div class="col-xs-12 col-sm-8">
         <div id="gisUploadResults">
             <p class="text-center">
-                Select a GIS file to upload, then specify the boundary you wish to assign to this @(FieldDefinition.Organization.GetFieldDefinitionLabel()).
+                Select a GIS file to upload, then specify the boundary you wish to assign to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
             </p>
         </div>
     </div>

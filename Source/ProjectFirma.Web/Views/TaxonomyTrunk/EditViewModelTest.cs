@@ -21,10 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             // Arrange
             var taxonomyTrunk = TestFramework.TestTaxonomyTrunk.Create();
             var viewModel = new EditViewModel(taxonomyTrunk);
-            viewModel.TaxonomyTrunkName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyTrunkName), Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            viewModel.TaxonomyTrunkName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyTrunkName), ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
 
             // Act
             viewModel.UpdateModel(taxonomyTrunk, TestFramework.TestPerson.Create());
@@ -79,17 +79,17 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.TaxonomyTrunkName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyTrunkName, Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            viewModel.TaxonomyTrunkName = TestFramework.MakeTestNameLongerThan(nameOfTaxonomyTrunkName, ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
             viewModel.TaxonomyTrunkDescription = new HtmlString("Test Description");
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyTrunkName, Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfTaxonomyTrunkName, ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
 
             // Act
             // Happy path
-            viewModel.TaxonomyTrunkName = TestFramework.MakeTestName(nameOfTaxonomyTrunkName, Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
+            viewModel.TaxonomyTrunkName = TestFramework.MakeTestName(nameOfTaxonomyTrunkName, ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

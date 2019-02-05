@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.CustomNotification
 
 <script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
@@ -94,7 +95,7 @@ else
             <ul>
                 @foreach (var person in ViewDataTyped.PeopleToNotify)
                 {
-                    <li>@person.FullNameFirstLastAndOrg</li>
+                    <li>@person.GetFullNameFirstLastAndOrg()</li>
                 }
             </ul>
         </div>

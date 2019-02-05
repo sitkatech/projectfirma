@@ -21,11 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -109,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         /// <summary>
-        /// Returns the <see cref="ProjectFirma.Web.Models.Person.PersonID"/> associated with this <see cref="WebServiceToken"/>.
+        /// Returns the <see cref="ProjectFirmaModels.Models.Person.PersonID"/> associated with this <see cref="WebServiceToken"/>.
         /// In unit test situation using <see cref="WebServiceTokenGuidForUnitTests"/> that would be Ray Lee's person ID for now
         /// Might want to introduce a system person at some point.
         /// </summary>
@@ -144,7 +145,7 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireNotNull(_person, string.Format("The provided token {0} = \"{1}\" is not associated with a person. Cannot check for access to feature \"{2}\"", WebServiceTokenModelBinder.WebServiceTokenParameterName, _tokenGuid, feature.FeatureName));
             var hasPermission = feature.HasPermissionByPerson(_person);
             Check.Require(hasPermission, string.Format("Web service token \"{0}\" is for person \"{1}\" PersonID={2}, but that person does not have access to feature \"{3}\""
-                , _tokenGuid, _person.FullNameFirstLast, _person.PersonID
+                , _tokenGuid, _person.GetFullNameFirstLast(), _person.PersonID
                 , feature.FeatureName));
         }
 

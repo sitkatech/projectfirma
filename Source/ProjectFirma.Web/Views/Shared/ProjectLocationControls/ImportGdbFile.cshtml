@@ -21,15 +21,16 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ImportGdbFile
 
 <table style="width: 100%" class="summaryLayout">
     <tr>
         <td style="width: 350px">
             <p>
-                You may provide an existing map of your @FieldDefinition.Project.GetFieldDefinitionLabel()'s detailed location. Requirements:
+                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location. Requirements:
                 <ul>
-                    <li>A single ArcGIS file geodatabase containing only features associated with the current @FieldDefinition.Project.GetFieldDefinitionLabel()</li>
+                    <li>A single ArcGIS file geodatabase containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</li>
                     <li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li>
                     <li>The zip file must contain one and only file geodatabase and no other data</li>
                     <li>Version 10.1+ file geodatabases are supported </li>
@@ -42,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </p>
             <p>
                 After you upload your file you will be able to preview and verify the uploaded data. Note that once you accept
-                the uploaded data, any existing detailed @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() data will be overwritten.
+                the uploaded data, any existing detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() data will be overwritten.
             </p>
 
             <form method="POST" id="uploadGisForm" action="@ViewDataTyped.NewGisUploadUrl" enctype="multipart/form-data">

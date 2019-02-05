@@ -18,45 +18,47 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class MyOrganizationsProjectsViewData : FirmaViewData
     {
-        public readonly BasicProjectInfoGridSpec ProjectsGridSpec;
-        public readonly string ProjectsGridName;
-        public readonly string ProjectsGridDataUrl;
+        public BasicProjectInfoGridSpec ProjectsGridSpec { get; }
+        public string ProjectsGridName { get; }
+        public string ProjectsGridDataUrl { get; }
 
-        public readonly ProposalsGridSpec ProposalsesGridSpec;
-        public readonly string ProposalsGridName;
-        public readonly string ProposalsGridDataUrl;
-        public readonly string ProposeNewProjectUrl;
+        public ProposalsGridSpec ProposalsGridSpec { get; }
+        public string ProposalsGridName { get; }
+        public string ProposalsGridDataUrl { get; }
+        public string ProposeNewProjectUrl { get; }
 
 
-        public MyOrganizationsProjectsViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public MyOrganizationsProjectsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
-            var organizationNamePossessive = currentPerson.Organization.OrganizationNamePossessive;
-            PageTitle = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+            var organizationNamePossessive = currentPerson.Organization.GetOrganizationNamePossessive();
+            PageTitle = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
             ProjectsGridName = "myOrganizationsProjectListGrid";
             ProjectsGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
                 
-                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
             ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
 
             ProposalsGridName = "myOrganizationsProposalsGrid";
-            ProposalsesGridSpec = new ProposalsGridSpec(currentPerson)
+            ProposalsGridSpec = new ProposalsGridSpec(currentPerson)
             {
-                ObjectNameSingular = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{organizationNamePossessive} {Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true 
             
             };

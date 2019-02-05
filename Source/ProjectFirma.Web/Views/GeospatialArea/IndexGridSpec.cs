@@ -24,15 +24,16 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialArea
 {
-    public class IndexGridSpec : GridSpec<Models.GeospatialArea>
+    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.GeospatialArea>
     {
         public IndexGridSpec(Person person, GeospatialAreaType geospatialAreaType)
         {
-            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.DisplayName), 300, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(person).Count, 65);
+            Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(person).Count, 65);
         }
     }
 }

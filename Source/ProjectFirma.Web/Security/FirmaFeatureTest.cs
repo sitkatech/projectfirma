@@ -26,7 +26,7 @@ using System.Web.Mvc;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.EntityModelBinding;
 using NUnit.Framework;
 

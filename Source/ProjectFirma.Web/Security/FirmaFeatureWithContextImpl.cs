@@ -25,7 +25,8 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.EntityModelBinding;
 using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
+using LtInfo.Common.Mvc;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {

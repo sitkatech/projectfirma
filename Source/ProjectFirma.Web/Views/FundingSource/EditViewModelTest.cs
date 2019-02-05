@@ -20,10 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.UnitTestCommon;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             var organization = TestFramework.TestOrganization.Create();
             var fundingSource = TestFramework.TestFundingSource.Create();
             var viewModel = new EditViewModel(fundingSource);
-            viewModel.FundingSourceName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.FundingSourceName), Models.FundingSource.FieldLengths.FundingSourceName);
+            viewModel.FundingSourceName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.FundingSourceName), ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
             viewModel.OrganizationID = organization.OrganizationID;
             viewModel.IsActive = true;
 
@@ -85,16 +85,16 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             // Act
             // Set string fields to string longer than their max lengths
-            viewModel.FundingSourceName = TestFramework.MakeTestNameLongerThan(nameOfFundingSourceName, Models.FundingSource.FieldLengths.FundingSourceName);
+            viewModel.FundingSourceName = TestFramework.MakeTestNameLongerThan(nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
             DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert
             Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfFundingSourceName, Models.FundingSource.FieldLengths.FundingSourceName);
+            TestFramework.AssertFieldStringLength(validationResults, nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
 
             // Act
             // Happy path
-            viewModel.FundingSourceName = TestFramework.MakeTestName(nameOfFundingSourceName, Models.FundingSource.FieldLengths.FundingSourceName);
+            viewModel.FundingSourceName = TestFramework.MakeTestName(nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
             var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
 
             // Assert

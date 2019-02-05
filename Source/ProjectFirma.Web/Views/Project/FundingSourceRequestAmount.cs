@@ -1,18 +1,18 @@
-﻿using ProjectFirma.Web.Models;
+﻿using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class FundingSourceRequestAmount : IFundingSourceRequestAmount
     {
-        public Models.FundingSource FundingSource { get; }
+        public ProjectFirmaModels.Models.FundingSource FundingSource { get; }
         public int FundingSourceID => FundingSource?.FundingSourceID ?? ModelObjectHelpers.NotYetAssignedID;
 
         public decimal? SecuredAmount { get; set; }
         public decimal? UnsecuredAmount { get; set;  }
         public string DisplayCssClass;
 
-        public FundingSourceRequestAmount(Models.FundingSource fundingSource, decimal? securedAmount, decimal? unsecuredAmount, string displayCssClass)
+        public FundingSourceRequestAmount(ProjectFirmaModels.Models.FundingSource fundingSource, decimal? securedAmount, decimal? unsecuredAmount, string displayCssClass)
         {
             FundingSource = fundingSource;
             SecuredAmount = securedAmount;

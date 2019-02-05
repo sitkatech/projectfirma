@@ -18,9 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceExpenditure.EditProjectFundingSourceExpenditures
 <script type="text/javascript">
     // <![CDATA[
@@ -44,7 +44,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div style="margin-top: 5px">
         <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
             <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
-            What if the @FieldDefinition.Project.GetFieldDefinitionLabel() has no expenditures to report?
+            What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report?
         </a>
         <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
             Select the years for which you have no expenditures to report and provide a brief explanation.
@@ -60,15 +60,15 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>    
     <hr />
     <div class="form-group">
-        <label class="control-label">@FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add:</label>
+        <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
         <div class="input-group">
             <select ng-model="FundingSourceIDToAdd"
                     class="selectpicker"
                     data-live-search="true"
                     data-container="body"
-                    title="Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add"
+                    title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
                     data-width="100%">
-                <option value="null" disabled selected>Select a @FieldDefinition.FundingSource.GetFieldDefinitionLabel() to Add</option>
+                <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
                 <option ng-repeat="fundingSource in filteredFundingSources()"
                         value="{{fundingSource.FundingSourceID}}"
                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
@@ -130,7 +130,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </thead>
             <tbody>
                 <tr style="font-weight: bold;">
-                    <td>All @FieldDefinition.FundingSource.GetFieldDefinitionLabel()s:</td>
+                    <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
                     <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
                         {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
                     </td>

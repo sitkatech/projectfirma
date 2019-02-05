@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly EditOrganizationsViewData EditOrganizationsViewData;
 
         public OrganizationsViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus, EditOrganizationsViewData editOrganizationsViewData) : base(currentPerson, project, ProjectCreateSection.Organizations.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditOrganizationsViewData = editOrganizationsViewData;

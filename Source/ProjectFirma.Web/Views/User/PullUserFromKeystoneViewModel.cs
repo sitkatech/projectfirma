@@ -26,7 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -44,11 +44,11 @@ namespace ProjectFirma.Web.Views.User
         }
 
 
-        public void UpdateModel(Models.Tenant currentTenant)
+        public void UpdateModel(ProjectFirmaModels.Models.Tenant currentTenant)
         {
             try
             {
-                HttpRequestStorage.DatabaseEntities.Database.ExecuteSqlCommand("execute dbo.PullPersonFromKeystone {0} {1} {2}", LoginName, currentTenant.TenantID, Models.Role.Unassigned.RoleID);            
+                HttpRequestStorage.DatabaseEntities.Database.ExecuteSqlCommand("execute dbo.PullPersonFromKeystone {0} {1} {2}", LoginName, currentTenant.TenantID, ProjectFirmaModels.Models.Role.Unassigned.RoleID);            
             }
             catch (Exception)
             {

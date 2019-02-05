@@ -20,16 +20,16 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class ProjectTaxonomyViewData : FirmaUserControlViewData
     {
-        public Models.TaxonomyTrunk TaxonomyTrunk { get; }
-        public Models.TaxonomyBranch TaxonomyBranch { get; }
-        public Models.TaxonomyLeaf TaxonomyLeaf { get; }
-        public Models.Project Project { get; }
+        public ProjectFirmaModels.Models.TaxonomyTrunk TaxonomyTrunk { get; }
+        public ProjectFirmaModels.Models.TaxonomyBranch TaxonomyBranch { get; }
+        public ProjectFirmaModels.Models.TaxonomyLeaf TaxonomyLeaf { get; }
+        public ProjectFirmaModels.Models.Project Project { get; }
 
         public bool IsProject { get; }
         public bool IsTaxonomyLeaf { get; }
@@ -37,23 +37,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool IsTaxonomyTrunk { get; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, TaxonomyLevel taxonomyLevel) : this(taxonomyTrunk, null, null, null, taxonomyLevel)
+        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk, TaxonomyLevel taxonomyLevel) : this(taxonomyTrunk, null, null, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyBranch taxonomyBranch, TaxonomyLevel taxonomyLevel) : this(taxonomyBranch.TaxonomyTrunk, taxonomyBranch, null, null, taxonomyLevel)
+        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, TaxonomyLevel taxonomyLevel) : this(taxonomyBranch.TaxonomyTrunk, taxonomyBranch, null, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.TaxonomyLeaf taxonomyLeaf, TaxonomyLevel taxonomyLevel) : this(taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, taxonomyLeaf.TaxonomyBranch, taxonomyLeaf, null, taxonomyLevel)
+        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf, TaxonomyLevel taxonomyLevel) : this(taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, taxonomyLeaf.TaxonomyBranch, taxonomyLeaf, null, taxonomyLevel)
         {
         }
 
-        public ProjectTaxonomyViewData(Models.Project project, TaxonomyLevel taxonomyLevel) : this(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, project.TaxonomyLeaf.TaxonomyBranch, project.TaxonomyLeaf, project, taxonomyLevel)
+        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.Project project, TaxonomyLevel taxonomyLevel) : this(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk, project.TaxonomyLeaf.TaxonomyBranch, project.TaxonomyLeaf, project, taxonomyLevel)
         {
         }
 
-        private ProjectTaxonomyViewData(Models.TaxonomyTrunk taxonomyTrunk, Models.TaxonomyBranch taxonomyBranch, Models.TaxonomyLeaf taxonomyLeaf, Models.Project project, TaxonomyLevel taxonomyLevel)
+        private ProjectTaxonomyViewData(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk, ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf, ProjectFirmaModels.Models.Project project, TaxonomyLevel taxonomyLevel)
         {
             TaxonomyLeaf = taxonomyLeaf;
             TaxonomyTrunk = taxonomyTrunk;

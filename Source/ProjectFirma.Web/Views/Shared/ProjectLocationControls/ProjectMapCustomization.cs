@@ -22,9 +22,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -89,7 +90,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return $"{BuildCustomizedUrl(filterType, filterValues)}&{ColorByQueryStringParameter}={colorBy.ProjectColorByTypeName}";
         }
 
-        public static ProjectMapCustomization CreateDefaultCustomization(List<Models.Project> projects, bool canViewProposals)
+        public static ProjectMapCustomization CreateDefaultCustomization(List<ProjectFirmaModels.Models.Project> projects, bool canViewProposals)
         {
             return new ProjectMapCustomization(DefaultLocationFilterType, GetDefaultLocationFilterValues(canViewProposals));
         }
@@ -108,9 +109,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return projectStagesForMap;
         }
 
-        public static List<Models.Project> ProjectsForMap(bool showProposals)
+        public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals)
         {
-            return new List<Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
+            return new List<ProjectFirmaModels.Models.Project>(HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(showProposals)).Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();
         }
     }

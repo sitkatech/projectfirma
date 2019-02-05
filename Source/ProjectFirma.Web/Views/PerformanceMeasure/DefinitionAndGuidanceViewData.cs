@@ -22,9 +22,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class DefinitionAndGuidanceViewData : FirmaUserControlViewData
     {
-        public readonly Models.PerformanceMeasure PerformanceMeasure;
+        public readonly ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure;
 
-        public DefinitionAndGuidanceViewData(Models.PerformanceMeasure performanceMeasure)
+        public DefinitionAndGuidanceViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasure = performanceMeasure;
         }

@@ -6,7 +6,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public void UpdateModel(IQueryable<RelationshipType> relationshipTypes)
         {
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
                 AccomplishmentsButtonTextHtmlString;
             tenantAttribute.AccomplishmentsDashboardExpendituresButtonTextHtmlString =

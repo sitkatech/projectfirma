@@ -23,8 +23,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -37,15 +38,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
         public bool ShowProjectStageDropDown { get; }
-        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
+        public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
         private string ProjectDisplayName { get; }
         public bool IsEditable = true;
 
         public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
         public BasicsViewData(Person currentPerson, IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
@@ -54,21 +55,21 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }
 
         public BasicsViewData(Person currentPerson,
-            Models.Project project,
+            ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
+            IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
             : base(currentPerson, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
-            ProjectDisplayName = project.DisplayName;
+            ProjectDisplayName = project.GetDisplayName();
             AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
         }
 
-        private void AssignParameters(IEnumerable<Models.TaxonomyLeaf> taxonomyLeafs,
+        private void AssignParameters(IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
@@ -81,7 +82,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
-            var pagetitle = ShowProjectStageDropDown ? $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}" : $"Propose {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+            var pagetitle = ShowProjectStageDropDown ? $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}" : $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
             PageTitle = $"{pagetitle}";
             if (ProjectDisplayName != null)
             {

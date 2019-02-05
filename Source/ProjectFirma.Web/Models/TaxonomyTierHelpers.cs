@@ -1,4 +1,5 @@
 ﻿using System;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -14,11 +15,11 @@ namespace ProjectFirma.Web.Models
             switch (taxonomyLevelEnum)
             {
                 case TaxonomyLevelEnum.Leaf:
-                    return FieldDefinition.TaxonomyLeaf;
+                    return FieldDefinitionEnum.TaxonomyLeaf.ToType();
                 case TaxonomyLevelEnum.Branch:
-                    return FieldDefinition.TaxonomyBranch;
+                    return FieldDefinitionEnum.TaxonomyBranch.ToType();
                 case TaxonomyLevelEnum.Trunk:
-                    return FieldDefinition.TaxonomyTrunk;
+                    return FieldDefinitionEnum.TaxonomyTrunk.ToType();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

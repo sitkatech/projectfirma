@@ -21,8 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.User
@@ -58,7 +59,7 @@ namespace ProjectFirma.Web.Views.User
             : base(currentPerson)
         {
             Person = personToView;
-            PageTitle = personToView.FullNameFirstLast + (!personToView.IsActive ? " (inactive)" : string.Empty);
+            PageTitle = personToView.GetFullNameFirstLast() + (!personToView.IsActive ? " (inactive)" : string.Empty);
             EntityName = "User";
             //TODO: This gets pulled up to root
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
@@ -70,7 +71,7 @@ namespace ProjectFirma.Web.Views.User
             IsViewingSelf = currentPerson != null && currentPerson.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
-                    $"Edit Roles for User - {personToView.FullNameFirstLast}",
+                    $"Edit Roles for User - {personToView.GetFullNameFirstLast()}",
                     true)
                 : new HtmlString(string.Empty);
 

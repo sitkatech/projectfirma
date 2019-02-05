@@ -1,0 +1,3 @@
+﻿TableName	PrimaryKeyName	QueryToRenameConstraint
+geometry_columns	f_table_catalogf_table_schemaf_table_namef_geometry_column	exec sp_rename 'geometry_columns.f_table_catalogf_table_schemaf_table_namef_geometry_column', 'geometry_columnsID'
+spatial_ref_sys	srid	exec sp_rename 'spatial_ref_sys.srid', 'spatial_ref_sysID'

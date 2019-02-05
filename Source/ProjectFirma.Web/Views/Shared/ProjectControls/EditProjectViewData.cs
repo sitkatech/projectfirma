@@ -23,8 +23,9 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -43,34 +44,34 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public decimal? TotalExpenditures { get; }
         public string DefaultPrimaryContactPersonName { get; }
         public bool HasThreeTierTaxonomy { get; }
-        public IEnumerable<Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
+        public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
             IEnumerable<ProjectStage> projectStages,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<Models.Organization> organizations,
+            IEnumerable<ProjectFirmaModels.Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
             decimal? totalExpenditures,
-            List<Models.TaxonomyLeaf> taxonomyLeafs,
-            IEnumerable<Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            List<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
             TotalExpenditures = totalExpenditures;
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
             FundingTypes = fundingTypes.OrderBy(x => x.GetFundingTypeSortOrder()).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
-            Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.DisplayName);
+            Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.GetDisplayName());
             PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(
-                    x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.FullNameFirstLastAndOrgShortName,
-                    $"<Set Based on {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}'s Associated {Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}>");
+                    x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.GetFullNameFirstLastAndOrgShortName(),
+                    $"<Set Based on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s Associated {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}>");
             DefaultPrimaryContactPerson = defaultPrimaryContactPerson;
             TaxonomyLeafs = taxonomyLeafs.ToGroupedSelectList();
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
-            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson?.FullNameFirstLastAndOrgShortName ?? "nobody";
+            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() ?? "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
         }
     }

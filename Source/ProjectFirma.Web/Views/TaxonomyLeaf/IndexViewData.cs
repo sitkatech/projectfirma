@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
@@ -33,13 +34,13 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string GridDataUrl{get;}
         public string EditSortOrderUrl { get; }
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            var taxonomyLeafDisplayNamePluralized = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabelPluralized();
+            var taxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyLeafDisplayNamePluralized;
 
             var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByPerson(currentPerson);
-            var taxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
+            var taxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson)
             {
                 ObjectNameSingular = taxonomyLeafDisplayName,

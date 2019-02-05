@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Security
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -31,6 +31,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.PerformanceMeasure
 @inherits ProjectFirma.Web.Views.Organization.Detail
 
@@ -87,7 +88,7 @@
 }
 
 <div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</a>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</a>
 </div>
 
 <div class="container-fluid">
@@ -113,7 +114,7 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinition.Organization.GetFieldDefinitionLabel(), ViewDataTyped.Organization.DisplayName), ViewDataTyped.UserHasOrganizationManagePermissions) Basics
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationUrl, string.Format("Edit {0} - {1}", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Organization.GetDisplayName()), ViewDataTyped.UserHasOrganizationManagePermissions) Basics
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -121,7 +122,7 @@
                                     {
                                         <div class="col-xs-1">
                                             <div style="text-align: center;">
-                                                <img src="@ViewDataTyped.Organization.LogoFileResource.FileResourceUrl" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
+                                                <img src="@ViewDataTyped.Organization.LogoFileResource.GetFileResourceUrl()" style="max-width: 100px; max-height: 200px; margin-left: auto; margin-right: auto;" />
                                             </div>
                                         </div>
                                     }
@@ -136,12 +137,12 @@
                                             <div class="col-xs-6">@ViewDataTyped.Organization.OrganizationShortName</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationType)</div>
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationType.ToType())</div>
                                             <div class="col-xs-6">@(ViewDataTyped.Organization.OrganizationType != null ? ViewDataTyped.Organization.OrganizationType.OrganizationTypeName : string.Empty)</div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinition.OrganizationPrimaryContact)</div>
-                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.PrimaryContactPersonWithOrgAsUrl : ViewDataTyped.Organization.PrimaryContactPersonAsStringAndOrgAsUrl)</div>
+                                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
+                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>
@@ -157,11 +158,11 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @Html.LabelWithSugarFor(FieldDefinition.FundingSource, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                                <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized()</a>
+                                @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                <a href="@ViewDataTyped.ManageFundingSourcesUrl">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()</a>
 
                                 <span class="pull-right">
-                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinition.FundingSource.GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
+                                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus").ToString(), ViewDataTyped.NewFundingSourceUrl, string.Format("Create a new {0}", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), new List<string>(), ViewDataTyped.CanCreateNewFundingSource)
                                 </span>
                             </div>
                             <div class="panel-body">
@@ -171,14 +172,14 @@
                                         @foreach (var fundingSource in ViewDataTyped.Organization.FundingSources.OrderBy(x => x.FundingSourceName))
                                         {
                                             <li>
-                                                @fundingSource.DisplayNameAsUrl
+                                                @fundingSource.GetDisplayNameAsUrl()
                                             </li>
                                         }
                                     </ul>
                                 }
                                 else
                                 {
-                                    <p class="systemText">No @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() set for this @FieldDefinition.Organization.GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() set for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                 }
                             </div>
                         </div>
@@ -188,7 +189,7 @@
                     <div class="col-md-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinition.ProjectLocation.GetFieldDefinitionLabelPluralized() and Boundary
+                                @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized() and Boundary
                             </div>
                             <div class="panel-body">
                                 <div class="row">
@@ -209,12 +210,12 @@
                                         @if (ViewDataTyped.HasSpatialData)
                                         {
                                             <p>
-                                                The map displays the @FieldDefinition.Organization.GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() and @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized() that have spatial data.
+                                                The map displays the @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() boundary, and the locations of any active @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() that have spatial data.
                                             </p>
                                         }
                                         else
                                         {
-                                            <p class="systemText">No spatial data associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel().</p>
+                                            <p class="systemText">No spatial data associated with this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                         }
                                     </div>
                                     <div class="col-xs-12">
@@ -246,7 +247,7 @@
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
                                 <p>
@@ -256,20 +257,20 @@
                                     @if (ViewDataTyped.TenantHasCanStewardProjectsOrganizationRelationship)
                                     {
                                         <li>
-                                            the <strong>@FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.GetFieldDefinitionLabel()</strong> for
+                                            the <strong>@FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().GetFieldDefinitionLabel()</strong> for
                                             <strong>@ViewDataTyped.NumberOfStewardedProjects</strong>
-                                            @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                            @(ViewDataTyped.NumberOfStewardedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
                                         </li>
                                     }
                                     <li>
                                         the <strong>Lead Implementer</strong> for
                                         <strong>@ViewDataTyped.NumberOfLeadImplementedProjects</strong>
-                                        @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                        @(ViewDataTyped.NumberOfLeadImplementedProjects == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
                                     </li>
                                     <li>
                                         a contributor to
                                         <strong>@ViewDataTyped.NumberOfProjectsContributedTo</strong>
-                                        @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinition.Project.GetFieldDefinitionLabel() : FieldDefinition.Project.GetFieldDefinitionLabelPluralized())
+                                        @(ViewDataTyped.NumberOfProjectsContributedTo == 1 ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized())
                                     </li>
                                 </ul>
                                 @Html.DhtmlxGrid(ViewDataTyped.ProjectsIncludingLeadImplementingGridSpec, ViewDataTyped.ProjectOrganizationsGridName, ViewDataTyped.ProjectOrganizationsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -299,7 +300,7 @@
                         <div class="col-sm-12">
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
-                                    Pending @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() (Not Visible to the Public)
+                                    Pending @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (Not Visible to the Public)
                                 </div>
                                 <div class="panel-body">
                                     <p></p>
@@ -320,7 +321,7 @@
                                 @if (ViewDataTyped.Organization.People.Any())
                                 {
                                     <ul>
-                                        @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.FullNameLastFirst))
+                                        @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
                                         {
                                             if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, person).HasPermission)
                                             {
@@ -331,7 +332,7 @@
                                             else
                                             {
                                                 <li>
-                                                    @person.FullNameFirstLast
+                                                    @person.GetFullNameFirstLast()
                                                 </li>
                                             }
                                         }
@@ -339,7 +340,7 @@
                                 }
                                 else
                                 {
-                                    <p class="systemText">No Users belong to this @FieldDefinition.Organization.GetFieldDefinitionLabel().</p>
+                                    <p class="systemText">No Users belong to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).</p>
                                 }
                             </div>
                         </div>
@@ -349,15 +350,15 @@
             <div role="tabpanel" class="tab-pane" id="expenditures">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
-                        <p>@FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() associated with this @FieldDefinition.Organization.GetFieldDefinitionLabel() are presented in several ways:</p>
+                        <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() associated with this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are presented in several ways:</p>
                         <ul>
-                            <li>The <strong>Expenditures Provided Directly by this @FieldDefinition.Organization.GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() that originate with @FieldDefinition.FundingSource.GetFieldDefinitionLabelPluralized() owned by this @FieldDefinition.Organization.GetFieldDefinitionLabel()</li>
+                            <li>The <strong>Expenditures Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</strong> chart shows all @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() that originate with @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() owned by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</li>
                             <li>
-                                The <strong>Expenditures Received from other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() received from other
-                                @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized() for all @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() where this @FieldDefinition.Organization.GetFieldDefinitionLabel() is the
-                                @FieldDefinition.Project.GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
+                                The <strong>Expenditures Received from other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</strong> chart shows @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() received from other
+                                @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() for all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() where this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is the
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @ViewDataTyped.ProjectStewardOrLeadImplementorFieldDefinitionName
                             </li>
-                            <li>The <strong>@FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized() for which this @FieldDefinition.Organization.GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
+                            <li>The <strong>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()</strong> table at the bottom of the page provides a list of all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() for which this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() provided or received funding, and the annual expenditure amounts</li>
                         </ul>
                     </div>
                 </div>
@@ -365,7 +366,7 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                Provided Directly by this @FieldDefinition.Organization.GetFieldDefinitionLabel()
+                                Provided Directly by this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()
                             </div>
                             <div class="panel-body">
                                 <div>
@@ -384,7 +385,7 @@
                     <div class="col-md-6">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                Received from Other @FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()
+                                Received from Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
                                 <div>
@@ -405,7 +406,7 @@
                     <div class="col-sm-12">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                @FieldDefinition.Project.GetFieldDefinitionLabel() @FieldDefinition.ReportedExpenditure.GetFieldDefinitionLabelPluralized()
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                             </div>
                             <div class="panel-body">
                                 @Html.DhtmlxGrid(ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridSpec, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridName, ViewDataTyped.ProjectFundingSourceExpendituresForOrganizationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -419,7 +420,7 @@
                 @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
                 {
                     <p>
-                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinition.Organization.GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinition.Project.GetFieldDefinitionLabel() that is assigned to this @FieldDefinition.Organization.GetFieldDefinitionLabel(). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
+                        The reported @MultiTenantHelpers.GetPerformanceMeasureName() results within this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()). To see the full results for a @MultiTenantHelpers.GetPerformanceMeasureName(), click the @MultiTenantHelpers.GetPerformanceMeasureName() name in the chart title.
                     </p>
                     foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
                     {
@@ -444,7 +445,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="systemText">
-                                There are no @FieldDefinition.PerformanceMeasure.GetFieldDefinitionLabelPluralized() to report for this @FieldDefinition.Organization.GetFieldDefinitionLabel().
+                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @(FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()).
                             </p>
                         </div>
                     </div>

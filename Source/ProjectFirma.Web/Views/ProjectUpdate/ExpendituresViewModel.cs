@@ -23,10 +23,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -105,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (emptyRows?.Any() ?? false)
             {
-                errors.Add(new ValidationResult($"The {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Update could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
+                errors.Add(new ValidationResult($"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
             }
 
             return errors;

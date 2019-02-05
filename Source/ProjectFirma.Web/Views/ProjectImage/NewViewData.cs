@@ -26,12 +26,12 @@ namespace ProjectFirma.Web.Views.ProjectImage
 {
     public class NewViewData
     {
-        public readonly Models.Project Project;
+        public readonly ProjectFirmaModels.Models.Project Project;
         public readonly string SupportedFileExtensionsCommaSeparated;
         public readonly List<string> SupportedFileExtensions;
         public readonly IEnumerable<SelectListItem> ProjectImageTimings;
 
-        public NewViewData(Models.Project project, IEnumerable<SelectListItem> projectImageTimings)
+        public NewViewData(ProjectFirmaModels.Models.Project project, IEnumerable<SelectListItem> projectImageTimings)
         {
             Project = project;
             ProjectImageTimings = projectImageTimings;

@@ -22,9 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -37,20 +39,20 @@ namespace ProjectFirma.Web.Views.Project
         public readonly string ProjectUpdatesUrl;
         public readonly bool DisplayActionButtons;
 
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage, List<GeospatialAreaType> geospatialAreaTypes) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<GeospatialAreaType> geospatialAreaTypes) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"Full {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} List";
+            PageTitle = $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List";
 
-            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>(), geospatialAreaTypes) {ObjectNameSingular = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>(), geospatialAreaTypes) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
             }
-            else if (currentPerson.RoleID == Models.Role.ProjectSteward.RoleID)
+            else if (currentPerson.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
 
             GridName = "projectsGrid";
@@ -58,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned;
+            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned();
         }
     }
 }

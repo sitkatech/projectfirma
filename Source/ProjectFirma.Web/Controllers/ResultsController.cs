@@ -25,7 +25,7 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Results;
@@ -35,6 +35,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
@@ -45,8 +46,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult AccomplishmentsDashboard()
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectResults);
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var firmaPage = FirmaPageTypeEnum.ProjectResults.GetFirmaPage();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
 
             List<Organization> organizations;
             // default to Funding Organizations if no relationship type is selected to report in the dashboard.
@@ -71,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
+            var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
             var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, tenantAttribute,
                 organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
                 defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
@@ -84,8 +85,8 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = GetProjectExpendituresByOrganizationType(organizationID, beginYear, endYear);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.Where(x => x.IsFundingType).OrderBy(x => x.OrganizationTypeName == "Other").ThenBy(x => x.OrganizationTypeName).ToList();
 
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
-            var taxonomyTiers = tenantAttribute.TaxonomyLevel.GetTaxonomyTiers().SortByOrderThenName().ToList();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var taxonomyTiers = tenantAttribute.TaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
 
             var viewData = new SpendingByOrganizationTypeByOrganizationViewData(tenantAttribute, organizationTypes, projectFundingSourceExpenditures, taxonomyTiers);
             return RazorPartialView<SpendingByOrganizationTypeByOrganization,
@@ -159,22 +160,22 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            ITaxonomyTier taxonomyTier;
+            TaxonomyTier taxonomyTier;
             if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Trunk)
             {
-                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.GetTaxonomyTrunk(taxonomyTierID);
+                taxonomyTier = new TaxonomyTier(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.GetTaxonomyTrunk(taxonomyTierID));
             }
             else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
             {
-                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyTierID);
+                taxonomyTier = new TaxonomyTier(HttpRequestStorage.DatabaseEntities.TaxonomyBranches.GetTaxonomyBranch(taxonomyTierID));
             }
             else
             {
-                taxonomyTier = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(taxonomyTierID);
+                taxonomyTier = new TaxonomyTier(HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(taxonomyTierID));
             }
 
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
-            var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.GetTaxonomyTierPerformanceMeasures().Where(x => x.Any(y => y.IsPrimaryTaxonomyLeaf)).Select(x => x.Key).ToList();
+            var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.TaxonomyTierPerformanceMeasures.Where(x => x.Any(y => y.IsPrimaryTaxonomyLeaf)).Select(x => x.Key).ToList();
             var performanceMeasures = primaryPerformanceMeasuresForTaxonomyTier.SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct().OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
             var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, projects)).ToList();
 
@@ -229,7 +230,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectLocationFilterType projectLocationFilterType;
             ProjectColorByType colorByValue;
 
-            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals;
+            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
             if (!String.IsNullOrEmpty(Request.QueryString[ProjectMapCustomization.FilterByQueryStringParameter]))
             {
                 projectLocationFilterType = ProjectLocationFilterType.ToType(Request
@@ -263,22 +264,22 @@ namespace ProjectFirma.Web.Controllers
                 colorByValue = ProjectMapCustomization.DefaultColorByType;
             }
 
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.ProjectMap);
+            var firmaPage = FirmaPageTypeEnum.ProjectMap.GetFirmaPage();
 
             var projectsToShow = ProjectMapCustomization.ProjectsForMap(currentPersonCanViewProposals);
 
             var initialCustomization =
                 new ProjectMapCustomization(projectLocationFilterType, filterValues, colorByValue);
             var projectLocationsLayerGeoJson =
-                new LayerGeoJson($"{FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()}",
-                    Project.MappedPointsToGeoJsonFeatureCollection(projectsToShow, true, true), "red", 1,
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                    projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 initialCustomization, "ProjectLocationsMap");
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.DisplayName, MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(currentPersonCanViewProposals);
@@ -287,12 +288,22 @@ namespace ProjectFirma.Web.Controllers
             var filteredProjectsWithLocationAreasUrl =
                 SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.FilteredProjectsWithLocationAreas(null));
 
+            var projectColorByTypes = new List<ProjectColorByType> {ProjectColorByType.ProjectStage};
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
+            {
+                projectColorByTypes.Add(ProjectColorByType.TaxonomyTrunk);
+                projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
+            }
+            else if (MultiTenantHelpers.IsTaxonomyLevelBranch())
+            {
+                projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
+            }
             var viewData = new ProjectMapViewData(CurrentPerson,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
                 projectLocationFilterTypesAndValues,
-                projectLocationsUrl, filteredProjectsWithLocationAreasUrl);
+                projectLocationsUrl, filteredProjectsWithLocationAreasUrl, projectColorByTypes);
             return RazorView<ProjectMap, ProjectMapViewData>(viewData);
         }
 
@@ -305,7 +316,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var taxonomyTrunksAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                        x => x.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture), x => x.GetDisplayName());
                 projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyTrunk),
                     taxonomyTrunksAsSelectListItems);
             }
@@ -314,18 +325,18 @@ namespace ProjectFirma.Web.Controllers
             {
                 var taxonomyBranchesAsSelectListItems =
                     HttpRequestStorage.DatabaseEntities.TaxonomyBranches.AsEnumerable().ToSelectList(
-                        x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                        x => x.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture), x => x.GetDisplayName());
                 projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyBranch),
                     taxonomyBranchesAsSelectListItems);
             }
 
             var taxonomyLeafsAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.AsEnumerable().ToSelectList(
-                    x => x.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture), x => x.DisplayName);
+                    x => x.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture), x => x.GetDisplayName());
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyLeaf),
                 taxonomyLeafsAsSelectListItems);
 
-            var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.DisplayName}" : x.DisplayName);
+            var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.GetDisplayName()}" : x.GetDisplayName());
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, string.Join(" & ", MultiTenantHelpers.GetClassificationSystems().Select(x => x.ClassificationSystemName).ToList())), classificationsAsSelectList);
 
             var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(showProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
@@ -355,18 +366,20 @@ namespace ProjectFirma.Web.Controllers
             var filterFunction =
                 projectLocationFilterTypeFromFilterPropertyName.GetFilterFunction(projectMapCustomization
                     .FilterPropertyValues);
-            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentPerson.CanViewProposals);
+            var allProjectsForMap = ProjectMapCustomization.ProjectsForMap(CurrentPerson.CanViewProposals());
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint).ToList();
+            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint()).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var taxonomyTiersAsFancyTreeNodes = taxonomyLevel
-                .GetTaxonomyTiers().SortByOrderThenName().Select(x => x.ToFancyTreeNode(CurrentPerson))
+                .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder)
+                .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
+                .Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
             var projectsIDsThatDoNotHaveSimpleLocation = filteredProjectsWithLocationAreas
-                .Select(project => project.FancyTreeNodeKey.ToString()).ToList();
+                .Select(project => project.ProjectID.ToString()).ToList();
             switch (taxonomyLevel.ToEnum)
             {
                 case TaxonomyLevelEnum.Leaf:
@@ -418,7 +431,7 @@ namespace ProjectFirma.Web.Controllers
         [SpendingByPerformanceMeasureByProjectViewFeature]
         public ViewResult SpendingByPerformanceMeasureByProject(int? performanceMeasureID)
         {
-            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.SpendingByPerformanceMeasureByProject);
+            var firmaPage = FirmaPageTypeEnum.SpendingByPerformanceMeasureByProject.GetFirmaPage();
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList();
             var selectedPerformanceMeasure = performanceMeasureID.HasValue
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
@@ -451,14 +464,14 @@ namespace ProjectFirma.Web.Controllers
                 PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
-            return performanceMeasure.SubcategoriesTotalReportedValues(currentPerson);
+            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, performanceMeasure);
         }
 
         [HttpGet]
         [SitkaAdminFeature]
         public PartialViewResult ConfigureAccomplishmentsDashboard()
         {
-            var tenantAttribute = HttpRequestStorage.Tenant.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewModel = new ConfigureAccomplishmentsDashboardViewModel(tenantAttribute);
             return ViewConfigureAccomplishmentsDashboard(viewModel);
         }

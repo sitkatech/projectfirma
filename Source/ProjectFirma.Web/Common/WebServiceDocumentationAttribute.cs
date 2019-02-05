@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Common
 {
@@ -30,17 +31,17 @@ namespace ProjectFirma.Web.Common
 
         public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum)
         {
-            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum).GetFieldDefinitionLabel());
+            Documentation = string.Format(formatString, fieldDefinitionEnum.ToType().GetFieldDefinitionLabel());
         }
 
         public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2)
         {
-            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel());
+            Documentation = string.Format(formatString, fieldDefinitionEnum1.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum2.ToType().GetFieldDefinitionLabel());
         }
 
         public WebServiceDocumentationAttribute(string formatString, FieldDefinitionEnum fieldDefinitionEnum1, FieldDefinitionEnum fieldDefinitionEnum2, FieldDefinitionEnum fieldDefinitionEnum3, FieldDefinitionEnum fieldDefinitionEnum4)
         {
-            Documentation = string.Format(formatString, FieldDefinition.ToType(fieldDefinitionEnum1).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum2).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum3).GetFieldDefinitionLabel(), FieldDefinition.ToType(fieldDefinitionEnum4).GetFieldDefinitionLabel());
+            Documentation = string.Format(formatString, fieldDefinitionEnum1.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum2.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum3.ToType().GetFieldDefinitionLabel(), fieldDefinitionEnum4.ToType().GetFieldDefinitionLabel());
         }
 
         public WebServiceDocumentationAttribute(string s)

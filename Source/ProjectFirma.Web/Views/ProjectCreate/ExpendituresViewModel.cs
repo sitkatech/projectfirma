@@ -24,10 +24,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Data.Entity;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -51,8 +52,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpendituresViewModel(List<Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            List<int> calendarYearsToPopulate, Models.Project project,
+        public ExpendituresViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
+            List<int> calendarYearsToPopulate, ProjectFirmaModels.Models.Project project,
             List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
             ProjectExemptReportingYears = projectExemptReportingYears;
@@ -61,11 +62,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ShowValidationWarnings = true;
         }
 
-        public void UpdateModel(Models.Project project,
-            List<Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
-            IList<Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project,
+            List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures)
         {
-            var projectFundingSourceExpendituresUpdated = new List<Models.ProjectFundingSourceExpenditure>();
+            var projectFundingSourceExpendituresUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>();
             if (ProjectFundingSourceExpenditures != null)
             {
                 // Completely rebuild the list

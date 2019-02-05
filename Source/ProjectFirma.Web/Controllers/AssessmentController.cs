@@ -24,11 +24,12 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Assessment;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -163,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public ExcelResult IndexExcelDownload()
         {
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals);
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
 
             var projectsSpec = new ProjectAssessmentExcelSpec();
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Projects", projectsSpec, projects);

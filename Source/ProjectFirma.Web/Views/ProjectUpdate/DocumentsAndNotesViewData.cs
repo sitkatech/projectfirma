@@ -20,9 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -34,20 +35,18 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string DiffUrl { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsViewData { get; }
 
-        public DocumentsAndNotesViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), ProjectUpdateSection.NotesAndDocuments.ProjectUpdateSectionDisplayName)
+        public DocumentsAndNotesViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.NotesAndDocuments.ProjectUpdateSectionDisplayName)
         {
-            EntityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(new List<IEntityNote>(projectUpdateBatch.ProjectNoteUpdates)),
+            EntityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(projectUpdateBatch.ProjectNoteUpdates),
                 SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
-                projectUpdateBatch.Project.DisplayName,
+                projectUpdateBatch.Project.GetDisplayName(),
                 IsEditable);
-            ProjectDocumentsViewData = new ProjectDocumentsDetailViewData(EntityDocument.CreateFromEntityDocument(new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates)),
+            ProjectDocumentsViewData = new ProjectDocumentsDetailViewData(EntityDocument.CreateFromEntityDocument(projectUpdateBatch.ProjectDocumentUpdates),
                 SitkaRoute<ProjectDocumentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
-                projectUpdateBatch.Project.DisplayName,
+                projectUpdateBatch.Project.GetDisplayName(),
                 IsEditable);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndDocuments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
         }
-
-        //public EntityDocumentsViewData EntityDocumentsViewData { get; set; }
     }
 }

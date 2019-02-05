@@ -21,32 +21,31 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
-using LtInfo.Common;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class PerformanceMeasureReportedValuesGridSpec : GridSpec<PerformanceMeasureReportedValue>
     {
-        public PerformanceMeasureReportedValuesGridSpec(Models.PerformanceMeasure performanceMeasure)
+        public PerformanceMeasureReportedValuesGridSpec(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            Add(Models.FieldDefinition.ReportingYear.ToGridHeaderString(), a => a.GetCalendarYearDisplay(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(Models.FieldDefinition.Project.ToGridHeaderString(),
-                a => UrlTemplate.MakeHrefString(a.ProjectUrl, a.ProjectName),
+            Add(FieldDefinitionEnum.ReportingYear.ToType().ToGridHeaderString(), a => a.GetCalendarYearDisplay(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
+                a => a.Project.GetDisplayNameAsUrl(),
                 350,
                 DhtmlxGridColumnFilterType.Html);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(Models.FieldDefinition.ProjectsStewardOrganizationRelationshipToProject.ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.Project.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
             }
-            Add(Models.FieldDefinition.IsPrimaryContactOrganization.ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-            Add(Models.FieldDefinition.ProjectStage.ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            if (performanceMeasure.HasRealSubcategories)
+            Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.Project.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            if (performanceMeasure.HasRealSubcategories())
             {
                 foreach (var performanceMeasureSubcategory in
                     performanceMeasure.PerformanceMeasureSubcategories.OrderBy(x =>
@@ -69,16 +68,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
                 }
             }
-            var reportedValueColumnName = $"{Models.FieldDefinition.ReportedValue.ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
+            var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
 
             if (performanceMeasure.IsAggregatable)
             {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal,
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
                     DhtmlxGridColumnAggregationType.Total);
             }
             else
             {
-                Add(reportedValueColumnName, a => a.ReportedValue, 150, DhtmlxGridColumnFormatType.Decimal);
+                Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal);
             }
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {

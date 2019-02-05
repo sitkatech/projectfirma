@@ -19,8 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Models;
-
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Geospatial Area")]

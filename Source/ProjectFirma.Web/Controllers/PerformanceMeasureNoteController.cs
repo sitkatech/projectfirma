@@ -20,11 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 
 namespace ProjectFirma.Web.Controllers
@@ -115,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeletePerformanceMeasureNote(performanceMeasureNote, viewModel);
             }
-            performanceMeasureNote.DeletePerformanceMeasureNote();
+            performanceMeasureNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

@@ -19,15 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-
 namespace ProjectFirma.Web.Views.Project
 {
     public abstract class Detail : LtInfo.Common.Mvc.TypedWebViewPage<DetailViewData>
     {
-        public string StringToDateString(string stringDate)
-        {
-            return DateTime.TryParse(stringDate, out var date) ? date.ToShortDateString() : null;
-        }
     }
 }

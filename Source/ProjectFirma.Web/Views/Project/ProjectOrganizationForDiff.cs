@@ -1,11 +1,11 @@
 ﻿using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class ProjectOrganizationForDiff : IProjectOrganization
     {
-        public Models.Organization Organization { get; set; }
+        public ProjectFirmaModels.Models.Organization Organization { get; set; }
         public RelationshipType RelationshipType { get; set; }
 
         public int OrganizationID => Organization?.OrganizationID ?? ModelObjectHelpers.NotYetAssignedID;
@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.Project
             RelationshipType = iProjectOrganization.RelationshipType;
         }
 
-        public ProjectOrganizationForDiff(Models.Organization organization, RelationshipType relationshipType, string displayCssClassDeletedElement)
+        public ProjectOrganizationForDiff(ProjectFirmaModels.Models.Organization organization, RelationshipType relationshipType, string displayCssClassDeletedElement)
         {
             Organization = organization;
             RelationshipType = relationshipType;

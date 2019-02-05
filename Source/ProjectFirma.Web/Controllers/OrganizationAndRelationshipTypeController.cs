@@ -22,13 +22,14 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Views.OrganizationAndRelationshipType;
-
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -95,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay(
-                $"New {FieldDefinition.OrganizationType.GetFieldDefinitionLabel()} {organizationType.OrganizationTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} {organizationType.OrganizationTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -145,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteOrganizationType(OrganizationType organizationType, ConfirmDialogFormViewModel viewModel)
         {
             var canDelete = !organizationType.HasDependentObjects();
-            var fieldDefinitionLabel = FieldDefinition.OrganizationType.GetFieldDefinitionLabel();
+            var fieldDefinitionLabel = FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this {fieldDefinitionLabel} '{organizationType.OrganizationTypeName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(fieldDefinitionLabel, SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
@@ -164,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteOrganizationType(organizationType, viewModel);
             }
-            organizationType.DeleteOrganizationType();
+            organizationType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
 
@@ -195,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             
             SetMessageForDisplay(
-                $"New {FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} {relationshipType.RelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.RelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -251,8 +252,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = relationshipType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel()} '{relationshipType.RelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinition.ProjectRelationshipType.GetFieldDefinitionLabel(), SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} '{relationshipType.RelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -268,11 +269,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteRelationshipType(relationshipType, viewModel);
             }
-
-            relationshipType.OrganizationTypeRelationshipTypes.DeleteOrganizationTypeRelationshipType();
-            relationshipType.DeleteRelationshipType();
+            relationshipType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
-
     }
 }

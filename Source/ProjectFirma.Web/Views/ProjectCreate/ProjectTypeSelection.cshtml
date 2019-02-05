@@ -18,8 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectCreate
+@using ProjectFirmaModels.Models
 @inherits ProjectTypeSelection
 
 @using (Html.BeginForm())
@@ -32,25 +33,25 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="radio">
             <label>
                 @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.Proposal)
-                <strong>Add a proposal for a future @FieldDefinition.Project.GetFieldDefinitionLabel()</strong>
+                <strong>Add a proposal for a future @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</strong>
             </label>
-            <div class="radioExplanationText">This will create a new @FieldDefinition.Project.GetFieldDefinitionLabel() in Proposal stage. When a proposal is reviewed and selected for implementation an administrator can advance the @FieldDefinition.Project.GetFieldDefinitionLabel() to the Planning/Design stage.</div>
+            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() in Proposal stage. When a proposal is reviewed and selected for implementation an administrator can advance the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to the Planning/Design stage.</div>
         </div>
         <div class="radio" style="margin-top: 10px;">
             <label>
                 @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.Existing)
-                <strong>Enter an existing @FieldDefinition.Project.GetFieldDefinitionLabel() that is already underway or complete</strong>
+                <strong>Enter an existing @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is already underway or complete</strong>
             </label>
-            <div class="radioExplanationText">This will create a new @FieldDefinition.Project.GetFieldDefinitionLabel() record for an existing @FieldDefinition.Project.GetFieldDefinitionLabel(). You will be asked to select the @FieldDefinition.Project.GetFieldDefinitionLabel() stage (e.g. Planning/Design, Implementation, or Complete). An administrator will review the @FieldDefinition.Project.GetFieldDefinitionLabel() before it becomes publicly visible.</div>
+            <div class="radioExplanationText">This will create a new @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You will be asked to select the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage (e.g. Planning/Design, Implementation, or Complete). An administrator will review the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() before it becomes publicly visible.</div>
         </div>
         @if (ViewDataTyped.TenantAttribute.ProjectExternalDataSourceEnabled)
         {
             <div class="radio">
                 <label>
                     @Html.RadioButtonFor(m => m.CreateType, ProjectTypeSelectionViewModel.ProjectCreateType.ImportExternal)
-                    <strong>Import @FieldDefinition.Project.GetFieldDefinitionLabel() from an external data source (Proof of Concept)</strong>
+                    <strong>Import @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from an external data source (Proof of Concept)</strong>
                 </label>
-                <div class="radioExplanationText">This will import a @FieldDefinition.Project.GetFieldDefinitionLabel() from another @FieldDefinition.Project.GetFieldDefinitionLabel() tracking system using a URL for the external system API.</div>
+                <div class="radioExplanationText">This will import a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from another @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() tracking system using a URL for the external system API.</div>
             </div>
         }
     </div>

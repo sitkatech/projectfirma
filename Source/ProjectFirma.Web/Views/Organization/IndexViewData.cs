@@ -20,39 +20,38 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using LtInfo.Common;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Organization
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string PullOrganizationFromKeystoneUrl { get; }
+        public bool UserIsSitkaAdmin { get; }
 
-        public readonly string PullOrganizationFromKeystoneUrl;
-        public readonly bool UserIsSitkaAdmin;
-
-        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
             : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
 
             var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(currentPerson, hasOrganizationManagePermissions)
             {
-                ObjectNameSingular = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{Models.FieldDefinition.Organization.GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 
             if (hasOrganizationManagePermissions)
             {
                 var contentUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()}");
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}");
             }
 
             GridName = "organizationsGrid";

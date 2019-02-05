@@ -29,6 +29,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
@@ -38,16 +39,16 @@ namespace ProjectFirma.Web.Views.Classification
         public int ClassificationID { get; set; }
 
         [Required]        
-        [StringLength(Models.Classification.FieldLengths.DisplayName)]
+        [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.DisplayName)]
         public string DisplayName { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ClassificationDescription)]
-        [StringLength(Models.Classification.FieldLengths.ClassificationDescription)]
+        [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.ClassificationDescription)]
         public string ClassificationDescription { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ClassificationGoalStatement)]
-        [StringLength(Models.Classification.FieldLengths.GoalStatement)]
+        [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.GoalStatement)]
         public string GoalStatement { get; set; }
 
         [DisplayName("Key Image")]
@@ -64,16 +65,16 @@ namespace ProjectFirma.Web.Views.Classification
         {
         }
 
-        public EditViewModel(Models.Classification classification)
+        public EditViewModel(ProjectFirmaModels.Models.Classification classification)
         {
             ClassificationID = classification.ClassificationID;
-            DisplayName = classification.DisplayName;
+            DisplayName = classification.GetDisplayName();
             ClassificationDescription = classification.ClassificationDescription;
             GoalStatement = classification.GoalStatement;
             ThemeColor = classification.ThemeColor;
         }
 
-        public void UpdateModel(Models.Classification classification, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, Person currentPerson)
         {
             classification.DisplayName = DisplayName;
             classification.ClassificationDescription = ClassificationDescription;
@@ -81,7 +82,7 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (KeyImageFileResourceData != null)
             {
-                classification.KeyImageFileResource = FileResource.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentPerson);
+                classification.KeyImageFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentPerson);
             }
             classification.ThemeColor = ThemeColor;
 
@@ -92,7 +93,7 @@ namespace ProjectFirma.Web.Views.Classification
             var validationResults = new List<ValidationResult>();
 
             var existingClassifications = HttpRequestStorage.DatabaseEntities.Classifications.ToList();
-            if (!Models.Classification.IsDisplayNameUnique(existingClassifications, DisplayName, ClassificationID))
+            if (!ClassificationModelExtensions.IsDisplayNameUnique(existingClassifications, DisplayName, ClassificationID))
             {
                 validationResults.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.ClassificationNameUnique, x => x.DisplayName));
             }

@@ -22,12 +22,13 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.ProjectImageUpdate;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -113,8 +114,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectImageUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to flag this photo for deletion from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImageUpdate.ProjectUpdateBatch.Project.DisplayName}'? ({projectImageUpdate.Caption})"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinition.Project.GetFieldDefinitionLabel()} Image");
+                ? $"Are you sure you want to flag this photo for deletion from {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectImageUpdate.ProjectUpdateBatch.Project.GetDisplayName()}'? ({projectImageUpdate.Caption})"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Image");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -132,8 +133,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImageUpdate(projectImageUpdate, viewModel);
             }
             var projectUpdateBatch = projectImageUpdate.ProjectUpdateBatch;
-
-            ProjectUpdateBatch.DeleteProjectImageUpdates(new[] { projectImageUpdate });
+            projectImageUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             
             // reset key photo if needed
             if (projectImageUpdate.IsKeyPhoto)

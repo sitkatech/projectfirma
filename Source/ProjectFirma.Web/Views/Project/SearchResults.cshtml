@@ -20,23 +20,24 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using System.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Project
 @inherits SearchResults
 
-<h3 style="margin-bottom: 20px">Results for @FieldDefinition.Project.GetFieldDefinitionLabel() search keywords "@ViewDataTyped.SearchCriteria".</h3>
+<h3 style="margin-bottom: 20px">Results for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() search keywords "@ViewDataTyped.SearchCriteria".</h3>
 
 @if (!ViewDataTyped.EntitySearchResults.Any())
 {
-<p>There are no @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() matching your search keywords.</p>
+<p>There are no @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() matching your search keywords.</p>
 }
 else
 {
-    <p>@ViewDataTyped.EntitySearchResults.Count @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() found.</p>
+    <p>@ViewDataTyped.EntitySearchResults.Count @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() found.</p>
 
     foreach (var findResult in ViewDataTyped.EntitySearchResults)
     {
         <div>
-            @findResult.DisplayNameAsUrl
+            @findResult.GetDisplayNameAsUrl()
         </div>
     }
 }

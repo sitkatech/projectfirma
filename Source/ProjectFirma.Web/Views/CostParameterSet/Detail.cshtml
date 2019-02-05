@@ -18,11 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.CostParameterSet.Detail
 @section JavascriptAndStylesContent
 {
@@ -37,11 +38,11 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="panel-body">
         <p>
-            <span class="stylizeLikeTH">@Html.LabelWithSugarFor(FieldDefinition.GlobalInflationRate)</span>
+            <span class="stylizeLikeTH">@Html.LabelWithSugarFor(FieldDefinitionEnum.GlobalInflationRate.ToType())</span>
             <span>@ViewDataTyped.CostParameterSet.InflationRate.ToStringPercent()</span>
         </p>
         <p>
-            <span class="stylizeLikeTH">@Html.LabelWithSugarFor(FieldDefinition.CurrentYearForPVCalculations)</span>
+            <span class="stylizeLikeTH">@Html.LabelWithSugarFor(FieldDefinitionEnum.CurrentYearForPVCalculations.ToType())</span>
             <span>@ViewDataTyped.CostParameterSet.CurrentYearForPVCalculations</span>
         </p>
         <p>

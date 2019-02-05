@@ -21,9 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ApprovalTests.Reporters;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.UnitTestCommon;
+using ProjectFirmaModels.Models;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Project
             var fundingSource4 = TestFramework.TestFundingSource.Create();
             fundingSource4.FundingSourceName = "Funding Source 4";
             var calendarYears = new List<int> {2010, 2011, 2012, 2013, 2014};
-            var fundingSources = new List<Models.FundingSource> {fundingSource1, fundingSource2, fundingSource3, fundingSource4};
+            var fundingSources = new List<ProjectFirmaModels.Models.FundingSource> {fundingSource1, fundingSource2, fundingSource3, fundingSource4};
 
             var project = TestFramework.TestProject.Create();
 
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Project
             var projectFundingSourceExpenditure4 = TestFramework.TestProjectFundingSourceExpenditure.Create(project, fundingSource3, 2014, 4000);
             var projectFundingSourceExpenditure5 = TestFramework.TestProjectFundingSourceExpenditure.Create(project, fundingSource4, 2012, 5000);
 
-            var projectFundingSourceExpenditures = new List<Models.ProjectFundingSourceExpenditure>
+            var projectFundingSourceExpenditures = new List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>
             {
                 projectFundingSourceExpenditure1,
                 projectFundingSourceExpenditure2,

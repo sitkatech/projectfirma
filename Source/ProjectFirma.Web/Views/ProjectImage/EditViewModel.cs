@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 
 namespace ProjectFirma.Web.Views.ProjectImage
@@ -29,12 +29,12 @@ namespace ProjectFirma.Web.Views.ProjectImage
     {
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCaption)]
-        [StringLength(Models.ProjectImage.FieldLengths.Caption)]
+        [StringLength(ProjectFirmaModels.Models.ProjectImage.FieldLengths.Caption)]
         public string Caption { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.PhotoCredit)]
-        [StringLength(Models.ProjectImage.FieldLengths.Credit)]
+        [StringLength(ProjectFirmaModels.Models.ProjectImage.FieldLengths.Credit)]
         public string Credit { get; set; }
 
         [Required]
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         {
         }
 
-        public EditViewModel(Models.ProjectImage projectImage)
+        public EditViewModel(ProjectFirmaModels.Models.ProjectImage projectImage)
         {
             Caption = projectImage.Caption;
             Credit = projectImage.Credit;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
             ExcludeFromFactSheet = projectImage.ExcludeFromFactSheet;
         }
 
-        public virtual void UpdateModel(Models.ProjectImage projectImage, Person person)
+        public virtual void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, Person person)
         {
             projectImage.Caption = Caption;
             projectImage.Credit = Credit;

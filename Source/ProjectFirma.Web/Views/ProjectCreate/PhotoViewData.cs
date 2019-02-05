@@ -24,6 +24,7 @@ using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -32,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
-        public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<IFileResourcePhoto, object> sortFunction, Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
+        public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<FileResourcePhoto, object> sortFunction, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             var selectKeyImageUrl =

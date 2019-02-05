@@ -18,15 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.UnitTestCommon;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirmaModels.Models;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Models
 {
@@ -38,14 +40,14 @@ namespace ProjectFirma.Web.Models
         {
             var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
-            var projectUpdateBatch = ProjectUpdateBatch.CreateProjectUpdateBatchAndLogTransition(project, person);
+            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, person);
             Assert.That(projectUpdateBatch, Is.Not.Null, "Should have created one");
-            Assert.That(projectUpdateBatch.ProjectUpdateHistories.Count, Is.EqualTo(1), $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record");
+            Assert.That(projectUpdateBatch.ProjectUpdateHistories.Count, Is.EqualTo(1), $"Should have created a Project update history record");
             var projectUpdateHistory = projectUpdateBatch.ProjectUpdateHistories.First();
-            Assert.That(projectUpdateHistory.ProjectUpdateState, Is.EqualTo(ProjectUpdateState.Created), $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record in transition: Created");
+            Assert.That(projectUpdateHistory.ProjectUpdateState, Is.EqualTo(ProjectUpdateState.Created), $"Should have created a Project update history record in transition: Created");
             Assert.That(projectUpdateHistory.TransitionDate.ToShortDateString(),
                 Is.EqualTo(DateTime.Today.ToShortDateString()),
-                $"Should have created a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update history record and the date should be today");
+                $"Should have created a Project update history record and the date should be today");
         }
 
         [Test]
@@ -53,21 +55,21 @@ namespace ProjectFirma.Web.Models
         {
             var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
-            var projectUpdateBatch = ProjectUpdateBatch.CreateProjectUpdateBatchAndLogTransition(project, person);
+            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, person);
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = currentYear;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.CompletionYear = currentYear;
 
-            Assert.That(projectUpdateBatch.IsApproved, Is.False);
-            Assert.That(projectUpdateBatch.IsSubmitted, Is.False);
-            Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
-            Assert.That(projectUpdateBatch.IsCreated, Is.True);
-            Assert.That(projectUpdateBatch.InEditableState, Is.True);
+            Assert.That(projectUpdateBatch.IsApproved(), Is.False);
+            Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
+            Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
+            Assert.That(projectUpdateBatch.IsCreated(), Is.True);
+            Assert.That(projectUpdateBatch.InEditableState(), Is.True);
 
             var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
-            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that is not ready to be submitted"));
+            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a Project update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
             var fundingSource1 = TestFramework.TestFundingSource.Create(organization1, "Funding Source 1");
@@ -76,18 +78,18 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ProjectLocationNotes = "No location for now";
 
             projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1));
-            Assert.That(projectUpdateBatch.IsApproved, Is.False);
-            Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
-            Assert.That(projectUpdateBatch.IsSubmitted, Is.True);
-            Assert.That(projectUpdateBatch.IsCreated, Is.False);
-            Assert.That(projectUpdateBatch.InEditableState, Is.False);
+            Assert.That(projectUpdateBatch.IsApproved(), Is.False);
+            Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
+            Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
+            Assert.That(projectUpdateBatch.IsCreated(), Is.False);
+            Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
             projectUpdateBatch.RejectSubmission(person, DateTime.Now.AddDays(2));
-            Assert.That(projectUpdateBatch.IsApproved, Is.False);
-            Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.True);
-            Assert.That(projectUpdateBatch.IsSubmitted, Is.False);
-            Assert.That(projectUpdateBatch.IsCreated, Is.False);
-            Assert.That(projectUpdateBatch.InEditableState, Is.True);
+            Assert.That(projectUpdateBatch.IsApproved(), Is.False);
+            Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.True);
+            Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
+            Assert.That(projectUpdateBatch.IsCreated(), Is.False);
+            Assert.That(projectUpdateBatch.InEditableState(), Is.True);
 
             preconditionException =
                 Assert.Catch<PreconditionException>(
@@ -110,15 +112,15 @@ namespace ProjectFirma.Web.Models
                             new List<ProjectCustomAttribute>(),
                             new List<ProjectCustomAttributeValue>()),
                     "Should not be allowed to approve yet");
-            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update that has not been submitted"));
+            Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
 
             // we have to re submit to get to approve
             projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(3));
-            Assert.That(projectUpdateBatch.IsApproved, Is.False);
-            Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
-            Assert.That(projectUpdateBatch.IsSubmitted, Is.True);
-            Assert.That(projectUpdateBatch.IsCreated, Is.False);
-            Assert.That(projectUpdateBatch.InEditableState, Is.False);
+            Assert.That(projectUpdateBatch.IsApproved(), Is.False);
+            Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
+            Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
+            Assert.That(projectUpdateBatch.IsCreated(), Is.False);
+            Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
             projectUpdateBatch.Approve(person,
                 DateTime.Now.AddDays(4),
@@ -137,11 +139,11 @@ namespace ProjectFirma.Web.Models
                 new List<ProjectDocument>(),
                 new List<ProjectCustomAttribute>(),
                 new List<ProjectCustomAttributeValue>());
-            Assert.That(projectUpdateBatch.IsApproved, Is.True);
-            Assert.That(projectUpdateBatch.IsReadyToSubmit, Is.False);
-            Assert.That(projectUpdateBatch.IsSubmitted, Is.False);
-            Assert.That(projectUpdateBatch.IsCreated, Is.False);
-            Assert.That(projectUpdateBatch.InEditableState, Is.False);
+            Assert.That(projectUpdateBatch.IsApproved(), Is.True);
+            Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
+            Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
+            Assert.That(projectUpdateBatch.IsCreated(), Is.False);
+            Assert.That(projectUpdateBatch.InEditableState(), Is.False);
         }
 
         [Test]
@@ -149,9 +151,9 @@ namespace ProjectFirma.Web.Models
         {
             var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
-            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatch.CreateNewProjectUpdateBatchForProject(project, person);
+            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned a new ProjectUpdateBatch");
-            Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated, Is.True, "Should have returned a new ProjectUpdateBatch that is in draft");
+            Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated(), Is.True, "Should have returned a new ProjectUpdateBatch that is in draft");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectID, Is.EqualTo(project.ProjectID), "Should have returned a new ProjectUpdateBatch that is in draft for the given project");
         }
 
@@ -161,13 +163,13 @@ namespace ProjectFirma.Web.Models
             var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
-            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatch.CreateNewProjectUpdateBatchForProject(project, person);
+            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned the existing ProjectUpdateBatch");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectUpdateBatchID, Is.EqualTo(projectUpdateBatch.ProjectUpdateBatchID), "Should have returned the existing ProjectUpdateBatch");
 
             // flip it to submitted
             TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Submitted, person, DateTime.Now.AddDays(1));
-            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatch.CreateNewProjectUpdateBatchForProject(project, person);
+            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned the existing ProjectUpdateBatch, even if it is submitted");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectUpdateBatchID,
                 Is.EqualTo(projectUpdateBatch.ProjectUpdateBatchID),
@@ -175,9 +177,9 @@ namespace ProjectFirma.Web.Models
 
             // flip it to approved
             TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Approved, person, DateTime.Now.AddDays(2));
-            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatch.CreateNewProjectUpdateBatchForProject(project, person);
+            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned a new ProjectUpdateBatch, since the existing one we had has now been Approved");
-            Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated,
+            Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated(),
                 Is.True,
                 "Should have returned a new ProjectUpdateBatch that is in draft, since the existing one we had has now been Approved");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectID,
@@ -191,7 +193,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
+            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no Project update record yet");
 
             // Should just have one year, current year
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -199,8 +201,8 @@ namespace ProjectFirma.Web.Models
 
             // create a project update record
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue, Is.False, $"Precondition: Project update record has no start year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: Project update record has no completion year");
             AssertYearRangeForPerformanceMeasuresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a start year
@@ -270,7 +272,7 @@ namespace ProjectFirma.Web.Models
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
 
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
+            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no Project update record yet");
 
             // Should just have one year, current year
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -278,8 +280,8 @@ namespace ProjectFirma.Web.Models
 
             // create a project update record
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, $"Precondition: Project update record has no start year");
+            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: Project update record has no completion year");
             AssertYearRangeForExpendituresCorrect(projectUpdateBatch, currentYear, currentYear);
 
             // now set a start year
@@ -344,81 +346,6 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
-        public void GetProjectUpdatePlanningDesignStartToCompletionYearRangeForProjectBudgetsTest()
-        {
-            var project = TestFramework.TestProject.Create();
-            var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
-
-            Assert.That(projectUpdateBatch.ProjectUpdate, Is.Null, $"Precondition: no {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record yet");
-
-            // Should just have one year, current year
-            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, currentYear);
-
-            // create a project update record
-            var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
-            Assert.That(projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no start year");
-            Assert.That(projectUpdateBatch.ProjectUpdate.CompletionYear.HasValue, Is.False, $"Precondition: {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} update record has no completion year");
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, currentYear);
-
-            // now set a start year
-            // start year before minimum year for reporting (2007), no completion year, expect the range to be start year to current year
-            projectUpdate.PlanningDesignStartYear = 2004;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, currentYear);
-
-            // start year in the past but greater than minimum year for reporting (2007), expect the range to be start year to current year
-            projectUpdate.PlanningDesignStartYear = currentYear - 3;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, currentYear);
-
-            // start year in the future, no completion year, expect the range to be start year to start year
-            projectUpdate.PlanningDesignStartYear = currentYear + 1;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.PlanningDesignStartYear.Value);
-
-            // now set a completion year that is less than current year; expect the range to be start year to completion year
-            projectUpdate.PlanningDesignStartYear = currentYear - 2;
-            projectUpdate.CompletionYear = currentYear - 1;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value);
-
-            // now set a completion year that is greater than current year; expect the range to be start year to completion year
-            projectUpdate.CompletionYear = currentYear + 3;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value);
-
-            // No Start Year
-            // 10/30/15 RL:  Rules have changed so that you should never not have a PlanningDesignStartYear when you get to the Budgets area; this is our best guess on what should happen if this anomaly happens
-            // now set a completion year before the minimum year for reporting (2007); expect it to be completion year to completion year
-            projectUpdate.PlanningDesignStartYear = null;
-
-            projectUpdate.CompletionYear = 2006;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.CompletionYear.Value, projectUpdate.CompletionYear.Value);
-
-            // now set a completion year to be <= curent year but greater than minimum year for reporting (2007); expect it to be completion year to completion year
-            projectUpdate.CompletionYear = currentYear;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.CompletionYear.Value, projectUpdate.CompletionYear.Value);
-
-            projectUpdate.CompletionYear = currentYear - 1;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.CompletionYear.Value, projectUpdate.CompletionYear.Value);
-
-            // now set a completion year to be > curent year; expect it to be current year to completion year
-            projectUpdate.CompletionYear = currentYear + 1;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, currentYear, projectUpdate.CompletionYear.Value);
-
-            // invalid year combo; should throw an exception
-            projectUpdate.PlanningDesignStartYear = 2012;
-            projectUpdate.CompletionYear = 2011;
-            Assert.Throws<PreconditionException>(() => FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdateBatch.ProjectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting()));
-
-            // both start and completion years before the minimum year; expect it to return start to completion year
-            projectUpdate.PlanningDesignStartYear = 2003;
-            projectUpdate.CompletionYear = 2005;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value);
-
-            // both start and completion years after the current year; expect it to return start to completion year
-            projectUpdate.PlanningDesignStartYear = currentYear + 2;
-            projectUpdate.CompletionYear = currentYear + 4;
-            AssertYearRangeForBudgetsCorrect(projectUpdateBatch, projectUpdate.PlanningDesignStartYear.Value, projectUpdate.CompletionYear.Value);
-        }
-
-        [Test]
         public void ValidateExpendituresAndForceValidationTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
@@ -468,7 +395,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = 2003;
             projectUpdate.CompletionYear = 2006;
             result = projectUpdateBatch.ValidateExpendituresAndForceValidation();
-            Assert.That(result, Is.Empty, $"Should be valid since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} start and completion year is before 2007");
+            Assert.That(result, Is.Empty, $"Should be valid since the Project start and completion year is before 2007");
             Assert.That(result, Is.Empty, "Should not have any validation warnings");
 
             // now add some expenditure update records
@@ -560,7 +487,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.ImplementationStartYear = 2002;
             projectUpdate.CompletionYear = 2006;
             result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.EqualTo(true), $"Should be valid since the {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} start and completion year is before 2007");
+            Assert.That(result.IsValid, Is.EqualTo(true), $"Should be valid since the Project start and completion year is before 2007");
             Assert.That(result.GetWarningMessages(), Is.Empty, "Should not have any validation warnings");
             Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
 
@@ -704,7 +631,7 @@ namespace ProjectFirma.Web.Models
                     Assert.That(result,
                         Is.EquivalentTo(new List<string>
                         {
-                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}", fundingSources.First().DisplayName, string.Join(", ", expectedMissingYears))
+                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}", fundingSources.First().GetDisplayName(), string.Join(", ", expectedMissingYears))
                         }),
                         assertionMessage);
                 }

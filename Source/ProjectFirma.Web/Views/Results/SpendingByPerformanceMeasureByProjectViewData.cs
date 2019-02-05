@@ -20,32 +20,33 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class SpendingByPerformanceMeasureByProjectViewData : FirmaViewData
     {        
-        public readonly Models.PerformanceMeasure SelectedPerformanceMeasure;
-        public readonly List<Models.PerformanceMeasure> PerformanceMeasures;
-        public readonly string SpendingByPerformanceMeasureByProjectUrl;
+        public ProjectFirmaModels.Models.PerformanceMeasure SelectedPerformanceMeasure { get; }
+        public List<ProjectFirmaModels.Models.PerformanceMeasure> PerformanceMeasures { get; }
+        public string SpendingByPerformanceMeasureByProjectUrl { get; }
 
-        public readonly PerformanceMeasureChartViewData PerformanceMeasureChartViewData;
-        
-        public readonly SpendingByPerformanceMeasureByProjectGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public PerformanceMeasureChartViewData PerformanceMeasureChartViewData { get; }
+
+        public SpendingByPerformanceMeasureByProjectGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
         public SpendingByPerformanceMeasureByProjectViewData(Person currentPerson,
-            Models.FirmaPage firmaPage,
-            List<Models.PerformanceMeasure> performanceMeasures,
-            Models.PerformanceMeasure selectedPerformanceMeasure,
+            ProjectFirmaModels.Models.FirmaPage firmaPage,
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
+            ProjectFirmaModels.Models.PerformanceMeasure selectedPerformanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
         {
-            PageTitle = string.Format("Spending by {0} for Selected {1}", Models.FieldDefinition.Project.GetFieldDefinitionLabel(), MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
+            PageTitle = $"Spending by {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} for Selected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}";
 
             PerformanceMeasures = performanceMeasures;
             SelectedPerformanceMeasure = selectedPerformanceMeasure;
@@ -55,8 +56,8 @@ namespace ProjectFirma.Web.Views.Results
 
             GridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(SelectedPerformanceMeasure)
             {
-                ObjectNameSingular = string.Format("record by {0} {1}: {2}", MultiTenantHelpers.GetPerformanceMeasureName(), SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.PerformanceMeasureDisplayName),
-                ObjectNamePlural = string.Format("records by {0} {1}: {2}", MultiTenantHelpers.GetPerformanceMeasureName(), SelectedPerformanceMeasure.PerformanceMeasureID, SelectedPerformanceMeasure.PerformanceMeasureDisplayName),
+                ObjectNameSingular = $"record by {MultiTenantHelpers.GetPerformanceMeasureName()} {SelectedPerformanceMeasure.PerformanceMeasureID}: {SelectedPerformanceMeasure.PerformanceMeasureDisplayName}",
+                ObjectNamePlural = $"records by {MultiTenantHelpers.GetPerformanceMeasureName()} {SelectedPerformanceMeasure.PerformanceMeasureID}: {SelectedPerformanceMeasure.PerformanceMeasureDisplayName}",
                 SaveFiltersInCookie = true
             };
 

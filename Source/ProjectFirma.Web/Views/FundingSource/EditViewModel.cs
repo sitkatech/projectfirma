@@ -24,9 +24,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public int FundingSourceID { get; set; }
 
         [Required]
-        [StringLength(Models.FundingSource.FieldLengths.FundingSourceName)]
+        [StringLength(ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName)]
         [DisplayName("Name")]
         public string FundingSourceName { get; set; }
 
@@ -48,7 +49,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         [DisplayName("Active?")]
         public bool? IsActive { get; set; }
 
-        [StringLength(Models.FundingSource.FieldLengths.FundingSourceDescription)]
+        [StringLength(ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceDescription)]
         [DisplayName("Description")]
         public string FundingSourceDescription { get; set; }
 
@@ -62,7 +63,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         {
         }
 
-        public EditViewModel(Models.FundingSource fundingSource)
+        public EditViewModel(ProjectFirmaModels.Models.FundingSource fundingSource)
         {
             FundingSourceID = fundingSource.FundingSourceID;
             FundingSourceName = fundingSource.FundingSourceName;
@@ -72,7 +73,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             FundingSourceAmount = fundingSource.FundingSourceAmount;
         }
 
-        public void UpdateModel(Models.FundingSource fundingSource, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, Person currentPerson)
         {
             fundingSource.FundingSourceName = FundingSourceName;
             fundingSource.FundingSourceDescription = FundingSourceDescription;
@@ -86,22 +87,22 @@ namespace ProjectFirma.Web.Views.FundingSource
             var errors = new List<ValidationResult>();
 
             var existingFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => x.OrganizationID == OrganizationID).ToList();
-            if (!Models.FundingSource.IsFundingSourceNameUnique(existingFundingSources, FundingSourceName, FundingSourceID))
+            if (!FundingSourceModelExtensions.IsFundingSourceNameUnique(existingFundingSources, FundingSourceName, FundingSourceID))
             {
                 errors.Add(new SitkaValidationResult<EditViewModel, string>(FirmaValidationMessages.FundingSourceNameUnique, x => x.FundingSourceName));
             }
 
             var currentPerson = HttpRequestStorage.Person;
-            if (new List<Models.Role> {Models.Role.Admin, Models.Role.SitkaAdmin}.All(
+            if (new List<ProjectFirmaModels.Models.Role> {ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin}.All(
                 x => x.RoleID != currentPerson.RoleID) && currentPerson.OrganizationID != OrganizationID)
             {
-                var errorMessage = $"You cannnot create a {Models.FieldDefinition.FundingSource.GetFieldDefinitionLabel()} for an {Models.FieldDefinition.Organization.GetFieldDefinitionLabel()} other than your own.";
+                var errorMessage = $"You cannnot create a {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} for an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} other than your own.";
                 errors.Add(new SitkaValidationResult<EditViewModel, int?>(errorMessage, x => x.OrganizationID));
             }
 
             if (FundingSourceAmount != null && FundingSourceAmount < 0)
             {
-                errors.Add(new SitkaValidationResult<EditViewModel, MoneyWholeNumber?>(Models.FieldDefinition.FundingSourceAmount.GetFieldDefinitionLabel() + " cannot be a negative amount", x => x.FundingSourceAmount));
+                errors.Add(new SitkaValidationResult<EditViewModel, MoneyWholeNumber?>(FieldDefinitionEnum.FundingSourceAmount.ToType().GetFieldDefinitionLabel() + " cannot be a negative amount", x => x.FundingSourceAmount));
             }
 
             return errors;

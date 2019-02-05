@@ -24,11 +24,12 @@ using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.FieldDefinition;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -46,8 +47,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public GridJsonNetJObjectResult<FieldDefinition> IndexGridJsonData()
         {
-            FieldDefinitionGridSpec gridSpec;
-            var actions = GetFieldDefinitionsAndGridSpec(out gridSpec, CurrentPerson);
+            var actions = GetFieldDefinitionsAndGridSpec(out var gridSpec, CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FieldDefinition>(actions, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -55,7 +55,9 @@ namespace ProjectFirma.Web.Controllers
         private static List<FieldDefinition> GetFieldDefinitionsAndGridSpec(out FieldDefinitionGridSpec gridSpec, Person currentPerson)
         {
             gridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByPerson(currentPerson));
-            return FieldDefinition.All.Where(x => new FieldDefinitionManageFeature().HasPermission(currentPerson, x).HasPermission).OrderBy(x => x.GetFieldDefinitionLabel()).ToList();
+            return HttpRequestStorage.DatabaseEntities.FieldDefinitions.ToList()
+                .Where(x => new FieldDefinitionManageFeature().HasPermission(currentPerson, x).HasPermission)
+                .OrderBy(x => x.GetFieldDefinitionLabel()).ToList();
         }
 
         [HttpGet]
@@ -99,10 +101,10 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         [FieldDefinitionViewFeature]
         [CrossAreaRoute]
-        public PartialViewResult FieldDefinitionDetails(int fieldDefinitionID)
+        public PartialViewResult FieldDefinitionDetails(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
         {
-            var fieldDefinition = FieldDefinition.AllLookupDictionary[fieldDefinitionID];
-            var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.SingleOrDefault(x => x.FieldDefinitionID == fieldDefinitionID);
+            var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
+            var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
             var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentPerson, fieldDefinition).HasPermission;
             var editUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(fieldDefinition));
             var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
@@ -115,7 +117,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult FieldDefinitionDetailsForClassificationSystem(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var viewData = new FieldDefinitionDetailsViewData(classificationSystem, (bool)false, (string)string.Empty, new HtmlString("<p>A logical system to group projects according to overarching program themes or goals.</p>"), classificationSystem.ClassificationSystemName);
+            var viewData = new FieldDefinitionDetailsViewData(classificationSystem, false, string.Empty, new HtmlString("<p>A logical system to group projects according to overarching program themes or goals.</p>"), classificationSystem.ClassificationSystemName);
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
     }

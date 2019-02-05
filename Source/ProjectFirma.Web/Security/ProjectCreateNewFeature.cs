@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Security
                 return false;
             }
 
-            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.PersonIsProjectOwnerWhoCanStewardProjects);
+            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.IsPersonAProjectOwnerWhoCanStewardProjects());
         }
     }
 }

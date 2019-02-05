@@ -18,12 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits Basics
 
 @section JavascriptAndStylesContent
@@ -39,8 +41,8 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <p>
-    Update your @FieldDefinition.Project.GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinition.Project.GetFieldDefinitionLabel() is complete, be sure to set the stage to "Complete" or "Post-Implementation"
-    from the @FieldDefinition.ProjectStage.GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.
+    Update your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s basic information here. If this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is complete, be sure to set the stage to "Complete" or "Post-Implementation"
+    from the @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel() dropdown. Changes made here will not take effect until a review approves your updates.
 </p>
 <hr />
 @using (Html.BeginForm())
@@ -79,13 +81,13 @@ Source code is available upon request via <support@sitkatech.com>.
                 @ViewDataTyped.ProjectUpdate.ProjectStage.ProjectStageDisplayName
             }
             <div>
-                <p class="systemText">To change the @FieldDefinition.Project.GetFieldDefinitionLabel() stage to a stage not listed, @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).</p>
+                <p class="systemText">To change the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() stage to a stage not listed, @ModalDialogFormHelper.ModalDialogFormLink("contact support", ViewDataTyped.RequestSupportUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null).</p>
             </div>
         </div>
     </div>
     <div class="form-group form-group-condensed">
         <div class="col-sm-4 control-label">
-            @Html.LabelWithSugarFor(FieldDefinition.PlanningDesignStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.PlanningDesignStartYear.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Planning / Design Start Year</strong>
         </div>
         <div class="col-sm-8">
             @if (ViewDataTyped.IsEditable)
@@ -95,13 +97,13 @@ Source code is available upon request via <support@sitkatech.com>.
             }
             else
             {
-                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.GetPlanningDesignStartYear().</p>
+                <p class="form-control-static">@(ViewDataTyped.ProjectUpdate.GetPlanningDesignStartYear()).</p>
             }
         </div>
     </div>
     <div class="form-group form-group-condensed">
         <div class="col-sm-4 control-label">
-            @Html.LabelWithSugarFor(FieldDefinition.ImplementationStartYear, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) <strong>Implementation Start Year</strong>
         </div>
         <div class="col-sm-8">
             @if (ViewDataTyped.IsEditable)
@@ -133,13 +135,13 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row form-group-condensed">
         <div class="col-sm-4 control-label">
-            @Html.LabelWithSugarFor(FieldDefinition.TaxonomyLeaf)
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType())
         </div>
         <div class="col-sm-8">
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
-    @if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.Capital)
+    @if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.Capital)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
@@ -158,11 +160,11 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     }
-    else if (ViewDataTyped.Project.FundingType.ToEnum == FundingTypeEnum.OperationsAndMaintenance)
+    else if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.EstimatedAnnualOperatingCost)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
             </div>
             <div class="col-sm-8">
                 @if (ViewDataTyped.IsEditable)
@@ -178,17 +180,17 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinition.LifecycleOperatingCost)
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.LifecycleOperatingCost.ToType())
             </div>
             <div class="col-sm-8">
-                <p class="form-control-static">@CostParameterSet.LifecycleOperatingCost(ViewDataTyped.ProjectUpdate).ToStringCurrency()</p>
+                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.LifecycleOperatingCost().ToStringCurrency()</p>
             </div>
         </div>
-        if (CostParameterSet.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(ViewDataTyped.ProjectUpdate))
+        if (ViewDataTyped.ProjectUpdate.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
         {
             <div class="form-group form-group-condensed">
                 <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinition.CalculatedTotalRemainingOperatingCost)
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
                 </div>
                 <div class="col-sm-8">
                     <p class="form-control-static">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency() (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
@@ -219,9 +221,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tr>
                     <td>
                         @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                        @if (ViewDataTyped.UpdateStatus.IsBasicsUpdated)
+                        @if (ViewDataTyped.ProjectUpdateStatus.IsBasicsUpdated)
                         {
-                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Basics", FieldDefinition.Project.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                            @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Basics", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                         }
                     </td>
                     <td style="text-align: right; white-space: nowrap">

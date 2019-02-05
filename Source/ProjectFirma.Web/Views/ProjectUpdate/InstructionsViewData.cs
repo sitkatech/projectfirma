@@ -23,16 +23,21 @@ using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class InstructionsViewData : ProjectUpdateViewData
     {
-        public readonly string PerformanceMeasuresUrl;
+        public string PerformanceMeasuresUrl { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectStage { get; }
 
-        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, UpdateStatus updateStatus) : base(currentPerson, projectUpdateBatch, updateStatus, new List<string>(), "Instructions")
+        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), "Instructions")
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForProjectStage = FieldDefinitionEnum.ProjectStage.ToType();
         }
     }
 }

@@ -21,6 +21,7 @@
 @using LtInfo.Common
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits RelatedPerformanceMeasures
 
@@ -40,7 +41,7 @@
                         <th>@ViewDataTyped.PerformanceMeasureHeaderDisplayName</th>
                         <th>@ViewDataTyped.IsPrimaryTaxonomyTierHeaderDisplayName</th>
                     </tr>
-                    @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.SortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName, StringComparer.InvariantCultureIgnoreCase))
+                    @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.GetSortOrder()).ThenBy(x => x.Key.PerformanceMeasureDisplayName, StringComparer.InvariantCultureIgnoreCase))
                     {
                         <tr>
                             <td>@taxonomyTierPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
@@ -51,7 +52,7 @@
             }
             else
             {
-                <p class="systemText">No @ViewDataTyped.PerformanceMeasureDisplayNamePluralized set for this @FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel().</p>
+                <p class="systemText">No @ViewDataTyped.PerformanceMeasureDisplayNamePluralized set for this @(FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()).</p>
             }
         </div>
     </div>

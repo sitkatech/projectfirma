@@ -21,9 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -33,14 +34,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
-        public InstructionsEnterHistoricViewData(Person currentPerson, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
+        public InstructionsEnterHistoricViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
-            PageTitle = $"Add {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+            PageTitle = $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
-        public InstructionsEnterHistoricViewData(Person currentPerson, Models.Project project, ProposalSectionsStatus proposalSectionsStatus, Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, "Instructions", proposalSectionsStatus)
+        public InstructionsEnterHistoricViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, project, "Instructions", proposalSectionsStatus)
         {
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;

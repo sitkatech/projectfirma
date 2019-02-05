@@ -75,7 +75,6 @@ namespace LtInfo.Common.GeoJson
             {
                 var geom = DbGeometry.FromText(c.Geometry);
                 var f = DbGeometryToGeoJsonHelper.FromDbGeometry(geom);
-                f.Id = c.ID.ToString(CultureInfo.InvariantCulture);
                 f.Properties.Add("Name", c.Name);
                 fc.Features.Add(f);
             });

@@ -21,28 +21,29 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class PendingViewData : FirmaViewData
     {
-        public readonly PendingGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly bool HasProposeProjectPermissions;
-        public readonly string ProposeNewProjectUrl;
+        public PendingGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public bool HasProposeProjectPermissions { get; }
+        public string ProposeNewProjectUrl { get; }
 
-        public PendingViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public PendingViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
 
-            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}", ObjectNamePlural = $"Pending {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new PendingGridSpec(currentPerson) {ObjectNameSingular = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Views.Project
             }
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
-                GridSpec.CreateEntityActionPhrase = $"Propose a New {Models.FieldDefinition.Project.GetFieldDefinitionLabel()}";
+                GridSpec.CreateEntityActionPhrase = $"Propose a New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
                 GridSpec.CreateEntityModalDialogForm = null;
             }
             GridName = "proposalsGrid";

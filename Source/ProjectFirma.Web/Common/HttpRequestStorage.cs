@@ -25,10 +25,11 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using LtInfo.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using Keystone.Common;
 using LtInfo.Common.DesignByContract;
-using Person = ProjectFirma.Web.Models.Person;
+using ProjectFirma.Web.Models;
+using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Common
 {
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Common
 
         public static Person Person
         {
-            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, Person.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
+            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
             set { SetValue(PersonKey, value); }
         }
 
@@ -81,7 +82,7 @@ namespace ProjectFirma.Web.Common
 
         private static DatabaseEntities MakeNewContext(bool autoDetectChangesEnabled)
         {
-            var databaseEntities = new DatabaseEntities();
+            var databaseEntities = new DatabaseEntities(Tenant.TenantID);
             databaseEntities.Configuration.AutoDetectChangesEnabled = autoDetectChangesEnabled;
             return databaseEntities;
         }
@@ -91,11 +92,6 @@ namespace ProjectFirma.Web.Common
             var context = MakeNewContext(true);
             SetValue(TenantKey, Tenant.SitkaTechnologyGroup);
             SetValue(DatabaseContextKey, context);
-        }
-
-        public static void SetTenantForHangfire(Tenant tenant)
-        {
-            SetValue(TenantKey, tenant);
         }
 
         public static void EndContextForTest()

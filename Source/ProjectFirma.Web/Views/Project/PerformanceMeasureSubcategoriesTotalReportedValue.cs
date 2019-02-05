@@ -22,19 +22,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Models;
-using LtInfo.Common.Views;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class PerformanceMeasureSubcategoriesTotalReportedValue
     {
-        public readonly Models.Project Project;
-        public Models.PerformanceMeasure PerformanceMeasure { get; private set; }
-        public readonly List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions;
-        public double? TotalReportedValue { get; private set; }
+        public ProjectFirmaModels.Models.Project Project { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; }
+        public double? TotalReportedValue { get; }
 
-        public PerformanceMeasureSubcategoriesTotalReportedValue(Models.Project project, List<IPerformanceMeasureValueSubcategoryOption> subcategoryOptions, Models.PerformanceMeasure performanceMeasure, double? totalReportedValue)
+        public PerformanceMeasureSubcategoriesTotalReportedValue(ProjectFirmaModels.Models.Project project, List<IPerformanceMeasureValueSubcategoryOption> subcategoryOptions, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, double? totalReportedValue)
         {
             Project = project;
             PerformanceMeasureActualSubcategoryOptions = subcategoryOptions;
@@ -42,61 +42,17 @@ namespace ProjectFirma.Web.Views.Project
             TotalReportedValue = totalReportedValue;
         }
 
-        public int PerformanceMeasureID
-        {
-            get { return PerformanceMeasure.PerformanceMeasureID; }
-        }
-        public string PerformanceMeasureName
-        {
-            get { return PerformanceMeasure.PerformanceMeasureDisplayName; }
-        }
+        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
 
-        public string PerformanceMeasureUrl
-        {
-            get { return PerformanceMeasure.GetSummaryUrl(); }
-        }
+        public string ProjectName => Project.GetDisplayName();
 
-        public string ProjectName
-        {
-            get { return Project.DisplayName; }
-        }
-        public string ProjectUrl
-        {
-            get { return Project.GetDetailUrl(); }
-        }
-
-        public MeasurementUnitType MeasurementUnitType
-        {
-            get { return PerformanceMeasure.MeasurementUnitType; }
-        }
-
-        public string PerformanceMeasureSubcategoriesAsString
-        {
-            get
-            {
-                return PerformanceMeasureActualSubcategoryOptions.Any()
-                    ? string.Join("\r\n",
-                        PerformanceMeasureActualSubcategoryOptions.OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => string.Format("{0}: {1}", x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName, x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
-                    : ViewUtilities.NoneString;
-            }
-        }
-
-        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureSubcategoryOptions
-        {
-            get { return new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions); }
-        }
-
-        public string TotalReportedValueDisplay
-        {
-            get { return MeasurementUnitType.DisplayValue(TotalReportedValue); }
-        }
+        public string ProjectUrl => Project.GetDetailUrl();
 
         public decimal? CalculateWeightedTotalExpenditure()
         {
             var reportedValuesForAllSubcategories = PerformanceMeasure.GetReportedPerformanceMeasureValues(Project)
                 .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
-                .Sum(x => x.ReportedValue ?? 0);
+                .Sum(x => x.GetReportedValue() ?? 0);
             if (Math.Abs(reportedValuesForAllSubcategories) < double.Epsilon)
             {
                 return null;

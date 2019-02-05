@@ -1,7 +1,9 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Edit
 
@@ -89,7 +91,7 @@
                 </div>
                 <div ng-if="ProjectCustomAttributeDataTypeSelected == null">
                     <div class="alert alert-warning" role="alert">
-                        Select a @FieldDefinition.ProjectCustomAttributeDataType.GetFieldDefinitionLabel() to enter the required information
+                        Select a @FieldDefinitionEnum.ProjectCustomAttributeDataType.ToType().GetFieldDefinitionLabel() to enter the required information
                     </div>
                 </div>
                 <div ng-if="ProjectCustomAttributeDataTypeSelected != null">

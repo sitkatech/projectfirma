@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.UnitTestCommon;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             TestFramework.TestProjectGeospatialArea.Create(project, geospatialArea3);
             TestFramework.TestProjectGeospatialArea.Create(project, geospatialArea4);
 
-            var allGeospatialAreas = new List<Models.GeospatialArea> { geospatialArea1, geospatialArea2, geospatialArea3, geospatialArea4 };
+            var allGeospatialAreas = new List<ProjectFirmaModels.Models.GeospatialArea> { geospatialArea1, geospatialArea2, geospatialArea3, geospatialArea4 };
 
             // Act
             var viewModel = new EditProjectGeospatialAreasViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList(), null);
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
             Assert.That(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID), Is.EquivalentTo(new List<int> { projectGeospatialArea1.GeospatialAreaID, projectGeospatialArea2.GeospatialAreaID }));
 
-            var geospatialAreasSelected = new List<Models.GeospatialArea> { geospatialArea1, geospatialArea3, geospatialArea4 };
+            var geospatialAreasSelected = new List<ProjectFirmaModels.Models.GeospatialArea> { geospatialArea1, geospatialArea3, geospatialArea4 };
 
             var viewModel = new EditProjectGeospatialAreasViewModel{ GeospatialAreaIDs = geospatialAreasSelected.Select(x => x.GeospatialAreaID).ToList() };
 

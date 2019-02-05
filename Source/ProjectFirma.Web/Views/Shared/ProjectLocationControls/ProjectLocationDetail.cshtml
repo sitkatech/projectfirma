@@ -18,11 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectLocationDetail
 
 <style>
@@ -33,17 +33,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </style>
 
 <p>
-    Create a drawing of your @FieldDefinition.Project.GetFieldDefinitionLabel()’s implementation (but not the full area affected by your @FieldDefinition.Project.GetFieldDefinitionLabel()).
-    The detailed @FieldDefinition.ProjectLocation.GetFieldDefinitionLabel() information will appear on the @FieldDefinition.Project.GetFieldDefinitionLabel() Fact Sheet and @FieldDefinition.Project.GetFieldDefinitionLabel() summary page.
+    Create a drawing of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s implementation (but not the full area affected by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).
+    The detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() information will appear on the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet and @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() summary page.
     <ul>
-        <li>To zoom to your @FieldDefinition.Project.GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
-        <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinition.Project.GetFieldDefinitionLabel(), such as the @FieldDefinition.Project.GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
+        <li>To zoom to your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() area hold down the Shift key and drag a rectangle.</li>
+        <li>Use the edit tools on the left of the map to add point, line, and polygon features representing details of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), such as the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() boundary, a specific stream segment, or an area of interest.</li>
         <li>After adding a feature, click it to provide a brief description of the feature.</li>
     </ul>
 </p>
 <hr/>
 <p>
-    <span style="margin-right:10px">Instead of drawing your @FieldDefinition.Project.GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
+    <span style="margin-right:10px">Instead of drawing your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() details by hand, you may alternately upload a GIS file.</span>
     @ModalDialogFormHelper.ModalDialogFormLink(null,
         "Upload a GIS File",
         ViewDataTyped.UploadGisFileUrl,
@@ -65,7 +65,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (ViewDataTyped.HasProjectLocationPoint)
 {
     <div>
-        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple @FieldDefinition.Project.GetFieldDefinitionLabel() location (for reference)
+        <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
     </div>
 }
 
@@ -216,7 +216,8 @@ Source code is available upon request via <support@sitkatech.com>.
         var modalTitle = jQuery(".ui-dialog-title");
         if(!Sitka.Methods.isUndefinedNullOrEmpty(modalTitle))
         {
-            modalTitle.html("@(string.Format("Edit {0} - Detail", FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()))");
+            modalTitle.html(
+                "@string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel())");
         }
     });
 

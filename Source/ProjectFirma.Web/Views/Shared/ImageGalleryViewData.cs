@@ -21,26 +21,27 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
     public class ImageGalleryViewData
     {
-        public readonly Person CurrentPerson;
-        public readonly string GalleryName;
-        public readonly IEnumerable<IFileResourcePhoto> GalleryImages;
-        public readonly string SelectKeyImageUrl;
-        public readonly string AddNewPhotoUrl;
-        public readonly bool UserCanAddPhotos;
-        public readonly bool UserCanSelectKeyPhoto;
-        public readonly int CurrentKeyPhotoID;
-        public readonly bool IsGalleryMode;
-        public readonly Func<IFileResourcePhoto, object> SortFunction;
-        public readonly string ImageEntityName;
+        public Person CurrentPerson { get; }
+        public string GalleryName { get; }
+        public IEnumerable<FileResourcePhoto> GalleryImages { get; }
+        public string SelectKeyImageUrl { get; }
+        public string AddNewPhotoUrl { get; }
+        public bool UserCanAddPhotos { get; }
+        public bool UserCanSelectKeyPhoto { get; }
+        public int CurrentKeyPhotoID { get; }
+        public bool IsGalleryMode { get; }
+        public Func<FileResourcePhoto, object> SortFunction { get; }
+        public string ImageEntityName { get; }
 
-        public ImageGalleryViewData(Person currentPerson, string galleryName, IEnumerable<IFileResourcePhoto> galleryImages, bool canAddPhotos, string addNewPhotoUrl, string selectKeyImageUrl, bool isGalleryMode, Func<IFileResourcePhoto, object> sortFunction, string imageEntityName)
+        public ImageGalleryViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, bool canAddPhotos, string addNewPhotoUrl, string selectKeyImageUrl, bool isGalleryMode, Func<FileResourcePhoto, object> sortFunction, string imageEntityName)
         {
             CurrentPerson = currentPerson;
             GalleryImages = galleryImages.ToList();

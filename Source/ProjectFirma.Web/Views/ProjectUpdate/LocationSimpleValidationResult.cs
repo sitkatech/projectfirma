@@ -20,12 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class LocationSimpleValidationResult
     {
-        public static readonly string MissingLocationSimpleOrNotesMessage = $"Please specify a point on the map. If a location point or general {Models.FieldDefinition.Project.GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.";
+        public static readonly string MissingLocationSimpleOrNotesMessage = $"Please specify a point on the map. If a location point or general {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} area is not available, explanatory information in the Notes section is required.";
 
         private readonly List<string> _warningMessages;
 

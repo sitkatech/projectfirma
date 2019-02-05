@@ -22,12 +22,13 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.ProjectImage;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -119,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteProjectImage(ProjectImage projectImage, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
-                $"Are you sure you want to delete this image from {FieldDefinition.Project.GetFieldDefinitionLabel()} '{projectImage.Project.DisplayName}'? ({projectImage.Caption})";
+                $"Are you sure you want to delete this image from {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectImage.Project.GetDisplayName()}'? ({projectImage.Caption})";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -135,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDeleteProjectImage(projectImage, viewModel);
             }
             var project = projectImage.Project;
-            Project.DeleteProjectImages(new[] {projectImage});
+            projectImage.DeleteFull(HttpRequestStorage.DatabaseEntities);
             // reset key photo if needed
             if (projectImage.IsKeyPhoto)
             {

@@ -21,8 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ApprovalTests.Reporters;
-using ProjectFirma.Web.UnitTestCommon;
 using NUnit.Framework;
+using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Project
             var project4 = TestFramework.TestProject.Create();
             project4.ProjectName = "Project 4";
             var calendarYears = new List<int> {2010, 2011, 2012, 2013, 2014};
-            var projects = new List<Models.Project> {project1, project2, project3, project4};
+            var projects = new List<ProjectFirmaModels.Models.Project> {project1, project2, project3, project4};
 
             var fundingSource = TestFramework.TestFundingSource.Create();
 
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Project
             var projectProjectExpenditure4 = TestFramework.TestProjectFundingSourceExpenditure.Create(project3, fundingSource, 2014, 4000);
             var projectProjectExpenditure5 = TestFramework.TestProjectFundingSourceExpenditure.Create(project4, fundingSource, 2012, 5000);
 
-            var projectFundingSourceExpenditures = new List<Models.ProjectFundingSourceExpenditure>
+            var projectFundingSourceExpenditures = new List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>
             {
                 projectProjectExpenditure1,
                 projectProjectExpenditure2,
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Project
 
             // Assert
             Assert.That(result.Count, Is.EqualTo(projects.Count));
-            ObjectApproval.ObjectApprover.VerifyWithJson(result.Select(x => new {x.Project.DisplayName, x.CalendarYearExpenditure}));
+            ObjectApproval.ObjectApprover.VerifyWithJson(result.Select(x => new {DisplayName = x.Project.GetDisplayName(), x.CalendarYearExpenditure}));
         }
     }
 }

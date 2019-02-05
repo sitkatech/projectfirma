@@ -21,13 +21,14 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
-    public class DetailGridSpec : GridSpec<Models.TenantAttribute>
+    public class DetailGridSpec : GridSpec<ProjectFirmaModels.Models.TenantAttribute>
     {
         public DetailGridSpec()
         {
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.Tenant
             Add("Primary Contact",
                 t =>
                     t.PrimaryContactPerson != null
-                        ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.FullNameFirstLast).ToHTMLFormattedString()
+                        ? new SitkaRoute<UserController>(c => c.Detail(t.PrimaryContactPerson)).BuildLinkFromExpression(t.PrimaryContactPerson.GetFullNameFirstLast()).ToHTMLFormattedString()
                         : new HtmlString(""),
                 200,
                 DhtmlxGridColumnFilterType.Html);

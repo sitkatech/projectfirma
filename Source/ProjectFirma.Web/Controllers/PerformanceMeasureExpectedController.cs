@@ -24,8 +24,9 @@ using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Controllers
@@ -37,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditPerformanceMeasureExpectedsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var performanceMeasureExpectedSimples = project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.DisplayName).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList();
+            var performanceMeasureExpectedSimples = project.PerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList();
             var viewModel = new EditPerformanceMeasureExpectedViewModel(performanceMeasureExpectedSimples);
             return ViewEditPerformanceMeasureExpecteds(project, viewModel);
         }

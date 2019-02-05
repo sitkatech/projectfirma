@@ -21,7 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Map
 {
@@ -36,30 +38,28 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<Models.GeospatialArea> geospatialAreas) 
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection) 
             : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), GetProjectBoundingBox(project))
         {
-            var simpleLocationGeoJsonFeatureCollection = project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties);
-            HasSimpleLocation = simpleLocationGeoJsonFeatureCollection.Features.Any();
+            HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
             {
                 ProjectLocationYCoord = project.ProjectLocationPoint.YCoordinate;
                 ProjectLocationXCoord = project.ProjectLocationPoint.XCoordinate;
-                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Simple", project.SimpleLocationToGeoJsonFeatureCollection(addProjectProperties), "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
+                Layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple", simpleLocationToGeoJsonFeatureCollection, "#ffff00", 1, HasDetailedLocation ? LayerInitialVisibility.Hide : LayerInitialVisibility.Show));
             }
 
-            var detailedLocationGeoJsonFeatureCollection = project.DetailedLocationToGeoJsonFeatureCollection();
-            HasDetailedLocation = detailedLocationGeoJsonFeatureCollection.Features.Any();
+            HasDetailedLocation = detailedLocationAsGeoJsonFeatureCollection.Features.Any();
             if (HasDetailedLocation)
             {
-                Layers.Add(new LayerGeoJson($"{Models.FieldDefinition.ProjectLocation.GetFieldDefinitionLabel()} - Detail", detailedLocationGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
+                Layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Detail", detailedLocationAsGeoJsonFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
             }
 
             HasGeospatialAreas = geospatialAreas.Any();
             if (HasGeospatialAreas)
             {
-               geospatialAreas.ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.DisplayName,
-                    new List<Models.GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+               geospatialAreas.ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.GetDisplayName(),
+                    new List<ProjectFirmaModels.Models.GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                     LayerInitialVisibility.Show))); 
             }
         }

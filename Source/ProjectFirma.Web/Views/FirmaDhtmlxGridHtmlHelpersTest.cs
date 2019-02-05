@@ -24,6 +24,8 @@ using ApprovalTests.Reporters;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using NUnit.Framework;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views
 {
@@ -76,7 +78,7 @@ namespace ProjectFirma.Web.Views
         [UseReporter(typeof(DiffReporter))]
         public void CreateTagUrlHtmlTest()
         {
-            var bulkTagModalDialogForm = new BulkTagModalDialogForm("someUrl", $"Tag Checked {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}", $"Tag {Models.FieldDefinition.Project.GetFieldDefinitionLabelPluralized()}");
+            var bulkTagModalDialogForm = new BulkTagModalDialogForm("someUrl", $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
             var result = DhtmlxGridHtmlHelpers.CreateTagUrlHtml("someGridName", bulkTagModalDialogForm);
             Approvals.Verify(result);
         }

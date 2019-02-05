@@ -18,12 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Project.MyOrganizationsProjects
 
 @section JavascriptAndStylesContent
@@ -42,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@Html.LabelWithSugarFor(FieldDefinition.Project, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h2>
+        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectsGridSpec, ViewDataTyped.ProjectsGridName, ViewDataTyped.ProjectsGridDataUrl, "height:400px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -51,11 +52,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>@Html.LabelWithSugarFor(FieldDefinition.Proposal, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()</h2>
+        <h2>@Html.LabelWithSugarFor(FieldDefinitionEnum.Proposal.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()</h2>
     </div>
     <div class="panel-body">
         <div>
-            @Html.DhtmlxGrid(ViewDataTyped.ProposalsesGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            @Html.DhtmlxGrid(ViewDataTyped.ProposalsGridSpec, ViewDataTyped.ProposalsGridName, ViewDataTyped.ProposalsGridDataUrl, "height: 400px;", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
         </div>
     </div>
 </div>

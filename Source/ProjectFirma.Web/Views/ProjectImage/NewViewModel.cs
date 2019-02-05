@@ -23,9 +23,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectImage
 {
@@ -36,10 +37,10 @@ namespace ProjectFirma.Web.Views.ProjectImage
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(Models.ProjectImage projectImage, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, Person person)
         {
             base.UpdateModel(projectImage, person);
-            projectImage.FileResource = FileResource.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            projectImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
             if (projectImage.Project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
             {
                 projectImage.IsKeyPhoto = true;
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            FileResource.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
+            FileResourceModelExtensions.ValidateFileSize(FileResourceData, errors, GeneralUtility.NameOf(() => FileResourceData));
             return errors;
         }
     }

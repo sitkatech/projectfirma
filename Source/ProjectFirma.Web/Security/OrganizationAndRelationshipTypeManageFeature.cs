@@ -1,4 +1,4 @@
-﻿using ProjectFirma.Web.Models;
+﻿using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {

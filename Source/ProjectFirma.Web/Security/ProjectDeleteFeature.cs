@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Security
             if (!hasPermissionByPerson)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to delete {contextModelObject.DisplayName}");
+                    $"You don't have permission to delete {contextModelObject.GetDisplayName()}");
             }
             return new PermissionCheckResult();
         }

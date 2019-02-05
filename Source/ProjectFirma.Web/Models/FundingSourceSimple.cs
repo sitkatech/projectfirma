@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Models
 {
     public class FundingSourceSimple
@@ -29,10 +32,10 @@ namespace ProjectFirma.Web.Models
         {
             FundingSourceID = fundingSource.FundingSourceID;
             OrganizationID = fundingSource.OrganizationID;
-            OrganizationName = fundingSource.Organization.OrganizationShortNameIfAvailable;
+            OrganizationName = fundingSource.Organization.GetOrganizationShortNameIfAvailable();
             FundingSourceName = fundingSource.FundingSourceName;
             IsActive = fundingSource.IsActive;
-            DisplayName = fundingSource.DisplayName;
+            DisplayName = fundingSource.GetDisplayName();
         }
 
         public int FundingSourceID { get; set; }

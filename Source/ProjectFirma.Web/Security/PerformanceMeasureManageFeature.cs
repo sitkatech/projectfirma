@@ -18,14 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
+
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage PerformanceMeasure")]
-    public class PerformanceMeasureManageFeature : FirmaFeature
+    [SecurityFeatureDescription("Manage Performance Measure; note if they are externally sourced they will not be able to edited")]
+    public class PerformanceMeasureManageFeature : FirmaAdminFeature
     {
-        public PerformanceMeasureManageFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin }) { }
+        public override bool HasPermissionByPerson(Person person)
+        {
+            if (HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced)
+            {
+                return false;
+            }
+            return base.HasPermissionByPerson(person);
+        }
     }
 }

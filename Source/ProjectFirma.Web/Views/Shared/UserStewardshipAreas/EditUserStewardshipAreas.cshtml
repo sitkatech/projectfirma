@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.UserStewardshipAreas.EditUserStewardshipAreas
 <script type="text/javascript">
     // <![CDATA[
@@ -53,21 +54,21 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="EditUserStewardshipAreasApp" ng-controller="EditUserStewardshipAreasController">
     @if (ViewDataTyped.Standalone)
     {
-        <p>Use this form to set a user's assigned @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized().
-            You can assign a user to many @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized().
-            Project Stewards have administrator-level edit rights for the @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() asssigned below.
+        <p>Use this form to set a user's assigned @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()).
+            You can assign a user to many @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()).
+            Project Stewards have administrator-level edit rights for the @FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized() asssigned below.
         </p>
     }
     @using (!ViewDataTyped.Standalone ? Html.BeginForm() : null)
     {
         <div class="form-group">
-            <label class="control-label">@FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() to Add:</label>
+            <label class="control-label">@FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized() to Add:</label>
             <div class="input-group">
                 <select ng-model="StewardshipAreaIDToAdd"
                         class="selectpicker"
                         data-live-search="true"
                         data-container="body"
-                        title="Select a @FieldDefinition.ProjectStewardshipArea.GetFieldDefinitionLabelPluralized() to Add"
+                        title="Select a @FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized() to Add"
                         data-width="100%">
                     <option value="null" disabled selected></option>
                     <option ng-repeat="stewardshipArea in filteredStewardshipAreas()"
@@ -86,7 +87,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <table class="table table-condensed">
             <tr>
                 <th></th>
-                <th>@Html.LabelWithSugarFor(FieldDefinition.ProjectStewardshipArea)</th>
+                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStewardshipArea.ToType())</th>
                 <th></th>
             </tr>
             <tr ng-repeat="personStewardshipAreaSimple in AngularModel.PersonStewardshipAreaSimples | orderBy: getStewardshipAreaDisplayName">

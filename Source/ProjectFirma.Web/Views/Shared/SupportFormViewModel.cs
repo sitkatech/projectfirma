@@ -24,9 +24,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.Views.Shared
             supportRequestLog.SupportRequestTypeID = (int) SupportRequestTypeEnum.Value;
             supportRequestLog.RequestDescription = RequestDescription;
             supportRequestLog.RequestDate = DateTime.Now;
-            if (updatePerson != null && !updatePerson.IsAnonymousUser)
+            if (updatePerson != null && !updatePerson.IsAnonymousUser())
             {
                 supportRequestLog.RequestPersonID = updatePerson.PersonID;
             }

@@ -19,18 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly FieldDefinitionGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public FieldDefinitionGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {

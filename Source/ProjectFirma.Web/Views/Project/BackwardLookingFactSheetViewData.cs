@@ -21,14 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using LtInfo.Common;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 
 namespace ProjectFirma.Web.Views.Project
@@ -40,14 +39,14 @@ namespace ProjectFirma.Web.Views.Project
         public string SecuredFunding { get; }
         public string UnsecuredFunding { get; }
         public ImageGalleryViewData ImageGalleryViewData { get; }
-        public List<IGrouping<Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
+        public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
-        public Models.ProjectImage KeyPhoto { get; }
-        public List<IGrouping<ProjectImageTiming, Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
+        public ProjectFirmaModels.Models.ProjectImage KeyPhoto { get; }
+        public List<IGrouping<ProjectImageTiming, ProjectFirmaModels.Models.ProjectImage>> ProjectImagesExceptKeyPhotoGroupedByTiming { get; }
         public int ProjectImagesPerTimingGroup { get; }
         public List<string> ChartColorRange { get; }
-        public List<Models.Classification> Classifications { get; }
+        public List<ProjectFirmaModels.Models.Classification> Classifications { get; }
         public ProjectLocationSummaryMapInitJson ProjectLocationSummaryMapInitJson { get; }
         public GoogleChartJson GoogleChartJson { get; }
         public int CalculatedChartHeight { get; }
@@ -61,13 +60,13 @@ namespace ProjectFirma.Web.Views.Project
         public Person PrimaryContactPerson { get; }
         public ViewPageContentViewData CustomFactSheetPageTextViewData { get; }
 
-        public BackwardLookingFactSheetViewData(Person currentPerson, Models.Project project,
+        public BackwardLookingFactSheetViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson projectFactSheetGoogleChart,
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
-            Models.FirmaPage firmaPageFactSheet) : base(currentPerson, project)
+            ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet) : base(currentPerson, project)
         {
-            PageTitle = project.DisplayName;
+            PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
 
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
@@ -81,7 +80,7 @@ namespace ProjectFirma.Web.Views.Project
             var galleryName = $"ProjectImage{project.ProjectID}";
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
-                project.ProjectImages,
+                project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
                 newPhotoForProjectUrl,
                 selectKeyImageUrl,
@@ -93,7 +92,7 @@ namespace ProjectFirma.Web.Views.Project
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 
             ChartID = $"fundingChartForProject{project.ProjectID}";
-            KeyPhoto = project.KeyPhoto;
+            KeyPhoto = project.GetKeyPhoto();
             ProjectImagesExceptKeyPhotoGroupedByTiming =
                 project.ProjectImages.Where(x => !x.IsKeyPhoto && x.ProjectImageTiming != ProjectImageTiming.Unknown && !x.ExcludeFromFactSheet)
                     .GroupBy(x => x.ProjectImageTiming)
@@ -130,9 +129,9 @@ namespace ProjectFirma.Web.Views.Project
                         break;
                 }
             }
-            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.DisplayName;
-            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.DisplayName;
-            TaxonomyLeafDisplayName = Models.FieldDefinition.TaxonomyLeaf.GetFieldDefinitionLabel();
+            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.GetDisplayName();
+            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
+            TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
             CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
         }

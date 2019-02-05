@@ -22,6 +22,7 @@
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Home
 @using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared
@@ -62,7 +63,7 @@
                             @for (var i = 0; i < ViewDataTyped.FirmaHomePageCarouselImages.Count; i++)
                             {
                                 var firmaSiteImage = ViewDataTyped.FirmaHomePageCarouselImages[i];
-                                <div class="item@(i == 0 ? " active" : null)" style="background-image: url('@firmaSiteImage.FileResource.FileResourceUrl')">
+                                <div class="item@(i == 0 ? " active" : null)" style="background-image: url('@firmaSiteImage.FileResource.GetFileResourceUrl()'">
                                     <div class="carousel-caption">
                                         <div class="container">
                                             <div class="col-md-7 col-md-offset-5 text-right">
@@ -143,9 +144,9 @@
             @if (ViewDataTyped.DisplayActionButtons)
             {            
                 @ProjectCreateHelper.AddProjectButton()
-                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinition.Project.GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinition.Project.GetFieldDefinitionLabel()</a>
+                <a class="btn btn-firma" href="@ViewDataTyped.ProjectUpdatesUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() requiring an update">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit") Update @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</a>
             }
-            <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinition.Project.GetFieldDefinitionLabel() Map</h4>
+            <h4 style="margin-bottom: 5px; margin-top: 10px;">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Map</h4>
             <div>
                 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomHomePageMapTextViewData); }
             </div>
@@ -161,7 +162,7 @@
     {
         <div class="row">
             <div class="col-md-12">
-                <h4>Featured @FieldDefinition.Project.GetFieldDefinitionLabelPluralized()</h4>
+                <h4>Featured @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h4>
                 @{ FeaturedProjects.RenderPartialView(Html, ViewDataTyped.FeaturedProjectsViewData); }
             </div>
         </div>

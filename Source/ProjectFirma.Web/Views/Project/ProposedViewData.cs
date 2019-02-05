@@ -21,28 +21,29 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class ProposedViewData : FirmaViewData
     {
-        public readonly ProposalsGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly bool HasProposeProjectPermissions;
-        public readonly string ProposeNewProjectUrl;
+        public ProposalsGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public bool HasProposeProjectPermissions { get; }
+        public string ProposeNewProjectUrl { get; }
 
-        public ProposedViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public ProposedViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
-            PageTitle = Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized();
+            PageTitle = FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized();
 
             HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
 
-            GridSpec = new ProposalsGridSpec(currentPerson) {ObjectNameSingular = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabel()}", ObjectNamePlural = $"{Models.FieldDefinition.Proposal.GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new ProposalsGridSpec(currentPerson) {ObjectNameSingular = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
             if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
             {

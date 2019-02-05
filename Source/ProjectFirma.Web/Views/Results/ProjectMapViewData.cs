@@ -18,32 +18,37 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
     public class ProjectMapViewData : FirmaViewData
     {
-        public readonly ProjectLocationsMapInitJson ProjectLocationsMapInitJson;
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
 
-        public readonly ProjectLocationsMapViewData ProjectLocationsMapViewData;
-        public readonly Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues;
-        public readonly string ProjectLocationsUrl;
-        public readonly string FilteredProjectsWithLocationAreasUrl;
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> ProjectLocationFilterTypesAndValues { get; }
+        public string ProjectLocationsUrl { get; }
+        public string FilteredProjectsWithLocationAreasUrl { get; }
 
-        public ProjectMapViewData(Person currentPerson, Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl) : base(currentPerson, firmaPage)
+        public ProjectMapViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes) : base(currentPerson, firmaPage)
         {
-            PageTitle = $"{Models.FieldDefinition.Project.GetFieldDefinitionLabel()} Map";
+            PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ProjectLocationFilterTypesAndValues = projectLocationFilterTypesAndValues;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
             ProjectLocationsUrl = projectLocationsUrl;
             FilteredProjectsWithLocationAreasUrl = filteredProjectsWithLocationAreasUrl;
+            ProjectColorByTypes = projectColorByTypes;
         }
+
+        public List<ProjectColorByType> ProjectColorByTypes { get; }
     }
 }

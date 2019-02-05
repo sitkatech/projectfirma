@@ -21,7 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.SortOrder
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.Index
 
 @section JavascriptAndStylesContent
@@ -31,7 +34,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    <div class="pull-right">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, @ViewDataTyped.HasPerformanceMeasureManagePermissions)</div>
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
+    <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)</div>
 }
 
 <div class="row">

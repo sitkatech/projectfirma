@@ -18,7 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.ComponentModel;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
@@ -47,26 +49,14 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
         }
 
-        /// <summary>
-        /// Constructor for building a new simple object with the POCO class
-        /// </summary>
-        public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureActualSubcategoryOptionUpdate performanceMeasureActualSubcategoryOptionUpdate) : this()
-        {
-            PerformanceMeasureActualSubcategoryOptionUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualSubcategoryOptionUpdateID;
-            PerformanceMeasureActualUpdateID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureActualUpdateID;
-            PerformanceMeasureSubcategoryOptionID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryOptionID;
-            PerformanceMeasureID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureID;
-            PerformanceMeasureSubcategoryID = performanceMeasureActualSubcategoryOptionUpdate.PerformanceMeasureSubcategoryID;
-        }
-
         public PerformanceMeasureActualSubcategoryOptionUpdateSimple(PerformanceMeasureValueSubcategoryOption performanceMeasureActualSubcategoryOption,
             PerformanceMeasureActualUpdate performanceMeasureActualUpdate)
             : this(
                 performanceMeasureActualSubcategoryOption.PrimaryKey,
                 performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID,
                 performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureID,
-                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategoryID)
+                performanceMeasureActualSubcategoryOption.PerformanceMeasure.PerformanceMeasureID,
+                performanceMeasureActualSubcategoryOption.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryID)
         {
         }
 

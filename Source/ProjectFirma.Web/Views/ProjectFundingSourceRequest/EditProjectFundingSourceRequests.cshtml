@@ -18,10 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Models
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
+@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceRequest.EditProjectFundingSourceRequests
 <script type="text/javascript">
     // <![CDATA[
@@ -57,13 +57,13 @@ Source code is available upon request via <support@sitkatech.com>.
             @if (ViewDataTyped.FromFundingSource)
             {
                 <div class="form-group">
-                    <label class="control-label">@FieldDefinition.Project.GetFieldDefinitionLabel() to Add:</label>
+                    <label class="control-label">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add:</label>
                     <div class="input-group">
                         <select ng-model="ProjectIDToAdd"
                                 class="selectpicker"
                                 data-live-search="true"
                                 data-container="body"
-                                title="Select a @FieldDefinition.Project.GetFieldDefinitionLabel() to Add"
+                                title="Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add"
                                 data-width="100%">
                             <option value="null" disabled selected></option>
                             <option ng-repeat="project in filteredProjects()"
@@ -118,9 +118,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tbody>
                 <tr>
                     <th></th>
-                    <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromFundingSource ? Html.LabelWithSugarFor(FieldDefinition.Project) : Html.LabelWithSugarFor(FieldDefinition.FundingSource))</th>
-                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinition.SecuredFunding)</th>
-                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinition.UnsecuredFunding)</th>
+                    <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromFundingSource ? Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType()) : Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
+                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
+                    <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
                     <th style="text-align: right;">Total</th>
                 </tr>
                 <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName, getProjectName]" style="padding-bottom: 2px;">

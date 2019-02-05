@@ -1,4 +1,4 @@
-namespace ProjectFirma.Web.Models
+namespace ProjectFirmaModels.Models
 {
     public enum LayerGeoJsonType
     {

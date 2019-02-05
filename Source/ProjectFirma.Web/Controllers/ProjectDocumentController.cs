@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -31,7 +32,7 @@ namespace ProjectFirma.Web.Controllers
             
             viewModel.UpdateModel(project, CurrentPerson);
 
-            SetMessageForDisplay($"Successfully created new document \"{viewModel.DisplayName}\" for {FieldDefinition.Project.GetFieldDefinitionLabel()} \"{project.ProjectName}\".");
+            SetMessageForDisplay($"Successfully created new document \"{viewModel.DisplayName}\" for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{project.ProjectName}\".");
 
             return new ModalDialogFormJsonResult();
         }
@@ -91,7 +92,6 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var project = projectDocument.Project;
             var displayName = projectDocument.DisplayName;
             if (!ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(ProjectDocument projectDocument, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinition.Project.GetFieldDefinitionLabel()}?", true);
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?", true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
     }
