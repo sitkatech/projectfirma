@@ -17,6 +17,7 @@ using ProjectFirma.Web.Models;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 using SitkaRouteTableEntry = ProjectFirma.Web.Common.SitkaRouteTableEntry;
 using System.Web;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web
 {
@@ -140,6 +141,7 @@ namespace ProjectFirma.Web
             }
             var canonicalHostName = FirmaWebConfiguration.GetCanonicalHost(Request.Url.Host, true);
 
+            Check.RequireNotNullThrowNotFound(canonicalHostName, "Domain", Request.Url.Host);
             // Check for hostname match (deliberately case-insensitive, DNS is case-insensitive and so is SSL Cert for common name) against the canonical host name as specified in the configuration
             if (!String.Equals(Request.Url.Host, canonicalHostName, StringComparison.InvariantCultureIgnoreCase))
             {
