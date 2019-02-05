@@ -203,4 +203,9 @@ namespace ProjectFirma.Web.Models
     {
         public override string GetViewUrl() => SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
     }
+
+    public partial class FirmaPageTypeUsersList
+    {
+        public override string GetViewUrl() => SitkaRoute<UserController>.BuildUrlFromExpression(c => c.Index());
+    }
 }

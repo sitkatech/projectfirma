@@ -42,7 +42,8 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var firmaPage = FirmaPage.GetFirmaPageByPageType(FirmaPageType.UsersList);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

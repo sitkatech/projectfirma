@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.User
         public readonly string PullUserFromKeystoneUrl;
         public readonly bool UserIsSitkaAdmin;
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(Person currentPerson, Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Users";
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
