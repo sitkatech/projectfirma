@@ -69,8 +69,13 @@ namespace ProjectFirma.Web.Common
                 return result;
             }
 
-            //Use the domain name  (laketahoeinfo.org -->  should use www.laketahoeinfo.org for the match)
-            return canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
+            var canonicalHost = canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
+            if (canonicalHost == null && FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Prod &&
+                hostName.Equals("www.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
+            }
+            return canonicalHost;
         }
 
 

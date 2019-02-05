@@ -36,4 +36,5 @@ values
 (51, 'CustomFooter', 'Custom Footer', 1),
 (52, 'ManageProjectCustomAttributeTypeInstructions', 'Manage Project Custom Attribute Type Instructions', 2),
 (53, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2),
-(54, 'FactSheetCustomText', 'Fact Sheet Custom Text', 2)
+(54, 'FactSheetCustomText', 'Fact Sheet Custom Text', 2),
+(55, 'UsersList', 'Users List', 1)

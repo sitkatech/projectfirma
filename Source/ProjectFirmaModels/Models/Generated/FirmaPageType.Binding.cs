@@ -167,6 +167,7 @@ namespace ProjectFirmaModels.Models
         CustomFooter = 51,
         ManageProjectCustomAttributeTypeInstructions = 52,
         ManageProjectCustomAttributeTypesList = 53,
-        FactSheetCustomText = 54
+        FactSheetCustomText = 54,
+        UsersList = 55
     }
 }

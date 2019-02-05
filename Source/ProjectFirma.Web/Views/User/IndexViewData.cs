@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -29,23 +28,19 @@ namespace ProjectFirma.Web.Views.User
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly string KeystoneUrl;
-        public readonly string KeystoneRegisterUserUrl;
-        
-        public readonly string PullUserFromKeystoneUrl;
-        public readonly bool UserIsSitkaAdmin;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public string PullUserFromKeystoneUrl { get; }
+        public bool UserIsSitkaAdmin { get; }
+
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
             PageTitle = "Users";
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-            KeystoneUrl = FirmaWebConfiguration.KeystoneUrl;
-            KeystoneRegisterUserUrl = FirmaWebConfiguration.KeystoneRegisterUserUrl;
 
             PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
