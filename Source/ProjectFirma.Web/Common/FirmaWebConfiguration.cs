@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Common
             }
 
             //Use the domain name  (laketahoeinfo.org -->  should use www.laketahoeinfo.org for the match)
-            return canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase)) ?? CanonicalHostName;
+            return canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
         }
 
 
