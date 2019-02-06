@@ -75,6 +75,7 @@ namespace ProjectFirma.Web.Controllers
                     unknownOrganization.OrganizationID,
                     false,
                     keystoneUserClaims.LoginName);
+                person.TenantID = HttpRequestStorage.Tenant.TenantID;
                 HttpRequestStorage.DatabaseEntities.AllPeople.Add(person);
                 sendNewUserNotification = true;
             }
