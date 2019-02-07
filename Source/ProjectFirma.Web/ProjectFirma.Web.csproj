@@ -3041,10 +3041,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>echo Copy web.config to output folder for unit testing
-echo copy /y "$(ProjectDir)web.config" "$(TargetPath).config"
-copy /y "$(ProjectDir)web.config" "$(TargetPath).config"
-</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
