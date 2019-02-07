@@ -43,10 +43,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
     {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
         var projectFundingOrganizationFundingSourceIDs = _.map($scope.AngularViewData.AllFundingSources, function(p) { return p.FundingSourceID; });
-        if ($scope.ShowOnlyProjectFunders)
-        {
-            projectFundingOrganizationFundingSourceIDs = $scope.AngularViewData.ProjectFundingOrganizationFundingSourceIDs;
-        }
         return _($scope.AngularViewData.AllFundingSources).filter(function(f) {
             return f.IsActive &&
                 _.includes(projectFundingOrganizationFundingSourceIDs, f.FundingSourceID) &&
@@ -145,7 +141,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         $scope.AngularModel.ProjectFundingSourceExpenditures = [];
     }
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.ShowOnlyProjectFunders = false;
     $scope.resetFundingSourceIDToAdd();
     $scope.ProjectIDToAdd = $scope.AngularViewData.ProjectID;
 });

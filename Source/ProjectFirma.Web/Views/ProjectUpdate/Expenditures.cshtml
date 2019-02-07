@@ -138,7 +138,7 @@ else
                         value="{{fundingSource.FundingSourceID}}"
                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
                         ng-bind="fundingSource.DisplayName"
-                        data-tokens="{{fundingSource.DisplayName}}"></option>
+                        data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}}"></option>
             </select>
             <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
             <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
@@ -148,7 +148,6 @@ else
             <br />
 
         </div>
-        <label style="font-size: 12px"><input type="checkbox" ng-model="ShowOnlyProjectFunders" /> Show only my @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s funders</label>
         <hr />
         <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
             <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>

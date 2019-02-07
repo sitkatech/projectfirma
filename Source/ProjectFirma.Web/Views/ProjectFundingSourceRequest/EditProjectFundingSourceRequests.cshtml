@@ -96,7 +96,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     value="{{fundingSource.FundingSourceID}}"
                                     ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
                                     ng-bind="fundingSource.DisplayName"
-                                    data-tokens="{{fundingSource.DisplayName}}"></option>
+                                    data-tokens=" {{fundingSource.DisplayName}}  {{fundingSource.OrganizationFullName}} "></option>
                         </select>
                         <span class="input-group-btn">
                             <button class="btn btn-firma" type="button" ng-click="addRow()">
