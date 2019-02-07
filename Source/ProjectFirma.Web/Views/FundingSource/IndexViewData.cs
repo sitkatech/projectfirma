@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -32,6 +31,8 @@ namespace ProjectFirma.Web.Views.FundingSource
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public bool HasPerformanceMeasureManagePermissions { get; }
+        public string NewUrl { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -44,13 +45,10 @@ namespace ProjectFirma.Web.Views.FundingSource
                 SaveFiltersInCookie = true
             };
 
-            if (new FundingSourceCreateFeature().HasPermissionByPerson(currentPerson))
-            {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New()), $"Create a new {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}");
-            }
-
             GridName = "fundingSourcesGrid";
             GridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            HasPerformanceMeasureManagePermissions = new FundingSourceCreateFeature().HasPermissionByPerson(currentPerson);
+            NewUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New());
         }
     }
 }

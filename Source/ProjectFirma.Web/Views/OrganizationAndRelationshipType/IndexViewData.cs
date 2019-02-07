@@ -31,13 +31,16 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly OrganizationTypeGridSpec OrganizationTypeGridSpec;
-        public readonly string OrganizationTypeGridName;
-        public readonly string OrganizationTypeGridDataUrl;
+        public OrganizationTypeGridSpec OrganizationTypeGridSpec { get; } 
+        public string OrganizationTypeGridName { get; }
+        public string OrganizationTypeGridDataUrl { get; }
 
-        public readonly RelationshipTypeGridSpec RelationshipTypeGridSpec;
-        public readonly string RelationshipTypeGridName;
-        public readonly string RelationshipTypeGridDataUrl;
+        public RelationshipTypeGridSpec RelationshipTypeGridSpec { get; }
+        public string RelationshipTypeGridName { get; }
+        public string RelationshipTypeGridDataUrl { get; }
+        public bool HasManagePermissions { get; }
+        public string NewOrganizationTypeUrl { get; }
+        public string NewProjectAssociationUrl { get; }
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
@@ -46,23 +49,26 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
             OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-            if (hasManagePermissions)
-            {
-                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), $"Create a new {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}");
-            }
+//            if (hasManagePermissions)
+//            {
+//                OrganizationTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType()), $"Create a new {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}");
+//            }
 
             OrganizationTypeGridName = "organizationTypeGrid";
             OrganizationTypeGridDataUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(otc => otc.OrganizationTypeGridJsonData());
 
             RelationshipTypeGridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList()) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-            if (hasManagePermissions)
-            {
-                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}");
-            }
+//            if (hasManagePermissions)
+//            {
+//                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}");
+//            }
 
             RelationshipTypeGridName = "relationshipTypeGrid";
             RelationshipTypeGridDataUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(otc => otc.RelationshipTypeGridJsonData());
+            HasManagePermissions = hasManagePermissions;
+            NewOrganizationTypeUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewOrganizationType());
+            NewProjectAssociationUrl = SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType());
         }
     }
 }

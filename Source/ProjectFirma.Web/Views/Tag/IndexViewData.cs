@@ -21,17 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.Tag
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public bool HasTagManagePermissions { get; }
+        public string NewUrl { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -39,15 +39,10 @@ namespace ProjectFirma.Web.Views.Tag
 
             var hasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(hasTagManagePermissions) {ObjectNameSingular = "Tag", ObjectNamePlural = "Tags", SaveFiltersInCookie = true};
-
-            if (hasTagManagePermissions)
-            {
-                var contentUrl = SitkaRoute<TagController>.BuildUrlFromExpression(t => t.New());
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, "Create a new Tag");
-            }
-
             GridName = "TagsGrid";
             GridDataUrl = SitkaRoute<TagController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            HasTagManagePermissions = hasTagManagePermissions;
+            NewUrl = SitkaRoute<TagController>.BuildUrlFromExpression(t => t.New());
         }
     }
 }
