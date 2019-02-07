@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -29,10 +28,13 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class IndexViewData : FirmaViewData
     {
-        public IndexGridSpec GridSpec{get;}
-        public string GridName{get;}
-        public string GridDataUrl{get;}
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
         public string EditSortOrderUrl { get; }
+        public bool HasTaxonomyLeafManagePermissions { get; }
+        public string NewUrl { get; }
+        public string TaxonomyLeafDisplayName { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -48,14 +50,12 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
                 SaveFiltersInCookie = true
             };
 
-            if (hasTaxonomyLeafManagePermissions)
-            {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(t => t.New()), string.Format("Create a new {0}", taxonomyLeafDisplayName));
-            }
-
             GridName = "taxonomyLeafsGrid";
             GridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             EditSortOrderUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
+            HasTaxonomyLeafManagePermissions = hasTaxonomyLeafManagePermissions;
+            NewUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(t => t.New());
+            TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
         }
     }
 }

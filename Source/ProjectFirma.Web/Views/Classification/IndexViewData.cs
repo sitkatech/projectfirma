@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -35,6 +34,9 @@ namespace ProjectFirma.Web.Views.Classification
         public string GridDataUrl { get; }
         public string EditSortOrderUrl { get; }
         public bool HasClassificationManagePermissions { get; }
+        public string NewUrl { get; }
+        public string ClassificationSystemName { get; }
+
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
         {
@@ -46,12 +48,13 @@ namespace ProjectFirma.Web.Views.Classification
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,
                 ObjectNamePlural = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem),
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem)), $"New {classificationSystem.ClassificationSystemName}"),
             };
 
             GridName = "classificationsGrid";
             GridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData(classificationSystem));
+            NewUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem));
             EditSortOrderUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.EditSortOrder(classificationSystem));
+            ClassificationSystemName = classificationSystem.ClassificationSystemName;
         }
     }
 }

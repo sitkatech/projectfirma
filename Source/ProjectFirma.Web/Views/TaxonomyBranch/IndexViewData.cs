@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -35,6 +34,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public string EditSortOrderUrl { get; }
         public bool OfferEditSortOrder { get; }
         public bool HasTaxonomyBranchManagePermissions { get; }
+        public string NewUrl { get; }
+        public string TaxonomyBranchDisplayName { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -53,14 +54,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 SaveFiltersInCookie = true
             };
 
-            if (HasTaxonomyBranchManagePermissions)
-            {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New()), string.Format("Create a new {0}", taxonomyBranchDisplayName));
-            }
-
             GridName = "taxonomyBranchesGrid";
             GridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            NewUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New());
             EditSortOrderUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
+            TaxonomyBranchDisplayName = taxonomyBranchDisplayName;
         }
     }
 }

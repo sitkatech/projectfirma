@@ -22,10 +22,16 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @inherits ProjectFirma.Web.Views.CustomPage.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, "Create a new About Page", ViewDataTyped.HasCustomPageManagePermissions)
 }
 
 <div class="container-fluid">
