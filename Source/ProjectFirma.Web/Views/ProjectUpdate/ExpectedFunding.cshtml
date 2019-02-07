@@ -74,13 +74,18 @@ else if (ViewDataTyped.AreProjectBasicsValid)
             <div class="form-group">
                 <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
                 <div class="input-group">
-                    <select ng-model="FundingSourceToAdd"
+                    <select ng-model="FundingSourceIDToAdd" 
+                            class="selectpicker"
                             data-live-search="true"
                             data-container="body"
-                            data-title="Select a Funding Source to Add"
-                            data-width="100%" class="selectpicker"
-                            data-ng-options="fundingSource as fundingSource.DisplayName for fundingSource in filteredFundingSources() track by fundingSource.FundingSourceID">
+                            title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
+                            data-width="70%">
                         <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
+                        <option ng-repeat="fundingSource in filteredFundingSources()"
+                                value="{{fundingSource.FundingSourceID}}"
+                                ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
+                                ng-bind="fundingSource.DisplayName"
+                                data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}}"></option>
                     </select>
                     <span class="input-group-btn">
                         <button class="btn btn-firma" type="button" ng-click="addRow()">

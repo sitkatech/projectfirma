@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Models
             FundingSourceID = fundingSource.FundingSourceID;
             OrganizationID = fundingSource.OrganizationID;
             OrganizationName = fundingSource.Organization.GetOrganizationShortNameIfAvailable();
+            OrganizationFullName = fundingSource.Organization.GetOrganizationFullNameIfAvailable();
             FundingSourceName = fundingSource.FundingSourceName;
             IsActive = fundingSource.IsActive;
             DisplayName = fundingSource.GetDisplayName();
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Models
         public bool IsActive { get; set; }
 
         public string OrganizationName { get; set; }
+        public string OrganizationFullName { get; set; }
         public string DisplayName { get; set; }
     }
 }
