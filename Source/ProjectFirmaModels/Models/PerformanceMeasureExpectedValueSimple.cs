@@ -1,4 +1,7 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace ProjectFirmaModels.Models
 {
     public class PerformanceMeasureExpectedValueSimple
     {
@@ -13,6 +16,8 @@
         public string LeadImplementer { get; set; }
         public string MeasurementUnitType { get; set; }
 
+        public List<PerformanceMeasureSubcategoryOptionFromProjectFirma> PerformanceMeasureSubcategoryOptions { get; set; }
+
         public PerformanceMeasureExpectedValueSimple()
         {
         }
@@ -26,6 +31,9 @@
             ProjectStage = performanceMeasureExpected.Project.ProjectStage.ProjectStageDisplayName;
             LeadImplementer = performanceMeasureExpected.Project.GetPrimaryContactOrganization().OrganizationShortName;
             ProjectName = performanceMeasureExpected.Project.GetDisplayName();
+            PerformanceMeasureSubcategoryOptions = performanceMeasureExpected
+                .PerformanceMeasureExpectedSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))
+                .ToList();
         }
     }
 }

@@ -26,6 +26,7 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using PerformanceMeasureSubcategoryOptionSimple = ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOptionSimple;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
