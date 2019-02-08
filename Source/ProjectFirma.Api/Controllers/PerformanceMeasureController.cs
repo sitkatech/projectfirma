@@ -85,7 +85,7 @@ namespace ProjectFirma.Api.Controllers
                 return NotFound();
             }
             var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, null);
-            return Ok(performanceMeasureReportedValues.Select(x => new PerformanceMeasureReportedValueSimple(x)).ToList());
+            return Ok(performanceMeasureReportedValues.Select(x => new PerformanceMeasureReportedValueFromProjectFirma(x)).ToList());
         }
 
         [Route("api/PerformanceMeasures/{id}/GetExpectedValues")]
@@ -99,7 +99,7 @@ namespace ProjectFirma.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Select(x => new PerformanceMeasureExpectedValueSimple(x)).ToList());
+            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
         }
     }
 }

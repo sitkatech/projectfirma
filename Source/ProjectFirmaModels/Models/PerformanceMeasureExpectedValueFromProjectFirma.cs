@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public class PerformanceMeasureExpectedValueSimple
+    public class PerformanceMeasureExpectedValueFromProjectFirma
     {
         public double? ExpectedValue { get; set; }
 
@@ -18,11 +18,11 @@ namespace ProjectFirmaModels.Models
 
         public List<PerformanceMeasureSubcategoryOptionFromProjectFirma> PerformanceMeasureSubcategoryOptions { get; set; }
 
-        public PerformanceMeasureExpectedValueSimple()
+        public PerformanceMeasureExpectedValueFromProjectFirma()
         {
         }
 
-        public PerformanceMeasureExpectedValueSimple(PerformanceMeasureExpected performanceMeasureExpected)
+        public PerformanceMeasureExpectedValueFromProjectFirma(PerformanceMeasureExpected performanceMeasureExpected)
         {
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             PerformanceMeasureName = performanceMeasureExpected.PerformanceMeasure.PerformanceMeasureDisplayName;

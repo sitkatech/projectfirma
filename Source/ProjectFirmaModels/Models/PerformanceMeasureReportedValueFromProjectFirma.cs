@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public class PerformanceMeasureReportedValueSimple
+    public class PerformanceMeasureReportedValueFromProjectFirma
     {
         public int CalendarYear { get; set; }
 
@@ -20,11 +20,13 @@ namespace ProjectFirmaModels.Models
 
         public List<PerformanceMeasureSubcategoryOptionFromProjectFirma> PerformanceMeasureSubcategoryOptions { get; set; }
 
-        public PerformanceMeasureReportedValueSimple()
+        public string PerformanceMeasureSubcategoriesAsString { get; set; }
+
+        public PerformanceMeasureReportedValueFromProjectFirma()
         {
         }
 
-        public PerformanceMeasureReportedValueSimple(PerformanceMeasureReportedValue performanceMeasureReportedValue)
+        public PerformanceMeasureReportedValueFromProjectFirma(PerformanceMeasureReportedValue performanceMeasureReportedValue)
         {
             PerformanceMeasureID = performanceMeasureReportedValue.PerformanceMeasureID;
             PerformanceMeasureName = performanceMeasureReportedValue.GetPerformanceMeasureName();
@@ -37,6 +39,7 @@ namespace ProjectFirmaModels.Models
             PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue
                 .PerformanceMeasureActualSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))
                 .ToList();
+            PerformanceMeasureSubcategoriesAsString = performanceMeasureReportedValue.GetPerformanceMeasureSubcategoriesAsString();
         }
     }
 }
