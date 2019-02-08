@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -32,6 +31,7 @@ namespace ProjectFirma.Web.Views.Project
         public FeaturesListProjectGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public string EditUrl { get; }
 
         public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -42,10 +42,9 @@ namespace ProjectFirma.Web.Views.Project
                 ObjectNameSingular = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true,
-                CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects()), $"Edit Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"),
-                CreateEntityActionPhrase = $"Add/Remove Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"
             };
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.FeaturedListGridJsonData());
+            EditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects());
         }
     }
 

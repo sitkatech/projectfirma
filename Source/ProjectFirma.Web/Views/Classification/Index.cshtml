@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.SortOrder
@@ -34,6 +35,8 @@
 @section RightOfPageTitle
 {
     <div class="pull-right">
+        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", ViewDataTyped.ClassificationSystemName), ViewDataTyped.HasClassificationManagePermissions)
+
         @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasClassificationManagePermissions)
     </div>
 }

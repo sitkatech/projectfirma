@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @inherits ProjectFirma.Web.Views.TaxonomyBranch.Index
 
@@ -34,6 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @section RightOfPageTitle
     {
         <div class="pull-right">
+            @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", ViewDataTyped.TaxonomyBranchDisplayName), ViewDataTyped.HasTaxonomyBranchManagePermissions)
             @SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasTaxonomyBranchManagePermissions)
         </div>
     }

@@ -21,12 +21,16 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @inherits ProjectFirma.Web.Views.TaxonomyLeaf.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
-
+@section RightOfPageTitle
+{
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", ViewDataTyped.TaxonomyLeafDisplayName), ViewDataTyped.HasTaxonomyLeafManagePermissions)
+}
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>

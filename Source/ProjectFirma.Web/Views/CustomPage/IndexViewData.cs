@@ -20,8 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -32,9 +30,11 @@ namespace ProjectFirma.Web.Views.CustomPage
     public class IndexViewData : FirmaViewData
     {
         public readonly CustomPageGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly string CustomPageUrl;
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string CustomPageUrl { get; }
+        public bool HasCustomPageManagePermissions { get; }
+        public string NewUrl { get; }
 
         public IndexViewData(Person currentPerson) : base(currentPerson, null)
         {
@@ -48,14 +48,11 @@ namespace ProjectFirma.Web.Views.CustomPage
             };
 
             var hasCustomPageManagePermissions = new CustomPageManageFeature().HasPermissionByPerson(currentPerson);
-            if (hasCustomPageManagePermissions)
-            {
-                var contentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.New());
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, $"Create a new About Page");
-            }
             GridName = "customPagesGrid";
             GridDataUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             CustomPageUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(x => x.CustomPageDetails(UrlTemplate.Parameter1Int));
+            HasCustomPageManagePermissions = hasCustomPageManagePermissions;
+            NewUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.New());
         }
     }
 }

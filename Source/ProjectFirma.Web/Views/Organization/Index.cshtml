@@ -32,6 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasOrganizationManagePermissions)
     @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserIsSitkaAdmin)
 }
 
