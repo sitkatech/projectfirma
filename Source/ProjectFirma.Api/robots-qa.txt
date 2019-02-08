@@ -1,0 +1,6 @@
+# robots.txt file
+#
+# Note: URLs are case-senitive
+#
+User-agent: *
+Disallow: /
