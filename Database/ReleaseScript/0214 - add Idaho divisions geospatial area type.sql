@@ -66,3 +66,21 @@ set @DivisionVIBoundary = @g
 
 INSERT dbo.GeospatialArea (TenantID, GeospatialAreaName, GeospatialAreaFeature, GeospatialAreaTypeID) 
 VALUES (9, N'Division VI', @DivisionVIBoundary, @ISWCCDivisionGeospatialAreaTypeID)
+
+
+
+
+INSERT INTO dbo.ProjectGeospatialArea (TenantID, ProjectID, GeospatialAreaID)
+select 9, s.ProjectID, s.GeospatialAreaID
+from (
+	select p.ProjectID, ga.GeospatialAreaID
+	from dbo.Project p
+	join dbo.GeospatialArea ga
+	on p.ProjectLocationPoint.STWithin(ga.GeospatialAreaFeature) = 1
+	join dbo.GeospatialAreaType gat on ga.GeospatialAreaTypeID = gat.GeospatialAreaTypeID
+	where gat.GeospatialAreaLayerName = 'SWCDemoProjectFirma:ISWCCDivision' and p.TenantID = 9
+	
+) s
+
+
+update TenantAttribute set ProjectStewardshipAreaTypeID =  3 where TenantID = 9
