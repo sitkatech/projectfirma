@@ -66,11 +66,11 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.addRow = function()
     {
-        if ($scope.FundingSourceToAdd == null)
+        if ($scope.FundingSourceIDToAdd == null)
         {
             return;
         }
-        var newProjectFundingSourceRequest = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceToAdd.FundingSourceID);
+        var newProjectFundingSourceRequest = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
         $scope.AngularModel.ProjectFundingSourceRequests.push(newProjectFundingSourceRequest);
         $scope.resetFundingSourceToAdd();
     };
