@@ -27,6 +27,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -70,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 {
                     x.SecuredAmount = y.SecuredAmount;
                     x.UnsecuredAmount = y.UnsecuredAmount;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

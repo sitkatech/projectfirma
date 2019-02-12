@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -43,49 +40,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 {
                     x.EngineeringHourlyCost = y.EngineeringHourlyCost;
                     x.OtherAssistanceHourlyCost = y.OtherAssistanceHourlyCost;
-                });
-        }
-    }
-
-}
-
-namespace ProjectFirmaModels.Models
-{
-    public class TechnicalAssistanceParameterSimple
-    {
-        public int Year { get; set; }
-
-        public Money? EngineeringHourlyCost { get; set; }
-
-        public Money? OtherAssistanceHourlyCost { get; set; }
-
-        /// <summary>
-        /// Needed by ModelBinder
-        /// </summary>
-        public TechnicalAssistanceParameterSimple()
-        {
-
-        }
-
-        public TechnicalAssistanceParameterSimple(TechnicalAssistanceParameter technicalAssistanceParameter)
-        {
-            Year = technicalAssistanceParameter.Year;
-            EngineeringHourlyCost = technicalAssistanceParameter.EngineeringHourlyCost;
-            OtherAssistanceHourlyCost = technicalAssistanceParameter.OtherAssistanceHourlyCost;
-        }
-
-        public TechnicalAssistanceParameterSimple(int year)
-        {
-            Year = year;
-        }
-
-        public TechnicalAssistanceParameter ToTechnicalAssistanceParameter()
-        {
-            return new TechnicalAssistanceParameter(Year)
-            {
-                EngineeringHourlyCost = EngineeringHourlyCost,
-                OtherAssistanceHourlyCost = OtherAssistanceHourlyCost
-            }; 
+                }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

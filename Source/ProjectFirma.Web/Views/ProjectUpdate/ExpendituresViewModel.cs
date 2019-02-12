@@ -28,6 +28,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -75,8 +76,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
 
             var currentProjectExemptYears = projectUpdateBatch.GetExpendituresExemptReportingYears();
-            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYearUpdates.Load();
-            var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYearUpdates.Local;
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            databaseEntities.ProjectExemptReportingYearUpdates.Load();
+            var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYearUpdates.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();
             if (ProjectExemptReportingYears != null)
             {
@@ -88,14 +90,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears,
                 allProjectExemptYears,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, databaseEntities);
 
             projectUpdateBatch.NoExpendituresToReportExplanation = Explanation;
 
             currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
                 allProjectFundingSourceExpenditureUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

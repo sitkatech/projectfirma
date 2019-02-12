@@ -25,6 +25,7 @@ using LtInfo.Common;
 using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -86,7 +87,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
                     x.SortOrder = y.SortOrder;
                     x.ShowOnFactSheet = y.ShowOnFactSheet;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
 
             performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,
                 performanceMeasureSubcategoriesFromDatabase,
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

@@ -24,7 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 {
                     x.PersonID = y.PersonID;
                     x.OrganizationID = y.OrganizationID;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
 
         }
 
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 {
                     x.PersonID = y.PersonID;
                     x.TaxonomyBranchID = y.TaxonomyBranchID;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
        
 
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
                 {
                     x.PersonID = y.PersonID;
                     x.GeospatialAreaID = y.GeospatialAreaID;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

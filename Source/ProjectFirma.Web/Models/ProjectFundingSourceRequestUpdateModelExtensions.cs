@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
                 {
                     x.SecuredAmount = y.SecuredAmount;
                     x.UnsecuredAmount = y.UnsecuredAmount;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

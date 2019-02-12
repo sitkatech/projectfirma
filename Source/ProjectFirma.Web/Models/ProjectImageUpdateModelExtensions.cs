@@ -4,6 +4,7 @@ using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -96,7 +97,7 @@ namespace ProjectFirma.Web.Models
                     x.Credit = y.Credit;
                     x.IsKeyPhoto = y.IsKeyPhoto;
                     x.ExcludeFromFactSheet = y.ExcludeFromFactSheet;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using Detail = ProjectFirma.Web.Views.Tag.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Tag.DetailViewData;
 using Edit = ProjectFirma.Web.Views.Tag.Edit;

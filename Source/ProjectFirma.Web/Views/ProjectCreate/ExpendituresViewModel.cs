@@ -25,11 +25,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Data.Entity;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -88,14 +88,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears,
                 allProjectExemptYears,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
 
             project.NoExpendituresToReportExplanation = Explanation;
 
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -5,6 +5,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Views.Tenant
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
                 x.ClassificationSystemDefinition = y.ClassificationSystemDefinition;
-            });
+            }, HttpRequestStorage.DatabaseEntities);
 
         }
 

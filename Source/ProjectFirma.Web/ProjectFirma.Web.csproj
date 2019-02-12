@@ -71,7 +71,6 @@
     <Compile Include="Models\FirmaHomePageImageModelExtensions.cs" />
     <Compile Include="Models\FirmaPageModelExtensions.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
-    <Compile Include="Common\MergeListHelper.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\FundingTypeModelExtensions.cs" />
@@ -145,6 +144,7 @@
     <Compile Include="Views\Home\TrainingVideo.cs" />
     <Compile Include="Views\Home\TrainingVideoViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cs" />
+    <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParameterSimple.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\TechnicalAssistanceParametersViewModel.cs" />
     <Compile Include="ScheduledJobs\ProjectUpdateNotificationHelper.cs" />
@@ -3041,7 +3041,8 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent></PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

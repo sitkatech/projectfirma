@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             var projectExternalLinksFromProjectUpdate =
                 projectUpdateBatch.ProjectExternalLinkUpdates.Select(
                     x => new ProjectExternalLink(project.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
-            project.ProjectExternalLinks.Merge(projectExternalLinksFromProjectUpdate, allProjectExternalLinks, (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl);
+            project.ProjectExternalLinks.Merge(projectExternalLinksFromProjectUpdate, allProjectExternalLinks, (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

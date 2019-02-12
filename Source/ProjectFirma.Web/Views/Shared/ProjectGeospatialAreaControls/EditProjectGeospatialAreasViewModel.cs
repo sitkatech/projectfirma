@@ -26,6 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
@@ -55,13 +56,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, IList<ProjectGeospatialArea> allProjectGeospatialAreas)
         {
             var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialArea(project.ProjectID, x)).ToList() ?? new List<ProjectGeospatialArea>();
-            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectID == y.ProjectID && x.GeospatialAreaID == y.GeospatialAreaID);
+            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectID == y.ProjectID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
         }
 
         public void UpdateModel(ProjectUpdateBatch project, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreas, IList<ProjectGeospatialAreaUpdate> allProjectGeospatialAreas)
         {
             var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialAreaUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectGeospatialAreaUpdate>();
-            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID);
+            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

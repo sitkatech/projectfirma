@@ -2,6 +2,7 @@
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -32,7 +33,7 @@ namespace ProjectFirma.Web.Models
             var projectNotesFromProjectUpdate =
                 projectUpdateBatch.ProjectNoteUpdates.Select(
                     x => new ProjectNote(project.ProjectID, x.Note, x.CreateDate) {CreatePersonID = x.CreatePersonID, UpdateDate = x.UpdateDate, UpdatePersonID = x.UpdatePersonID}).ToList();
-            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note);
+            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

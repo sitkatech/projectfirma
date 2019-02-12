@@ -37,7 +37,7 @@ namespace ProjectFirmaModels.Models
                 projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear, x.ProjectExemptReportingTypeID)).ToList();
             project.ProjectExemptReportingYears.Merge(projectExemptReportingYearsFromProjectUpdate,
                 projectExemptReportingYears,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

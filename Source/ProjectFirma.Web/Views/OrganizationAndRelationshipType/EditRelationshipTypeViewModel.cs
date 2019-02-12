@@ -27,6 +27,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
@@ -95,7 +96,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
             relationshipType.OrganizationTypeRelationshipTypes.Merge(organizationTypesUpdated,
                 allOrganizationTypeRelationshipTypes,
-                (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID);
+                (x, y) => x.OrganizationTypeID == y.OrganizationTypeID && x.RelationshipTypeID == y.RelationshipTypeID, HttpRequestStorage.DatabaseEntities);
 
             relationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
             relationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute

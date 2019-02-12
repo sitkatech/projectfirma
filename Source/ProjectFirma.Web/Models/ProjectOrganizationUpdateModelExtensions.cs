@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
                 projectUpdateBatch.ProjectOrganizationUpdates.Select(
                     x => new ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
             project.ProjectOrganizations.Merge(projectOrganizationsFromProjectUpdate, allProjectOrganizations,
-                (x, y) => x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
+                (x, y) => x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

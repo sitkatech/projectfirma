@@ -24,6 +24,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectExternalLink
 {
@@ -53,7 +54,7 @@ namespace ProjectFirma.Web.Views.ProjectExternalLink
             }
             currentProjectExternalLinks.Merge(projectExternalLinksUpdated,
                 allProjectExternalLinks,
-                (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl);
+                (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, HttpRequestStorage.DatabaseEntities);
         }
 
         public void UpdateModel(List<ProjectFirmaModels.Models.ProjectExternalLinkUpdate> currentProjectExternalLinkUpdates, IList<ProjectFirmaModels.Models.ProjectExternalLinkUpdate> allProjectExternalLinkUpdates)
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectExternalLink
             }
             currentProjectExternalLinkUpdates.Merge(projectExternalLinksUpdated,
                 allProjectExternalLinkUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl);
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

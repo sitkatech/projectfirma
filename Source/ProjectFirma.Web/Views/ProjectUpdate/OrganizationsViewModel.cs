@@ -7,6 +7,7 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -46,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             currentProjectOrganizationUpdates.Merge(projectOrganizationUpdatesUpdated,
                 allProjectOrganizationUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID);
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

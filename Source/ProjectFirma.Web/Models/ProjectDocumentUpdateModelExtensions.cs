@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -37,7 +38,7 @@ namespace ProjectFirma.Web.Models
                 projectUpdateBatch.ProjectDocumentUpdates.Select(
                     x => new ProjectDocument(project.ProjectID, x.FileResourceID, x.DisplayName){Description = x.Description}).ToList();
             project.ProjectDocuments.Merge(projectDocumentsFromProjectUpdate, allProjectDocuments,
-                (x, y) => x.ProjectID == y.ProjectID && x.FileResourceID == y.FileResourceID);
+                (x, y) => x.ProjectID == y.ProjectID && x.FileResourceID == y.FileResourceID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

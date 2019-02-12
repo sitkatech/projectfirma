@@ -24,9 +24,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 {
                     x.SecuredAmount = y.SecuredAmount;
                     x.UnsecuredAmount = y.UnsecuredAmount;
-                });
+                }, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

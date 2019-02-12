@@ -23,6 +23,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
@@ -84,7 +85,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
             currentTaxonomyLeafPerformanceMeasures.Merge(taxonomyLeafPerformanceMeasuresUpdated,
                 allTaxonomyLeafPerformanceMeasures,
                 (x, y) => x.TaxonomyLeafID == y.TaxonomyLeafID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.IsPrimaryTaxonomyLeaf = y.IsPrimaryTaxonomyLeaf);
+                (x, y) => x.IsPrimaryTaxonomyLeaf = y.IsPrimaryTaxonomyLeaf, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

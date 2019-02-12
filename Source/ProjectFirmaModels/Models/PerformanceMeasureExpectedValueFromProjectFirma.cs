@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
             ExpectedValue = performanceMeasureExpected.GetReportedValue();
             MeasurementUnitType = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
             ProjectStage = performanceMeasureExpected.Project.ProjectStage.ProjectStageDisplayName;
-            LeadImplementer = performanceMeasureExpected.Project.GetPrimaryContactOrganization().OrganizationShortName;
+            LeadImplementer = performanceMeasureExpected.Project.GetPrimaryContactOrganization()?.OrganizationShortName;
             ProjectName = performanceMeasureExpected.Project.GetDisplayName();
             PerformanceMeasureSubcategoryOptions = performanceMeasureExpected
                 .PerformanceMeasureExpectedSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))

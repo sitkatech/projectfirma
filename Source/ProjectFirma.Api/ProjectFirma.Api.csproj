@@ -151,6 +151,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">
+      <Project>{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}</Project>
+      <Name>LtInfo.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProjectFirmaModels\ProjectFirmaModels.csproj">
       <Project>{5C78FFE9-5DD5-4A8E-882C-F49549F6FBF8}</Project>
       <Name>ProjectFirmaModels</Name>

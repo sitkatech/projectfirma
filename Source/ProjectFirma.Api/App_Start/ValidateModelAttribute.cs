@@ -20,7 +20,8 @@ namespace ProjectFirma.Api
                         errors.Add(error.ErrorMessage);
                     }
                 }
-                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, errors);
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
+                actionContext.Response.ReasonPhrase = string.Join("\r\n", errors);
             }
         }
     }

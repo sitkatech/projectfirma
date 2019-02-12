@@ -1,7 +1,9 @@
 ﻿using System;
-using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json.Linq;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Controllers
@@ -48,7 +50,7 @@ namespace ProjectFirma.Api.Controllers
                 var googleChartType = MapGoogleChartTypeNameToGoogleChartType(performanceMeasureSubcategoryDto.GoogleChartTypeName);
                 if (googleChartType == null)
                 {
-                    return BadRequest($"Invalid Google Chart Type: {performanceMeasureSubcategoryDto.GoogleChartTypeName}");
+                    return BadRequest($"Invalid Google Chart Type '{performanceMeasureSubcategoryDto.GoogleChartTypeName}' for Subcategory '{performanceMeasureSubcategoryDto.PerformanceMeasureSubcategoryName}'");
                 }
                 var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, performanceMeasureSubcategoryDto.PerformanceMeasureSubcategoryName)
                 {
@@ -130,6 +132,82 @@ namespace ProjectFirma.Api.Controllers
             return Ok(performanceMeasureReloaded);
         }
 
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureSubcategories")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureSubcategories([FromBody] PerformanceMeasureDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+            var performanceMeasureSubcategoryDtos = performanceMeasureDto.PerformanceMeasureSubcategories;
+            var performanceMeasureSubcategoryGoogleChartTypes = performanceMeasureSubcategoryDtos.ToDictionary(x => new {x.PerformanceMeasureSubcategoryName, x.GoogleChartTypeName },
+                x => MapGoogleChartTypeNameToGoogleChartType(x.GoogleChartTypeName));
+            if (performanceMeasureSubcategoryGoogleChartTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                performanceMeasureSubcategoryGoogleChartTypes.Where(x => x.Value == null).Select(x =>
+                    $"Invalid Google Chart Type '{x.Key.GoogleChartTypeName}' for Subcategory '{x.Key.PerformanceMeasureSubcategoryName}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+
+            var performanceMeasureSubcategoriesFromDatabase = _databaseEntities.AllPerformanceMeasureSubcategories.Local;
+            var performanceMeasureSubcategoryOptionsFromDatabase = _databaseEntities.AllPerformanceMeasureSubcategoryOptions.Local;
+
+            var performanceMeasureSubcategoriesToUpdate = performanceMeasureSubcategoryDtos.Select(x =>
+            {
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
+                    x.PerformanceMeasureSubcategoryName);
+                performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
+                performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
+                performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
+                    x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
+                        (y, index) =>
+                            new PerformanceMeasureSubcategoryOption(
+                                new PerformanceMeasureSubcategory(new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
+                                y.PerformanceMeasureSubcategoryOptionName,
+                                false)
+                            {
+                                PerformanceMeasureSubcategory =
+                                    performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
+                                PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
+                                SortOrder = index + 1,
+                                ShowOnFactSheet = true
+                            }).ToList();
+                performanceMeasureSubcategory.ChartConfigurationJson = x.ChartConfigurationJson;
+                performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasureSubcategoryGoogleChartTypes.Single(y => y.Key.PerformanceMeasureSubcategoryName == x.PerformanceMeasureSubcategoryName).Value
+                    .GoogleChartTypeID;
+                return performanceMeasureSubcategory;
+            }).ToList();
+
+            var performanceMeasureSubcategoryOptionsToUpdate = performanceMeasureSubcategoriesToUpdate.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList();
+            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
+                performanceMeasureSubcategoryOptionsToUpdate,
+                performanceMeasureSubcategoryOptionsFromDatabase,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionID == y.PerformanceMeasureSubcategoryOptionID,
+                (x, y) =>
+                {
+                    x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
+                    x.SortOrder = y.SortOrder;
+                    x.ShowOnFactSheet = y.ShowOnFactSheet;
+                }, _databaseEntities);
+
+            performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,
+                performanceMeasureSubcategoriesFromDatabase,
+                (x, y) => x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID,
+                (x, y) =>
+                {
+                    x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
+                }, _databaseEntities);
+
+
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
         [Route("api/PerformanceMeasures/List")]
         [HttpGet]
         public IHttpActionResult Get()
@@ -178,6 +256,21 @@ namespace ProjectFirma.Api.Controllers
             }
 
             return Ok(performanceMeasure.PerformanceMeasureExpecteds.Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
+        }
+
+        [Route("api/PerformanceMeasures/Delete/{id}")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {id} not found";
+                return NotFound();
+            }
+            performanceMeasure.DeleteFull(_databaseEntities);
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            return Ok();
         }
     }
 }

@@ -46,12 +46,12 @@ namespace ProjectFirmaModels.Models
                 .ToList();
             project.ProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
                 allProjectCustomAttributes,
-                (a, b) => a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID);
+                (a, b) => a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
             project.ProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
                 .ToList()
                 .Merge(projectCustomAttributeValuesFromProjectUpdate,
                     allProjectCustomAttributeValues,
-                    (x, y) => x.ProjectCustomAttributeValueID == y.ProjectCustomAttributeValueID);
+                    (x, y) => x.ProjectCustomAttributeValueID == y.ProjectCustomAttributeValueID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

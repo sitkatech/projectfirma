@@ -29,6 +29,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -89,6 +90,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     return performanceMeasureActual;
                 }).ToList();
             }
+
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
             currentPerformanceMeasureActuals.Merge(performanceMeasureActualsUpdated,
                 allPerformanceMeasureActuals,
                 (x, y) => x.PerformanceMeasureActualID == y.PerformanceMeasureActualID,
@@ -96,17 +99,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 {
                     x.CalendarYear = y.CalendarYear;
                     x.ActualValue = y.ActualValue;
-                });
+                }, databaseEntities);
 
             currentPerformanceMeasureActualSubcategoryOptions.Merge(
                 performanceMeasureActualsUpdated.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList(),
                 allPerformanceMeasureActualSubcategoryOptions,
                 (x, y) => x.PerformanceMeasureActualID == y.PerformanceMeasureActualID && x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID);
+                (x, y) => x.PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID, databaseEntities);
 
             var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
-            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
-            var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
+            databaseEntities.ProjectExemptReportingYears.Load();
+            var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
             if (ProjectExemptReportingYears != null)
             {
@@ -118,7 +121,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears,
                 allProjectExemptYears,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 

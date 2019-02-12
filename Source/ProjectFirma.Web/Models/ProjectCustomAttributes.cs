@@ -129,7 +129,7 @@ namespace ProjectFirmaModels.Models
         {
             existingProjectCustomAttributes.Merge(projectCustomAttributesToUpdate,
                 projectCustomAttributesInDatabase,
-                (x, y) => x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID);
+                (x, y) => x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         private void UpdateProjectCustomAttributeValuesImpl<TProjectCustomAttributeValue>(
@@ -141,7 +141,7 @@ namespace ProjectFirmaModels.Models
             existingProjectCustomAttributeValues.Merge(projectCustomAttributeValuesToUpdate,
                 projectCustomAttributeValuesInDatabase,
                 (x, y) => x.GetIProjectCustomAttributeID() == y.GetIProjectCustomAttributeID() &&
-                          x.AttributeValue == y.AttributeValue);
+                          x.AttributeValue == y.AttributeValue, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

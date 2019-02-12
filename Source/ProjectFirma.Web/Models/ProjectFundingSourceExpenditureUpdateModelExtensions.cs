@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
             project.ProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresFromProjectUpdate,
                 allProjectFundingSourceExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.FundingSourceID == y.FundingSourceID,
-                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount);
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, HttpRequestStorage.DatabaseEntities);
         }
 
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IList<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates, ProjectUpdate projectUpdate)

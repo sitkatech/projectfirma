@@ -29,6 +29,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 {
@@ -74,7 +75,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 projectExemptReportingYears =
                     ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(x.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             }
-            currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID);
+            currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 
