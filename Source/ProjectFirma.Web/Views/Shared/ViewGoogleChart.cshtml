@@ -70,7 +70,7 @@
                 By:
                 @if (ViewDataTyped.SortChartsByLegendTitle)
                 {
-                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-xs btn-default btn"}, {"style", "text-align: left;"}};
+                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-sm btn-light btn"}, {"style", "text-align: left;"}};
                     @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
                 }
                 else

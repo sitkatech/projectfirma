@@ -41,6 +41,11 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeCubicYards CubicYards = MeasurementUnitTypeCubicYards.Instance;
         public static readonly MeasurementUnitTypeMetricTons MetricTons = MeasurementUnitTypeMetricTons.Instance;
         public static readonly MeasurementUnitTypeHours Hours = MeasurementUnitTypeHours.Instance;
+        public static readonly MeasurementUnitTypeCount Count = MeasurementUnitTypeCount.Instance;
+        public static readonly MeasurementUnitTypeFeet Feet = MeasurementUnitTypeFeet.Instance;
+        public static readonly MeasurementUnitTypeInches Inches = MeasurementUnitTypeInches.Instance;
+        public static readonly MeasurementUnitTypeInchesPerHour InchesPerHour = MeasurementUnitTypeInchesPerHour.Instance;
+        public static readonly MeasurementUnitTypeSeconds Seconds = MeasurementUnitTypeSeconds.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -50,7 +55,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -130,14 +135,22 @@ namespace ProjectFirmaModels.Models
                     return AcreFeet;
                 case MeasurementUnitTypeEnum.Acres:
                     return Acres;
+                case MeasurementUnitTypeEnum.Count:
+                    return Count;
                 case MeasurementUnitTypeEnum.CubicYards:
                     return CubicYards;
                 case MeasurementUnitTypeEnum.Dollars:
                     return Dollars;
+                case MeasurementUnitTypeEnum.Feet:
+                    return Feet;
                 case MeasurementUnitTypeEnum.Gallon:
                     return Gallon;
                 case MeasurementUnitTypeEnum.Hours:
                     return Hours;
+                case MeasurementUnitTypeEnum.Inches:
+                    return Inches;
+                case MeasurementUnitTypeEnum.InchesPerHour:
+                    return InchesPerHour;
                 case MeasurementUnitTypeEnum.Kilogram:
                     return Kilogram;
                 case MeasurementUnitTypeEnum.LinearFeet:
@@ -166,6 +179,8 @@ namespace ProjectFirmaModels.Models
                     return PeriphytonBiomassIndex;
                 case MeasurementUnitTypeEnum.Pounds:
                     return Pounds;
+                case MeasurementUnitTypeEnum.Seconds:
+                    return Seconds;
                 case MeasurementUnitTypeEnum.SquareFeet:
                     return SquareFeet;
                 case MeasurementUnitTypeEnum.Therms:
@@ -202,7 +217,12 @@ namespace ProjectFirmaModels.Models
         Gallon = 20,
         CubicYards = 21,
         MetricTons = 22,
-        Hours = 23
+        Hours = 23,
+        Count = 24,
+        Feet = 25,
+        Inches = 26,
+        InchesPerHour = 27,
+        Seconds = 28
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -340,6 +360,36 @@ namespace ProjectFirmaModels.Models
     public partial class MeasurementUnitTypeHours : MeasurementUnitType
     {
         private MeasurementUnitTypeHours(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeHours Instance = new MeasurementUnitTypeHours(23, @"Hours", @"hours ", @"hours", @"Hour", 0);
+        public static readonly MeasurementUnitTypeHours Instance = new MeasurementUnitTypeHours(23, @"Hours", @"hours", @"hours", @"Hour", 0);
+    }
+
+    public partial class MeasurementUnitTypeCount : MeasurementUnitType
+    {
+        private MeasurementUnitTypeCount(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeCount Instance = new MeasurementUnitTypeCount(24, @"Count", @"count", @"count", @"Each Unit", 0);
+    }
+
+    public partial class MeasurementUnitTypeFeet : MeasurementUnitType
+    {
+        private MeasurementUnitTypeFeet(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeFeet Instance = new MeasurementUnitTypeFeet(25, @"Feet", @"feet", @"ft", @"Foot", 2);
+    }
+
+    public partial class MeasurementUnitTypeInches : MeasurementUnitType
+    {
+        private MeasurementUnitTypeInches(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeInches Instance = new MeasurementUnitTypeInches(26, @"Inches", @"inches", @"in", @"inch", 2);
+    }
+
+    public partial class MeasurementUnitTypeInchesPerHour : MeasurementUnitType
+    {
+        private MeasurementUnitTypeInchesPerHour(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeInchesPerHour Instance = new MeasurementUnitTypeInchesPerHour(27, @"InchesPerHour", @"in/hr", @"in/hr", @"Inches Per Hour", 2);
+    }
+
+    public partial class MeasurementUnitTypeSeconds : MeasurementUnitType
+    {
+        private MeasurementUnitTypeSeconds(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeSeconds Instance = new MeasurementUnitTypeSeconds(28, @"Seconds", @"seconds", @"s", @"Second", 0);
     }
 }

@@ -23,4 +23,10 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (20, 'Gallon', 'gallons', 'gallons', 'Gallon', 0),
 (21, 'CubicYards', 'cubic yards', 'cubic yards', 'Cubic Yard', 0),
 (22, 'MetricTons', 'metric tons', 'metric tons', 'Metric Ton', 0),
-(23, 'Hours', 'hours ', 'hours', 'Hour', 0)
+(23, 'Hours', 'hours', 'hours', 'Hour', 0),
+(24, 'Count', 'count', 'count', 'Each Unit', 0),
+(25, 'Feet', 'feet', 'ft', 'Foot', 2),
+(26, 'Inches', 'inches', 'in', 'inch', 2),
+(27, 'InchesPerHour', 'in/hr', 'in/hr', 'Inches Per Hour', 2),
+(28, 'Seconds', 'seconds', 's', 'Second', 0)
+

@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Controllers
@@ -13,6 +14,12 @@ namespace ProjectFirma.Api.Controllers
             PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
             CriticalDefinitions = performanceMeasure.CriticalDefinitions;
             ProjectReporting = performanceMeasure.ProjectReporting;
+            PerformanceMeasureTypeName = performanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName;
+            PerformanceMeasureDataSourceTypeName = performanceMeasure.PerformanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeDisplayName;
+            MeasurementUnitTypeName = performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
+            PerformanceMeasureSubcategories = performanceMeasure.PerformanceMeasureSubcategories
+                .Select(x => new PerformanceMeasureSubcategoryDto(x)).ToList();
+
         }
 
         public PerformanceMeasureDto()
@@ -23,12 +30,10 @@ namespace ProjectFirma.Api.Controllers
         public string CriticalDefinitions { get; set; }
         public string ProjectReporting { get; set; }
 
-        [Required]
-        [StringLength(10)]
         [DisplayName("Performance Measure Display Name")]
         public string PerformanceMeasureDisplayName { get; set; }
-        public int MeasurementUnitTypeID { get; set; }
-        public int PerformanceMeasureTypeID { get; set; }
+        public string MeasurementUnitTypeName { get; set; }
+        public string PerformanceMeasureTypeName { get; set; }
         public string PerformanceMeasureDefinition { get; set; }
         public string DataSourceText { get; set; }
         public string ExternalDataSourceUrl { get; set; }
@@ -37,6 +42,9 @@ namespace ProjectFirma.Api.Controllers
         public bool CanCalculateTotal { get; set; }
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsAggregatable { get; set; }
-        public int PerformanceMeasureDataSourceTypeID { get; set; }
+        public string PerformanceMeasureDataSourceTypeName { get; set; }
+
+        public List<PerformanceMeasureSubcategoryDto> PerformanceMeasureSubcategories { get; set; }
+
     }
 }

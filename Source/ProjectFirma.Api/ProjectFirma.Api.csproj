@@ -126,6 +126,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />
     <Compile Include="Controllers\PerformanceMeasureDto.cs" />
+    <Compile Include="Controllers\PerformanceMeasureSubcategoryDto.cs" />
+    <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionDto.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
