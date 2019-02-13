@@ -173,8 +173,7 @@ namespace ProjectFirma.Api.Controllers
                                 PerformanceMeasureSubcategory =
                                     performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
                                 PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
-                                SortOrder = index + 1,
-                                ShowOnFactSheet = true
+                                SortOrder = y.SortOrder
                             }).ToList();
                 performanceMeasureSubcategory.ChartConfigurationJson = x.ChartConfigurationJson;
                 performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasureSubcategoryGoogleChartTypes.Single(y => y.Key.PerformanceMeasureSubcategoryName == x.PerformanceMeasureSubcategoryName).Value
@@ -186,17 +185,16 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
                 performanceMeasureSubcategoryOptionsToUpdate,
                 performanceMeasureSubcategoryOptionsFromDatabase,
-                (x, y) => x.PerformanceMeasureSubcategoryOptionID == y.PerformanceMeasureSubcategoryOptionID,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionName == y.PerformanceMeasureSubcategoryOptionName,
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
                     x.SortOrder = y.SortOrder;
-                    x.ShowOnFactSheet = y.ShowOnFactSheet;
                 }, _databaseEntities);
 
             performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,
                 performanceMeasureSubcategoriesFromDatabase,
-                (x, y) => x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID,
+                (x, y) => x.PerformanceMeasureSubcategoryDisplayName == y.PerformanceMeasureSubcategoryDisplayName,
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
