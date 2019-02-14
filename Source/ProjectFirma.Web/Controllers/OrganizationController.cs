@@ -252,8 +252,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDeleteOrganization(Organization organization, ConfirmDialogFormViewModel viewModel)
         {
             var projectFundingSourceExpenditureTotal = organization.FundingSources.Sum(x => x.ProjectFundingSourceExpenditures.Sum(y => y.ExpenditureAmount)).ToStringCurrency();
-            var confirmMessage = $"Organization \"{organization.OrganizationName}\" is related to {organization.ProjectOrganizations.Count} projects and has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.<br /><br />Are you sure you want to delete this Organization?";
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            var confirmMessage = $"Organization \"{organization.OrganizationName}\" is related to {organization.ProjectOrganizations.Count} projects and has {organization.FundingSources.Count} funding sources that fund a total of {projectFundingSourceExpenditureTotal} across various projects.  It also has {organization.People.Count(x => x.IsActive)} people, which need to be inactivated before you can do this.<br /><br />Are you sure you want to delete this Organization?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, organization.People.All(x => x.IsActive));
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
