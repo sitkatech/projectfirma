@@ -75,14 +75,12 @@ namespace ProjectFirma.Web.Views.Project
             UnsecuredFunding = Project.GetUnsecuredFunding() != null ? Project.GetUnsecuredFunding().ToStringCurrency() : "";
 
             const bool userCanAddPhotosToThisProject = false;
-            var newPhotoForProjectUrl = string.Empty;
             var selectKeyImageUrl = string.Empty;
             var galleryName = $"ProjectImage{project.ProjectID}";
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
-                newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
                 x => x.CaptionOnFullView,

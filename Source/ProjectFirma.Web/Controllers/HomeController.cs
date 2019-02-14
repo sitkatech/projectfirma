@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
@@ -110,7 +109,17 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageHomePageImages()
         {
-            var viewData = new ManageHomePageImagesViewData(CurrentPerson, BuildImageGalleryViewData(CurrentPerson));
+            var canAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
+            var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson,
+                "HomePageImagesGallery",
+                firmaHomePageImages,
+                canAddPhotos,
+                null,
+                true,
+                x => x.CaptionOnFullView,
+                "Photo");
+            var viewData = new ManageHomePageImagesViewData(CurrentPerson, imageGalleryViewData, canAddPhotos);
             return RazorView<ManageHomePageImages, ManageHomePageImagesViewData>(viewData);
         }
 
@@ -125,14 +134,12 @@ namespace ProjectFirma.Web.Controllers
         private static ImageGalleryViewData BuildImageGalleryViewData(Person currentPerson)
         {
             var userCanAddPhotosToHomePage = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            var newPhotoForProjectUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
             var galleryName = "HomePageImagesGallery";
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
             var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 firmaHomePageImages,
                 userCanAddPhotosToHomePage,
-                newPhotoForProjectUrl,
                 null,
                 true,
                 x => x.CaptionOnFullView,

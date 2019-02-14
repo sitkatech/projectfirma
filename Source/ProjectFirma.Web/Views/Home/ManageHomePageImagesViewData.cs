@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 
@@ -32,10 +31,10 @@ namespace ProjectFirma.Web.Views.Home
         public bool UserCanAddPhotos { get; }
         public string NewUrl { get; }
         
-        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData) : base(currentPerson)
+        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentPerson)
         {
             ImageGalleryViewData = imageGalleryViewData;
-            UserCanAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserCanAddPhotos = userCanAddPhotos;
             NewUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
         }
     }
