@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Views.Home
 
         public ReleaseNotesViewData(List<EntityNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
         {
+            PageTitle = "Release Notes";
             Notes = notes;
             AddNoteUrl = addNoteUrl;
             EntityName = entityName;
