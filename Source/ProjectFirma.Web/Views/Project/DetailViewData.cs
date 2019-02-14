@@ -237,7 +237,7 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             
-            if (ProjectFirmaModels.Models.ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
+            if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
                 {

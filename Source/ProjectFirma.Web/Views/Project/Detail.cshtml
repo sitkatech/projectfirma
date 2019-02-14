@@ -19,7 +19,6 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using ProjectFirma.Web.Views.Shared.ProjectControls
@@ -171,7 +170,7 @@
                                                     }
                                                     else
                                                     {
-                                                        string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue));
+                                                        @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
                                                     }
                                                 }
                                                 else
