@@ -26,12 +26,12 @@ using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared.TextControls;
+
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -173,12 +173,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
             var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var projectNotesViewData = new EntityNotesViewData(
+            var viewData = new ReleaseNotesViewData(
                 EntityNote.CreateFromEntityNote(releaseNotes),
                 SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
                 "Release Notes",
-                userHasEditReleaseNotePermission);
-            var viewData = new ReleaseNotesViewData(CurrentPerson, projectNotesViewData);
+                userHasEditReleaseNotePermission,
+                CurrentPerson);
             return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 

@@ -19,15 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ReleaseNote;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 using System;
 using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -37,14 +37,14 @@ namespace ProjectFirma.Web.Controllers
         [SitkaAdminFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditNoteViewModel();
+            var viewModel = new EditReleaseNoteRtfContentViewModel();
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(EditNoteViewModel viewModel)
+        public ActionResult New(EditReleaseNoteRtfContentViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -61,14 +61,14 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(ReleaseNotePrimaryKey releaseNotePrimaryKey)
         {
             var releaseNote = releaseNotePrimaryKey.EntityObject;
-            var viewModel = new EditNoteViewModel(releaseNote.Note);
+            var viewModel = new EditReleaseNoteRtfContentViewModel(releaseNote.Note.ToHTMLFormattedString());
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [SitkaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ReleaseNotePrimaryKey releaseNotePrimaryKey, EditNoteViewModel viewModel)
+        public ActionResult Edit(ReleaseNotePrimaryKey releaseNotePrimaryKey, EditReleaseNoteRtfContentViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -79,10 +79,11 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditNoteViewModel viewModel)
+        private PartialViewResult ViewEdit(EditReleaseNoteRtfContentViewModel viewModel)
         {
-            var viewData = new EditNoteViewData();
-            return RazorPartialView<EditNote, EditNoteViewData, EditNoteViewModel>(viewData, viewModel);
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
+            var viewData = new EditReleaseNoteRtfContentViewData(ckEditorToolbar);
+            return RazorPartialView<EditReleaseNoteRtfContent, EditReleaseNoteRtfContentViewData, EditReleaseNoteRtfContentViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
