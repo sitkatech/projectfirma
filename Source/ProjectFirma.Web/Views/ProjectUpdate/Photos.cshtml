@@ -1,29 +1,32 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="Photos.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="Photos.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Photos
 
+<div class="pull-right">
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.ImageGalleryViewData.AddNewPhotoUrl, "Add a new Photo", ViewDataTyped.ImageGalleryViewData.UserCanAddPhotos)
+</div>
 <p>
     You may upload new photos for your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), or edit information on existing photos from here. You may also flag photos for deletion
     (they won't actually be deleted until this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update is approved).
@@ -39,16 +42,16 @@ Source code is available upon request via <support@sitkatech.com>.
 @if (@ViewDataTyped.IsEditable)
 {
     <hr />
-        <div class="row">
-            <div class="col-sm-5">
-                @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                @if (ViewDataTyped.ProjectUpdateStatus.IsPhotosUpdated)
-                {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Photos", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
-                }
-            </div>
-            <div class="col-sm-7 text-right">
-                <a href="@ViewDataTyped.ContinueUrl" title="Save changes and continue to next page" class="btn btn-xs btn-firma">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></a>
-            </div>
+    <div class="row">
+        <div class="col-sm-5">
+            @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
+            @if (ViewDataTyped.ProjectUpdateStatus.IsPhotosUpdated)
+            {
+                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Photos", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+            }
         </div>
+        <div class="col-sm-7 text-right">
+            <a href="@ViewDataTyped.ContinueUrl" title="Save changes and continue to next page" class="btn btn-xs btn-firma">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></a>
+        </div>
+    </div>
 }
