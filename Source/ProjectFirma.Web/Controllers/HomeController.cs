@@ -32,6 +32,7 @@ using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -157,6 +158,21 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
             var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
             return RazorView<StyleGuide, StyleGuideViewData>(viewData);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ReleaseNotes()
+        {
+            var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
+            var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var projectNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(releaseNotes),
+                SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
+                "Release Notes",
+                userHasEditReleaseNotePermission);
+            var viewData = new ReleaseNotesViewData(CurrentPerson, projectNotesViewData);
+            return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 
     }

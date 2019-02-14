@@ -23,3 +23,6 @@
 /Source/ProjectFirma.Web/*.user
 /Source/ProjectFirma.Web/Web.config
 /Source/ProjectFirma.Api/Web.config
+
+# /Source/ProjectFirma.Api/
+/Source/ProjectFirma.Api/ProjectFirma.Api.csproj.user
