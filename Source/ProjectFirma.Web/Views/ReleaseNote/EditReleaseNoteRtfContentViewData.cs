@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ReleaseNotesViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditReleaseNoteRtfContentViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,26 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 
-namespace ProjectFirma.Web.Views.Home
+namespace ProjectFirma.Web.Views.ReleaseNote
 {
-    public class ReleaseNotesViewData : FirmaViewData
+    public class EditReleaseNoteRtfContentViewData : FirmaUserControlViewData
     {
-        public List<EntityNote> Notes { get; }
-        public string AddNoteUrl { get; }
-        public bool CanEditNotes { get; }
+        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
+        public string FileBrowserImageUploadUrl { get; }
 
-        public ReleaseNotesViewData(List<EntityNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
+        public EditReleaseNoteRtfContentViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar)
         {
-            Notes = notes;
-            AddNoteUrl = addNoteUrl;
-            EntityName = entityName;
-            CanEditNotes = canEditNotes;
+            CkEditorToolbar = ckEditorToolbar;
         }
     }
 }
-
-

@@ -19,20 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -166,12 +164,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
             var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var projectNotesViewData = new EntityNotesViewData(
+            var viewData = new ReleaseNotesViewData(
                 EntityNote.CreateFromEntityNote(releaseNotes),
                 SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
                 "Release Notes",
-                userHasEditReleaseNotePermission);
-            var viewData = new ReleaseNotesViewData(CurrentPerson, projectNotesViewData);
+                userHasEditReleaseNotePermission,
+                CurrentPerson);
             return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 
