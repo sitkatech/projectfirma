@@ -242,7 +242,7 @@ namespace ProjectFirma.Web.Models
 
         public static BoundingBox MakeBoundingBoxFromLayerGeoJsonList(List<LayerGeoJson> layerGeoJsons)
         {
-            return !layerGeoJsons.Any() ? MakeNewDefaultBoundingBox() : new BoundingBox(layerGeoJsons.Select(x => MakeBoundingBoxFromGeoJson(x.ToGeoJsonString())).ToList());
+            return !layerGeoJsons.Any() ? MakeNewDefaultBoundingBox() : new BoundingBox(layerGeoJsons.Select(x => MakeBoundingBoxFromGeoJson(x.GetGeoJsonFeatureCollectionAsJsonString())).ToList());
         }
 
         public static void DemandIsValid(Point southWestPoint, Point northEastPoint)

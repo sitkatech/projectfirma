@@ -25,16 +25,23 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using log4net;
 
 namespace LtInfo.Common
 {
     public static class ProcessUtility
     {
         private static readonly TimeSpan MaxTimeout = TimeSpan.FromMinutes(10);
+        private static ILog Logger = LogManager.GetLogger(typeof(ProcessUtility));
+
+        public static string ConjoinCommandLineArguments(List<string> commandLineArguments)
+        {
+            return string.Join(" ", commandLineArguments.Select(EncodeArgumentForCommandLine).ToList());
+        }
 
         public static ProcessUtilityResult ShellAndWaitImpl(string workingDirectory, string exeFileName, List<string> commandLineArguments, bool redirectStdErrAndStdOut, int? maxTimeoutMs)
         {
-            var argumentsAsString = string.Join(" ", commandLineArguments.Select(EncodeArgumentForCommandLine).ToList());
+            var argumentsAsString = ConjoinCommandLineArguments(commandLineArguments);
             var stdErrAndStdOut = string.Empty;
 
             // Start the indicated program and wait for it
@@ -56,14 +63,15 @@ namespace LtInfo.Common
                 objProc.ErrorDataReceived += streamReader.ReceiveStdErr;
             }
 
-            var processDebugInfo = String.Format("Process Details:\r\n\"{0}\" {1}\r\nWorking Directory: {2}", exeFileName, argumentsAsString, workingDirectory);
+            string processDebugInfo = $"Process Details:\r\n\"{exeFileName}\" {argumentsAsString}\r\nWorking Directory: {workingDirectory}";
+            Logger.Info($"Starting Process: {processDebugInfo}");
             try
             {
                 objProc.Start();
             }
             catch (Exception e)
             {
-                var message = string.Format("Program {0} got an exception on process start.\r\nException message: {1}\r\n{2}", Path.GetFileName(exeFileName), e.Message, processDebugInfo);
+                var message = $"Program {Path.GetFileName(exeFileName)} got an exception on process start.\r\nException message: {e.Message}\r\n{processDebugInfo}";
                 throw new Exception(message, e);
             }
 
@@ -90,8 +98,7 @@ namespace LtInfo.Common
 
             if (!hasExited)
             {
-                var message = string.Format("Program {0} did not exit within timeout period {1} and was terminated.\r\n{2}\r\nOutput:\r\n{3}", Path.GetFileName(exeFileName), processTimeoutPeriod,
-                    processDebugInfo, streamReader.StdOutAndStdErr);
+                var message = $"Program {Path.GetFileName(exeFileName)} did not exit within timeout period {processTimeoutPeriod} and was terminated.\r\n{processDebugInfo}\r\nOutput:\r\n{streamReader.StdOutAndStdErr}";
                 throw new Exception(message);
             }
 
