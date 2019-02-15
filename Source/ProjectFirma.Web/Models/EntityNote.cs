@@ -83,9 +83,5 @@ namespace ProjectFirma.Web.Models
         {
             return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }
-        public static List<EntityNote> CreateFromEntityNote(IEnumerable<ReleaseNote> entityNotes)
-        {
-            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
-        }
     }
 }
