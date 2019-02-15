@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             return firmaPageType;
         }
 
+        // Delete using an IDList (Firma style)
         public static void DeleteFirmaPageType(this IQueryable<FirmaPageType> firmaPageTypes, List<int> firmaPageTypeIDList)
         {
             if(firmaPageTypeIDList.Any())
@@ -28,6 +29,7 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        // Delete using an object list (Firma style)
         public static void DeleteFirmaPageType(this IQueryable<FirmaPageType> firmaPageTypes, ICollection<FirmaPageType> firmaPageTypesToDelete)
         {
             if(firmaPageTypesToDelete.Any())

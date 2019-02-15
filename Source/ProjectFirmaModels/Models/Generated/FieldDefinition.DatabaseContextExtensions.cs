@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             return fieldDefinition;
         }
 
+        // Delete using an IDList (Firma style)
         public static void DeleteFieldDefinition(this IQueryable<FieldDefinition> fieldDefinitions, List<int> fieldDefinitionIDList)
         {
             if(fieldDefinitionIDList.Any())
@@ -28,6 +29,7 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        // Delete using an object list (Firma style)
         public static void DeleteFieldDefinition(this IQueryable<FieldDefinition> fieldDefinitions, ICollection<FieldDefinition> fieldDefinitionsToDelete)
         {
             if(fieldDefinitionsToDelete.Any())
