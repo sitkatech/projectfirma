@@ -32,7 +32,6 @@ using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
-
 namespace ProjectFirma.Web.Controllers
 {
     public class HomeController : FirmaBaseController
