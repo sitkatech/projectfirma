@@ -71,6 +71,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var gisDataToPost = jQuery("#gisDataToPost");
             gisDataToPost.html("");
             var hiddens = [];
+            var geoJsonIndex = 0;
             for (var j = 0; j < projectLocationStagingIDs.length; ++j)
             {
                 var projectLocationStagingId = projectLocationStagingIDs[j];
@@ -81,10 +82,11 @@ Source code is available upon request via <support@sitkatech.com>.
                     var geoJson = currentLayer.GeoJsonFeatureCollection;
                     for (var i = 0; i < geoJson.features.length; ++i)
                     {
-                        var currentWktName = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Wkt)\"".replace("0", i);
+                        var currentWktName = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Wkt)\"".replace("0", geoJsonIndex);
                         hiddens.push("<input type=\"hidden\" " + currentWktName + " value=\"" + Terraformer.WKT.convert(geoJson.features[i].geometry) + "\" />");
-                        var currentWktAnnotation = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Annotation)\"".replace("0", i);
+                        var currentWktAnnotation = "name=\"@Html.NameFor(x => x.WktAndAnnotations[0].Annotation)\"".replace("0", geoJsonIndex);
                         hiddens.push("<input type=\"hidden\" " + currentWktAnnotation + " value=\"" + geoJson.features[i].properties[jQuery("#SelectedProperty_" + projectLocationStagingId).val()] + "\" />");
+                        geoJsonIndex++;
                     }
                 }
             }
