@@ -165,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
             var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var viewData = new ReleaseNotesViewData(
-                EntityNote.CreateFromEntityNote(releaseNotes),
+                releaseNotes,
                 SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
                 "Release Notes",
                 userHasEditReleaseNotePermission,

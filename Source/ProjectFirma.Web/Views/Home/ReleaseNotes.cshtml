@@ -21,6 +21,7 @@
 @using LtInfo.Common
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.Home.ReleaseNotes
 
@@ -39,24 +40,21 @@
         @if (ViewDataTyped.Notes.Any())
         {
             <table class="summaryLayout">
-                @foreach (var entityNote in ViewDataTyped.Notes.OrderByDescending(x => x.GetLastUpdated()))
+                @foreach (var releaseNote in ViewDataTyped.Notes.OrderByDescending(x => x.GetLastUpdated()))
                 {
-                    <tr class="@entityNote.DisplayCssClass">
-                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(entityNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
-                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), entityNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
-                        <td>@entityNote.GetLastUpdated().ToStringDateTime()</td>
-                        <td>@entityNote.GetLastUpdatedBy()</td>
-                        <td>@Html.Raw(entityNote.Note)</td>
-
-
-
+                    <tr>
+                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(releaseNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
+                        <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), releaseNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
+                        <td>@releaseNote.GetLastUpdated().ToStringDateTime()</td>
+                        <td>@releaseNote.GetLastUpdatedBy()</td>
+                        <td>@releaseNote.NoteHtmlString</td>
                     </tr>
                 }
             </table>
         }
         else
         {
-            <p class="systemText">No Notes entered.</p>
+            <p class="systemText">No Release Notes entered.</p>
         }
     </div>
 </div>
