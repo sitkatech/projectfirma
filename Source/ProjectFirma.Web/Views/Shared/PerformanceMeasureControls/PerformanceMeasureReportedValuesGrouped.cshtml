@@ -34,7 +34,7 @@
         var isLast = ViewDataTyped.PerformanceMeasureSubcategoriesCalendarYearReportedValues.Last() == performanceMeasureCalendarYearReportedValue;
         var showTotalColumn = ViewDataTyped.CalendarYearsForPerformanceMeasures.Count > 1;
         var subcategoryCount = performanceMeasureCalendarYearReportedValue.PerformanceMeasureSubcategories.Count;
-        var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.MeasurementUnitTypeDisplayName : string.Empty;
+        var pmUnits = performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.LegendDisplayName : string.Empty;
         var colspanForPerformanceMeasureDisplayName = showTotalColumn ? subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 2 : subcategoryCount + ViewDataTyped.CalendarYearsForPerformanceMeasures.Count + 1;
         <table class="summaryLayout performanceMeasureTable table table-responsive table-striped" style="margin-bottom: 20px; @ViewDataTyped.HideByDefaultStyle();">
             <tr style="">

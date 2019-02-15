@@ -46,6 +46,12 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeInches Inches = MeasurementUnitTypeInches.Instance;
         public static readonly MeasurementUnitTypeInchesPerHour InchesPerHour = MeasurementUnitTypeInchesPerHour.Instance;
         public static readonly MeasurementUnitTypeSeconds Seconds = MeasurementUnitTypeSeconds.Instance;
+        public static readonly MeasurementUnitTypePerSquareKilometer PerSquareKilometer = MeasurementUnitTypePerSquareKilometer.Instance;
+        public static readonly MeasurementUnitTypeCubicFoot_Second CubicFoot_Second = MeasurementUnitTypeCubicFoot_Second.Instance;
+        public static readonly MeasurementUnitTypeHectare Hectare = MeasurementUnitTypeHectare.Instance;
+        public static readonly MeasurementUnitTypeKilometer Kilometer = MeasurementUnitTypeKilometer.Instance;
+        public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight ChemicalConcentrationWetWeight = MeasurementUnitTypeChemicalConcentrationWetWeight.Instance;
+        public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight ChemicalConcentrationLipidWeight = MeasurementUnitTypeChemicalConcentrationLipidWeight.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -55,7 +61,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -135,8 +141,14 @@ namespace ProjectFirmaModels.Models
                     return AcreFeet;
                 case MeasurementUnitTypeEnum.Acres:
                     return Acres;
+                case MeasurementUnitTypeEnum.ChemicalConcentrationLipidWeight:
+                    return ChemicalConcentrationLipidWeight;
+                case MeasurementUnitTypeEnum.ChemicalConcentrationWetWeight:
+                    return ChemicalConcentrationWetWeight;
                 case MeasurementUnitTypeEnum.Count:
                     return Count;
+                case MeasurementUnitTypeEnum.CubicFoot_Second:
+                    return CubicFoot_Second;
                 case MeasurementUnitTypeEnum.CubicYards:
                     return CubicYards;
                 case MeasurementUnitTypeEnum.Dollars:
@@ -145,6 +157,8 @@ namespace ProjectFirmaModels.Models
                     return Feet;
                 case MeasurementUnitTypeEnum.Gallon:
                     return Gallon;
+                case MeasurementUnitTypeEnum.Hectare:
+                    return Hectare;
                 case MeasurementUnitTypeEnum.Hours:
                     return Hours;
                 case MeasurementUnitTypeEnum.Inches:
@@ -153,6 +167,8 @@ namespace ProjectFirmaModels.Models
                     return InchesPerHour;
                 case MeasurementUnitTypeEnum.Kilogram:
                     return Kilogram;
+                case MeasurementUnitTypeEnum.Kilometer:
+                    return Kilometer;
                 case MeasurementUnitTypeEnum.LinearFeet:
                     return LinearFeet;
                 case MeasurementUnitTypeEnum.Meters:
@@ -177,6 +193,8 @@ namespace ProjectFirmaModels.Models
                     return Percent;
                 case MeasurementUnitTypeEnum.PeriphytonBiomassIndex:
                     return PeriphytonBiomassIndex;
+                case MeasurementUnitTypeEnum.PerSquareKilometer:
+                    return PerSquareKilometer;
                 case MeasurementUnitTypeEnum.Pounds:
                     return Pounds;
                 case MeasurementUnitTypeEnum.Seconds:
@@ -222,174 +240,216 @@ namespace ProjectFirmaModels.Models
         Feet = 25,
         Inches = 26,
         InchesPerHour = 27,
-        Seconds = 28
+        Seconds = 28,
+        PerSquareKilometer = 29,
+        CubicFoot_Second = 30,
+        Hectare = 31,
+        Kilometer = 32,
+        ChemicalConcentrationWetWeight = 33,
+        ChemicalConcentrationLipidWeight = 34
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
     {
         private MeasurementUnitTypeAcres(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeAcres Instance = new MeasurementUnitTypeAcres(1, @"Acres", @"acres", @"acres", @"Acre", 2);
+        public static readonly MeasurementUnitTypeAcres Instance = new MeasurementUnitTypeAcres(1, @"Acres", @"Acre (acres)", @"acres", @"Acre", 2);
     }
 
     public partial class MeasurementUnitTypeMiles : MeasurementUnitType
     {
         private MeasurementUnitTypeMiles(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeMiles Instance = new MeasurementUnitTypeMiles(2, @"Miles", @"miles", @"miles", @"Mile", 2);
+        public static readonly MeasurementUnitTypeMiles Instance = new MeasurementUnitTypeMiles(2, @"Miles", @"Mile (miles)", @"miles", @"Mile", 2);
     }
 
     public partial class MeasurementUnitTypeSquareFeet : MeasurementUnitType
     {
         private MeasurementUnitTypeSquareFeet(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeSquareFeet Instance = new MeasurementUnitTypeSquareFeet(3, @"SquareFeet", @"square feet", @"sq ft", @"Square Foot", 2);
+        public static readonly MeasurementUnitTypeSquareFeet Instance = new MeasurementUnitTypeSquareFeet(3, @"SquareFeet", @"Square Foot (sq ft)", @"sq ft", @"Square Foot", 2);
     }
 
     public partial class MeasurementUnitTypeLinearFeet : MeasurementUnitType
     {
         private MeasurementUnitTypeLinearFeet(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeLinearFeet Instance = new MeasurementUnitTypeLinearFeet(4, @"LinearFeet", @"linear feet", @"lf", @"Linear Foot", 2);
+        public static readonly MeasurementUnitTypeLinearFeet Instance = new MeasurementUnitTypeLinearFeet(4, @"LinearFeet", @"Linear Foot (lf)", @"lf", @"Linear Foot", 2);
     }
 
     public partial class MeasurementUnitTypeKilogram : MeasurementUnitType
     {
         private MeasurementUnitTypeKilogram(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeKilogram Instance = new MeasurementUnitTypeKilogram(5, @"Kilogram", @"kg", @"kg", @"Kilogram", 2);
+        public static readonly MeasurementUnitTypeKilogram Instance = new MeasurementUnitTypeKilogram(5, @"Kilogram", @"Kilogram (kg)", @"kg", @"Kilogram", 2);
     }
 
     public partial class MeasurementUnitTypeNumber : MeasurementUnitType
     {
         private MeasurementUnitTypeNumber(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeNumber Instance = new MeasurementUnitTypeNumber(6, @"Number", @"number", null, @"Each Unit", 0);
+        public static readonly MeasurementUnitTypeNumber Instance = new MeasurementUnitTypeNumber(6, @"Number", @"Each Unit (number)", null, @"Each Unit", 0);
     }
 
     public partial class MeasurementUnitTypePounds : MeasurementUnitType
     {
         private MeasurementUnitTypePounds(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePounds Instance = new MeasurementUnitTypePounds(7, @"Pounds", @"pounds", @"lbs", @"Pound", 2);
+        public static readonly MeasurementUnitTypePounds Instance = new MeasurementUnitTypePounds(7, @"Pounds", @"Pounds (lbs)", @"lbs", @"Pound", 2);
     }
 
     public partial class MeasurementUnitTypeTons : MeasurementUnitType
     {
         private MeasurementUnitTypeTons(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeTons Instance = new MeasurementUnitTypeTons(8, @"Tons", @"tons", @"tons", @"Ton", 2);
+        public static readonly MeasurementUnitTypeTons Instance = new MeasurementUnitTypeTons(8, @"Tons", @"Ton (tons)", @"tons", @"Ton", 2);
     }
 
     public partial class MeasurementUnitTypeDollars : MeasurementUnitType
     {
         private MeasurementUnitTypeDollars(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeDollars Instance = new MeasurementUnitTypeDollars(9, @"Dollars", @"dollars", null, @"Dollar", 0);
+        public static readonly MeasurementUnitTypeDollars Instance = new MeasurementUnitTypeDollars(9, @"Dollars", @"Dollar ($)", @"$", @"Dollar", 0);
     }
 
     public partial class MeasurementUnitTypeParcels : MeasurementUnitType
     {
         private MeasurementUnitTypeParcels(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeParcels Instance = new MeasurementUnitTypeParcels(10, @"Parcels", @"parcels", null, @"Parcel", 0);
+        public static readonly MeasurementUnitTypeParcels Instance = new MeasurementUnitTypeParcels(10, @"Parcels", @"Parcel (parcels)", null, @"Parcel", 0);
     }
 
     public partial class MeasurementUnitTypePercent : MeasurementUnitType
     {
         private MeasurementUnitTypePercent(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePercent Instance = new MeasurementUnitTypePercent(11, @"Percent", @"%", @"%", @"%", 0);
+        public static readonly MeasurementUnitTypePercent Instance = new MeasurementUnitTypePercent(11, @"Percent", @"Percent (%)", @"%", @"Percent", 0);
     }
 
     public partial class MeasurementUnitTypeTherms : MeasurementUnitType
     {
         private MeasurementUnitTypeTherms(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeTherms Instance = new MeasurementUnitTypeTherms(12, @"Therms", @"therms", @"therms", @"Therm", 2);
+        public static readonly MeasurementUnitTypeTherms Instance = new MeasurementUnitTypeTherms(12, @"Therms", @"Therm (therms)", @"therms", @"Therm", 2);
     }
 
     public partial class MeasurementUnitTypePartsPerMillion : MeasurementUnitType
     {
         private MeasurementUnitTypePartsPerMillion(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePartsPerMillion Instance = new MeasurementUnitTypePartsPerMillion(13, @"PartsPerMillion", @"ppm", @"ppm", @"Part Per Million", 3);
+        public static readonly MeasurementUnitTypePartsPerMillion Instance = new MeasurementUnitTypePartsPerMillion(13, @"PartsPerMillion", @"Part Per Million (ppm)", @"ppm", @"Part Per Million", 3);
     }
 
     public partial class MeasurementUnitTypePartsPerBillion : MeasurementUnitType
     {
         private MeasurementUnitTypePartsPerBillion(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePartsPerBillion Instance = new MeasurementUnitTypePartsPerBillion(14, @"PartsPerBillion", @"ppb", @"ppb", @"Part Per Billion", 3);
+        public static readonly MeasurementUnitTypePartsPerBillion Instance = new MeasurementUnitTypePartsPerBillion(14, @"PartsPerBillion", @"Part Per Billion (ppb)", @"ppb", @"Part Per Billion", 3);
     }
 
     public partial class MeasurementUnitTypeMilligamsPerLiter : MeasurementUnitType
     {
         private MeasurementUnitTypeMilligamsPerLiter(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeMilligamsPerLiter Instance = new MeasurementUnitTypeMilligamsPerLiter(15, @"MilligamsPerLiter", @"mg/L", @"mg/L", @"Milligram Per Liter", 2);
+        public static readonly MeasurementUnitTypeMilligamsPerLiter Instance = new MeasurementUnitTypeMilligamsPerLiter(15, @"MilligamsPerLiter", @"Milligram Per Liter (mg/L)", @"mg/L", @"Milligram Per Liter", 2);
     }
 
     public partial class MeasurementUnitTypeNephlometricTurbidityUnit : MeasurementUnitType
     {
         private MeasurementUnitTypeNephlometricTurbidityUnit(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeNephlometricTurbidityUnit Instance = new MeasurementUnitTypeNephlometricTurbidityUnit(16, @"NephlometricTurbidityUnit", @"NTU", @"NTU", @"Nephlometric Turbidity Unit", 1);
+        public static readonly MeasurementUnitTypeNephlometricTurbidityUnit Instance = new MeasurementUnitTypeNephlometricTurbidityUnit(16, @"NephlometricTurbidityUnit", @"Nephlometric Turbidity Unit (ntu)", @"ntu", @"Nephlometric Turbidity Unit", 1);
     }
 
     public partial class MeasurementUnitTypeMeters : MeasurementUnitType
     {
         private MeasurementUnitTypeMeters(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeMeters Instance = new MeasurementUnitTypeMeters(17, @"Meters", @"meters", @"meters", @"Meter", 1);
+        public static readonly MeasurementUnitTypeMeters Instance = new MeasurementUnitTypeMeters(17, @"Meters", @"Meter (m)", @"m", @"Meter", 1);
     }
 
     public partial class MeasurementUnitTypePeriphytonBiomassIndex : MeasurementUnitType
     {
         private MeasurementUnitTypePeriphytonBiomassIndex(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePeriphytonBiomassIndex Instance = new MeasurementUnitTypePeriphytonBiomassIndex(18, @"PeriphytonBiomassIndex", @"PBI", @"PBI", @"Periphyton biomass index", 0);
+        public static readonly MeasurementUnitTypePeriphytonBiomassIndex Instance = new MeasurementUnitTypePeriphytonBiomassIndex(18, @"PeriphytonBiomassIndex", @"Periphyton Biomass Index (pbi)", @"pbi", @"Periphyton biomass index", 0);
     }
 
     public partial class MeasurementUnitTypeAcreFeet : MeasurementUnitType
     {
         private MeasurementUnitTypeAcreFeet(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeAcreFeet Instance = new MeasurementUnitTypeAcreFeet(19, @"AcreFeet", @"acre-feet", @"acre-ft", @"Acre-Foot", 0);
+        public static readonly MeasurementUnitTypeAcreFeet Instance = new MeasurementUnitTypeAcreFeet(19, @"AcreFeet", @"Acre-Foot (acre-feet)", @"acre-ft", @"Acre-Foot", 0);
     }
 
     public partial class MeasurementUnitTypeGallon : MeasurementUnitType
     {
         private MeasurementUnitTypeGallon(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeGallon Instance = new MeasurementUnitTypeGallon(20, @"Gallon", @"gallons", @"gallons", @"Gallon", 0);
+        public static readonly MeasurementUnitTypeGallon Instance = new MeasurementUnitTypeGallon(20, @"Gallon", @"Gallon (gallons)", @"gallons", @"Gallon", 0);
     }
 
     public partial class MeasurementUnitTypeCubicYards : MeasurementUnitType
     {
         private MeasurementUnitTypeCubicYards(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeCubicYards Instance = new MeasurementUnitTypeCubicYards(21, @"CubicYards", @"cubic yards", @"cubic yards", @"Cubic Yard", 0);
+        public static readonly MeasurementUnitTypeCubicYards Instance = new MeasurementUnitTypeCubicYards(21, @"CubicYards", @"Cubic Yard (cubic yards)", @"cubic yards", @"Cubic Yard", 0);
     }
 
     public partial class MeasurementUnitTypeMetricTons : MeasurementUnitType
     {
         private MeasurementUnitTypeMetricTons(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeMetricTons Instance = new MeasurementUnitTypeMetricTons(22, @"MetricTons", @"metric tons", @"metric tons", @"Metric Ton", 0);
+        public static readonly MeasurementUnitTypeMetricTons Instance = new MeasurementUnitTypeMetricTons(22, @"MetricTons", @"Metric Ton (metric tons)", @"metric tons", @"Metric Ton", 0);
     }
 
     public partial class MeasurementUnitTypeHours : MeasurementUnitType
     {
         private MeasurementUnitTypeHours(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeHours Instance = new MeasurementUnitTypeHours(23, @"Hours", @"hours", @"hours", @"Hour", 0);
+        public static readonly MeasurementUnitTypeHours Instance = new MeasurementUnitTypeHours(23, @"Hours", @"Hour (hours)", @"hours", @"Hour", 0);
     }
 
     public partial class MeasurementUnitTypeCount : MeasurementUnitType
     {
         private MeasurementUnitTypeCount(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeCount Instance = new MeasurementUnitTypeCount(24, @"Count", @"count", @"count", @"Each Unit", 0);
+        public static readonly MeasurementUnitTypeCount Instance = new MeasurementUnitTypeCount(24, @"Count", @"Each Unit (count)", @"count", @"Each Unit", 0);
     }
 
     public partial class MeasurementUnitTypeFeet : MeasurementUnitType
     {
         private MeasurementUnitTypeFeet(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeFeet Instance = new MeasurementUnitTypeFeet(25, @"Feet", @"feet", @"ft", @"Foot", 2);
+        public static readonly MeasurementUnitTypeFeet Instance = new MeasurementUnitTypeFeet(25, @"Feet", @"Foot (ft)", @"ft", @"Foot", 2);
     }
 
     public partial class MeasurementUnitTypeInches : MeasurementUnitType
     {
         private MeasurementUnitTypeInches(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeInches Instance = new MeasurementUnitTypeInches(26, @"Inches", @"inches", @"in", @"inch", 2);
+        public static readonly MeasurementUnitTypeInches Instance = new MeasurementUnitTypeInches(26, @"Inches", @"Inch (in)", @"in", @"inch", 2);
     }
 
     public partial class MeasurementUnitTypeInchesPerHour : MeasurementUnitType
     {
         private MeasurementUnitTypeInchesPerHour(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeInchesPerHour Instance = new MeasurementUnitTypeInchesPerHour(27, @"InchesPerHour", @"in/hr", @"in/hr", @"Inches Per Hour", 2);
+        public static readonly MeasurementUnitTypeInchesPerHour Instance = new MeasurementUnitTypeInchesPerHour(27, @"InchesPerHour", @"Inches Per Hour (in/hr)", @"in/hr", @"Inches Per Hour", 2);
     }
 
     public partial class MeasurementUnitTypeSeconds : MeasurementUnitType
     {
         private MeasurementUnitTypeSeconds(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeSeconds Instance = new MeasurementUnitTypeSeconds(28, @"Seconds", @"seconds", @"s", @"Second", 0);
+        public static readonly MeasurementUnitTypeSeconds Instance = new MeasurementUnitTypeSeconds(28, @"Seconds", @"Second (s)", @"s", @"Second", 0);
+    }
+
+    public partial class MeasurementUnitTypePerSquareKilometer : MeasurementUnitType
+    {
+        private MeasurementUnitTypePerSquareKilometer(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypePerSquareKilometer Instance = new MeasurementUnitTypePerSquareKilometer(29, @"PerSquareKilometer", @"Per Square Kilometer (per sq km)", @"per sq km", @"Per Square Kilometer", 2);
+    }
+
+    public partial class MeasurementUnitTypeCubicFoot_Second : MeasurementUnitType
+    {
+        private MeasurementUnitTypeCubicFoot_Second(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeCubicFoot_Second Instance = new MeasurementUnitTypeCubicFoot_Second(30, @"Cubic Foot / Second", @"Cubic Foot / Second (cfs)", @"cfs", @"Cubic Foot / Second", 2);
+    }
+
+    public partial class MeasurementUnitTypeHectare : MeasurementUnitType
+    {
+        private MeasurementUnitTypeHectare(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeHectare Instance = new MeasurementUnitTypeHectare(31, @"Hectare", @"Hectare (ha)", @"ha", @"Hectare", 2);
+    }
+
+    public partial class MeasurementUnitTypeKilometer : MeasurementUnitType
+    {
+        private MeasurementUnitTypeKilometer(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeKilometer Instance = new MeasurementUnitTypeKilometer(32, @"Kilometer", @"Kilometer (km)", @"km", @"Kilometer", 2);
+    }
+
+    public partial class MeasurementUnitTypeChemicalConcentrationWetWeight : MeasurementUnitType
+    {
+        private MeasurementUnitTypeChemicalConcentrationWetWeight(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight Instance = new MeasurementUnitTypeChemicalConcentrationWetWeight(33, @"ChemicalConcentrationWetWeight", @"Chemical Concentration Wet Weight (ng/g wet weight)", @"ng/g wet weight", @"Chemical Concentration Wet Weight", 2);
+    }
+
+    public partial class MeasurementUnitTypeChemicalConcentrationLipidWeight : MeasurementUnitType
+    {
+        private MeasurementUnitTypeChemicalConcentrationLipidWeight(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight Instance = new MeasurementUnitTypeChemicalConcentrationLipidWeight(34, @"ChemicalConcentrationLipidWeight", @"Chemical Concentration Lipid Weight (ng/g lipid weight)", @"ng/g lipid weight", @"Chemical Concentration Lipid Weight", 2);
     }
 }
