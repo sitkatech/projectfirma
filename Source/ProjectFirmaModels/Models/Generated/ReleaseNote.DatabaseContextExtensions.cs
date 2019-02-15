@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             return releaseNote;
         }
 
+        // Delete using an IDList (Firma style)
         public static void DeleteReleaseNote(this IQueryable<ReleaseNote> releaseNotes, List<int> releaseNoteIDList)
         {
             if(releaseNoteIDList.Any())
@@ -28,6 +29,7 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        // Delete using an object list (Firma style)
         public static void DeleteReleaseNote(this IQueryable<ReleaseNote> releaseNotes, ICollection<ReleaseNote> releaseNotesToDelete)
         {
             if(releaseNotesToDelete.Any())
