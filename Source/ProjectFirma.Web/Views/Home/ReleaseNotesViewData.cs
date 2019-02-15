@@ -26,11 +26,11 @@ namespace ProjectFirma.Web.Views.Home
 {
     public class ReleaseNotesViewData : FirmaViewData
     {
-        public List<EntityNote> Notes { get; }
+        public List<ProjectFirmaModels.Models.ReleaseNote> Notes { get; }
         public string AddNoteUrl { get; }
         public bool CanEditNotes { get; }
 
-        public ReleaseNotesViewData(List<EntityNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
+        public ReleaseNotesViewData(List<ProjectFirmaModels.Models.ReleaseNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
         {
             PageTitle = "Release Notes";
             Notes = notes;

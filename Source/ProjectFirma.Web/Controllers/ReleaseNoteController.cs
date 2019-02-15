@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult Edit(ReleaseNotePrimaryKey releaseNotePrimaryKey)
         {
             var releaseNote = releaseNotePrimaryKey.EntityObject;
-            var viewModel = new EditReleaseNoteRtfContentViewModel(releaseNote.Note.ToHTMLFormattedString());
+            var viewModel = new EditReleaseNoteRtfContentViewModel(releaseNote);
             return ViewEdit(viewModel);
         }
 

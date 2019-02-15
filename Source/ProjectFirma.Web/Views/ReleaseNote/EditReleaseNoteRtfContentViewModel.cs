@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ReleaseNote
 {
     public class EditReleaseNoteRtfContentViewModel : FormViewModel
     {
-        public HtmlString RtfContent { get; set; }
+        public HtmlString Note { get; set; }
 
         /// <summary>
         /// Needed by model binder
@@ -37,14 +37,14 @@ namespace ProjectFirma.Web.Views.ReleaseNote
         {
         }
 
-        public EditReleaseNoteRtfContentViewModel(HtmlString rtfContent)
+        public EditReleaseNoteRtfContentViewModel(ProjectFirmaModels.Models.ReleaseNote releaseNote)
         {
-            RtfContent = rtfContent;
+            Note = releaseNote.NoteHtmlString;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ReleaseNote releaseNote, Person currentPerson)
         {
-            releaseNote.Note = RtfContent.ToString();
+            releaseNote.NoteHtmlString = Note;
             if (releaseNote.CreateDate == default(DateTime))
             {
                 releaseNote.CreateDate = DateTime.Now;
