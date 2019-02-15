@@ -26,10 +26,10 @@ using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Controllers
@@ -164,6 +164,21 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
             var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
             return RazorView<StyleGuide, StyleGuideViewData>(viewData);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ReleaseNotes()
+        {
+            var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
+            var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var viewData = new ReleaseNotesViewData(
+                releaseNotes,
+                SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
+                "Release Notes",
+                userHasEditReleaseNotePermission,
+                CurrentPerson);
+            return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 
     }

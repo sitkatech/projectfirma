@@ -124,6 +124,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new RelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
@@ -301,6 +302,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -703,6 +705,9 @@ namespace ProjectFirmaModels.Models
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);
+
+                case "ReleaseNote":
+                    return ReleaseNotes.GetReleaseNote(primaryKey);
 
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
