@@ -29,7 +29,9 @@ namespace LtInfo.Common.GdalOgr
     {
         public static List<string> GetFeatureClassNamesFromFileGdb(FileInfo ogrInfoFileInfo, FileInfo gdbFileInfo, double totalMilliseconds)
         {
-            var commandLineArguments = BuildOgrInfoCommandLineArgumentsToListFeatureClasses(gdbFileInfo, new DirectoryInfo(ogrInfoFileInfo.FullName));
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var gdalDataDirectory = new DirectoryInfo(Path.Combine(ogrInfoFileInfo.DirectoryName, "gdal-data"));
+            var commandLineArguments = BuildOgrInfoCommandLineArgumentsToListFeatureClasses(gdbFileInfo, gdalDataDirectory);
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoFileInfo.DirectoryName, ogrInfoFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
 
             var featureClassesFromFileGdb = processUtilityResult.StdOut.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -41,8 +43,9 @@ namespace LtInfo.Common.GdalOgr
             using (var geoJsonFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".json"))
             {
                 File.WriteAllText(geoJsonFile.FileInfo.FullName, geoJson);
-                
-                var commandLineArguments = BuildOgrInfoCommandLineArgumentsGetExtent(geoJsonFile.FileInfo, new DirectoryInfo(ogrInfoFileInfo.FullName));
+
+                var gdalDataDirectory = new DirectoryInfo(Path.Combine(ogrInfoFileInfo.DirectoryName, "gdal-data"));
+                var commandLineArguments = BuildOgrInfoCommandLineArgumentsGetExtent(geoJsonFile.FileInfo, gdalDataDirectory);
                 var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoFileInfo.DirectoryName, ogrInfoFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
 
                 var lines = processUtilityResult.StdOut.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
