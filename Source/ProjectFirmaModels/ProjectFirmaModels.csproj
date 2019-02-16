@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -420,6 +420,10 @@
     <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\RelationshipTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReleaseNote.Binding.cs" />
+    <Compile Include="Models\Generated\ReleaseNote.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReleaseNoteConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReleaseNotePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
@@ -513,6 +517,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ReleaseNote.cs" />
     <Compile Include="Models\ProjectUpdateBatch.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\TaxonomyBranch.cs" />

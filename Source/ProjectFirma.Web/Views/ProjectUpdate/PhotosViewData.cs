@@ -32,27 +32,27 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PhotosViewData : ProjectUpdateViewData
     {
-        public readonly ImageGalleryViewData ImageGalleryViewData;
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
-        public readonly string ContinueUrl;
+        public ImageGalleryViewData ImageGalleryViewData { get; }
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
+        public string ContinueUrl { get; }
+        public string AddNewUrl { get; }
 
         public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
         {
-            var newPhotoForProjectUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
+            AddNewUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
             var selectKeyImageUrl = IsEditable ? SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int)) : string.Empty;
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 $"ProjectImages{projectUpdateBatch.Project.ProjectID}",
                 projectUpdateBatch.ProjectImageUpdates.Select(x => new FileResourcePhoto(x)),
                 IsEditable,
-                newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
                 x => x.CaptionOnFullView,
                 "Photo");
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPhotos(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPhotos(projectUpdateBatch.Project));
-            ContinueUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(projectUpdateBatch.Project));
+            ContinueUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(projectUpdateBatch.Project));
         }
     }
 }

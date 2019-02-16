@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FeaturedProjectsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditReleaseNoteRtfContentViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,23 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
 
-namespace ProjectFirma.Web.Views.Home
+namespace ProjectFirma.Web.Views.ReleaseNote
 {
-    public class ManageHomePageImagesViewData : FirmaViewData
+    public class EditReleaseNoteRtfContentViewData : FirmaUserControlViewData
     {
-        public ImageGalleryViewData ImageGalleryViewData { get; }
-        public bool UserCanAddPhotos { get; }
-        public string NewUrl { get; }
-        
-        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentPerson)
+        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
+        public string FileBrowserImageUploadUrl { get; }
+
+        public EditReleaseNoteRtfContentViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar)
         {
-            ImageGalleryViewData = imageGalleryViewData;
-            UserCanAddPhotos = userCanAddPhotos;
-            NewUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
+            CkEditorToolbar = ckEditorToolbar;
         }
     }
 }

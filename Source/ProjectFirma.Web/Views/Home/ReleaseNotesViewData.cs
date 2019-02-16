@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FeaturedProjectsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ReleaseNotesViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,24 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.Home
 {
-    public class ManageHomePageImagesViewData : FirmaViewData
+    public class ReleaseNotesViewData : FirmaViewData
     {
-        public ImageGalleryViewData ImageGalleryViewData { get; }
-        public bool UserCanAddPhotos { get; }
-        public string NewUrl { get; }
-        
-        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentPerson)
+        public List<ProjectFirmaModels.Models.ReleaseNote> Notes { get; }
+        public string AddNoteUrl { get; }
+        public bool CanEditNotes { get; }
+
+        public ReleaseNotesViewData(List<ProjectFirmaModels.Models.ReleaseNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
         {
-            ImageGalleryViewData = imageGalleryViewData;
-            UserCanAddPhotos = userCanAddPhotos;
-            NewUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
+            PageTitle = "Release Notes";
+            Notes = notes;
+            AddNoteUrl = addNoteUrl;
+            EntityName = entityName;
+            CanEditNotes = canEditNotes;
         }
     }
 }
+
+

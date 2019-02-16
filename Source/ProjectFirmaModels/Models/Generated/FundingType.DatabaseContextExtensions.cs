@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             return fundingType;
         }
 
+        // Delete using an IDList (Firma style)
         public static void DeleteFundingType(this IQueryable<FundingType> fundingTypes, List<int> fundingTypeIDList)
         {
             if(fundingTypeIDList.Any())
@@ -28,6 +29,7 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        // Delete using an object list (Firma style)
         public static void DeleteFundingType(this IQueryable<FundingType> fundingTypes, ICollection<FundingType> fundingTypesToDelete)
         {
             if(fundingTypesToDelete.Any())

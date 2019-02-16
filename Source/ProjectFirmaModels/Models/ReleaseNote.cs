@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FeaturedProjectsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ReleaseNote.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,24 +18,29 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared;
+using System;
 
-namespace ProjectFirma.Web.Views.Home
+namespace ProjectFirmaModels.Models
 {
-    public class ManageHomePageImagesViewData : FirmaViewData
+    public partial class ReleaseNote : IAuditableEntity, IEntityNote
     {
-        public ImageGalleryViewData ImageGalleryViewData { get; }
-        public bool UserCanAddPhotos { get; }
-        public string NewUrl { get; }
-        
-        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentPerson)
+        public DateTime GetLastUpdated()
         {
-            ImageGalleryViewData = imageGalleryViewData;
-            UserCanAddPhotos = userCanAddPhotos;
-            NewUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
+            return UpdateDate ?? CreateDate;
+        }
+
+        public string GetLastUpdatedBy()
+        {
+            if (UpdatePersonID.HasValue)
+            {
+                return UpdatePerson.GetFullNameFirstLast();
+            }
+            return CreatePerson.GetFullNameFirstLast();
+        }
+
+        public string GetAuditDescriptionString()
+        {
+            return "ProjectFirma Release Note";
         }
     }
 }

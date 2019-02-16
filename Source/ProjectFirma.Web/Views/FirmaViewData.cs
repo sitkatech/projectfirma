@@ -18,17 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views
 {
@@ -115,6 +114,7 @@ namespace ProjectFirma.Web.Views
                 ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800,
                     "Submit Request", "Cancel", new List<string>(), null, null).ToString(), "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentPerson, "Training", "ToolHelp"));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ReleaseNotes()), currentPerson, "Release Notes", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("About ProjectFirma",
                 @"<a href='http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/' target='_blank'>About ProjectFirma <span class='glyphicon glyphicon-new-window'></span></a>", "ExternalHelp"));
         }

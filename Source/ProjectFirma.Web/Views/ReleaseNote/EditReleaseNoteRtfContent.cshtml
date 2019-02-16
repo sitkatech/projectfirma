@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="Photos.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    <copyright file="EditReleaseNoteRtfContent.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
     </copyright>
@@ -18,24 +18,15 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
-@using ProjectFirma.Web.Models
-@using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ProjectCreate.Photos
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.ReleaseNote.EditReleaseNoteRtfContent
 
-<div class="pull-right">
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddNewUrl, "Add a new Photo", ViewDataTyped.ImageGalleryViewData.UserCanAddPhotos)
-</div>
-<div>Add any 'before' photos of the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() site documenting the current conditions.</div>
-<hr />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div style="max-height: 600px; overflow-y: auto">
+        @Html.CkEditorFor(x => x.Note, ViewDataTyped.CkEditorToolbar, true, false, ViewDataTyped.FileBrowserImageUploadUrl, 300)
+    </div>
 
-<div style="min-height: 300px">
-    @{ Html.RenderRazorSitkaPartial<ImageGallery, ImageGalleryViewData>(ViewDataTyped.ImageGalleryViewData); }
-</div>
-
-<hr />
-<div class="pull-right">
-    <a class="btn btn-xs btn-firma" href="@ViewDataTyped.ProposalNotesUrl">Continue</a>
-</div>
+    <script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
+}

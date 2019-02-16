@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views.Shared
         public string GalleryName { get; }
         public IEnumerable<FileResourcePhoto> GalleryImages { get; }
         public string SelectKeyImageUrl { get; }
-        public string AddNewPhotoUrl { get; }
         public bool UserCanAddPhotos { get; }
         public bool UserCanSelectKeyPhoto { get; }
         public int CurrentKeyPhotoID { get; }
@@ -41,13 +40,12 @@ namespace ProjectFirma.Web.Views.Shared
         public Func<FileResourcePhoto, object> SortFunction { get; }
         public string ImageEntityName { get; }
 
-        public ImageGalleryViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, bool canAddPhotos, string addNewPhotoUrl, string selectKeyImageUrl, bool isGalleryMode, Func<FileResourcePhoto, object> sortFunction, string imageEntityName)
+        public ImageGalleryViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, bool canAddPhotos, string selectKeyImageUrl, bool isGalleryMode, Func<FileResourcePhoto, object> sortFunction, string imageEntityName)
         {
             CurrentPerson = currentPerson;
             GalleryImages = galleryImages.ToList();
             UserCanAddPhotos = canAddPhotos;
             SelectKeyImageUrl = selectKeyImageUrl;
-            AddNewPhotoUrl = addNewPhotoUrl;
             GalleryName = galleryName;
             UserCanSelectKeyPhoto = !string.IsNullOrWhiteSpace(selectKeyImageUrl);
             CurrentKeyPhotoID = (UserCanSelectKeyPhoto && GalleryImages.Any(x => x.IsKeyPhoto)) ? GalleryImages.Single(x => x.IsKeyPhoto).PrimaryKey : ModelObjectHelpers.NotYetAssignedID;

@@ -22,15 +22,14 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Home;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 
 namespace ProjectFirma.Web.Controllers
@@ -110,7 +109,17 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageHomePageImages()
         {
-            var viewData = new ManageHomePageImagesViewData(CurrentPerson, BuildImageGalleryViewData(CurrentPerson));
+            var canAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
+            var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson,
+                "HomePageImagesGallery",
+                firmaHomePageImages,
+                canAddPhotos,
+                null,
+                true,
+                x => x.CaptionOnFullView,
+                "Photo");
+            var viewData = new ManageHomePageImagesViewData(CurrentPerson, imageGalleryViewData, canAddPhotos);
             return RazorView<ManageHomePageImages, ManageHomePageImagesViewData>(viewData);
         }
 
@@ -125,14 +134,12 @@ namespace ProjectFirma.Web.Controllers
         private static ImageGalleryViewData BuildImageGalleryViewData(Person currentPerson)
         {
             var userCanAddPhotosToHomePage = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            var newPhotoForProjectUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
             var galleryName = "HomePageImagesGallery";
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
             var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 galleryName,
                 firmaHomePageImages,
                 userCanAddPhotosToHomePage,
-                newPhotoForProjectUrl,
                 null,
                 true,
                 x => x.CaptionOnFullView,
@@ -157,6 +164,21 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
             var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
             return RazorView<StyleGuide, StyleGuideViewData>(viewData);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ReleaseNotes()
+        {
+            var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
+            var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var viewData = new ReleaseNotesViewData(
+                releaseNotes,
+                SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
+                "Release Notes",
+                userHasEditReleaseNotePermission,
+                CurrentPerson);
+            return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 
     }
