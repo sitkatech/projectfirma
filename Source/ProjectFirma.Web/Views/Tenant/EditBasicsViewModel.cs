@@ -92,6 +92,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Enable Accomplishments Dashboard")]
         public bool EnableAccomplishmentsDashboard { get; set; }
 
+        [DisplayName("Enable Secondary Project Taxonomy Leaf")]
+        public bool EnableSecondaryProjectTaxonomyLeaf { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -112,6 +115,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
+            EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -121,6 +125,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
+            attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
