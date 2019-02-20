@@ -198,6 +198,7 @@ namespace ProjectFirma.Api.Controllers
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
+                    //x.ChartConfigurationJson = y.ChartConfigurationJson;
                 }, _databaseEntities);
 
 
@@ -238,7 +239,11 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Performance Measure with ID = {id} not found";
                 return NotFound();
             }
-            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, null);
+
+            var projects = _databaseEntities.Projects.Where(x =>
+                x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID ==
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID).ToList();
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
             return Ok(performanceMeasureReportedValues.Select(x => new PerformanceMeasureReportedValueFromProjectFirma(x)).ToList());
         }
 
@@ -252,8 +257,11 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Performance Measure with ID = {id} not found";
                 return NotFound();
             }
+            var projects = _databaseEntities.Projects.Where(x =>
+                x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID ==
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID).Select(x => x.ProjectID).ToList();
 
-            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
+            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Where(x => projects.Contains(x.ProjectID)).Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
         }
 
         [Route("api/PerformanceMeasures/Delete/{apiKey}/{id}")]

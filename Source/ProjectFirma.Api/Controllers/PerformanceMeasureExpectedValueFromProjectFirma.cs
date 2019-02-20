@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Api.Controllers
 {
     public class PerformanceMeasureExpectedValueFromProjectFirma
     {
@@ -13,6 +14,7 @@ namespace ProjectFirmaModels.Models
         public string ProjectStage { get; set; }
 
         public string ProjectName { get; set; }
+        public string ProjectDetailUrl { get; set; }
         public string LeadImplementer { get; set; }
         public string MeasurementUnitType { get; set; }
 
@@ -31,6 +33,7 @@ namespace ProjectFirmaModels.Models
             ProjectStage = performanceMeasureExpected.Project.ProjectStage.ProjectStageDisplayName;
             LeadImplementer = performanceMeasureExpected.Project.GetPrimaryContactOrganization()?.OrganizationShortName;
             ProjectName = performanceMeasureExpected.Project.GetDisplayName();
+            ProjectDetailUrl = $"/Project/Detail/{performanceMeasureExpected.Project.ProjectID}";
             PerformanceMeasureSubcategoryOptions = performanceMeasureExpected
                 .PerformanceMeasureExpectedSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))
                 .ToList();

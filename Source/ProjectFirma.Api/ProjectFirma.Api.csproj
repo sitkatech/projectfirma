@@ -127,10 +127,13 @@
     <Compile Include="Controllers\FirmaWebApiConfiguration.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />
     <Compile Include="Controllers\PerformanceMeasureDto.cs" />
+    <Compile Include="Controllers\PerformanceMeasureExpectedValueFromProjectFirma.cs" />
     <Compile Include="Controllers\PerformanceMeasureNoteDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureNotesController.cs" />
+    <Compile Include="Controllers\PerformanceMeasureReportedValueFromProjectFirma.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionDto.cs" />
+    <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
