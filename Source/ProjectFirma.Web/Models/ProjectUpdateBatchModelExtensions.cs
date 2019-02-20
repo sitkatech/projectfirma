@@ -221,7 +221,7 @@ namespace ProjectFirma.Web.Models
         public static void DeleteProjectLocationStagingUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             var projectLocationStagingUpdates = projectUpdateBatch.ProjectLocationStagingUpdates.ToList();
-            foreach (var projectLocationStagingUpdate in projectLocationStagingUpdates)
+            foreach (var projectLocationStagingUpdate in projectLocationStagingUpdates.ToList())
             {
                 projectLocationStagingUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
