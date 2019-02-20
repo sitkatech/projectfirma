@@ -217,6 +217,7 @@ namespace ProjectFirmaModels.Models
         FundingSourceAmount = 265,
         NormalUser = 266,
         ProjectStewardshipArea = 267,
-        ProjectInternalNote = 268
+        ProjectInternalNote = 268,
+        SecondaryProjectTaxonomyLeaf = 269
     }
 }

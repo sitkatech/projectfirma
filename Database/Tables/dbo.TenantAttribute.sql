@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[ShowLeadImplementerLogoOnFactSheet] [bit] NOT NULL,
 	[EnableAccomplishmentsDashboard] [bit] NOT NULL,
 	[ProjectStewardshipAreaTypeID] [int] NULL,
+	[EnableSecondaryProjectTaxonomyLeaf] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

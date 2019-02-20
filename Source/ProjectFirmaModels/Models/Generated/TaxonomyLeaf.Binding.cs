@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected TaxonomyLeaf()
         {
             this.Projects = new HashSet<Project>();
+            this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
         }
 
@@ -81,13 +82,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -117,6 +118,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in SecondaryProjectTaxonomyLeafs.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in TaxonomyLeafPerformanceMeasures.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -142,6 +148,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyBranch TaxonomyBranch { get; set; }
