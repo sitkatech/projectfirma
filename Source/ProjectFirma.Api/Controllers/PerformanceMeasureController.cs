@@ -198,7 +198,8 @@ namespace ProjectFirma.Api.Controllers
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
-                    //x.ChartConfigurationJson = y.ChartConfigurationJson;
+                    x.ChartConfigurationJson = y.ChartConfigurationJson;
+                    x.GoogleChartTypeID = y.GoogleChartTypeID;
                 }, _databaseEntities);
 
 
