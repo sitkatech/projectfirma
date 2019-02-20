@@ -180,6 +180,13 @@ namespace ProjectFirmaModels.Models
                 .ToList();
         }
 
+        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationsForProjectDetail(this Project project)
+        {
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            explicitOrganizations.AddRange(project.GetFundingOrganizations());
+            return explicitOrganizations;
+        }
+
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int? currentProjectID)
         {
             if (String.IsNullOrWhiteSpace(projectName))
