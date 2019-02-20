@@ -172,15 +172,14 @@ namespace ProjectFirmaModels.Models
             return fundingOrganizations.ToList();
         }
 
-        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizations(this Project project)
+        public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
-            return explicitOrganizations.DistinctBy(x => new {x.Project.ProjectID, x.Organization.OrganizationID})
-                .ToList();
+            return explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList();
         }
 
-        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationsForProjectDetail(this Project project)
+        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
@@ -534,12 +533,6 @@ namespace ProjectFirmaModels.Models
                 feature.Properties.Add("TaxonomyBranchID", project.TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyLeafID", project.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", project.ProjectClassifications.Select(x => x.ClassificationID)));
-                var associatedOrganizations = project.GetAssociatedOrganizations();
-                var relationshipTypeNames = associatedOrganizations.Select(x => x.RelationshipTypeName).Distinct();
-                foreach (var relationshipTypeName in relationshipTypeNames)
-                {
-                    feature.Properties.Add($"{relationshipTypeName}ID", associatedOrganizations.Where(y => y.RelationshipTypeName.Equals(relationshipTypeName)).Select(z => z.Organization.OrganizationID));
-                }
 
                 if (useDetailedCustomPopup)
                 {

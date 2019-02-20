@@ -170,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectAssociatedOrganizations = project.GetAssociatedOrganizationsForProjectDetail();
+            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -408,7 +408,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentPerson.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.Organization.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
                     .ToList();
             }
             else
@@ -461,7 +461,7 @@ namespace ProjectFirma.Web.Controllers
             workSheets.Add(wsProjectDescriptions);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
-            var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizations()).ToList();
+            var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 
