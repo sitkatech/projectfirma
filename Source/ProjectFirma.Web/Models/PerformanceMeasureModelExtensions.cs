@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Project;
@@ -120,7 +121,7 @@ namespace ProjectFirma.Web.Models
                     throw new ArgumentException();
             }
 
-            var taxonomyBranchPerformanceMeasureGroupedByLevel = performanceMeasure.TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc);
+            var taxonomyBranchPerformanceMeasureGroupedByLevel = performanceMeasure.TaxonomyLeafPerformanceMeasures.GroupBy(groupingFunc, new HavePrimaryKeyComparer<TaxonomyTier>());
             return taxonomyBranchPerformanceMeasureGroupedByLevel;
         }
 
