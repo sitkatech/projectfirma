@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using ProjectFirmaModels.Models;
+
+namespace ProjectFirma.Api.Controllers
 {
     public class PerformanceMeasureSubcategoryOptionFromProjectFirma
     {

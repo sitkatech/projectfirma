@@ -17,9 +17,9 @@ namespace ProjectFirma.Api.Controllers
         //    _databaseEntities = databaseEntities;
         //}
 
-        [Route("api/PerformanceMeasures/PostPerformanceMeasure")]
+        [Route("api/PerformanceMeasures/PostPerformanceMeasure/{apiKey}")]
         [HttpPost]
-        public IHttpActionResult PostPerformanceMeasure([FromBody] PerformanceMeasureDto performanceMeasureDto)
+        public IHttpActionResult PostPerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
             var performanceMeasureType = MapPerformanceMeasureTypeNameToPerformanceMeasureType(performanceMeasureDto.PerformanceMeasureTypeName);
             var performanceMeasureDataSourceType = MapPerformanceMeasureDataSourceTypeNameToPerformanceMeasureDataSourceType(performanceMeasureDto.PerformanceMeasureDataSourceTypeName);
@@ -92,9 +92,9 @@ namespace ProjectFirma.Api.Controllers
             return GoogleChartType.All.SingleOrDefault(x => x.GoogleChartTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        [Route("api/PerformanceMeasures/UpdatePerformanceMeasure")]
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasure/{apiKey}")]
         [HttpPut]
-        public IHttpActionResult UpdatePerformanceMeasure([FromBody] PerformanceMeasureDto performanceMeasureDto)
+        public IHttpActionResult UpdatePerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
@@ -132,9 +132,9 @@ namespace ProjectFirma.Api.Controllers
             return Ok(performanceMeasureReloaded);
         }
 
-        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureSubcategories")]
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureSubcategories/{apiKey}")]
         [HttpPut]
-        public IHttpActionResult UpdatePerformanceMeasureSubcategories([FromBody] PerformanceMeasureDto performanceMeasureDto)
+        public IHttpActionResult UpdatePerformanceMeasureSubcategories(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
@@ -198,6 +198,8 @@ namespace ProjectFirma.Api.Controllers
                 (x, y) =>
                 {
                     x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
+                    x.ChartConfigurationJson = y.ChartConfigurationJson;
+                    x.GoogleChartTypeID = y.GoogleChartTypeID;
                 }, _databaseEntities);
 
 
@@ -206,17 +208,17 @@ namespace ProjectFirma.Api.Controllers
             return Ok(performanceMeasureReloaded);
         }
 
-        [Route("api/PerformanceMeasures/List")]
+        [Route("api/PerformanceMeasures/List/{apiKey}")]
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult Get(string apiKey)
         {
             var result = _databaseEntities.PerformanceMeasures.ToList().Select(x => new PerformanceMeasureDto(x)).ToList();
             return Ok(result);
         }
 
-        [Route("api/PerformanceMeasures/Get/{id}")]
+        [Route("api/PerformanceMeasures/Get/{apiKey}/{id}")]
         [HttpGet]
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(string apiKey, int id)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
@@ -228,9 +230,9 @@ namespace ProjectFirma.Api.Controllers
             return Ok(result);
         }
 
-        [Route("api/PerformanceMeasures/{id}/GetReportedValues")]
+        [Route("api/PerformanceMeasures/{apiKey}/{id}/GetReportedValues")]
         [HttpGet]
-        public IHttpActionResult GetReportedValues(int id)
+        public IHttpActionResult GetReportedValues(string apiKey, int id)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
@@ -238,13 +240,17 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Performance Measure with ID = {id} not found";
                 return NotFound();
             }
-            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, null);
+
+            var projects = _databaseEntities.Projects.Where(x =>
+                x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID ==
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID).ToList();
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
             return Ok(performanceMeasureReportedValues.Select(x => new PerformanceMeasureReportedValueFromProjectFirma(x)).ToList());
         }
 
-        [Route("api/PerformanceMeasures/{id}/GetExpectedValues")]
+        [Route("api/PerformanceMeasures/{apiKey}/{id}/GetExpectedValues")]
         [HttpGet]
-        public IHttpActionResult GetExpectedValues(int id)
+        public IHttpActionResult GetExpectedValues(string apiKey, int id)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
@@ -252,13 +258,16 @@ namespace ProjectFirma.Api.Controllers
                 var message = $"Performance Measure with ID = {id} not found";
                 return NotFound();
             }
+            var projects = _databaseEntities.Projects.Where(x =>
+                x.ProjectStageID != ProjectStage.Proposal.ProjectStageID && x.ProjectApprovalStatusID ==
+                ProjectApprovalStatus.Approved.ProjectApprovalStatusID).Select(x => x.ProjectID).ToList();
 
-            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
+            return Ok(performanceMeasure.PerformanceMeasureExpecteds.Where(x => projects.Contains(x.ProjectID)).Select(x => new PerformanceMeasureExpectedValueFromProjectFirma(x)).ToList());
         }
 
-        [Route("api/PerformanceMeasures/Delete/{id}")]
+        [Route("api/PerformanceMeasures/Delete/{apiKey}/{id}")]
         [HttpDelete]
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete(string apiKey, int id)
         {
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
