@@ -15,9 +15,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[SecondaryProjectTaxonomyLeaf] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[SecondaryProjectTaxonomyLeaf] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[SecondaryProjectTaxonomyLeaf]")]
-    public partial class SecondaryProjectTaxonomyLeaf : IHavePrimaryKey, ICanDeleteFull
+    public partial class SecondaryProjectTaxonomyLeaf : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.SecondaryProjectTaxonomyLeafs.Remove(this);
+            dbContext.AllSecondaryProjectTaxonomyLeafs.Remove(this);
         }
         
         /// <summary>
@@ -106,11 +106,13 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int SecondaryProjectTaxonomyLeafID { get; set; }
+        public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int TaxonomyLeafID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return SecondaryProjectTaxonomyLeafID; } set { SecondaryProjectTaxonomyLeafID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
 

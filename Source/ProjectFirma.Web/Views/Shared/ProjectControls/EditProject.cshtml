@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared.ProjectControls
 @using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits EditProject
 
@@ -36,7 +37,43 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))
                 @Html.ValidationMessageFor(m => m.TaxonomyLeafID)
             </div>
-        </div>        
+        </div>
+        @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+        {
+            <div class="form-group">
+                <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, false)</div>
+                <div class="col-xs-8">
+                    <div class="input-group" style="margin-bottom: 1em;">
+                        <select class="form-control" id="secondaryProjectTaxonomyLeafSelectionDropdown">
+                            <option value=""></option>
+                            @foreach (var x in ViewDataTyped.TaxonomyLeafs)
+                            {
+                                <option value="@x.Value">@x.Text</option>
+                            }
+                        </select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-firma" type="button" id="addSecondaryProjectTaxonomyLeafButton">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Add
+                            </button>
+                        </span>
+                    </div>
+                    <ul id="secondaryProjectTaxonomyLeafSelectionContainer" class="list-unstyled">
+                        @foreach (var secondaryProjectTaxonomyLeafID in Model.SecondaryProjectTaxonomyLeafIDs)
+                        {
+                            <li id="secondaryProjectTaxonomyLeafSelection_@secondaryProjectTaxonomyLeafID">
+                                <a href="#" onclick="event.preventDefault();jQuery('#secondaryProjectTaxonomyLeafSelection_@secondaryProjectTaxonomyLeafID').remove();">
+                                    <span class="glyphicon glyphicon-trash" style="margin-right: 1em;">
+                                    </span>
+                                </a>@(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)[secondaryProjectTaxonomyLeafID])
+                                <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID"/>
+                            </li>
+                        }
+                    </ul>
+                    @Html.ValidationMessageFor(m => m.SecondaryProjectTaxonomyLeafIDs)
+                </div>
+            </div>
+        }
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectName)
@@ -148,7 +185,27 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     jQuery(document).ready(function() {
-        displaySelectedFundingTypeFields();       
+        displaySelectedFundingTypeFields();
+
+        var secondaryProjectTaxonomyLeafSelectionDropdown = jQuery("#secondaryProjectTaxonomyLeafSelectionDropdown");
+        var secondaryProjectTaxonomyLeafSelectionContainer = jQuery("#secondaryProjectTaxonomyLeafSelectionContainer");
+        var secondaryProjectTaxonomyLeafNameMap = @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)));
+        jQuery("#addSecondaryProjectTaxonomyLeafButton").click(function () {
+            if (!secondaryProjectTaxonomyLeafSelectionDropdown.val() ||
+                jQuery("#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val()).length) {
+                return;
+            }
+
+            secondaryProjectTaxonomyLeafSelectionContainer.append("<li id=\"secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\">" +
+                "<a href=\"#\" onclick=\"event.preventDefault(); jQuery('#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "').remove();\">" +
+                "<span class=\"glyphicon glyphicon-trash\" style=\"margin-right: 1em;\"></span>" +
+                "</a>" +
+                secondaryProjectTaxonomyLeafNameMap[secondaryProjectTaxonomyLeafSelectionDropdown.val()] +
+                "<input type=\"hidden\" name=\"@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]\" value=\"" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\"/>" +
+                "</li>"
+            );
+            secondaryProjectTaxonomyLeafSelectionDropdown.val(null);
+        });
     });
     // ]]>
 </script>

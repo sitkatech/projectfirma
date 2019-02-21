@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("SecondaryProjectTaxonomyLeaf", schema);
             HasKey(x => x.SecondaryProjectTaxonomyLeafID);
             Property(x => x.SecondaryProjectTaxonomyLeafID).HasColumnName(@"SecondaryProjectTaxonomyLeafID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.TaxonomyLeafID).HasColumnName(@"TaxonomyLeafID").HasColumnType("int").IsRequired();
 

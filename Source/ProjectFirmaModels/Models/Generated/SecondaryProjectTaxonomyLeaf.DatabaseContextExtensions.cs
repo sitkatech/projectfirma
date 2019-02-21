@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[SecondaryProjectTaxonomyLeaf]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -20,33 +19,5 @@ namespace ProjectFirmaModels.Models
             return secondaryProjectTaxonomyLeaf;
         }
 
-        // Delete using an IDList (Firma style)
-        public static void DeleteSecondaryProjectTaxonomyLeaf(this IQueryable<SecondaryProjectTaxonomyLeaf> secondaryProjectTaxonomyLeafs, List<int> secondaryProjectTaxonomyLeafIDList)
-        {
-            if(secondaryProjectTaxonomyLeafIDList.Any())
-            {
-                secondaryProjectTaxonomyLeafs.Where(x => secondaryProjectTaxonomyLeafIDList.Contains(x.SecondaryProjectTaxonomyLeafID)).Delete();
-            }
-        }
-
-        // Delete using an object list (Firma style)
-        public static void DeleteSecondaryProjectTaxonomyLeaf(this IQueryable<SecondaryProjectTaxonomyLeaf> secondaryProjectTaxonomyLeafs, ICollection<SecondaryProjectTaxonomyLeaf> secondaryProjectTaxonomyLeafsToDelete)
-        {
-            if(secondaryProjectTaxonomyLeafsToDelete.Any())
-            {
-                var secondaryProjectTaxonomyLeafIDList = secondaryProjectTaxonomyLeafsToDelete.Select(x => x.SecondaryProjectTaxonomyLeafID).ToList();
-                secondaryProjectTaxonomyLeafs.Where(x => secondaryProjectTaxonomyLeafIDList.Contains(x.SecondaryProjectTaxonomyLeafID)).Delete();
-            }
-        }
-
-        public static void DeleteSecondaryProjectTaxonomyLeaf(this IQueryable<SecondaryProjectTaxonomyLeaf> secondaryProjectTaxonomyLeafs, int secondaryProjectTaxonomyLeafID)
-        {
-            DeleteSecondaryProjectTaxonomyLeaf(secondaryProjectTaxonomyLeafs, new List<int> { secondaryProjectTaxonomyLeafID });
-        }
-
-        public static void DeleteSecondaryProjectTaxonomyLeaf(this IQueryable<SecondaryProjectTaxonomyLeaf> secondaryProjectTaxonomyLeafs, SecondaryProjectTaxonomyLeaf secondaryProjectTaxonomyLeafToDelete)
-        {
-            DeleteSecondaryProjectTaxonomyLeaf(secondaryProjectTaxonomyLeafs, new List<SecondaryProjectTaxonomyLeaf> { secondaryProjectTaxonomyLeafToDelete });
-        }
     }
 }

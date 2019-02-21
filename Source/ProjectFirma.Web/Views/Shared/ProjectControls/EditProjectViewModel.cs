@@ -27,6 +27,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -65,6 +66,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [Required(ErrorMessage = "This field is required.")]
         public int? TaxonomyLeafID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf)]
+        public IEnumerable<int> SecondaryProjectTaxonomyLeafIDs { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
 
@@ -88,6 +92,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public EditProjectViewModel(ProjectFirmaModels.Models.Project project, bool hasExistingProjectUpdate)
         {
             TaxonomyLeafID = project.TaxonomyLeafID;
+            SecondaryProjectTaxonomyLeafIDs = project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeafID);
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
@@ -127,6 +132,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             }
 
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
+
+            var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
+                .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) {TenantID = HttpRequestStorage.Tenant.TenantID})
+                .ToList();
+            project.SecondaryProjectTaxonomyLeafs.Merge(
+                secondaryProjectTaxonomyLeavesToUpdate,
+                HttpRequestStorage.DatabaseEntities.AllSecondaryProjectTaxonomyLeafs.Local,
+                (a, b) => a.TaxonomyLeafID == b.TaxonomyLeafID && a.ProjectID == b.ProjectID,
+                HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -171,6 +185,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                                    "Making this change can potentially affect that update in process.<br />" +
                                    $"Please delete the update if you want to change this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s stage.";
                 yield return new SitkaValidationResult<EditProjectViewModel, int>(errorMessage, m => m.ProjectStageID);
+            }
+
+            if (TaxonomyLeafID != null && SecondaryProjectTaxonomyLeafIDs.ToList().Contains(TaxonomyLeafID.Value))
+            {
+                yield return new SitkaValidationResult<EditProjectViewModel, IEnumerable<int>>(
+                    $"Cannot have a {FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabel()} " +
+                    $"that is the same as the Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}.",
+                    m => m.SecondaryProjectTaxonomyLeafIDs);
             }
         }
     }

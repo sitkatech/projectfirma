@@ -1,7 +1,16 @@
+
 create table dbo.SecondaryProjectTaxonomyLeaf(
 	SecondaryProjectTaxonomyLeafID int not null identity(1, 1) constraint PK_SecondaryProjectTaxonomyLeaf_SecondaryProjectTaxonomyLeafID primary key,
+	
+	TenantID int not null constraint FK_SecondaryProjectTaxonomyLeaf_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	constraint AK_SecondaryProjectTaxonomyLeaf_SecondaryProjectTaxonomyLeafID_TenantID unique (SecondaryProjectTaxonomyLeafID, TenantID),
+	
 	ProjectID int not null constraint FK_SecondaryProjectTaxonomyLeaf_Project_ProjectID foreign key references dbo.Project(ProjectID),
+	constraint FK_SecondaryProjectTaxonomyLeaf_Project_ProjectID_TenantID foreign key (ProjectID, TenantID) references dbo.Project(ProjectID, TenantID),
+	
 	TaxonomyLeafID int not null constraint FK_SecondaryProjectTaxonomyLeaf_TaxonomyLeaf_TaxonomyLeafID foreign key references dbo.TaxonomyLeaf(TaxonomyLeafID),
+	constraint FK_SecondaryProjectTaxonomyLeaf_TaxonomyLeaf_TaxonomyLeafID_TenantID foreign key (TaxonomyLeafID, TenantID) references dbo.TaxonomyLeaf(TaxonomyLeafID, TenantID),
+	
 	constraint AK_SecondaryProjectTaxonomyLeaf_ProjectID_TaxonomyLeafID unique (ProjectID, TaxonomyLeafID)
 );
 

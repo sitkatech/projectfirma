@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public string DefaultPrimaryContactPersonName { get; }
         public bool HasThreeTierTaxonomy { get; }
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
+        public TenantAttribute TenantAttribute { get; set; }
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
@@ -55,7 +56,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             Person defaultPrimaryContactPerson,
             decimal? totalExpenditures,
             List<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
+            TenantAttribute tenantAttribute)
         {
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
@@ -73,6 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
             DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() ?? "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
+            TenantAttribute = tenantAttribute;
         }
     }
 }
