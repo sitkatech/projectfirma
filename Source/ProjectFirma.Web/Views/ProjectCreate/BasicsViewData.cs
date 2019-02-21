@@ -40,18 +40,21 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool ShowProjectStageDropDown { get; }
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; private set; }
         private string ProjectDisplayName { get; }
+        public TenantAttribute TenantAttribute { get; private set; }
+
         public bool IsEditable = true;
 
         public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
         public BasicsViewData(Person currentPerson, IEnumerable<FundingType> fundingTypes,
             IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
+            TenantAttribute tenantAttribute)
             : base(currentPerson, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
-            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes, tenantAttribute);
         }
 
         public BasicsViewData(Person currentPerson,
@@ -59,17 +62,19 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
+            TenantAttribute tenantAttribute)
             : base(currentPerson, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.GetDisplayName();
-            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
+            AssignParameters(taxonomyLeafs, fundingTypes, projectCustomAttributeTypes, tenantAttribute);
         }
 
         private void AssignParameters(IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
+            TenantAttribute tenantAttribute)
         {
             TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
@@ -90,6 +95,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
+            TenantAttribute = tenantAttribute;
         }
     }
 }

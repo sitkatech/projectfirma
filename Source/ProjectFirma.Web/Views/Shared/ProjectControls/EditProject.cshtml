@@ -44,14 +44,14 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="col-xs-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, false)</div>
                 <div class="col-xs-8">
                     <div class="input-group" style="margin-bottom: 1em;">
-                        <select class="form-control" id="secondaryProjectTaxonomyLeafSelectionDropdown">
+                        <select class="selectpicker" id="secondaryProjectTaxonomyLeafSelectionDropdown" data-live-search="true" data-live-search-placeholder="Search">
                             <option value=""></option>
                             @foreach (var x in ViewDataTyped.TaxonomyLeafs)
                             {
                                 <option value="@x.Value">@x.Text</option>
                             }
                         </select>
-                        <span class="input-group-btn">
+                        <span class="input-group-btn" id="addSecondaryProjectTaxonomyLeafInputGroupButton">
                             <button class="btn btn-firma" type="button" id="addSecondaryProjectTaxonomyLeafButton">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Add
@@ -185,27 +185,52 @@ Source code is available upon request via <support@sitkatech.com>.
     }
 
     jQuery(document).ready(function() {
-        displaySelectedFundingTypeFields();
-
-        var secondaryProjectTaxonomyLeafSelectionDropdown = jQuery("#secondaryProjectTaxonomyLeafSelectionDropdown");
-        var secondaryProjectTaxonomyLeafSelectionContainer = jQuery("#secondaryProjectTaxonomyLeafSelectionContainer");
-        var secondaryProjectTaxonomyLeafNameMap = @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)));
-        jQuery("#addSecondaryProjectTaxonomyLeafButton").click(function () {
-            if (!secondaryProjectTaxonomyLeafSelectionDropdown.val() ||
-                jQuery("#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val()).length) {
-                return;
-            }
-
-            secondaryProjectTaxonomyLeafSelectionContainer.append("<li id=\"secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\">" +
-                "<a href=\"#\" onclick=\"event.preventDefault(); jQuery('#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "').remove();\">" +
-                "<span class=\"glyphicon glyphicon-trash\" style=\"margin-right: 1em;\"></span>" +
-                "</a>" +
-                secondaryProjectTaxonomyLeafNameMap[secondaryProjectTaxonomyLeafSelectionDropdown.val()] +
-                "<input type=\"hidden\" name=\"@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]\" value=\"" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\"/>" +
-                "</li>"
-            );
-            secondaryProjectTaxonomyLeafSelectionDropdown.val(null);
-        });
+        displaySelectedFundingTypeFields(); 
     });
     // ]]>
 </script>
+@if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+{
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(function() {
+            var secondaryProjectTaxonomyLeafSelectionDropdown = jQuery("#secondaryProjectTaxonomyLeafSelectionDropdown");
+            var secondaryProjectTaxonomyLeafSelectionContainer = jQuery("#secondaryProjectTaxonomyLeafSelectionContainer");
+            var secondaryProjectTaxonomyLeafNameMap = @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)));
+            jQuery("#addSecondaryProjectTaxonomyLeafButton").click(function () {
+                if (!secondaryProjectTaxonomyLeafSelectionDropdown.val() ||
+                    jQuery("#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val()).length) {
+                    return;
+                }
+
+                secondaryProjectTaxonomyLeafSelectionContainer.append("<li id=\"secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\">" +
+                    "<a href=\"#\" onclick=\"event.preventDefault(); jQuery('#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "').remove();\">" +
+                    "<span class=\"glyphicon glyphicon-trash\" style=\"margin-right: 1em;\"></span>" +
+                    "</a>" +
+                    secondaryProjectTaxonomyLeafNameMap[secondaryProjectTaxonomyLeafSelectionDropdown.val()] +
+                    "<input type=\"hidden\" name=\"@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]\" value=\"" + secondaryProjectTaxonomyLeafSelectionDropdown.val() + "\"/>" +
+                    "</li>"
+                );
+                secondaryProjectTaxonomyLeafSelectionDropdown.val(null);
+            });
+
+            // HACKY fix to make width for select picker look good
+            var i = 0, interval = setInterval(initializeWidth, 1);
+            function initializeWidth() {
+                if (i === 9) {
+                    clearInterval(interval);
+                } else {
+                    resizeSecondaryProjectTaxonomyLeafSelectionDropdown();
+                }
+            }
+            jQuery(window).resize(function () {
+                resizeSecondaryProjectTaxonomyLeafSelectionDropdown();
+            });
+            function resizeSecondaryProjectTaxonomyLeafSelectionDropdown() {
+                jQuery("[data-id=\"secondaryProjectTaxonomyLeafSelectionDropdown\"]")
+                    .width(jQuery("[data-id=\"@Html.IdFor(m => m.TaxonomyLeafID)\"]").width() - jQuery("#addSecondaryProjectTaxonomyLeafInputGroupButton").width());
+            }
+        });
+        // ]]>
+    </script>
+}
