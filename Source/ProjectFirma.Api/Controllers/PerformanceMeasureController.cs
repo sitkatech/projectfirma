@@ -158,26 +158,19 @@ namespace ProjectFirma.Api.Controllers
 
             var performanceMeasureSubcategoriesToUpdate = performanceMeasureSubcategoryDtos.Select(x =>
             {
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
-                    x.PerformanceMeasureSubcategoryName);
+                var dummyPerformanceMeasure = new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(dummyPerformanceMeasure, x.PerformanceMeasureSubcategoryName);
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
-                performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
-                performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
-                    x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
-                        (y, index) =>
-                            new PerformanceMeasureSubcategoryOption(
-                                new PerformanceMeasureSubcategory(new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
-                                y.PerformanceMeasureSubcategoryOptionName,
-                                false)
-                            {
-                                PerformanceMeasureSubcategory =
-                                    performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
-                                PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
-                                SortOrder = y.SortOrder
-                            }).ToList();
                 performanceMeasureSubcategory.ChartConfigurationJson = x.ChartConfigurationJson;
                 performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasureSubcategoryGoogleChartTypes.Single(y => y.Key.PerformanceMeasureSubcategoryName == x.PerformanceMeasureSubcategoryName).Value
                     .GoogleChartTypeID;
+                performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
+                    x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
+                        (y, index) =>
+                            new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, y.PerformanceMeasureSubcategoryOptionName, false)
+                            {
+                                SortOrder = y.SortOrder
+                            }).ToList();
                 return performanceMeasureSubcategory;
             }).ToList();
 
@@ -185,10 +178,9 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
                 performanceMeasureSubcategoryOptionsToUpdate,
                 performanceMeasureSubcategoryOptionsFromDatabase,
-                (x, y) => x.PerformanceMeasureSubcategoryOptionName == y.PerformanceMeasureSubcategoryOptionName,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionName == y.PerformanceMeasureSubcategoryOptionName && x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName == y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
                 (x, y) =>
                 {
-                    x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
                     x.SortOrder = y.SortOrder;
                 }, _databaseEntities);
 
@@ -197,7 +189,6 @@ namespace ProjectFirma.Api.Controllers
                 (x, y) => x.PerformanceMeasureSubcategoryDisplayName == y.PerformanceMeasureSubcategoryDisplayName,
                 (x, y) =>
                 {
-                    x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
                     x.ChartConfigurationJson = y.ChartConfigurationJson;
                     x.GoogleChartTypeID = y.GoogleChartTypeID;
                 }, _databaseEntities);
