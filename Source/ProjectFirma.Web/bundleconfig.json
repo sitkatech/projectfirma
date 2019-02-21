@@ -34,5 +34,11 @@
     "inputFiles": [
       "ScriptsCustom/ModalDialogForm.js"
     ]
+  },
+  {
+    "outputFileName": "Scripts/modernizr-2.8.3.min.js",
+    "inputFiles": [
+      "Scripts/modernizr-2.8.3.js"
+    ]
   }
 ]

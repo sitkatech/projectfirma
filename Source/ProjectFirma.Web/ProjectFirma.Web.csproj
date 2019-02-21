@@ -233,6 +233,9 @@
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\modernizr-2.8.3.min.js">
+      <DependentUpon>modernizr-2.8.3.js</DependentUpon>
+    </Content>
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
