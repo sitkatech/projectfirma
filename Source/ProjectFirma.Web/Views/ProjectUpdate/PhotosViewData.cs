@@ -36,16 +36,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
         public string ContinueUrl { get; }
-        public string AddNewUrl { get; }
 
         public PhotosViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.Photos.ProjectUpdateSectionDisplayName)
         {
-            AddNewUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
+            var addNewImageUrl = SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch));
             var selectKeyImageUrl = IsEditable ? SitkaRoute<ProjectImageUpdateController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int)) : string.Empty;
             ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
                 $"ProjectImages{projectUpdateBatch.Project.ProjectID}",
                 projectUpdateBatch.ProjectImageUpdates.Select(x => new FileResourcePhoto(x)),
                 IsEditable,
+                addNewImageUrl,
                 selectKeyImageUrl,
                 true,
                 x => x.CaptionOnFullView,

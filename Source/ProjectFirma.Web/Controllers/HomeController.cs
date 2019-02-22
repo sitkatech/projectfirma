@@ -110,11 +110,13 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ManageHomePageImages()
         {
             var canAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
+            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList();
+            var addNewPhotoUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
             var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson,
                 "HomePageImagesGallery",
                 firmaHomePageImages,
                 canAddPhotos,
+                addNewPhotoUrl,
                 null,
                 true,
                 x => x.CaptionOnFullView,
@@ -129,22 +131,6 @@ namespace ProjectFirma.Web.Controllers
         {
             var con = new HomeController { ControllerContext = ControllerContext };
             return con.ViewPageContent(FirmaPageTypeEnum.InternalSetupNotes);
-        }
-
-        private static ImageGalleryViewData BuildImageGalleryViewData(Person currentPerson)
-        {
-            var userCanAddPhotosToHomePage = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            var galleryName = "HomePageImagesGallery";
-            var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList(); 
-            var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
-                galleryName,
-                firmaHomePageImages,
-                userCanAddPhotosToHomePage,
-                null,
-                true,
-                x => x.CaptionOnFullView,
-                "Photo");
-            return imageGalleryViewData;
         }
 
         [HttpGet]

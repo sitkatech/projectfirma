@@ -255,6 +255,7 @@ namespace ProjectFirma.Web.Controllers
                 galleryName,
                 project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
+                newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
                 x => x.CaptionOnFullView,

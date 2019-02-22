@@ -2070,7 +2070,6 @@
     <Content Include="Content\img\collapsed.png" />
     <Content Include="Content\img\expanded.png" />
     <Content Include="Content\img\fact_sheet_teaser.gif" />
-    <Content Include="Content\img\keys.png" />
     <Content Include="Content\img\project_stage_arrow_default.png" />
     <Content Include="Content\img\project_stage_arrow_current.png" />
     <Content Include="Content\img\spacer.png" />
