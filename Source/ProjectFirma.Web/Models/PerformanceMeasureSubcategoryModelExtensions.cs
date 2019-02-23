@@ -5,6 +5,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using MoreLinq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
@@ -38,7 +39,23 @@ namespace ProjectFirma.Web.Models
                     SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                         x.ResetChartConfiguration(performanceMeasure,
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
-                var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+
+                GoogleChartConfiguration chartConfiguration = null;
+                try
+                {
+                    chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                }
+                catch // If the chart JSON is corrupt or un-deserializable then fallback to the default chart JSON
+                {
+                    chartConfiguration =
+                        PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(
+                            performanceMeasure);
+
+                    performanceMeasureSubcategory.ChartConfigurationJson =
+                        JObject.FromObject(chartConfiguration).ToString();
+                    performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                }
+                
                 if (performanceMeasureSubcategory.PerformanceMeasure.CanCalculateTotal && !performanceMeasure.SwapChartAxes)
                 {
                     chartConfiguration.Tooltip = new GoogleChartTooltip(true);
