@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Shared
         public List<GoogleChartAxis> VerticalAxes { get; set; }
 
         [JsonProperty(PropertyName = "series")]
-        public Dictionary<string, GoogleChartSeries> Series { get; set; }
+        public object Series { get; set; } // if it's combo chart, we have List<GoogleChartSeries>; if non combochart, we have Dictionary<string, GoogleChartSeries>
 
         [JsonProperty(PropertyName = "backgroundColor", NullValueHandling = NullValueHandling.Ignore)]
         public GoogleChartBackground BackgroundColor { get; set; }
