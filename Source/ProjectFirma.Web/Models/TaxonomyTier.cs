@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using LtInfo.Common.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public class TaxonomyTier
+    public class TaxonomyTier : IHavePrimaryKey
     {
+
         public int TaxonomyTierID { get; }
         public string ThemeColor { get; }
         public string DisplayName { get; }
@@ -83,5 +85,7 @@ namespace ProjectFirma.Web.Models
             TaxonomyBranch = null;
             TaxonomyTrunk = taxonomyTrunk;
         }
+
+        public int PrimaryKey => TaxonomyTierID;
     }
 }
