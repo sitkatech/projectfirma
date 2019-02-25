@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <span class="taxonomyLink">@(trunkGrouping.Key.GetDisplayNameAsUrl())</span>
                 </div>
             </div>
-            foreach (var branch in trunkGrouping.Key.TaxonomyBranches)
+            foreach (var branch in trunkGrouping.Key.TaxonomyBranches.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.TaxonomyBranchID).Contains(x.TaxonomyBranchID)))
             {
                 <div class="row taxonomyRow">
                     <div class="col-sm-5 col-sm-offset-1 taxonomyBasicsPanelLabel">
@@ -85,7 +85,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <span class="taxonomyLink">@(branch.GetDisplayNameAsUrl())</span>
                     </div>
                 </div>
-                foreach (var leaf in branch.TaxonomyLeafs)
+                foreach (var leaf in branch.TaxonomyLeafs.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeafID).Contains(x.TaxonomyLeafID)))
                 {
                     <div class="row taxonomyRow">
                         <div class="col-sm-5 col-sm-offset-2 taxonomyBasicsPanelLabel">
