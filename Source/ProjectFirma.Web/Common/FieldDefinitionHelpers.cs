@@ -46,6 +46,11 @@ namespace ProjectFirma.Web.Common
             return fieldDefinition.ToGridHeaderString(displayNamePlural);
         }
 
+        public static string ToGridHeaderStringPlural(this FieldDefinition fieldDefinition)
+        {
+            return fieldDefinition.ToGridHeaderString(fieldDefinition.GetFieldDefinitionLabelPluralized());
+        }
+
         private static string ToGridHeaderString(this FieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
         {
             return
