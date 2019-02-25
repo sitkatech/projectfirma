@@ -2052,7 +2052,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForPhotos(IEnumerable<FileResourcePhoto> images)
         {
-            var viewData = new ImageGalleryViewData(CurrentPerson, "ProjectImageDiff", images, false, string.Empty, false, x => x.CaptionOnFullView, "Photo");
+            var viewData = new ImageGalleryViewData(CurrentPerson, "ProjectImageDiff", images, false, string.Empty, string.Empty, false, x => x.CaptionOnFullView, "Photo");
             var partialViewAsString = RenderPartialViewToString(ImageGalleryPartialViewPath, viewData);
             return partialViewAsString;
         }

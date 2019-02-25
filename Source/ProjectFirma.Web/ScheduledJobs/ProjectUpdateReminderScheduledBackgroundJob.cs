@@ -77,8 +77,10 @@ namespace ProjectFirma.Web.ScheduledJobs
         private static bool TodayIsReminderDayForProjectUpdateConfiguration(
             ProjectUpdateSetting projectUpdateSetting)
         {
-            return (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
-                   .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
+            var isReminderDay = (DateTime.Today - projectUpdateSetting.ProjectUpdateKickOffDate.GetValueOrDefault().Date)
+                                                                  .Days % projectUpdateSetting.ProjectUpdateReminderInterval == 0;
+            var isAfterCloseOut = (DateTime.Today >= projectUpdateSetting.ProjectUpdateCloseOutDate);
+            return isReminderDay && !isAfterCloseOut;
         }
 
         /// <summary>

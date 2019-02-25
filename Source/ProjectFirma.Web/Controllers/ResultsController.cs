@@ -203,8 +203,8 @@ namespace ProjectFirma.Web.Controllers
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 partnerOrganizations = organization
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && 
-                                                                               y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
+                    .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationID != organizationID && 
+                                                                               y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
                                                                                y.Organization.IsActive))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
@@ -214,7 +214,7 @@ namespace ProjectFirma.Web.Controllers
                 var activeProjectsAndProposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
                     .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic());
                 var projectOrganizationRelationshipsForActiveProjects = activeProjectsAndProposals
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
+                    .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
                                                                                y.Organization.IsActive)).ToList();
 
                 var projectOrganizationRelationshipsToReport = projectOrganizationRelationshipsForActiveProjects

@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var selectKeyImageUrl =
                 SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>
                     x.SetKeyPhoto(UrlTemplate.Parameter1Int));
-            ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, selectKeyImageUrl, true, sortFunction, "Photo");                        
+            ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        
         }        
     }
 }
