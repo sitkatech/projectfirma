@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Results
                     DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
 
-            var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
+            var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
             Add(reportedValueColumnName, a => a.TotalReportedValue, 150, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.ReportedExpenditure.ToType().ToGridHeaderString(), x => x.CalculateWeightedTotalExpenditure(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);

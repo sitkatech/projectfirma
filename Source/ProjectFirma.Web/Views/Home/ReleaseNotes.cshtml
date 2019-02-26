@@ -26,27 +26,28 @@
 @inherits ProjectFirma.Web.Views.Home.ReleaseNotes
 
 
+@if (ViewDataTyped.CanEditNotes)
+{
+    <div class="row">
+        <div class="pull-right" style="margin-right: 15px; margin-bottom: 5px;">
+            @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Release Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
+        </div>
+    </div>
+
+}
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h3> ProjectFirma Release Notes </h3>
     </div>
     <div class="panel-body">
-        @if (ViewDataTyped.CanEditNotes)
-        {
-            <div class="pull-right">
-                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Note", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNoteUrl, "Add Note", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditNotes)
-            </div>
-        }
         @if (ViewDataTyped.Notes.Any())
         {
             <table class="summaryLayout">
-                @foreach (var releaseNote in ViewDataTyped.Notes.OrderByDescending(x => x.GetLastUpdated()))
+                @foreach (var releaseNote in ViewDataTyped.Notes)
                 {
                     <tr>
                         <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeEditIconLink(releaseNote.GetEditUrl(), string.Format("Edit Note for {0}", ViewDataTyped.EntityName), ViewDataTyped.CanEditNotes)</td>
                         <td class="summaryLayoutUpdateControls">@ModalDialogFormHelper.MakeDeleteLink(DhtmlxGridHtmlHelpers.DeleteIconBootstrap.ToString(), releaseNote.GetDeleteUrl(), new List<string>(), ViewDataTyped.CanEditNotes)</td>
-                        <td>@releaseNote.GetLastUpdated().ToStringDateTime()</td>
-                        <td>@releaseNote.GetLastUpdatedBy()</td>
                         <td>@releaseNote.NoteHtmlString</td>
                     </tr>
                 }

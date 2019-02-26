@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
-                foreach (var projectLocationStaging in project.ProjectLocationStagings)
+                foreach (var projectLocationStaging in project.ProjectLocationStagings.ToList())
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }

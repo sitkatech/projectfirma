@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var galleryScope = jQuery("#@ViewDataTyped.GalleryName");
         galleryScope.find(".keyPhotoButton").click(function() {
             var selectKeyPhotoButton = jQuery(this);
-            var selectKeyPhotoButtonLabel = selectKeyPhotoButton.find("label");
+            var selectKeyPhotoButtonLabel = jQuery(".keyPhotoButtonLabel");
             var selectionMode = selectKeyPhotoButtonLabel.html() == "Done";
             var filmStrip = galleryScope.find("ul.filmStrip");
             var galleryImagesContainer = galleryScope.find(".gallery");
@@ -103,13 +103,14 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="pull-right">
             @if (ViewDataTyped.GalleryImages.Any() && ViewDataTyped.UserCanSelectKeyPhoto)
             {
-                <span class="keyPhotoButton">
-                    <span style="display: inline-block; vertical-align: top">
-                        <img src="~/Content/img/keys.png" alt="Select Key @ViewDataTyped.ImageEntityName" />
-                    </span>
-                    <label>Select Key @ViewDataTyped.ImageEntityName</label>
+                <span class="btn btn-firma keyPhotoButton">
+                    <span class="glyphicon glyphicon-star" style="margin-right: 3px"></span>
+                    <span class="keyPhotoButtonLabel">Select Key @ViewDataTyped.ImageEntityName</span>
                 </span>
             }
+            <span style="display: inline-block; vertical-align: top">
+                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<button class='btn btn-firma'><span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}</button>", ViewDataTyped.ImageEntityName), ViewDataTyped.AddNewPhotoUrl, string.Format("Add New {0}", ViewDataTyped.ImageEntityName), 700, "Upload", "Cancel", new List<string> { "AddPhotoButtonClass" }, null, null)
+            </span>
         </div>
     }
 
@@ -123,7 +124,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="@Html.Raw(string.Join(" ", galleryImage.AdditionalCssClasses).HtmlEncodeWithBreaks())">
                             <div class="icons">
                                 <span data-image-id="@galleryImage.PrimaryKey" class="keyPhotoIcon @Html.Raw(galleryImage.IsKeyPhoto ? "setKeyPhoto" : string.Empty)">
-                                    <img src="/Content/img/keys.png" alt="Key @ViewDataTyped.ImageEntityName" />
+                                    <span class="glyphicon glyphicon-star" style="margin-right: 3px"></span>
                                 </span>
                                 <span class="EditPhotoButtonClass">
                                     @ModalDialogFormHelper.MakeEditIconLink(galleryImage.EditUrl, string.Format("Edit {0}", ViewDataTyped.ImageEntityName), ViewDataTyped.UserCanAddPhotos)

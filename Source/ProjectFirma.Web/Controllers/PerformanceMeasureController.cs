@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
             var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, true, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
 
             // Avoid scrolling the legend if it can be displayed on two lines
             performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
                 SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
                 performanceMeasure.PerformanceMeasureDisplayName,
-                isAdmin);
+                canManagePerformanceMeasure);
 
             var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
             return RazorView<Detail, DetailViewData>(viewData);

@@ -37,8 +37,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EstimatedTotalCost { get; }
         public string NoFundingSourceIdentified { get; }
         public string SecuredFunding { get; }
-        public string UnsecuredFunding { get; }
-        public ImageGalleryViewData ImageGalleryViewData { get; }
+        public string UnsecuredFunding { get; }       
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
@@ -73,19 +72,7 @@ namespace ProjectFirma.Web.Views.Project
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : "";
             UnsecuredFunding = Project.GetUnsecuredFunding() != null ? Project.GetUnsecuredFunding().ToStringCurrency() : "";
-
-            const bool userCanAddPhotosToThisProject = false;
-            var selectKeyImageUrl = string.Empty;
-            var galleryName = $"ProjectImage{project.ProjectID}";
-            ImageGalleryViewData = new ImageGalleryViewData(currentPerson,
-                galleryName,
-                project.ProjectImages.Select(x => new FileResourcePhoto(x)),
-                userCanAddPhotosToThisProject,
-                selectKeyImageUrl,
-                true,
-                x => x.CaptionOnFullView,
-                "Photo");
-
+           
             PerformanceMeasureReportedValues =
                 project.GetReportedPerformanceMeasures().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();
 

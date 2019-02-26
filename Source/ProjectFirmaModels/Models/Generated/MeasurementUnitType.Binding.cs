@@ -282,7 +282,7 @@ namespace ProjectFirmaModels.Models
     public partial class MeasurementUnitTypeNumber : MeasurementUnitType
     {
         private MeasurementUnitTypeNumber(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeNumber Instance = new MeasurementUnitTypeNumber(6, @"Number", @"Each Unit (number)", null, @"Each Unit", 0);
+        public static readonly MeasurementUnitTypeNumber Instance = new MeasurementUnitTypeNumber(6, @"Number", @"Each Unit (number)", @"number", @"Each Unit", 0);
     }
 
     public partial class MeasurementUnitTypePounds : MeasurementUnitType
@@ -306,7 +306,7 @@ namespace ProjectFirmaModels.Models
     public partial class MeasurementUnitTypeParcels : MeasurementUnitType
     {
         private MeasurementUnitTypeParcels(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeParcels Instance = new MeasurementUnitTypeParcels(10, @"Parcels", @"Parcel (parcels)", null, @"Parcel", 0);
+        public static readonly MeasurementUnitTypeParcels Instance = new MeasurementUnitTypeParcels(10, @"Parcels", @"Parcel (parcels)", @"parcels", @"Parcel", 0);
     }
 
     public partial class MeasurementUnitTypePercent : MeasurementUnitType

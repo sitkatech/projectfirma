@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn($"Non-Lead Implementing {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
-                x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.Organization.GetDisplayName())));
+                x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.GetDisplayName())));
             AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
             MultiTenantHelpers.GetClassificationSystems().ForEach(y =>
                 {

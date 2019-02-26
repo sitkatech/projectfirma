@@ -58,6 +58,8 @@
 @z-index-arrow: 900;
 
 @disabled-color: LightGray;
+
+@firma-workflow-background: #efefef;
 // Global
 
 html, body {
@@ -1225,7 +1227,7 @@ ul.filmStrip li a div.caption {
 #main-container {
     min-height: 300px;
     padding: 10px;
-    background-color: #f1f1f1;
+    background-color: @firma-workflow-background;
 }
 
 hr.navMenu {
@@ -1716,6 +1718,7 @@ nav#wizardNav ul {
                 padding-left: 15px;
                 margin-right: 4px;
                 margin-left: 5px;
+
                 &.field-validation-success {
                     color: #5cb85c;
                 }
@@ -1807,10 +1810,10 @@ nav#wizardNav ul {
 
             &.active,
             &.expanded {
-                background: #f1f1f1;
+                background: @firma-workflow-background;
                 padding-bottom: 0;
-                border-left: 5px solid #f1f1f1;
-                border-bottom: 5px solid #f1f1f1;
+                border-left: 5px solid @firma-workflow-background;
+                border-bottom: 5px solid @firma-workflow-background;
                 display: block;
 
 

@@ -28,7 +28,7 @@
    
 @if (ViewDataTyped.AllProjectOrganizations.Any())
 {
-    <table class="summaryLayout table table-borderless">
+    <table class="summaryLayout table table-condensed table-striped">
         <tr>
             <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectRelationshipType.ToType())</th>
             <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>

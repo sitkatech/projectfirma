@@ -170,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectAssociatedOrganizations = project.GetAssociatedOrganizations();
+            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -255,6 +255,7 @@ namespace ProjectFirma.Web.Controllers
                 galleryName,
                 project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
+                newPhotoForProjectUrl,
                 selectKeyImageUrl,
                 true,
                 x => x.CaptionOnFullView,
@@ -408,7 +409,7 @@ namespace ProjectFirma.Web.Controllers
             if (CurrentPerson.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.Organization.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
                     .ToList();
             }
             else
@@ -461,7 +462,7 @@ namespace ProjectFirma.Web.Controllers
             workSheets.Add(wsProjectDescriptions);
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
-            var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizations()).ToList();
+            var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 
@@ -851,7 +852,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             {
                 var pdfConversionSettings = new PDFUtility.PdfConversionSettings(new HttpCookieCollection()) { Zoom = 0.9 };
                 PDFUtility.ConvertURLToPDF(
-                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlFromExpression()),
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlHttpsFromExpression()),
                     outputFile.FileInfo,
                     pdfConversionSettings);
 

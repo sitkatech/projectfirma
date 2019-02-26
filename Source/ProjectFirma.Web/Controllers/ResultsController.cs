@@ -188,7 +188,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var partnerOrganizations = GetPartnerOrganizations(organizationID);
 
-            var viewData = new ParticipatingOrganizationsViewData(partnerOrganizations.Take(9).ToList());
+            var viewData = new ParticipatingOrganizationsViewData(partnerOrganizations.OrderByDescending(x=> x.Count()).Take(9).ToList());
             return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
         }
 
@@ -203,19 +203,24 @@ namespace ProjectFirma.Web.Controllers
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
                 partnerOrganizations = organization
                     .GetAllActiveProjectsWhereOrganizationReportsInAccomplishmentsDashboard()
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationID != organizationID && 
-                                                                               y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
+                    .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationID != organizationID && 
+                                                                               y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
                                                                                y.Organization.IsActive))
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }
             else
             {
-                partnerOrganizations = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic())
-                    .SelectMany(x => x.GetAssociatedOrganizations().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assessbly districts 
-                                                                               y.Organization.IsActive))
-                    .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard())
+                var activeProjectsAndProposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
+                    .GetActiveProjectsAndProposals(MultiTenantHelpers.ShowProposalsToThePublic());
+                var projectOrganizationRelationshipsForActiveProjects = activeProjectsAndProposals
+                    .SelectMany(x => x.GetAssociatedOrganizationRelationships().Where(y => y.Organization.OrganizationType.IsFundingType && //filter by only orgs that can be funders to remove state senate and assembly districts 
+                                                                               y.Organization.IsActive)).ToList();
+
+                var projectOrganizationRelationshipsToReport = projectOrganizationRelationshipsForActiveProjects
+                    .Where(x => includeReportingOrganizationType || !x.Organization.CanBeReportedInAccomplishmentsDashboard()).ToList();
+
+                partnerOrganizations = projectOrganizationRelationshipsToReport
                     .GroupBy(x => x.Organization, new HavePrimaryKeyComparer<Organization>())
                     .ToList();
             }

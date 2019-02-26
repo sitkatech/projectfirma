@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         }, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
                 }
             }
-            var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName})";
+            var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
             if (performanceMeasure.IsAggregatable)
             {
