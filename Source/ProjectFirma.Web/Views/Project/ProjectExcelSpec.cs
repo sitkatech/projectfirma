@@ -33,6 +33,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectExcelSpec()
         {
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
+            AddColumn("Primary Contact", x => x.GetPrimaryContact().GetFullNameLastFirst());
+            AddColumn("Primary Contact Email", x => x.GetPrimaryContact().Email);
             AddColumn($"Non-Lead Implementing {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.GetDisplayName())));
             AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
