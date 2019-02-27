@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTierPerformanceMeasureSimples = performanceMeasure.GetTaxonomyTiers().Select(x =>
                     new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID,
                         x.First().IsPrimaryTaxonomyLeaf)).ToList();
-            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier().TaxonomyTierID;
+            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
             var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples, primaryTaxonomyTierID);
             return ViewEdit(viewModel, performanceMeasure);
         }

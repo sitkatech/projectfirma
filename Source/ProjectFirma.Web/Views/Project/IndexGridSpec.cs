@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
+            var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
 
             if (userHasTagManagePermissions)
             {
@@ -55,6 +56,15 @@ namespace ProjectFirma.Web.Views.Project
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+            Add("Primary Contact",
+                x => UrlTemplate.MakeHrefString(x.GetPrimaryContact().GetDetailUrl(),
+                    x.GetPrimaryContact().GetFullNameLastFirst()), 150, DhtmlxGridColumnFilterType.Html);
+            if (userHasEmailViewingPermissions)
+            {
+                Add("Primary Contact Email", x =>
+                        new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>"), 200,
+                    DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            }
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
