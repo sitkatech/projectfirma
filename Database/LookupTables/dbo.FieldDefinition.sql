@@ -93,4 +93,5 @@ VALUES
 (266, N'NormalUser', N'Normal User', N'Users with this role can propose new Projects, update existing Projects where their organization is the Lead Implementer, and view almost every page within the Project Tracker.'),
 (267, N'ProjectStewardshipArea', N'Project Stewardship Area', 'Indicates which attribute of a project is used to determine if a Project Steward is permitted to edit that project.'),
 (268, N'ProjectInternalNote', N'Internal Note', N'<p>Any important information about a project that should only be visible to Administrators.</p>'),
-(269, N'SecondaryProjectTaxonomyLeaf', N'Secondary Project Taxonomy Leaf', N'')
+(269, N'SecondaryProjectTaxonomyLeaf', N'Secondary Project Taxonomy Leaf', N''),
+(270, N'ProjectPrimaryContactEmail', N'Project Primary Contact Email', N'<p>The email of the individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>')

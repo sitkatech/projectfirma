@@ -56,21 +56,21 @@ namespace ProjectFirma.Web.Views.Project
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-            Add("Primary Contact",
-                x => UrlTemplate.MakeHrefString(x.GetPrimaryContact().GetDetailUrl(),
-                    x.GetPrimaryContact().GetFullNameLastFirst()), 150, DhtmlxGridColumnFilterType.Html);
-            if (userHasEmailViewingPermissions)
-            {
-                Add("Primary Contact Email", x =>
-                        new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>"), 200,
-                    DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            }
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
                     DhtmlxGridColumnFilterType.Html);
             }
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
+                x => UrlTemplate.MakeHrefString(x.GetPrimaryContact().GetDetailUrl(),
+                    x.GetPrimaryContact().GetFullNameLastFirst()), 150, DhtmlxGridColumnFilterType.Html);
+            if (userHasEmailViewingPermissions)
+            {
+                Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(), x =>
+                        new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>"), 200,
+                    DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            }
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);

@@ -218,6 +218,7 @@ namespace ProjectFirmaModels.Models
         NormalUser = 266,
         ProjectStewardshipArea = 267,
         ProjectInternalNote = 268,
-        SecondaryProjectTaxonomyLeaf = 269
+        SecondaryProjectTaxonomyLeaf = 269,
+        ProjectPrimaryContactEmail = 270
     }
 }
