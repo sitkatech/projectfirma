@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -60,7 +61,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();
-            project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct().ToList().ForEach(x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
+            project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.ClassificationSystem>()).ToList().ForEach(x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
             ClassificationsBySystem = dict;
 
             FactSheetUrl = project.GetFactSheetUrl();

@@ -179,13 +179,9 @@ namespace ProjectFirma.Web.Views.Organization
 
             TenantHasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
             var allAssociatedProjects = Organization.GetAllAssociatedProjects();
-            NumberOfStewardedProjects = allAssociatedProjects
-                .Distinct()
-                .Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
-            NumberOfLeadImplementedProjects = allAssociatedProjects
-                .Distinct()
-                .Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
-            NumberOfProjectsContributedTo = allAssociatedProjects.Distinct().ToList().GetActiveProjects().Count;
+            NumberOfStewardedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetCanStewardProjectsOrganization() == Organization);
+            NumberOfLeadImplementedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
+            NumberOfProjectsContributedTo = allAssociatedProjects.ToList().GetActiveProjects().Count;
         }
     }
 }

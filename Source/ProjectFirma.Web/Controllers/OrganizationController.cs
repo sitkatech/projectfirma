@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
                 .SelectMany(x => x.PerformanceMeasureActuals)
-                .Select(x => x.PerformanceMeasure).Distinct()
+                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 

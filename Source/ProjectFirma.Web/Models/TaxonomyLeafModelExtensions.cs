@@ -25,6 +25,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -62,7 +63,7 @@ namespace ProjectFirma.Web.Models
         {
             return taxonomyLeaf.Projects
                 .Union(taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project))
-                .Distinct()
+                .Distinct(new HavePrimaryKeyComparer<Project>())
                 .ToList()
                 .GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }

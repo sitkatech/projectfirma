@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
             var primaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
             var secondaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
-                secondaryTaxonomyLeafProjects.Select(x => x.TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).Distinct().ToList(),
+                secondaryTaxonomyLeafProjects.Select(x => x.TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).ToList(),
                 ProjectColorByType.ProjectStage);
 
             var primaryProjectLocationsLayerGeoJson =

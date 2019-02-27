@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Common;
@@ -93,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasures = associatedProjects
                 .SelectMany(x => x.PerformanceMeasureActuals)
-                .Select(x => x.PerformanceMeasure).Distinct()
+                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 

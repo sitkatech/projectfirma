@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectUpdate;
@@ -609,7 +610,7 @@ namespace ProjectFirma.Web.Models
 
             var currentYearsEntered = projectFundingSourceExpenditureUpdates.Select(y => y.CalendarYear).Distinct().ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
-            var fundingSources = projectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct().ToList();
+            var fundingSources = projectFundingSourceExpenditureUpdates.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<FundingSource>()).ToList();
             if (!fundingSources.Any())
             {
                 if (expectedMissingYears.Any())

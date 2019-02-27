@@ -29,6 +29,7 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -134,8 +135,8 @@ namespace ProjectFirma.Web.Models
         {
             return organization.FundingSources.SelectMany(x => x.ProjectFundingSourceRequests).Select(x => x.Project)
                 .Union(organization.FundingSources.SelectMany(x => x.ProjectFundingSourceExpenditures)
-                    .Select(x => x.Project))
-                .Union(organization.ProjectOrganizations.Select(x => x.Project))
+                    .Select(x => x.Project), new HavePrimaryKeyComparer<Project>())
+                .Union(organization.ProjectOrganizations.Select(x => x.Project), new HavePrimaryKeyComparer<Project>())
                 .ToList();
         }
 

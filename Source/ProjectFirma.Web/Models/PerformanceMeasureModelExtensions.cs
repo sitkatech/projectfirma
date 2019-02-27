@@ -269,7 +269,7 @@ namespace ProjectFirma.Web.Models
 
         public static int ReportedProjectsCount(this PerformanceMeasure performanceMeasure, Person currentPerson)
         {
-            return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson).Distinct().Count();
+            return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson).Count;
         }
 
         public static TaxonomyTier GetPrimaryTaxonomyTier(this PerformanceMeasure performanceMeasure)
