@@ -39,21 +39,103 @@ Source code is available upon request via <support@sitkatech.com>.
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
 
-    <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css")" rel="stylesheet" type="text/css"/>
     <script src="@Url.Content("~/Content/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js")" type="text/javascript"></script>
 
     <style>
-        #@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID
+        #@ViewDataTyped.PrimaryProjectLocationsMapInitJson.MapDivID
         {
             height: 420px;
         }
     </style>
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(function() {
+            var projectLocationsMapInitJson =
+                @Html.Raw(JObject.FromObject(ViewDataTyped.PrimaryProjectLocationsMapInitJson).ToString(Formatting.None));
+            window.map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+            window.map.initializeProjectLocations(projectLocationsMapInitJson);
+        });
+        // ]]>
+    </script>
+    @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+    {
+        <style>
+            #@ViewDataTyped.SecondaryProjectLocationsMapInitJson.MapDivID
+            {
+                height: 420px;
+            }
+        </style>
+        <script type="text/javascript">
+            // <![CDATA[
+            jQuery(function () {
+                var secondaryProjectLocationsMapInitJson =
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.SecondaryProjectLocationsMapInitJson).ToString(Formatting.None));
+                window.secondaryMap = new ProjectFirmaMaps.Map(secondaryProjectLocationsMapInitJson);
+                window.secondaryMap.initializeProjectLocations(secondaryProjectLocationsMapInitJson);
+                setTimeout(function() {
+                    leafDataToggle("primary");
+                }, 1);
+                jQuery("#leafDataToggle").on("change", function(event) {
+                    leafDataToggle(jQuery(event.target).val());
+                });
+                function leafDataToggle(dataType) {
+                    switch (dataType) {
+                    case "primary":
+                        togglePrimaryLeafData();
+                        break;
+                    case "secondary":
+                        toggleSecondaryLeafData();
+                        break;
+                    }
+                }
+                var primaryGrid = jQuery("#primaryLeafDataGrid"),
+                    secondaryGrid = jQuery("#secondaryLeafDataGrid"),
+                    primaryMap = jQuery("#primaryLeafDataMap"),
+                    secondaryMap = jQuery("#secondaryLeafDataMap");
+                function togglePrimaryLeafData() {
+                    // todo remove secondary layer from window.map and display primary layer
+                    primaryGrid.show();
+                    primaryMap.show();
+                    secondaryGrid.hide();
+                    secondaryMap.hide();
+                }
+                function toggleSecondaryLeafData() {
+                    // todo remove primary layer from window.map and display secondary layer
+                    primaryGrid.hide();
+                    primaryMap.hide();
+                    secondaryGrid.show();
+                    secondaryMap.show();
+                }
+            });
+            // ]]>
+        </script>
+    }
 }
 
-<div>
-    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.TaxonomyLeafDisplayNamePluralized</a>
-</div>
+<div class="row" style="margin-bottom: 1em;">
+    <div class="col-xs-6">
+        <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
+            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+            Back to all @ViewDataTyped.TaxonomyLeafDisplayNamePluralized
+        </a>
+    </div>
 
+    @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+    {
+        <div class="col-xs-6 col-md-4 col-md-offset-2">
+            <p class="text-right">
+                Display data for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with the following relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized():
+            </p>
+            <div>
+                <select class="form-control pull-right" id="leafDataToggle">
+                    <option value="primary">Primary</option>
+                    <option value="secondary">Primary & Secondary</option>
+                </select>
+            </div>
+        </div>
+    }
+</div>
 
 <div class="row">
     <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
@@ -83,7 +165,15 @@ Source code is available upon request via <support@sitkatech.com>.
             <div style="padding: 10px">
                 To zoom, hold down Shift and drag a rectangle.
                 <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
-                    @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                    <div id="primaryLeafDataMap">
+                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.PrimaryProjectLocationsMapViewData); }
+                    </div>
+                    @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+                    {
+                        <div id="secondaryLeafDataMap">
+                            @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.SecondaryProjectLocationsMapViewData); }
+                        </div>
+                    }
                 </div>
                 Some @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() operate over larger areas and are not represented on the map, but are listed in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() grid below. A <a href="@ViewDataTyped.ProjectMapFilteredUrl">full-screen, filterable version of this map</a> is also available.
             </div>
@@ -121,17 +211,16 @@ Source code is available upon request via <support@sitkatech.com>.
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                <div id="primaryLeafDataGrid">
+                    @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.PrimaryBasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                </div>
+                @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+                {
+                    <div id="secondaryLeafDataGrid">
+                        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.SecondaryBasicProjectInfoGridName, ViewDataTyped.SecondaryBasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
-        var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
-        map.initializeProjectLocations(projectLocationsMapInitJson);
-    })
-</script>

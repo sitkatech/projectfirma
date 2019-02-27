@@ -21,7 +21,6 @@
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc
 @using Newtonsoft.Json
@@ -130,6 +129,14 @@
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.EnableAccomplishmentsDashboard.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Enable @FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf.ToYesNo()
                     </div>
                 </div>
                 <div class="row">

@@ -83,18 +83,39 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
-            var taxonomyLeafProjects = taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPersonCanViewProposals).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var primaryTaxonomyLeafProjects = taxonomyLeaf.Projects.ToList()
+                .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
+                .Where(x => x.ProjectStage.ShouldShowOnMap())
+                .ToList();
+            var secondaryTaxonomyLeafProjects = primaryTaxonomyLeafProjects.Union(
+                    taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project)
+                        .ToList()
+                        .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
+                        .Where(x => x.ProjectStage.ShouldShowOnMap()))
+                .ToList();
 
-            var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
+            var primaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
-            var projectLocationsLayerGeoJson =
-                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
-                    taxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
-                    LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                projectMapCustomization, "TaxonomyLeafProjectMap");
+            var secondaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
+                secondaryTaxonomyLeafProjects.Select(x => x.TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).Distinct().ToList(),
+                ProjectColorByType.ProjectStage);
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
+            var primaryProjectLocationsLayerGeoJson =
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                    primaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
+                    LayerInitialVisibility.Show);
+            var secondaryProjectLocationsLayerGeoJson =
+                new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
+                    secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
+                    LayerInitialVisibility.Show);
+            var primaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(primaryProjectLocationsLayerGeoJson,
+                primaryProjectMapCustomization, "TaxonomyLeafProjectMap");
+            var secondaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(secondaryProjectLocationsLayerGeoJson,
+                secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap");
+            var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
+                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                CurrentPerson.CanViewProposals());
+            var secondaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(secondaryProjectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
 
@@ -108,14 +129,18 @@ namespace ProjectFirma.Web.Controllers
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
             if (canHaveAssociatedPerformanceMeasures)
             {
-                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x =>
-                    new PerformanceMeasureChartViewData(x.Key, CurrentPerson, false, new List<Project>())).ToList();
+                performanceMeasureChartViewDatas = taxonomyLeaf.TaxonomyLeafPerformanceMeasures
+                    .Select(x => new PerformanceMeasureChartViewData(x.PerformanceMeasure, CurrentPerson, false, new List<Project>()))
+                    .ToList();
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, projectLocationsMapInitJson,
-                projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData,
-                performanceMeasureChartViewDatas, taxonomyLevel);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+
+            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, primaryProjectLocationsMapInitJson,
+                secondaryProjectLocationsMapInitJson, primaryProjectLocationsMapViewData,
+                secondaryProjectLocationsMapViewData, canHaveAssociatedPerformanceMeasures,
+                relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel, tenantAttribute);
 
             return RazorView<Summary, DetailViewData>(viewData);
         }
@@ -252,10 +277,19 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyLeafViewFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
+            var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
+            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
             var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectTaxonomyLeafs = taxonomyLeafPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
-            return gridJsonNetJObjectResult;
+            return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
+        }
+
+        [TaxonomyLeafViewFeature]
+        public GridJsonNetJObjectResult<Project> SecondaryProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
+        {
+            var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
+            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 
         [TaxonomyLeafManageFeature]

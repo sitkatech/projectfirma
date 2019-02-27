@@ -75,6 +75,14 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            Add($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString()}", x => x.TaxonomyLeaf.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
+            var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf;
+            if (enableSecondaryProjectTaxonomyLeaf)
+            {
+                Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
+            }
+
             Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
             Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => fundingTypes[x.FundingTypeID].FundingTypeShortName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);

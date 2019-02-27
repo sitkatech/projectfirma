@@ -125,6 +125,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new RelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
+            modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
@@ -303,6 +304,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
+        public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
+        public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
@@ -713,6 +716,9 @@ namespace ProjectFirmaModels.Models
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(role, "Role", primaryKey);
                     return role;
+
+                case "SecondaryProjectTaxonomyLeaf":
+                    return SecondaryProjectTaxonomyLeafs.GetSecondaryProjectTaxonomyLeaf(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

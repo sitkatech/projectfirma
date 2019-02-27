@@ -19,7 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -33,13 +34,25 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool UserHasProjectBudgetManagePermissions { get; }
         public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
+        public TenantAttribute TenantAttribute { get; set; }
+        public IEnumerable<IGrouping<ProjectFirmaModels.Models.TaxonomyTrunk, IGrouping<ProjectFirmaModels.Models.TaxonomyBranch,
+            ProjectFirmaModels.Models.TaxonomyLeaf>>> TaxonomyGrouping;
 
-        public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project, bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel)
+        public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project,
+            bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel, TenantAttribute tenantAttribute)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
-            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);            
+            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
+            TenantAttribute = tenantAttribute;
+
+            if (tenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+            {
+                TaxonomyGrouping = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf)
+                    .GroupBy(x => x.TaxonomyBranch)
+                    .GroupBy(x => x.Key.TaxonomyTrunk);
+            }
         }        
     }
 

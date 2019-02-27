@@ -236,7 +236,9 @@ namespace ProjectFirma.Web.Controllers
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
-            var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric, instructionsPageUrl, projectCustomAttributeTypes);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
+                instructionsPageUrl, projectCustomAttributeTypes, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -267,7 +269,9 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs, fundingTypes, projectCustomAttributeTypes);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs,
+                fundingTypes, projectCustomAttributeTypes, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }

@@ -1715,7 +1715,8 @@ namespace ProjectFirma.Web.Controllers
         private string GeneratePartialViewForProjectBasics(Project project)
         {
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var viewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
             var partialViewAsString = RenderPartialViewToString(ProjectBasicsPartialViewPath, viewData);
             return partialViewAsString;
         }

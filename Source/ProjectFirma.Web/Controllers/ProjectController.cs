@@ -88,6 +88,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), fundingTypes, organizations,
@@ -95,7 +96,8 @@ namespace ProjectFirma.Web.Controllers
                 defaultPrimaryContact,
                 totalExpenditures,
                 taxonomyLeafs,
-                projectCustomAttributeTypes
+                projectCustomAttributeTypes,
+                tenantAttribute
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -144,7 +146,8 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, geospatialAreaTypes, geospatialAreas);
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
