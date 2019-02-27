@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
         padding: 5px;
     }
 
-    #mapLegend {
+    .mapLegend {
         margin-top: 10px;
     }
 
@@ -47,16 +47,18 @@ Source code is available upon request via <support@sitkatech.com>.
         margin-left: 0 !important;
     }
 
-    #mapLegendTitle {
+    .mapLegendTitle {
         font-weight: bold;
     }
 </style>
 
 
-<div id="@ViewDataTyped.MapDivID"></div>
-<div class="mapLegendContainer">
-    <span id="mapLegendTitle" >@ViewDataTyped.LegendTitle</span>
-    <div id="mapLegend">
+<div id="projectLocationsMapContainer_@ViewDataTyped.MapDivID">
+    <div id="@ViewDataTyped.MapDivID"></div>
+    <div class="mapLegendContainer">
+        <span class="mapLegendTitle">@ViewDataTyped.LegendTitle</span>
+        <div class="mapLegend">
+        </div>
     </div>
 </div>
 
@@ -126,14 +128,12 @@ Source code is available upon request via <support@sitkatech.com>.
             },
             filter: function(feature)
             {
-                if (Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName))
-                {
-                    return true;
-                }
-                else
-                {
-                    return _.intersection(_.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","), Number), _.map(self.mapCustomizationObject.FilterPropertyValues, Number)).length > 0;
-                }
+                var b = !!Sitka.Methods.isUndefinedNullOrEmpty(self.mapCustomizationObject.FilterPropertyName) ||
+                    _.intersection(
+                        _.map(feature.properties[self.mapCustomizationObject.FilterPropertyName].split(","), Number),
+                        _.map(self.mapCustomizationObject.FilterPropertyValues, Number))
+                        .length > 0;
+                return b;
             }
         });
         if (this.areLocationsClustered)
@@ -153,7 +153,9 @@ Source code is available upon request via <support@sitkatech.com>.
         
         this.layerControl.addOverlay(layer, layerName);
 
-        jQuery("#mapLegend").html(this.getLegend());
+        jQuery("#projectLocationsMapContainer_" + this.MapDivId)
+            .find(".mapLegend")
+            .html(this.getLegend());
 
         return layer;
     };

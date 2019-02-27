@@ -227,8 +227,9 @@ namespace ProjectFirma.Web.Models
         {
             var performanceMeasureValues = GetPerformanceMeasureReportedValuesImpl(HttpRequestStorage.DatabaseEntities, performanceMeasure, performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects));
 
-            var performanceMeasureActualsFiltered =
-                projects?.Any() == true ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList() : performanceMeasureValues;
+            var performanceMeasureActualsFiltered = projects?.Any() == true
+                ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()
+                : performanceMeasureValues;
 
             var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 

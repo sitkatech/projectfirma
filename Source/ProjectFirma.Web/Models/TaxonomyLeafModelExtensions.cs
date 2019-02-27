@@ -58,6 +58,15 @@ namespace ProjectFirma.Web.Models
             return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
+        public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        {
+            return taxonomyLeaf.Projects
+                .Union(taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project))
+                .Distinct()
+                .ToList()
+                .GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+        }
+
         public static IEnumerable<SelectListItem> ToGroupedSelectList(this List<TaxonomyLeaf> taxonomyLeafs)
         {
             var selectListItems = new List<SelectListItem>();
