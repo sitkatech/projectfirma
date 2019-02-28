@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[GeospatialArea](
 	[GeospatialAreaID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_GeospatialArea_GeospatialAreaName_TenantID_GeospatialAreaTypeID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_GeospatialArea_GeospatialAreaName_GeospatialAreaTypeID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[TenantID] ASC,
 	[GeospatialAreaName] ASC,
