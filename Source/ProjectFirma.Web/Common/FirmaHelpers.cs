@@ -53,13 +53,11 @@ namespace ProjectFirma.Web.Common
             "#070a41"
         };
 
-        public static string GenerateLogInUrlWithReturnUrl()
+        public static string GenerateLogInUrl()
         {
             var logInUrl = SitkaRoute<AccountController>.BuildUrlFromExpression(c => c.LogOn());
 
-            var returnUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-
-            return OnErrorOrNotFoundPage(returnUrl) ? logInUrl : String.Format("{0}?returnUrl={1}", logInUrl, HttpUtility.UrlEncode(returnUrl));
+            return logInUrl;
         }
 
         public static string GenerateLogOutUrlWithReturnUrl()
