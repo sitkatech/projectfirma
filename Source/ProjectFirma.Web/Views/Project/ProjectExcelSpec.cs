@@ -30,11 +30,11 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProjectExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProjectExcelSpec()
+        public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes)
         {
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
-            AddColumn("Primary Contact", x => x.GetPrimaryContact().GetFullNameLastFirst());
-            AddColumn("Primary Contact Email", x => x.GetPrimaryContact().Email);
+            AddColumn(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact().GetFullNameLastFirst());
+            AddColumn(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact().Email);
             AddColumn($"Non-Lead Implementing {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.GetDisplayName())));
             AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
@@ -42,11 +42,12 @@ namespace ProjectFirma.Web.Views.Project
                 {
                     AddColumn(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(y), x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));
                 });
-            foreach (var geospatialAreaType in new List<GeospatialAreaType>())
-            {
-                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => x.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType).ToString());
-            }
 
+            
+            foreach (var geospatialAreaType in geospatialAreaTypes)
+            {
+                AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => string.Join(", ", x.ProjectGeospatialAreas.Where(y => y.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(y => y.GeospatialArea.GeospatialAreaName).ToList()));
+            }
             AddColumn(FieldDefinitionEnum.ImplementationStartYear.ToType().GetFieldDefinitionLabel(), x => x.ImplementationStartYear);
             AddColumn(FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel(), x => x.CompletionYear);
 
@@ -57,7 +58,6 @@ namespace ProjectFirma.Web.Views.Project
             {
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));
             }
-
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
             AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType.GetFundingTypeShortName());
             AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.EstimatedTotalCost);
