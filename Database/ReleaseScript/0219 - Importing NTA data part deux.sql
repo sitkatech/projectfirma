@@ -15,6 +15,12 @@ join dbo.ProjectStage ps on n.Stage = ps.ProjectStageDisplayName
 join dbo.FundingType ft on n.[Funding Type] = ft.FundingTypeDisplayName
 left join dbo.Person p on n.[Primary Contact_(email address)] = p.Email and p.TenantID = 11
 
+insert into dbo.SecondaryProjectTaxonomyLeaf(TenantID, ProjectID, TaxonomyLeafID)
+select 11 as TenantID, p.ProjectID, tl.TaxonomyLeafID
+from dbo.[NTA SecondaryRPA] n
+join dbo.Project p on n.NTAID = p.NTAID
+join dbo.TaxonomyLeaf tl on n.[Secondary RPAs] = tl.TaxonomyLeafCode
+where p.TenantID = 11
 
 insert into dbo.ProjectOrganization(TenantID, RelationshipTypeID, ProjectID, OrganizationID)
 select 11 as TenantID, 36 as RelationshipTypeID, p.ProjectID, n.[Owner Organization] as OrganizationID
