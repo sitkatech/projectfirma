@@ -125,12 +125,16 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="col-xs-6 col-md-4 col-md-offset-2">
             <p class="text-right">
-                Display data for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with the following relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized():
+                Summarize accomplishments from:
             </p>
             <div>
                 <select class="form-control pull-right" id="leafDataToggle">
-                    <option value="primary">Primary</option>
-                    <option value="secondary">Primary & Secondary</option>
+                    <option value="primary">
+                        Only  @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with a primary relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
+                    </option>
+                    <option value="secondary">
+                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with primary and secondary relationships to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
+                    </option>
                 </select>
             </div>
         </div>
