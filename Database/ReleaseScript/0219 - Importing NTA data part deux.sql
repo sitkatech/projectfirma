@@ -181,6 +181,14 @@ join dbo.Project p on n.NTAID = p.NTAID
 left join dbo.Person pe on n.[Create Person] = pe.Email and pe.TenantID = 11
 where NoteType != 'Internal'
 
+insert into dbo.ProjectInternalNote(TenantID, ProjectID, CreateDate, CreatePersonID, Note)
+select 11 as TenantID, p.ProjectID, n.[Create Date], isnull(pe.PersonID, 5307) as CreatePersonID, n.[Action Note]
+from dbo.NTA_Note n
+join dbo.Project p on n.NTAID = p.NTAID
+left join dbo.Person pe on n.[Create Person] = pe.Email and pe.TenantID = 11
+where NoteType = 'Internal'
+
+
 drop table dbo.NTA
 drop table dbo.[NTA Partners]
 drop table dbo.[NTA SecondaryRPA]
