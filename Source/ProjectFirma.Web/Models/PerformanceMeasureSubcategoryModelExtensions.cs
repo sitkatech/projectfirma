@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class PerformanceMeasureSubcategoryModelExtensions
     {
-        public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
+        public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues, string chartUniqueName)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
             var performanceMeasureReportingPeriods = projectPerformanceMeasureReportingPeriodValues.Select(x => x.PerformanceMeasureReportingPeriod).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureReportingPeriod>()).ToList();
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
                     chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                 }
                 
-                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration,
+                var googleChartJson = new GoogleChartJson(legendTitle, $"{chartUniqueName}{chartName}", chartConfiguration,
                     performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
                     chartColumns, saveConfigurationUrl, resetConfigurationUrl);
                 googleChartJsons.Add(googleChartJson);

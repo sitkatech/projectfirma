@@ -143,6 +143,7 @@
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
+    <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewModel.cs" />

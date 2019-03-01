@@ -75,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 window.secondaryMap.initializeProjectLocations(secondaryProjectLocationsMapInitJson);
                 setTimeout(function() {
                     leafDataToggle("primary");
-                }, 1);
+                }, 500);
                 jQuery("#leafDataToggle").on("change", function(event) {
                     leafDataToggle(jQuery(event.target).val());
                 });
@@ -90,22 +90,28 @@ Source code is available upon request via <support@sitkatech.com>.
                     }
                 }
                 var primaryGrid = jQuery("#primaryLeafDataGrid"),
-                    secondaryGrid = jQuery("#secondaryLeafDataGrid"),
                     primaryMap = jQuery("#primaryLeafDataMap"),
-                    secondaryMap = jQuery("#secondaryLeafDataMap");
+                    primaryChart = jQuery(".primaryLeafDataChart"),
+                    secondaryGrid = jQuery("#secondaryLeafDataGrid"),
+                    secondaryMap = jQuery("#secondaryLeafDataMap"),
+                    secondaryChart = jQuery(".secondaryLeafDataChart");
                 function togglePrimaryLeafData() {
                     // todo remove secondary layer from window.map and display primary layer
                     primaryGrid.show();
                     primaryMap.show();
+                    primaryChart.show();
                     secondaryGrid.hide();
                     secondaryMap.hide();
+                    secondaryChart.hide();
                 }
                 function toggleSecondaryLeafData() {
                     // todo remove primary layer from window.map and display secondary layer
                     primaryGrid.hide();
                     primaryMap.hide();
+                    primaryChart.hide();
                     secondaryGrid.show();
                     secondaryMap.show();
+                    secondaryChart.show();
                 }
             });
             // ]]>
@@ -125,12 +131,16 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="col-xs-6 col-md-4 col-md-offset-2">
             <p class="text-right">
-                Display data for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with the following relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized():
+                Summarize accomplishments from:
             </p>
             <div>
                 <select class="form-control pull-right" id="leafDataToggle">
-                    <option value="primary">Primary</option>
-                    <option value="secondary">Primary & Secondary</option>
+                    <option value="primary">
+                        Only  @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with a primary relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
+                    </option>
+                    <option value="secondary">
+                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with primary and secondary relationships to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
+                    </option>
                 </select>
             </div>
         </div>
@@ -138,7 +148,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 
 <div class="row">
-    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any() ? 6 : 12)">
+    <div class="col-md-@(ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasures.Any() ? 6 : 12)">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTaxonomyLeafUrl, string.Format("Edit {0} - {1}", ViewDataTyped.TaxonomyLeafDisplayName, ViewDataTyped.TaxonomyLeaf.GetDisplayName()), ViewDataTyped.UserHasTaxonomyLeafManagePermissions) Basics</h2>
@@ -181,18 +191,26 @@ Source code is available upon request via <support@sitkatech.com>.
         @{ RelatedPerformanceMeasures.RenderPartialView(Html, ViewDataTyped.RelatedPerformanceMeasuresViewData); }
     </div>
 
-    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+    @if (ViewDataTyped.CanHaveAssociatedPerformanceMeasures && ViewDataTyped.PerformanceMeasures.Any())
     {
         <div class="col-md-6">
-            @foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(3))
+            @foreach (var batch in ViewDataTyped.PerformanceMeasures.Batch(3))
             {
                 <div class="row">
-                    @foreach (var performanceMeasureChartViewData in batch)
+                    @foreach (var performanceMeasure in batch)
                     {
                         <div class="col-md-4" style="width: 500px">
                             <div class="panel panelFirma">
                                 <div class="panel-body">
-                                    @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                    <div class="primaryLeafDataChart">
+                                        @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PrimaryPerformanceMeasureChartViewDataByPerformanceMeasure[performanceMeasure.PerformanceMeasureID]); }
+                                    </div>
+                                    @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+                                    {
+                                        <div class="secondaryLeafDataChart">
+                                            @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.SecondaryPerformanceMeasureChartViewDataByPerformanceMeasure[performanceMeasure.PerformanceMeasureID]); }
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

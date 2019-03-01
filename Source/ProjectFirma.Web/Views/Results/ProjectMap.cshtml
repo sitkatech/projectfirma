@@ -325,7 +325,7 @@ Source code is available upon request via <support@sitkatech.com>.
             colorPropertyNameDropdown.change(function()
             {
                 map.changePropertyToColorProjectLocationsBy(this.value);
-                jQuery("#mapLegendTitle").html(colorPropertyNameDropdown.find("option:selected").data("displayname") + ":");
+                jQuery(".mapLegendTitle").html(colorPropertyNameDropdown.find("option:selected").data("displayname") + ":");
                 updateCustomUrlPopover();
             });
 

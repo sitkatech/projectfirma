@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
 
-            var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
+            var secondaryProjectTaxonomyLeavesToUpdate = (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>())
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) {TenantID = HttpRequestStorage.Tenant.TenantID})
                 .ToList();
             project.SecondaryProjectTaxonomyLeafs.Merge(
@@ -187,7 +187,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 yield return new SitkaValidationResult<EditProjectViewModel, int>(errorMessage, m => m.ProjectStageID);
             }
 
-            if (TaxonomyLeafID != null && SecondaryProjectTaxonomyLeafIDs.ToList().Contains(TaxonomyLeafID.Value))
+            if (TaxonomyLeafID != null && (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>()).Contains(TaxonomyLeafID.Value))
             {
                 yield return new SitkaValidationResult<EditProjectViewModel, IEnumerable<int>>(
                     $"Cannot have a {FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabel()} " +

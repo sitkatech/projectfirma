@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string EditTaxonomyLeafUrl { get; }
         public string IndexUrl { get; }
 
-        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public ProjectForTaxonomyLeafGridSpec BasicProjectInfoGridSpec { get; }
         public string BasicProjectInfoGridName { get; }
         public string SecondaryBasicProjectInfoGridName { get; }
         public string PrimaryBasicProjectInfoGridDataUrl { get; }
@@ -57,9 +57,11 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string TaxonomyLeafDisplayNamePluralized { get; }
 
         public bool CanHaveAssociatedPerformanceMeasures { get; }
-        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public RelatedPerformanceMeasuresViewData RelatedPerformanceMeasuresViewData { get; }
         public TenantAttribute TenantAttribute { get; }
+        public IEnumerable<ProjectFirmaModels.Models.PerformanceMeasure> PerformanceMeasures { get; }
+        public Dictionary<int, PerformanceMeasureChartViewData> PrimaryPerformanceMeasureChartViewDataByPerformanceMeasure { get; }
+        public Dictionary<int, PerformanceMeasureChartViewData> SecondaryPerformanceMeasureChartViewDataByPerformanceMeasure { get; }
 
         public DetailViewData(Person currentPerson,
             ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf,
@@ -69,9 +71,11 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ProjectLocationsMapViewData secondaryProjectLocationsMapViewData,
             bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
-            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas,
             TaxonomyLevel taxonomyLevel,
-            TenantAttribute tenantAttribute) : base(currentPerson)
+            TenantAttribute tenantAttribute,
+            IEnumerable<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
+            Dictionary<int, PerformanceMeasureChartViewData> primaryPerformanceMeasureChartViewDataByPerformanceMeasure,
+            Dictionary<int, PerformanceMeasureChartViewData> secondaryPerformanceMeasureChartViewDataByPerformanceMeasure) : base(currentPerson)
         {
             TaxonomyLeaf = taxonomyLeaf;
             PageTitle = taxonomyLeaf.GetDisplayName();
@@ -91,7 +95,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             BasicProjectInfoGridName = "taxonomyLeafProjectListGrid";
             SecondaryBasicProjectInfoGridName = "secondaryLeafProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
+            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",
@@ -106,7 +110,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             TaxonomyLeafDisplayNamePluralized = fieldDefinitionTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;
-            PerformanceMeasureChartViewDatas = performanceMeasureChartViewDatas;
+            PerformanceMeasures = performanceMeasures;
+            PrimaryPerformanceMeasureChartViewDataByPerformanceMeasure = primaryPerformanceMeasureChartViewDataByPerformanceMeasure;
+            SecondaryPerformanceMeasureChartViewDataByPerformanceMeasure = secondaryPerformanceMeasureChartViewDataByPerformanceMeasure;
             RelatedPerformanceMeasuresViewData = relatedPerformanceMeasuresViewData;
 
             TenantAttribute = tenantAttribute;

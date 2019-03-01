@@ -33,9 +33,12 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirma.Web.Views.TaxonomyLeaf;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyLeaf.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyLeaf.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyLeaf.EditViewData;
@@ -126,21 +129,25 @@ namespace ProjectFirma.Web.Controllers
             var relatedPerformanceMeasuresViewData = new RelatedPerformanceMeasuresViewData(
                 associatePerformanceMeasureTaxonomyLevel, true, taxonomyTierPerformanceMeasures,
                 canHaveAssociatedPerformanceMeasures);
-            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
-            if (canHaveAssociatedPerformanceMeasures)
-            {
-                performanceMeasureChartViewDatas = taxonomyLeaf.TaxonomyLeafPerformanceMeasures
-                    .Select(x => new PerformanceMeasureChartViewData(x.PerformanceMeasure, CurrentPerson, false, new List<Project>()))
-                    .ToList();
-            }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
 
+            var performanceMeasures = taxonomyLeaf.TaxonomyLeafPerformanceMeasures.Select(x => x.PerformanceMeasure)
+                .ToList();
+            var primaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
+                x => x.PerformanceMeasureID,
+                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
+            var secondaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
+                x => x.PerformanceMeasureID,
+                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
+
             var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, primaryProjectLocationsMapInitJson,
                 secondaryProjectLocationsMapInitJson, primaryProjectLocationsMapViewData,
                 secondaryProjectLocationsMapViewData, canHaveAssociatedPerformanceMeasures,
-                relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel, tenantAttribute);
+                relatedPerformanceMeasuresViewData, taxonomyLevel, tenantAttribute, performanceMeasures,
+                primaryPerformanceMeasureChartViewDataByPerformanceMeasure,
+                secondaryPerformanceMeasureChartViewDataByPerformanceMeasure);
 
             return RazorView<Summary, DetailViewData>(viewData);
         }
@@ -279,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 
@@ -288,7 +295,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 

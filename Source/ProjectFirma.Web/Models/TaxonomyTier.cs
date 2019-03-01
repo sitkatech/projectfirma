@@ -22,9 +22,9 @@ namespace ProjectFirma.Web.Models
 
         private TaxonomyLevelEnum TaxonomyLevel { get; }
 
-        private TaxonomyLeaf TaxonomyLeaf { get; }
-        private TaxonomyBranch TaxonomyBranch { get; }
-        private TaxonomyTrunk TaxonomyTrunk { get; }
+        public TaxonomyLeaf TaxonomyLeaf { get; }
+        public TaxonomyBranch TaxonomyBranch { get; }
+        public TaxonomyTrunk TaxonomyTrunk { get; }
 
         public FancyTreeNode ToFancyTreeNode(Person currentPerson)
         {

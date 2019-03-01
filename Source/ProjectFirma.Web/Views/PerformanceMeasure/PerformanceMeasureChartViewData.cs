@@ -50,12 +50,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Person currentPerson,
             bool showLastUpdatedDate,
             bool fromPerformanceMeasureDetailPage,
-            List<ProjectFirmaModels.Models.Project> projects)
+            List<ProjectFirmaModels.Models.Project> projects,
+            string chartUniqueName)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects);
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects, chartUniqueName);
 
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
@@ -71,7 +72,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 ChartTitle,
                 height,
                 null,
-                performanceMeasure.GetJavascriptSafeChartUniqueName(),
+                chartUniqueName,
                 CanManagePerformanceMeasures,
                 SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadPerformanceMeasureChartData()),
                 true,
@@ -86,7 +87,21 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             currentPerson,
             showLastUpdatedDate,
             false, 
-            projects)
+            projects,
+            performanceMeasure.GetJavascriptSafeChartUniqueName())
+        {
+        }
+
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+            Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
+            string chartUniqueName) : this(
+            performanceMeasure,
+            DefaultHeight,
+            currentPerson,
+            showLastUpdatedDate,
+            false,
+            projects,
+            chartUniqueName)
         {
         }
 
@@ -96,7 +111,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             currentPerson,
             showLastUpdatedDate,
             showConfigureOption, 
-            projects)
+            projects,
+            performanceMeasure.GetJavascriptSafeChartUniqueName())
         {
         }
     }
