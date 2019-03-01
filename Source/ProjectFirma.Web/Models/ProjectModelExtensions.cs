@@ -219,7 +219,6 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Note this will do a deep delete of this project image, meaning it will remove it from a ProjectImageUpdate if it is tied to that
         /// </summary>
-        /// <param name="projectImages"></param>
         public static void DeleteProjectImages(this Project project)
         {
             foreach (var fileResource in project.ProjectImages.Select(x => x.FileResource))

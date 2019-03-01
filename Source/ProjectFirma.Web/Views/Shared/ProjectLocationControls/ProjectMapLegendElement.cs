@@ -45,13 +45,45 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             {
                 {
                     ProjectColorByType.ProjectStage.ProjectColorByTypeNameWithIdentifier,
-                    ProjectMapCustomization.GetProjectStagesForMap(showProposals).Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
-                },
-                {
-                    MultiTenantHelpers.IsTaxonomyLevelTrunk() ? ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier : ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier,
-                    topLevelTaxonomyTiers.Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName)).ToList()
+                    ProjectMapCustomization.GetProjectStagesForMap(showProposals)
+                        .Where(x => x.ShouldShowOnMap()).OrderBy(x => x.SortOrder).Select(x => new ProjectMapLegendElement(x.ProjectStageID, x.ProjectStageColor, x.ProjectStageDisplayName)).ToList()
                 }
             };
+
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
+            {
+                legendFormats[ProjectColorByType.TaxonomyTrunk.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName))
+                        .ToList();
+                legendFormats[ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers.SelectMany(x => x.TaxonomyTrunk.TaxonomyBranches)
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyBranchID, x.ThemeColor, x.GetDisplayName()))
+                        .ToList();
+                legendFormats[ProjectColorByType.TaxonomyLeaf.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers.SelectMany(x => x.TaxonomyTrunk.TaxonomyBranches)
+                        .SelectMany(x => x.TaxonomyLeafs)
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyLeafID, x.ThemeColor, x.GetDisplayName()))
+                        .ToList();
+            }
+            if (MultiTenantHelpers.IsTaxonomyLevelBranch())
+            {
+                legendFormats[ProjectColorByType.TaxonomyBranch.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName))
+                        .ToList();
+                legendFormats[ProjectColorByType.TaxonomyLeaf.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers.SelectMany(x => x.TaxonomyBranch.TaxonomyLeafs)
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyLeafID, x.ThemeColor, x.GetDisplayName()))
+                        .ToList();
+            }
+            if (MultiTenantHelpers.IsTaxonomyLevelLeaf())
+            {
+                legendFormats[ProjectColorByType.TaxonomyLeaf.ProjectColorByTypeNameWithIdentifier] =
+                    topLevelTaxonomyTiers
+                        .Select(x => new ProjectMapLegendElement(x.TaxonomyTierID, x.ThemeColor, x.DisplayName))
+                        .ToList();
+            }
 
             return legendFormats;
         }

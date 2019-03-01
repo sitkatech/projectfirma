@@ -21,6 +21,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectColorByTypeTaxonomyTrunk TaxonomyTrunk = ProjectColorByTypeTaxonomyTrunk.Instance;
         public static readonly ProjectColorByTypeProjectStage ProjectStage = ProjectColorByTypeProjectStage.Instance;
         public static readonly ProjectColorByTypeTaxonomyBranch TaxonomyBranch = ProjectColorByTypeTaxonomyBranch.Instance;
+        public static readonly ProjectColorByTypeTaxonomyLeaf TaxonomyLeaf = ProjectColorByTypeTaxonomyLeaf.Instance;
 
         public static readonly List<ProjectColorByType> All;
         public static readonly ReadOnlyDictionary<int, ProjectColorByType> AllLookupDictionary;
@@ -30,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectColorByType()
         {
-            All = new List<ProjectColorByType> { TaxonomyTrunk, ProjectStage, TaxonomyBranch };
+            All = new List<ProjectColorByType> { TaxonomyTrunk, ProjectStage, TaxonomyBranch, TaxonomyLeaf };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectColorByType>(All.ToDictionary(x => x.ProjectColorByTypeID));
         }
 
@@ -108,6 +109,8 @@ namespace ProjectFirmaModels.Models
                     return ProjectStage;
                 case ProjectColorByTypeEnum.TaxonomyBranch:
                     return TaxonomyBranch;
+                case ProjectColorByTypeEnum.TaxonomyLeaf:
+                    return TaxonomyLeaf;
                 case ProjectColorByTypeEnum.TaxonomyTrunk:
                     return TaxonomyTrunk;
                 default:
@@ -120,7 +123,8 @@ namespace ProjectFirmaModels.Models
     {
         TaxonomyTrunk = 1,
         ProjectStage = 2,
-        TaxonomyBranch = 3
+        TaxonomyBranch = 3,
+        TaxonomyLeaf = 4
     }
 
     public partial class ProjectColorByTypeTaxonomyTrunk : ProjectColorByType
@@ -132,12 +136,18 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectColorByTypeProjectStage : ProjectColorByType
     {
         private ProjectColorByTypeProjectStage(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeProjectStage Instance = new ProjectColorByTypeProjectStage(2, @"ProjectStage", @"ProjectStageID", @"Stage", 20);
+        public static readonly ProjectColorByTypeProjectStage Instance = new ProjectColorByTypeProjectStage(2, @"ProjectStage", @"ProjectStageID", @"Stage", 40);
     }
 
     public partial class ProjectColorByTypeTaxonomyBranch : ProjectColorByType
     {
         private ProjectColorByTypeTaxonomyBranch(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
-        public static readonly ProjectColorByTypeTaxonomyBranch Instance = new ProjectColorByTypeTaxonomyBranch(3, @"TaxonomyBranch", @"TaxonomyBranchID", @"Taxonomy Branch", 11);
+        public static readonly ProjectColorByTypeTaxonomyBranch Instance = new ProjectColorByTypeTaxonomyBranch(3, @"TaxonomyBranch", @"TaxonomyBranchID", @"Taxonomy Branch", 20);
+    }
+
+    public partial class ProjectColorByTypeTaxonomyLeaf : ProjectColorByType
+    {
+        private ProjectColorByTypeTaxonomyLeaf(int projectColorByTypeID, string projectColorByTypeName, string projectColorByTypeNameWithIdentifier, string projectColorByTypeDisplayName, int sortOrder) : base(projectColorByTypeID, projectColorByTypeName, projectColorByTypeNameWithIdentifier, projectColorByTypeDisplayName, sortOrder) {}
+        public static readonly ProjectColorByTypeTaxonomyLeaf Instance = new ProjectColorByTypeTaxonomyLeaf(4, @"TaxonomyLeaf", @"TaxonomyLeafID", @"Taxonomy Leaf", 30);
     }
 }
