@@ -120,21 +120,18 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div class="row" style="margin-bottom: 1em;">
-    <div class="col-xs-6">
+    <div class="col-xs-12">
         <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
             Back to all @ViewDataTyped.TaxonomyLeafDisplayNamePluralized
         </a>
-    </div>
-
-    @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
-    {
-        <div class="col-xs-6 col-md-4 col-md-offset-2">
-            <p class="text-right">
-                Summarize accomplishments from:
-            </p>
-            <div>
-                <select class="form-control pull-right" id="leafDataToggle">
+        @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
+        {
+            <div style="margin-top: 1em;">
+                <p>
+                    Summarize accomplishments from:
+                </p>
+                <select class="form-control" id="leafDataToggle" style="max-width: 500px;">
                     <option value="primary">
                         Only  @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() with a primary relationship to this @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
                     </option>
@@ -143,8 +140,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     </option>
                 </select>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <div class="row">
