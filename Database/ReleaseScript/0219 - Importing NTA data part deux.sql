@@ -52,7 +52,7 @@ insert into dbo.ProjectGeospatialArea(TenantID, ProjectID, GeospatialAreaID)
 select 11 as TenantID, p.ProjectID, ga.GeospatialAreaID
 from dbo.NTA_LegDistrict n
 join dbo.Project p on n.NTAID = p.NTAID
-join dbo.GeospatialArea ga on n.[Legislative District] = 'Legislative District ' + ga.GeospatialAreaName and ga.GeospatialAreaTypeID = 13
+join dbo.GeospatialArea ga on n.[Legislative District] = ga.GeospatialAreaName and ga.GeospatialAreaTypeID = 13
 where ga.TenantID = 11
 
 insert into dbo.ProjectGeospatialArea(TenantID, ProjectID, GeospatialAreaID)
