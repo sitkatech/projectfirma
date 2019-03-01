@@ -46,7 +46,7 @@ insert into dbo.ProjectFundingSourceRequest(TenantID, ProjectID, FundingSourceID
 select 11 as TenantID, p.ProjectID, 8388 as FundingSourceID, n.[Funding Secured] as SecuredAmount, n.[Funding Unsecured] as UnsecuredAmount
 from dbo.NTA n
 join dbo.Project p on n.NTAID = p.NTAID
-where p.TenantID = 11 and n.[Funding Secured] is not null
+where p.TenantID = 11 and n.[Funding Secured] is not null and (n.[Funding Secured] != 0 or n.[Funding Unsecured] != 0)
 
 insert into dbo.ProjectGeospatialArea(TenantID, ProjectID, GeospatialAreaID)
 select 11 as TenantID, p.ProjectID, ga.GeospatialAreaID
