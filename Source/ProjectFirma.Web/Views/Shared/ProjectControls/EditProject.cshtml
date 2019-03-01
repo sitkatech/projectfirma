@@ -62,10 +62,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         @foreach (var secondaryProjectTaxonomyLeafID in Model.SecondaryProjectTaxonomyLeafIDs)
                         {
                             <li id="secondaryProjectTaxonomyLeafSelection_@secondaryProjectTaxonomyLeafID">
+                                @{ int somthing; }
                                 <a href="#" onclick="event.preventDefault();jQuery('#secondaryProjectTaxonomyLeafSelection_@secondaryProjectTaxonomyLeafID').remove();">
                                     <span class="glyphicon glyphicon-trash" style="margin-right: 1em;">
                                     </span>
-                                </a>@(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)[secondaryProjectTaxonomyLeafID])
+                                </a>@(ViewDataTyped.TaxonomyLeafs.Where(x => int.TryParse(x.Value, out somthing)).ToDictionary(x => int.Parse(x.Value), x => x.Text)[secondaryProjectTaxonomyLeafID])
                                 <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID"/>
                             </li>
                         }
@@ -196,7 +197,8 @@ Source code is available upon request via <support@sitkatech.com>.
         jQuery(function() {
             var secondaryProjectTaxonomyLeafSelectionDropdown = jQuery("#secondaryProjectTaxonomyLeafSelectionDropdown");
             var secondaryProjectTaxonomyLeafSelectionContainer = jQuery("#secondaryProjectTaxonomyLeafSelectionContainer");
-            var secondaryProjectTaxonomyLeafNameMap = @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.ToDictionary(x => int.Parse(x.Value), x => x.Text)));
+            @{ int doesntMatter; }
+            var secondaryProjectTaxonomyLeafNameMap = @Html.Raw(JObject.FromObject(ViewDataTyped.TaxonomyLeafs.Where(x => int.TryParse(x.Value, out doesntMatter)).ToDictionary(x => int.Parse(x.Value), x => x.Text)));
             jQuery("#addSecondaryProjectTaxonomyLeafButton").click(function () {
                 if (!secondaryProjectTaxonomyLeafSelectionDropdown.val() ||
                     jQuery("#secondaryProjectTaxonomyLeafSelection_" + secondaryProjectTaxonomyLeafSelectionDropdown.val()).length) {

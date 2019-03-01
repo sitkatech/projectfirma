@@ -66,9 +66,9 @@ namespace ProjectFirma.Web.Views.Project
                 150, DhtmlxGridColumnFilterType.Html);
             if (userHasEmailViewingPermissions)
             {
-                Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(), x =>
-                        new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>"), 200,
-                    DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+                Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
+                    x => x.GetPrimaryContact() != null ? new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>") : new HtmlString(""),
+                    200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             }
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectFirmaModels.Models.ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);

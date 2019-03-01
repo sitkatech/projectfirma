@@ -142,10 +142,10 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
         }
 
-        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects)
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects, string chartUniqueName)
         {
             var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
-            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues);
+            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues, chartUniqueName);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Person currentPerson)
