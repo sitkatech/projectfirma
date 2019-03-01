@@ -451,7 +451,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ExcelResult FullDatabaseExcelDownloadImpl(List<Project> projects, string workbookTitle)
         {
-            var projectsSpec = new ProjectExcelSpec();
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var projectsSpec = new ProjectExcelSpec(geospatialAreaTypes);
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
             var workSheets = new List<IExcelWorkbookSheetDescriptor>
