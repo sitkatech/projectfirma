@@ -42,8 +42,8 @@ join dbo.Project p on n.NTAID = p.NTAID
 join dbo.Classification c on n.[Activity Types] = c.ClassificationID
 where [Activity Types] is not null
 
-insert into dbo.ProjectFundingSourceRequest(TenantID, ProjectID, FundingSourceID, SecuredAmount)
-select 11 as TenantID, p.ProjectID, 8388 as FundingSourceID, n.[Funding Secured] as SecuredAmount
+insert into dbo.ProjectFundingSourceRequest(TenantID, ProjectID, FundingSourceID, SecuredAmount, UnsecuredAmount)
+select 11 as TenantID, p.ProjectID, 8388 as FundingSourceID, n.[Funding Secured] as SecuredAmount, n.[Funding Unsecured] as UnsecuredAmount
 from dbo.NTA n
 join dbo.Project p on n.NTAID = p.NTAID
 where p.TenantID = 11 and n.[Funding Secured] is not null
