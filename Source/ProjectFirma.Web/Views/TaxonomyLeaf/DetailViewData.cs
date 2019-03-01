@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string EditTaxonomyLeafUrl { get; }
         public string IndexUrl { get; }
 
-        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
+        public ProjectForTaxonomyLeafGridSpec BasicProjectInfoGridSpec { get; }
         public string BasicProjectInfoGridName { get; }
         public string SecondaryBasicProjectInfoGridName { get; }
         public string PrimaryBasicProjectInfoGridDataUrl { get; }
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 
             BasicProjectInfoGridName = "taxonomyLeafProjectListGrid";
             SecondaryBasicProjectInfoGridName = "secondaryLeafProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
+            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",

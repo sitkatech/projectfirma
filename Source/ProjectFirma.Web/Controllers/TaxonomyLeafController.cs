@@ -38,6 +38,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirma.Web.Views.TaxonomyLeaf;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyLeaf.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyLeaf.Edit;
 using EditViewData = ProjectFirma.Web.Views.TaxonomyLeaf.EditViewData;
@@ -285,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 
@@ -294,7 +295,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 
