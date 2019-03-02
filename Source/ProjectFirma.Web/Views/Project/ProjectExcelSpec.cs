@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes)
         {
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
-            AddColumn(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact().GetFullNameLastFirst());
-            AddColumn(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact().Email);
+            AddColumn(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.GetFullNameLastFirst());
+            AddColumn(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.Email);
             AddColumn($"Non-Lead Implementing {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
                 x => string.Join(",", x.GetAssociatedOrganizations().Select(pio => pio.GetDisplayName())));
             AddColumn(FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel(), x => x.ProjectStage.ProjectStageDisplayName);
