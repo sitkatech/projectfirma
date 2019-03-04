@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public IndexGridSpec(Person currentPerson, Dictionary<int, FundingTypeData> fundingTypes, List<GeospatialAreaType> geospatialAreaTypes)
+        public IndexGridSpec(Person currentPerson, Dictionary<int, FundingTypeData> fundingTypes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
@@ -88,6 +88,11 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.UnfundedNeed.ToType().ToGridHeaderString(), x => x.UnfundedNeed(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
+            {
+                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}",
+                   a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+            }
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
                 Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);

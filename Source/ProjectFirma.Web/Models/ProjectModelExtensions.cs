@@ -504,6 +504,27 @@ namespace ProjectFirmaModels.Models
             return notNullSubmittalDates.Any() ? notNullSubmittalDates.Max() : null;
         }
 
+        public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            var projectCustomAttribute = project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+            if(projectCustomAttribute != null)
+            {
+                if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                {
+                   return DateTime.TryParse(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return string.Join(", ",
+                        projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
+                }
+            }
+            else
+            {
+                return "None";
+            }
+}
+
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
             var projectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
