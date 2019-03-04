@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema) : this()
+        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema, int? editableByRoleID, int? viewableByRoleID, bool? includeInNtaGrid) : this()
         {
             this.ProjectCustomAttributeTypeID = projectCustomAttributeTypeID;
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
@@ -40,6 +40,9 @@ namespace ProjectFirmaModels.Models
             this.IsRequired = isRequired;
             this.ProjectCustomAttributeTypeDescription = projectCustomAttributeTypeDescription;
             this.ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeTypeOptionsSchema;
+            this.EditableByRoleID = editableByRoleID;
+            this.ViewableByRoleID = viewableByRoleID;
+            this.IncludeInNtaGrid = includeInNtaGrid;
         }
 
         /// <summary>
@@ -132,6 +135,9 @@ namespace ProjectFirmaModels.Models
         public bool IsRequired { get; set; }
         public string ProjectCustomAttributeTypeDescription { get; set; }
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
+        public int? EditableByRoleID { get; set; }
+        public int? ViewableByRoleID { get; set; }
+        public bool? IncludeInNtaGrid { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 
@@ -140,6 +146,8 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ProjectCustomAttributeDataType ProjectCustomAttributeDataType { get { return ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitTypeID.HasValue ? MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID.Value] : null; } }
+        public Role EditableByRole { get { return EditableByRoleID.HasValue ? Role.AllLookupDictionary[EditableByRoleID.Value] : null; } }
+        public Role ViewableByRole { get { return ViewableByRoleID.HasValue ? Role.AllLookupDictionary[ViewableByRoleID.Value] : null; } }
 
         public static class FieldLengths
         {

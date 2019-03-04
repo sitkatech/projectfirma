@@ -1,4 +1,5 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
+@using Microsoft.Web.Mvc.Html
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
@@ -46,7 +47,7 @@
                         @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeName)
                     </div>
                     <div class="col-sm-4">
-                        @Html.TextBoxFor(m => m.ProjectCustomAttributeTypeName, new {@class = "form-control", style = "width:100%"})
+                        @Html.TextBoxFor(m => m.ProjectCustomAttributeTypeName, new { @class = "form-control", style = "width:100%" })
                         @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeName)
                     </div>
                 </div>
@@ -55,7 +56,7 @@
                         @Html.LabelWithSugarFor(m => m.IsRequired)
                     </div>
                     <div class="col-sm-9">
-                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object> {{"style", "width: auto"}, {"class", "form-control"}})
+                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
                         @Html.ValidationMessageFor(m => m.IsRequired)
                     </div>
                 </div>
@@ -64,7 +65,7 @@
                         @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeDesription)
                     </div>
                     <div class="col-sm-9">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
                         @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeDesription)
                     </div>
                 </div>
@@ -101,7 +102,7 @@
                                 @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, true)
                             </div>
                             <div class="col-sm-9">
-                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new {style = "width: auto;", @class = "form-control"})
+                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { style = "width: auto;", @class = "form-control" })
                                 @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
                             </div>
                         </div>
@@ -136,6 +137,38 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">                       
+                        <strong>Editable By</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(x => x.ProjectCustomAttributeEditableBy, ViewDataTyped.EditableByRoleID, new { style = "width: auto;", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeEditableBy)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">                       
+                        <strong>Viewable By</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(x => x.ProjectCustomAttributeViewableBy, ViewDataTyped.ViewableByRoleID, new { style = "width: auto;", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeViewableBy)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        <strong>Include in NTA Grids?</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInNtaGrid, true) Yes
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInNtaGrid, false) No
+                        </label>
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeIncludeInNtaGrid)
                     </div>
                 </div>
             </div>

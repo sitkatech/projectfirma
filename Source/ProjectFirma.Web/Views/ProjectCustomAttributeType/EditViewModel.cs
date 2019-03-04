@@ -38,6 +38,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
         public string ProjectCustomAttributeTypeDesription { get; set; }
 
+        [DisplayName("Editable By")]
+        public int? ProjectCustomAttributeEditableBy { get; set; }
+
+        [DisplayName("Viewable By")]
+        public int? ProjectCustomAttributeViewableBy { get; set; }
+
+        [DisplayName("Include in NTA Grid?")]
+        public bool? ProjectCustomAttributeIncludeInNtaGrid { get; set; }
+        
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -54,6 +64,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema;
             IsRequired = projectCustomAttributeType.IsRequired;
             ProjectCustomAttributeTypeDesription = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
+            ProjectCustomAttributeEditableBy = projectCustomAttributeType.EditableByRoleID;
+            ProjectCustomAttributeViewableBy = projectCustomAttributeType.ViewableByRoleID;
+            ProjectCustomAttributeIncludeInNtaGrid = projectCustomAttributeType.IncludeInNtaGrid;
+
+
         }
 
 
@@ -64,6 +79,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
+            projectCustomAttributeType.EditableByRoleID = ProjectCustomAttributeEditableBy;
+            projectCustomAttributeType.ViewableByRoleID = ProjectCustomAttributeViewableBy;
+            projectCustomAttributeType.IncludeInNtaGrid = ProjectCustomAttributeIncludeInNtaGrid;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]
