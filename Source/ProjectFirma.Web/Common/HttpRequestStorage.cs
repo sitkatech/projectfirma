@@ -22,11 +22,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading;
 using System.Web;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
-using Keystone.Common;
+using Keystone.Common.OpenID;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
@@ -44,10 +45,15 @@ namespace ProjectFirma.Web.Common
         {
             get { return new List<string>(); }
         }
+        public static IPrincipal GetHttpContextUserThroughOwin()
+        {
+            return HttpContext.Current.GetOwinContext().Authentication.User;
+        }
+
 
         public static Person Person
         {
-            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetUserFromPrincipal(Thread.CurrentPrincipal, PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
+            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(), PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
             set { SetValue(PersonKey, value); }
         }
 
@@ -72,6 +78,7 @@ namespace ProjectFirma.Web.Common
                         }
                     });
             }
+            set => SetValue(TenantKey, value);
         }
 
 

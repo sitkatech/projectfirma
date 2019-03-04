@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using Keystone.Common;
+using Keystone.Common.OpenID;
 
 namespace ProjectFirmaModels.Models
 {
@@ -68,6 +68,8 @@ namespace ProjectFirmaModels.Models
             var roleNames = new List<string> {Role.RoleName};
             return roleNames;
         }
+
+        public IEnumerable<string> RoleNames { get { return GetRoleNames(); } }
 
         public void SetKeystoneUserClaims(IKeystoneUserClaims keystoneUserClaims)
         {

@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views
             CurrentPerson = currentPerson;
             FirmaHomeUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
 
-            LogInUrl = FirmaHelpers.GenerateLogInUrlWithReturnUrl();
+            LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());

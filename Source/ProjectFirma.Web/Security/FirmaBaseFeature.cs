@@ -29,7 +29,7 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
-using Keystone.Common;
+using Keystone.Common.OpenID;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Security
             Roles = CalculateRoleNameStringFromFeature();
 
             // MR #321 - force reload of user roles onto IClaimsIdentity
-            KeystoneUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, Thread.CurrentPrincipal.Identity);
+            KeystoneOpenIDUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Security
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            var redirectToLogin = new RedirectResult(FirmaHelpers.GenerateLogInUrlWithReturnUrl());
+            var redirectToLogin = new RedirectResult(FirmaHelpers.GenerateLogInUrl());
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 filterContext.Result = redirectToLogin;
