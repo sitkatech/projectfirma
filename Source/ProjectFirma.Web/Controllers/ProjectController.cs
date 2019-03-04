@@ -361,7 +361,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FullProjectList.GetFirmaPage();
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, geospatialAreaTypes);
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, geospatialAreaTypes, projectCustomAttributeTypes);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -370,7 +371,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypeDatas.ToDictionary(x => x.FundingTypeID);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
-            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes);
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
+            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceRequests).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
@@ -452,7 +454,8 @@ namespace ProjectFirma.Web.Controllers
         private ExcelResult FullDatabaseExcelDownloadImpl(List<Project> projects, string workbookTitle)
         {
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var projectsSpec = new ProjectExcelSpec(geospatialAreaTypes);
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var projectsSpec = new ProjectExcelSpec(geospatialAreaTypes, projectCustomAttributeTypes);
             var wsProjects = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectsSpec, projects);
 
             var workSheets = new List<IExcelWorkbookSheetDescriptor>

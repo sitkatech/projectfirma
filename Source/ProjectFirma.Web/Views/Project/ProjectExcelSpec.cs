@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProjectExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes)
+        public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.GetFullNameLastFirst());
@@ -43,7 +43,12 @@ namespace ProjectFirma.Web.Views.Project
                     AddColumn(ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(y), x => string.Join(",", x.ProjectClassifications.Where(z => z.Classification.ClassificationSystem == y).Select(tc => tc.Classification.GetDisplayName())));
                 });
 
-            
+            foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
+            {
+                AddColumn($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}",
+                    a => a.GetProjectCustomAttributesValue(projectCustomAttributeType));
+            }
+
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
                 AddColumn($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", x => string.Join(", ", x.ProjectGeospatialAreas.Where(y => y.GeospatialArea.GeospatialAreaType == geospatialAreaType).Select(y => y.GeospatialArea.GeospatialAreaName).ToList()));
