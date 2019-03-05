@@ -239,9 +239,10 @@
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -3016,9 +3017,6 @@
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\Generated\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
