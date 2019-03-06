@@ -44,12 +44,12 @@ namespace ProjectFirma.Web.Common
 
         public static readonly string PsInfoUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoUrl");
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
-
-        public static readonly string KeystoneUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUrl");
-        public static readonly string KeystoneRegisterUserUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneRegisterUserUrl");
+        
         public static readonly string KeystoneUserProfileUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUserProfileUrl");
         public static readonly Guid KeystoneWebServiceApplicationGuid = Guid.Parse(SitkaConfiguration.GetRequiredAppSetting("KeystoneWebServiceApplicationGuid"));
-       
+        
+        public static readonly string KeystoneOpenIDUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneOpenIDUrl");
+
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 
         public static readonly FirmaEnvironment FirmaEnvironment = FirmaEnvironment.MakeFirmaEnvironment(SitkaConfiguration.GetRequiredAppSetting("FirmaEnvironment"));

@@ -41,6 +41,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EnableAccomplishmentsDashboard).HasColumnName(@"EnableAccomplishmentsDashboard").HasColumnType("bit").IsRequired();
             Property(x => x.ProjectStewardshipAreaTypeID).HasColumnName(@"ProjectStewardshipAreaTypeID").HasColumnType("int").IsOptional();
             Property(x => x.EnableSecondaryProjectTaxonomyLeaf).HasColumnName(@"EnableSecondaryProjectTaxonomyLeaf").HasColumnType("bit").IsRequired();
+            Property(x => x.KeystoneOpenIDClientIdentifier).HasColumnName(@"KeystoneOpenIDClientIdentifier").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(256);
+            Property(x => x.KeystoneOpenIDClientSecret).HasColumnName(@"KeystoneOpenIDClientSecret").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(256);
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

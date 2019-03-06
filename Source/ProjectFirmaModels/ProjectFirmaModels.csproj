@@ -584,8 +584,8 @@
     <Reference Include="GeoJSON.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\GeoJSON.Net.1.1.70\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Keystone.Common.OpenID, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.7\lib\net45\Keystone.Common.OpenID.dll</HintPath>
+    <Reference Include="Keystone.Common.OpenID, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.10\lib\net45\Keystone.Common.OpenID.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -754,10 +754,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj">
-      <Project>{8792e614-c20e-41d6-bde4-bcb3178fc796}</Project>
-      <Name>Keystone.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">
       <Project>{c6586ad8-9357-4fa3-92ae-a2ed5eacdacc}</Project>
       <Name>LtInfo.Common</Name>

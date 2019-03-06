@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -57,12 +57,14 @@ namespace ProjectFirmaModels.Models
             this.EnableAccomplishmentsDashboard = enableAccomplishmentsDashboard;
             this.ProjectStewardshipAreaTypeID = projectStewardshipAreaTypeID;
             this.EnableSecondaryProjectTaxonomyLeaf = enableSecondaryProjectTaxonomyLeaf;
+            this.KeystoneOpenIDClientIdentifier = keystoneOpenIDClientIdentifier;
+            this.KeystoneOpenIDClientSecret = keystoneOpenIDClientSecret;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -81,12 +83,14 @@ namespace ProjectFirmaModels.Models
             this.ShowLeadImplementerLogoOnFactSheet = showLeadImplementerLogoOnFactSheet;
             this.EnableAccomplishmentsDashboard = enableAccomplishmentsDashboard;
             this.EnableSecondaryProjectTaxonomyLeaf = enableSecondaryProjectTaxonomyLeaf;
+            this.KeystoneOpenIDClientIdentifier = keystoneOpenIDClientIdentifier;
+            this.KeystoneOpenIDClientSecret = keystoneOpenIDClientSecret;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf) : this()
+        public TenantAttribute(DbGeometry defaultBoundingBox, int minimumYear, string tenantDisplayName, string toolDisplayName, bool showProposalsToThePublic, TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, bool isActive, bool projectExternalDataSourceEnabled, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TenantAttributeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -104,6 +108,8 @@ namespace ProjectFirmaModels.Models
             this.ShowLeadImplementerLogoOnFactSheet = showLeadImplementerLogoOnFactSheet;
             this.EnableAccomplishmentsDashboard = enableAccomplishmentsDashboard;
             this.EnableSecondaryProjectTaxonomyLeaf = enableSecondaryProjectTaxonomyLeaf;
+            this.KeystoneOpenIDClientIdentifier = keystoneOpenIDClientIdentifier;
+            this.KeystoneOpenIDClientSecret = keystoneOpenIDClientSecret;
         }
 
         /// <summary>
@@ -111,7 +117,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static TenantAttribute CreateNewBlank(TaxonomyLevel taxonomyLevel, TaxonomyLevel associatePerfomanceMeasureTaxonomyLevel, AccomplishmentsDashboardFundingDisplayType accomplishmentsDashboardFundingDisplayType)
         {
-            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool));
+            return new TenantAttribute(default(DbGeometry), default(int), default(string), default(string), default(bool), taxonomyLevel, associatePerfomanceMeasureTaxonomyLevel, default(bool), default(bool), accomplishmentsDashboardFundingDisplayType, default(bool), default(bool), default(bool), default(bool), default(string), default(string));
         }
 
         /// <summary>
@@ -191,6 +197,8 @@ namespace ProjectFirmaModels.Models
         public bool EnableAccomplishmentsDashboard { get; set; }
         public int? ProjectStewardshipAreaTypeID { get; set; }
         public bool EnableSecondaryProjectTaxonomyLeaf { get; set; }
+        public string KeystoneOpenIDClientIdentifier { get; set; }
+        public string KeystoneOpenIDClientSecret { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
@@ -210,6 +218,8 @@ namespace ProjectFirmaModels.Models
             public const int ToolDisplayName = 100;
             public const int RecaptchaPublicKey = 100;
             public const int RecaptchaPrivateKey = 100;
+            public const int KeystoneOpenIDClientIdentifier = 256;
+            public const int KeystoneOpenIDClientSecret = 256;
         }
     }
 }

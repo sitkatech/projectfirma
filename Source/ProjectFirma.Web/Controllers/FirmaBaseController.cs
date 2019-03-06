@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
             return CurrentPerson == null || CurrentPerson.IsAnonymousUser();
         }
 
-        protected override string LoginUrl => FirmaHelpers.GenerateLogInUrlWithReturnUrl();
+        protected override string LoginUrl => FirmaHelpers.GenerateLogInUrl();
 
         protected override ISitkaDbContext SitkaDbContext => HttpRequestStorage.DatabaseEntities;
 
