@@ -11,8 +11,6 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 	[IsRequired] [bit] NOT NULL,
 	[ProjectCustomAttributeTypeDescription] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectCustomAttributeTypeOptionsSchema] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[EditableByRoleID] [int] NULL,
-	[ViewableByRoleID] [int] NULL,
 	[IncludeInNtaGrid] [bit] NULL,
  CONSTRAINT [PK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] PRIMARY KEY CLUSTERED 
 (
@@ -29,16 +27,6 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttribute_RoleID_EditableByRoleID_RoleID] FOREIGN KEY([EditableByRoleID])
-REFERENCES [dbo].[Role] ([RoleID])
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttribute_RoleID_EditableByRoleID_RoleID]
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttribute_RoleID_ViewableByRoleID_RoleID] FOREIGN KEY([ViewableByRoleID])
-REFERENCES [dbo].[Role] ([RoleID])
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttribute_RoleID_ViewableByRoleID_RoleID]
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_MeasurementUnitType_MeasurementUnitTypeID] FOREIGN KEY([MeasurementUnitTypeID])
 REFERENCES [dbo].[MeasurementUnitType] ([MeasurementUnitTypeID])

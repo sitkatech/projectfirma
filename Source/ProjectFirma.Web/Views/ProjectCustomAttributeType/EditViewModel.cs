@@ -2,11 +2,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Security;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
@@ -38,15 +40,20 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
         public string ProjectCustomAttributeTypeDesription { get; set; }
 
-        [DisplayName("Editable By")]
-        public int? ProjectCustomAttributeEditableBy { get; set; }
-
-        [DisplayName("Viewable By")]
-        public int? ProjectCustomAttributeViewableBy { get; set; }
-
+        [DisplayName("Normal")]
+        public bool EditableByNormal { get; set; }
+        [DisplayName("Project Steward")]
+        public bool EditableByProjectSteward { get; set; }
+        [DisplayName("Unassigned")]
+        public bool ViewableByUnassigned { get; set; }
+        [DisplayName("Normal")]
+        public bool ViewableByNormal { get; set; }
+        [DisplayName("Project Steward")]
+        public bool ViewableByProjectSteward { get; set; }
         [DisplayName("Include in NTA Grid?")]
         public bool? ProjectCustomAttributeIncludeInNtaGrid { get; set; }
-        
+
+
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -64,8 +71,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema;
             IsRequired = projectCustomAttributeType.IsRequired;
             ProjectCustomAttributeTypeDesription = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
-            ProjectCustomAttributeEditableBy = projectCustomAttributeType.EditableByRoleID;
-            ProjectCustomAttributeViewableBy = projectCustomAttributeType.ViewableByRoleID;
             ProjectCustomAttributeIncludeInNtaGrid = projectCustomAttributeType.IncludeInNtaGrid;
 
 
@@ -79,8 +84,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
-            projectCustomAttributeType.EditableByRoleID = ProjectCustomAttributeEditableBy;
-            projectCustomAttributeType.ViewableByRoleID = ProjectCustomAttributeViewableBy;
             projectCustomAttributeType.IncludeInNtaGrid = ProjectCustomAttributeIncludeInNtaGrid;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
@@ -94,6 +97,26 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             {
                 projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema = null;
             }
+
+            var newProjectCustomAttributeTypeRoles = new List<ProjectCustomAttributeTypeRole>();
+            if (this.EditableByNormal == true)
+            {
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType,ProjectFirmaModels.Models.Role.Normal, ProjectCustomAttributeTypeRolePermissionType.Edit));
+            }
+            if (this.EditableByProjectSteward == true) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType, ProjectFirmaModels.Models.Role.ProjectSteward, ProjectCustomAttributeTypeRolePermissionType.Edit));
+            }
+            if (this.ViewableByUnassigned == true) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType, ProjectFirmaModels.Models.Role.Unassigned, ProjectCustomAttributeTypeRolePermissionType.View));
+            }
+            if (this.ViewableByNormal == true) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType, ProjectFirmaModels.Models.Role.Normal, ProjectCustomAttributeTypeRolePermissionType.View));
+            }
+            if (this.ViewableByProjectSteward == true) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType, ProjectFirmaModels.Models.Role.ProjectSteward, ProjectCustomAttributeTypeRolePermissionType.View));
+            }
+
+            projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Merge(newProjectCustomAttributeTypeRoles, HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Local, (x, y) => x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID && x.RoleID == y.RoleID && x.ProjectCustomAttributeTypeRolePermissionTypeID == y.ProjectCustomAttributeTypeRolePermissionTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

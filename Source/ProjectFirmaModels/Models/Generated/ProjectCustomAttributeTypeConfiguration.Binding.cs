@@ -23,8 +23,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.IsRequired).HasColumnName(@"IsRequired").HasColumnType("bit").IsRequired();
             Property(x => x.ProjectCustomAttributeTypeDescription).HasColumnName(@"ProjectCustomAttributeTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
             Property(x => x.ProjectCustomAttributeTypeOptionsSchema).HasColumnName(@"ProjectCustomAttributeTypeOptionsSchema").HasColumnType("varchar").IsOptional();
-            Property(x => x.EditableByRoleID).HasColumnName(@"EditableByRoleID").HasColumnType("int").IsOptional();
-            Property(x => x.ViewableByRoleID).HasColumnName(@"ViewableByRoleID").HasColumnType("int").IsOptional();
             Property(x => x.IncludeInNtaGrid).HasColumnName(@"IncludeInNtaGrid").HasColumnType("bit").IsOptional();
 
             // Foreign keys

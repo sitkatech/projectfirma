@@ -22,8 +22,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public IEnumerable<SelectListItem> YesNos { get; }
         public EditViewDataForAngular ViewDataForAngular { get; }
 
-        public IEnumerable<SelectListItem> EditableByRoleID { get; }
-        public IEnumerable<SelectListItem> ViewableByRoleID { get; }
         public bool IncludeInNtaGrids { get; }
 
         public EditViewData(Person currentPerson,
@@ -48,9 +46,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeTypeIndexUrl =
                 SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
-
-            EditableByRoleID = roles.OrderBy(x => x.RoleName).Where(x => x != ProjectFirmaModels.Models.Role.Admin && x != ProjectFirmaModels.Models.Role.SitkaAdmin).ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleName);
-            ViewableByRoleID = roles.OrderBy(x => x.RoleName).Where(x => x != ProjectFirmaModels.Models.Role.Admin && x != ProjectFirmaModels.Models.Role.SitkaAdmin).ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.RoleName);
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentPerson);
 

@@ -90,8 +90,11 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.UnfundedNeed.ToType().ToGridHeaderString(), x => x.UnfundedNeed(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
             {
-                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}",
-                   a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+                if (!projectCustomAttributeType.IncludeInNtaGrid.HasValue ||
+                    projectCustomAttributeType.IncludeInNtaGrid.Value)
+                {
+                    Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150,DhtmlxGridColumnFilterType.Text);
+                }
             }
             foreach (var geospatialAreaType in geospatialAreaTypes)
             {
