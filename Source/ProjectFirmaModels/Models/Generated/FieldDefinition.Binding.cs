@@ -219,6 +219,8 @@ namespace ProjectFirmaModels.Models
         ProjectStewardshipArea = 267,
         ProjectInternalNote = 268,
         SecondaryProjectTaxonomyLeaf = 269,
-        ProjectPrimaryContactEmail = 270
+        ProjectPrimaryContactEmail = 270,
+        ProjectCustomAttributeTypeEditableBy = 271,
+        ProjectCustomAttributeTypeViewableBy = 272
     }
 }

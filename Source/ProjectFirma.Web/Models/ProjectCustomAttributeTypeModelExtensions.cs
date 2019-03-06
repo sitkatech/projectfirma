@@ -2,9 +2,12 @@
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -42,6 +45,41 @@ namespace ProjectFirma.Web.Models
             return new HtmlString(customAttributeTypViewableRoles.Any()
                 ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.RoleDisplayName))
                 : ViewUtilities.NoAnswerProvided);
+        }
+
+        public static HtmlString GetDetailUrlByPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            bool hasPermission = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x=>x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x=>x.Role).Contains(currentPerson.Role) ||
+                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+            if (hasPermission)
+            {
+                return UrlTemplate.MakeHrefString(projectCustomAttributeType.GetDetailUrl(), projectCustomAttributeType.ProjectCustomAttributeTypeName);
+            }
+            else
+            {
+                return new HtmlString(projectCustomAttributeType.ProjectCustomAttributeTypeName);
+            }
+        }
+
+        public static HtmlString GetEditIconByPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            if (projectCustomAttributeType.HasEditPermission(currentPerson))
+            {
+                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
+                    new ModalDialogForm(GetEditUrl(projectCustomAttributeType), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute"));
+            }
+            else
+            {
+                return  new HtmlString(ViewUtilities.NaString);
+            }
+        }
+
+        public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
+                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
         }
     }
 }

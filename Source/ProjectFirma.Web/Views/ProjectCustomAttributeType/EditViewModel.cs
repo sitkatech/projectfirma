@@ -40,15 +40,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
         public string ProjectCustomAttributeTypeDesription { get; set; }
 
-        [DisplayName("Normal")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.NormalUser)]
         public bool EditableByNormal { get; set; }
-        [DisplayName("Project Steward")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool EditableByProjectSteward { get; set; }
         [DisplayName("Unassigned")]
         public bool ViewableByUnassigned { get; set; }
-        [DisplayName("Normal")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.NormalUser)]
         public bool ViewableByNormal { get; set; }
-        [DisplayName("Project Steward")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool ViewableByProjectSteward { get; set; }
         [DisplayName("Include in NTA Grid?")]
         public bool? ProjectCustomAttributeIncludeInNtaGrid { get; set; }

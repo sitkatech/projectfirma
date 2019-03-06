@@ -94,4 +94,6 @@ VALUES
 (267, N'ProjectStewardshipArea', N'Project Stewardship Area', 'Indicates which attribute of a project is used to determine if a Project Steward is permitted to edit that project.'),
 (268, N'ProjectInternalNote', N'Internal Note', N'<p>Any important information about a project that should only be visible to Administrators.</p>'),
 (269, N'SecondaryProjectTaxonomyLeaf', N'Secondary Project Taxonomy Leaf', N''),
-(270, N'ProjectPrimaryContactEmail', N'Project Primary Contact Email', N'<p>The email of the individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>')
+(270, N'ProjectPrimaryContactEmail', N'Project Primary Contact Email', N'<p>The email of the individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>'),
+(271, N'ProjectCustomAttributeTypeEditableBy', 'Project Custom Attribute Type Editable By' , N''),
+(272, N'ProjectCustomAttributeTypeViewableBy', 'Project Custom Attribute Type Viewable By', N'')

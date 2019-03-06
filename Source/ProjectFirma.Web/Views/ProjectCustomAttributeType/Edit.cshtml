@@ -142,22 +142,21 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-3 control-label">
-                        <strong>Editable By</strong>
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.ProjectCustomAttributeTypeEditableBy.ToType())
                     </div>
                     <div class="col-sm-9">
-                        @Html.CheckBoxFor(x => x.EditableByNormal) @Html.LabelFor(x => x.EditableByNormal, true)
-                        @Html.CheckBoxFor(x => x.EditableByProjectSteward) @Html.LabelFor(x => x.EditableByProjectSteward, true)
+                        @Html.CheckBoxFor(x => x.EditableByNormal) @Html.LabelFor(x => x.EditableByNormal, new {style = "font-weight : normal; padding-right : 10px;"})
+                        @Html.CheckBoxFor(x => x.EditableByProjectSteward) @Html.LabelFor(x => x.EditableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-3 control-label">                       
-                        <strong>Viewable By</strong>
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType())
                     </div>
                     <div class="col-sm-9">
-                        @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned,true)
-                        @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, true)
-                        @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, true)
-
+                        @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
                     </div>
                 </div>
                 <div class="form-group">
