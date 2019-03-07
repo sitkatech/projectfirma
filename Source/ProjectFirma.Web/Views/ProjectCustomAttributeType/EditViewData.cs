@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common;
@@ -21,9 +22,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public IEnumerable<SelectListItem> YesNos { get; }
         public EditViewDataForAngular ViewDataForAngular { get; }
 
+        public bool IncludeInNtaGrids { get; }
+
         public EditViewData(Person currentPerson,
             IEnumerable<MeasurementUnitType> measurementUnitTypes,
             List<ProjectCustomAttributeDataType> projectCustomAttributeDataTypes,
+            List<ProjectFirmaModels.Models.Role> roles,
             string submitUrl,
             ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
             ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)

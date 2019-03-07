@@ -18,15 +18,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             : base(currentPerson, neptunePage)
         {
             EntityName = "Attribute Type";
-            PageTitle = "All Attribute Types";
+            PageTitle = "Manage Custom Attributes";
 
             NewProjectCustomAttributeTypeUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(t => t.New());
-            GridSpec = new ProjectCustomAttributeTypeGridSpec
+            GridSpec = new ProjectCustomAttributeTypeGridSpec()
             {
                 ObjectNameSingular = "Attribute Type",
                 ObjectNamePlural = "Attribute Types",
                 SaveFiltersInCookie = true
-            };
+        };
 
             GridName = "projectCustomAttributeTypeGrid";
             GridDataUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(tc => tc.ProjectCustomAttributeTypeGridJsonData());

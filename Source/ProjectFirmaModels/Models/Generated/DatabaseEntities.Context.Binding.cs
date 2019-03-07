@@ -90,6 +90,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectClassificationConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
@@ -231,6 +232,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
         public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeTypeRole> ProjectCustomAttributeTypeRoles { get; set; }
         public virtual DbSet<ProjectCustomAttributeType> AllProjectCustomAttributeTypes { get; set; }
         public virtual IQueryable<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get { return AllProjectCustomAttributeTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeUpdate> AllProjectCustomAttributeUpdates { get; set; }
@@ -555,6 +557,14 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectCustomAttribute":
                     return ProjectCustomAttributes.GetProjectCustomAttribute(primaryKey);
+
+                case "ProjectCustomAttributeTypeRolePermissionType":
+                    var projectCustomAttributeTypeRolePermissionType = ProjectCustomAttributeTypeRolePermissionType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomAttributeTypeRolePermissionType, "ProjectCustomAttributeTypeRolePermissionType", primaryKey);
+                    return projectCustomAttributeTypeRolePermissionType;
+
+                case "ProjectCustomAttributeTypeRole":
+                    return ProjectCustomAttributeTypeRoles.GetProjectCustomAttributeTypeRole(primaryKey);
 
                 case "ProjectCustomAttributeType":
                     return ProjectCustomAttributeTypes.GetProjectCustomAttributeType(primaryKey);

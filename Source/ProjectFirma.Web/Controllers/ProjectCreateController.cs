@@ -234,7 +234,7 @@ namespace ProjectFirma.Web.Controllers
             var instructionsPageUrl = newProjectIsHistoric
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
@@ -267,7 +267,7 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
             var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs,

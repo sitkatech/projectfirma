@@ -1,6 +1,13 @@
-﻿using LtInfo.Common;
+﻿using System;
+using System.Linq;
+using System.Web;
+using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -23,5 +30,35 @@ namespace ProjectFirma.Web.Models
         public static string GetEditUrl(this ProjectCustomAttributeType projectCustomAttributeType) => EditUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
         public static string GetDetailUrl(this ProjectCustomAttributeType projectCustomAttributeType) => DetailUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
         public static string GetDescriptionUrl(this ProjectCustomAttributeType projectCustomAttributeType) => DescriptionUrlTemplate.ParameterReplace(projectCustomAttributeType.ProjectCustomAttributeTypeID);
+
+        public static HtmlString GetEditableRoles(this ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            var customAttributeTypeEditableRoles = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID).ToList();
+            return new HtmlString(customAttributeTypeEditableRoles.Any() 
+                ? String.Join(", ", customAttributeTypeEditableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role.GetRoleDisplayName()).ToList()) 
+                : ViewUtilities.NoAnswerProvided);
+        }
+
+        public static HtmlString GetViewableRoles(this ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            var customAttributeTypViewableRoles = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID).ToList();
+            return new HtmlString(customAttributeTypViewableRoles.Any()
+                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.GetRoleDisplayName()).ToList())
+                : ViewUtilities.NoAnswerProvided);
+        }
+
+        public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
+                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+        }
+
+        public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role).Contains(currentPerson.Role) ||
+                   new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+        }
     }
 }

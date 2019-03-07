@@ -26,8 +26,8 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<ProjectCustomAttributeType> ProjectCustomAttributeTypeGridJsonData()
         {
-            var gridSpec = new ProjectCustomAttributeTypeGridSpec();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
+            var gridSpec = new ProjectCustomAttributeTypeGridSpec();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectCustomAttributeType>(projectCustomAttributeTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID)
                 ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID))
                 : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
-            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All,
+            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, Role.All, 
                 submitUrl, instructionsFirmaPage, projectCustomAttributeType);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
