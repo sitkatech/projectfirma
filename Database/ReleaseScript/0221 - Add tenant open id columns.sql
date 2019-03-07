@@ -15,7 +15,7 @@ set KeystoneOpenIDClientIdentifier = 'RCDProjectTracker'
 where TenantID = 3
 
 update dbo.TenantAttribute
-set KeystoneOpenIDClientIdentifier = 'IdahoAssociatonOfSoilConservationDistricts'
+set KeystoneOpenIDClientIdentifier = 'InternationYearOfTheSalmon'
 where TenantID = 4
 
 update dbo.TenantAttribute
@@ -49,3 +49,14 @@ join Keystone.dbo.Client c on t.KeystoneOpenIDClientIdentifier = c.ClientIdentif
 
 alter table dbo.TenantAttribute alter column KeystoneOpenIDClientIdentifier varchar(256) not null
 alter table dbo.TenantAttribute alter column KeystoneOpenIDClientSecret varchar(256) not null
+
+
+
+--select * from dbo.Tenant
+
+--select 
+--	c.ClientIdentifier,
+--	c.ClientSecret, 
+--	ta.TenantDisplayName
+--from Keystone.dbo.Client c
+--left join ProjectFirma.dbo.TenantAttribute ta on c.ClientIdentifier = ta.KeystoneOpenIDClientIdentifier
