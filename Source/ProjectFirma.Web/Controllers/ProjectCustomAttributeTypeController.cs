@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ProjectCustomAttributeType> ProjectCustomAttributeTypeGridJsonData()
         {
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
-            var gridSpec = new ProjectCustomAttributeTypeGridSpec(CurrentPerson);
+            var gridSpec = new ProjectCustomAttributeTypeGridSpec();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectCustomAttributeType>(projectCustomAttributeTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }

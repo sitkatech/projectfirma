@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             PageTitle = "Manage Custom Attributes";
 
             NewProjectCustomAttributeTypeUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(t => t.New());
-            GridSpec = new ProjectCustomAttributeTypeGridSpec(currentPerson)
+            GridSpec = new ProjectCustomAttributeTypeGridSpec()
             {
                 ObjectNameSingular = "Attribute Type",
                 ObjectNamePlural = "Attribute Types",
