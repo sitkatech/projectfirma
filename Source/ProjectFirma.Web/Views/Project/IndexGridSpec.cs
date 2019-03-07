@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views.Project
             foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
             {
                 if (!projectCustomAttributeType.IncludeInNtaGrid.HasValue ||
-                    projectCustomAttributeType.IncludeInNtaGrid.Value)
+                    projectCustomAttributeType.IncludeInNtaGrid.Value  || projectCustomAttributeType.HasViewPermission(currentPerson))
                 {
                     Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150,DhtmlxGridColumnFilterType.Text);
                 }

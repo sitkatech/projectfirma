@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Models
         {
             var customAttributeTypeEditableRoles = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID).ToList();
             return new HtmlString(customAttributeTypeEditableRoles.Any() 
-                ? String.Join(", ", customAttributeTypeEditableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role.RoleDisplayName)) 
+                ? String.Join(", ", customAttributeTypeEditableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role.GetRoleDisplayName()).ToList()) 
                 : ViewUtilities.NoAnswerProvided);
         }
 
@@ -43,42 +43,21 @@ namespace ProjectFirma.Web.Models
         {
             var customAttributeTypViewableRoles = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID).ToList();
             return new HtmlString(customAttributeTypViewableRoles.Any()
-                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.RoleDisplayName))
+                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
-        }
-
-        public static HtmlString GetDetailUrlByPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
-        {
-            bool hasPermission = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x=>x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x=>x.Role).Contains(currentPerson.Role) ||
-                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
-            if (hasPermission)
-            {
-                return UrlTemplate.MakeHrefString(projectCustomAttributeType.GetDetailUrl(), projectCustomAttributeType.ProjectCustomAttributeTypeName);
-            }
-            else
-            {
-                return new HtmlString(projectCustomAttributeType.ProjectCustomAttributeTypeName);
-            }
-        }
-
-        public static HtmlString GetEditIconByPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
-        {
-            if (projectCustomAttributeType.HasEditPermission(currentPerson))
-            {
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
-                    new ModalDialogForm(GetEditUrl(projectCustomAttributeType), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute"));
-            }
-            else
-            {
-                return  new HtmlString(ViewUtilities.NaString);
-            }
         }
 
         public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
         {
             return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
                                  new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+        }
+
+        public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        {
+            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role).Contains(currentPerson.Role) ||
+                   new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
 
         }
     }

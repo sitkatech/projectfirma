@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using LtInfo.Common;
+﻿using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
@@ -12,21 +10,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 {
     public class ProjectCustomAttributeTypeGridSpec : GridSpec<ProjectFirmaModels.Models.ProjectCustomAttributeType>
     {
-        public ProjectCustomAttributeTypeGridSpec(Person currentPerson)
+        public ProjectCustomAttributeTypeGridSpec()
         {
 
-
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => x.GetEditIconByPermission(currentPerson), 30, DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.ProjectCustomAttribute.ToType().ToGridHeaderString(),
-                        a => a.GetDetailUrlByPermission(currentPerson), 200,
-                        DhtmlxGridColumnFilterType.Html);
+            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, DhtmlxGridColumnFilterType.None);           
+            Add(FieldDefinitionEnum.ProjectCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ProjectCustomAttributeTypeName), 200, DhtmlxGridColumnFilterType.Html);
             Add("Description", a => a.ProjectCustomAttributeTypeDescription, 300);
             Add(FieldDefinitionEnum.ProjectCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString(), a => a.GetMeasurementUnitDisplayName(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Required?", a => a.IsRequired.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Editable By", x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Viewable By", a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Required?", a => a.IsRequired.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Editable By", x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Viewable By", a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Include In NTA Grid?", a => a.IncludeInNtaGrid?.ToYesNo() ?? ViewUtilities.NoAnswerProvided, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }

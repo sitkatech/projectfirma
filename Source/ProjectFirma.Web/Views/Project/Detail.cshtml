@@ -151,33 +151,37 @@
                                 </div>
                                 <div class="panel-body">
                                     <dl class="dl-horizontal">
+                                        
                                         @foreach (var projectCustomAttributeType in ViewDataTyped.ProjectCustomAttributeTypes)
                                         {
                                             var projectCustomAttribute = ViewDataTyped.Project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-                                        <dt style="white-space: normal;">
-                                            @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
-                                            {
-                                                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
-                                            }
-                                            @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                                        </dt>
-                                            <dd>
-                                                @if (projectCustomAttribute != null)
+
+                                            if (projectCustomAttributeType.HasViewPermission(ViewDataTyped.CurrentPerson)) { 
+                                            <dt style="white-space: normal;">
+                                                @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                                                 {
-                                                    if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                                    @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+                                                }
+                                                @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                                            </dt>
+                                                <dd>
+                                                    @if (projectCustomAttribute != null)
                                                     {
-                                                        @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
+                                                        if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                                        {
+                                                            @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
+                                                        }
+                                                        else
+                                                        {
+                                                            @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
+                                                        }
                                                     }
                                                     else
                                                     {
-                                                        @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
+                                                        <em class="text-muted">None</em>
                                                     }
-                                                }
-                                                else
-                                                {
-                                                    <em class="text-muted">None</em>
-                                                }
-                                            </dd>
+                                                </dd>
+                                            }
                                         }
                                     </dl>
                                 </div>

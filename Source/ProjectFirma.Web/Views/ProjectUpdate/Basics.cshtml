@@ -198,9 +198,13 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         }
     }
-    <hr/>
-    <h4>Additional Attributes</h4>
-    @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8})
+    @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
+    {
+        <hr/>
+        <h4>Additional Attributes</h4>
+    }
+
+    @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, currentPerson = ViewDataTyped.CurrentPerson})
 </div>
 
     if (ViewDataTyped.IsEditable)
