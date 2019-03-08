@@ -46,9 +46,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             }
             if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
             {
-                Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.GetDetailUrl(), a.TaxonomyBranch.TaxonomyBranchName), 300);
+                Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.GetDetailUrl(), a.GetTaxonomyBranchCodeAndName()), 300);
             }
-            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.TaxonomyLeafName), 350, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyLeafCodeAndName()), 350, DhtmlxGridColumnFilterType.Html);
             Add("Description", a => a.TaxonomyLeafDescriptionHtmlString, 0);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
