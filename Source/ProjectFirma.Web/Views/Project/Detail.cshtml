@@ -156,7 +156,6 @@
                                         {
                                             var projectCustomAttribute = ViewDataTyped.Project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
 
-                                            if (projectCustomAttributeType.HasViewPermission(ViewDataTyped.CurrentPerson)) { 
                                             <dt style="white-space: normal;">
                                                 @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                                                 {
@@ -164,24 +163,23 @@
                                                 }
                                                 @projectCustomAttributeType.ProjectCustomAttributeTypeName
                                             </dt>
-                                                <dd>
-                                                    @if (projectCustomAttribute != null)
+                                            <dd>
+                                                @if (projectCustomAttribute != null)
+                                                {
+                                                    if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
                                                     {
-                                                        if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
-                                                        {
-                                                            @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
-                                                        }
-                                                        else
-                                                        {
-                                                            @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
-                                                        }
+                                                        @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
                                                     }
                                                     else
                                                     {
-                                                        <em class="text-muted">None</em>
+                                                        @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
                                                     }
-                                                </dd>
-                                            }
+                                                }
+                                                else
+                                                {
+                                                    <em class="text-muted">None</em>
+                                                }
+                                            </dd>
                                         }
                                     </dl>
                                 </div>
