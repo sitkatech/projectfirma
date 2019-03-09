@@ -305,32 +305,45 @@ span.keyPhotoButton label {
         color: @firma-navText-color;
     }
 }
-    // Footer
-    footer#footer {
-        position: relative;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: auto;
-        background-color: @firma-footerBackground-color;
-        color: @firma-footerText-color;
 
-        p {
-            margin: 10px 0;
-            font-size: 12px;
-        }
+//Project FactSheet
+.factSheet .projectTaxonomy {
+    background-color: @PrimaryBlue !important;
 
+}
+.factSheet .headerPanel h2 {
+    color: @PrimaryBlue !important;
+}
 
-        a, a:visited {
-            color: @firma-footerLink-color;
-        }
+.factSheet .headerPanel {
+    border-left-color: @PrimaryBlue !important;
+}
+// Footer
+footer#footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    background-color: @firma-footerBackground-color;
+    color: @firma-footerText-color;
 
-        a:hover {
-            color: @firma-footerLink-color-hover;
-            text-decoration: underline;
-        }
+    p {
+        margin: 10px 0;
+        font-size: 12px;
     }
+
+
+    a, a:visited {
+        color: @firma-footerLink-color;
+    }
+
+    a:hover {
+        color: @firma-footerLink-color-hover;
+        text-decoration: underline;
+    }
+}
     // buttons
     .btn-firma, .form-dialog .ui-widget-content .btn-firma, .firma-modal-dialog .btn-firma {
         font-size: 14px;
