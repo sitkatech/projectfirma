@@ -95,5 +95,5 @@ VALUES
 (268, N'ProjectInternalNote', N'Internal Note', N'<p>Any important information about a project that should only be visible to Administrators.</p>'),
 (269, N'SecondaryProjectTaxonomyLeaf', N'Secondary Project Taxonomy Leaf', N''),
 (270, N'ProjectPrimaryContactEmail', N'Project Primary Contact Email', N'<p>The email of the individual responsible for reporting accomplishments and expenditures achieved by the project, and who should be contacted when there are questions related to the project.</p>'),
-(271, N'ProjectCustomAttributeTypeEditableBy', 'Project Custom Attribute Type Editable By' , N''),
-(272, N'ProjectCustomAttributeTypeViewableBy', 'Project Custom Attribute Type Viewable By', N'')
+(271, N'ProjectCustomAttributeTypeEditableBy', 'Editable By' , N'This field definition is in reference to who can edit a specific custom attribute, Admins and Sitka Admins can edit any custom attribute'),
+(272, N'ProjectCustomAttributeTypeViewableBy', 'Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute')
