@@ -192,5 +192,16 @@ namespace ProjectFirma.Web.Models
             };
             return fancyTreeNode;
         }
+
+        public static string GetTaxonomyLeafCodeAndName(this TaxonomyLeaf taxonomyLeaf)
+        {
+            return taxonomyLeaf.TaxonomyLeafCode + ": " + taxonomyLeaf.TaxonomyLeafName;
+        }
+
+        public static string GetTaxonomyBranchCodeAndName(this TaxonomyLeaf taxonomyLeaf)
+        {
+            return taxonomyLeaf.TaxonomyBranch.TaxonomyBranchCode + ": " +
+                   taxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
+        }
     }
 }

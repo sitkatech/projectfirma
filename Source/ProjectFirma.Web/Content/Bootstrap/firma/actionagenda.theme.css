@@ -2,7 +2,7 @@
   font-family: 'Fira Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Fira Sans Regular'), local('FiraSans-Regular'), url(https://fonts.gstatic.com/s/firasans/v8/va9E4kDNxMZdWfMOD5Vvl4jO.ttf) format('truetype');
+  src: local('Fira Sans Regular'), local('FiraSans-Regular'), url(https://fonts.gstatic.com/s/firasans/v9/va9E4kDNxMZdWfMOD5Vvl4jO.ttf) format('truetype');
 }
 html,
 body {
@@ -186,6 +186,15 @@ span.keyPhotoButton label {
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
   color: #013d5b;
+}
+.factSheet .projectTaxonomy {
+  background-color: #013d5b !important;
+}
+.factSheet .headerPanel h2 {
+  color: #013d5b !important;
+}
+.factSheet .headerPanel {
+  border-left-color: #013d5b !important;
 }
 footer#footer {
   position: relative;
