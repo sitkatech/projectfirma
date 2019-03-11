@@ -144,6 +144,8 @@
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cs" />
+    <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -1336,6 +1338,7 @@
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreas.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialArea.cs" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewData.cs" />
+    <Content Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

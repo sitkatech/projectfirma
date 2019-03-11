@@ -36,6 +36,7 @@
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
+@using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 @inherits ProjectFirma.Web.Views.Project.Detail
 
 @section JavascriptAndStylesContent
@@ -61,6 +62,10 @@
     }
     #editLocationDropdownButton:focus {
         text-decoration: none;
+    }
+    dt.projectCustomAttributes {
+        white-space: normal;
+        text-align: left;
     }
 </style>
 
@@ -141,51 +146,19 @@
                                 @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
                             </div>
                         </div>
-                        @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
-                        {
-                            <div class="panel panelFirma">
-                                <div class="panel-heading panelTitle">
-                                    <h3>
-                                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
-                                    </h3>
-                                </div>
-                                <div class="panel-body">
-                                    <dl class="dl-horizontal">
-                                        
-                                        @foreach (var projectCustomAttributeType in ViewDataTyped.ProjectCustomAttributeTypes)
-                                        {
-                                            var projectCustomAttribute = ViewDataTyped.Project.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-
-                                            <dt style="white-space: normal;">
-                                                @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
-                                                {
-                                                    @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
-                                                }
-                                                @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                                            </dt>
-                                            <dd>
-                                                @if (projectCustomAttribute != null)
-                                                {
-                                                    if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
-                                                    {
-                                                        @ViewDataTyped.StringToDateString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue)
-                                                    }
-                                                    else
-                                                    {
-                                                        @(string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue)))
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <em class="text-muted">None</em>
-                                                }
-                                            </dd>
-                                        }
-                                    </dl>
-                                </div>
+                    @if (ViewDataTyped.DisplayProjectCustomAttributeTypesViewData.ProjectCustomAttributeTypes.Any())
+                    {
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3>
+                                    @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
+                                </h3>
                             </div>
-                        }
-
+                            <div class="panel-body">
+                                @{ProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);}
+                            </div>
+                        </div>
+                    }
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div class="panel panelFirma">
@@ -221,7 +194,7 @@
                             </div>
                         </div>
                         @if (ViewDataTyped.UserHasProjectAdminPermissions)
-                                        {
+                            {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>Tags</h3>

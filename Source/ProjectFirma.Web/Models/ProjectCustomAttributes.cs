@@ -21,19 +21,7 @@ namespace ProjectFirmaModels.Models
 
         public ProjectCustomAttributes(IProject project)
         {
-            Attributes = project.GetProjectCustomAttributes()
-                .Select(x => new ProjectCustomAttributeSimple
-                {
-                    ProjectCustomAttributeTypeID = x.ProjectCustomAttributeTypeID,
-                    ProjectCustomAttributeValues = x.GetCustomAttributeValues()
-                        .Select(y =>
-                            y.GetIProjectCustomAttribute().ProjectCustomAttributeType.ProjectCustomAttributeDataType ==
-                            ProjectCustomAttributeDataType.DateTime
-                                ? DateTime.Parse(y.AttributeValue).ToShortDateString()
-                                : y.AttributeValue)
-                        .ToList()
-                })
-                .ToList();
+            Attributes = project.GetProjectCustomAttributes().Select(x => new ProjectCustomAttributeSimple(x)).ToList();
         }
 
         public void UpdateModel(Project project, Person currentPerson)

@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public bool ViewableByProjectSteward { get; set; }
         [Required]
         [DisplayName("Include in NTA Grid?")]
-        public bool? ProjectCustomAttributeIncludeInNtaGrid { get; set; }
+        public bool ProjectCustomAttributeIncludeInNtaGrid { get; set; }
 
 
 

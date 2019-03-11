@@ -28,6 +28,17 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @inherits Basics
 
+<style>
+    dt.projectCustomAttributes {
+        white-space: normal;
+        width: 265px;
+    }
+
+    dd.projectCustomAttributes {
+        margin-left: 295px;
+    }
+</style>
+
 @section JavascriptAndStylesContent
 {
     @if (ViewDataTyped.IsEditable)
@@ -141,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
-    @if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.Capital)
+    @if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.Capital)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
@@ -160,7 +171,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     }
-    else if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
+    else if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
@@ -200,11 +211,19 @@ Source code is available upon request via <support@sitkatech.com>.
     }
     @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
     {
-        <hr/>
+        <hr />
         <h4>Additional Attributes</h4>
+        if (ViewDataTyped.IsEditable)
+        {
+            @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, currentPerson = ViewDataTyped.CurrentPerson })
+        }
+        else
+        {
+            ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);
+        }
     }
 
-    @Html.EditorFor(m => m.ProjectCustomAttributes, new {ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, currentPerson = ViewDataTyped.CurrentPerson})
+
 </div>
 
     if (ViewDataTyped.IsEditable)

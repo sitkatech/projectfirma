@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public int? OldProjectStageID { get; set; }
 
-        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
+        public ProjectFirmaModels.Models.ProjectCustomAttributes ProjectCustomAttributes { get; set; }
 
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
-            ProjectCustomAttributes = new ProjectCustomAttributes(project);
+            ProjectCustomAttributes = new ProjectFirmaModels.Models.ProjectCustomAttributes(project);
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
