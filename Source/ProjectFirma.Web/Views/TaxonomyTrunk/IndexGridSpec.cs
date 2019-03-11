@@ -44,6 +44,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
             Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
             Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, DhtmlxGridColumnFormatType.None);
+            Add(FieldDefinitionEnum.TaxonomyTrunkDescription.ToType().ToGridHeaderString(),
+                a => a.TaxonomyTrunkDescriptionHtmlString, 200,
+                DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
         }
     }
 }
