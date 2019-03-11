@@ -55,5 +55,10 @@ namespace ProjectFirma.Web.Models
         {
             return UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName());
         }
+
+        public static string GetTaxonomyBranchCodeAndName(this TaxonomyBranch taxonomyBranch)
+        {
+            return taxonomyBranch.TaxonomyBranchCode + ": " + taxonomyBranch.TaxonomyBranchName;
+        }
     }
 }
