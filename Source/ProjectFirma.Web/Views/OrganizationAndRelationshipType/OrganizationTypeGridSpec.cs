@@ -45,11 +45,11 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             }
 
             Add($"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} Name", a => a.OrganizationTypeName, 240);
-            Add("Abbreviation", a => a.OrganizationTypeAbbreviation, 200);
-            Add("Is Default?", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
-            Add("Is Funding Type?", a => a.IsFundingType.ToCheckboxImageOrEmptyForGrid(), 80);
+            Add($"{FieldDefinitionEnum.OrganizationTypeAbbreviation.ToType().ToGridHeaderString()}", a => a.OrganizationTypeAbbreviation, 200);
+            Add($"{FieldDefinitionEnum.IsDefaultOrganizationType.ToType().ToGridHeaderString()}", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
+            Add($"{FieldDefinitionEnum.IsFundingType.ToType().ToGridHeaderString()}", a => a.IsFundingType.ToCheckboxImageOrEmptyForGrid(), 80);
             Add($"Show on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
-            Add("Legend Color", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
+            Add($"{FieldDefinitionEnum.LegendColor.ToType().ToGridHeaderString()}", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
         }
 
         private static HtmlString ToLegendColor(OrganizationType organizationType)

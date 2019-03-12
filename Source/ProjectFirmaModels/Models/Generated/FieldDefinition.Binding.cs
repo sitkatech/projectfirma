@@ -221,6 +221,11 @@ namespace ProjectFirmaModels.Models
         SecondaryProjectTaxonomyLeaf = 269,
         ProjectPrimaryContactEmail = 270,
         ProjectCustomAttributeTypeEditableBy = 271,
-        ProjectCustomAttributeTypeViewableBy = 272
+        ProjectCustomAttributeTypeViewableBy = 272,
+        OrganizationTypeAbbreviation = 273,
+        LegendColor = 274,
+        ShowOnProjectMaps = 275,
+        IsDefaultOrganizationType = 276,
+        IsFundingType = 277
     }
 }
