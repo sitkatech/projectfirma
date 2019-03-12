@@ -54,37 +54,43 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 
     @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
-    
+
     @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf && ViewDataTyped.TaxonomyGrouping.Any())
     {
         <hr />
 
         foreach (var trunkGrouping in ViewDataTyped.TaxonomyGrouping)
         {
-            <div class="row taxonomyRow">
-                <div class="col-sm-5 taxonomyBasicsPanelLabel">
-                    <label>
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunk.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        Secondary @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized()
-                    </label>
-                </div>
-                <div class="col-sm-7">
-                    <span class="taxonomyLink">@(trunkGrouping.Key.GetDisplayNameAsUrl())</span>
-                </div>
-            </div>
-            foreach (var branch in trunkGrouping.Key.TaxonomyBranches.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.TaxonomyBranchID).Contains(x.TaxonomyBranchID)))
+            if (ViewDataTyped.IsNotTaxonomyLevelBranch)
             {
                 <div class="row taxonomyRow">
-                    <div class="col-sm-5 col-sm-offset-1 taxonomyBasicsPanelLabel">
+                    <div class="col-sm-5 taxonomyBasicsPanelLabel">
                         <label>
-                            @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                            Secondary @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunk.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                            Secondary @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized()
                         </label>
                     </div>
-                    <div class="col-sm-6">
-                        <span class="taxonomyLink">@(branch.GetDisplayNameAsUrl())</span>
+                    <div class="col-sm-7">
+                        <span class="taxonomyLink">@(trunkGrouping.Key.GetDisplayNameAsUrl())</span>
                     </div>
                 </div>
+            }
+            foreach (var branch in trunkGrouping.Key.TaxonomyBranches.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.TaxonomyBranchID).Contains(x.TaxonomyBranchID)))
+            {
+                if (ViewDataTyped.IsNotTaxonomyLevelLeaf)
+                {
+                    <div class="row taxonomyRow">
+                        <div class="col-sm-5 col-sm-offset-1 taxonomyBasicsPanelLabel">
+                            <label>
+                                @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                                Secondary @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()
+                            </label>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="taxonomyLink">@(branch.GetDisplayNameAsUrl())</span>
+                        </div>
+                    </div>
+                }
                 foreach (var leaf in branch.TaxonomyLeafs.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeafID).Contains(x.TaxonomyLeafID)))
                 {
                     <div class="row taxonomyRow">

@@ -420,7 +420,7 @@ namespace ProjectFirmaModels.Models
     public partial class MeasurementUnitTypePerSquareKilometer : MeasurementUnitType
     {
         private MeasurementUnitTypePerSquareKilometer(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypePerSquareKilometer Instance = new MeasurementUnitTypePerSquareKilometer(29, @"PerSquareKilometer", @"Per Square Kilometer (per sq km)", @"per sq km", @"Per Square Kilometer", 2);
+        public static readonly MeasurementUnitTypePerSquareKilometer Instance = new MeasurementUnitTypePerSquareKilometer(29, @"PerSquareKilometer", @"Per Square Kilometer (per sq km)", @"per sq km", @"Per Square Kilometer", 1);
     }
 
     public partial class MeasurementUnitTypeCubicFoot_Second : MeasurementUnitType
@@ -432,24 +432,24 @@ namespace ProjectFirmaModels.Models
     public partial class MeasurementUnitTypeHectare : MeasurementUnitType
     {
         private MeasurementUnitTypeHectare(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeHectare Instance = new MeasurementUnitTypeHectare(31, @"Hectare", @"Hectare (ha)", @"ha", @"Hectare", 2);
+        public static readonly MeasurementUnitTypeHectare Instance = new MeasurementUnitTypeHectare(31, @"Hectare", @"Hectare (ha)", @"ha", @"Hectare", 0);
     }
 
     public partial class MeasurementUnitTypeKilometer : MeasurementUnitType
     {
         private MeasurementUnitTypeKilometer(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeKilometer Instance = new MeasurementUnitTypeKilometer(32, @"Kilometer", @"Kilometer (km)", @"km", @"Kilometer", 2);
+        public static readonly MeasurementUnitTypeKilometer Instance = new MeasurementUnitTypeKilometer(32, @"Kilometer", @"Kilometer (km)", @"km", @"Kilometer", 1);
     }
 
     public partial class MeasurementUnitTypeChemicalConcentrationWetWeight : MeasurementUnitType
     {
         private MeasurementUnitTypeChemicalConcentrationWetWeight(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight Instance = new MeasurementUnitTypeChemicalConcentrationWetWeight(33, @"ChemicalConcentrationWetWeight", @"Chemical Concentration Wet Weight (ng/g wet weight)", @"ng/g wet weight", @"Chemical Concentration Wet Weight", 2);
+        public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight Instance = new MeasurementUnitTypeChemicalConcentrationWetWeight(33, @"ChemicalConcentrationWetWeight", @"Chemical Concentration Wet Weight (ng/g wet weight)", @"ng/g wet weight", @"Chemical Concentration Wet Weight", 1);
     }
 
     public partial class MeasurementUnitTypeChemicalConcentrationLipidWeight : MeasurementUnitType
     {
         private MeasurementUnitTypeChemicalConcentrationLipidWeight(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
-        public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight Instance = new MeasurementUnitTypeChemicalConcentrationLipidWeight(34, @"ChemicalConcentrationLipidWeight", @"Chemical Concentration Lipid Weight (ng/g lipid weight)", @"ng/g lipid weight", @"Chemical Concentration Lipid Weight", 2);
+        public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight Instance = new MeasurementUnitTypeChemicalConcentrationLipidWeight(34, @"ChemicalConcentrationLipidWeight", @"Chemical Concentration Lipid Weight (ng/g lipid weight)", @"ng/g lipid weight", @"Chemical Concentration Lipid Weight", 1);
     }
 }

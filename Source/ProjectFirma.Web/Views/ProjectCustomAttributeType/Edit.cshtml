@@ -161,16 +161,16 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-3 control-label">
-                        <strong>Include in NTA Grids?</strong>
+                        <label>@string.Format("Include In {0} Grid?", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel())</label>
                     </div>
                     <div class="col-sm-9">
                         <label class="radio-inline">
-                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInNtaGrid, true) Yes
+                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInGridSpec, true) Yes
                         </label>
                         <label class="radio-inline">
-                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInNtaGrid, false) No
+                            @Html.RadioButtonFor(x => x.ProjectCustomAttributeIncludeInGridSpec, false) No
                         </label>
-                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeIncludeInNtaGrid)
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeIncludeInGridSpec)
                     </div>
                 </div>
             </div>

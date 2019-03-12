@@ -51,8 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool ViewableByProjectSteward { get; set; }
         [Required]
-        [DisplayName("Include in NTA Grid?")]
-        public bool ProjectCustomAttributeIncludeInNtaGrid { get; set; }
+        public bool ProjectCustomAttributeIncludeInGridSpec { get; set; }
 
 
 
@@ -72,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema;
             IsRequired = projectCustomAttributeType.IsRequired;
             ProjectCustomAttributeTypeDesription = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
-            ProjectCustomAttributeIncludeInNtaGrid = projectCustomAttributeType.IncludeInNtaGrid;
+            ProjectCustomAttributeIncludeInGridSpec = projectCustomAttributeType.IncludeInProjectGrid;
             EditableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             EditableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
@@ -89,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
-            projectCustomAttributeType.IncludeInNtaGrid = ProjectCustomAttributeIncludeInNtaGrid;
+            projectCustomAttributeType.IncludeInProjectGrid = ProjectCustomAttributeIncludeInGridSpec;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]
