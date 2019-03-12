@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 
             HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelTrunk() || MultiTenantHelpers.IsTaxonomyLevelTrunk();
-            IsNotTaxonomyLevelLeaf = MultiTenantHelpers.IsTaxonomyLevelLeaf();
+            IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
             var taxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
 
