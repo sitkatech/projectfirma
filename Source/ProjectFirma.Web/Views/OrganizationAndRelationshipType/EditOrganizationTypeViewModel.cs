@@ -42,22 +42,23 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
 
         [Required]
         [StringLength(OrganizationType.FieldLengths.OrganizationTypeAbbreviation)]
-        [DisplayName("Abbreviation")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationTypeAbbreviation)]
         public string OrganizationTypeAbbreviation { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.LegendColor)]
         public string LegendColor { get; set; }
 
         [Required]
-        [DisplayName("Show On Map?")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowOnProjectMaps)]
         public bool? ShowOnProjectMaps { get; set; }
 
         [Required]
-        [DisplayName("Is Default?")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsDefaultOrganizationType)]
         public bool? IsDefaultOrganizationType { get; set; }
 
         [Required]
-        [DisplayName("Is Funding Type?")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFundingType)]
         public bool? IsFundingType { get; set; }
 
         /// <summary>

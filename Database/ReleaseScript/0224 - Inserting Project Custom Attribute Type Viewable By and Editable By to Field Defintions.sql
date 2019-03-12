@@ -4,6 +4,6 @@ Values
 (272, N'ProjectCustomAttributeTypeViewableBy', 'Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute')
 
 Insert Into dbo.FieldDefinitionData(TenantID, FieldDefinitionID, FieldDefinitionDataValue, FieldDefinitionLabel)
-Values
-(11,271, N'', N''),
-(11,272, N'', N'')
+Select TenantID, 271, N'', N'' From dbo.Tenant
+Insert Into dbo.FieldDefinitionData(TenantID, FieldDefinitionID, FieldDefinitionDataValue, FieldDefinitionLabel)
+Select TenantID, 272, N'', N'' From dbo.Tenant
