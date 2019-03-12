@@ -29,9 +29,9 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (26, 'Inches', 'Inch (in)', 'in', 'inch', 2),
 (27, 'InchesPerHour', 'Inches Per Hour (in/hr)', 'in/hr', 'Inches Per Hour', 2),
 (28, 'Seconds', 'Second (s)', 's', 'Second', 0),
-(29, 'PerSquareKilometer', 'Per Square Kilometer (per sq km)', 'per sq km', 'Per Square Kilometer', 2),
+(29, 'PerSquareKilometer', 'Per Square Kilometer (per sq km)', 'per sq km', 'Per Square Kilometer', 1),
 (30, 'Cubic Foot / Second', 'Cubic Foot / Second (cfs)', 'cfs', 'Cubic Foot / Second', 2),
-(31, 'Hectare', 'Hectare (ha)', 'ha', 'Hectare', 2),
-(32, 'Kilometer', 'Kilometer (km)', 'km', 'Kilometer', 2),
-(33, 'ChemicalConcentrationWetWeight', 'Chemical Concentration Wet Weight (ng/g wet weight)', 'ng/g wet weight', 'Chemical Concentration Wet Weight', 2),
-(34, 'ChemicalConcentrationLipidWeight', 'Chemical Concentration Lipid Weight (ng/g lipid weight)', 'ng/g lipid weight', 'Chemical Concentration Lipid Weight', 2)
+(31, 'Hectare', 'Hectare (ha)', 'ha', 'Hectare', 0),
+(32, 'Kilometer', 'Kilometer (km)', 'km', 'Kilometer', 1),
+(33, 'ChemicalConcentrationWetWeight', 'Chemical Concentration Wet Weight (ng/g wet weight)', 'ng/g wet weight', 'Chemical Concentration Wet Weight', 1),
+(34, 'ChemicalConcentrationLipidWeight', 'Chemical Concentration Lipid Weight (ng/g lipid weight)', 'ng/g lipid weight', 'Chemical Concentration Lipid Weight', 1)
