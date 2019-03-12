@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Linq;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -36,6 +39,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public bool HasTaxonomyBranchManagePermissions { get; }
         public string NewUrl { get; }
         public string TaxonomyBranchDisplayName { get; }
+        public bool HasTaxonomyLeafs { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -46,6 +50,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
             HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
+            HasTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Any();
+
             var taxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson)
             {
@@ -53,6 +59,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 ObjectNamePlural = taxonomyBranchDisplayNamePluralized,
                 SaveFiltersInCookie = true
             };
+
+            if (HasTaxonomyBranchManagePermissions && HasTaxonomyLeafs)
+            {
+                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New()), $"Create a new {taxonomyBranchDisplayName}");
+            }
 
             GridName = "taxonomyBranchesGrid";
             GridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
