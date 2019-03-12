@@ -28,12 +28,16 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
     public class IndexViewData : FirmaViewData
-    {        
+    {
+        public bool HasTaxonomyTrunkManagePermissions { get; }
+        public bool OfferEditSortOrder { get; }
+        public bool IsNotTaxonomyLevelLeaf { get; }
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
         public string EditSortOrderUrl { get; }
-        public bool HasTaxonomyTrunkManagePermissions { get; }
+        public string NewUrl { get; }
+        public string TaxonomyTrunkDisplayName { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
         {
@@ -41,16 +45,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             PageTitle = taxonomyTrunkPluralized;
 
             HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
+            OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelTrunk() || MultiTenantHelpers.IsTaxonomyLevelTrunk();
+            IsNotTaxonomyLevelLeaf = MultiTenantHelpers.IsTaxonomyLevelLeaf();
             var taxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             GridSpec = new IndexGridSpec(currentPerson) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
-            if (HasTaxonomyTrunkManagePermissions)
-            {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(t => t.New()), $"Create a new {taxonomyTrunkDisplayName}");
-            }
 
             GridName = "taxonomyTrunksGrid";
             GridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            NewUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(t => t.New());
             EditSortOrderUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.EditSortOrder());
+            TaxonomyTrunkDisplayName = taxonomyTrunkDisplayName;
         }
     }
 }

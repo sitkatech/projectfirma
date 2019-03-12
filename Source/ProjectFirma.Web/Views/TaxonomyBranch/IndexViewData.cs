@@ -60,11 +60,6 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 SaveFiltersInCookie = true
             };
 
-            if (HasTaxonomyBranchManagePermissions && IsNotTaxonomyLevelLeaf)
-            {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New()), $"Create a new {taxonomyBranchDisplayName}");
-            }
-
             GridName = "taxonomyBranchesGrid";
             GridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             NewUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.New());
