@@ -90,8 +90,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.UnfundedNeed.ToType().ToGridHeaderString(), x => x.UnfundedNeed(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
             {
-                if (!projectCustomAttributeType.IncludeInNtaGrid.HasValue ||
-                    projectCustomAttributeType.IncludeInNtaGrid.Value  || projectCustomAttributeType.HasViewPermission(currentPerson))
+                if (projectCustomAttributeType.IncludeInNtaGrid  && projectCustomAttributeType.HasViewPermission(currentPerson))
                 {
                     Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150,DhtmlxGridColumnFilterType.Text);
                 }

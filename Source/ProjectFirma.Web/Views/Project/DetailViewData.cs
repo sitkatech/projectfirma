@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Views.Project
         public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
-        public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
+        public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
 
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
@@ -121,8 +121,7 @@ namespace ProjectFirma.Web.Views.Project
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
-            string editProjectBoundingBoxFormID,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<GeospatialAreaType> geospatialAreaTypes)
+            string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
             : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName().ToEllipsifiedStringClean(110);
@@ -261,7 +260,6 @@ namespace ProjectFirma.Web.Views.Project
 
             EditProjectBoundingBoxUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectBoundingBox(project));
             EditProjectBoundingBoxFormID = editProjectBoundingBoxFormID;
-            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
 
             EditProjectOrganizationsUrl = editProjectOrganizationsUrl;
 
@@ -279,6 +277,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
             GeospatialAreaTypes = geospatialAreaTypes;
+            DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;
             EditExternalLinksUrl = editExternalLinksUrl;
             ImageGalleryViewData = imageGalleryViewData;
 
@@ -322,11 +321,6 @@ namespace ProjectFirma.Web.Views.Project
                 EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission);
-        }
-
-        public string StringToDateString(string stringDate)
-        {
-            return DateTime.TryParse(stringDate, out var date) ? date.ToShortDateString() : null;
         }
     }
 }

@@ -18,15 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -48,12 +52,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
         public int? StartYearForTotalOperatingCostCalculation { get; }
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
+        public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; }
 
 
         public BasicsViewData(Person currentPerson, ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             IEnumerable<ProjectStage> projectStages, decimal inflationRate, ProjectUpdateStatus projectUpdateStatus,
             BasicsValidationResult basicsValidationResult,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
+            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
             : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
         {
             ProjectUpdate = projectUpdate;
@@ -71,6 +76,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(projectUpdate);
             StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(projectUpdate);
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
+            DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;
         }
     }
 }

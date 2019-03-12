@@ -178,8 +178,11 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
 
+            var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
+                projectCustomAttributeTypes.ToList(),
+                new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
@@ -214,8 +217,7 @@ namespace ProjectFirma.Web.Controllers
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
                 classificationSystems,
-                ProjectLocationController.EditProjectBoundingBoxFormID,
-                projectCustomAttributeTypes, geospatialAreaTypes);
+                ProjectLocationController.EditProjectBoundingBoxFormID, geospatialAreaTypes, projectCustomAttributeTypesViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
