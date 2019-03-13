@@ -21,6 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
@@ -37,7 +40,9 @@ namespace ProjectFirma.Web.Views.Role
         public List<FeaturePermission> ApprovedFeatures { get; }
         public List<FeaturePermission> DeniedFeatures { get; }
         public string RoleName { get; }
-        public string RoleDescription { get; }
+        public HtmlString RoleDescription { get; }
+
+        public ProjectFirmaModels.Models.FieldDefinition NormalUser { get; }
 
         public DetailViewData(Person currentPerson, IRole role, List<FeaturePermission> featurePermissions, string roleName)
             : base(currentPerson)
@@ -46,8 +51,20 @@ namespace ProjectFirma.Web.Views.Role
             DeniedFeatures = featurePermissions.Where(x => !x.HasPermission).ToList();
 
             RoleName = roleName;
+            NormalUser = FieldDefinitionEnum.NormalUser.ToType();
 
-            RoleDescription = role.RoleDescription;
+            if (role.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID && NormalUser.HasCustomFieldDefinition())
+            {
+                RoleDescription = NormalUser.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString;
+            }else if (role.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID && !NormalUser.HasCustomFieldDefinition())
+            {
+                RoleDescription = NormalUser.DefaultDefinitionHtmlString;
+            }
+            else
+            {
+                RoleDescription = role.RoleDescription.ToHTMLFormattedString();
+            }
+              
 
             GridSpec = new PersonWithRoleGridSpec {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
             GridName = "PersonWithRoleGrid";
