@@ -69,5 +69,30 @@ namespace ProjectFirma.Web.Models
                     : SitkaRoute<RoleController>.BuildUrlFromExpression(x => x.Detail(role.RoleID)),
                 role.RoleDisplayName);
         }
+
+        public static HtmlString GetFieldDefinitionRoleDescription(this IRole role)
+        {
+            var normalUser = FieldDefinitionEnum.NormalUser.ToType();
+            var projectSteward = FieldDefinitionEnum.ProjectSteward.ToType();
+
+            if (role.RoleID == Role.Normal.RoleID && normalUser.HasCustomFieldDefinition())
+            {
+                return normalUser.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString;
+            }
+            if (role.RoleID == Role.Normal.RoleID && !normalUser.HasCustomFieldDefinition())
+            {
+                return normalUser.DefaultDefinitionHtmlString;
+            }
+            if (role.RoleID == Role.ProjectSteward.RoleID && projectSteward.HasCustomFieldDefinition())
+            {
+                return projectSteward.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString;
+            }
+            if (role.RoleID == Role.ProjectSteward.RoleID && projectSteward.HasCustomFieldDefinition())
+            {
+                return projectSteward.DefaultDefinitionHtmlString;
+            }
+
+            return role.RoleDescription.ToHTMLFormattedString();
+        }
     }
 }

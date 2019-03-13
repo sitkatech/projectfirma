@@ -42,9 +42,6 @@ namespace ProjectFirma.Web.Views.Role
         public string RoleName { get; }
         public HtmlString RoleDescription { get; }
 
-        public ProjectFirmaModels.Models.FieldDefinition NormalUser { get; }
-        public ProjectFirmaModels.Models.FieldDefinition ProjectSteward { get; }
-
         public DetailViewData(Person currentPerson, IRole role, List<FeaturePermission> featurePermissions, string roleName)
             : base(currentPerson)
         {
@@ -52,29 +49,7 @@ namespace ProjectFirma.Web.Views.Role
             DeniedFeatures = featurePermissions.Where(x => !x.HasPermission).ToList();
 
             RoleName = roleName;
-            NormalUser = FieldDefinitionEnum.NormalUser.ToType();
-            ProjectSteward = FieldDefinitionEnum.ProjectSteward.ToType();
-
-            if (role.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID && NormalUser.HasCustomFieldDefinition())
-            {
-                RoleDescription = NormalUser.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString;
-            }else if (role.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID && !NormalUser.HasCustomFieldDefinition())
-            {
-                RoleDescription = NormalUser.DefaultDefinitionHtmlString;
-            }
-            else if(role.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID && ProjectSteward.HasCustomFieldDefinition())
-            {
-                RoleDescription = ProjectSteward.GetFieldDefinitionData().FieldDefinitionDataValueHtmlString;
-            }
-            else if (role.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID && ProjectSteward.HasCustomFieldDefinition())
-            {
-                RoleDescription = ProjectSteward.DefaultDefinitionHtmlString;
-            }
-            else
-            {
-                RoleDescription = role.RoleDescription.ToHTMLFormattedString();
-            }
-              
+            RoleDescription = role.GetFieldDefinitionRoleDescription();
 
             GridSpec = new PersonWithRoleGridSpec {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
             GridName = "PersonWithRoleGrid";
