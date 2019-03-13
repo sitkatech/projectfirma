@@ -37,12 +37,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public TenantAttribute TenantAttribute { get; set; }
         public IEnumerable<IGrouping<ProjectFirmaModels.Models.TaxonomyTrunk, IGrouping<ProjectFirmaModels.Models.TaxonomyBranch,
             ProjectFirmaModels.Models.TaxonomyLeaf>>> TaxonomyGrouping;
+        public bool IsNotTaxonomyLevelBranch { get; }
+        public bool IsNotTaxonomyLevelLeaf { get; }
 
         public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project,
             bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel, TenantAttribute tenantAttribute)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
+            IsNotTaxonomyLevelBranch = !MultiTenantHelpers.IsTaxonomyLevelBranch();
+            IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
             ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
             TenantAttribute = tenantAttribute;
