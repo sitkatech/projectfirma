@@ -58,7 +58,11 @@ namespace ProjectFirma.Web.Models
 
         public static string GetTaxonomyBranchCodeAndName(this TaxonomyBranch taxonomyBranch)
         {
-            return taxonomyBranch.TaxonomyBranchCode + ": " + taxonomyBranch.TaxonomyBranchName;
+            if (taxonomyBranch.TaxonomyBranchCode != null)
+            {
+                return taxonomyBranch.TaxonomyBranchCode + ": " + taxonomyBranch.TaxonomyBranchName;
+            }
+            return taxonomyBranch.TaxonomyBranchName;
         }
     }
 }

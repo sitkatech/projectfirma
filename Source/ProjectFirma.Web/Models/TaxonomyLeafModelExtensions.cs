@@ -195,13 +195,21 @@ namespace ProjectFirma.Web.Models
 
         public static string GetTaxonomyLeafCodeAndName(this TaxonomyLeaf taxonomyLeaf)
         {
-            return taxonomyLeaf.TaxonomyLeafCode + ": " + taxonomyLeaf.TaxonomyLeafName;
+            if(taxonomyLeaf.TaxonomyLeafCode != null) { 
+                return taxonomyLeaf.TaxonomyLeafCode + ": " + taxonomyLeaf.TaxonomyLeafName;
+            }
+
+            return taxonomyLeaf.TaxonomyLeafName;
         }
 
         public static string GetTaxonomyBranchCodeAndName(this TaxonomyLeaf taxonomyLeaf)
         {
-            return taxonomyLeaf.TaxonomyBranch.TaxonomyBranchCode + ": " +
-                   taxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
+            if (taxonomyLeaf.TaxonomyBranch.TaxonomyBranchCode != null)
+            {
+                return taxonomyLeaf.TaxonomyBranch.TaxonomyBranchCode + ": " + taxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
+            }
+                return taxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
         }
+    }
     }
 }
