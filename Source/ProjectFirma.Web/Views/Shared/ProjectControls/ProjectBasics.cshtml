@@ -61,13 +61,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
         foreach (var trunkGrouping in ViewDataTyped.TaxonomyGrouping)
         {
-            if (ViewDataTyped.IsNotTaxonomyLevelBranch)
+            if (ViewDataTyped.IsNotTaxonomyLevelLeafOrBranch)
             {
                 <div class="row taxonomyRow">
                     <div class="col-sm-5 taxonomyBasicsPanelLabel">
                         <label>
                             @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyTrunk.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                            Secondary @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized()
+                            Secondary @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()
                         </label>
                     </div>
                     <div class="col-sm-7">
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-sm-5 col-sm-offset-1 taxonomyBasicsPanelLabel">
                             <label>
                                 @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                                Secondary @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized()
+                                Secondary @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel()
                             </label>
                         </div>
                         <div class="col-sm-6">
@@ -91,13 +91,14 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     </div>
                 }
+
                 foreach (var leaf in branch.TaxonomyLeafs.Where(x => ViewDataTyped.Project.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeafID).Contains(x.TaxonomyLeafID)))
                 {
                     <div class="row taxonomyRow">
                         <div class="col-sm-5 col-sm-offset-2 taxonomyBasicsPanelLabel">
                             <label>
                                 @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                                Secondary @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
+                                Secondary @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()
                             </label>
                         </div>
                         <div class="col-sm-5">
