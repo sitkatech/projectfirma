@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Map
             {
                geospatialAreas.ForEach(geospatialArea => Layers.Add(new LayerGeoJson(geospatialArea.GetDisplayName(),
                     new List<ProjectFirmaModels.Models.GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
-                    LayerInitialVisibility.Show))); 
+                    LayerInitialVisibility.Hide))); 
             }
         }
 
