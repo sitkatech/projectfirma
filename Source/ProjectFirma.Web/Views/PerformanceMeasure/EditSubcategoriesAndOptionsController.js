@@ -191,7 +191,7 @@ angular.module("ProjectFirmaApp")
                     .any()
                     .value())
                 {
-                    errors.push("Please specify a unique shortname for the subcategory.");
+                    errors.push("Please specify a unique short name for the subcategory.");
                 }
                 return errors;
             }

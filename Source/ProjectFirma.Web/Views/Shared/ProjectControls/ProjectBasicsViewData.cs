@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
         public TenantAttribute TenantAttribute { get; set; }
-        public IEnumerable<IGrouping<ProjectFirmaModels.Models.TaxonomyTrunk, IGrouping<ProjectFirmaModels.Models.TaxonomyBranch,
-            ProjectFirmaModels.Models.TaxonomyLeaf>>> TaxonomyGrouping;
+        public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
+        public bool IsNotTaxonomyLevelBranch { get; }
         public bool IsNotTaxonomyLevelLeaf { get; }
         public bool IsNotTaxonomyLevelLeafOrBranch { get; }
 
@@ -53,9 +53,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (tenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
             {
-                TaxonomyGrouping = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf)
-                    .GroupBy(x => x.TaxonomyBranch)
-                    .GroupBy(x => x.Key.TaxonomyTrunk);
+                SecondaryTaxonomyLeaves = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf).OrderBy(x => x.GetDisplayName());
             }
         }        
     }

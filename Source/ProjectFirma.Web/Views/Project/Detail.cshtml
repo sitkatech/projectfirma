@@ -277,7 +277,7 @@
                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType())</label>
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</div>
                             @if (ViewDataTyped.Project.GetUnsecuredFunding() > 0)
-                                        {
+                            {
                                 <div class="col-sm-6">(@ViewDataTyped.Project.GetUnsecuredFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType()))</div>
                             }
                         </div>
