@@ -36,7 +36,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
         public TenantAttribute TenantAttribute { get; set; }
         public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
-        public bool IsNotTaxonomyLevelBranch { get; }
         public bool IsNotTaxonomyLevelLeaf { get; }
         public bool IsNotTaxonomyLevelLeafOrBranch { get; }
 
