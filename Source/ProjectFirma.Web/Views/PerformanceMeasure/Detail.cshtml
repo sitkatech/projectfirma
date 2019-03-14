@@ -99,8 +99,12 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsAggregatable.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureIsAggregatable.ToType().GetFieldDefinitionLabel()))</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsAggregatable.ToYesNo()</div>
+                    <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</div>
+                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>

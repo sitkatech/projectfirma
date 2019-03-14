@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
             var reportedValueColumnName = $"{FieldDefinitionEnum.ReportedValue.ToType().ToGridHeaderString()} ({performanceMeasure.MeasurementUnitType.LegendDisplayName})";
 
-            if (performanceMeasure.IsAggregatable)
+            if (performanceMeasure.IsSummable)
             {
                 Add(reportedValueColumnName, a => a.GetReportedValue(), 150, DhtmlxGridColumnFormatType.Decimal,
                     DhtmlxGridColumnAggregationType.Total);

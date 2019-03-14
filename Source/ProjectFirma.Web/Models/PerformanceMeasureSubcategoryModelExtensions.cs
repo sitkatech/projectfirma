@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Models
                 var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
-                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.CanCalculateTotal);
+                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable);
                 var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
                         x.ResetChartConfiguration(performanceMeasure,
                             performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
                 var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
-                if (performanceMeasureSubcategory.PerformanceMeasure.CanCalculateTotal && !performanceMeasure.SwapChartAxes)
+                if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable && !performanceMeasure.SwapChartAxes)
                 {
                     chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                 }

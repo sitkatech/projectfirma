@@ -215,7 +215,7 @@
                         <ul>
                             @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                             {
-                                if (performanceMeasureGroup.Key.IsAggregatable)
+                                if (performanceMeasureGroup.Key.IsSummable)
                                 {
                                     <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue())) @performanceMeasureGroup.Key.MeasurementUnitType.LegendDisplayName</strong></li>
                                 }

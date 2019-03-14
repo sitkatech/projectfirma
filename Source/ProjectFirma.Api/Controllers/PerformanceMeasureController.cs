@@ -38,8 +38,8 @@ namespace ProjectFirma.Api.Controllers
             }
             var performanceMeasure = new PerformanceMeasure(performanceMeasureDto.PerformanceMeasureDisplayName,
                 measurementUnitType.MeasurementUnitTypeID, performanceMeasureType.PerformanceMeasureTypeID,
-                performanceMeasureDto.SwapChartAxes, performanceMeasureDto.CanCalculateTotal,
-                performanceMeasureDto.IsAggregatable, performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID);
+                performanceMeasureDto.SwapChartAxes,
+                performanceMeasureDto.IsSummable, performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID);
             performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
             performanceMeasure.PerformanceMeasureDefinition = performanceMeasureDto.PerformanceMeasureDefinition;
             performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;
@@ -126,7 +126,7 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
             performanceMeasure.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
             performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
-            performanceMeasure.IsAggregatable = performanceMeasureDto.IsAggregatable;
+            performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
             return Ok(performanceMeasureReloaded);
@@ -158,7 +158,7 @@ namespace ProjectFirma.Api.Controllers
 
             var performanceMeasureSubcategoriesToUpdate = performanceMeasureSubcategoryDtos.Select(x =>
             {
-                var dummyPerformanceMeasure = new PerformanceMeasure(String.Empty, default(int), default(int), false, false, true, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
+                var dummyPerformanceMeasure = new PerformanceMeasure(String.Empty, default(int), default(int), false, false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
                 var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(dummyPerformanceMeasure, x.PerformanceMeasureSubcategoryName);
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
                 performanceMeasureSubcategory.ChartConfigurationJson = x.ChartConfigurationJson;

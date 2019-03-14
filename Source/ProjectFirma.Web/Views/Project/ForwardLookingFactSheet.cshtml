@@ -242,7 +242,7 @@
                     <ul>
                         @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureExpectedValues)
                         {
-                            if (performanceMeasureGroup.Key.IsAggregatable)
+                            if (performanceMeasureGroup.Key.IsSummable)
                             {
                                 if (performanceMeasureGroup.Any(x => x.GetReportedValue() != null))
                                 {

@@ -15,9 +15,8 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[ExternalDataSourceUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ChartCaption] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SwapChartAxes] [bit] NOT NULL,
-	[CanCalculateTotal] [bit] NOT NULL,
 	[PerformanceMeasureSortOrder] [int] NULL,
-	[IsAggregatable] [bit] NOT NULL,
+	[IsSummable] [bit] NOT NULL,
 	[PerformanceMeasureDataSourceTypeID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (

@@ -27,7 +27,9 @@ namespace ProjectFirmaModels.Models
     {
         public virtual string DisplayValue(double? reportedValue)
         {
-            return reportedValue.HasValue ? reportedValue.ToGroupedNumeric() : ViewUtilities.NotAvailableString;
+            var stringPrecision = new string('0', NumberOfSignificantDigits);
+            return reportedValue.HasValue ? $"{reportedValue.Value.ToString($"#,###,###,##0.{stringPrecision}")} {LegendDisplayName}"
+                : ViewUtilities.NotAvailableString;
         }
     }
 

@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.UnitTestCommon
         {
             public static PerformanceMeasure Create()
             {
-                var performanceMeasure = new PerformanceMeasure("Foo", MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, false,true,PerformanceMeasureDataSourceType.Project)
+                var performanceMeasure = new PerformanceMeasure("Foo", MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, false, PerformanceMeasureDataSourceType.Project)
                 {
                     PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>()
                 };
@@ -42,9 +42,9 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var performanceMeasure = Create();
                 var subcategoryIDBase = performanceMeasureID*10;
-                var subcategory1 = TestFramework.TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 1, $"{performanceMeasureName}Subcategory1");
-                var subcategory2 = TestFramework.TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 2, $"{performanceMeasureName}Subcategory2");
-                var subcategory3 = TestFramework.TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 3, $"{performanceMeasureName}Subcategory3");
+                var subcategory1 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 1, $"{performanceMeasureName}Subcategory1");
+                var subcategory2 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 2, $"{performanceMeasureName}Subcategory2");
+                var subcategory3 = TestPerformanceMeasureSubcategory.CreateWithSubcategoryOptions(performanceMeasure, subcategoryIDBase + 3, $"{performanceMeasureName}Subcategory3");
                 performanceMeasure.PerformanceMeasureSubcategories.AddAll(new List<PerformanceMeasureSubcategory> {subcategory1, subcategory2, subcategory3});
 
                 return performanceMeasure;                
