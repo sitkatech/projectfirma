@@ -32,7 +32,7 @@
 {
     <div class="row">
             Show :
-            @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOnlyOrAllUsersSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrBothActiveAndInactive, onchange = "changeGridUrl()", })
+            @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOnlyOrAllUsersSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
         @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string> {"btn", "btn-firma", "btn-sm"}, ViewDataTyped.UserIsSitkaAdmin)
     </div>
 
@@ -52,8 +52,6 @@
 
 <script>
     var changeGridUrl = function () {
-        var value = jQuery("#@ViewDataTyped.ShowOnlyActiveOrBothActiveAndInactive").val();
-        console.log(value);
-        Sitka.@(ViewDataTyped.GridName).load(value);
+        Sitka.@(ViewDataTyped.GridName).load(jQuery("#@ViewDataTyped.ShowOnlyActiveOrAll").val());       
     }
 </script>

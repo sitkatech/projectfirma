@@ -211,5 +211,4 @@ namespace ProjectFirma.Web.Models
                 return taxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
         }
     }
-    }
 }

@@ -39,31 +39,19 @@ namespace ProjectFirma.Web.Views.User
         public bool UserIsSitkaAdmin { get; }
         public IndexGridSpec.UsersStatusFilterTypeEnum UsersStatusFilterType { get; }
         public List<SelectListItem> ActiveOnlyOrAllUsersSelectListItems { get; }
-        public string ShowOnlyActiveOrBothActiveAndInactive { get; }
+        public string ShowOnlyActiveOrAll { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentPerson, firmaPage)
         {
-            
+            PageTitle = "Users";
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
 
-            UsersStatusFilterType = usersStatusFilterType;
-            switch (usersStatusFilterType)
-            {
-                case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:
-                    PageTitle = "Active Users";
-                    break;
-                case IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers:
-                    PageTitle = "All Users";
-                    break;
-                default: throw new ArgumentOutOfRangeException("usersStatusFilterType", usersStatusFilterType, null);
-            }
-
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;
-            ShowOnlyActiveOrBothActiveAndInactive = "ShowOnlyActiveOrBothActiveAndInactive";
+            ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";
         }
     }
 }

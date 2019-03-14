@@ -46,11 +46,11 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum = IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers;
-            return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)), filterTypeEnum);
+            return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
         [UserEditFeature]
-        public ViewResult ViewIndex(string gridDataUrl, IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
+        public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
 
@@ -60,13 +60,8 @@ namespace ProjectFirma.Web.Controllers
                 new SelectListItem() {Text = "All Users", Value = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers))}
             };
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, usersStatusFilterType, gridDataUrl, activeOnlyOrAllUserSelectListItems);
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOnlyOrAllUserSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
-        }
-
-        public GridJsonNetJObjectResult<Person> AllUsersGridData()
-        {
-            return IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers);
         }
 
         [UserEditFeature]
