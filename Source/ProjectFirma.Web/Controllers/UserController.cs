@@ -76,6 +76,9 @@ namespace ProjectFirma.Web.Controllers
                     break;
                 case IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("usersStatusFilterType", usersStatusFilterType,
+                        null);
             }
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons.OrderBy(x => x.GetFullNameLastFirst()).ToList(), gridSpec);
             return gridJsonNetJObjectResult;

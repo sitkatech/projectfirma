@@ -85,6 +85,9 @@ namespace ProjectFirma.Web.Controllers
                     break;
                 case IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException("organizationStatusFilterType", organizationStatusFilterType,
+                        null);
             }
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations.OrderBy(x => x.GetDisplayName()).ToList(), gridSpec);
