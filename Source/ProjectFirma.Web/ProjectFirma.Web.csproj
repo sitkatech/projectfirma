@@ -691,7 +691,9 @@
     <Content Include="ScriptsCustom\qtippopuphelper.js" />
     <Content Include="ScriptsCustom\qtippopuphelper.min.js" />
     <Content Include="ScriptsCustom\sitka.grid.js" />
-    <Content Include="ScriptsCustom\sitka.grid.min.js" />
+    <Content Include="ScriptsCustom\sitka.grid.min.js">
+      <DependentUpon>sitka.grid.js</DependentUpon>
+    </Content>
     <Content Include="ScriptsCustom\sitka.js" />
     <Content Include="ScriptsCustom\sitka.min.js" />
     <Content Include="ScriptsCustom\sitkaAjax.js" />

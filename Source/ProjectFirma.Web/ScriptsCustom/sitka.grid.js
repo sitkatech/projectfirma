@@ -719,7 +719,7 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
         }
         return false;
     });
-
+    this.grid.clearAll();
     this.grid.load(dataUrl, "json");
 };
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
@@ -40,20 +41,46 @@ namespace ProjectFirma.Web.Controllers
 {
     public class UserController : FirmaBaseController
     {
+
         [UserEditFeature]
         public ViewResult Index()
         {
+            const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum = IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers;
+            return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
+        }
+
+        [UserEditFeature]
+        public ViewResult ViewIndex(string gridDataUrl)
+        {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+
+            List<SelectListItem> activeOnlyOrAllUserSelectListItems = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "Active Users Only", Value = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers))},
+                new SelectListItem() {Text = "All Users", Value = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers))}
+            };
+
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOnlyOrAllUserSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [UserEditFeature]
-        public GridJsonNetJObjectResult<Person> IndexGridJsonData()
+        public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission).OrderBy(x => x.GetFullNameLastFirst()).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons, gridSpec);
+            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
+            switch (usersStatusFilterType)
+            {
+                case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:
+                    persons = persons.Where(x => x.IsActive);
+                    break;
+                case IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("usersStatusFilterType", usersStatusFilterType,
+                        null);
+            }
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons.OrderBy(x => x.GetFullNameLastFirst()).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 

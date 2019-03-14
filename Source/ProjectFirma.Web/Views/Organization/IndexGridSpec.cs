@@ -52,5 +52,11 @@ namespace ProjectFirma.Web.Views.Organization
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
         }
+
+        public enum OrganizationStatusFilterTypeEnum
+        {
+            ActiveOrganizations,
+            AllOrganizations
+        }
     }
 }

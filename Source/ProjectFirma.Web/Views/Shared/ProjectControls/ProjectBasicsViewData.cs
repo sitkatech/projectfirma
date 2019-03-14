@@ -38,14 +38,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
         public bool IsNotTaxonomyLevelBranch { get; }
         public bool IsNotTaxonomyLevelLeaf { get; }
+        public bool IsNotTaxonomyLevelLeafOrBranch { get; }
 
         public ProjectBasicsViewData(ProjectFirmaModels.Models.Project project,
             bool userHasProjectBudgetManagePermissions, TaxonomyLevel taxonomyLevel, TenantAttribute tenantAttribute)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
-            IsNotTaxonomyLevelBranch = !MultiTenantHelpers.IsTaxonomyLevelBranch();
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
+            IsNotTaxonomyLevelLeafOrBranch = !MultiTenantHelpers.IsTaxonomyLevelBranch() && IsNotTaxonomyLevelLeaf;
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
             ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
             TenantAttribute = tenantAttribute;

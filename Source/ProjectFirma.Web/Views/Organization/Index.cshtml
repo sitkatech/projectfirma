@@ -39,7 +39,18 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
+<div>
+    Show:
+    @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOrAllOrganizationsSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
+</div>
 
 <div style="margin-top: 10px;">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
+
+
+<script>
+    var changeGridUrl = function () {
+        Sitka.@(ViewDataTyped.GridName).load(jQuery("#@ViewDataTyped.ShowOnlyActiveOrAll").val());
+    }
+</script>

@@ -18,6 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Web.Mvc;
+using NUnit.Framework;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -36,11 +40,15 @@ namespace ProjectFirma.Web.Views.Organization
         public bool HasOrganizationManagePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
+        public IndexGridSpec.OrganizationStatusFilterTypeEnum OrganizationStatusFilterType { get; }
+        public List<SelectListItem> ActiveOrAllOrganizationsSelectListItems { get; }
+        public string ShowOnlyActiveOrAll { get; }
+
+
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems)
             : base(currentPerson, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
-
             var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(currentPerson);
             GridSpec = new IndexGridSpec(currentPerson, hasOrganizationManagePermissions)
             {
@@ -50,12 +58,15 @@ namespace ProjectFirma.Web.Views.Organization
             };
 
             GridName = "organizationsGrid";
-            GridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            GridDataUrl = gridDataUrl;
 
             PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
             HasOrganizationManagePermissions = hasOrganizationManagePermissions;
             NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
+
+            ActiveOrAllOrganizationsSelectListItems = activeOrAllOrganizationsSelectListItems;
+            ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";
         }
     }
 }

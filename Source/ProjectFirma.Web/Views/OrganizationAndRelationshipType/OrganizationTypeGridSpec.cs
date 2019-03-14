@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             Add($"{FieldDefinitionEnum.OrganizationTypeAbbreviation.ToType().ToGridHeaderString()}", a => a.OrganizationTypeAbbreviation, 200);
             Add($"{FieldDefinitionEnum.IsDefaultOrganizationType.ToType().ToGridHeaderString()}", a => a.IsDefaultOrganizationType.ToCheckboxImageOrEmptyForGrid(), 80);
             Add($"{FieldDefinitionEnum.IsFundingType.ToType().ToGridHeaderString()}", a => a.IsFundingType.ToCheckboxImageOrEmptyForGrid(), 80);
-            Add($"Show on {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map?", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
+            Add($"{FieldDefinitionEnum.ShowOnProjectMaps.ToType().ToGridHeaderString()}", a => a.ShowOnProjectMaps.ToCheckboxImageOrEmptyForGrid(), 150);
             Add($"{FieldDefinitionEnum.LegendColor.ToType().ToGridHeaderString()}", a => ToLegendColor(a), 90, DhtmlxGridColumnFilterType.None);
         }
 
