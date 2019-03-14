@@ -51,18 +51,43 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public ViewResult Index()
         {
+            const IndexGridSpec.OrganizationStatusFilterTypeEnum filterTypeEnum =
+                IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations;
+            return ViewIndex(
+                SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
+
+        }
+
+        public ViewResult ViewIndex(string gridDataUrl)
+        {
             var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            List<SelectListItem> activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
+                new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
+            };
+
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [OrganizationViewFeature]
-        public GridJsonNetJObjectResult<Organization> IndexGridJsonData()
+        public GridJsonNetJObjectResult<Organization> IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum organizationStatusFilterType)
         {
             var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
             var gridSpec = new IndexGridSpec(CurrentPerson, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.GetDisplayName()).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations, gridSpec);
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+
+            switch (organizationStatusFilterType)
+            {
+                case IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations:
+                    organizations = organizations.Where(x => x.IsActive).ToList();
+                    break;
+                case IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
+                    break;
+            }
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations.OrderBy(x => x.GetDisplayName()).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
