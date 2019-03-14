@@ -50,5 +50,11 @@ namespace ProjectFirma.Web.Views.User
             Add("Receives Support Emails?", a => a.ReceiveSupportEmails.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for Organizations", a => a.GetPrimaryContactOrganizations().Count, 120);
         }
+
+        public enum UsersStatusFilterTypeEnum
+        {
+            ActiveUsers,
+            AllUsers
+        }
     }
 }

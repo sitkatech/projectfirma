@@ -19,10 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -34,16 +37,33 @@ namespace ProjectFirma.Web.Views.User
 
         public string PullUserFromKeystoneUrl { get; }
         public bool UserIsSitkaAdmin { get; }
+        public IndexGridSpec.UsersStatusFilterTypeEnum UsersStatusFilterType { get; }
+        public List<SelectListItem> ActiveOnlyOrAllUsersSelectListItems { get; }
+        public string ShowOnlyActiveOrBothActiveAndInactive { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentPerson, firmaPage)
         {
-            PageTitle = "Users";
+            
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
-            GridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-
+            GridDataUrl = gridDataUrl;
             PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
+
+            UsersStatusFilterType = usersStatusFilterType;
+            switch (usersStatusFilterType)
+            {
+                case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:
+                    PageTitle = "Active Users";
+                    break;
+                case IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers:
+                    PageTitle = "All Users";
+                    break;
+                default: throw new ArgumentOutOfRangeException("usersStatusFilterType", usersStatusFilterType, null);
+            }
+
+            ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;
+            ShowOnlyActiveOrBothActiveAndInactive = "ShowOnlyActiveOrBothActiveAndInactive";
         }
     }
 }
