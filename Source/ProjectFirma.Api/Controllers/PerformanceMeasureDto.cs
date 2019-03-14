@@ -39,9 +39,8 @@ namespace ProjectFirma.Api.Controllers
         public string ExternalDataSourceUrl { get; set; }
         public string ChartCaption { get; set; }
         public bool SwapChartAxes { get; set; }
-        public bool CanCalculateTotal { get; set; }
         public int? PerformanceMeasureSortOrder { get; set; }
-        public bool IsAggregatable { get; set; }
+        public bool IsSummable { get; set; }
         public string PerformanceMeasureDataSourceTypeName { get; set; }
 
         public List<PerformanceMeasureSubcategoryDto> PerformanceMeasureSubcategories { get; set; }

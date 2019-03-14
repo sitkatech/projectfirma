@@ -75,7 +75,7 @@
                     <th style="@fixedWidthStyleForYearTotalAndUnits @fixedWidthStyleForYearTotalAndUnits text-align: center">@pmUnits</th>
                 </tr>
                 }
-                if (performanceMeasureCalendarYearReportedValue.IsAggregatable)
+                if (performanceMeasureCalendarYearReportedValue.IsSummable)
                 {
                     <tr style="border-top: 1px solid">
                         <th style="text-align: right">Total</th>
@@ -157,7 +157,7 @@
                 }
 
 
-                if(performanceMeasureCalendarYearReportedValue.IsAggregatable)
+                if(performanceMeasureCalendarYearReportedValue.IsSummable)
                 {
                     <tr style="">
                         <th colspan="@subcategoryCount" style="text-align: right">Total</th>

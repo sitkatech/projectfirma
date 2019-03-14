@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Views.Project
         {
             get { return _performanceMeasure.GetPerformanceMeasureSubcategories(); }
         }
-        public bool IsAggregatable
+        public bool IsSummable
         {
-            get { return _performanceMeasure.IsAggregatable; }
+            get { return _performanceMeasure.IsSummable; }
         }
 
         public readonly List<SubcategoriesReportedValue> SubcategoriesReportedValues;

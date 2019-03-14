@@ -213,7 +213,7 @@ namespace ProjectFirmaModels.Models
         ProjectUpdateKickOffDate = 261,
         ProjectUpdateReminderInterval = 262,
         ProjectUpdateCloseOutDate = 263,
-        PerformanceMeasureIsAggregatable = 264,
+        PerformanceMeasureIsSummable = 264,
         FundingSourceAmount = 265,
         NormalUser = 266,
         ProjectStewardshipArea = 267,
@@ -226,6 +226,7 @@ namespace ProjectFirmaModels.Models
         LegendColor = 274,
         ShowOnProjectMaps = 275,
         IsDefaultOrganizationType = 276,
-        IsFundingType = 277
+        IsFundingType = 277,
+        SignificantDigits = 278
     }
 }
