@@ -53,18 +53,18 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetSecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : null;
+            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal? GetUnsecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : null;
+            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            var securedFunding = GetSecuredFunding() == null ? null : GetSecuredFunding();
-            var unsecuredFunding = GetUnsecuredFunding() == null ? null : GetUnsecuredFunding();
+            var securedFunding = GetSecuredFunding();
+            var unsecuredFunding = GetUnsecuredFunding();
 
             var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + unsecuredFunding ?? 0);
             if (noFundingSourceIdentifiedAmount >= 0)

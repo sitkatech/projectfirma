@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Project
 
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
-            SecuredFunding = Project.GetSecuredFunding() != null ? Project.GetSecuredFunding().ToStringCurrency() : "";
+            SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
             UnsecuredFunding = Project.GetUnsecuredFunding() != null ? Project.GetUnsecuredFunding().ToStringCurrency() : "";
            
             PerformanceMeasureReportedValues =
