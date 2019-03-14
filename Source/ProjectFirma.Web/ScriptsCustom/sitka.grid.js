@@ -717,7 +717,7 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
         if (object.status !== 200 && object.status !== 0) {
             SitkaAjax.errorHandler(object, object.status);
         }
-        return false;f
+        return false;
     });
     this.grid.clearAll();
     this.grid.load(dataUrl, "json");

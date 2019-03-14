@@ -30,11 +30,8 @@
 
 @section RightOfPageTitle
 {
-    <div class="row">
-            Show :
-            @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOnlyOrAllUsersSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
-        @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string> {"btn", "btn-firma", "btn-sm"}, ViewDataTyped.UserIsSitkaAdmin)
-    </div>
+           
+    @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string> {"btn", "btn-firma", "btn-sm"}, ViewDataTyped.UserIsSitkaAdmin)
 
 }
 
@@ -43,7 +40,10 @@
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
-
+<div>
+    Show :
+    @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOnlyOrAllUsersSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
+</div>
 
 
 <div style="margin-top: 10px">
