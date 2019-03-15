@@ -2040,7 +2040,7 @@
     <Property Name="TenantSquareLogoFileResourceID" Type="Int32" />
     <Property Name="TenantBannerLogoFileResourceID" Type="Int32" />
     <Property Name="TenantStyleSheetFileResourceID" Type="Int32" />
-    <Property Name="TenantDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="ShortDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="ToolDisplayName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPublicKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
     <Property Name="RecaptchaPrivateKey" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />

@@ -2,13 +2,13 @@
   font-family: 'Vollkorn';
   font-style: normal;
   font-weight: 400;
-  src: local('Vollkorn Regular'), local('Vollkorn-Regular'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb9GDoxxrvAnPhYGxkpaEg.ttf) format('truetype');
+  src: local('Vollkorn Regular'), local('Vollkorn-Regular'), url(https://fonts.gstatic.com/s/vollkorn/v9/0yb9GDoxxrvAnPhYGxkpaEg.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Vollkorn';
   font-style: normal;
   font-weight: 700;
-  src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://fonts.gstatic.com/s/vollkorn/v8/0yb6GDoxxrvAnPhYGxGSTVg5jBA.ttf) format('truetype');
+  src: local('Vollkorn Bold'), local('Vollkorn-Bold'), url(https://fonts.gstatic.com/s/vollkorn/v9/0yb6GDoxxrvAnPhYGxGSTVg5jBA.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Ruthie';
@@ -85,7 +85,7 @@ a:hover {
   color: #fff;
   vertical-align: top;
 }
-.header .headerText a #headerTenantDisplayName {
+.header .headerText a #headerShortDisplayName {
   font-family: 'Ruthie', cursive;
   text-transform: none;
 }

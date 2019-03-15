@@ -81,7 +81,7 @@ span.keyPhotoButton label {
   color: #fff;
   vertical-align: top;
 }
-.header .headerText a #headerTenantDisplayName {
+.header .headerText a #headerShortDisplayName {
   font-family: "Fira Sans", sans-serif;
   text-transform: uppercase;
 }
@@ -576,6 +576,6 @@ nav#wizardNav ul li.workflowSectionGroup ul li.active span {
 .homepageActionButtons a {
   margin-top: 4px;
 }
-#headerTenantDisplayName {
+#headerShortDisplayName {
   display: none;
 }

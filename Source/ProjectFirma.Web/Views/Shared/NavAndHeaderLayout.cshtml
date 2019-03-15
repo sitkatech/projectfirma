@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>@ViewDataTyped.TenantDisplayName  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
+    <title>@ViewDataTyped.ShortDisplayName  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-57x57.png", ViewDataTyped.TenantName)>
     <link rel="apple-touch-icon" sizes="57x57" href=@string.Format("/Content/img/{0}/apple-icon-60x60.png", ViewDataTyped.TenantName)>
@@ -91,7 +91,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         else
                         {
                             <a href="@ViewDataTyped.FirmaHomeUrl">
-                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerTenantDisplayName">@ViewDataTyped.TenantDisplayName</span>
+                                <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" /><span id="headerShortDisplayName">@ViewDataTyped.ShortDisplayName</span>
                             </a>
                         }
                     </div>

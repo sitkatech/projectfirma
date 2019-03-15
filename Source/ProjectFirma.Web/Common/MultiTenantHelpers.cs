@@ -62,9 +62,9 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetPerformanceMeasureName());
         }
 
-        public static string GetTenantDisplayName()
+        public static string GetShortDisplayName()
         {
-            return GetTenantAttribute().TenantDisplayName;
+            return GetTenantAttribute().ShortDisplayName;
         }
 
         public static string GetTenantName()
