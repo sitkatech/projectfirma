@@ -29,10 +29,10 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="form-horizontal">
     @Html.HiddenFor(m => m.TenantID)
     <div class="form-group">
-        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShortDisplayName)</div>
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.TenantShortDisplayName)</div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ShortDisplayName, new {@class = "form-control"})
-            @Html.ValidationMessageFor(x => x.ShortDisplayName)
+            @Html.TextBoxFor(m => m.TenantShortDisplayName, new {@class = "form-control"})
+            @Html.ValidationMessageFor(x => x.TenantShortDisplayName)
         </div>
     </div>
     <div class="form-group">

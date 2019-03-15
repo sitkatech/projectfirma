@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantBannerLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = $"Are you sure you want to delete Tenant Banner Logo for {tenantAttribute.ShortDisplayName}?";
+            var confirmMessage = $"Are you sure you want to delete Tenant Banner Logo for {tenantAttribute.TenantShortDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -413,7 +413,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantSquareLogoFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = $"Are you sure you want to delete Tenant Square Logo for {tenantAttribute.ShortDisplayName}?";
+            var confirmMessage = $"Are you sure you want to delete Tenant Square Logo for {tenantAttribute.TenantShortDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -448,7 +448,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteTenantStyleSheetFileResource(ConfirmDialogFormViewModel viewModel, TenantAttribute tenantAttribute)
         {
-            var confirmMessage = $"Are you sure you want to delete Tenant Style Sheet for {tenantAttribute.ShortDisplayName}?";
+            var confirmMessage = $"Are you sure you want to delete Tenant Style Sheet for {tenantAttribute.TenantShortDisplayName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

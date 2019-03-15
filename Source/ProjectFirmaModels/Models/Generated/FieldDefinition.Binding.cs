@@ -228,8 +228,8 @@ namespace ProjectFirmaModels.Models
         IsDefaultOrganizationType = 276,
         IsFundingType = 277,
         SignificantDigits = 278,
-        ShortDisplayName = 279,
+        TenantShortDisplayName = 279,
         ToolDisplayName = 280,
-        SquareLogo = 281
+        TenantSquareLogo = 281
     }
 }

@@ -104,7 +104,7 @@ a:hover,
   color: #fff;
   vertical-align: top;
 }
-.header .headerText a #headerShortDisplayName {
+.header .headerText a #headerTenantShortDisplayName {
   font-family:   'PT Sans', "myriad pro", Arial;
   text-transform: none;
   font-weight: bold;

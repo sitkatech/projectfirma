@@ -87,7 +87,7 @@ hr {
 #accomplishmentsDashboard div.star-primary:after {
   background-color: #ebf1ec;
 }
-#headerShortDisplayName {
+#headerTenantShortDisplayName {
   margin-left: 30px;
 }
 .headerLogo {

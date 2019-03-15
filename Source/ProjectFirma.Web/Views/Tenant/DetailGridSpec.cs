@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Tenant
     {
         public DetailGridSpec()
         {
-            Add("Tenant Display Name", t => t.ShortDisplayName, 150);
+            Add("Tenant Display Name", t => t.TenantShortDisplayName, 150);
             Add("Tenant Name", t => t.Tenant.TenantName, 150);
             Add("Tenant Domain", t => string.Format("<a href=\"http://{0}\" target=\"_blank\">{0}</a>", FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(t.Tenant)).ToHTMLFormattedString(), 200, DhtmlxGridColumnFilterType.Html);
 
