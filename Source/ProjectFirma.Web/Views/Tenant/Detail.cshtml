@@ -53,7 +53,7 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBasicsUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
                 Basics
             </div>
@@ -63,11 +63,11 @@
                     <div class="col-sm-7">@ViewDataTyped.Tenant.TenantName</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Tenant Display Name</div>
-                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TenantDisplayName</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantShortDisplayName.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantShortDisplayName.ToType().GetFieldDefinitionLabel()</div>
+                    <div class="col-sm-7">@ViewDataTyped.TenantAttribute.TenantShortDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-5 fieldLabel text-right">Tool Display Name</div>
+                    <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(@FieldDefinitionEnum.ToolDisplayName.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.ToolDisplayName.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ToolDisplayName</div>
                 </div>
                 <div class="row">
@@ -163,7 +163,7 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
                 }
                 Default Map Extent
             </div>
@@ -178,17 +178,17 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditTenantLogoUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditTenantLogoUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
                 Logos
             </div>
             <div class="row panel-body">
-                <div class="col-sm-2 fieldLabel text-right">
+                <div class="col-sm-4 fieldLabel text-right">
                     @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
                     {
                         @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantSquareLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                     }
-                    Square Logo
+                    @Html.LabelWithSugarFor(@FieldDefinitionEnum.TenantSquareLogo.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)@FieldDefinitionEnum.TenantSquareLogo.ToType().GetFieldDefinitionLabel()
                 </div>
                 <div class="col-sm-7">
                     @if (ViewDataTyped.TenantAttribute.TenantSquareLogoFileResource != null)
@@ -204,12 +204,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-2 fieldLabel text-right">
+                <div class="col-sm-4 fieldLabel text-right">
                     @if (ViewDataTyped.IsCurrentTenant && ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
                     {
                         @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), ViewDataTyped.DeleteTenantBannerLogoFileResourceUrl, null, ViewDataTyped.UserHasTenantManagePermissions)
                     }
-                    Tenant Banner Logo
+                    Banner Logo
                 </div>
                 <div class="col-sm-7">
                     @if (ViewDataTyped.TenantAttribute.TenantBannerLogoFileResource != null)
@@ -231,7 +231,7 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditStylesheetUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditStylesheetUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
                 Tenant Style Sheet
             </div>
@@ -266,7 +266,7 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditClassificationSystemsUrl, string.Format("Edit {0} Tenant: {1}", FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
                 }
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.ClassificationSystem.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
                 @FieldDefinitionEnum.ClassificationSystem.ToType().GetFieldDefinitionLabel()

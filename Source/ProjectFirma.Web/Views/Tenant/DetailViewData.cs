@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.Tenant
             string gridDataUrl, string editClassificationSystemsUrl, string editStylesheetUrl, string editTenantLogoUrl)
             : base(currentPerson)
         {
-            PageTitle = tenantAttribute.TenantDisplayName;
+            PageTitle = tenantAttribute.TenantShortDisplayName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             EditBasicsUrl = editBasicsUrl;

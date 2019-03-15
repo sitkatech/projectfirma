@@ -1181,7 +1181,7 @@
           <ScalarProperty Name="TenantSquareLogoFileResourceID" ColumnName="TenantSquareLogoFileResourceID" />
           <ScalarProperty Name="TenantBannerLogoFileResourceID" ColumnName="TenantBannerLogoFileResourceID" />
           <ScalarProperty Name="TenantStyleSheetFileResourceID" ColumnName="TenantStyleSheetFileResourceID" />
-          <ScalarProperty Name="TenantDisplayName" ColumnName="TenantDisplayName" />
+          <ScalarProperty Name="ShortDisplayName" ColumnName="ShortDisplayName" />
           <ScalarProperty Name="ToolDisplayName" ColumnName="ToolDisplayName" />
           <ScalarProperty Name="RecaptchaPublicKey" ColumnName="RecaptchaPublicKey" />
           <ScalarProperty Name="RecaptchaPrivateKey" ColumnName="RecaptchaPrivateKey" />

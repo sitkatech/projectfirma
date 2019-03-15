@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.Tenant
         public int? TenantID { get; set; }
 
         [Required]
-        [DisplayName("Tenant Display Name")]
-        public string TenantDisplayName { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TenantShortDisplayName)]
+        public string TenantShortDisplayName { get; set; }
 
         [Required]
-        [DisplayName("Tool Display Name")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ToolDisplayName)]
         public string ToolDisplayName { get; set; }
 
         [DisplayName("Primary Contact")]
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.Tenant
         public EditBasicsViewModel(ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute)
         {
             TenantID = tenant.TenantID;
-            TenantDisplayName = tenantAttribute.TenantDisplayName;
+            TenantShortDisplayName = tenantAttribute.TenantShortDisplayName;
             ToolDisplayName = tenantAttribute.ToolDisplayName;
             PrimaryContactPersonID = tenantAttribute.PrimaryContactPersonID;
             TaxonomyLevelID = tenantAttribute.TaxonomyLevelID;
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
         {
-            attribute.TenantDisplayName = TenantDisplayName;
+            attribute.TenantShortDisplayName = TenantShortDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;
             attribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;

@@ -1983,7 +1983,7 @@ warning 6035: The relationship 'FK_TaxonomyBranch_TaxonomyTrunk_TaxonomyTrunkID_
     <Property Name="TenantSquareLogoFileResourceID" Type="int" />
     <Property Name="TenantBannerLogoFileResourceID" Type="int" />
     <Property Name="TenantStyleSheetFileResourceID" Type="int" />
-    <Property Name="TenantDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="ShortDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="ToolDisplayName" Type="varchar" Nullable="false" MaxLength="100" />
     <Property Name="RecaptchaPublicKey" Type="varchar" MaxLength="100" />
     <Property Name="RecaptchaPrivateKey" Type="varchar" MaxLength="100" />

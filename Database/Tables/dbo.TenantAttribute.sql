@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[TenantSquareLogoFileResourceID] [int] NULL,
 	[TenantBannerLogoFileResourceID] [int] NULL,
 	[TenantStyleSheetFileResourceID] [int] NULL,
-	[TenantDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[TenantShortDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ToolDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RecaptchaPublicKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[RecaptchaPrivateKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -37,7 +37,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_TenantAttribute_TenantDisplayName] UNIQUE NONCLUSTERED 
 (
-	[TenantDisplayName] ASC
+	[TenantShortDisplayName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
  CONSTRAINT [AK_TenantAttribute_TenantID] UNIQUE NONCLUSTERED 
 (

@@ -1,4 +1,9 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Archivo');
+﻿@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Archivo Regular'), local('Archivo-Regular'), url(https://fonts.gstatic.com/s/archivo/v4/k3kQo8UDI-1M0wlSfdnoKw.ttf) format('truetype');
+}
 html,
 body {
   height: 100%;
@@ -82,7 +87,7 @@ hr {
 #accomplishmentsDashboard div.star-primary:after {
   background-color: #ebf1ec;
 }
-#headerTenantDisplayName {
+#headerTenantShortDisplayName {
   margin-left: 30px;
 }
 .headerLogo {
@@ -247,8 +252,8 @@ table.summaryLayout th,
 }
 /* First arrow */
 .firstArrow {
-  border-top-left-radius: .25rem;
-  border-bottom-left-radius: .25rem;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
 }
 .firstArrow.current {
   background-color: #AAB637;
@@ -321,8 +326,8 @@ table.summaryLayout th,
 }
 /* Last arrow */
 .lastArrow {
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
 }
 .lastArrow.current {
   background-color: #AAB637;

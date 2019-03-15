@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantSquareLogoFileResourceID).HasColumnName(@"TenantSquareLogoFileResourceID").HasColumnType("int").IsOptional();
             Property(x => x.TenantBannerLogoFileResourceID).HasColumnName(@"TenantBannerLogoFileResourceID").HasColumnType("int").IsOptional();
             Property(x => x.TenantStyleSheetFileResourceID).HasColumnName(@"TenantStyleSheetFileResourceID").HasColumnType("int").IsOptional();
-            Property(x => x.TenantDisplayName).HasColumnName(@"TenantDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
+            Property(x => x.TenantShortDisplayName).HasColumnName(@"TenantShortDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ToolDisplayName).HasColumnName(@"ToolDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.RecaptchaPublicKey).HasColumnName(@"RecaptchaPublicKey").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
             Property(x => x.RecaptchaPrivateKey).HasColumnName(@"RecaptchaPrivateKey").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
