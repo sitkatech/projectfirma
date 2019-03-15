@@ -28,6 +28,14 @@ Source code is available upon request via <support@sitkatech.com>.
     .blockOverlay {
         z-index: 999;
     }
+
+    .showMoreGeospatialAreas[aria-expanded="false"]:before {
+        content: "[show]";
+    }
+
+    .showMoreGeospatialAreas[aria-expanded="true"]:before {
+        content: "[hide]";
+    }
 </style>
 
 <div>
@@ -64,20 +72,40 @@ Source code is available upon request via <support@sitkatech.com>.
             <label>
                 @geospatialAreaType.GeospatialAreaTypeNamePluralized
             </label>
-            <ul class="noListStyle">
-                @foreach (var geospatialArea in ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).OrderBy(x => x.GetDisplayName()))
-                {
-                    <li>
-                        <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
-                    </li>
-                }
-                @if (ViewDataTyped.GeospatialAreas.All(x => x.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID))
-                {
-                    <li style="list-style-type: none; margin-left: -40px;">
-                        None Selected
-                    </li>
-                }
-            </ul>
+            @{
+                var geospatialAreas = ViewDataTyped.GeospatialAreas.Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            }
+            @if (!geospatialAreas.Any())
+            {
+                <p>None Selected</p>
+            }
+            else if (geospatialAreas.Count > 4)
+            {
+                <span>@geospatialAreas.Count Selected</span>
+                <a class="showMoreGeospatialAreas" style="font-size: smaller; font-style: italic" role="button" data-toggle="collapse" data-target="#morePerformanceMeasureSubcategory@(geospatialAreaType.GeospatialAreaTypeID)Options" aria-expanded="false"></a>
+                <div class="collapse" id="morePerformanceMeasureSubcategory@(geospatialAreaType.GeospatialAreaTypeID)Options">
+                    <ul class="noListStyle">
+                        @foreach (var geospatialArea in geospatialAreas)
+                        {
+                            <li>
+                                <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <ul class="noListStyle">
+                    @foreach (var geospatialArea in geospatialAreas)
+                    {
+                        <li>
+                            <a href="@geospatialArea.GetDetailUrl()">@geospatialArea.GetDisplayName()</a>
+                        </li>
+                    }
+                </ul>
+            }
+
         </div>
         if (ViewDataTyped.DictionaryGeoNotes.ContainsKey(geospatialAreaType.GeospatialAreaTypeID))
         {
