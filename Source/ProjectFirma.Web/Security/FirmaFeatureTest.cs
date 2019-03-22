@@ -52,8 +52,8 @@ namespace ProjectFirma.Web.Security
             // Remove exceptions
             info = info.Where(x => x.Name != "JasmineController.Run").ToList();
 
-            Assert.That(info.Where(x => x.FeatureCount == 0).ToList(), Is.Empty, string.Format("All should have at least one {0}", _typeOfFirmaBaseFeature.Name));
-            Assert.That(info.Where(x => x.FeatureCount > 1).ToList(), Is.Empty, string.Format("Should have no more than one{0}", _typeOfFirmaBaseFeature.Name));
+            Assert.That(info.Where(x => x.FeatureCount == 0).ToList(), Is.Empty, $"All should have at least one {_typeOfFirmaBaseFeature.Name}");
+            Assert.That(info.Where(x => x.FeatureCount > 1).ToList(), Is.Empty, $"Should have no more than one{_typeOfFirmaBaseFeature.Name}");
         }
 
         private static string MethodName(MethodInfo method)
@@ -93,7 +93,8 @@ namespace ProjectFirma.Web.Security
 
             if (listOfSecurityFeaturesWithoutDescription.Count > 0)
             {
-                Assert.Fail(Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, listOfSecurityFeaturesWithoutDescription));
+                string failMessage = Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, listOfSecurityFeaturesWithoutDescription);
+                Assert.Fail(failMessage);
             }
         }
 

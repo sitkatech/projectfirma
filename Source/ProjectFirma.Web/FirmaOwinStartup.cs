@@ -94,10 +94,14 @@ namespace ProjectFirma.Web
                             claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
 
                             if (n.ProtocolMessage.Code != null)
+                            {
                                 claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+                            }
 
                             if (n.ProtocolMessage.AccessToken != null)
+                            {
                                 claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+                            }
 
                             //map name claim to default name type
                             claimsIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
@@ -118,7 +122,9 @@ namespace ProjectFirma.Web
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
 
                                 if (idTokenHint != null)
+                                {
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                }
                             }
                             else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
                             {
@@ -144,7 +150,7 @@ namespace ProjectFirma.Web
         {
             var urlHost = argRequest.Host.ToString();
             var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
-            Check.RequireNotNull(tenant, string.Format("Could not determine tenant from host {0}", urlHost));
+            Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
             return tenant;
         }
 
@@ -222,7 +228,7 @@ namespace ProjectFirma.Web
             {
                 var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
                 person.OrganizationID = unknownOrganization.OrganizationID;
-                //Assign user to magic Unkown Organization ID
+                //Assign user to magic Unknown Organization ID
             }
 
             person.UpdateDate = DateTime.Now;

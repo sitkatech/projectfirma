@@ -125,7 +125,6 @@ namespace ProjectFirma.Web
             UnsupportedHttpMethodHandler.BeginRequestRespondToUnsupportedHttpMethodsWith405MethodNotAllowed(Request, Response);
             RedirectToCanonicalHostnameIfNeeded();
             Response.TrySkipIisCustomErrors = true;
-
         }
 
         /// <summary>
@@ -143,7 +142,6 @@ namespace ProjectFirma.Web
             // Check for hostname match (deliberately case-insensitive, DNS is case-insensitive and so is SSL Cert for common name) against the canonical host name as specified in the configuration
             if (!String.Equals(Request.Url.Host, canonicalHostName, StringComparison.InvariantCultureIgnoreCase))
             {
-
                 var builder = new UriBuilder(Request.Url) { Host = canonicalHostName };
                 var newUri = builder.Uri;
 
