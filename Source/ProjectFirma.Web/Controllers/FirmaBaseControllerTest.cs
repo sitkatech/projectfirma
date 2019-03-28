@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
             var missingHumanReadable = missing.Select(x => $"{x.ReflectedType.Name}.{x.Name}").Where(x => !exceptions.Contains(x)).ToList();
             Assert.That(missingHumanReadable,
                 Is.Empty,
-                $"Some controller actions methods may be using intergral data types for ID fields, consider using one of the types derived from \"{typeof(LtInfoEntityPrimaryKey<>)}\" instead or add an exception to this test");
+                $"Some controller actions methods may be using integral data types for ID fields, consider using one of the types derived from \"{typeof(LtInfoEntityPrimaryKey<>)}\" instead or add an exception to this test");
         }
     }
 }

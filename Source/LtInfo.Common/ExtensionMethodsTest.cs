@@ -33,7 +33,7 @@ namespace LtInfo.Common
         {
             var regExToUse = StringFormats.ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain("someapp.somedomain.org");
             var regEx = new Regex(regExToUse, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            Trace.WriteLine(string.Format("Non-server root relative Regex string: {0}", regExToUse));
+            Trace.WriteLine($"Non-server root relative Regex string: {regExToUse}");
             Assert.That(((string) null).DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Null string - can't be bad");
             Assert.That("".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Empty string - can't be bad");
             Assert.That("ABC".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Simple string - can't be bad");

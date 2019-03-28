@@ -184,9 +184,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public PartialViewResult ParticipatingOrganizations(int organizationID)
+        public PartialViewResult ParticipatingOrganizations(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var partnerOrganizations = GetPartnerOrganizations(organizationID);
+            var partnerOrganizations = GetPartnerOrganizations(organizationPrimaryKey.PrimaryKeyValue);
 
             var viewData = new ParticipatingOrganizationsViewData(partnerOrganizations.OrderByDescending(x=> x.Count()).Take(9).ToList());
             return RazorPartialView<ParticipatingOrganizations, ParticipatingOrganizationsViewData>(viewData);
