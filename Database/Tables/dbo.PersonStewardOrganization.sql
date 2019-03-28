@@ -24,10 +24,10 @@ REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
 ALTER TABLE [dbo].[PersonStewardOrganization] CHECK CONSTRAINT [FK_PersonStewardOrganization_Organization_OrganizationID]
 GO
-ALTER TABLE [dbo].[PersonStewardOrganization]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardOrganization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
+ALTER TABLE [dbo].[PersonStewardOrganization]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardOrganization_Organization_OrganizationID_TenantID] FOREIGN KEY([OrganizationID], [TenantID])
 REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
 GO
-ALTER TABLE [dbo].[PersonStewardOrganization] CHECK CONSTRAINT [FK_PersonStewardOrganization_OrganizationID_TenantID]
+ALTER TABLE [dbo].[PersonStewardOrganization] CHECK CONSTRAINT [FK_PersonStewardOrganization_Organization_OrganizationID_TenantID]
 GO
 ALTER TABLE [dbo].[PersonStewardOrganization]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardOrganization_Person_PersonID] FOREIGN KEY([PersonID])
 REFERENCES [dbo].[Person] ([PersonID])

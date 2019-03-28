@@ -1,3 +1,16 @@
-﻿TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
-AuditLog	ProjectID					
-AuditLog	RecordID					
+﻿TableSchema	TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
+dbo	AuditLog	ProjectID					
+dbo	AuditLog	RecordID					
+dbo	ProjectCustomAttributeType	IncludeInProjectGrid					
+HangFire	AggregatedCounter	Id					
+HangFire	Counter	Id					
+HangFire	Hash	Id					
+HangFire	Job	Id					
+HangFire	Job	StateId					
+HangFire	JobParameter	Id					
+HangFire	JobQueue	Id					
+HangFire	JobQueue	JobId					
+HangFire	List	Id					
+HangFire	Server	Id					
+HangFire	Set	Id					
+HangFire	State	Id					

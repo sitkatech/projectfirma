@@ -24,10 +24,10 @@ REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID])
 GO
 ALTER TABLE [dbo].[PersonStewardGeospatialArea] CHECK CONSTRAINT [FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID]
 GO
-ALTER TABLE [dbo].[PersonStewardGeospatialArea]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardGeospatialArea_GeospatialAreaID_TenantID] FOREIGN KEY([GeospatialAreaID], [TenantID])
+ALTER TABLE [dbo].[PersonStewardGeospatialArea]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID_TenantID] FOREIGN KEY([GeospatialAreaID], [TenantID])
 REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID], [TenantID])
 GO
-ALTER TABLE [dbo].[PersonStewardGeospatialArea] CHECK CONSTRAINT [FK_PersonStewardGeospatialArea_GeospatialAreaID_TenantID]
+ALTER TABLE [dbo].[PersonStewardGeospatialArea] CHECK CONSTRAINT [FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID_TenantID]
 GO
 ALTER TABLE [dbo].[PersonStewardGeospatialArea]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardGeospatialArea_Person_PersonID] FOREIGN KEY([PersonID])
 REFERENCES [dbo].[Person] ([PersonID])

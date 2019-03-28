@@ -25,10 +25,10 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ImportExternalProjectStaging] CHECK CONSTRAINT [FK_ImportExternalProjectStaging_Person_CreatePersonID_PersonID]
 GO
-ALTER TABLE [dbo].[ImportExternalProjectStaging]  WITH CHECK ADD  CONSTRAINT [FK_ImportExternalProjectStaging_Person_PersonID_TenantID] FOREIGN KEY([CreatePersonID], [TenantID])
+ALTER TABLE [dbo].[ImportExternalProjectStaging]  WITH CHECK ADD  CONSTRAINT [FK_ImportExternalProjectStaging_Person_CreatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([CreatePersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[ImportExternalProjectStaging] CHECK CONSTRAINT [FK_ImportExternalProjectStaging_Person_PersonID_TenantID]
+ALTER TABLE [dbo].[ImportExternalProjectStaging] CHECK CONSTRAINT [FK_ImportExternalProjectStaging_Person_CreatePersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ImportExternalProjectStaging]  WITH CHECK ADD  CONSTRAINT [FK_ImportExternalProjectStaging_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

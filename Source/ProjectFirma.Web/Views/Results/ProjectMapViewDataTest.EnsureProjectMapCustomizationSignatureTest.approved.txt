@@ -1,6 +1,5 @@
 ﻿{
   "ProjectLocationFilterType": {
-    "DisplayName": "Project Stage",
     "ProjectLocationFilterTypeID": 5,
     "ProjectLocationFilterTypeName": "ProjectStage",
     "ProjectLocationFilterTypeNameWithIdentifier": "ProjectStageID",
@@ -11,12 +10,11 @@
     "ToEnum": 5
   },
   "ProjectColorByType": {
-    "DisplayName": "Stage",
     "ProjectColorByTypeID": 2,
     "ProjectColorByTypeName": "ProjectStage",
     "ProjectColorByTypeNameWithIdentifier": "ProjectStageID",
     "ProjectColorByTypeDisplayName": "Stage",
-    "SortOrder": 20,
+    "SortOrder": 40,
     "PrimaryKey": 2,
     "ToEnum": 2
   },

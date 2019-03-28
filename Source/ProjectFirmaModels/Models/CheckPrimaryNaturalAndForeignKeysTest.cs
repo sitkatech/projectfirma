@@ -49,8 +49,11 @@ namespace ProjectFirmaModels.Models
             const string sql = @"      select *
                         from
                         (
-                            select c.TABLE_NAME as TableName, c.COLUMN_NAME as ColumnName
-                            from INFORMATION_SCHEMA.COLUMNS c
+                            select
+                            c.TABLE_SCHEMA as TableSchema,
+                            c.TABLE_NAME as TableName, 
+                            c.COLUMN_NAME as ColumnName
+                            from INFORMATION_SCHEMA.COLUMNS as c
                             join INFORMATION_SCHEMA.TABLES t on c.TABLE_NAME = t.TABLE_NAME
                             where c.COLUMN_NAME like '%ID' 
                             and t.table_type = 'BASE TABLE'
@@ -65,7 +68,7 @@ namespace ProjectFirmaModels.Models
                             from
                             (
                                 select  rt.name as ParentTableName, pt.name as ChildTableName, fk.name as ConstraintName,
-                                        (         
+                                        (
                                             SELECT  '_' + pc.name AS [text()]
                                             from sys.foreign_key_columns fkcparent
                                             join sys.columns			 pc		on pc.object_id = fkcparent.parent_object_id and pc.column_id = fkcparent.parent_column_id
@@ -73,7 +76,7 @@ namespace ProjectFirmaModels.Models
                                             ORDER BY fkcparent.constraint_column_id
                                             FOR XML PATH(''), TYPE
                                         ).value('/', 'NVARCHAR(MAX)') as ParentColumns,
-                                        (         
+                                        (
                                             SELECT  '_' + rc.name AS [text()]
                                             from sys.foreign_key_columns fkcchild
                                             join sys.columns			 rc		on rc.object_id = fkcchild.referenced_object_id and rc.column_id = fkcchild.referenced_column_id
@@ -87,7 +90,7 @@ namespace ProjectFirmaModels.Models
                             ) a
                         ) existingfks on nonpkcolumns.TableName = existingfks.ChildTableName and nonpkcolumns.ColumnName  = existingfks.ParentColumnName
                         where existingfks.ParentTableName is null
-                        order by TableName, ColumnName";
+                        order by TableSchema, TableName, ColumnName";
             var result = ExecAdHocSql(sql);
             Approvals.Verify(result.TableToHumanReadableString());
         }
@@ -102,27 +105,35 @@ namespace ProjectFirmaModels.Models
 
                     if object_id('tempdb.dbo.#IdealConstraintName') is not null drop table #IdealConstraintName
 
-
-                    select b.ParentTableName,
+                    select  b.ParentSchemaName,
+                            b.ParentTableName,
+                            b.ChildSchemaName,
                             b.ChildTableName,
                             b.ConstraintName,
                             b.IdealNewConstraintName,
-                            SUBSTRING(b.IdealNewConstraintName, 1,  @maxNameLength) as TruncatedConstraintName,     
+                            SUBSTRING(b.IdealNewConstraintName, 1,  @maxNameLength) as TruncatedConstraintName,
                             -- We are attempting to work around collisions in names once truncated. This is a decent solution for the present time, but it will
                             -- break down potentially. We don't expect this to happen, but the real solution should be done in C# anyhow.
                             ROW_NUMBER() over (partition by SUBSTRING(b.IdealNewConstraintName, 1,  @maxNameLength) order by b.IdealNewConstraintName ASC) as TruncatedRank,
                             COUNT(IdealNewConstraintName) over (partition by SUBSTRING(b.IdealNewConstraintName, 1,  @maxNameLength))  as TruncatedRankCount
                     into #IdealConstraintName
                     from
-                    (        
-                        select a.ParentTableName, 
-                                a.ChildTableName, 
+                    (
+                        select  a.ParentSchemaName,
+                                a.ParentTableName,
+                                a.ChildSchemaName,
+                                a.ChildTableName,
                                 a.ConstraintName,
                                 'FK_' + a.ChildTableName + '_' + a.ParentTableName + case when a.ParentColumns = a.ChildColumns then a.ParentColumns else a.ParentColumns + a.ChildColumns end as IdealNewConstraintName
                         from
                         (
-                            select  rt.name as ParentTableName, pt.name as ChildTableName, fk.name as ConstraintName,
-                                    (         
+                            select
+                                   rsc.name as ParentSchemaName,
+                                   rt.name as ParentTableName,
+                                   psc.name as ChildSchemaName,
+                                   pt.name as ChildTableName,
+                                   fk.name as ConstraintName,
+                                    (
                                         SELECT  '_' + pc.name AS [text()]
                                         from sys.foreign_key_columns fkcparent
                                         join sys.columns			 pc		on pc.object_id = fkcparent.parent_object_id and pc.column_id = fkcparent.parent_column_id
@@ -130,25 +141,31 @@ namespace ProjectFirmaModels.Models
                                         ORDER BY fkcparent.constraint_column_id
                                         FOR XML PATH(''), TYPE
                                     ).value('/', 'NVARCHAR(MAX)') as ParentColumns,
-                                    (         
+                                    (
                                         SELECT  '_' + rc.name AS [text()]
                                         from sys.foreign_key_columns fkcchild
                                         join sys.columns			 rc		on rc.object_id = fkcchild.referenced_object_id and rc.column_id = fkcchild.referenced_column_id
                                         WHERE   fkcchild.constraint_object_id = fk.object_id
                                         ORDER BY fkcchild.constraint_column_id
-                                        FOR XML PATH(''), TYPE         
+                                        FOR XML PATH(''), TYPE
                                     ).value('/', 'NVARCHAR(MAX)') as ChildColumns
-                            from sys.foreign_keys		 fk
-                            join sys.tables				 pt on pt.object_id = fk.parent_object_id
-                            join sys.tables				 rt on rt.object_id = fk.referenced_object_id
+                            from sys.foreign_keys        fk
+                            join sys.tables              pt on pt.object_id = fk.parent_object_id
+                            join sys.tables              rt on rt.object_id = fk.referenced_object_id
+                            join sys.schemas             psc on psc.schema_id = pt.schema_id
+                            join sys.schemas             rsc on rsc.schema_id = rt.schema_id
                         ) as a
                     ) as b
 
-                    select db_name() as DatabaseName, c.ChildTableName as TableName, c.ConstraintName as ConstraintName, c.IdealNewConstraintName,
+                    select db_name() as DatabaseName,
+                           c.ChildSchemaName as SchemaName,
+                           c.ChildTableName as TableName,
+                           c.ConstraintName as ConstraintName,
+                           c.IdealNewConstraintName,
                            'exec sp_rename ''' + c.ConstraintName + ''', ''' + IdealNewConstraintName + ''', ''OBJECT''' AS QueryToRenameConstraint
                     from
                     (
-                        select x.ParentTableName, x.ChildTableName, x.ConstraintName,
+                        select x.ParentSchemaName, x.ParentTableName, x.ChildSchemaName, x.ChildTableName, x.ConstraintName,
                                 case 
                                     when x.TruncatedRankCount = 1 then x.TruncatedConstraintName
                                     else substring(x.TruncatedConstraintName, 1, @maxNameLength - datalength(cast(x.TruncatedRank as varchar(25)))) + cast(x.TruncatedRank as varchar(25))
@@ -156,8 +173,8 @@ namespace ProjectFirmaModels.Models
                         from #IdealConstraintName x
                     ) as c
                     where c.ConstraintName != c.IdealNewConstraintName
-                    order by c.ParentTableName, c.ChildTableName, IdealNewConstraintName
-                ";
+                    order by c.ParentSchemaName, c.ParentTableName, c.ChildSchemaName, c.ChildTableName, IdealNewConstraintName
+             ";
             var result = ExecAdHocSql(sql);
             Approvals.Verify(result.TableToHumanReadableString());
         }
@@ -167,16 +184,18 @@ namespace ProjectFirmaModels.Models
         public void AssureThatPrimaryKeyColumnMatchNamingStandard()
         {
             const string sql = @"
-                select a.TableName, a.PrimaryKeyName, 'exec sp_rename ''' + a.TableName + '.' + a.PrimaryKeyName + ''', ''' + NewPrimaryKeyName + '''' AS QueryToRenameConstraint
+                select a.SchemaName, a.TableName, a.PrimaryKeyName, 'exec sp_rename ''' + a.TableName + '.' + a.PrimaryKeyName + ''', ''' + NewPrimaryKeyName + '''' AS QueryToRenameConstraint
                 from
                 (
-                    SELECT	t.TABLE_NAME as TableName, 
-                            substring(                            (         
-                                SELECT  cols.COLUMN_NAME AS [text()]       
+                    SELECT
+                            t.TABLE_SCHEMA as SchemaName,
+                            t.TABLE_NAME as TableName,
+                            substring( (
+                                SELECT  cols.COLUMN_NAME AS [text()]
                                 from INFORMATION_SCHEMA.KEY_COLUMN_USAGE cols
                                 WHERE   cols.CONSTRAINT_NAME = c.CONSTRAINT_NAME
                                 ORDER BY cols.ORDINAL_POSITION   
-                                FOR XML PATH(''), TYPE         
+                                FOR XML PATH(''), TYPE
                                 ).value('/', 'NVARCHAR(MAX)'), 1, 128) as PrimaryKeyName,
                                 t.TABLE_NAME + 'ID' as NewPrimaryKeyName
                     from INFORMATION_SCHEMA.TABLES t 
@@ -184,9 +203,9 @@ namespace ProjectFirmaModels.Models
                                                                 and c.CONSTRAINT_TYPE in ('primary key')
                     where t.TABLE_TYPE = 'BASE TABLE'
                     and t.TABLE_NAME not in ('sysdiagrams', 'DatabaseMigration')
-                ) a 
+                ) a
                 where a.PrimaryKeyName != a.NewPrimaryKeyName
-                order by a.TableName, a.PrimaryKeyName";
+                order by a.SchemaName, a.TableName, a.PrimaryKeyName";
             var result = ExecAdHocSql(sql);
             Approvals.Verify(result.TableToHumanReadableString());
         }

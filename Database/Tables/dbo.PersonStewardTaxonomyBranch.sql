@@ -34,10 +34,10 @@ REFERENCES [dbo].[TaxonomyBranch] ([TaxonomyBranchID])
 GO
 ALTER TABLE [dbo].[PersonStewardTaxonomyBranch] CHECK CONSTRAINT [FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID]
 GO
-ALTER TABLE [dbo].[PersonStewardTaxonomyBranch]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardTaxonomyBranch_TaxonomyBranchID_TenantID] FOREIGN KEY([TaxonomyBranchID], [TenantID])
+ALTER TABLE [dbo].[PersonStewardTaxonomyBranch]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID_TenantID] FOREIGN KEY([TaxonomyBranchID], [TenantID])
 REFERENCES [dbo].[TaxonomyBranch] ([TaxonomyBranchID], [TenantID])
 GO
-ALTER TABLE [dbo].[PersonStewardTaxonomyBranch] CHECK CONSTRAINT [FK_PersonStewardTaxonomyBranch_TaxonomyBranchID_TenantID]
+ALTER TABLE [dbo].[PersonStewardTaxonomyBranch] CHECK CONSTRAINT [FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID_TenantID]
 GO
 ALTER TABLE [dbo].[PersonStewardTaxonomyBranch]  WITH CHECK ADD  CONSTRAINT [FK_PersonStewardTaxonomyBranch_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
