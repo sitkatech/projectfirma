@@ -24,6 +24,7 @@ using System.Data.Entity;
 using System.Linq;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -49,9 +50,14 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         }
 
         public EditProjectFundingSourceExpendituresViewModel(ProjectFirmaModels.Models.Project project,
-            List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditureBulks,
-            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
+                                                            List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditureBulks,
+                                                            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
+            // Preconditions
+            Check.EnsureNotNull(project);
+            Check.EnsureNotNull(projectFundingSourceExpenditureBulks);
+            Check.EnsureNotNull(projectExemptReportingYears);
+
             ProjectFundingSourceExpenditures = projectFundingSourceExpenditureBulks;
             ProjectExemptReportingYears = projectExemptReportingYears;
             Explanation = project.NoExpendituresToReportExplanation;

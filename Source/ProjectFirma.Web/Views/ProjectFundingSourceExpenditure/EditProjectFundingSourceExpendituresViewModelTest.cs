@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
             // Act
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
-            var viewModel = new EditProjectFundingSourceExpendituresViewModel(null, ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures), new List<ProjectExemptReportingYearSimple>());
+            var viewModel = new EditProjectFundingSourceExpendituresViewModel(project, ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures), new List<ProjectExemptReportingYearSimple>());
 
             // Assert
             Assert.That(viewModel.ProjectFundingSourceExpenditures.Select(x => x.FundingSourceID), Is.EquivalentTo(allFundingSources.Select(x => x.FundingSourceID)));

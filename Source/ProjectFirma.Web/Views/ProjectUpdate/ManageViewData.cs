@@ -48,13 +48,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string CloseOutIntroPreviewUrl { get; }
 
         public ManageViewData(Person currentPerson,
-            ProjectFirmaModels.Models.FirmaPage firmaPage,
-            string customNotificationUrl,
-            ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
-            string projectsRequiringUpdateGridDataUrl,
-            PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
-            string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount,
-            ProjectUpdateSetting projectUpdateSetting) : base(currentPerson, firmaPage)
+                              ProjectFirmaModels.Models.FirmaPage firmaPage,
+                              string customNotificationUrl,
+                              ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
+                              string projectsRequiringUpdateGridDataUrl,
+                              PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
+                              string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount,
+                              ProjectUpdateSetting projectUpdateSetting) : base(currentPerson, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
@@ -73,12 +73,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PeopleReceivingReminderGridSpec = peopleReceivingReminderGridSpec;
             PeopleReceivingReminderGridName = "peopleReceivingAnReminderGrid";
 
-            KickOffIntroPreviewUrl =
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.KickOffIntroPreview());
-            ReminderIntroPreviewUrl =
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReminderIntroPreview());
-            CloseOutIntroPreviewUrl =
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
+            KickOffIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.KickOffIntroPreview());
+            ReminderIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReminderIntroPreview());
+            CloseOutIntroPreviewUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CloseOutIntroPreview());
 
             var getPersonIDFunctionString =
                 $"function() {{ return Sitka.{PeopleReceivingReminderGridName}.getValuesFromCheckedGridRows({0}, \'PersonID\', \'PersonIDList\'); }}";
@@ -96,8 +93,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             PeopleReceivingReminderGridSpec.ArbitraryHtml = new List<string> {modalDialogFormLink.ToString()};
 
-            EditProjectUpdateConfigurationUrl =
-                SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.EditProjectUpdateConfiguration());
+            EditProjectUpdateConfigurationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.EditProjectUpdateConfiguration());
         }
     }
 }

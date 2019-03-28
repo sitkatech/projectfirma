@@ -112,14 +112,14 @@ namespace ProjectFirma.Web.Security
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
                 if (!obj.GrantedRoles.Contains(Role.Admin) && obj.GrantedRoles.Count != 0)
                 {
-                    var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
+                    var errorMessage = $"Feature {type.FullName} is not available to Administrators";
                     listOfErrors.Add(errorMessage);
                 }
 
-                //Validate Unassigned does NOT have access                
+                //Validate Unassigned does NOT have access
                 if (obj.GrantedRoles.Contains(Role.Unassigned))
                 {
-                    string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
+                    string errorMessage = $"Feature {type.FullName} is available to the Unassigned role";
                     listOfErrors.Add(errorMessage);
                 }
             }

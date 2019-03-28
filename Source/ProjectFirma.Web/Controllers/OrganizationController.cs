@@ -58,6 +58,7 @@ namespace ProjectFirma.Web.Controllers
 
         }
 
+        [OrganizationViewFeature]
         public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
