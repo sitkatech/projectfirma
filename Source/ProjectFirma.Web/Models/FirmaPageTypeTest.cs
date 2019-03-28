@@ -16,8 +16,8 @@ namespace ProjectFirma.Web.Models
         [UseReporter(typeof(DiffReporter))]
         public void CheckForUncreatedFirmaPageForFirmaPageType()
         {
+            var allFirmaPages = HttpRequestStorage.DatabaseEntities.AllFirmaPages.ToList();
             var allFirmaPageTypes = HttpRequestStorage.DatabaseEntities.FirmaPageTypes.ToList();
-            var allFirmaPages = HttpRequestStorage.DatabaseEntities.FirmaPages.ToList();
             var allTenants = Tenant.All;
             string missingPageTypes = string.Empty;
 
