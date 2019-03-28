@@ -48,11 +48,11 @@ namespace ProjectFirmaModels.Models
             return SaveChanges(Person);
         }
 
-        public int SaveChangesWithNoAuditing(int tenantID)
+        public int SaveChangesWithNoAuditing(int tenantId)
         {
             ChangeTracker.DetectChanges();
             var dbEntityEntries = ChangeTracker.Entries().ToList();
-            SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
+            SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantId);
             return base.SaveChanges();
         }
 
