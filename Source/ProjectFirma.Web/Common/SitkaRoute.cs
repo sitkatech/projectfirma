@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Common
                 hostName = FirmaWebConfiguration.GetCanonicalHost(currentContext.Request.Url.Host, true) ?? FirmaWebConfiguration.CanonicalHostName;
             }
 
-            return String.Format("{0}://{1}{2}", protocol, hostName, relativeUrl);
+            return $"{protocol}://{hostName}{relativeUrl}";
         }
         
         private static string LinkBuilderBuildUrlFromExpressionImpl(Expression<Action<T>> routeExpression)
@@ -150,8 +150,8 @@ namespace ProjectFirma.Web.Common
             var currentContext = HttpContext.Current;
             var requestRequestContext = currentContext != null ? currentContext.Request.RequestContext : GenericRequestContext; // for unit testing, we need a request
             var route = SitkaLinkBuilder.BuildUrlFromExpression(requestRequestContext, RouteTable.Routes, routeExpression);
-            Check.RequireNotNullNotEmptyNotWhitespace(route, string.Format("Could not find a route entry for route expression \"{0}.{1}\"", routeExpression.Type.Name, routeExpression));
-            Check.Require(!route.Contains("?"), string.Format("Route expression \"{0}.{1}\" resulted in url \"{2}\" which contains a UrlParameter converted to a QueryStringParameter, most likely due to an optional blank/null parameter preceeding another non-blank/non-null parameter. We want only url parameters for routing - no query strings - to keep more fine grained control over url appearance", routeExpression.Type.Name, routeExpression.Body, route));
+            Check.RequireNotNullNotEmptyNotWhitespace(route,$"Could not find a route entry for route expression \"{routeExpression.Type.Name}.{routeExpression}\"");
+            Check.Require(!route.Contains("?"), $"Route expression \"{routeExpression.Type.Name}.{routeExpression.Body}\" resulted in url \"{route}\" which contains a UrlParameter converted to a QueryStringParameter, most likely due to an optional blank/null parameter preceeding another non-blank/non-null parameter. We want only url parameters for routing - no query strings - to keep more fine grained control over url appearance");
             return route;
         }
 
