@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
 
         public static bool DoesRoleHavePermissionsForFeature(IRole role, Type type)
         {
-            var firmaBaseFeature = FirmaBaseFeature.InstantiateFeature(type);            
+            var firmaBaseFeature = FirmaBaseFeature.InstantiateFeature(type);
             if (IsContextFeatureByInheritance(firmaBaseFeature))
             {
                 return true;
