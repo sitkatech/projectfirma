@@ -24,9 +24,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -76,10 +78,10 @@ namespace ProjectFirma.Web.Models
             var sampleGuid = Guid.Empty;
             var typicalUrlForFileResources = SitkaRoute<FileResourceController>.BuildUrlFromExpression(c => c.DisplayResource(sampleGuid.ToString()));
             ControllerPartOfUri = Regex.Match(typicalUrlForFileResources, "^/(?<controller>.*?)/").Groups["controller"].Value;
-            NonServerRootRelativeUrlRegex = new Regex(string.Format("(?<!((\"/)|(^/))){0}", Regex.Escape(ControllerPartOfUri)), RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            NonServerRootRelativeUrlRegex = new Regex($"(?<!((\"/)|(^/))){Regex.Escape(ControllerPartOfUri)}", RegexOptions.IgnoreCase | RegexOptions.Multiline);
         }
 
-        private readonly Lazy<List<FileResource>> _allFileResources = new Lazy<List<FileResource>>(HttpRequestStorage.DatabaseEntities.FileResources.ToList);
+        private readonly Lazy<List<FileResource>> _allFileResources = new Lazy<List<FileResource>>(HttpRequestStorage.DatabaseEntities.AllFileResources.ToList);
         private static readonly Regex NonServerRootRelativeUrlRegex;
         public static readonly string ControllerPartOfUri;
 
@@ -113,7 +115,7 @@ namespace ProjectFirma.Web.Models
                             x.TableName,
                             x.ColumnName,
                             x.ColumnValue)));
-            Assert.That(htmlWithMalformedUrls, Is.Empty, string.Format("Found some URLs that aren't server root relative:\r\n{0}", errorString));
+            Assert.That(htmlWithMalformedUrls, Is.Empty, $"Found some URLs that aren't server root relative:\r\n{errorString}");
         }
 
         private static void AssertThatAllUrlsDoNotContainAbsoluteUrlsToProdOrQa(IEnumerable<ResultRow> dataFromRowsAndColumnsWithUrls)
@@ -128,7 +130,7 @@ namespace ProjectFirma.Web.Models
                             x.TableName,
                             x.ColumnName,
                             x.ColumnValue)));
-            Assert.That(htmlWithMalformedUrls, Is.Empty, string.Format("Found some URLs that aren't server root relative:\r\n{0}", errorString));
+            Assert.That(htmlWithMalformedUrls, Is.Empty, $"Found some URLs that aren't server root relative:\r\n{errorString}");
         }
 
         /// <summary>
@@ -170,12 +172,15 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void IsRegexToFindNonServerRootRelativeUrlsWorking()
         {
-            Trace.WriteLine(string.Format("Non-server root relative Regex string: {0}", NonServerRootRelativeUrlRegex));
+            Trace.WriteLine($"Non-server root relative Regex string: {NonServerRootRelativeUrlRegex}");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl(""), Is.False, "Empty string - can't be bad");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("ABC"), Is.False, "Simple string - can't be bad");
-            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl(string.Format("\"../../{0}", ControllerPartOfUri)), Is.True, "should be bad - not server root relative");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl($"\"../../{ControllerPartOfUri}"), Is.True, "should be bad - not server root relative");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl(ControllerPartOfUri), Is.True, "should be bad - not server root relative");
             Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("/FileResource/DisplayResource/9d73b8cf-1108-43c3-a7f7-e0625033adde"), Is.False, "Should be fine -- is server root relative");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("http://www.sitkatech.com"), Is.False, "Should be fine -- this is a site external to the ProjectFirma one being served. This kind of URL in fact *MUST* be fully qualified.");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("http://www.sitkatech.com/products/ProjectFirma/"), Is.False, "Should be fine -- this is a site external to the ProjectFirma one being served. This kind of URL in fact *MUST* be fully qualified.");
+            Assert.That(DoesHtmlStringContainNonServerRootRelativeUrl("blah blah balh file:///FileResource/DisplayResource/291562b9-d7dd-4fc5-a57a-5a3dec2fd6cd"), Is.True, "A specific example of something found at least once in real-world data that should be illegal.");
         }
 
         [Test]

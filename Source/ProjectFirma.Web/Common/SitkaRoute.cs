@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Common
         // -- Non-static versions --
         public string BuildLinkFromExpression(string linkText)
         {
-            return String.Format("<a href=\"{0}\">{1}</a>", BuildUrlFromExpression(RouteExpression), linkText);
+            return $"<a href=\"{BuildUrlFromExpression(RouteExpression)}\">{linkText}</a>";
         }
 
         public string BuildLinkFromExpression(string linkText, string titleText)
