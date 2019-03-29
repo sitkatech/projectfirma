@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirmaModels.UnitTestCommon
@@ -32,22 +33,16 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
                 var projectStage = ProjectStage.PlanningDesign;
-                var project = new Project(taxonomyLeaf.TaxonomyLeafID, projectStage.ProjectStageID,
-                    $"Test Project Name {Guid.NewGuid()}", null, false, ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                    (int) FundingTypeEnum.Capital, ProjectApprovalStatus.Approved.ProjectApprovalStatusID);
-                return project;
-            }
 
-            public static Project Create(short projectID, string projectName)
-            {
-                var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
-                var projectStage = ProjectStage.Implementation;
-                var project = new Project(taxonomyLeaf.TaxonomyLeafID, projectStage.ProjectStageID,
-                    projectName, "Some description", false, ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                    (int)FundingTypeEnum.Capital, ProjectApprovalStatus.Approved.ProjectApprovalStatusID)
-                {
-                    ProjectID = projectID
-                };
+                var capitalFundingType = HttpRequestStorageForTest.DatabaseEntities.FundingTypes.Single(ft =>ft.FundingTypeID == (int) FundingTypeEnum.Capital);
+
+                string testProjectName = $"Test Project Name {Guid.NewGuid()}";
+                string testProjectDescription = $"Test Project Description {Guid.NewGuid()}";
+                const bool isFeatured = false;
+                // Using object rather than ID based constructors. Failure to do this will result in a half-baked object later, where IDs work, but not Object accessors interior to the
+                // Project.
+                var project = new Project(taxonomyLeaf, projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, capitalFundingType, ProjectApprovalStatus.Approved);
+
                 return project;
             }
         }
