@@ -188,8 +188,8 @@ namespace ProjectFirma.Web.Security
         public void ControllerActionsWithContextFeatureHasParameterAlignment()
         {
             var allControllerActionMethods = FirmaBaseController.AllControllerActionMethods;
-            var releventControllerActions = allControllerActionMethods.Where(x => !AreControllerActionParametersAlignedWithFeature(x)).ToList();
-            Assert.That(releventControllerActions.Select(MethodName).ToList(), Is.Empty, "Found some controller actions without proper alignment with parameters");
+            var relevantControllerActions = allControllerActionMethods.Where(x => !AreControllerActionParametersAlignedWithFeature(x)).ToList();
+            Assert.That(relevantControllerActions.Select(MethodName).ToList(), Is.Empty, "Found some controller actions without proper alignment with parameters");
         }
 
         private bool AreControllerActionParametersAlignedWithFeature(MethodInfo method)
