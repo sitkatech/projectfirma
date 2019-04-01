@@ -1,10 +1,19 @@
+--begin tran
+
 declare @NewBorTenantID int;
 set @NewBorTenantID = 12;
 
-insert into dbo.Tenant(TenantID, TenantName, CanonicalHostNameLocal, CanonicalHostNameQa, CanonicalHostNameProd, ReportingYearStartDate, UseFiscalYears, UsesTechnicalAssistanceParameters, ArePerformanceMeasuresExternallySourced)
---values (@NewBorTenantID, 'BureauOfReclamation', 'bor.locahost.projectfirma.com', 'qa.bor.somethingorother.gov', 'bor.somethingorother.gov', '1990-01-01', 0, 0, 0)
--- This will work until the inevitable vanity URLs arrive:
-values (@NewBorTenantID, 'BureauOfReclamation', 'bor.locahost.projectfirma.com', 'bor.qa.projectfirma.com', 'bor.projectfirma.com', '1990-01-01', 0, 0, 0)
+if not exists (select 1 from dbo.Tenant where TenantName = 'BureauOfReclamation')
+begin
+    insert into dbo.Tenant(TenantID, TenantName, CanonicalHostNameLocal, CanonicalHostNameQa, CanonicalHostNameProd, ReportingYearStartDate, UseFiscalYears, UsesTechnicalAssistanceParameters, ArePerformanceMeasuresExternallySourced)
+    --values (@NewBorTenantID, 'BureauOfReclamation', 'bor.locahost.projectfirma.com', 'qa.bor.somethingorother.gov', 'bor.somethingorother.gov', '1990-01-01', 0, 0, 0)
+    -- This will work until the inevitable vanity URLs arrive:
+    values (@NewBorTenantID, 'BureauOfReclamation', 'bor.locahost.projectfirma.com', 'bor.qa.projectfirma.com', 'bor.projectfirma.com', '1990-01-01', 0, 0, 0)
+end
+else
+begin
+    set @NewBorTenantID = (select TenantID from dbo.Tenant where TenantName = 'BureauOfReclamation')
+end
 
 insert into dbo.OrganizationType(TenantID, OrganizationTypeName, OrganizationTypeAbbreviation, LegendColor,. ShowOnProjectMaps, IsDefaultOrganizationType, IsFundingType)
 values
@@ -21,15 +30,33 @@ values
 declare @NewBorOrganizationID int;
 set @NewBorOrganizationID = SCOPE_IDENTITY()
 
-insert into dbo.Person
-(TenantID, PersonGuid, FirstName, LastName, Email, RoleID, CreateDate, UpdateDate, LastActivityDate, IsActive, OrganizationID, ReceiveSupportEmails, WebServiceAccessToken, LoginName)
-values
-(@NewBorTenantID, (select ku.UserGuid from Keystone.dbo.[User] as ku where ku.Email = 'stewart@sitkatech.com'), 'Stewart', 'Loving-Gibbard', 'stewart@sitkatech.com', 8, GETDATE(), null, null, 1, @NewBorOrganizationID, 1, null, 'stewlg')
+if not exists (select 1 from dbo.Person where Email = 'stewart@sitkatech.com' and TenantID = @NewBorTenantID)
+begin
+    insert into dbo.Person
+    (TenantID, PersonGuid, FirstName, LastName, Email, RoleID, CreateDate, UpdateDate, LastActivityDate, IsActive, OrganizationID, ReceiveSupportEmails, WebServiceAccessToken, LoginName)
+    values
+    (@NewBorTenantID, (select ku.UserGuid from Keystone.dbo.[User] as ku where ku.Email = 'stewart@sitkatech.com'), 'Stewart', 'Loving-Gibbard', 'stewart@sitkatech.com', 8, GETDATE(), null, null, 1, @NewBorOrganizationID, 1, null, 'stewlg')
+end
 
 declare @StewLgPersonID int;
-set @StewLgPersonID = (select p.PersonID from dbo.Person as p where p.FirstName = 'Stewart' and p.LastName = 'Loving-Gibbard')
+set @StewLgPersonID = (select p.PersonID from dbo.Person as p where p.FirstName = 'Stewart' and p.LastName = 'Loving-Gibbard' and TenantID = @NewBorTenantID)
 
-select * from TenantAttribute
+--select @StewLgPersonID
+--select * from TenantAttribute
+
+/*
+
+-- Key that's blowing:
+
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK 
+ADD CONSTRAINT [FK_TenantAttribute_Person_PrimaryContactPersonID_TenantID_PersonID_TenantID] 
+   FOREIGN KEY([PrimaryContactPersonID], [TenantID])
+   REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+
+
+
+*/
 
 
 insert into TenantAttribute(TenantID, DefaultBoundingBox, 
@@ -128,4 +155,6 @@ values
 
 --select * from dbo.Organization
 
-select * from dbo.Person where FirstName = 'Stewart' and LastName = 'Loving-Gibbard'
+--select * from dbo.Person where FirstName = 'Stewart' and LastName = 'Loving-Gibbard'
+
+--rollback tran
