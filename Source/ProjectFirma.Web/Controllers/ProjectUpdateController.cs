@@ -2535,12 +2535,13 @@ namespace ProjectFirma.Web.Controllers
         public class ProjectOrganizationEqualityComparer : EqualityComparerByProperty<IProjectOrganization>
         {
             public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.RelationshipType.RelationshipTypeID})
-            {                
+            {
             }
         }
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
+        [ProjectUpdateAdminFeature]
         public ContentResult KickOffIntroPreview()
         {
             return new ContentResult
@@ -2549,6 +2550,7 @@ namespace ProjectFirma.Web.Controllers
             };
         }
 
+        [ProjectUpdateAdminFeature]
         public ContentResult ReminderIntroPreview()
         {
             return new ContentResult
@@ -2557,6 +2559,7 @@ namespace ProjectFirma.Web.Controllers
             };
         }
 
+        [ProjectUpdateAdminFeature]
         public ContentResult CloseOutIntroPreview()
         {
             return new ContentResult
