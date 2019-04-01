@@ -469,7 +469,7 @@ namespace LtInfo.Common
                 StringSplitOptions.RemoveEmptyEntries);
 
             // Combine the words.
-            return words.Aggregate("", (current, word) => current + String.Format("{0}{1}", word.Substring(0, 1).ToUpper(), word.Substring(1)));
+            return words.Aggregate("", (current, word) => current + $"{word.Substring(0, 1).ToUpper()}{word.Substring(1)}");
         }
 
         public static readonly Regex ContainAbsoluteUrlWithApplicationDomainReferenceRegEx = new Regex(ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain(SitkaWebConfiguration.ApplicationDomain), RegexOptions.IgnoreCase | RegexOptions.Multiline);
@@ -498,7 +498,9 @@ namespace LtInfo.Common
 
         public static string ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain(string applicationDomain)
         {
-            return string.Format(@"http(s?)\:\/\/[0-9a-zA-Z]*((\.?){0})", applicationDomain.Replace(@".", @"\."));
+            string applicationDomainReference = applicationDomain.Replace(@".", @"\.");
+            const string sitkaHostname = "sitka";
+            return $@"http(s?)\:\/\/[0-9a-zA-Z]*(?<!{sitkaHostname})((\.?){applicationDomainReference})";
         }
 
         /// <summary>

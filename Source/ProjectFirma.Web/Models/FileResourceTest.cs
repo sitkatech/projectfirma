@@ -106,31 +106,17 @@ namespace ProjectFirma.Web.Models
         private static void AssertThatAllUrlsAreServerRootRelative(IEnumerable<ResultRow> dataFromRowsAndColumnsWithUrls)
         {
             var htmlWithMalformedUrls = dataFromRowsAndColumnsWithUrls.Where(x => DoesHtmlStringContainNonServerRootRelativeUrl(x.ColumnValue)).ToList();
-            var errorString = string.Join("\r\n",
-                htmlWithMalformedUrls.Select(
-                    x =>
-                        string.Format("TableCatalog: {0}, TableSchema: {1}, TableName: {2}, ColumnName: {3}, ColumnValue:\r\n{4}",
-                            x.TableCatalog,
-                            x.TableSchema,
-                            x.TableName,
-                            x.ColumnName,
-                            x.ColumnValue)));
+            var malformedUrls = htmlWithMalformedUrls.Select(x => $"TableCatalog: {x.TableCatalog}, TableSchema: {x.TableSchema}, TableName: {x.TableName}, ColumnName: {x.ColumnName}, ColumnValue:\r\n{x.ColumnValue}");
+            var errorString = string.Join("\r\n", malformedUrls);
             Assert.That(htmlWithMalformedUrls, Is.Empty, $"Found some URLs that aren't server root relative:\r\n{errorString}");
         }
 
         private static void AssertThatAllUrlsDoNotContainAbsoluteUrlsToProdOrQa(IEnumerable<ResultRow> dataFromRowsAndColumnsWithUrls)
         {
             var htmlWithMalformedUrls = dataFromRowsAndColumnsWithUrls.Where(x => x.ColumnValue.DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference()).ToList();
-            var errorString = string.Join("\r\n",
-                htmlWithMalformedUrls.Select(
-                    x =>
-                        string.Format("TableCatalog: {0}, TableSchema: {1}, TableName: {2}, ColumnName: {3}, ColumnValue:\r\n{4}",
-                            x.TableCatalog,
-                            x.TableSchema,
-                            x.TableName,
-                            x.ColumnName,
-                            x.ColumnValue)));
-            Assert.That(htmlWithMalformedUrls, Is.Empty, $"Found some URLs that aren't server root relative:\r\n{errorString}");
+            var malformedUrls = htmlWithMalformedUrls.Select(x => $"TableCatalog: {x.TableCatalog}, TableSchema: {x.TableSchema}, TableName: {x.TableName}, ColumnName: {x.ColumnName}, ColumnValue:\r\n{x.ColumnValue}").ToList();
+            var errorString = string.Join("\r\n", malformedUrls);
+            Assert.That(htmlWithMalformedUrls, Is.Empty, $"Found some URLs that aren't server root relative (absolute urls to Prod or QA):\r\n{errorString}");
         }
 
         /// <summary>
