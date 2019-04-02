@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ProjectExpendituresSummary.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="ProjectExpendituresSummary.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @using LtInfo.Common
@@ -38,10 +38,10 @@ Source code is available upon request via <support@sitkatech.com>.
                         <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
                         break;
                     case AddedDeletedOrRealElement.DeletedElement:
-                    <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
                         break;
                     case AddedDeletedOrRealElement.RealElement:
-                    <col>
+                        <col>
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -87,9 +87,58 @@ Source code is available upon request via <support@sitkatech.com>.
 
 
 
-        </table>
+    </table>
 }
-@if (!ViewDataTyped.FundingSourceExpenditures.Any())
+else
 {
     <p class="systemText">No Expenditures have been reported for this project.</p>
+}
+
+@if (ViewDataTyped.ProjectExemptReportingYears.Any())
+{
+    <table class="summaryLayout">
+        <colgroup>
+            <col>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                switch (calendarYear.AddedDeletedOrRealElement)
+                {
+                    case AddedDeletedOrRealElement.AddedElement:
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                        break;
+                    case AddedDeletedOrRealElement.DeletedElement:
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        break;
+                    case AddedDeletedOrRealElement.RealElement:
+                        <col>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            <col>
+        </colgroup>
+        <tr>
+            <th colspan="2">
+                The @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName has no expenditures to report
+            </th>
+        </tr>
+        <tr>
+            <td>
+                Selected Years:
+            </td>
+            <td>
+                @string.Join(", ", @ViewDataTyped.ProjectExemptReportingYears)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Explanation:
+            </td>
+            <td>
+                @ViewDataTyped.ProjectHasNoExpendituresToReport
+            </td>
+
+        </tr>
+    </table>
 }

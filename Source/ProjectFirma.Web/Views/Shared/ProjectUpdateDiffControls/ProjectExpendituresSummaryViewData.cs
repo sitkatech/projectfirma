@@ -21,16 +21,22 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
     public class ProjectExpendituresSummaryViewData : FirmaUserControlViewData
     {
-        public readonly List<CalendarYearString> CalendarYears;
-        public readonly List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures;
+        public string ProjectHasNoExpendituresToReport { get; }
+        public List<int> ProjectExemptReportingYears;
+        public List<CalendarYearString> CalendarYears { get; }
+        public List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures { get; }
+        
 
-        public ProjectExpendituresSummaryViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYears)
+        public ProjectExpendituresSummaryViewData(List<int> projectExemptReportingYears, string projectHasNoExpendituresToReport, List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYears)
         {
+            ProjectExemptReportingYears = projectExemptReportingYears;
+            ProjectHasNoExpendituresToReport = projectHasNoExpendituresToReport;
             FundingSourceExpenditures = fundingSourceExpenditures;
             CalendarYears = calendarYears;
         }
