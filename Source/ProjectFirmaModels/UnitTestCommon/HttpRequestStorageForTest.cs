@@ -18,45 +18,50 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
-using Keystone.Common.OpenID;
-using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
 
-namespace ProjectFirma.Web.Common
+namespace ProjectFirmaModels.UnitTestCommon
 {
-    public class HttpRequestStorage : SitkaHttpRequestStorage
+    /// <summary>
+    /// This is a hacked-up version of HttpRequestStorage, but put into the UnitTestCommon assembly to make it accessible where it would otherwise not be.
+    /// I would appreciate knowing if there's a better way to accomplish this. This is just the first thing I tried that worked, and it seems to have a
+    /// small/impact footprint, unlike other things attempted. -- SLG 3/29/2019
+    /// </summary>
+    public class HttpRequestStorageForTest : SitkaHttpRequestStorage
     {
-        static HttpRequestStorage()
+        static HttpRequestStorageForTest()
         {
             LtInfoEntityTypeLoaderFactoryFunction = () => MakeNewContext(false);
         }
+        
 
         protected override List<string> BackingStoreKeys
         {
             get { return new List<string>(); }
         }
+        /*
         public static IPrincipal GetHttpContextUserThroughOwin()
         {
             return HttpContext.Current.GetOwinContext().Authentication.User;
         }
-
+        */
 
         public static Person Person
         {
-            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(), PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
+            get
+            {
+                //return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(), PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid));
+                return null;
+            }
             set { SetValue(PersonKey, value); }
         }
 
+        /*
         public static Tenant Tenant
         {
             get
@@ -67,10 +72,12 @@ namespace ProjectFirma.Web.Common
                         var httpContext = HttpContext.Current;
                         if (httpContext != null)
                         {
-                            var urlHost = httpContext.Request.Url.Host;
-                            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
-                            Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
-                            return tenant;
+                            //var urlHost = httpContext.Request.Url.Host;
+                            ////var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+                            ////Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
+                            ////return tenant;
+                            //return null;
+                            return DesiredTenant;
                         }
                         else
                         {
@@ -80,16 +87,19 @@ namespace ProjectFirma.Web.Common
             }
             set => SetValue(TenantKey, value);
         }
-
+        */
 
         public static DatabaseEntities DatabaseEntities
         {
-            get { return (DatabaseEntities) LtInfoEntityTypeLoader; }
+            get { return (DatabaseEntities)LtInfoEntityTypeLoader; }
         }
 
         private static DatabaseEntities MakeNewContext(bool autoDetectChangesEnabled)
         {
-            var databaseEntities = new DatabaseEntities(Tenant.TenantID);
+            // Hard coded for now?
+            Tenant desiredTenant = Tenant.BureauOfReclamation;
+
+            var databaseEntities = new DatabaseEntities(desiredTenant.TenantID);
             databaseEntities.Configuration.AutoDetectChangesEnabled = autoDetectChangesEnabled;
             return databaseEntities;
         }

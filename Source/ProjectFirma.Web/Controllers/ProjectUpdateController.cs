@@ -85,7 +85,6 @@ namespace ProjectFirma.Web.Controllers
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
         public const string ProjectExpectedFundingPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectFundingRequestsDetail.cshtml";
-        public const string TransporationBudgetsPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
@@ -2545,12 +2544,13 @@ namespace ProjectFirma.Web.Controllers
         public class ProjectOrganizationEqualityComparer : EqualityComparerByProperty<IProjectOrganization>
         {
             public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.RelationshipType.RelationshipTypeID})
-            {                
+            {
             }
         }
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
+        [ProjectUpdateAdminFeature]
         public ContentResult KickOffIntroPreview()
         {
             return new ContentResult
@@ -2559,6 +2559,7 @@ namespace ProjectFirma.Web.Controllers
             };
         }
 
+        [ProjectUpdateAdminFeature]
         public ContentResult ReminderIntroPreview()
         {
             return new ContentResult
@@ -2567,6 +2568,7 @@ namespace ProjectFirma.Web.Controllers
             };
         }
 
+        [ProjectUpdateAdminFeature]
         public ContentResult CloseOutIntroPreview()
         {
             return new ContentResult

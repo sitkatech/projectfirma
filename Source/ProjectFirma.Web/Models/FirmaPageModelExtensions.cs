@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -22,6 +20,7 @@ namespace ProjectFirma.Web.Models
         {
             return firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
         }
+
         public static FirmaPage GetFirmaPage(this FirmaPageTypeEnum firmaPageTypeEnum)
         {
             return  GetFirmaPage(firmaPageTypeEnum.ToType());

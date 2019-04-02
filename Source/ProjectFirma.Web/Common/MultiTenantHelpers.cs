@@ -24,8 +24,8 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure.Pluralization;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -39,7 +39,9 @@ namespace ProjectFirma.Web.Common
 
         public static TenantAttribute GetTenantAttribute()
         {
-            return HttpRequestStorage.DatabaseEntities.TenantAttributes.Single();
+            var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
+            Check.EnsureNotNull(tenantAttribute, $"You need to add a Tenant Attribute table entry for TenantID {HttpRequestStorage.DatabaseEntities.TenantID}");
+            return tenantAttribute;
         }
 
         public static string GetTaxonomySystemName()

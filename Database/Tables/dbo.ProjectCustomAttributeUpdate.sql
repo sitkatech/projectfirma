@@ -29,15 +29,15 @@ REFERENCES [dbo].[ProjectCustomAttributeType] ([ProjectCustomAttributeTypeID], [
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeUpdate] CHECK CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID]
 GO
-ALTER TABLE [dbo].[ProjectCustomAttributeUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdate_ProjectUpdateID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
-REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
-GO
-ALTER TABLE [dbo].[ProjectCustomAttributeUpdate] CHECK CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdate_ProjectUpdateID_TenantID]
-GO
 ALTER TABLE [dbo].[ProjectCustomAttributeUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeUpdate] CHECK CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeUpdate] CHECK CONSTRAINT [FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

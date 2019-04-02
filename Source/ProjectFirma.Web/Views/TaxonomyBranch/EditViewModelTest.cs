@@ -23,7 +23,6 @@ using System.ComponentModel.DataAnnotations;
 using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using NUnit.Framework;
-using ProjectFirma.Web.Common;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch

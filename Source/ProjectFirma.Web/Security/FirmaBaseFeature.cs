@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
@@ -30,7 +29,6 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
 using Keystone.Common.OpenID;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Security

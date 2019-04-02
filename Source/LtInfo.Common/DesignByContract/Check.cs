@@ -103,38 +103,50 @@ namespace LtInfo.Common.DesignByContract
         public static void RequireNotDisposed(bool isDisposed, object thisObject)
         {
             if (isDisposed)
+            {
                 ThrowThisException(new ObjectDisposedException(thisObject.GetType().ToString()));
+            }
         }
 
         public static void RequireNotNull(object thisObject)
         {
             if (thisObject == null)
+            {
                 ThrowThisException(new NullReferenceException());
+            }
         }
 
         public static void RequireNotNull(object thisObject, string message)
         {
             if (thisObject == null)
+            {
                 ThrowThisException(new NullReferenceException(message));
+            }
         }
 
         public static void RequireNotNull(object thisObject, Exception exception)
         {
             if (thisObject == null)
+            {
                 throw exception;
+            }
         }
 
         public static void RequireNotNull(object thisObject, Func<Exception> func)
         {
             if (thisObject == null)
+            {
                 throw func();
+            }
         }
 
         public static void RequireNotNullNotEmpty(string stringToCheck, string message)
         {
             RequireNotNull(stringToCheck, message);
             if (string.IsNullOrEmpty(stringToCheck))
+            {
                 ThrowThisException(new ArgumentException(message + " String is empty, expected non-empty string."));
+            }
         }
 
         public static void RequireNotNullNotEmpty<T>(IEnumerable<T> itemsToCheck, string message)
@@ -150,7 +162,9 @@ namespace LtInfo.Common.DesignByContract
         {
             RequireNotNull(stringToCheck, message);
             if (GeneralUtility.IsNullOrEmptyOrOnlyWhitespace(stringToCheck))
+            {
                 ThrowThisException(new ArgumentException(message + " String is empty or only blank, expected non-empty string with some non-whitespace characters."));
+            }
         }
 
         public static void RequireNoWhitespace(string stringToExamine, string message)

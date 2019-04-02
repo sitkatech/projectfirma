@@ -27,7 +27,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Common
 {
@@ -65,7 +64,7 @@ namespace ProjectFirma.Web.Common
             var sitkaRouteEntries = SetupRouteTableImpl(allActions, _defaultRoutes, _areasDictionary);
             var duplicates = sitkaRouteEntries.GroupBy(x => x.RouteName).Where(y => y.Count() > 1).SelectMany(z => z).ToList();
 
-            Check.Require(!duplicates.Any(), string.Format("Unexpected duplicate routes found, check controller actions:\r\n{0}", String.Join("\r\n", duplicates)));
+            Check.Require(!duplicates.Any(), $"Unexpected duplicate routes found, check controller actions:\r\n{String.Join("\r\n", duplicates)}");
 
             // add the ones with a route order first
             foreach (var routeEntry in sitkaRouteEntries.Where(x => x.RouteOrder.HasValue).OrderBy(x => x.RouteOrder).ThenBy(x => x.Controller).ThenBy(x => x.Action).ThenBy(x => x.RouteName).ToList())
@@ -135,13 +134,13 @@ namespace ProjectFirma.Web.Common
             var httpPostRouteSuffix = (isRestrictedToPost ? "__HttpPost" : "");
             var action = controllerActionMethod.Name;
 
-            var routeName = string.Format("{0}__{1}{2}", controller, action, httpPostRouteSuffix);
+            var routeName = $"{controller}__{action}{httpPostRouteSuffix}";
 
             var allParameters = controllerActionMethod.GetParameters();
 
-            var controllerAndAction = string.Format("{0}.{1}", controller, action);
-            var parameterString = String.Join(",", allParameters.Select(x => string.Format("{0} {1}", x.ParameterType.FullName, x.Name)));
-            var actionControllerNameWithParameters = string.Format("{0}\t{1}\t{2}", controller, action, parameterString);
+            var controllerAndAction = $"{controller}.{action}";
+            var parameterString = String.Join(",", allParameters.Select(x => $"{x.ParameterType.FullName} {x.Name}"));
+            var actionControllerNameWithParameters = $"{controller}\t{action}\t{parameterString}";
 
             if (!isRestrictedToPost)
             {
@@ -160,10 +159,7 @@ namespace ProjectFirma.Web.Common
                     if (!getMethodsDict[controllerAndAction].Any(actionControllerNameWithParameters.StartsWith))
                     {
                         var allGetRoutes = String.Join("\r\n", getMethodsDict[controllerAndAction]);
-                        throw new ApplicationException(string.Format("The POST route {0} must have a corresponding GET route with the same parameters\r\nPOST route: {1}\r\nGET routes: {2}",
-                            controllerAndAction,
-                            actionControllerNameWithParameters,
-                            allGetRoutes));
+                        throw new ApplicationException($"The POST route {controllerAndAction} must have a corresponding GET route with the same parameters\r\nPOST route: {actionControllerNameWithParameters}\r\nGET routes: {allGetRoutes}");
                     }
                 }
             }
@@ -222,7 +218,7 @@ namespace ProjectFirma.Web.Common
 
         private static void CreateSitkaTableRouteEntry(MethodInfo controllerActionMethod, List<ParameterInfo> appendParameters, RouteAttribute routeAttribute, string action, string controller, string routeName, List<SitkaRouteTableEntry> sitkaRouteEntries, string controllerPartForUrl, string area, string areaAsSubdomainName, bool isCrossAreaRoute)
         {
-            var routeNameWithArea = !string.IsNullOrWhiteSpace(area) ? string.Format("{0}_{1}", area, routeName) : routeName;
+            var routeNameWithArea = !string.IsNullOrWhiteSpace(area) ? $"{area}_{routeName}" : routeName;
             var routeVariants = CalculateRouteParameterPermutationsAppend(appendParameters);
             if (routeAttribute != null)
             {
@@ -233,8 +229,8 @@ namespace ProjectFirma.Web.Common
             {
                 for (var i = 0; i < routeVariants.Count; i++)
                 {
-                    var routeUrl = string.Format("{0}/{1}{2}", controllerPartForUrl, action, routeVariants[i]);
-                    var calculatedRouteName = String.Format("{0}__{1:0000}", routeNameWithArea, i);
+                    var routeUrl = $"{controllerPartForUrl}/{action}{routeVariants[i]}";
+                    var calculatedRouteName = $"{routeNameWithArea}__{i:0000}";
                     var routeEntry = CreateSitkaTableRouteEntry(controllerActionMethod, action, controller, area, areaAsSubdomainName, routeUrl, calculatedRouteName, null, isCrossAreaRoute);
                     sitkaRouteEntries.Add(routeEntry);
                 }
@@ -268,7 +264,7 @@ namespace ProjectFirma.Web.Common
             {
                 if (requireOptionalsNow)
                 {
-                    Check.Require(IsOptionalRouteType(p.ParameterType), string.Format("Unreachable route found for action \"{0}\"", routeName));
+                    Check.Require(IsOptionalRouteType(p.ParameterType), $"Unreachable route found for action \"{routeName}\"");
                 }
                 else
                 {
@@ -284,7 +280,7 @@ namespace ProjectFirma.Web.Common
 
             while (true)
             {
-                var parametersAsUrlFragment = paramList.JoinCsv("/", p => string.Format("{{{0}}}", p.Name));
+                var parametersAsUrlFragment = paramList.JoinCsv("/", p => $"{{{p.Name}}}");
                 parameterList.Add(parametersAsUrlFragment);
 
                 var info = paramList.LastOrDefault();
@@ -304,7 +300,7 @@ namespace ProjectFirma.Web.Common
 
             while (true)
             {
-                var parameterUrl = string.Join("", paramList.Select(s => string.Format("{1}{0}", "/", ((Func<ParameterInfo, string>) (p => string.Format("{{{0}}}", p.Name)))(s))).ToList());
+                var parameterUrl = string.Join("", paramList.Select(s => string.Format("{1}{0}", "/", ((Func<ParameterInfo, string>) (p => $"{{{p.Name}}}"))(s))).ToList());
                 parameterList.Add(parameterUrl);
 
                 var info = paramList.LastOrDefault();
@@ -327,10 +323,16 @@ namespace ProjectFirma.Web.Common
             Build(allActions, null, new Dictionary<string, string>());
         }
 
-        public static void Build(IEnumerable<MethodInfo> allActions, List<SitkaRouteTableEntry> defaultRoutes, Dictionary<string, string> areasDictionary)
+        public static void Build(IEnumerable<MethodInfo> allActions, List<SitkaRouteTableEntry> defaultRoutes, Dictionary<string, string> areasDictionary, bool forceReload = false)
         {
-            if (!_hasRouteTableBeenBuiltYet)
+            if (!_hasRouteTableBeenBuiltYet || forceReload)
             {
+                // If we've loaded before, and we are forcibly reloading..
+                if (_hasRouteTableBeenBuiltYet && forceReload)
+                {
+                    // Clear prior routes first.
+                    ClearRoutes();
+                }
                 var builder = new RouteTableBuilder(RouteTable.Routes, defaultRoutes, areasDictionary);
                 builder.SetupRouteTable(allActions);
                 _hasRouteTableBeenBuiltYet = true;

@@ -69,13 +69,13 @@ namespace ProjectFirmaModels.Models
                 TestExpectedUserPermission(userAdmin, deferredProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, deferredProject, editPerformanceMeasureFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, deferredProject, editPerformanceMeasureFeature, testOrganizationForProject, true);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, deferredProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     deferredProject,
                     editPerformanceMeasureFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
-                    true);
+                    false);
                 
                 TestExpectedUserPermission(userAdmin, deferredProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, deferredProject, editPerformanceMeasureFeature, true);
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
 
                 // - View PMs -
                 TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);               
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
@@ -100,13 +100,13 @@ namespace ProjectFirmaModels.Models
                 TestExpectedUserPermission(userAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
 
-                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, planningDesignProject, editPerformanceMeasureFeature, testOrganizationForProject, true);
+                TestExpectedUserPermissionWithUserInLeadImplementingOrg(userNormal, planningDesignProject, editPerformanceMeasureFeature, testOrganizationForProject, false);
                 TestExpectedUserPermissionWithUserAsPrimaryContactForImplementingOrg(userNormal,
                     planningDesignProject,
                     editPerformanceMeasureFeature,
                     testOrganizationJustForUser,
                     testOrganizationForProject,
-                    true);
+                    false);
                 TestExpectedUserPermission(userAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, planningDesignProject, editPerformanceMeasureFeature, true);
             }
@@ -118,15 +118,22 @@ namespace ProjectFirmaModels.Models
                 var implementationProject = TestFramework.TestProject.Create();
                 implementationProject.ProjectStageID = ProjectStage.Implementation.ProjectStageID;
 
+
+                /*
+                Starting here we were unsure how to fix problems; we can't understand what intention was on the remaining failures. 
+                Were we intending to allow anonymous access, and the test is wrong? Or is the test right, and we started allowing anonymous access by mistake?
+                -- SLG 3/29/2019
+                 */
+
                 // - View PMs -
                 TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, implementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, implementationProject, editPerformanceMeasureFeature, false);                
+                TestExpectedUserPermission(userNormal, implementationProject, editPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, implementationProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, implementationProject, editPerformanceMeasureFeature, true);
 
@@ -150,13 +157,13 @@ namespace ProjectFirmaModels.Models
 
                 // - View PMs -
                 TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, postImplementationProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, postImplementationProject, editPerformanceMeasureFeature, false);                
+                TestExpectedUserPermission(userNormal, postImplementationProject, editPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, postImplementationProject, editPerformanceMeasureFeature, true);
 
@@ -180,13 +187,13 @@ namespace ProjectFirmaModels.Models
 
                 // - View PMs -
                 TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);                
+                TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
 
                 // - Edit PMs -
                 TestExpectedUserPermission(userAnonymous, completedProject, editPerformanceMeasureFeature, false);
-                TestExpectedUserPermission(userNormal, completedProject, editPerformanceMeasureFeature, false);               
+                TestExpectedUserPermission(userNormal, completedProject, editPerformanceMeasureFeature, false);
                 TestExpectedUserPermission(userAdmin, completedProject, editPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, completedProject, editPerformanceMeasureFeature, true);
 

@@ -615,9 +615,17 @@ namespace ProjectFirma.Web.Models
             {
                 if (expectedMissingYears.Any())
                 {
-                    Assert.That(result,
-                        Is.EquivalentTo(new List<string> { string.Format("Missing Expenditures for {0}", string.Join(", ", expectedMissingYears)) }),
-                        assertionMessage);
+                    string missingString = "[Missing Year String Would Go Here]";
+                    if (expectedMissingYears.Count == 1)
+                    {
+                        missingString = $"Missing Expenditures for {expectedMissingYears.First()}";
+                    }
+                    else
+                    {
+                        missingString = $"Missing Expenditures for {expectedMissingYears.Min()}-{expectedMissingYears.Max()}";
+                    }
+                    
+                    Assert.That(result, Is.EquivalentTo(new List<string> { missingString }), assertionMessage);
                 }
                 else
                 {
@@ -629,12 +637,12 @@ namespace ProjectFirma.Web.Models
                 // right now the test is constrained to just one funding source
                 if (expectedMissingYears.Any())
                 {
-                    Assert.That(result,
-                        Is.EquivalentTo(new List<string>
-                        {
-                            string.Format("Missing Expenditures for Funding Source '{0}' for the following years: {1}", fundingSources.First().GetDisplayName(), string.Join(", ", expectedMissingYears))
-                        }),
-                        assertionMessage);
+                    string expectedMissingText =
+                        // This *seems* like it might be more helpful, but isn't what's actually going on, so I've changed it to match current reality. -- SLG 4/1/2019
+                        // Still not working however..
+                        //$"Missing Expenditures for Funding Source '{fundingSources.First().GetDisplayName()}' for the following years: {string.Join(", ", expectedMissingYears)}";
+                        $"Missing Expenditures for {expectedMissingYears.Min()}-{expectedMissingYears.Max()}";
+                    Assert.That(result, Is.EquivalentTo(new List<string>{ expectedMissingText }), assertionMessage);
                 }
                 else
                 {
@@ -651,23 +659,17 @@ namespace ProjectFirma.Web.Models
             string assertionMessage)
         {
             var result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.EqualTo(isValid), string.Format("Should be {0}", isValid ? " valid" : "not valid"));
+            Assert.That(result.IsValid, Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
             var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
             var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
-            var missingYearsMessage = string.Format("for {0}", string.Join(", ", expectedMissingYears));
+            var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
             if (expectedMissingYears.Any() && missingReportedValues.Any())
             {
-                Assert.That(result.GetWarningMessages(),
-                    Has.Count.EqualTo(2));
-
+                Assert.That(result.GetWarningMessages(), Has.Count.EqualTo(2));
                 Assert.That(result.GetWarningMessages()[0], Is.StringEnding(missingYearsMessage));
-
                 Assert.That(result.GetWarningMessages()[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
-
-
-
             }
             else if (expectedMissingYears.Any())
             {

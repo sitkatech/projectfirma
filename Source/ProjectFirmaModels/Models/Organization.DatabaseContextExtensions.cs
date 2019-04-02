@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
 {
@@ -45,7 +47,9 @@ namespace ProjectFirmaModels.Models
 
         public static Organization GetUnknownOrganization(this IQueryable<Organization> organizations)
         {
-            return organizations.Single(x => x.OrganizationName == Organization.OrganizationUnknown);
+            var unknownOrg = organizations.SingleOrDefault(x => x.OrganizationName == Organization.OrganizationUnknown);
+            Check.Ensure(unknownOrg != null, "No Unknown Organization found for current TenantID; please add to Organizations table");
+            return unknownOrg;
         }
     }
 }

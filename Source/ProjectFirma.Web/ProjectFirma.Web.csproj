@@ -72,6 +72,7 @@
     <Compile Include="Models\FileResourceTest.cs" />
     <Compile Include="Models\FirmaHomePageImageModelExtensions.cs" />
     <Compile Include="Models\FirmaPageModelExtensions.cs" />
+    <Compile Include="Models\FirmaPageTypeTest.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />

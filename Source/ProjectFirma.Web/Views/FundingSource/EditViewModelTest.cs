@@ -66,6 +66,9 @@ namespace ProjectFirma.Web.Views.FundingSource
             Assert.That(fundingSource.IsActive, Is.EqualTo(viewModel.IsActive));
         }
 
+        /// <summary>
+        /// This test is challenging to fix since it calls HttpRequestContext.Person
+        /// </summary>
         [Test]
         public void CanValidateModelTest()
         {

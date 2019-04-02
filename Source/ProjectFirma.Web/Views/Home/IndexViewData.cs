@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -51,9 +52,18 @@ namespace ProjectFirma.Web.Views.Home
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
-            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageHomePage).HasPermission);
-            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageAdditionalInfo).HasPermission);
-            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageMapInfo).HasPermission);
+            Check.EnsureNotNull(firmaPageHomePage, "firmaPageHomePage not found; is one defined?");
+            bool hasPermissionToManageHomePage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageHomePage).HasPermission;
+
+            Check.EnsureNotNull(firmaPageAdditionalInfo, "firmaPageAdditionalInfo not found; is one defined?");
+            bool hasPermissionToManageAdditionalInfo = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageAdditionalInfo).HasPermission;
+
+            Check.EnsureNotNull(firmaPageMapInfo, "firmaPageMapInfo not found; is one defined?");
+            bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageMapInfo).HasPermission;
+
+            CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, hasPermissionToManageHomePage);
+            CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, hasPermissionToManageAdditionalInfo);
+            CustomHomePageMapTextViewData = new ViewPageContentViewData(firmaPageMapInfo, hasPermissionToManagePageMapInfo);
             FeaturedProjectsViewData = featuredProjectsViewData;
             FullMapUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.ProjectMap());
             ProjectLocationsMapViewData = projectLocationsMapViewData;

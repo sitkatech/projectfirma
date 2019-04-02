@@ -33,11 +33,12 @@ namespace LtInfo.Common
         {
             var regExToUse = StringFormats.ConstructContainAbsoluteUrlWithApplicationDomainReferenceRegExForApplicationDomain("someapp.somedomain.org");
             var regEx = new Regex(regExToUse, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            Trace.WriteLine(string.Format("Non-server root relative Regex string: {0}", regExToUse));
+            Trace.WriteLine($"Non-server root relative Regex string: {regExToUse}");
             Assert.That(((string) null).DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Null string - can't be bad");
             Assert.That("".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Empty string - can't be bad");
             Assert.That("ABC".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "Simple string - can't be bad");
             Assert.That("\"../../SomeAction".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "not server root relative but we don't care for this case");
+            Assert.That("http://sitka.somedomain.org/".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.False, "should be tolerated -- we allow sitka. domains to be absolute.");
             Assert.That("http://qa.someapp.somedomain.org/".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.True, "should be bad - not server root relative");
             Assert.That("http://someapp.somedomain.org/".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.True, "should be bad - not server root relative");
             Assert.That("https://someapp.somedomain.org/".DoesHtmlStringContainAbsoluteUrlWithApplicationDomainReference(regEx), Is.True, "should be bad - not server root relative");

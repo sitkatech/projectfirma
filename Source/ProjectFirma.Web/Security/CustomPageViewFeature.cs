@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -42,7 +41,7 @@ namespace ProjectFirma.Web.Security
         }
 
         public PermissionCheckResult HasPermission(Person person, CustomPage contextModelObject)
-        {           
+        {
             var isVisible = contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Public ||
                             (!person.IsAnonymousUser() &&
                              contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Protected);

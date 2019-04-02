@@ -36,8 +36,9 @@ namespace LtInfo.Common.Mvc
         static TypedWebViewPage()
         {
             if (typeof (TViewData) == typeof (object))
-                throw new InvalidOperationException(
-                    "You must explicitly specify TViewData when creating a typed view. Use an @model declaration to set the view-model type. Note that TViewData cannot be object or dynamic.");
+            {
+                throw new InvalidOperationException("You must explicitly specify TViewData when creating a typed view. Use an @model declaration to set the view-model type. Note that TViewData cannot be object or dynamic.");
+            }
         }
 
         private object ViewDataViaViewDataDictionary
@@ -50,12 +51,14 @@ namespace LtInfo.Common.Mvc
             base.InitHelpers();
 
             if (ViewDataViaViewDataDictionary == null)
-                throw new InvalidOperationException(
-                    "You must specify ViewData when rendering a typed view. Derive your controllers from TypedController and use an overload of View() that accepts a viewModel parameter.");
+            {
+                throw new InvalidOperationException("You must specify ViewData when rendering a typed view. Derive your controllers from TypedController and use an overload of View() that accepts a viewModel parameter.");
+            }
+
             if (!(ViewDataViaViewDataDictionary is TViewData))
-                throw new InvalidOperationException(
-                    string.Format("The specified ViewData value is of type '{0}' and must be of type '{1}'.",
-                                  ViewDataViaViewDataDictionary.GetType(), typeof(TViewData)));
+            {
+                throw new InvalidOperationException($"The specified ViewData value is of type '{ViewDataViaViewDataDictionary.GetType()}' and must be of type '{typeof(TViewData)}'.");
+            }
             ViewDataTyped = (TViewData)ViewDataViaViewDataDictionary;
         }
 
@@ -72,7 +75,9 @@ namespace LtInfo.Common.Mvc
         public IHtmlString SetLayout([PathReference] string layout, [AspMvcModelType, NotNull] object layoutModel)
         {
             if (layoutModel == null)
+            {
                 throw new ArgumentNullException("layoutModel");
+            }
             base.ViewData[TypedWebViewPage.LayoutDictionaryKey] = layoutModel;
             base.Layout = layout;
 
@@ -84,13 +89,11 @@ namespace LtInfo.Common.Mvc
         {
             get
             {
-                throw new InvalidOperationException(
-                    "You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
+                throw new InvalidOperationException("You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
             }
             set
             {
-                throw new InvalidOperationException(
-                    "You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
+                throw new InvalidOperationException("You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
             }
         }
     }
@@ -101,8 +104,9 @@ namespace LtInfo.Common.Mvc
         static TypedWebPartialViewPage()
         {
             if (typeof(TViewData) == typeof(object))
-                throw new InvalidOperationException(
-                    "You must explicitly specify TViewData when creating a typed view. Use an @model declaration to set the view-model type. Note that TViewData cannot be object or dynamic.");
+            {
+                throw new InvalidOperationException("You must explicitly specify TViewData when creating a typed view. Use an @model declaration to set the view-model type. Note that TViewData cannot be object or dynamic.");
+            }
         }
 
         private object ViewDataViaViewDataDictionary
@@ -115,12 +119,14 @@ namespace LtInfo.Common.Mvc
             base.InitHelpers();
 
             if (ViewDataViaViewDataDictionary == null)
-                throw new InvalidOperationException(
-                    "You must specify ViewData when rendering a typed view. Derive your controllers from TypedController and use an overload of View() that accepts a viewModel parameter.");
+            {
+                throw new InvalidOperationException("You must specify ViewData when rendering a typed view. Derive your controllers from TypedController and use an overload of View() that accepts a viewModel parameter.");
+            }
+
             if (!(ViewDataViaViewDataDictionary is TViewData))
-                throw new InvalidOperationException(
-                    string.Format("The specified ViewData value is of type '{0}' and must be of type '{1}'.",
-                                  ViewDataViaViewDataDictionary.GetType(), typeof(TViewData)));
+            {
+                throw new InvalidOperationException($"The specified ViewData value is of type '{ViewDataViaViewDataDictionary.GetType()}' and must be of type '{typeof(TViewData)}'.");
+            }
             ViewDataTyped = (TViewData)ViewDataViaViewDataDictionary;
         }
 
@@ -137,7 +143,9 @@ namespace LtInfo.Common.Mvc
         public IHtmlString SetLayout([PathReference] string layout, [AspMvcModelType, NotNull] object layoutModel)
         {
             if (layoutModel == null)
+            {
                 throw new ArgumentNullException("layoutModel");
+            }
             base.ViewData[TypedWebViewPage.LayoutDictionaryKey] = layoutModel;
             base.Layout = layout;
 
@@ -149,13 +157,11 @@ namespace LtInfo.Common.Mvc
         {
             get
             {
-                throw new InvalidOperationException(
-                    "You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
+                throw new InvalidOperationException("You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
             }
             set
             {
-                throw new InvalidOperationException(
-                    "You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
+                throw new InvalidOperationException("You cannot use the Layout property when rendering a typed view. Use the SetLayout() method instead.");
             }
         }
     }

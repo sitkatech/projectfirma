@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
         public static readonly TenantActionAgendaForPugetSound ActionAgendaForPugetSound = TenantActionAgendaForPugetSound.Instance;
+        public static readonly TenantBureauOfReclamation BureauOfReclamation = TenantBureauOfReclamation.Instance;
 
         public static readonly List<Tenant> All;
         public static readonly ReadOnlyDictionary<int, Tenant> AllLookupDictionary;
@@ -37,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -123,6 +124,8 @@ namespace ProjectFirmaModels.Models
                     return ActionAgendaForPugetSound;
                 case TenantEnum.AshlandForestAllLandsRestorationInitiative:
                     return AshlandForestAllLandsRestorationInitiative;
+                case TenantEnum.BureauOfReclamation:
+                    return BureauOfReclamation;
                 case TenantEnum.ClackamasPartnership:
                     return ClackamasPartnership;
                 case TenantEnum.DemoProjectFirma:
@@ -156,7 +159,8 @@ namespace ProjectFirmaModels.Models
         JohnDayPartnership = 7,
         AshlandForestAllLandsRestorationInitiative = 8,
         IdahoAssociatonOfSoilConservationDistricts = 9,
-        ActionAgendaForPugetSound = 11
+        ActionAgendaForPugetSound = 11,
+        BureauOfReclamation = 12
     }
 
     public partial class TenantSitkaTechnologyGroup : Tenant
@@ -217,5 +221,11 @@ namespace ProjectFirmaModels.Models
     {
         private TenantActionAgendaForPugetSound(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced) {}
         public static readonly TenantActionAgendaForPugetSound Instance = new TenantActionAgendaForPugetSound(11, @"ActionAgendaForPugetSound", @"actionagendatracker.localhost.projectfirma.com", @"qa-actionagenda.pugetsoundinfo.wa.gov", @"actionagenda.pugetsoundinfo.wa.gov", DateTime.Parse("01/01/1990"), false, false, true);
+    }
+
+    public partial class TenantBureauOfReclamation : Tenant
+    {
+        private TenantBureauOfReclamation(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced) {}
+        public static readonly TenantBureauOfReclamation Instance = new TenantBureauOfReclamation(12, @"BureauOfReclamation", @"bor.localhost.projectfirma.com", @"bor.qa.projectfirma.com", @"bor.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false);
     }
 }

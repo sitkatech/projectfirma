@@ -25,18 +25,35 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Web.Mvc;
-using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.RouteTableBuilderTestFolder.Areas.MyTestArea1.Controllers;
 using LtInfo.Common.RouteTableBuilderTestFolder.Controllers;
 using NUnit.Framework;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Common
 {
     [TestFixture]
     public class RouteTableBuilderTest
     {
+        [SetUp]
+        public void OneTimeSetUp()
+        {
+            RestoreRouteTableBuilderToNormalState();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            RestoreRouteTableBuilderToNormalState();
+        }
+
+        // Restore RouteTableBuilder to normal state
+        private static void RestoreRouteTableBuilderToNormalState()
+        {
+            RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, null, Global.AreasDictionary, true);
+        }
+
         [Test]
         public void TestThatNullStringAsFirstParameterThrows()
         {
@@ -67,17 +84,17 @@ namespace ProjectFirma.Web.Common
         private static void TestRouteParameterOptionality(int expectedCountOfRoutes, Type type, bool shouldThrow)
         {
             List<MethodInfo> methods = SitkaController.FindControllerActions(type);
-            Assert.That(methods, Is.Not.Empty, string.Format("Test Precondition: the test type {0} should have a controller action on it", type));
+            Assert.That(methods, Is.Not.Empty, $"Test Precondition: the test type {type} should have a controller action on it");
 
             if (shouldThrow)
             {
-                Assert.Throws<PreconditionException>(() => RouteTableBuilder.SetupRouteTableImpl(methods), string.Format("An illegal route was allowed into the route table! {0}", type.Name));
+                Assert.Throws<PreconditionException>(() => RouteTableBuilder.SetupRouteTableImpl(methods), $"An illegal route was allowed into the route table! {type.Name}");
             }
             else
             {
                 var routeEntries = new List<SitkaRouteTableEntry>();
-                Assert.DoesNotThrow(() => routeEntries = RouteTableBuilder.SetupRouteTableImpl(methods), string.Format("A legal route was not allowed into the route table! {0}", type.Name));
-                Assert.That(routeEntries.Count, Is.EqualTo(expectedCountOfRoutes), string.Format("Route count is not what was expected. {0}", type.Name));
+                Assert.DoesNotThrow(() => routeEntries = RouteTableBuilder.SetupRouteTableImpl(methods), $"A legal route was not allowed into the route table! {type.Name}");
+                Assert.That(routeEntries.Count, Is.EqualTo(expectedCountOfRoutes), $"Route count is not what was expected. {type.Name}");
             }
         }
 
@@ -172,7 +189,7 @@ namespace ProjectFirma.Web.Common
         private static void AssertUrlBuilderMatches<T>(Expression<Action<T>> expression, string expectedUrl, string message) where T : Controller
         {
             string ourRoute = String.Empty;
-            Assert.DoesNotThrow(() => ourRoute = SitkaRoute<T>.BuildUrlFromExpression(expression), string.Format("Should work but failed while calculating route {0}", expectedUrl));
+            Assert.DoesNotThrow(() => ourRoute = SitkaRoute<T>.BuildUrlFromExpression(expression), $"Should work but failed while calculating route {expectedUrl}");
             Assert.That(ourRoute, Is.EqualTo(expectedUrl), "Routes don't match - " + message);
         }
 

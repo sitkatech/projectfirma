@@ -84,8 +84,7 @@ namespace ProjectFirma.Web.Views
 
             var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
             ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPersonCanManage) : null;
-            CustomFooterViewData =
-                new ViewPageContentViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage);
+            CustomFooterViewData = new ViewPageContentViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage);
             TenantName = MultiTenantHelpers.GetTenantName();
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();

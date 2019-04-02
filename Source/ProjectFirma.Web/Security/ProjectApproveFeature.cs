@@ -24,6 +24,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
+    [SecurityFeatureDescription("Approve Project")]
     public class ProjectApproveFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;

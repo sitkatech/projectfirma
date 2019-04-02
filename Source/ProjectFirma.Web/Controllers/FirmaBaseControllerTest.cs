@@ -53,11 +53,14 @@ namespace ProjectFirma.Web.Controllers
                 "PerformanceMeasureController.SaveChartConfiguration",
                 "RoleController.Detail",
                 "RoleController.PersonWithRoleGridJsonData",
+                "PerformanceMeasureController.ResetChartConfiguration",
+                "ResultsController.OrganizationDashboardSummary",
+                "ResultsController.OrganizationAccomplishments"
             };
-            var missingHumanReadable = missing.Select(x => $"{x.ReflectedType.Name}.{x.Name}").Where(x => !exceptions.Contains(x)).ToList();
+            var missingHumanReadable = missing.Select(x => $"{x.ReflectedType.Name}.{x.Name}").Where(x => !exceptions.Contains(x)).Distinct().ToList();
             Assert.That(missingHumanReadable,
                 Is.Empty,
-                $"Some controller actions methods may be using intergral data types for ID fields, consider using one of the types derived from \"{typeof(LtInfoEntityPrimaryKey<>)}\" instead or add an exception to this test");
+                $"Some controller actions methods may be using integral data types for ID fields, consider using one of the types derived from \"{typeof(LtInfoEntityPrimaryKey<>)}\" instead or add an exception to this test");
         }
     }
 }

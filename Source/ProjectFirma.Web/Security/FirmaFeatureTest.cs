@@ -52,8 +52,8 @@ namespace ProjectFirma.Web.Security
             // Remove exceptions
             info = info.Where(x => x.Name != "JasmineController.Run").ToList();
 
-            Assert.That(info.Where(x => x.FeatureCount == 0).ToList(), Is.Empty, string.Format("All should have at least one {0}", _typeOfFirmaBaseFeature.Name));
-            Assert.That(info.Where(x => x.FeatureCount > 1).ToList(), Is.Empty, string.Format("Should have no more than one{0}", _typeOfFirmaBaseFeature.Name));
+            Assert.That(info.Where(x => x.FeatureCount == 0).ToList(), Is.Empty, $"All should have at least one {_typeOfFirmaBaseFeature.Name}");
+            Assert.That(info.Where(x => x.FeatureCount > 1).ToList(), Is.Empty, $"Should have no more than one{_typeOfFirmaBaseFeature.Name}");
         }
 
         private static string MethodName(MethodInfo method)
@@ -93,7 +93,8 @@ namespace ProjectFirma.Web.Security
 
             if (listOfSecurityFeaturesWithoutDescription.Count > 0)
             {
-                Assert.Fail(Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, listOfSecurityFeaturesWithoutDescription));
+                string failMessage = Environment.NewLine + Environment.NewLine + String.Join(Environment.NewLine, listOfSecurityFeaturesWithoutDescription);
+                Assert.Fail(failMessage);
             }
         }
 
@@ -111,14 +112,14 @@ namespace ProjectFirma.Web.Security
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
                 if (!obj.GrantedRoles.Contains(Role.Admin) && obj.GrantedRoles.Count != 0)
                 {
-                    var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
+                    var errorMessage = $"Feature {type.FullName} is not available to Administrators";
                     listOfErrors.Add(errorMessage);
                 }
 
-                //Validate Unassigned does NOT have access                
+                //Validate Unassigned does NOT have access
                 if (obj.GrantedRoles.Contains(Role.Unassigned))
                 {
-                    string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
+                    string errorMessage = $"Feature {type.FullName} is available to the Unassigned role";
                     listOfErrors.Add(errorMessage);
                 }
             }
@@ -187,8 +188,8 @@ namespace ProjectFirma.Web.Security
         public void ControllerActionsWithContextFeatureHasParameterAlignment()
         {
             var allControllerActionMethods = FirmaBaseController.AllControllerActionMethods;
-            var releventControllerActions = allControllerActionMethods.Where(x => !AreControllerActionParametersAlignedWithFeature(x)).ToList();
-            Assert.That(releventControllerActions.Select(MethodName).ToList(), Is.Empty, "Found some controller actions without proper alignment with parameters");
+            var relevantControllerActions = allControllerActionMethods.Where(x => !AreControllerActionParametersAlignedWithFeature(x)).ToList();
+            Assert.That(relevantControllerActions.Select(MethodName).ToList(), Is.Empty, "Found some controller actions without proper alignment with parameters");
         }
 
         private bool AreControllerActionParametersAlignedWithFeature(MethodInfo method)
