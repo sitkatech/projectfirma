@@ -24,11 +24,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -41,10 +39,21 @@ namespace ProjectFirma.Web.Models
     [TestFixture]
     public class FileResourceTest
     {
+        private ProjectFirmaSqlDatabase _db;
+        private bool _projectFirmaDatabaseIsSetUp = false;
+        private readonly object _setupLockObject = new Object();
+
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
-            _db = new ProjectFirmaSqlDatabase();
+            lock (_setupLockObject)
+            {
+                if (!_projectFirmaDatabaseIsSetUp)
+                {
+                    _db = new ProjectFirmaSqlDatabase();
+                    _projectFirmaDatabaseIsSetUp = true;
+                }
+            }
         }
 
         [Test]
@@ -141,8 +150,6 @@ namespace ProjectFirma.Web.Models
             var missing = fileResourceGuidsInUrls.Except(fileResourceGuidsInDb);
             Assert.That(missing, Is.Empty, "Found at least one URL in text columns in the database referring to a FileResourceGuid that is not in the FileResource table.");
         }
-
-        private ProjectFirmaSqlDatabase _db;
 
         /// <summary>
         /// Based on a string that has embedded file resource URLs in it, parse out the URLs and look up the corresponding FileResource stuff

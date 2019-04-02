@@ -40,7 +40,7 @@ namespace ProjectFirma.Web
                     keyValuePair =>
                         new SitkaRouteTableEntry(string.Format("{0}_Default", keyValuePair.Key),
                             String.Empty,
-                            string.Format("ProjectFirma.Web{0}.Controllers", !string.IsNullOrWhiteSpace(keyValuePair.Key) ? string.Format(".Areas.{0}", keyValuePair.Key) : string.Empty),
+                            $"ProjectFirma.Web{(!string.IsNullOrWhiteSpace(keyValuePair.Key) ? $".Areas.{keyValuePair.Key}" : string.Empty)}.Controllers",
                             SitkaController.DefaultController,
                             SitkaController.DefaultAction,
                             keyValuePair.Key,

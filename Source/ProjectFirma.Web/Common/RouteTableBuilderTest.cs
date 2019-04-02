@@ -29,12 +29,31 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.RouteTableBuilderTestFolder.Areas.MyTestArea1.Controllers;
 using LtInfo.Common.RouteTableBuilderTestFolder.Controllers;
 using NUnit.Framework;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Common
 {
     [TestFixture]
     public class RouteTableBuilderTest
     {
+        [SetUp]
+        public void OneTimeSetUp()
+        {
+            RestoreRouteTableBuilderToNormalState();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            RestoreRouteTableBuilderToNormalState();
+        }
+
+        // Restore RouteTableBuilder to normal state
+        private static void RestoreRouteTableBuilderToNormalState()
+        {
+            RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, null, Global.AreasDictionary, true);
+        }
+
         [Test]
         public void TestThatNullStringAsFirstParameterThrows()
         {

@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Common
             var sitkaRouteEntries = SetupRouteTableImpl(allActions, _defaultRoutes, _areasDictionary);
             var duplicates = sitkaRouteEntries.GroupBy(x => x.RouteName).Where(y => y.Count() > 1).SelectMany(z => z).ToList();
 
-            Check.Require(!duplicates.Any(), string.Format("Unexpected duplicate routes found, check controller actions:\r\n{0}", String.Join("\r\n", duplicates)));
+            Check.Require(!duplicates.Any(), $"Unexpected duplicate routes found, check controller actions:\r\n{String.Join("\r\n", duplicates)}");
 
             // add the ones with a route order first
             foreach (var routeEntry in sitkaRouteEntries.Where(x => x.RouteOrder.HasValue).OrderBy(x => x.RouteOrder).ThenBy(x => x.Controller).ThenBy(x => x.Action).ThenBy(x => x.RouteName).ToList())
@@ -327,6 +327,12 @@ namespace ProjectFirma.Web.Common
         {
             if (!_hasRouteTableBeenBuiltYet || forceReload)
             {
+                // If we've loaded before, and we are forcibly reloading..
+                if (_hasRouteTableBeenBuiltYet && forceReload)
+                {
+                    // Clear prior routes first.
+                    ClearRoutes();
+                }
                 var builder = new RouteTableBuilder(RouteTable.Routes, defaultRoutes, areasDictionary);
                 builder.SetupRouteTable(allActions);
                 _hasRouteTableBeenBuiltYet = true;

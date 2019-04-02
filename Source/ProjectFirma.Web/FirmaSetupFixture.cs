@@ -32,11 +32,22 @@ using ProjectFirma.Web.Common;
 public class FirmaSetupFixture
     // ReSharper restore CheckNamespace
 {
+    public static bool HasAlreadySetUpRouteTable = false;
+    public static object RouteTableLockObject = new object();
+
     [SetUp]
     public void RunBeforeAnyTests()
     {
-        // This is necesary for tests to pass, since many will try to initialize a URL route, and we normally create the route table when the web app starts.
-        // So we deliberately build the route table ahead of time.
-        RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, null, Global.AreasDictionary);
+        lock (RouteTableLockObject)
+        {
+            if (!HasAlreadySetUpRouteTable)
+            {
+                // This is necessary for tests to pass, since many will try to initialize a URL route, and we normally create the route table when the web app starts.
+                // So we deliberately build the route table ahead of time.
+                RouteTableBuilder.Build(FirmaBaseController.AllControllerActionMethods, null, Global.AreasDictionary);
+            }
+            HasAlreadySetUpRouteTable = true;
+        }
+
     }
 }
