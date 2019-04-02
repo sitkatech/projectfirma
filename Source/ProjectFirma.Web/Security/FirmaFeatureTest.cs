@@ -145,14 +145,14 @@ namespace ProjectFirma.Web.Security
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
                 if (!obj.GrantedRoles.Contains(Role.SitkaAdmin) && obj.GrantedRoles.Count != 0)
                 {
-                    var errorMessage = String.Format("Feature {0} is not available to Administrators", type.FullName);
+                    var errorMessage = $"Feature {type.FullName} is not available to Administrators";
                     listOfErrors.Add(errorMessage);
                 }
 
-                //Validate Unassigned does NOT have access                
+                //Validate Unassigned does NOT have access
                 if (obj.GrantedRoles.Contains(Role.Unassigned))
                 {
-                    string errorMessage = String.Format("Feature {0} is available to the Unassigned role", type.FullName);
+                    string errorMessage = $"Feature {type.FullName} is available to the Unassigned role";
                     listOfErrors.Add(errorMessage);
                 }
             }
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Security
             var iFirmaFeatureTypeWithContextTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => p.GetInterfaces().Any(i => HasInterface(i, _typeofIFirmaBaseFeatureWithContext))).Select(t => t.FullName).ToList();
 
             //The two lists should be the same
-            Assert.That(firmaFeatureWithContextTypes, Is.EquivalentTo(iFirmaFeatureTypeWithContextTypes), string.Format("All features of type {0} must implement {1}", _typeOfFirmaFeatureWithContext.Name, _typeofIFirmaBaseFeatureWithContext.Name));
+            Assert.That(firmaFeatureWithContextTypes, Is.EquivalentTo(iFirmaFeatureTypeWithContextTypes), $"All features of type {_typeOfFirmaFeatureWithContext.Name} must implement {_typeofIFirmaBaseFeatureWithContext.Name}");
         }
 
         private static bool HasInterface(Type i, Type iFirmaFeatureTypeWithContext)
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Security
             {
                 return true;
             }
-            Assert.That(attributes.Count == 1, string.Format("Method had more than one {0}", _typeOfFirmaFeatureWithContext.Name));
+            Assert.That(attributes.Count == 1, $"Method had more than one {_typeOfFirmaFeatureWithContext.Name}");
             var attribute = attributes.Single();
 
             // Does it have a matching parameter?
@@ -209,14 +209,14 @@ namespace ProjectFirma.Web.Security
             var allInterfaces = featureType.GetInterfaces().ToList();
             var matchingInterfaces = allInterfaces.Where(t => HasInterface(t, _typeofIFirmaBaseFeatureWithContext)).ToList();
 
-            Assert.That(matchingInterfaces.Count == 1, string.Format("Feature type {0} doesn't implement {1}", featureType.Name, _typeofIFirmaBaseFeatureWithContext));
+            Assert.That(matchingInterfaces.Count == 1, $"Feature type {featureType.Name} doesn't implement {_typeofIFirmaBaseFeatureWithContext}");
 
             var contextInterface = matchingInterfaces.Single();
             var entityObjectType = contextInterface.GetGenericArguments().First();
             var expectedParameterType = typeof(LtInfoEntityPrimaryKey<>).MakeGenericType(entityObjectType);
 
             var matchingParameters = method.GetParameters().Where(p => p.ParameterType == expectedParameterType || p.ParameterType.IsSubclassOf(expectedParameterType)).ToList();
-            Assert.That(matchingParameters.Count < 2, string.Format("Method {0} has more than one parameter that aligns with doesn't implement {1}", featureType.Name, _typeofIFirmaBaseFeatureWithContext));
+            Assert.That(matchingParameters.Count < 2, $"Method {featureType.Name} has more than one parameter that aligns with doesn't implement {_typeofIFirmaBaseFeatureWithContext}");
             return matchingParameters.Count == 1;
         }
 
@@ -227,7 +227,7 @@ namespace ProjectFirma.Web.Security
             var usingAllowAnonymous = allControllerActionMethods.Where(m => m.GetCustomAttributes().Any(a => a.GetType() == _typeOfAllowAnonymousAttribute || a.GetType().IsSubclassOf(_typeOfAllowAnonymousAttribute))).ToList();
 
             var x = usingAllowAnonymous.Select(MethodName).ToList();
-            Assert.That(x, Is.Empty, string.Format("Found some uses of \"{0}\", should be using types of \"{1}\" only.", _typeOfAllowAnonymousAttribute.FullName, _typeOfFirmaBaseFeature.FullName));
+            Assert.That(x, Is.Empty, $"Found some uses of \"{_typeOfAllowAnonymousAttribute.FullName}\", should be using types of \"{_typeOfFirmaBaseFeature.FullName}\" only.");
         }
     }
 }
