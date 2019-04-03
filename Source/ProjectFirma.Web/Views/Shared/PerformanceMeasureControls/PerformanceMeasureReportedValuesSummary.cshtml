@@ -75,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </td>
                     }
                     <th style="text-align: right">
-                        <span>@performanceMeasureCalendarYearReportedValue.MeasurementUnitType.DisplayValue(subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value))</span>
+                        <span>@subcategoriesReportedValue.CalendarYearReportedValue.Sum(z => z.Value)</span>
                     </th>
                     <th>
                         <span>@(performanceMeasureCalendarYearReportedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearReportedValue.MeasurementUnitType.LegendDisplayName : string.Empty)</span>

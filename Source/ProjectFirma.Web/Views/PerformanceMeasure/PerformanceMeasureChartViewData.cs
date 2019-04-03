@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly string ChartTitle;
         public double? ChartTotal { get; }
         public string ChartTotalFormatted { get; }
-        public string ChartTotalUnit { get;  }
 
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
@@ -61,7 +60,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
             ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
-            ChartTotalUnit = PerformanceMeasure.MeasurementUnitType.LegendDisplayName;
             
             var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
