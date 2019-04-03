@@ -57,7 +57,8 @@ namespace ProjectFirma.Web
                 branch.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
                     AuthenticationType = "Cookies",
-                    CookieManager = new SystemWebChunkingCookieManager()
+                    CookieManager = new SystemWebChunkingCookieManager(),
+                    CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
                 });
 
                 branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions

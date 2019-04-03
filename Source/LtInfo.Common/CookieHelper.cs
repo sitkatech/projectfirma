@@ -188,5 +188,13 @@ public class CookieHelper
             var sessionStateSection = (SessionStateSection) ConfigurationManager.GetSection("system.web/sessionState");
             return sessionStateSection.CookieName;
         }
+
+        public static HttpCookieCollection GetAllAuthenticationCookies(HttpCookieCollection httpCookieCollection, string pfCookieName)
+        {
+            var cookies = Enumerable.Range(0, httpCookieCollection.Count).Select(i => httpCookieCollection[i]).ToList();
+            var allAuthenticationCookies = new HttpCookieCollection();
+            cookies.Where(x => x.Name.StartsWith(pfCookieName)).ToList().ForEach(x => allAuthenticationCookies.Add(x));
+            return allAuthenticationCookies;
+        }
     }
 }
