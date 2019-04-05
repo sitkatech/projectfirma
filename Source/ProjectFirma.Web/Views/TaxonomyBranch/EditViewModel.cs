@@ -26,6 +26,7 @@ using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 
@@ -69,6 +70,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
         public void UpdateModel(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, Person currentPerson)
         {
+            Check.Ensure(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Any(), "No entries in TaxonomyTrunks; is something wrong with db?");
             taxonomyBranch.TaxonomyBranchName = TaxonomyBranchName;
             taxonomyBranch.TaxonomyBranchDescriptionHtmlString = TaxonomyBranchDescription;
             taxonomyBranch.TaxonomyTrunkID = MultiTenantHelpers.IsTaxonomyLevelTrunk()

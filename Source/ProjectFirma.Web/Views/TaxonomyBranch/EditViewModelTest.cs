@@ -48,15 +48,16 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public void UpdateModelTest()
         {
             // Arrange
-            var taxonomyBranch = TestFramework.TestTaxonomyBranch.Create();
-            var viewModel = new EditViewModel(taxonomyBranch);
+            var testTaxonomyBranch = TestFramework.TestTaxonomyBranch.Create();
+            var viewModel = new EditViewModel(testTaxonomyBranch);
             viewModel.TaxonomyBranchName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyBranchName), ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);            
 
             // Act
-            viewModel.UpdateModel(taxonomyBranch, TestFramework.TestPerson.Create());
+            var testPerson = TestFramework.TestPerson.Create();
+            viewModel.UpdateModel(testTaxonomyBranch, testPerson);
 
             // Assert
-            Assert.That(taxonomyBranch.TaxonomyBranchName, Is.EqualTo(viewModel.TaxonomyBranchName));
+            Assert.That(testTaxonomyBranch.TaxonomyBranchName, Is.EqualTo(viewModel.TaxonomyBranchName));
         }
 
         [Test]

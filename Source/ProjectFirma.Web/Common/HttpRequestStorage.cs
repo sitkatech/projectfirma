@@ -45,11 +45,12 @@ namespace ProjectFirma.Web.Common
         {
             get { return new List<string>(); }
         }
+
         public static IPrincipal GetHttpContextUserThroughOwin()
         {
+            Check.EnsureNotNull(HttpContext.Current, "Null HttpContext.Current!");
             return HttpContext.Current.GetOwinContext().Authentication.User;
         }
-
 
         public static Person Person
         {

@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             if (new List<ProjectFirmaModels.Models.Role> {ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin}.All(
                 x => x.RoleID != currentPerson.RoleID) && currentPerson.OrganizationID != OrganizationID)
             {
-                var errorMessage = $"You cannnot create a {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} for an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} other than your own.";
+                var errorMessage = $"You cannot create a {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} for an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} other than your own.";
                 errors.Add(new SitkaValidationResult<EditViewModel, int?>(errorMessage, x => x.OrganizationID));
             }
 

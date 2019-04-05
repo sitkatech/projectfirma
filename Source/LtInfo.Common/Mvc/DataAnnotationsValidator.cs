@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.Mvc
 {
@@ -30,6 +31,8 @@ namespace LtInfo.Common.Mvc
     {
         public static bool TryValidate(object viewModel, out ICollection<ValidationResult> results)
         {
+            Check.EnsureNotNull(viewModel, "ViewModel should not be null");
+
             var context = new ValidationContext(viewModel, null, null);
             results = new List<ValidationResult>();
             return System.ComponentModel.DataAnnotations.Validator.TryValidateObject(viewModel, context, results, true);
