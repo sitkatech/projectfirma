@@ -8,6 +8,7 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using ApprovalUtilities.Reflection;
 using Keystone.Common.OpenID;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -253,7 +254,7 @@ namespace ProjectFirma.Web
 
         private static void SendNewUserCreatedMessage(Person person, string loginName)
         {
-            var subject = $"User added: {person.GetFullNameFirstLastAndOrg()}";
+            var subject = $"{ MultiTenantHelpers.GetToolDisplayName() } User added: {person.GetFullNameFirstLastAndOrg()} ({ person.Organization. })";
             var message = $@"
     <div style='font-size: 12px; font-family: Arial'>
         <strong>Project Firma User added:</strong> {person.GetFullNameFirstLast()}<br />
