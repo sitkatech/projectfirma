@@ -42,12 +42,11 @@ namespace ProjectFirma.Web.Views.Tenant
                 x.ClassificationSystemName, 
                 x.ClassificationSystemDefinition?.ToString(), 
                 null)).ToList();
-            currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.TenantID == y.TenantID && x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
+            currentClassificationSystems.Merge(updatedClassificationSystems, allClassificationSystems, (x, y) => x.ClassificationSystemID == y.ClassificationSystemID, (x, y) =>
             {
                 x.ClassificationSystemName = y.ClassificationSystemName;
                 x.ClassificationSystemDefinition = y.ClassificationSystemDefinition;
             }, HttpRequestStorage.DatabaseEntities);
-
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
