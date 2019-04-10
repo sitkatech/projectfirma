@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public int? TaxonomyLeafID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf)]
-        public IEnumerable<int> SecondaryProjectTaxonomyLeafIDs { get; set; }
+        public IEnumerable<int> SecondaryProjectTaxonomyLeafIDs { get; set; } = new List<int>();
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public int? OldProjectStageID { get; set; }
 
-        public ProjectFirmaModels.Models.ProjectCustomAttributes ProjectCustomAttributes { get; set; }
+        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
 
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
-            ProjectCustomAttributes = new ProjectFirmaModels.Models.ProjectCustomAttributes(project);
+            ProjectCustomAttributes = new ProjectCustomAttributes(project);
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
