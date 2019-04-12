@@ -1,0 +1,1 @@
+alter table dbo.PerformanceMeasure add Importance dbo.html, AdditionalInformation dbo.html

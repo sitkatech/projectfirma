@@ -127,8 +127,78 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
             performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
             performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
+            performanceMeasure.Importance = performanceMeasureDto.Importance;
+            performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureCriticalDefinitions/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureCriticalDefinitions(string apiKey, [FromBody] PerformanceMeasureCriticalDefinitionsDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureImportance/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureImportance(string apiKey, [FromBody] PerformanceMeasureImportanceDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.Importance = performanceMeasureDto.Importance;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureAdditionalInformation/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureAdditionalInformation(string apiKey, [FromBody] PerformanceMeasureAdditionalInformationDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureProjectReporting/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureProjectReporting(string apiKey, [FromBody] PerformanceMeasureProjectReportingDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
             return Ok(performanceMeasureReloaded);
         }
 

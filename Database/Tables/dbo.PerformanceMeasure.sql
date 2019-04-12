@@ -18,6 +18,8 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[PerformanceMeasureSortOrder] [int] NULL,
 	[IsSummable] [bit] NOT NULL,
 	[PerformanceMeasureDataSourceTypeID] [int] NOT NULL,
+	[Importance] [dbo].[html] NULL,
+	[AdditionalInformation] [dbo].[html] NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC

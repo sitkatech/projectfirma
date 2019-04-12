@@ -30,6 +30,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PerformanceMeasureSortOrder).HasColumnName(@"PerformanceMeasureSortOrder").HasColumnType("int").IsOptional();
             Property(x => x.IsSummable).HasColumnName(@"IsSummable").HasColumnType("bit").IsRequired();
             Property(x => x.PerformanceMeasureDataSourceTypeID).HasColumnName(@"PerformanceMeasureDataSourceTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.Importance).HasColumnName(@"Importance").HasColumnType("varchar").IsOptional();
+            Property(x => x.AdditionalInformation).HasColumnName(@"AdditionalInformation").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
 
