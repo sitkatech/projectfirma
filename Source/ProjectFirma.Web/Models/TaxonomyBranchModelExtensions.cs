@@ -13,14 +13,16 @@ namespace ProjectFirma.Web.Models
 {
     public static class TaxonomyBranchModelExtensions
     {
-        public static string GetDeleteUrl(this TaxonomyBranch taxonomyBranch)
-        {
-            return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.DeleteTaxonomyBranch(taxonomyBranch.TaxonomyBranchID));
-        }
-
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this TaxonomyBranch taxonomyBranch)
         {
-            return SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(x => x.Detail(taxonomyBranch.TaxonomyBranchID));
+            return DetailUrlTemplate.ParameterReplace(taxonomyBranch.TaxonomyBranchID);
+        }
+
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(t => t.DeleteTaxonomyBranch(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this TaxonomyBranch taxonomyBranch)
+        {
+            return DeleteUrlTemplate.ParameterReplace(taxonomyBranch.TaxonomyBranchID);
         }
 
         public static string GetCustomizedMapUrl(this TaxonomyBranch taxonomyBranch)
