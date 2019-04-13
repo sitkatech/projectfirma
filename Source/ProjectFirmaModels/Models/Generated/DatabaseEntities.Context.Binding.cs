@@ -78,6 +78,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureActualUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
@@ -212,6 +213,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get { return AllPerformanceMeasureExpecteds.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> AllPerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get { return AllPerformanceMeasureExpectedSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureImage> AllPerformanceMeasureImages { get; set; }
+        public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
@@ -492,6 +495,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureExpectedSubcategoryOption":
                     return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasureImage":
+                    return PerformanceMeasureImages.GetPerformanceMeasureImage(primaryKey);
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);

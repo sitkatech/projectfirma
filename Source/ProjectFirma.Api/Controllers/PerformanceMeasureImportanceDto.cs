@@ -1,4 +1,6 @@
-﻿using ProjectFirmaModels.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Controllers
 {
@@ -8,6 +10,9 @@ namespace ProjectFirma.Api.Controllers
         {
             PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             Importance = performanceMeasure.Importance;
+            FileResources = performanceMeasure.PerformanceMeasureImages.Select(x => new FileResourceDto(x.FileResource))
+                .ToList();
+
         }
 
         public PerformanceMeasureImportanceDto()
@@ -16,5 +21,7 @@ namespace ProjectFirma.Api.Controllers
 
         public int PerformanceMeasureID { get; set; }
         public string Importance { get; set; }
+        public List<FileResourceDto> FileResources { get; set; }
+
     }
 }

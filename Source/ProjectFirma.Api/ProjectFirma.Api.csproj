@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FileResourceDto.cs" />
     <Compile Include="Controllers\FirmaWebApiConfiguration.cs" />
     <Compile Include="Controllers\PerformanceMeasureAdditionalInformationDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />

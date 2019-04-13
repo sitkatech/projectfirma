@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -92,6 +90,11 @@ namespace ProjectFirma.Api.Controllers
             return GoogleChartType.All.SingleOrDefault(x => x.GoogleChartTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        private static FileResourceMimeType MapFileResourceMimeTypeNameToFileResourceMimeType(string googleChartTypeName)
+        {
+            return FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         [Route("api/PerformanceMeasures/UpdatePerformanceMeasure/{apiKey}")]
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
@@ -163,6 +166,32 @@ namespace ProjectFirma.Api.Controllers
             }
 
             performanceMeasure.Importance = performanceMeasureDto.Importance;
+
+            var fileResourceDtos = performanceMeasureDto.FileResources;
+            var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
+                x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
+            if (fileResourceMimeTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                fileResourceMimeTypes.Where(x => x.Value == null).Select(x =>
+                    $"Invalid File Resource Mime Type '{x.Key.FileResourceMimeTypeName}' for '{x.Key.FileResourceGUID}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+
+            // Remove all of these, too hard to merge nicely
+            _databaseEntities.AllFileResources.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource));
+            _databaseEntities.AllPerformanceMeasureImages.RemoveRange(performanceMeasure.PerformanceMeasureImages);
+
+            var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
+            var performanceMeasureImagesToUpdate = fileResourceDtos.Select(x =>
+            {
+                var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
+                var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
+                var fileResource = new FileResource(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, x.FileResourceData, personID, x.CreateDate);
+                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResource);
+                return performanceMeasureImage;
+            }).ToList();
+
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
             return Ok(performanceMeasureReloaded);
