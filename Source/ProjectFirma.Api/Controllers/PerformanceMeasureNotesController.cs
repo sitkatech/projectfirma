@@ -20,7 +20,7 @@ namespace ProjectFirma.Api.Controllers
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasureNote = new PerformanceMeasureNote(performanceMeasureNoteDto.PerformanceMeasureID, performanceMeasureNoteDto.Note, performanceMeasureNoteDto.CreateDate);
-            var createPerson = MapPersonNameToPerson(performanceMeasureNoteDto.CreatePersonName);
+            var createPerson = MapPersonEmailToPerson(performanceMeasureNoteDto.CreatePersonEmail);
             performanceMeasureNote.CreatePersonID = createPerson?.PersonID;
             var tenantID = Tenant.ActionAgendaForPugetSound.TenantID;
             _databaseEntities.AllPerformanceMeasureNotes.Add(performanceMeasureNote);
@@ -34,15 +34,15 @@ namespace ProjectFirma.Api.Controllers
         public IHttpActionResult UpdatePerformanceMeasureNote(string apiKey, [FromBody] PerformanceMeasureNoteDto performanceMeasureNoteDto)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
-            var performanceMeasureNote = _databaseEntities.PerformanceMeasureNotes.SingleOrDefault(x => x.PerformanceMeasureNoteID == performanceMeasureNoteDto.PerformanceMeasureID);
+            var performanceMeasureNote = _databaseEntities.PerformanceMeasureNotes.SingleOrDefault(x => x.PerformanceMeasureNoteID == performanceMeasureNoteDto.PerformanceMeasureNoteID);
             if (performanceMeasureNote == null)
             {
                 var message = $"Performance Measure with ID = {performanceMeasureNoteDto.PerformanceMeasureID} not found";
                 return NotFound();
             }
 
-            var createPerson = MapPersonNameToPerson(performanceMeasureNoteDto.CreatePersonName);
-            var updatePerson = MapPersonNameToPerson(performanceMeasureNoteDto.UpdatePersonName);
+            var createPerson = MapPersonEmailToPerson(performanceMeasureNoteDto.CreatePersonEmail);
+            var updatePerson = MapPersonEmailToPerson(performanceMeasureNoteDto.UpdatePersonEmail);
 
             performanceMeasureNote.Note = performanceMeasureNoteDto.Note;
             performanceMeasureNote.CreatePersonID = createPerson?.PersonID;
@@ -70,9 +70,9 @@ namespace ProjectFirma.Api.Controllers
             return Ok();
         }
 
-        private Person MapPersonNameToPerson(string personName)
+        private Person MapPersonEmailToPerson(string email)
         {
-            return _databaseEntities.People.SingleOrDefault(x => x.FirstName + " " + x.LastName == personName);
+            return _databaseEntities.People.SingleOrDefault(x => x.Email == email);
         }
 
     }
