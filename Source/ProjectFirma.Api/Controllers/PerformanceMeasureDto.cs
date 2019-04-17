@@ -44,6 +44,7 @@ namespace ProjectFirma.Api.Controllers
         public string PerformanceMeasureDataSourceTypeName { get; set; }
 
         public List<PerformanceMeasureSubcategoryDto> PerformanceMeasureSubcategories { get; set; }
-
+        public string Importance { get; set; }
+        public string AdditionalInformation { get; set; }
     }
 }

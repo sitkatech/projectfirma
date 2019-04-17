@@ -42,16 +42,16 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(taxonomyLeaf.GetDetailUrl(), taxonomyLeaf.GetDisplayName());
         }
 
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this TaxonomyLeaf taxonomyLeaf)
         {
-            return SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(x =>
-                x.Detail(taxonomyLeaf.TaxonomyLeafID));
+            return DetailUrlTemplate.ParameterReplace(taxonomyLeaf.TaxonomyLeafID);
         }
 
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(t => t.DeleteTaxonomyLeaf(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this TaxonomyLeaf taxonomyLeaf)
         {
-            return SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(c =>
-                c.DeleteTaxonomyLeaf(taxonomyLeaf.TaxonomyLeafID));
+            return DeleteUrlTemplate.ParameterReplace(taxonomyLeaf.TaxonomyLeafID);
         }
 
         public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)

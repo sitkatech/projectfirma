@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Net.Http.Formatting;
+using System.Web.Http;
 
 namespace ProjectFirma.Api
 {
@@ -11,6 +12,8 @@ namespace ProjectFirma.Api
 
             // Model validation
             config.Filters.Add(new ValidateModelAttribute());
+
+            config.Formatters.Add(new BsonMediaTypeFormatter());
         }
     }
 }

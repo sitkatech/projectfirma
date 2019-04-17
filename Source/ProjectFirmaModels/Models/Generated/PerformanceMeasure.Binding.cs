@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
+            this.PerformanceMeasureImages = new HashSet<PerformanceMeasureImage>();
             this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
             this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
@@ -39,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -55,6 +56,8 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureSortOrder = performanceMeasureSortOrder;
             this.IsSummable = isSummable;
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
+            this.Importance = importance;
+            this.AdditionalInformation = additionalInformation;
         }
 
         /// <summary>
@@ -102,13 +105,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return ClassificationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -168,6 +171,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in PerformanceMeasureImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in PerformanceMeasureNotes.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -212,6 +220,20 @@ namespace ProjectFirmaModels.Models
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsSummable { get; set; }
         public int PerformanceMeasureDataSourceTypeID { get; set; }
+        public string Importance { get; set; }
+        [NotMapped]
+        public HtmlString ImportanceHtmlString
+        { 
+            get { return Importance == null ? null : new HtmlString(Importance); }
+            set { Importance = value?.ToString(); }
+        }
+        public string AdditionalInformation { get; set; }
+        [NotMapped]
+        public HtmlString AdditionalInformationHtmlString
+        { 
+            get { return AdditionalInformation == null ? null : new HtmlString(AdditionalInformation); }
+            set { AdditionalInformation = value?.ToString(); }
+        }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
@@ -222,6 +244,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public virtual ICollection<PerformanceMeasureImage> PerformanceMeasureImages { get; set; }
         public virtual ICollection<PerformanceMeasureNote> PerformanceMeasureNotes { get; set; }
         public virtual ICollection<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
