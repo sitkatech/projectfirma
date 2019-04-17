@@ -18,10 +18,8 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure.Edit
 <script type="text/javascript">
     // <![CDATA[
@@ -38,11 +36,6 @@
             return filter;
         };
 
-        $scope.setPrimaryTaxonomyTier = function(program)
-        {
-            $scope.AngularModel.PrimaryTaxonomyTierID = program.TaxonomyTierID;
-        };
-
         $scope.getTaxonomyTierName = function(taxonomyTierPerformanceMeasure)
         {
             var programToFind = $scope.getTaxonomyTier(taxonomyTierPerformanceMeasure.TaxonomyTierID);
@@ -55,14 +48,9 @@
         {
             if ($scope.TaxonomyTierToAdd != null)
             {
-                if ($scope.AngularModel.TaxonomyTierPerformanceMeasures.length == 0)
-                {
-                    $scope.setPrimaryTaxonomyTier($scope.TaxonomyTierToAdd);
-                }
                 var newTaxonomyTierPerformanceMeasureJson = {
                     TaxonomyTierID: $scope.TaxonomyTierToAdd.TaxonomyTierID,
-                    PerformanceMeasureID: $scope.AngularViewData.PerformanceMeasure.PerformanceMeasureID,
-                    IsPrimaryTaxonomyTier: false
+                    PerformanceMeasureID: $scope.AngularViewData.PerformanceMeasure.PerformanceMeasureID
                 };
                 $scope.AngularModel.TaxonomyTierPerformanceMeasures.push(newTaxonomyTierPerformanceMeasureJson);
                 $scope.TaxonomyTierToAdd = null;
@@ -71,13 +59,7 @@
 
         $scope.deleteTaxonomyTier = function(program)
         {
-            var isTaxonomyTierTheCurrentPrimary = program.TaxonomyTierID == $scope.AngularModel.PrimaryTaxonomyTierID;
             Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTierPerformanceMeasures, program);
-
-            if (isTaxonomyTierTheCurrentPrimary && $scope.AngularModel.TaxonomyTierPerformanceMeasures.length > 0)
-            {
-                $scope.setPrimaryTaxonomyTier($scope.AngularModel.TaxonomyTierPerformanceMeasures[0]);
-            }
         };
     });
     angular.bootstrap(jQuery("#EditTaxonomyTiersAngularApp"), ["EditAngularApp"]);
@@ -106,28 +88,20 @@
 
     <div class="form-horizontal">
         <div class="form-group">
-            <div class="col-xs-12 col-sm-3">
+            <div class="col-xs-12">
                 @Html.LabelWithSugarFor(ViewDataTyped.GetFieldDefinitionForTaxonomyTier(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel)
-            </div>
-            <div class="col-xs-12 col-sm-9">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.IsPrimaryTaxonomyBranch.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, string.Format("Primary {0}?", ViewDataTyped.TaxonomyTierDisplayName))
             </div>
         </div>
         <div class="form-group" ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures | orderBy:getTaxonomyTierName">
-            <div class="col-xs-12 col-sm-3">
+            <div class="col-xs-12">
                 <span class="glyphicon glyphicon-trash blue" title="Remove '{{programPerformanceMeasure.DisplayName}}'" alt="Remove '{{programPerformanceMeasure.DisplayName}}'" ng-click="deleteTaxonomyTier(programPerformanceMeasure)" style="cursor: pointer"></span>
                 {{getTaxonomyTierName(programPerformanceMeasure)}}
             </div>
-            <div class="col-xs-12 col-sm-9">
-                <input type="radio" ng-model="AngularModel.PrimaryTaxonomyTierID" ng-value="programPerformanceMeasure.TaxonomyTierID" />
-            </div>
-
         </div>
     </div>
     @using (Html.BeginForm())
     {
         <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierPerformanceMeasures[0].TaxonomyTierID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.TaxonomyTierID}}">
         <input ng-repeat="programPerformanceMeasure in AngularModel.TaxonomyTierPerformanceMeasures" type="hidden" name="@Html.NameFor(x => x.TaxonomyTierPerformanceMeasures[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{programPerformanceMeasure.PerformanceMeasureID}}">
-        <input type="hidden" name="@Html.NameFor(x => x.PrimaryTaxonomyTierID)" value="{{AngularModel.PrimaryTaxonomyTierID}}">
     }
 </div>

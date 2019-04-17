@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels;
@@ -30,7 +29,6 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
 {
     public class EditViewModel : FormViewModel
     {
-        public int? PrimaryTaxonomyTierID { get; set; }
         public List<TaxonomyTierPerformanceMeasureSimple> TaxonomyTierPerformanceMeasures { get; set; }
 
         /// <summary>
@@ -40,10 +38,9 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
         {
         }
 
-        public EditViewModel(List<TaxonomyTierPerformanceMeasureSimple> taxonomyTierPerformanceMeasureSimples, int? primaryTaxonomyTierID)
+        public EditViewModel(List<TaxonomyTierPerformanceMeasureSimple> taxonomyTierPerformanceMeasureSimples)
         {
             TaxonomyTierPerformanceMeasures = taxonomyTierPerformanceMeasureSimples;
-            PrimaryTaxonomyTierID = primaryTaxonomyTierID;
         }
 
         public void UpdateModel(List<TaxonomyLeafPerformanceMeasure> currentTaxonomyLeafPerformanceMeasures, IList<TaxonomyLeafPerformanceMeasure> allTaxonomyLeafPerformanceMeasures)
@@ -61,8 +58,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
                         .ToLookup(x => x.TaxonomyTrunkID);
                     taxonomyLeafPerformanceMeasuresUpdated = TaxonomyTierPerformanceMeasures.SelectMany(tt =>
                         taxonomyBranchesForTrunk[tt.TaxonomyTierID].SelectMany(tb => tb.TaxonomyLeafs.Select(x =>
-                            new TaxonomyLeafPerformanceMeasure(x.TaxonomyLeafID, tt.PerformanceMeasureID,
-                                tt.TaxonomyTierID == PrimaryTaxonomyTierID)))).ToList();
+                            new TaxonomyLeafPerformanceMeasure(x.TaxonomyLeafID, tt.PerformanceMeasureID)))).ToList();
 
                 }
                 else if (associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch)
@@ -74,18 +70,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTierPerformanceMeasure
                         .ToLookup(x => x.TaxonomyBranchID);
                     taxonomyLeafPerformanceMeasuresUpdated = TaxonomyTierPerformanceMeasures.SelectMany(tb =>
                         taxonomyLeafsForBranch[tb.TaxonomyTierID].Select(x =>
-                            new TaxonomyLeafPerformanceMeasure(x.TaxonomyLeafID, tb.PerformanceMeasureID,
-                                tb.TaxonomyTierID == PrimaryTaxonomyTierID))).ToList();
+                            new TaxonomyLeafPerformanceMeasure(x.TaxonomyLeafID, tb.PerformanceMeasureID))).ToList();
                 }
                 else
                 {
-                    taxonomyLeafPerformanceMeasuresUpdated = TaxonomyTierPerformanceMeasures.Select(x => new TaxonomyLeafPerformanceMeasure(x.TaxonomyTierID, x.PerformanceMeasureID, x.TaxonomyTierID == PrimaryTaxonomyTierID)).ToList();
+                    taxonomyLeafPerformanceMeasuresUpdated = TaxonomyTierPerformanceMeasures.Select(x => new TaxonomyLeafPerformanceMeasure(x.TaxonomyTierID, x.PerformanceMeasureID)).ToList();
                 }
             }
             currentTaxonomyLeafPerformanceMeasures.Merge(taxonomyLeafPerformanceMeasuresUpdated,
                 allTaxonomyLeafPerformanceMeasures,
-                (x, y) => x.TaxonomyLeafID == y.TaxonomyLeafID && x.PerformanceMeasureID == y.PerformanceMeasureID,
-                (x, y) => x.IsPrimaryTaxonomyLeaf = y.IsPrimaryTaxonomyLeaf, HttpRequestStorage.DatabaseEntities);
+                (x, y) => x.TaxonomyLeafID == y.TaxonomyLeafID && x.PerformanceMeasureID == y.PerformanceMeasureID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

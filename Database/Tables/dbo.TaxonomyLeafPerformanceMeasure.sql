@@ -7,7 +7,6 @@ CREATE TABLE [dbo].[TaxonomyLeafPerformanceMeasure](
 	[TenantID] [int] NOT NULL,
 	[TaxonomyLeafID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
-	[IsPrimaryTaxonomyLeaf] [bit] NOT NULL,
  CONSTRAINT [PK_TaxonomyLeafPerformanceMeasure_TaxonomyLeafPerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyLeafPerformanceMeasureID] ASC

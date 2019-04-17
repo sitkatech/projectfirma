@@ -40,10 +40,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var taxonomyTierPerformanceMeasureSimples = performanceMeasure.GetTaxonomyTiers().Select(x =>
-                    new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID,
-                        x.First().IsPrimaryTaxonomyLeaf)).ToList();
-            var primaryTaxonomyTierID = performanceMeasure.GetPrimaryTaxonomyTier()?.TaxonomyTierID;
-            var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples, primaryTaxonomyTierID);
+                    new TaxonomyTierPerformanceMeasureSimple(x.Key.TaxonomyTierID, x.First().PerformanceMeasureID)).ToList();
+            var viewModel = new EditViewModel(taxonomyTierPerformanceMeasureSimples);
             return ViewEdit(viewModel, performanceMeasure);
         }
 

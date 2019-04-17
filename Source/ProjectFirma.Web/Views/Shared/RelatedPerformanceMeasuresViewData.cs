@@ -35,7 +35,6 @@ namespace ProjectFirma.Web.Views.Shared
         public string PerformanceMeasureDisplayName { get; set; }
         public IEnumerable<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> TaxonomyTierPerformanceMeasures { get; }
         public HtmlString PerformanceMeasureHeaderDisplayName { get; }
-        public HtmlString IsPrimaryTaxonomyTierHeaderDisplayName { get; }
         public string PerformanceMeasuresUrl { get; }
         public bool CanHaveAssociatedPerformanceMeasures { get; }
 
@@ -51,14 +50,6 @@ namespace ProjectFirma.Web.Views.Shared
                     fieldDefinitionForPerformanceMeasure, LabelWithSugarForExtensions.DefaultPopupWidth,
                     LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, PerformanceMeasureDisplayName)
                 : new HtmlString(PerformanceMeasureDisplayName);
-            var fieldDefinitionForTaxonomyTier = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition();
-            var fieldDefinitionIsPrimaryTaxonomyBranch = FieldDefinitionEnum.IsPrimaryTaxonomyBranch.ToType();
-            var isPrimaryTaxonomyBranchLabel = $"Is Primary {fieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel()}";
-            IsPrimaryTaxonomyTierHeaderDisplayName = showHelpLinks
-                ? LabelWithSugarForExtensions.LabelWithSugarFor(
-                    fieldDefinitionIsPrimaryTaxonomyBranch, LabelWithSugarForExtensions.DefaultPopupWidth,
-                    LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, isPrimaryTaxonomyBranchLabel)
-                : new HtmlString(isPrimaryTaxonomyBranchLabel);
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
         }
     }

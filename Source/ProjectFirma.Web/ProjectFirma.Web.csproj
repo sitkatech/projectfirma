@@ -2834,9 +2834,6 @@
     <Content Include="Scripts\jssor.slider.js" />
     <Content Include="Scripts\jssor.utils.js" />
     <Content Include="Scripts\jquery.form.js" />
-    <EmbeddedResource Include="DatabaseEntities.csdl" />
-    <EmbeddedResource Include="DatabaseEntities.msl" />
-    <EmbeddedResource Include="DatabaseEntities.ssdl" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
     <Content Include="Scripts\ckeditor\LICENSE.md" />
     <Content Include="Scripts\ckeditor\plugins\scayt\LICENSE.md" />

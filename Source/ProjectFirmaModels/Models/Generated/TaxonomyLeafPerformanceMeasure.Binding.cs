@@ -30,31 +30,29 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafPerformanceMeasureID, int taxonomyLeafID, int performanceMeasureID, bool isPrimaryTaxonomyLeaf) : this()
+        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafPerformanceMeasureID, int taxonomyLeafID, int performanceMeasureID) : this()
         {
             this.TaxonomyLeafPerformanceMeasureID = taxonomyLeafPerformanceMeasureID;
             this.TaxonomyLeafID = taxonomyLeafID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IsPrimaryTaxonomyLeaf = isPrimaryTaxonomyLeaf;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafID, int performanceMeasureID, bool isPrimaryTaxonomyLeaf) : this()
+        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafID, int performanceMeasureID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyLeafPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.TaxonomyLeafID = taxonomyLeafID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.IsPrimaryTaxonomyLeaf = isPrimaryTaxonomyLeaf;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(TaxonomyLeaf taxonomyLeaf, PerformanceMeasure performanceMeasure, bool isPrimaryTaxonomyLeaf) : this()
+        public TaxonomyLeafPerformanceMeasure(TaxonomyLeaf taxonomyLeaf, PerformanceMeasure performanceMeasure) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.TaxonomyLeafPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -64,7 +62,6 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.TaxonomyLeafPerformanceMeasures.Add(this);
-            this.IsPrimaryTaxonomyLeaf = isPrimaryTaxonomyLeaf;
         }
 
         /// <summary>
@@ -72,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static TaxonomyLeafPerformanceMeasure CreateNewBlank(TaxonomyLeaf taxonomyLeaf, PerformanceMeasure performanceMeasure)
         {
-            return new TaxonomyLeafPerformanceMeasure(taxonomyLeaf, performanceMeasure, default(bool));
+            return new TaxonomyLeafPerformanceMeasure(taxonomyLeaf, performanceMeasure);
         }
 
         /// <summary>
@@ -112,7 +109,6 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int TaxonomyLeafID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public bool IsPrimaryTaxonomyLeaf { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafPerformanceMeasureID; } set { TaxonomyLeafPerformanceMeasureID = value; } }
 

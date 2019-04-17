@@ -48,7 +48,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount(currentPerson), 80);
-            Add($"Primary {MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel().GetFieldDefinition().GetFieldDefinitionLabel()}", a => a.GetPrimaryTaxonomyTier() == null ? new HtmlString(string.Empty) : a.GetPrimaryTaxonomyTier().DisplayNameAsUrl, 150);
         }
     }
 }
