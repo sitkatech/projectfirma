@@ -33,21 +33,21 @@
 {
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            jQuery(".workflowSectionGroup").not(".active").not(" #instructions").click(function (event) {
-                if (jQuery(this).hasClass("expanded")) {
+            jQuery(".workflowSectionGroupHeading").not(".active").not(" #instructions").click(function (event) {
+                var wfsg = jQuery(this).parent();
+                if (wfsg.hasClass("expanded")) {
                     if (!jQuery(event.target).is('a')) {
-                        jQuery(this).removeClass("expanded");
-                        jQuery(this).addClass("collapsed")
-                        jQuery(this).children("ul").addClass("collapsed");
-                        jQuery(this).children("ul").removeClass("expanded");
-
+                        wfsg.removeClass("expanded");
+                        wfsg.addClass("collapsed");
+                        wfsg.children("ul").addClass("collapsed");
+                        wfsg.children("ul").removeClass("expanded");
                     }
                 }
                 else {
-                    jQuery(this).addClass("expanded");
-                    jQuery(this).removeClass("collapsed");
-                    jQuery(this).children("ul").removeClass("collapsed");
-                    jQuery(this).children("ul").addClass("expanded");
+                    wfsg.addClass("expanded");
+                    wfsg.removeClass("collapsed");
+                    wfsg.children("ul").removeClass("collapsed");
+                    wfsg.children("ul").addClass("expanded");
                 }
             }
             );
@@ -148,22 +148,24 @@
                         var isGroupingActive = projectCreateSectionsForGroup.Any(x => x.SectionDisplayName.Equals(ViewDataTyped.CurrentSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
                         var groupingHasCompletionStatus = projectCreateSectionsForGroup.Any(x => x.HasCompletionStatus);
                         <li class="@(isGroupingActive ? "active" : "collapsed") workflowSectionGroup">
-                            @if (groupingHasCompletionStatus)
-                            {
-                                if (projectCreateSectionsForGroup.All(x => !x.HasCompletionStatus || x.IsComplete))
+                            <div class="workflowSectionGroupHeading">
+                                @if (groupingHasCompletionStatus)
                                 {
-                                    <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
+                                    if (projectCreateSectionsForGroup.All(x => !x.HasCompletionStatus || x.IsComplete))
+                                    {
+                                        <span class="glyphicon glyphicon-ok field-validation-success text-left workflowStatusIndicator"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator"></span>
+                                    }
                                 }
                                 else
                                 {
-                                    <span class="glyphicon glyphicon-exclamation-sign field-validation-warning text-left workflowStatusIndicator"></span>
+                                    <span class="workflowStatusPlaceholder"></span>
                                 }
-                            }
-                            else
-                            {
-                                <span class="workflowStatusPlaceholder"></span>
-                            }
-                            <span>@projectWorkflowSectionGrouping.ProjectWorkflowSectionGroupingDisplayName</span>
+                                <span>@projectWorkflowSectionGrouping.ProjectWorkflowSectionGroupingDisplayName</span>
+                            </div>
                             <ul class="@(!isGroupingActive ? "collapsed" : null)">
                                 @foreach (var projectSectionSimple in projectCreateSectionsForGroup)
                                 {
