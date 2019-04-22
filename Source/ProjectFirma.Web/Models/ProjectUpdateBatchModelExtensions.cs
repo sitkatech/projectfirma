@@ -553,12 +553,6 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
         }
 
-        public static bool AreAccomplishmentsRelevant(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            var projectStage = projectUpdateBatch.ProjectUpdate == null ? projectUpdateBatch.Project.ProjectStage : projectUpdateBatch.ProjectUpdate.ProjectStage;
-            return projectStage != ProjectStage.PlanningDesign;
-        }
-
         public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, bool ignoreStatus)
         {
             return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(projectUpdateBatch, null, ignoreStatus)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();

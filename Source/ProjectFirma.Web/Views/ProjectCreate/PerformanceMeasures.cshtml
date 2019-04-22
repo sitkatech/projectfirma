@@ -29,9 +29,6 @@
 @using ProjectFirma.Web.Models
 @inherits PerformanceMeasures
 
-@{
-    Check.Assert(ViewDataTyped.Project.ProjectStage != ProjectStage.PlanningDesign, "Performance Measures can't be edited for projects in the Planning/Design stage.");
-}
 
 @section JavascriptAndStylesContent
 {

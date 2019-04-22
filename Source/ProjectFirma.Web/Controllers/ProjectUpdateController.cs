@@ -302,11 +302,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdate.LoadUpdateFromProject(project);
                 projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             }
-            if (!projectUpdateBatch.AreAccomplishmentsRelevant())
-            {
                 projectUpdateBatch.DeletePerformanceMeasuresProjectExemptReportingYearUpdates();
                 projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
-            }
             return new ModalDialogFormJsonResult();
         }
 

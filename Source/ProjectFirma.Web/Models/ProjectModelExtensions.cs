@@ -486,11 +486,6 @@ namespace ProjectFirmaModels.Models
             return true;
         }
 
-        public static bool AreReportedPerformanceMeasuresRelevant(this Project project)
-        {
-            return project.ProjectStage != ProjectStage.Proposal && project.ProjectStage != ProjectStage.PlanningDesign;
-        }
-
         public static bool AreReportedExpendituresRelevant(this Project project)
         {
             return project.ProjectStage != ProjectStage.Proposal;

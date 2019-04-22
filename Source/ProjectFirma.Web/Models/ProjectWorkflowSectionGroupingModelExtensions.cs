@@ -50,13 +50,7 @@ namespace ProjectFirma.Web.Models
                     {
                         return new List<ProjectSectionSimple>();
                     }
-
-                    if (project.AreReportedPerformanceMeasuresRelevant())
-                    {
-                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
-                    }
-
-                    return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedPerformanceMeasures }, ignoreStatus);
+                    return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                     var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
@@ -114,11 +108,7 @@ namespace ProjectFirma.Web.Models
                             )));
                     return projectUpdateSections;
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
-                    if (projectUpdateBatch.AreAccomplishmentsRelevant())
-                    {
-                        return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    }
-                    return new List<ProjectSectionSimple>();
+                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     var projectUpdateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding }).ToList();
                     if (projectUpdateBatch.Project.IsExpectedFundingRelevant())

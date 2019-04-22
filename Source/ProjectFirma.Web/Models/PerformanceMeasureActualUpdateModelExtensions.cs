@@ -10,8 +10,8 @@ namespace ProjectFirma.Web.Models
     {
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
-            if (projectUpdateBatch.AreAccomplishmentsRelevant())
-            {
+            //if (projectUpdateBatch.AreAccomplishmentsRelevant())
+            //{
                 var project = projectUpdateBatch.Project;
                 var performanceMeasureActualUpdates = new List<PerformanceMeasureActualUpdate>();
                 var currentPerformanceMeasureActuals = project.PerformanceMeasureActuals.ToList();
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
                     }
                 }
                 projectUpdateBatch.PerformanceMeasureActualUpdates = performanceMeasureActualUpdates;
-            }
+            //}
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Models
             });
             currentPerformanceMeasureActuals.Clear();
 
-            if (projectUpdateBatch.AreAccomplishmentsRelevant() && projectUpdateBatch.PerformanceMeasureActualUpdates.Any())
+            if (projectUpdateBatch.PerformanceMeasureActualUpdates.Any())
             {
                 // Completely rebuild the list
                 projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().ForEach(x =>
