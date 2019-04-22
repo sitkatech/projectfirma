@@ -233,6 +233,7 @@ namespace ProjectFirma.Web
             }
 
             person.UpdateDate = DateTime.Now;
+            person.LastActivityDate = DateTime.Now;
             HttpRequestStorage.Person = person;
             HttpRequestStorage.DatabaseEntities.SaveChanges(person);
 

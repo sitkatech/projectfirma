@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Web.Mvc;
@@ -26,8 +26,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using log4net;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -42,10 +40,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                CurrentPerson.LastActivityDate = DateTime.Now;
                 HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
-                HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
             }
             base.OnAuthorization(filterContext);
         }
