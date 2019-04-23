@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
+using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Web.Mvc;
@@ -35,6 +35,20 @@ namespace ProjectFirma.Web.Controllers
         public static ControllerContext ControllerContextStatic = null;
 
         protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (!IsCurrentUserAnonymous())
+            {
+                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 1, 0))
+                {
+                    CurrentPerson.LastActivityDate = DateTime.Now;
+                    HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
+                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
+                }
+            }
+            base.OnActionExecuting(filterContext);
+        }
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
