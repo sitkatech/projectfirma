@@ -161,7 +161,6 @@ namespace ProjectFirmaModels.Models
         Classification = 46,
         PerformanceMeasureSubcategory = 49,
         PerformanceMeasureSubcategoryOption = 50,
-        IsPrimaryTaxonomyBranch = 52,
         FundedAmount = 56,
         ProjectLocation = 57,
         ExcludeFromFactSheet = 64,

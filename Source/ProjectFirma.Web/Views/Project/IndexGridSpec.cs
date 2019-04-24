@@ -88,14 +88,14 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.EstimatedTotalCost, 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.UnfundedNeed.ToType().ToGridHeaderString(), x => x.UnfundedNeed(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            foreach (var projectCustomAttributeType in projectCustomAttributeTypes)
+            foreach (var projectCustomAttributeType in projectCustomAttributeTypes.OrderBy(x => x.ProjectCustomAttributeTypeName))
             {
                 if (projectCustomAttributeType.IncludeInProjectGrid && projectCustomAttributeType.HasViewPermission(currentPerson))
                 {
                     Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150,DhtmlxGridColumnFilterType.Text);
                 }
             }
-            foreach (var geospatialAreaType in geospatialAreaTypes)
+            foreach (var geospatialAreaType in geospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName))
             {
                 Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
             }

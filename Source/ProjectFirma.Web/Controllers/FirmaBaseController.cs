@@ -26,8 +26,6 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using log4net;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -38,14 +36,25 @@ namespace ProjectFirma.Web.Controllers
 
         protected ILog Logger = LogManager.GetLogger(typeof(FirmaBaseController));
 
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (!IsCurrentUserAnonymous())
+            {
+                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 1, 0))
+                {
+                    CurrentPerson.LastActivityDate = DateTime.Now;
+                    HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
+                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
+                }
+            }
+            base.OnActionExecuting(filterContext);
+        }
+
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (!IsCurrentUserAnonymous())
             {
-                CurrentPerson.LastActivityDate = DateTime.Now;
                 HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
-                HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
             }
             base.OnAuthorization(filterContext);
         }

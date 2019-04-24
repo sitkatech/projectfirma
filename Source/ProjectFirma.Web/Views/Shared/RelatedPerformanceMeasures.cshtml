@@ -18,8 +18,6 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
@@ -39,13 +37,11 @@
                 <table class="summaryLayout">
                     <tr>
                         <th>@ViewDataTyped.PerformanceMeasureHeaderDisplayName</th>
-                        <th>@ViewDataTyped.IsPrimaryTaxonomyTierHeaderDisplayName</th>
                     </tr>
                     @foreach (var taxonomyTierPerformanceMeasure in ViewDataTyped.TaxonomyTierPerformanceMeasures.OrderBy(x => x.Key.GetSortOrder()).ThenBy(x => x.Key.PerformanceMeasureDisplayName, StringComparer.InvariantCultureIgnoreCase))
                     {
                         <tr>
                             <td>@taxonomyTierPerformanceMeasure.Key.GetDisplayNameAsUrl()</td>
-                            <td style="text-align: center">@taxonomyTierPerformanceMeasure.First().IsPrimaryTaxonomyLeaf.ToCheckboxImageOrEmpty()</td>
                         </tr>
                     }
                 </table>

@@ -11,15 +11,18 @@ namespace ProjectFirma.Web.Models
 {
     public static class TagModelExtensions
     {
-        public static string GetDeleteUrl(Tag tag)
+        public static readonly UrlTemplate<string> DetailUrlTemplate = new UrlTemplate<string>(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1String)));
+        public static string GetDetailUrl(this Tag tag)
         {
-            return SitkaRoute<TagController>.BuildUrlFromExpression(c => c.DeleteTag(tag.TagID));
+            return DetailUrlTemplate.ParameterReplace(tag.TagName);
         }
 
-        public static string GetDetailUrl(Tag tag)
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<TagController>.BuildUrlFromExpression(t => t.DeleteTag(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this Tag tag)
         {
-            return SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(tag.TagName));
+            return DeleteUrlTemplate.ParameterReplace(tag.TagID);
         }
+
         public static HtmlString GetDisplayNameAsUrl(this Tag tag)
         {
             return UrlTemplate.MakeHrefString(TagModelExtensions.GetDetailUrl(tag), tag.GetDisplayName());

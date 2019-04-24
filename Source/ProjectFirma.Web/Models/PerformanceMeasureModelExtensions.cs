@@ -272,14 +272,6 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson).Count;
         }
 
-        public static TaxonomyTier GetPrimaryTaxonomyTier(this PerformanceMeasure performanceMeasure)
-        {
-            var taxonomyBranchPerformanceMeasureGroupedByLevel = performanceMeasure.GetTaxonomyTiers();
-            return taxonomyBranchPerformanceMeasureGroupedByLevel
-                .Where(group => group.Any(x => x.IsPrimaryTaxonomyLeaf))
-                .Select(group => group.Key).FirstOrDefault();
-        }
-
         public static List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories(this PerformanceMeasure performanceMeasure)
         {
             return performanceMeasure.PerformanceMeasureSubcategories.Any()

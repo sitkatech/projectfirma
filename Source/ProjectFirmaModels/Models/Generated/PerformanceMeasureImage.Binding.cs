@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[TaxonomyLeafPerformanceMeasure]
+//  Source Table: [dbo].[PerformanceMeasureImage]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[TaxonomyLeafPerformanceMeasure] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[TaxonomyLeafPerformanceMeasure]")]
-    public partial class TaxonomyLeafPerformanceMeasure : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[PerformanceMeasureImage] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[PerformanceMeasureImage]")]
+    public partial class PerformanceMeasureImage : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected TaxonomyLeafPerformanceMeasure()
+        protected PerformanceMeasureImage()
         {
 
         }
@@ -30,46 +30,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafPerformanceMeasureID, int taxonomyLeafID, int performanceMeasureID) : this()
+        public PerformanceMeasureImage(int performanceMeasureImageID, int performanceMeasureID, int fileResourceID) : this()
         {
-            this.TaxonomyLeafPerformanceMeasureID = taxonomyLeafPerformanceMeasureID;
-            this.TaxonomyLeafID = taxonomyLeafID;
+            this.PerformanceMeasureImageID = performanceMeasureImageID;
             this.PerformanceMeasureID = performanceMeasureID;
+            this.FileResourceID = fileResourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(int taxonomyLeafID, int performanceMeasureID) : this()
+        public PerformanceMeasureImage(int performanceMeasureID, int fileResourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TaxonomyLeafPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.TaxonomyLeafID = taxonomyLeafID;
             this.PerformanceMeasureID = performanceMeasureID;
+            this.FileResourceID = fileResourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TaxonomyLeafPerformanceMeasure(TaxonomyLeaf taxonomyLeaf, PerformanceMeasure performanceMeasure) : this()
+        public PerformanceMeasureImage(PerformanceMeasure performanceMeasure, FileResource fileResource) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TaxonomyLeafPerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
-            this.TaxonomyLeaf = taxonomyLeaf;
-            taxonomyLeaf.TaxonomyLeafPerformanceMeasures.Add(this);
+            this.PerformanceMeasureImageID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
-            performanceMeasure.TaxonomyLeafPerformanceMeasures.Add(this);
+            performanceMeasure.PerformanceMeasureImages.Add(this);
+            this.FileResourceID = fileResource.FileResourceID;
+            this.FileResource = fileResource;
+            fileResource.PerformanceMeasureImages.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TaxonomyLeafPerformanceMeasure CreateNewBlank(TaxonomyLeaf taxonomyLeaf, PerformanceMeasure performanceMeasure)
+        public static PerformanceMeasureImage CreateNewBlank(PerformanceMeasure performanceMeasure, FileResource fileResource)
         {
-            return new TaxonomyLeafPerformanceMeasure(taxonomyLeaf, performanceMeasure);
+            return new PerformanceMeasureImage(performanceMeasure, fileResource);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureImage).Name};
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllTaxonomyLeafPerformanceMeasures.Remove(this);
+            dbContext.AllPerformanceMeasureImages.Remove(this);
         }
         
         /// <summary>
@@ -105,16 +105,16 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int TaxonomyLeafPerformanceMeasureID { get; set; }
+        public int PerformanceMeasureImageID { get; set; }
         public int TenantID { get; set; }
-        public int TaxonomyLeafID { get; set; }
         public int PerformanceMeasureID { get; set; }
+        public int FileResourceID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return TaxonomyLeafPerformanceMeasureID; } set { TaxonomyLeafPerformanceMeasureID = value; } }
+        public int PrimaryKey { get { return PerformanceMeasureImageID; } set { PerformanceMeasureImageID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual FileResource FileResource { get; set; }
 
         public static class FieldLengths
         {

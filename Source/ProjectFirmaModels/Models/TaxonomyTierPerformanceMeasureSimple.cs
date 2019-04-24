@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TaxonomyBranchPerformanceMeasureSimple.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="TaxonomyTierPerformanceMeasureSimple.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -29,16 +29,14 @@ namespace ProjectFirmaModels.Models
         {
         }
 
-        public TaxonomyTierPerformanceMeasureSimple(int taxonomyTierID, int performanceMeasureID, bool isPrimaryTaxonomyTier)
+        public TaxonomyTierPerformanceMeasureSimple(int taxonomyTierID, int performanceMeasureID)
             : this()
         {
             TaxonomyTierID = taxonomyTierID;
             PerformanceMeasureID = performanceMeasureID;
-            IsPrimaryTaxonomyTier = isPrimaryTaxonomyTier;
         }
 
         public int TaxonomyTierID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public bool IsPrimaryTaxonomyTier { get; set; }
     }
 }

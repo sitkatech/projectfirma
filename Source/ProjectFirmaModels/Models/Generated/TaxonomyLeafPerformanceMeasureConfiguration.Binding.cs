@@ -19,7 +19,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.TaxonomyLeafID).HasColumnName(@"TaxonomyLeafID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
-            Property(x => x.IsPrimaryTaxonomyLeaf).HasColumnName(@"IsPrimaryTaxonomyLeaf").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.TaxonomyLeafPerformanceMeasures).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_TaxonomyLeafPerformanceMeasure_TaxonomyLeaf_TaxonomyLeafID

@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
+            var persons = HttpRequestStorage.DatabaseEntities.People.Include(x => x.Organization).Include(x => x.OrganizationsWhereYouAreThePrimaryContactPerson).ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
             switch (usersStatusFilterType)
             {
                 case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:

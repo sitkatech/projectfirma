@@ -13,19 +13,21 @@ namespace ProjectFirma.Web.Models
 {
     public static class TaxonomyTrunkModelExtensions
     {
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static string GetDetailUrl(this TaxonomyTrunk taxonomyTrunk)
+        {
+            return DetailUrlTemplate.ParameterReplace(taxonomyTrunk.TaxonomyTrunkID);
+        }
+
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(t => t.DeleteTaxonomyTrunk(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this TaxonomyTrunk taxonomyTrunk)
         {
-            return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(c => c.DeleteTaxonomyTrunk(taxonomyTrunk.TaxonomyTrunkID));
+            return DeleteUrlTemplate.ParameterReplace(taxonomyTrunk.TaxonomyTrunkID);
         }
 
         public static HtmlString GetDisplayNameAsUrl(this TaxonomyTrunk taxonomyTrunk)
         {
             return UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName());
-        }
-
-        public static string GetDetailUrl(this TaxonomyTrunk taxonomyTrunk)
-        {
-            return SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(x => x.Detail(taxonomyTrunk.TaxonomyTrunkID));
         }
 
         public static bool IsTaxonomyTrunkNameUnique(this IEnumerable<TaxonomyTrunk> taxonomyTrunks, string taxonomyTrunkName, int currentTaxonomyTrunkID)

@@ -14,8 +14,8 @@ namespace ProjectFirma.Api.Controllers
             PerformanceMeasureNoteID = performanceMeasureNote.PerformanceMeasureNoteID;
             PerformanceMeasureID = performanceMeasureNote.PerformanceMeasureID;
             Note = performanceMeasureNote.Note;
-            CreatePersonName = performanceMeasureNote.CreatePerson?.GetFullNameFirstLast();
-            UpdatePersonName = performanceMeasureNote.UpdatePerson?.GetFullNameFirstLast();
+            CreatePersonEmail = performanceMeasureNote.CreatePerson?.Email;
+            UpdatePersonEmail = performanceMeasureNote.UpdatePerson?.Email;
             CreateDate = performanceMeasureNote.CreateDate;
             UpdateDate = performanceMeasureNote.UpdateDate;
         }
@@ -23,9 +23,9 @@ namespace ProjectFirma.Api.Controllers
         public int PerformanceMeasureNoteID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public string Note { get; set; }
-        public string CreatePersonName { get; set; }
+        public string CreatePersonEmail { get; set; }
         public DateTime CreateDate { get; set; }
-        public string UpdatePersonName { get; set; }
+        public string UpdatePersonEmail { get; set; }
         public DateTime? UpdateDate { get; set; }
 
     }

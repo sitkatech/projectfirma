@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -92,6 +90,11 @@ namespace ProjectFirma.Api.Controllers
             return GoogleChartType.All.SingleOrDefault(x => x.GoogleChartTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
         }
 
+        private static FileResourceMimeType MapFileResourceMimeTypeNameToFileResourceMimeType(string googleChartTypeName)
+        {
+            return FileResourceMimeType.All.SingleOrDefault(x => x.FileResourceMimeTypeDisplayName.Equals(googleChartTypeName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         [Route("api/PerformanceMeasures/UpdatePerformanceMeasure/{apiKey}")]
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
@@ -127,8 +130,104 @@ namespace ProjectFirma.Api.Controllers
             performanceMeasure.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
             performanceMeasure.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
             performanceMeasure.IsSummable = performanceMeasureDto.IsSummable;
+            performanceMeasure.Importance = performanceMeasureDto.Importance;
+            performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureCriticalDefinitions/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureCriticalDefinitions(string apiKey, [FromBody] PerformanceMeasureCriticalDefinitionsDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureImportance/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureImportance(string apiKey, [FromBody] PerformanceMeasureImportanceDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.Importance = performanceMeasureDto.Importance;
+
+            var fileResourceDtos = performanceMeasureDto.FileResources;
+            var fileResourceMimeTypes = fileResourceDtos.ToDictionary(x => new { x.FileResourceGUID, x.FileResourceMimeTypeName },
+                x => MapFileResourceMimeTypeNameToFileResourceMimeType(x.FileResourceMimeTypeName));
+            if (fileResourceMimeTypes.Values.Any(x => x == null))
+            {
+                var errors =
+                fileResourceMimeTypes.Where(x => x.Value == null).Select(x =>
+                    $"Invalid File Resource Mime Type '{x.Key.FileResourceMimeTypeName}' for '{x.Key.FileResourceGUID}'").ToList();
+                return BadRequest(string.Join("\r\n", errors));
+            }
+
+            // Remove all of these, too hard to merge nicely
+            _databaseEntities.AllFileResources.RemoveRange(performanceMeasure.PerformanceMeasureImages.Select(x => x.FileResource));
+            _databaseEntities.AllPerformanceMeasureImages.RemoveRange(performanceMeasure.PerformanceMeasureImages);
+
+            var peopleDictionary = _databaseEntities.People.ToDictionary(x => x.Email);
+            var performanceMeasureImagesToUpdate = fileResourceDtos.Select(x =>
+            {
+                var fileResourceMimeTypeID = fileResourceMimeTypes.Single(y => y.Key.FileResourceGUID == x.FileResourceGUID).Value.FileResourceMimeTypeID;
+                var personID = peopleDictionary.ContainsKey(x.Email) ? peopleDictionary[x.Email].PersonID : 5278;
+                var fileResource = new FileResource(fileResourceMimeTypeID, x.OriginalBaseFilename, x.OriginalFileExtension, x.FileResourceGUID, x.FileResourceData, personID, x.CreateDate);
+                var performanceMeasureImage = new PerformanceMeasureImage(performanceMeasure, fileResource);
+                return performanceMeasureImage;
+            }).ToList();
+
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureAdditionalInformation/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureAdditionalInformation(string apiKey, [FromBody] PerformanceMeasureAdditionalInformationDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.AdditionalInformation = performanceMeasureDto.AdditionalInformation;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
+            return Ok(performanceMeasureReloaded);
+        }
+
+        [Route("api/PerformanceMeasures/UpdatePerformanceMeasureProjectReporting/{apiKey}")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerformanceMeasureProjectReporting(string apiKey, [FromBody] PerformanceMeasureProjectReportingDto performanceMeasureDto)
+        {
+            var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
+            if (performanceMeasure == null)
+            {
+                var message = $"Performance Measure with ID = {performanceMeasureDto.PerformanceMeasureID} not found";
+                return NotFound();
+            }
+
+            performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;
+            _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
+            var performanceMeasureReloaded = new PerformanceMeasureSimpleDto(performanceMeasure);
             return Ok(performanceMeasureReloaded);
         }
 

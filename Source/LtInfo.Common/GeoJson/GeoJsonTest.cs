@@ -92,6 +92,7 @@ namespace LtInfo.Common.GeoJson
         }
 
         [Test]
+        [Ignore("the web site geojsonlint appears to be dead as of 04/17/2019. A pity!")]
         public void CanSerializeAFeatureCollectionAndEnsureItIsValidTest()
         {
             var fc = GetTestFeatureCollection();
