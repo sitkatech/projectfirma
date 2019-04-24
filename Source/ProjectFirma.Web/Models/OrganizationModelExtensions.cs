@@ -96,12 +96,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetOrganizationFullNameIfAvailable(this Organization organization)
         {
-            if (organization.IsUnknown())
-            {
-                return "Unknown or Unassigned";
-            }
-
-            return organization.OrganizationName;
+            return organization.IsUnknown() ? "Unknown or Unassigned" : organization.OrganizationName;
         }
 
         public static List<LayerGeoJson> GetBoundaryLayerGeoJson(this IEnumerable<Organization> organizations)
