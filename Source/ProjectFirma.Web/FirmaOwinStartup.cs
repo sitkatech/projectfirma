@@ -256,10 +256,10 @@ namespace ProjectFirma.Web
 
         private static void SendNewUserCreatedMessage(Person person, string loginName)
         {
-            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: ({person.GetOrganizationDescriptor()})";
+            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: {person.GetFullNameFirstLast()} ( {person.GetOrganizationDescriptor()})";
             var message = $@"
     <div style='font-size: 12px; font-family: Arial'>
-        <strong>Project Firma User added:</strong> {person.GetFullNameFirstLast()}<br />
+        <strong>User added:</strong> {person.GetFullNameFirstLast()}<br />
         <strong>Organization</strong> {person.GetOrganizationDescriptor()} <br />
         <strong>Added on:</strong> {DateTime.Now}<br />
         <strong>Email:</strong> {person.Email}<br />
