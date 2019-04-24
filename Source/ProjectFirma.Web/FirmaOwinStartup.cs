@@ -13,6 +13,7 @@ using Keystone.Common.OpenID;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
+using Microsoft.Ajax.Utilities;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
@@ -255,13 +256,13 @@ namespace ProjectFirma.Web
 
         private static void SendNewUserCreatedMessage(Person person, string loginName)
         {
-            var subject = $"{ MultiTenantHelpers.GetToolDisplayName() } User added: {person.GetFullNameFirstLastAndOrg()} ({ person.Organization. })";
+            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: ({person.GetOrganizationDescriptor()})";
             var message = $@"
     <div style='font-size: 12px; font-family: Arial'>
         <strong>Project Firma User added:</strong> {person.GetFullNameFirstLast()}<br />
+        <strong>Organization</strong> {person.GetOrganizationDescriptor()} <br />
         <strong>Added on:</strong> {DateTime.Now}<br />
         <strong>Email:</strong> {person.Email}<br />
-        <strong>Phone:</strong> {person.Phone.ToPhoneNumberString()}<br />
         <br />
         <p>
             You may want to <a href=""{
