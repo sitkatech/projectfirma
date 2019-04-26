@@ -1,10 +1,10 @@
-﻿using System;
+﻿using LtInfo.Common.Email;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
-using LtInfo.Common.Email;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {

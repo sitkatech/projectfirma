@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens;
-using System.Linq;
-using System.Net.Mail;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
-using ApprovalUtilities.Reflection;
-using Keystone.Common.OpenID;
+﻿using Keystone.Common.OpenID;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
-using Microsoft.Ajax.Utilities;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Builder;
+using Microsoft.Owin.Host.SystemWeb;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Microsoft.Owin.Security.Provider;
 using Owin;
@@ -27,7 +16,15 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.ScheduledJobs;
 using ProjectFirmaModels.Models;
-using Microsoft.Owin.Host.SystemWeb;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens;
+using System.Linq;
+using System.Net.Mail;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using System.Web;
 
 // This is how Owin figures out the class to call on startup
 [assembly: OwinStartup(typeof(FirmaOwinStartup))]
