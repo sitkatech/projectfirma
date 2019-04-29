@@ -256,7 +256,7 @@ namespace ProjectFirma.Web
 
         private static void SendNewUserCreatedMessage(Person person, string loginName)
         {
-            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: {person.GetFullNameFirstLast()} ( {person.GetOrganizationDescriptor()})";
+            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: {person.GetFullNameFirstLast()} ({person.GetOrganizationDescriptor()})";
             var message = $@"
     <div style='font-size: 12px; font-family: Arial'>
         <strong>User added:</strong> {person.GetFullNameFirstLast()}<br />
