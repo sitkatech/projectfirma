@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureExpectedSubcategoryOption.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="PerformanceMeasureExpectedValuesSummary.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,17 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
+using LtInfo.Common.Mvc;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
-    public partial class PerformanceMeasureExpectedSubcategoryOption : IAuditableEntity, IPerformanceMeasureValueSubcategoryOption
+    public abstract class PerformanceMeasureExpectedValuesSummary : TypedWebPartialViewPage<PerformanceMeasureExpectedValuesSummaryViewData>
     {
-        public string GetPerformanceMeasureSubcategoryOptionName() =>
-            PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
-
-        public string GetAuditDescriptionString()
+        public static void RenderPartialView(HtmlHelper html, PerformanceMeasureExpectedValuesSummaryViewData viewData)
         {
-            return $"Performance Measure: {PerformanceMeasureID}, Subcategory: {PerformanceMeasureSubcategoryID}, Subcategory Option: {PerformanceMeasureSubcategoryOptionID}";
+            html.RenderRazorSitkaPartial<PerformanceMeasureExpectedValuesSummary, PerformanceMeasureExpectedValuesSummaryViewData>(viewData);
         }
     }
 }

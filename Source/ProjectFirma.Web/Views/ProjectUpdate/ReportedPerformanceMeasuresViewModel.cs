@@ -33,24 +33,24 @@ using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class PerformanceMeasuresViewModel : FormViewModel, IValidatableObject
+    public class ReportedPerformanceMeasuresViewModel : FormViewModel, IValidatableObject
     {
         public string Explanation { get; set; }
         public List<ProjectExemptReportingYearUpdateSimple> ProjectExemptReportingYearUpdates { get; set; }
         public List<PerformanceMeasureActualUpdateSimple> PerformanceMeasureActualUpdates { get; set; }
 
         [DisplayName("Review Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.PerformanceMeasuresComment)]
+        [StringLength(ProjectUpdateBatch.FieldLengths.ReportedPerformanceMeasuresComment)]
         public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public PerformanceMeasuresViewModel()
+        public ReportedPerformanceMeasuresViewModel()
         {
         }
 
-        public PerformanceMeasuresViewModel(List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdates,
+        public ReportedPerformanceMeasuresViewModel(List<PerformanceMeasureActualUpdateSimple> performanceMeasureActualUpdates,
             string explanation,
             List<ProjectExemptReportingYearUpdateSimple> projectExemptReportingYearUpdates,
             string comments)
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             if (ProjectExemptReportingYearUpdates != null && ProjectExemptReportingYearUpdates.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
-                yield return new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
+                yield return new SitkaValidationResult<ReportedPerformanceMeasuresViewModel, string>(
                     FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation);
             }
         }

@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
             {
                 // when pre-filling, we intentionally set the reported value to null to prompt the user to fill that in
                 performanceMeasureActualUpdates.AddRange(
-                    performanceMeasureValuesToClone.Select<IPerformanceMeasureValue, PerformanceMeasureActualUpdate>(performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual, year, null)));
+                    performanceMeasureValuesToClone.Select(performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual, year, null)));
             }
             return performanceMeasureActualUpdates;
         }

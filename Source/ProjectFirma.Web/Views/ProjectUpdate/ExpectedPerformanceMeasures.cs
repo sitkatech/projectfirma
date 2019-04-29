@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureExpectedSubcategoryOption.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ExpectedPerformanceMeasureValues.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,17 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public partial class PerformanceMeasureExpectedSubcategoryOption : IAuditableEntity, IPerformanceMeasureValueSubcategoryOption
+    public abstract class ExpectedPerformanceMeasures : LtInfo.Common.Mvc.TypedWebViewPage<ExpectedPerformanceMeasuresViewData, ExpectedPerformanceMeasuresViewModel>
     {
-        public string GetPerformanceMeasureSubcategoryOptionName() =>
-            PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName;
-
-        public string GetAuditDescriptionString()
-        {
-            return $"Performance Measure: {PerformanceMeasureID}, Subcategory: {PerformanceMeasureSubcategoryID}, Subcategory Option: {PerformanceMeasureSubcategoryOptionID}";
-        }
     }
 }

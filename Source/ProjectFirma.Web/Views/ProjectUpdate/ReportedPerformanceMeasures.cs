@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class PerformanceMeasures : LtInfo.Common.Mvc.TypedWebViewPage<PerformanceMeasuresViewData, PerformanceMeasuresViewModel>
+    public abstract class ReportedPerformanceMeasures : LtInfo.Common.Mvc.TypedWebViewPage<ReportedPerformanceMeasuresViewData, ReportedPerformanceMeasuresViewModel>
     {
     }
 }

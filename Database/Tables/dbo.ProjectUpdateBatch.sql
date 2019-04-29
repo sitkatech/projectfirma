@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[LastUpdatePersonID] [int] NOT NULL,
 	[BasicsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpendituresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PerformanceMeasuresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReportedPerformanceMeasuresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LocationSimpleComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LocationDetailedComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BudgetsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -29,6 +29,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[OrganizationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationsDiffLog] [varchar](1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[NoExpendituresToReportExplanation] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ExpectedPerformanceMeasuresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

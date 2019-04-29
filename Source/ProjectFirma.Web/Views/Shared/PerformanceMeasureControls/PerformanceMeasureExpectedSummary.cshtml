@@ -31,7 +31,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
             <th style="text-align: right" class="col-sm-2">@Html.LabelWithSugarFor(FieldDefinitionEnum.ExpectedValue.ToType())</th>
         </tr>
-        @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds)
+        @foreach (var performanceMeasureExpected in ViewDataTyped.PerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureDisplayName))
         {
             
                  var measurementUnitTypeDisplayName = performanceMeasureExpected.PerformanceMeasure.MeasurementUnitType == MeasurementUnitType.Number ? 

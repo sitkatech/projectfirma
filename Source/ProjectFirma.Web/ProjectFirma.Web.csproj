@@ -91,6 +91,7 @@
     <Compile Include="Models\PerformanceMeasureActualUpdateSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
+    <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
@@ -145,8 +146,14 @@
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
+    <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -243,6 +250,7 @@
     </Content>
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
@@ -374,6 +382,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
+    <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1029,10 +1038,10 @@
     <Compile Include="Views\ProjectUpdate\CustomNotificationModalDialogForm.cs" />
     <Compile Include="Views\ProjectUpdate\CustomNotificationViewData.cs" />
     <Compile Include="Views\ProjectUpdate\CustomNotificationViewModel.cs" />
-    <Compile Include="Views\ProjectUpdate\PerformanceMeasures.cs" />
+    <Compile Include="Views\ProjectUpdate\ReportedPerformanceMeasures.cs" />
     <Compile Include="Views\ProjectUpdate\PerformanceMeasuresValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\PerformanceMeasuresViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\PerformanceMeasuresViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ReportedPerformanceMeasuresViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ReportedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\Expenditures.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresViewData.cs" />
@@ -1342,6 +1351,7 @@
     <Compile Include="Views\ProjectCreate\GeospatialArea.cs" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewData.cs" />
     <Content Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1764,7 +1774,7 @@
     <Content Include="Views\ProjectExternalLink\ProjectExternalLinkController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureController.js" />
     <Content Include="Views\Shared\ProjectOrganization\EditOrganizationsViewModelTest.AllViewModelFieldsAreSetFromConstructorTest.approved.txt" />
-    <Content Include="Views\ProjectUpdate\PerformanceMeasuresController.js" />
+    <Content Include="Views\ProjectUpdate\ReportedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresController.js" />
     <Content Include="Views\Project\FeaturedProjectController.js" />
     <Content Include="Views\Project\FundingSourceCalendarYearExpenditureTest.CreateFromFundingSourcesAndCalendarYearsTest.approved.txt" />
@@ -2950,7 +2960,7 @@
     <Content Include="Views\Shared\ProjectOrganization\EditOrganizations.cshtml" />
     <Content Include="Views\ProjectUpdate\Basics.cshtml" />
     <Content Include="Views\ProjectUpdate\CustomNotification.cshtml" />
-    <Content Include="Views\ProjectUpdate\PerformanceMeasures.cshtml" />
+    <Content Include="Views\ProjectUpdate\ReportedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectUpdate\Expenditures.cshtml" />
     <Content Include="Views\ProjectUpdate\ExternalLinks.cshtml" />
     <Content Include="Views\ProjectUpdate\History.cshtml" />

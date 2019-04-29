@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
-                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditExpectedPerformanceMeasureValues(project.ProjectID)) : null;
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ExpectedFunding:

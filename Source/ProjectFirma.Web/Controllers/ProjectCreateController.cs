@@ -335,14 +335,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [PerformanceMeasureExpectedProposedFeature]
-        public ViewResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult ExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new ExpectedPerformanceMeasureValuesViewModel(project);
-            return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
+            return ViewExpectedPerformanceMeasures(project, viewModel);
         }
 
-        private ViewResult ViewEditExpectedPerformanceMeasureValues(Project project, ExpectedPerformanceMeasureValuesViewModel viewModel)
+        private ViewResult ViewExpectedPerformanceMeasures(Project project, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
@@ -357,12 +357,12 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [PerformanceMeasureExpectedProposedFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditExpectedPerformanceMeasureValues(ProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasureValuesViewModel viewModel)
+        public ActionResult ExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasureValuesViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditExpectedPerformanceMeasureValues(project, viewModel);
+                return ViewExpectedPerformanceMeasures(project, viewModel);
             }
             var performanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
 

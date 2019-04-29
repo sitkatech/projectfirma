@@ -40,7 +40,7 @@
         public bool HasCompletionStatus { get; }
         public ProjectWorkflowSectionGrouping ProjectWorkflowSectionGrouping { get; }
         public string SectionUrl { get; }
-        public bool IsComplete { get; private set; }
+        public bool IsComplete { get; }
         public bool SectionIsUpdated { get; }
     }
 }

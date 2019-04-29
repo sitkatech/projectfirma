@@ -59,6 +59,20 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureExpected);
         }
 
+        /// <summary>
+        /// Constructor for building a new simple object with the POCO class
+        /// </summary>
+        public PerformanceMeasureExpectedSimple(PerformanceMeasureExpectedUpdate performanceMeasureExpected)
+            : this()
+        {
+            PerformanceMeasureExpectedID = performanceMeasureExpected.PerformanceMeasureExpectedUpdateID;
+            DisplayName = performanceMeasureExpected.PerformanceMeasure.PerformanceMeasureDisplayName;
+            DefinitionAndGuidanceUrl = performanceMeasureExpected.PerformanceMeasure.GetDefinitionAndGuidanceUrl();
+            PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
+            ExpectedValue = performanceMeasureExpected.ExpectedValue;
+            PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureExpected);
+        }
+
         public string DefinitionAndGuidanceUrl { get; set; }
         public int PerformanceMeasureExpectedID { get; set; }
         public string DisplayName { get; set; }

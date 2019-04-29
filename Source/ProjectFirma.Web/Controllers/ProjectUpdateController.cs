@@ -23,7 +23,6 @@ using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
-using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.ScheduledJobs;
@@ -70,9 +69,7 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
-using PerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasures;
-using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewData;
-using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectUpdate.PerformanceMeasuresViewModel;
+using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
 
 namespace ProjectFirma.Web.Controllers
@@ -88,7 +85,21 @@ namespace ProjectFirma.Web.Controllers
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
+        public const string PerformanceMeasureExpectedSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/PerformanceMeasureExpectedValuesSummary.cshtml";
         //public const string ProjectDocumentsPartialViewPath = "~/Views/Shared/ProjectDocument/ProjectDocumentsDetail.cshtml";
+
+        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project)
+        {
+            return GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,
+                $"We should have a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update batch when refreshing; didn't find one for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+        }
+
+        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project, string message)
+        {
+            var projectUpdateBatch = ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project);
+            Check.RequireNotNull(projectUpdateBatch, message);
+            return projectUpdateBatch;
+        }
 
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public ViewResult AllMyProjects()
@@ -319,7 +330,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public ActionResult ReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -339,17 +350,17 @@ namespace ProjectFirma.Web.Controllers
                 possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
                     .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
 
-            var viewModel = new PerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
+            var viewModel = new ReportedPerformanceMeasuresViewModel(performanceMeasureActualUpdateSimples,
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 projectExemptReportingYearUpdates.OrderBy(x => x.CalendarYear).ToList(),
-                projectUpdateBatch.PerformanceMeasuresComment);
-            return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
+                projectUpdateBatch.ReportedPerformanceMeasuresComment);
+            return ViewReportedPerformanceMeasures(projectUpdateBatch, viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
+        public ActionResult ReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ReportedPerformanceMeasuresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -359,7 +370,7 @@ namespace ProjectFirma.Web.Controllers
             }
             if (!ModelState.IsValid)
             {
-                return ViewPerformanceMeasures(projectUpdateBatch, viewModel);
+                return ViewReportedPerformanceMeasures(projectUpdateBatch, viewModel);
             }
             var currentPerformanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Load();
@@ -369,14 +380,14 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(currentPerformanceMeasureActualUpdates, allPerformanceMeasureActualUpdates, allPerformanceMeasureActualSubcategoryOptionUpdates, projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted())
             {
-                projectUpdateBatch.PerformanceMeasuresComment = viewModel.Comments;
+                projectUpdateBatch.ReportedPerformanceMeasuresComment = viewModel.Comments;
             }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.PerformanceMeasures.ProjectUpdateSectionDisplayName);
+                ProjectUpdateSection.ReportedPerformanceMeasures.ProjectUpdateSectionDisplayName);
         }
 
-        private ViewResult ViewPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasuresViewModel viewModel)
+        private ViewResult ViewReportedPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, ReportedPerformanceMeasuresViewModel viewModel)
         {
             var performanceMeasures =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
@@ -396,44 +407,31 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
             var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
 
-            var viewDataForAngularEditor = new PerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
+            var viewDataForAngularEditor = new ReportedPerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
                 performanceMeasureSimples,
                 performanceMeasureSubcategorySimples,
                 performanceMeasureSubcategoryOptionSimples,
                 calendarYearStrings,
                 showExemptYears);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new PerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResult);
-            return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
+            var viewData = new ReportedPerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResult);
+            return RazorView<ReportedPerformanceMeasures, ReportedPerformanceMeasuresViewData, ReportedPerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult RefreshReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshPerformanceMeasures(viewModel);
-        }
-
-        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project)
-        {
-            return GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project,
-                $"We should have a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update batch when refreshing; didn't find one for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-        }
-
-        private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project, string message)
-        {
-            var projectUpdateBatch = ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project);
-            Check.RequireNotNull(projectUpdateBatch, message);
-            return projectUpdateBatch;
+            return ViewRefreshReportedPerformanceMeasures(viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult RefreshReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
@@ -448,11 +446,118 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewRefreshPerformanceMeasures(ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewRefreshReportedPerformanceMeasures(ConfirmDialogFormViewModel viewModel)
         {
             var viewData =
                 new ConfirmDialogFormViewData(
                     $"Are you sure you want to refresh the {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} and use the updated start and completion years from the Basics section. Any changes made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult ExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var performanceMeasureExpectedUpdateSimples =
+                projectUpdateBatch.PerformanceMeasureExpectedUpdates.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(pam=>pam.PerformanceMeasure.GetDisplayName())
+                    .Select(x => new PerformanceMeasureExpectedSimple(x))
+                    .ToList();
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearUpdateSimple(x)).ToList();
+            var currentExemptedYears = projectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+            var possibleYearsToExempt = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange();
+            projectExemptReportingYearUpdates.AddRange(
+                possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x))
+                    .Select((x, index) => new ProjectExemptReportingYearUpdateSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x)));
+
+            var viewModel = new ExpectedPerformanceMeasuresViewModel(performanceMeasureExpectedUpdateSimples, projectUpdateBatch.ExpectedPerformanceMeasuresComment);
+            return ViewExpectedPerformanceMeasures(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ExpectedPerformanceMeasuresViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (!ModelState.IsValid)
+            {
+                return ViewExpectedPerformanceMeasures(projectUpdateBatch, viewModel);
+            }
+            var currentPerformanceMeasureExpectedUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates.ToList();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedUpdates.Load();
+            var allPerformanceMeasureExpectedUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedUpdates.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptionUpdates.Load();
+            var allPerformanceMeasureExpectedSubcategoryOptionUpdates = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptionUpdates.Local;
+            viewModel.UpdateModel(currentPerformanceMeasureExpectedUpdates, allPerformanceMeasureExpectedUpdates, allPerformanceMeasureExpectedSubcategoryOptionUpdates, projectUpdateBatch);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ExpectedPerformanceMeasuresComment = viewModel.Comments;
+            }
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.ExpectedPerformanceMeasures.ProjectUpdateSectionDisplayName);
+        }
+
+        private ViewResult ViewExpectedPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, ExpectedPerformanceMeasuresViewModel viewModel)
+        {
+            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
+            var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
+            var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).ToList();
+            var performanceMeasureSubcategorySimples = performanceMeasureSubcategories.Select(y => new PerformanceMeasureSubcategorySimple(y)).ToList();
+            var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
+            
+            var viewDataForAngularEditor = new ExpectedPerformanceMeasuresViewData.ViewDataForAngularEditor(performanceMeasureSimples, performanceMeasureSubcategorySimples, performanceMeasureSubcategoryOptionSimples);
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+
+            var performanceMeasureSubcategoriesExpectedValues =
+                PerformanceMeasureSubcategoriesExpectedValue.CreateFromPerformanceMeasures(new List<IPerformanceMeasureValue>(projectUpdateBatch.PerformanceMeasureExpectedUpdates));
+            var performanceMeasureExpectedValuesSummaryViewData = new PerformanceMeasureExpectedValuesSummaryViewData(performanceMeasureSubcategoriesExpectedValues);
+
+            var viewData = new ExpectedPerformanceMeasuresViewData(CurrentPerson, projectUpdateBatch, updateStatus, viewDataForAngularEditor, performanceMeasureExpectedValuesSummaryViewData);
+            return RazorView<ExpectedPerformanceMeasures, ExpectedPerformanceMeasuresViewData, ExpectedPerformanceMeasuresViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult RefreshExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshPerformanceMeasures(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeletePerformanceMeasureExpectedUpdates();
+
+            // refresh the data
+            PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshPerformanceMeasures(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any changes made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -1321,6 +1426,10 @@ namespace ProjectFirma.Web.Controllers
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
             var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
+            var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptions.Load();
+            var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
             var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
             HttpRequestStorage.DatabaseEntities.ProjectNotes.Load();
@@ -1348,6 +1457,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectFundingSourceExpenditures,
                 allPerformanceMeasureActuals,
                 allPerformanceMeasureActualSubcategoryOptions,
+                allPerformanceMeasureExpecteds,
+                allPerformanceMeasureExpectedSubcategoryOptions,
                 allProjectExternalLinks,
                 allProjectNotes,
                 allProjectImages,
@@ -1384,7 +1495,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.BasicsDiffLogHtmlString = new HtmlString(basicsDiffHelper.Build());
             }            
 
-            var performanceMeasureDiffContainer = DiffPerformanceMeasuresImpl(projectPrimaryKey);
+            var performanceMeasureDiffContainer = DiffReportedPerformanceMeasuresImpl(projectPrimaryKey);
             if (performanceMeasureDiffContainer.HasChanged)
             {
                 var performanceMeasureDiffHelper = new HtmlDiff.HtmlDiff(performanceMeasureDiffContainer.OriginalHtml, performanceMeasureDiffContainer.UpdatedHtml);
@@ -1725,14 +1836,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult DiffPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult DiffReportedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
-            var htmlDiffContainer = DiffPerformanceMeasuresImpl(projectPrimaryKey);
+            var htmlDiffContainer = DiffReportedPerformanceMeasuresImpl(projectPrimaryKey);
             var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
             return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
         }
 
-        private HtmlDiffContainer DiffPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
+        private HtmlDiffContainer DiffReportedPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
@@ -1741,7 +1852,7 @@ namespace ProjectFirma.Web.Controllers
             var calendarYearsForPerformanceMeasuresOriginal = performanceMeasureReportedValuesOriginal.Select(x => x.CalendarYear).Distinct().ToList();
             var calendarYearsForPerformanceMeasuresUpdated = performanceMeasureReportedValuesUpdated.Select(x => x.CalendarYear).Distinct().ToList();
 
-            var originalHtml = GeneratePartialViewForOriginalPerformanceMeasures(
+            var originalHtml = GeneratePartialViewForOriginalReportedPerformanceMeasures(
                 performanceMeasureReportedValuesOriginal,
                 performanceMeasureReportedValuesUpdated,
                 calendarYearsForPerformanceMeasuresOriginal,
@@ -1749,7 +1860,7 @@ namespace ProjectFirma.Web.Controllers
                 project.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList(),
                 project.PerformanceMeasureActualYearsExemptionExplanation);
 
-            var updatedHtml = GeneratePartialViewForModifiedPerformanceMeasures(
+            var updatedHtml = GeneratePartialViewForModifiedReportedPerformanceMeasures(
                 performanceMeasureReportedValuesOriginal,
                 performanceMeasureReportedValuesUpdated,
                 calendarYearsForPerformanceMeasuresOriginal,
@@ -1760,7 +1871,7 @@ namespace ProjectFirma.Web.Controllers
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
+        private string GeneratePartialViewForOriginalReportedPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
             List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesUpdated,
             List<int> calendarYearsOriginal,
             List<int> calendarYearsUpdated,
@@ -1787,14 +1898,14 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => PerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => performanceMeasuresOnlyInOriginal.Contains(x.PerformanceMeasureID))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal.Where(x => performanceMeasuresOnlyInOriginal.Contains(x.PerformanceMeasureID)).ToList()
                 .ForEach(x =>
                 {
                     ZeroOutReportedValue(x, calendarYearsOriginal);
                     x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
                 });
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal, calendarYearStrings, exemptReportingYears, exemptionExplanation);
+            return GeneratePartialViewForReportedPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesOriginal, calendarYearStrings, exemptReportingYears, exemptionExplanation);
         }
 
         private static void ZeroOutReportedValue(PerformanceMeasureSubcategoriesCalendarYearReportedValue performanceMeasureSubcategoriesCalendarYearReportedValue, List<int> calendarYearsToZeroOut)
@@ -1808,7 +1919,7 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private string GeneratePartialViewForModifiedPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
+        private string GeneratePartialViewForModifiedReportedPerformanceMeasures(List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesOriginal,
             List<IPerformanceMeasureReportedValue> performanceMeasureReportedValuesUpdated,
             List<int> calendarYearsOriginal,
             List<int> calendarYearsUpdated,
@@ -1830,17 +1941,101 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => PerformanceMeasureSubcategoriesCalendarYearReportedValue.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
             // find the ones only in modified and mark them as "added"
-            performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => performanceMeasuresOnlyInUpdated.Contains(x.PerformanceMeasureID))
+            performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated.Where(x => performanceMeasuresOnlyInUpdated.Contains(x.PerformanceMeasureID)).ToList()
                 .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated, calendarYearStrings, exemptReportingYears, exemptionExplanation);
+            return GeneratePartialViewForReportedPerformanceMeasures(performanceMeasureSubcategoriesCalendarYearReportedValuesUpdated, calendarYearStrings, exemptReportingYears, exemptionExplanation);
         }
 
-        private string GeneratePartialViewForPerformanceMeasures(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues, List<CalendarYearString> calendarYearStrings, List<int> exemptReportingYears, string exemptionExplanation)
+        private string GeneratePartialViewForReportedPerformanceMeasures(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues, List<CalendarYearString> calendarYearStrings, List<int> exemptReportingYears, string exemptionExplanation)
         {
             var viewData = new PerformanceMeasureReportedValuesSummaryViewData(performanceMeasureSubcategoriesCalendarYearReportedValues, exemptReportingYears, exemptionExplanation, calendarYearStrings);
             var partialViewToString = RenderPartialViewToString(PerformanceMeasureReportedValuesPartialViewPath, viewData);
+            return partialViewToString;
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffExpectedPerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffExpectedPerformanceMeasuresImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffExpectedPerformanceMeasuresImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            var performanceMeasureExpectedValuesOriginal = new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds);
+            var performanceMeasureExpectedValuesUpdated = new List<IPerformanceMeasureValue>(projectUpdateBatch.PerformanceMeasureExpectedUpdates);
+
+            var originalHtml = GeneratePartialViewForOriginalExpectedPerformanceMeasures(
+                performanceMeasureExpectedValuesOriginal,
+                performanceMeasureExpectedValuesUpdated);
+
+            var updatedHtml = GeneratePartialViewForModifiedExpectedPerformanceMeasures(
+                performanceMeasureExpectedValuesOriginal,
+                performanceMeasureExpectedValuesUpdated);
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForOriginalExpectedPerformanceMeasures(List<IPerformanceMeasureValue> performanceMeasureExpectedValuesOriginal,
+            List<IPerformanceMeasureValue> performanceMeasureExpectedValuesUpdated)
+        {
+            var performanceMeasuresInOriginal = performanceMeasureExpectedValuesOriginal.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresInUpdated = performanceMeasureExpectedValuesUpdated.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresOnlyInOriginal = performanceMeasuresInOriginal.Where(x => !performanceMeasuresInUpdated.Contains(x)).ToList();
+
+            var performanceMeasureSubcategoriesExpectedValuesOriginal =
+                PerformanceMeasureSubcategoriesExpectedValue.CreateFromPerformanceMeasures(performanceMeasureExpectedValuesOriginal);
+            var performanceMeasureSubcategoriesExpectedValuesUpdated =
+                PerformanceMeasureSubcategoriesExpectedValue.CreateFromPerformanceMeasures(performanceMeasureExpectedValuesUpdated);
+
+            // find the ones that are only in the modified set and add them and mark them as "added"
+            performanceMeasureSubcategoriesExpectedValuesOriginal.AddRange(
+                performanceMeasureSubcategoriesExpectedValuesUpdated.Where(x => !performanceMeasuresInOriginal.Contains(x.PerformanceMeasureID))
+                    .Select(x => PerformanceMeasureSubcategoriesExpectedValue.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+                    .ToList());
+            // find the ones only in original and mark them as "deleted"
+            performanceMeasureSubcategoriesExpectedValuesOriginal.Where(x => performanceMeasuresOnlyInOriginal.Contains(x.PerformanceMeasureID)).ToList()
+                .ForEach(x =>
+                {
+                    x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
+                });
+            return GeneratePartialViewForExpectedPerformanceMeasures(performanceMeasureSubcategoriesExpectedValuesOriginal);
+        }
+
+        private string GeneratePartialViewForModifiedExpectedPerformanceMeasures(List<IPerformanceMeasureValue> performanceMeasureExpectedValuesOriginal,
+            List<IPerformanceMeasureValue> performanceMeasureExpectedValuesUpdated)
+        {
+            var performanceMeasuresInOriginal = performanceMeasureExpectedValuesOriginal.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresInUpdated = performanceMeasureExpectedValuesUpdated.Select(x => x.PerformanceMeasureID).Distinct().ToList();
+            var performanceMeasuresOnlyInUpdated = performanceMeasuresInUpdated.Where(x => !performanceMeasuresInOriginal.Contains(x)).ToList();
+
+            var performanceMeasureSubcategoriesExpectedValuesOriginal =
+                PerformanceMeasureSubcategoriesExpectedValue.CreateFromPerformanceMeasures(performanceMeasureExpectedValuesOriginal);
+            var performanceMeasureSubcategoriesExpectedValuesUpdated =
+                PerformanceMeasureSubcategoriesExpectedValue.CreateFromPerformanceMeasures(performanceMeasureExpectedValuesUpdated);
+
+            // find the ones that are only in the original set and add them and mark them as "deleted"
+            performanceMeasureSubcategoriesExpectedValuesUpdated.AddRange(
+                performanceMeasureSubcategoriesExpectedValuesOriginal.Where(x => !performanceMeasuresInUpdated.Contains(x.PerformanceMeasureID))
+                    .Select(x => PerformanceMeasureSubcategoriesExpectedValue.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+                    .ToList());
+            // find the ones only in modified and mark them as "added"
+            performanceMeasureSubcategoriesExpectedValuesUpdated.Where(x => performanceMeasuresOnlyInUpdated.Contains(x.PerformanceMeasureID)).ToList()
+                .ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            return GeneratePartialViewForExpectedPerformanceMeasures(performanceMeasureSubcategoriesExpectedValuesUpdated);
+        }
+
+        private string GeneratePartialViewForExpectedPerformanceMeasures(List<PerformanceMeasureSubcategoriesExpectedValue> performanceMeasureSubcategoriesExpectedValues)
+        {
+            var viewData = new PerformanceMeasureExpectedValuesSummaryViewData(performanceMeasureSubcategoriesExpectedValues);
+            var partialViewToString = RenderPartialViewToString(PerformanceMeasureExpectedSummaryPartialViewPath, viewData);
             return partialViewToString;
         }
 
@@ -1907,7 +2102,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => FundingSourceCalendarYearExpenditure.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            fundingSourceCalendarYearExpendituresOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ForEach(x =>
+            fundingSourceCalendarYearExpendituresOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x =>
             {
                 ZeroOutExpenditure(x, calendarYearsOriginal);
                 x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
@@ -1945,7 +2140,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => FundingSourceCalendarYearExpenditure.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
             // find the ones only in modified and mark them as "added"
-            fundingSourceCalendarYearExpendituresUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            fundingSourceCalendarYearExpendituresUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
             return GeneratePartialViewForExpendituresAsString(projectExemptReportingYearsUpdated, projectHasNoExpendituresToReportUpdated, fundingSourceCalendarYearExpendituresUpdated, calendarYearStrings);
@@ -1987,7 +2182,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSourceRequestAmounts = projectFundingSourceRequestsOriginal.Select(x => new FundingSourceRequestAmount(x)).ToList();
             fundingSourceRequestAmounts.AddRange(projectFundingSourceRequestsUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceRequestAmount(x.FundingSource, x.SecuredAmount, x.UnsecuredAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
-            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
             return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
         }
 
@@ -2000,7 +2195,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSourceRequestAmounts = projectFundingSourceRequestsUpdated.Select(x => new FundingSourceRequestAmount(x)).ToList();
             fundingSourceRequestAmounts.AddRange(projectFundingSourceRequestsOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceRequestAmount(x.FundingSource, x.SecuredAmount, x.UnsecuredAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
-            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
             return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
         }
 
@@ -2150,7 +2345,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => new ExternalLink(x.ExternalLinkLabel, x.ExternalLinkUrl, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.GetExternalLinkAsUrl())).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.GetExternalLinkAsUrl())).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
             return GeneratePartialViewForExternalLinks(externalLinksOriginal);
         }
 
@@ -2167,7 +2362,7 @@ namespace ProjectFirma.Web.Controllers
                 externalLinksOriginal.Where(x => !urlsInUpdated.Contains(x.GetExternalLinkAsUrl()))
                     .Select(x => new ExternalLink(x.ExternalLinkLabel, x.ExternalLinkUrl, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
-            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.GetExternalLinkAsUrl())).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.GetExternalLinkAsUrl())).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
             return GeneratePartialViewForExternalLinks(externalLinksUpdated);
         }
 
@@ -2222,7 +2417,7 @@ namespace ProjectFirma.Web.Controllers
                     .Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, HtmlDiffContainer.DisplayCssClassAddedElement))
                     .ToList());
             // find the ones only in original and mark them as "deleted"
-            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.Note)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
+            externalLinksOriginal.Where(x => urlsOnlyInOriginal.Contains(x.Note)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
             return GeneratePartialViewForNotes(externalLinksOriginal);
         }
 
@@ -2239,7 +2434,7 @@ namespace ProjectFirma.Web.Controllers
                 externalLinksOriginal.Where(x => !urlsInUpdated.Contains(x.Note))
                     .Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, HtmlDiffContainer.DisplayCssClassDeletedElement))
                     .ToList());
-            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.Note)).ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+            externalLinksUpdated.Where(x => urlsOnlyInUpdated.Contains(x.Note)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
             return GeneratePartialViewForNotes(externalLinksUpdated);
         }
 
@@ -2370,7 +2565,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
-            var isPerformanceMeasuresUpdated = DiffPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
 //            var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
             // ReSharper disable once ConvertToConstant.Local
@@ -2387,6 +2582,8 @@ namespace ProjectFirma.Web.Controllers
 
             var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            var isExpectedPerformanceMeasuresUpdated = DiffExpectedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
+
             return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
@@ -2398,7 +2595,8 @@ namespace ProjectFirma.Web.Controllers
                 isExternalLinksUpdated,
                 isNotesUpdated,
                 isExpectedFundingUpdated,
-                isOrganizationsUpdated);
+                isOrganizationsUpdated,
+                isExpectedPerformanceMeasuresUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -2411,7 +2609,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var calendarYearStrings = new List<CalendarYearString>();
             // get the calendar years that are not in the original and add them and mark as "added"
-            calendarYearsUpdated.Where(x => !calendarYearsOriginal.Contains(x)).ForEach(x => calendarYearStrings.Add(new CalendarYearString(x, AddedDeletedOrRealElement.AddedElement)));
+            calendarYearsUpdated.Where(x => !calendarYearsOriginal.Contains(x)).ToList().ForEach(x => calendarYearStrings.Add(new CalendarYearString(x, AddedDeletedOrRealElement.AddedElement)));
             // now go through all the original calendar years and mark them as either "deleted" or an update, with "deleted" meaning not being in the modified set
             calendarYearStrings.AddRange(calendarYearsOriginal.Select(x => new CalendarYearString(x, !calendarYearsUpdated.Contains(x) ? AddedDeletedOrRealElement.DeletedElement : AddedDeletedOrRealElement.RealElement)));
             return calendarYearStrings;
@@ -2421,7 +2619,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var calendarYearStrings = new List<CalendarYearString>();
             // get the calendar years that are not in the modified and add them and mark as "deleted"
-            calendarYearsOriginal.Where(x => !calendarYearsUpdated.Contains(x)).ForEach(x => calendarYearStrings.Add(new CalendarYearString(x, AddedDeletedOrRealElement.DeletedElement)));
+            calendarYearsOriginal.Where(x => !calendarYearsUpdated.Contains(x)).ToList().ForEach(x => calendarYearStrings.Add(new CalendarYearString(x, AddedDeletedOrRealElement.DeletedElement)));
             // now go through all the modified calendar years and mark them as either "added" or an update, with "added" meaning not being in the original set
             calendarYearStrings.AddRange(calendarYearsUpdated.Select(i => new CalendarYearString(i, !calendarYearsOriginal.Contains(i) ? AddedDeletedOrRealElement.AddedElement : AddedDeletedOrRealElement.RealElement)));
             return calendarYearStrings;
@@ -2507,7 +2705,7 @@ namespace ProjectFirma.Web.Controllers
             projectOrganizations.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
             projectOrganizations
-                .Where(x => organizationsOnlyInOriginal.Contains(x, comparer))
+                .Where(x => organizationsOnlyInOriginal.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
 
             return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate.GetPrimaryContact());
@@ -2527,7 +2725,7 @@ namespace ProjectFirma.Web.Controllers
             projectOrganizations.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
                 new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             projectOrganizations
-                .Where(x => organizationsOnlyInUpdated.Contains(x, comparer))
+                .Where(x => organizationsOnlyInUpdated.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
 
             return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project.GetPrimaryContact());

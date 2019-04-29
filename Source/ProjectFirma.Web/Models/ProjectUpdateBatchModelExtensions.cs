@@ -79,7 +79,10 @@ namespace ProjectFirma.Web.Models
             // Expected Funding
             ProjectFundingSourceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
-            // performance measures
+            // expected performance measures
+            PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
+            // reported performance measures
             PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // project performance measures exempt reporting years
@@ -209,6 +212,15 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static void DeletePerformanceMeasureExpectedUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var performanceMeasureExpectedUpdates = projectUpdateBatch.PerformanceMeasureExpectedUpdates.ToList();
+            foreach (var performanceMeasureExpectedUpdate in performanceMeasureExpectedUpdates)
+            {
+                performanceMeasureExpectedUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static void DeleteProjectLocationUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             var projectLocationUpdates = projectUpdateBatch.ProjectLocationUpdates.ToList();
@@ -320,7 +332,7 @@ namespace ProjectFirma.Web.Models
             return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        public static bool ArePerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
+        public static bool AreReportedPerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
             return projectUpdateBatch.NewStageIsPlanningDesign() || projectUpdateBatch.ValidatePerformanceMeasures().IsValid;
         }
@@ -409,13 +421,14 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
         }
 
-        public static void Approve( // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //IList<ProjectBudget> projectBudgets, 
+        public static void Approve(
             this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
+            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
             IList<ProjectGeospatialArea> projectGeospatialAreas, 
@@ -429,10 +442,10 @@ namespace ProjectFirma.Web.Models
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
             projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears,
                 projectFundingSourceExpenditures,
-                // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//                projectBudgets,
                 performanceMeasureActuals,
                 performanceMeasureActualSubcategoryOptions,
+                performanceMeasureExpecteds,
+                performanceMeasureExpectedSubcategoryOptions,
                 projectExternalLinks,
                 projectNotes,
                 projectImages,
@@ -469,6 +482,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
+            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
             IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
             IList<ProjectGeospatialArea> projectGeospatialAreas,
@@ -495,7 +510,7 @@ namespace ProjectFirma.Web.Models
             // only relevant for stages past planning/design
             if (!projectUpdateBatch.NewStageIsPlanningDesign())
             {
-                // performance measures
+                // reported performance measures
                 PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureActuals,
                     performanceMeasureActualSubcategoryOptions);
 
@@ -505,6 +520,11 @@ namespace ProjectFirma.Web.Models
                 // project exempt reporting years reason
                 projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
             }
+
+            // expected performance measures
+            PerformanceMeasureExpectedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureExpecteds,
+                performanceMeasureExpectedSubcategoryOptions);
+
 
             // project location simple
             projectUpdateBatch.ProjectUpdate.CommitSimpleLocationToProject(projectUpdateBatch.Project);
@@ -567,7 +587,7 @@ namespace ProjectFirma.Web.Models
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
-            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.ArePerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
+            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
                    areAllProjectGeospatialAreasValid;
         }
     }

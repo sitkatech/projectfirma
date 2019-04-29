@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Models
 
                     if (project.AreReportedPerformanceMeasuresRelevant())
                     {
-                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
+                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedPerformanceMeasures, ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
                     }
 
                     return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedPerformanceMeasures }, ignoreStatus);
@@ -114,18 +114,18 @@ namespace ProjectFirma.Web.Models
                             )));
                     return projectUpdateSections;
                 case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
+                    var projectUpdateSectionsForPerformanceMeasures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ReportedPerformanceMeasures }).ToList();
                     if (projectUpdateBatch.AreAccomplishmentsRelevant())
                     {
-                        return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                        projectUpdateSectionsForPerformanceMeasures.Add(ProjectUpdateSection.ReportedPerformanceMeasures);
                     }
-                    return new List<ProjectSectionSimple>();
+                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForPerformanceMeasures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     var projectUpdateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding }).ToList();
                     if (projectUpdateBatch.Project.IsExpectedFundingRelevant())
                     {
                         projectUpdateSectionsForExpenditures.Add(ProjectUpdateSection.ExpectedFunding);
                     }
-
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);

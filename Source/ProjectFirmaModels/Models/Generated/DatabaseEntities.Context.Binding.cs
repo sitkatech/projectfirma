@@ -78,6 +78,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureActualUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionUpdateConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
@@ -213,6 +215,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get { return AllPerformanceMeasureExpecteds.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedSubcategoryOption> AllPerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get { return AllPerformanceMeasureExpectedSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureExpectedSubcategoryOptionUpdate> AllPerformanceMeasureExpectedSubcategoryOptionUpdates { get; set; }
+        public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOptionUpdate> PerformanceMeasureExpectedSubcategoryOptionUpdates { get { return AllPerformanceMeasureExpectedSubcategoryOptionUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureExpectedUpdate> AllPerformanceMeasureExpectedUpdates { get; set; }
+        public virtual IQueryable<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get { return AllPerformanceMeasureExpectedUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureImage> AllPerformanceMeasureImages { get; set; }
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
@@ -495,6 +501,12 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureExpectedSubcategoryOption":
                     return PerformanceMeasureExpectedSubcategoryOptions.GetPerformanceMeasureExpectedSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasureExpectedSubcategoryOptionUpdate":
+                    return PerformanceMeasureExpectedSubcategoryOptionUpdates.GetPerformanceMeasureExpectedSubcategoryOptionUpdate(primaryKey);
+
+                case "PerformanceMeasureExpectedUpdate":
+                    return PerformanceMeasureExpectedUpdates.GetPerformanceMeasureExpectedUpdate(primaryKey);
 
                 case "PerformanceMeasureImage":
                     return PerformanceMeasureImages.GetPerformanceMeasureImage(primaryKey);
