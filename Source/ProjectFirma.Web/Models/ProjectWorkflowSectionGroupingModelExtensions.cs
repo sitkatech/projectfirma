@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForExpenditures, ignoreStatus);
 
-                case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
+                case ProjectWorkflowSectionGroupingEnum.Accomplishments:
                     if (project == null)
                     {
                         return new List<ProjectSectionSimple>();
@@ -53,10 +53,10 @@ namespace ProjectFirma.Web.Models
 
                     if (project.AreReportedPerformanceMeasuresRelevant())
                     {
-                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ReportedPerformanceMeasures }, ignoreStatus);
+                        return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments, ProjectCreateSection.ReportedAccomplishments }, ignoreStatus);
                     }
 
-                    return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedPerformanceMeasures }, ignoreStatus);
+                    return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                     var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
@@ -113,19 +113,19 @@ namespace ProjectFirma.Web.Models
                                 projectUpdateStatus != null && IsGeospatialAreaUpdated(projectUpdateBatch, geospatialAreaType)
                             )));
                     return projectUpdateSections;
-                case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
+                case ProjectWorkflowSectionGroupingEnum.Accomplishments:
+                    var projectUpdateSectionsForPerformanceMeasures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ReportedAccomplishments}).ToList();
                     if (projectUpdateBatch.AreAccomplishmentsRelevant())
                     {
-                        return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                        projectUpdateSectionsForPerformanceMeasures.Add(ProjectUpdateSection.ReportedAccomplishments);
                     }
-                    return new List<ProjectSectionSimple>();
+                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForPerformanceMeasures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     var projectUpdateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding }).ToList();
                     if (projectUpdateBatch.Project.IsExpectedFundingRelevant())
                     {
                         projectUpdateSectionsForExpenditures.Add(ProjectUpdateSection.ExpectedFunding);
                     }
-
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);

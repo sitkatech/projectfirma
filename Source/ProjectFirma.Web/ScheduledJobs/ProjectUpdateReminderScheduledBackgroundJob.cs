@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {

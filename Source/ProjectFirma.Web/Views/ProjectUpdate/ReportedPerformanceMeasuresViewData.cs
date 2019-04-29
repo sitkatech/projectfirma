@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Project;
@@ -32,7 +31,7 @@ using PerformanceMeasureSubcategoryOptionSimple = ProjectFirma.Web.Models.Perfor
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class PerformanceMeasuresViewData : ProjectUpdateViewData
+    public class ReportedPerformanceMeasuresViewData : ProjectUpdateViewData
     {
         public string RefreshUrl { get; }
         public PerformanceMeasureReportedValuesSummaryViewData PerformanceMeasureReportedValuesSummaryViewData { get; }
@@ -42,11 +41,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string DiffUrl { get; }
         public string ReportingYearLabel { get; }
 
-        public PerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, ProjectUpdateStatus projectUpdateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, performanceMeasuresValidationResult.GetWarningMessages(), ProjectUpdateSection.PerformanceMeasures.ProjectUpdateSectionDisplayName)
+        public ReportedPerformanceMeasuresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularEditor viewDataForAngularEditor, ProjectUpdateStatus projectUpdateStatus, PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
+            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, performanceMeasuresValidationResult.GetWarningMessages(), ProjectUpdateSection.ReportedAccomplishments.ProjectUpdateSectionDisplayName)
         {
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshPerformanceMeasures(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffPerformanceMeasures(projectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshReportedPerformanceMeasures(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffReportedPerformanceMeasures(projectUpdateBatch.Project));
             var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates;
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureActualUpdates));
@@ -55,7 +54,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
                 performanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList());
             ViewDataForAngular = viewDataForAngularEditor;
-            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.PerformanceMeasuresComment, projectUpdateBatch.IsReturned());
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ReportedPerformanceMeasuresComment, projectUpdateBatch.IsReturned());
             IsImplementationStartYearValid = projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue &&
                                              projectUpdateBatch.ProjectUpdate.ImplementationStartYear < projectUpdateBatch.ProjectUpdate.CompletionYear;
 

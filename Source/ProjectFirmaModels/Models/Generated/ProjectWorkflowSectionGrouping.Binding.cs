@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
     {
         public static readonly ProjectWorkflowSectionGroupingOverview Overview = ProjectWorkflowSectionGroupingOverview.Instance;
         public static readonly ProjectWorkflowSectionGroupingSpatialInformation SpatialInformation = ProjectWorkflowSectionGroupingSpatialInformation.Instance;
-        public static readonly ProjectWorkflowSectionGroupingPerformanceMeasures PerformanceMeasures = ProjectWorkflowSectionGroupingPerformanceMeasures.Instance;
+        public static readonly ProjectWorkflowSectionGroupingAccomplishments Accomplishments = ProjectWorkflowSectionGroupingAccomplishments.Instance;
         public static readonly ProjectWorkflowSectionGroupingExpenditures Expenditures = ProjectWorkflowSectionGroupingExpenditures.Instance;
         public static readonly ProjectWorkflowSectionGroupingAdditionalData AdditionalData = ProjectWorkflowSectionGroupingAdditionalData.Instance;
 
@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectWorkflowSectionGrouping()
         {
-            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, PerformanceMeasures, Expenditures, AdditionalData };
+            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, Accomplishments, Expenditures, AdditionalData };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectWorkflowSectionGrouping>(All.ToDictionary(x => x.ProjectWorkflowSectionGroupingID));
         }
 
@@ -105,14 +105,14 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
+                case ProjectWorkflowSectionGroupingEnum.Accomplishments:
+                    return Accomplishments;
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     return AdditionalData;
                 case ProjectWorkflowSectionGroupingEnum.Expenditures:
                     return Expenditures;
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     return Overview;
-                case ProjectWorkflowSectionGroupingEnum.PerformanceMeasures:
-                    return PerformanceMeasures;
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     return SpatialInformation;
                 default:
@@ -125,7 +125,7 @@ namespace ProjectFirmaModels.Models
     {
         Overview = 1,
         SpatialInformation = 2,
-        PerformanceMeasures = 3,
+        Accomplishments = 3,
         Expenditures = 4,
         AdditionalData = 5
     }
@@ -142,10 +142,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectWorkflowSectionGroupingSpatialInformation Instance = new ProjectWorkflowSectionGroupingSpatialInformation(2, @"SpatialInformation", @"Spatial Information", 20);
     }
 
-    public partial class ProjectWorkflowSectionGroupingPerformanceMeasures : ProjectWorkflowSectionGrouping
+    public partial class ProjectWorkflowSectionGroupingAccomplishments : ProjectWorkflowSectionGrouping
     {
-        private ProjectWorkflowSectionGroupingPerformanceMeasures(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
-        public static readonly ProjectWorkflowSectionGroupingPerformanceMeasures Instance = new ProjectWorkflowSectionGroupingPerformanceMeasures(3, @"PerformanceMeasures", @"Performance Measures", 30);
+        private ProjectWorkflowSectionGroupingAccomplishments(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
+        public static readonly ProjectWorkflowSectionGroupingAccomplishments Instance = new ProjectWorkflowSectionGroupingAccomplishments(3, @"Accomplishments", @"Accomplishments", 30);
     }
 
     public partial class ProjectWorkflowSectionGroupingExpenditures : ProjectWorkflowSectionGrouping

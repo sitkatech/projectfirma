@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using ProjectFirmaModels;
@@ -257,31 +258,12 @@ namespace ProjectFirma.Api.Controllers
 
             var performanceMeasureSubcategoriesToUpdate = performanceMeasureSubcategoryDtos.Select(x =>
             {
-                var dummyPerformanceMeasure = new PerformanceMeasure(String.Empty, default(int), default(int), false, false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(dummyPerformanceMeasure, x.PerformanceMeasureSubcategoryName);
-                performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(performanceMeasure.PerformanceMeasureID, x.PerformanceMeasureSubcategoryName);
                 performanceMeasureSubcategory.ChartConfigurationJson = x.ChartConfigurationJson;
                 performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasureSubcategoryGoogleChartTypes.Single(y => y.Key.PerformanceMeasureSubcategoryName == x.PerformanceMeasureSubcategoryName).Value
                     .GoogleChartTypeID;
-                performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
-                    x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
-                        (y, index) =>
-                            new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory, y.PerformanceMeasureSubcategoryOptionName, false)
-                            {
-                                SortOrder = y.SortOrder
-                            }).ToList();
                 return performanceMeasureSubcategory;
             }).ToList();
-
-            var performanceMeasureSubcategoryOptionsToUpdate = performanceMeasureSubcategoriesToUpdate.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList();
-            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
-                performanceMeasureSubcategoryOptionsToUpdate,
-                performanceMeasureSubcategoryOptionsFromDatabase,
-                (x, y) => x.PerformanceMeasureSubcategoryOptionName == y.PerformanceMeasureSubcategoryOptionName && x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName == y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
-                (x, y) =>
-                {
-                    x.SortOrder = y.SortOrder;
-                }, _databaseEntities);
 
             performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,
                 performanceMeasureSubcategoriesFromDatabase,
@@ -292,6 +274,28 @@ namespace ProjectFirma.Api.Controllers
                     x.GoogleChartTypeID = y.GoogleChartTypeID;
                 }, _databaseEntities);
 
+            List<PerformanceMeasureSubcategoryOption> performanceMeasureSubcategoryOptionsToUpdate = new List<PerformanceMeasureSubcategoryOption>();
+            performanceMeasureSubcategoryDtos.ForEach(x =>
+            {
+                var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(y =>
+                    y.PerformanceMeasureSubcategoryDisplayName == x.PerformanceMeasureSubcategoryName);
+                performanceMeasureSubcategoryOptionsToUpdate.AddRange(x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
+                    (y, index) =>
+                        new PerformanceMeasureSubcategoryOption(performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, y.PerformanceMeasureSubcategoryOptionName, false)
+                        {
+                            SortOrder = y.SortOrder,
+                            PerformanceMeasureSubcategory = performanceMeasureSubcategory
+                        }).ToList());
+            });
+
+            performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
+                performanceMeasureSubcategoryOptionsToUpdate,
+                performanceMeasureSubcategoryOptionsFromDatabase,
+                (x, y) => x.PerformanceMeasureSubcategoryOptionName == y.PerformanceMeasureSubcategoryOptionName && x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName == y.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
+                (x, y) =>
+                {
+                    x.SortOrder = y.SortOrder;
+                }, _databaseEntities);
 
             _databaseEntities.SaveChangesWithNoAuditing(Tenant.ActionAgendaForPugetSound.TenantID);
             var performanceMeasureReloaded = new PerformanceMeasureDto(performanceMeasure);

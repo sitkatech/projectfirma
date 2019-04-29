@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LastUpdatePersonID).HasColumnName(@"LastUpdatePersonID").HasColumnType("int").IsRequired();
             Property(x => x.BasicsComment).HasColumnName(@"BasicsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ExpendituresComment).HasColumnName(@"ExpendituresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
-            Property(x => x.PerformanceMeasuresComment).HasColumnName(@"PerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.ReportedPerformanceMeasuresComment).HasColumnName(@"ReportedPerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.LocationSimpleComment).HasColumnName(@"LocationSimpleComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.LocationDetailedComment).HasColumnName(@"LocationDetailedComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.BudgetsComment).HasColumnName(@"BudgetsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
@@ -41,6 +41,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationsComment).HasColumnName(@"OrganizationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.OrganizationsDiffLog).HasColumnName(@"OrganizationsDiffLog").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1);
             Property(x => x.NoExpendituresToReportExplanation).HasColumnName(@"NoExpendituresToReportExplanation").HasColumnType("varchar").IsOptional();
+            Property(x => x.ExpectedPerformanceMeasuresComment).HasColumnName(@"ExpectedPerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

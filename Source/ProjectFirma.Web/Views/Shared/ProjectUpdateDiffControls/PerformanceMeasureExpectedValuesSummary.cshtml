@@ -1,0 +1,58 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="PerformanceMeasureExpectedValuesSummary.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls.PerformanceMeasureExpectedValuesSummary
+
+@if (ViewDataTyped.PerformanceMeasureSubcategoriesExpectedValues.Any())
+{
+    <table class="summaryLayout">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tr>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasure.ToType())</th>
+            <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType())</th>
+            <th style="text-align: right">Expected Value</th>
+            <th></th>
+        </tr>
+        @foreach (var performanceMeasureCalendarYearExpectedValue in ViewDataTyped.PerformanceMeasureSubcategoriesExpectedValues.OrderBy(x => x.PerformanceMeasureDisplayName))
+        {
+            foreach (var subcategoriesExpectedValue in performanceMeasureCalendarYearExpectedValue.SubcategoriesExpectedValues.OrderBy(x => x.PerformanceMeasureSubcategories))
+            {
+                <tr class="@performanceMeasureCalendarYearExpectedValue.DisplayCssClass">
+                    <td>@performanceMeasureCalendarYearExpectedValue.PerformanceMeasureDisplayNameAsUrl</td>
+                    <td>@Html.Raw(subcategoriesExpectedValue.PerformanceMeasureSubcategories)</td>
+                    <th style="text-align: right">
+                        <span>@subcategoriesExpectedValue.ExpectedValue</span>
+                    </th>
+                    <th>
+                        <span>@(performanceMeasureCalendarYearExpectedValue.MeasurementUnitType != MeasurementUnitType.Dollars ? performanceMeasureCalendarYearExpectedValue.MeasurementUnitType.LegendDisplayName : string.Empty)</span>
+                    </th>
+                </tr>
+            }
+        }
+    </table>
+}

@@ -37,12 +37,11 @@ namespace ProjectFirmaModels.Models
             if (PerformanceMeasure.HasRealSubcategories())
             {
                 return PerformanceMeasureExpectedSubcategoryOptions.Any()
-                    ? String.Join(", ",
+                    ? String.Join("\r\n",
                         PerformanceMeasureExpectedSubcategoryOptions.OrderBy(x =>
                                 x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
-                            .Select(x => String.Format("[{0}: {1}]",
-                                x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName,
-                                x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName)))
+                            .Select(x =>
+                                $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}"))
                     : ViewUtilities.NoneString;
             }
 

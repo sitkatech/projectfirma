@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
     public class ProjectUpdateStatus
     {
         public bool IsBasicsUpdated { get; }
-        public bool IsPerformanceMeasuresUpdated { get; }
+        public bool IsReportedPerformanceMeasuresUpdated { get; }
         public bool IsExpectedFundingUpdated { get; }
         public bool IsExpendituresUpdated { get; }
         public bool IsBudgetsUpdated { get; }
@@ -33,9 +33,10 @@ namespace ProjectFirmaModels.Models
         public bool IsExternalLinksUpdated { get; }
         public bool IsNotesUpdated { get; }
         public bool IsOrganizationsUpdated { get; }
+        public bool IsExpectedPerformanceMeasuresUpdated { get; }
 
         public ProjectUpdateStatus(bool isBasicsUpdated,
-            bool isPerformanceMeasuresUpdated,
+            bool isReportedPerformanceMeasuresUpdated,
             bool isExpendituresUpdated,
             bool isBudgetsUpdated,
             bool isPhotosUpdated,
@@ -44,10 +45,10 @@ namespace ProjectFirmaModels.Models
             bool isExternalLinksUpdated,
             bool isNotesUpdated,
             bool isExpectedFundingUpdated,
-            bool isOrganizationsUpdated)
+            bool isOrganizationsUpdated, bool isExpectedPerformanceMeasuresUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
-            IsPerformanceMeasuresUpdated = isPerformanceMeasuresUpdated;
+            IsReportedPerformanceMeasuresUpdated = isReportedPerformanceMeasuresUpdated;
             IsExpendituresUpdated = isExpendituresUpdated;
             IsBudgetsUpdated = isBudgetsUpdated;
             IsPhotosUpdated = isPhotosUpdated;
@@ -57,6 +58,7 @@ namespace ProjectFirmaModels.Models
             IsNotesUpdated = isNotesUpdated;
             IsExpectedFundingUpdated = isExpectedFundingUpdated;
             IsOrganizationsUpdated = isOrganizationsUpdated;
+            IsExpectedPerformanceMeasuresUpdated = isExpectedPerformanceMeasuresUpdated;
         }
     }
 }

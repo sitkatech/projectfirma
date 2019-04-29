@@ -29,11 +29,11 @@
         }
     }
 
-    public partial class ProjectUpdateSectionPerformanceMeasures
+    public partial class ProjectUpdateSectionReportedAccomplishments
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateStatus.IsPerformanceMeasuresUpdated;
+            return projectUpdateStatus.IsReportedPerformanceMeasuresUpdated;
         }
     }
 
@@ -82,6 +82,14 @@
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
             return projectUpdateStatus.IsExpectedFundingUpdated;
+        }
+    }
+
+    public partial class ProjectUpdateSectionExpectedAccomplishments
+    {
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        {
+            return projectUpdateStatus.IsExpectedPerformanceMeasuresUpdated;
         }
     }
 }

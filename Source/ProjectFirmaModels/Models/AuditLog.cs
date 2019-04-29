@@ -50,6 +50,8 @@ namespace ProjectFirmaModels.Models
             "NotificationProject",
             "PerformanceMeasureActualSubcategoryOptionUpdate",
             "PerformanceMeasureActualUpdate",
+            "PerformanceMeasureExpectedSubcategoryOptionUpdate",
+            "PerformanceMeasureExpectedUpdate",
             "PerformanceMeasureImage",
             "ProjectExemptReportingYearUpdate",
             "ProjectExternalLinkUpdate",
