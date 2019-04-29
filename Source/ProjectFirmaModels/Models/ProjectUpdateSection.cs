@@ -29,7 +29,7 @@
         }
     }
 
-    public partial class ProjectUpdateSectionReportedPerformanceMeasures
+    public partial class ProjectUpdateSectionReportedAccomplishments
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
@@ -85,7 +85,7 @@
         }
     }
 
-    public partial class ProjectUpdateSectionExpectedPerformanceMeasures
+    public partial class ProjectUpdateSectionExpectedAccomplishments
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {

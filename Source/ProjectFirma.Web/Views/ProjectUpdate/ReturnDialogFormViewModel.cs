@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Expenditures:
                         projectUpdateBatch.ExpendituresComment = SectionComments;
                         break;
-                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.ReportedPerformanceMeasures:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.ReportedAccomplishments:
                         projectUpdateBatch.ReportedPerformanceMeasuresComment = SectionComments;
                         break;
                     case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.LocationSimple:
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.LocationDetailed:
                         projectUpdateBatch.LocationDetailedComment = SectionComments;
                         break;
-                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.ExpectedPerformanceMeasures:
+                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.ExpectedAccomplishments:
                         projectUpdateBatch.ExpectedPerformanceMeasuresComment = SectionComments;
                         break;
                     default:

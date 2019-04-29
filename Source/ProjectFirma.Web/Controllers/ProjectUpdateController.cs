@@ -384,7 +384,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.ReportedPerformanceMeasures.ProjectUpdateSectionDisplayName);
+                ProjectUpdateSection.ReportedAccomplishments.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewReportedPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, ReportedPerformanceMeasuresViewModel viewModel)
@@ -506,7 +506,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.ExpectedPerformanceMeasures.ProjectUpdateSectionDisplayName);
+                ProjectUpdateSection.ExpectedAccomplishments.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewExpectedPerformanceMeasures(ProjectUpdateBatch projectUpdateBatch, ExpectedPerformanceMeasuresViewModel viewModel)

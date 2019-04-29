@@ -22,8 +22,8 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionLocationSimple LocationSimple = ProjectCreateSectionLocationSimple.Instance;
         public static readonly ProjectCreateSectionOrganizations Organizations = ProjectCreateSectionOrganizations.Instance;
         public static readonly ProjectCreateSectionLocationDetailed LocationDetailed = ProjectCreateSectionLocationDetailed.Instance;
-        public static readonly ProjectCreateSectionExpectedPerformanceMeasures ExpectedPerformanceMeasures = ProjectCreateSectionExpectedPerformanceMeasures.Instance;
-        public static readonly ProjectCreateSectionReportedPerformanceMeasures ReportedPerformanceMeasures = ProjectCreateSectionReportedPerformanceMeasures.Instance;
+        public static readonly ProjectCreateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectCreateSectionExpectedAccomplishments.Instance;
+        public static readonly ProjectCreateSectionReportedAccomplishments ReportedAccomplishments = ProjectCreateSectionReportedAccomplishments.Instance;
         public static readonly ProjectCreateSectionExpectedFunding ExpectedFunding = ProjectCreateSectionExpectedFunding.Instance;
         public static readonly ProjectCreateSectionReportedExpenditures ReportedExpenditures = ProjectCreateSectionReportedExpenditures.Instance;
         public static readonly ProjectCreateSectionClassifications Classifications = ProjectCreateSectionClassifications.Instance;
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedPerformanceMeasures, ReportedPerformanceMeasures, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -121,10 +121,10 @@ namespace ProjectFirmaModels.Models
                     return Basics;
                 case ProjectCreateSectionEnum.Classifications:
                     return Classifications;
+                case ProjectCreateSectionEnum.ExpectedAccomplishments:
+                    return ExpectedAccomplishments;
                 case ProjectCreateSectionEnum.ExpectedFunding:
                     return ExpectedFunding;
-                case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
-                    return ExpectedPerformanceMeasures;
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return LocationDetailed;
                 case ProjectCreateSectionEnum.LocationSimple:
@@ -135,10 +135,10 @@ namespace ProjectFirmaModels.Models
                     return Organizations;
                 case ProjectCreateSectionEnum.Photos:
                     return Photos;
+                case ProjectCreateSectionEnum.ReportedAccomplishments:
+                    return ReportedAccomplishments;
                 case ProjectCreateSectionEnum.ReportedExpenditures:
                     return ReportedExpenditures;
-                case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
-                    return ReportedPerformanceMeasures;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -151,8 +151,8 @@ namespace ProjectFirmaModels.Models
         LocationSimple = 3,
         Organizations = 4,
         LocationDetailed = 5,
-        ExpectedPerformanceMeasures = 6,
-        ReportedPerformanceMeasures = 7,
+        ExpectedAccomplishments = 6,
+        ReportedAccomplishments = 7,
         ExpectedFunding = 8,
         ReportedExpenditures = 9,
         Classifications = 11,
@@ -185,16 +185,16 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 40, false, 2);
     }
 
-    public partial class ProjectCreateSectionExpectedPerformanceMeasures : ProjectCreateSection
+    public partial class ProjectCreateSectionExpectedAccomplishments : ProjectCreateSection
     {
-        private ProjectCreateSectionExpectedPerformanceMeasures(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionExpectedPerformanceMeasures Instance = new ProjectCreateSectionExpectedPerformanceMeasures(6, @"ExpectedPerformanceMeasures", @"Expected Performance Measures", 60, true, 3);
+        private ProjectCreateSectionExpectedAccomplishments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionExpectedAccomplishments Instance = new ProjectCreateSectionExpectedAccomplishments(6, @"ExpectedAccomplishments", @"Expected Accomplishments", 60, true, 3);
     }
 
-    public partial class ProjectCreateSectionReportedPerformanceMeasures : ProjectCreateSection
+    public partial class ProjectCreateSectionReportedAccomplishments : ProjectCreateSection
     {
-        private ProjectCreateSectionReportedPerformanceMeasures(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionReportedPerformanceMeasures Instance = new ProjectCreateSectionReportedPerformanceMeasures(7, @"ReportedPerformanceMeasures", @"Reported Performance Measures", 70, true, 3);
+        private ProjectCreateSectionReportedAccomplishments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionReportedAccomplishments Instance = new ProjectCreateSectionReportedAccomplishments(7, @"ReportedAccomplishments", @"Reported Accomplishments", 70, true, 3);
     }
 
     public partial class ProjectCreateSectionExpectedFunding : ProjectCreateSection

@@ -376,7 +376,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
-            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedPerformanceMeasures.ProjectCreateSectionDisplayName);
+            return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName);
         }
 
         [HttpGet]
@@ -428,7 +428,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
             viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project);
 
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedPerformanceMeasures.ProjectCreateSectionDisplayName);
+            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName);
         }
 
         private ViewResult ViewPerformanceMeasures(Project project, PerformanceMeasuresViewModel viewModel)

@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EditPerformanceMeasureExpectedViewData editPerformanceMeasureExpectedViewData)
-            : base(currentPerson, project, ProjectCreateSection.ExpectedPerformanceMeasures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            : base(currentPerson, project, ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;            
         }

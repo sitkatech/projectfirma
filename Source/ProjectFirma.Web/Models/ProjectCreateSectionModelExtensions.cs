@@ -26,9 +26,9 @@ namespace ProjectFirma.Web.Models
                     return !new OrganizationsViewModel(project, null).GetValidationResults().ToList().Any();
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return true;
-                case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
+                case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return !new ExpectedPerformanceMeasureValuesViewModel(project).GetValidationResults().Any();
-                case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
+                case ProjectCreateSectionEnum.ReportedAccomplishments:
                     var pmValidationResults = new PerformanceMeasuresViewModel(
                         project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),
                         project.PerformanceMeasureActualYearsExemptionExplanation,
@@ -78,9 +78,9 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Organizations(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project.ProjectID)) : null;
-                case ProjectCreateSectionEnum.ExpectedPerformanceMeasures:
+                case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project.ProjectID)) : null;
-                case ProjectCreateSectionEnum.ReportedPerformanceMeasures:
+                case ProjectCreateSectionEnum.ReportedAccomplishments:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ExpectedFunding:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID)) : null;

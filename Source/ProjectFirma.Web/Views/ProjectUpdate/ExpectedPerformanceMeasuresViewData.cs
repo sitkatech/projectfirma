@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus,
             ViewDataForAngularEditor viewDataForAngular, PerformanceMeasureExpectedValuesSummaryViewData performanceMeasureExpectedValuesSummaryViewData)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.ExpectedPerformanceMeasures.ProjectUpdateSectionDisplayName)
+            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.ExpectedAccomplishments.ProjectUpdateSectionDisplayName)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedPerformanceMeasures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedPerformanceMeasures(projectUpdateBatch.Project));

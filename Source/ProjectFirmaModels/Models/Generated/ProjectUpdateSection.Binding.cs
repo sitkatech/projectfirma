@@ -22,13 +22,13 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionLocationSimple LocationSimple = ProjectUpdateSectionLocationSimple.Instance;
         public static readonly ProjectUpdateSectionOrganizations Organizations = ProjectUpdateSectionOrganizations.Instance;
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
-        public static readonly ProjectUpdateSectionReportedPerformanceMeasures ReportedPerformanceMeasures = ProjectUpdateSectionReportedPerformanceMeasures.Instance;
+        public static readonly ProjectUpdateSectionReportedAccomplishments ReportedAccomplishments = ProjectUpdateSectionReportedAccomplishments.Instance;
         public static readonly ProjectUpdateSectionExpectedFunding ExpectedFunding = ProjectUpdateSectionExpectedFunding.Instance;
         public static readonly ProjectUpdateSectionExpenditures Expenditures = ProjectUpdateSectionExpenditures.Instance;
         public static readonly ProjectUpdateSectionPhotos Photos = ProjectUpdateSectionPhotos.Instance;
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
         public static readonly ProjectUpdateSectionNotesAndDocuments NotesAndDocuments = ProjectUpdateSectionNotesAndDocuments.Instance;
-        public static readonly ProjectUpdateSectionExpectedPerformanceMeasures ExpectedPerformanceMeasures = ProjectUpdateSectionExpectedPerformanceMeasures.Instance;
+        public static readonly ProjectUpdateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectUpdateSectionExpectedAccomplishments.Instance;
 
         public static readonly List<ProjectUpdateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectUpdateSection> AllLookupDictionary;
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedPerformanceMeasures, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedPerformanceMeasures };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedAccomplishments };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -116,10 +116,10 @@ namespace ProjectFirmaModels.Models
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return Basics;
+                case ProjectUpdateSectionEnum.ExpectedAccomplishments:
+                    return ExpectedAccomplishments;
                 case ProjectUpdateSectionEnum.ExpectedFunding:
                     return ExpectedFunding;
-                case ProjectUpdateSectionEnum.ExpectedPerformanceMeasures:
-                    return ExpectedPerformanceMeasures;
                 case ProjectUpdateSectionEnum.Expenditures:
                     return Expenditures;
                 case ProjectUpdateSectionEnum.ExternalLinks:
@@ -134,8 +134,8 @@ namespace ProjectFirmaModels.Models
                     return Organizations;
                 case ProjectUpdateSectionEnum.Photos:
                     return Photos;
-                case ProjectUpdateSectionEnum.ReportedPerformanceMeasures:
-                    return ReportedPerformanceMeasures;
+                case ProjectUpdateSectionEnum.ReportedAccomplishments:
+                    return ReportedAccomplishments;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -148,13 +148,13 @@ namespace ProjectFirmaModels.Models
         LocationSimple = 3,
         Organizations = 4,
         LocationDetailed = 5,
-        ReportedPerformanceMeasures = 6,
+        ReportedAccomplishments = 6,
         ExpectedFunding = 7,
         Expenditures = 8,
         Photos = 9,
         ExternalLinks = 10,
         NotesAndDocuments = 11,
-        ExpectedPerformanceMeasures = 12
+        ExpectedAccomplishments = 12
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -181,10 +181,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 50, false, 2);
     }
 
-    public partial class ProjectUpdateSectionReportedPerformanceMeasures : ProjectUpdateSection
+    public partial class ProjectUpdateSectionReportedAccomplishments : ProjectUpdateSection
     {
-        private ProjectUpdateSectionReportedPerformanceMeasures(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionReportedPerformanceMeasures Instance = new ProjectUpdateSectionReportedPerformanceMeasures(6, @"ReportedPerformanceMeasures", @"Reported Performance Measures", 70, true, 3);
+        private ProjectUpdateSectionReportedAccomplishments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionReportedAccomplishments Instance = new ProjectUpdateSectionReportedAccomplishments(6, @"ReportedAccomplishments", @"Reported Accomplishments", 70, true, 3);
     }
 
     public partial class ProjectUpdateSectionExpectedFunding : ProjectUpdateSection
@@ -217,9 +217,9 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionNotesAndDocuments Instance = new ProjectUpdateSectionNotesAndDocuments(11, @"NotesAndDocuments", @"Documents and Notes", 120, false, 5);
     }
 
-    public partial class ProjectUpdateSectionExpectedPerformanceMeasures : ProjectUpdateSection
+    public partial class ProjectUpdateSectionExpectedAccomplishments : ProjectUpdateSection
     {
-        private ProjectUpdateSectionExpectedPerformanceMeasures(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionExpectedPerformanceMeasures Instance = new ProjectUpdateSectionExpectedPerformanceMeasures(12, @"ExpectedPerformanceMeasures", @"Expected Performance Measures", 60, true, 3);
+        private ProjectUpdateSectionExpectedAccomplishments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionExpectedAccomplishments Instance = new ProjectUpdateSectionExpectedAccomplishments(12, @"ExpectedAccomplishments", @"Expected Accomplishments", 60, true, 3);
     }
 }

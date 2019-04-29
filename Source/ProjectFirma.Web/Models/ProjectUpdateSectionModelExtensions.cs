@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Models
                     return projectUpdateBatch.AreOrganizationsValid();
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return true;
-                case ProjectUpdateSectionEnum.ReportedPerformanceMeasures:
+                case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return projectUpdateBatch.AreReportedPerformanceMeasuresValid();
                 case ProjectUpdateSectionEnum.ExpectedFunding:
                     return true;
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.NotesAndDocuments:
                     return true;
-                case ProjectUpdateSectionEnum.ExpectedPerformanceMeasures:
+                case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return true;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Organizations(project));
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project));
-                case ProjectUpdateSectionEnum.ReportedPerformanceMeasures:
+                case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReportedPerformanceMeasures(project));
                 case ProjectUpdateSectionEnum.ExpectedFunding:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project));
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(project));
                 case ProjectUpdateSectionEnum.NotesAndDocuments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project));
-                case ProjectUpdateSectionEnum.ExpectedPerformanceMeasures:
+                case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project));
                 default:
                     throw new ArgumentOutOfRangeException();
