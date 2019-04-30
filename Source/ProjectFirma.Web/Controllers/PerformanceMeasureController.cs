@@ -32,6 +32,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json.Linq;
@@ -394,7 +395,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
             var excelWorkbook = new XLWorkbook();
-            var ws = excelWorkbook.Worksheets.Add($"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}");
+            var sheetName = ExcelWorkbookSheetDescriptorFactory.TruncateWorksheetName($"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}");
+            var ws = excelWorkbook.Worksheets.Add(sheetName);
 
             var row = 1;
             var fieldDefinitionLabel = FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel();

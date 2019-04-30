@@ -48,13 +48,13 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
         private readonly string _worksheetName;
         private readonly ExcelWorksheetSpec<T> _spec;
 
-        public string WorksheetName { get { return _worksheetName; } }
+        public string WorksheetName => _worksheetName;
 
 
         public ExcelWorkbookSheetDescriptor(string worksheetName, ExcelWorksheetSpec<T> spec, IList<T> dataObjectListForWorksheet)
         {
             _dataObjectListForWorksheet = dataObjectListForWorksheet;
-            _worksheetName = worksheetName.Length > 31 ? worksheetName.Substring(0, 31) : worksheetName; // max 31 chars in worksheet name
+            _worksheetName = ExcelWorkbookSheetDescriptorFactory.TruncateWorksheetName(worksheetName);
             _spec = spec;
         }
 
