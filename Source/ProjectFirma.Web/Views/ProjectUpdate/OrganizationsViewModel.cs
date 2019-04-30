@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -26,7 +25,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public OrganizationsViewModel(ProjectUpdateBatch projectUpdateBatch)
         {
-            ProjectOrganizationSimples = projectUpdateBatch.ProjectOrganizationUpdates.Select(x=>new ProjectOrganizationSimple(x)).ToList();
+            ProjectOrganizationSimples = projectUpdateBatch.ProjectOrganizationUpdates.Any()
+                ? projectUpdateBatch.ProjectOrganizationUpdates
+                    .Select(x => new ProjectOrganizationSimple(x)).ToList()
+                : new List<ProjectOrganizationSimple>();
             PrimaryContactPersonID = projectUpdateBatch.ProjectUpdate.PrimaryContactPersonID;
             Comments = projectUpdateBatch.OrganizationsComment;
         }
