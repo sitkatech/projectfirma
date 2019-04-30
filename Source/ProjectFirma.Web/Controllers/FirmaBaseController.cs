@@ -21,7 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Filters;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using log4net;
@@ -40,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 1, 0))
+                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 3, 0))
                 {
                     CurrentPerson.LastActivityDate = DateTime.Now;
                     HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
@@ -49,6 +51,16 @@ namespace ProjectFirma.Web.Controllers
             }
             base.OnActionExecuting(filterContext);
         }
+
+        protected override void OnAuthentication(AuthenticationContext filterContext)
+        {
+            var personFromClaimsIdentity = ClaimsIdentityHelper.PersonFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
+            HttpRequestStorage.Person = personFromClaimsIdentity;
+            HttpRequestStorage.DatabaseEntities.Person = personFromClaimsIdentity; // we need to set this so that the save will now who the Person is
+            base.OnAuthentication(filterContext);
+        }
+
+
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {

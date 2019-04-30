@@ -20,14 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
-using Keystone.Common.OpenID;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
@@ -54,8 +51,8 @@ namespace ProjectFirma.Web.Common
 
         public static Person Person
         {
-            get { return GetValueOrDefault(PersonKey, () => KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(GetHttpContextUserThroughOwin(), PersonModelExtensions.GetAnonymousSitkaUser(), DatabaseEntities.People.GetPersonByPersonGuid)); }
-            set { SetValue(PersonKey, value); }
+            get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
+            set => SetValue(PersonKey, value);
         }
 
         public static Tenant Tenant
