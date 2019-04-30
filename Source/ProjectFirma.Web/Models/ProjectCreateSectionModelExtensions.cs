@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
-                    return !new ExpectedPerformanceMeasureValuesViewModel(project).GetValidationResults().Any();
+                    return true;
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
                     var pmValidationResults = new PerformanceMeasuresViewModel(
                         project.PerformanceMeasureActuals.Select(x => new PerformanceMeasureActualSimple(x)).ToList(),

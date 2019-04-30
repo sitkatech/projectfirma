@@ -22,14 +22,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ExpectedPerformanceMeasureValuesViewModel : EditPerformanceMeasureExpectedViewModel, IValidatableObject
+    public class ExpectedPerformanceMeasureValuesViewModel : EditPerformanceMeasureExpectedViewModel
     {
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureNotes)]
         public string PerformanceMeasureNotes { get; set; }
@@ -56,23 +54,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             base.UpdateModel(currentPerformanceMeasureExpecteds, allPerformanceMeasureExpecteds,
                 allPerformanceMeasureExpectedSubcategoryOptions, project);
-        }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return GetValidationResults();
-        }
-
-        public IEnumerable<ValidationResult> GetValidationResults()
-        {
-            var validationResults = new List<ValidationResult>();
-
-            if ((PerformanceMeasureExpecteds == null || !PerformanceMeasureExpecteds.Any()) && string.IsNullOrWhiteSpace(PerformanceMeasureNotes))
-            {
-                var errorMessage = string.Format("You must provide one or more expected {0}, or provide a brief note describing why the {0} are not yet known for this proposal.", MultiTenantHelpers.GetPerformanceMeasureNamePluralized());
-                validationResults.Add(new SitkaValidationResult<ExpectedPerformanceMeasureValuesViewModel, string>(errorMessage, x => x.PerformanceMeasureNotes));
-            }
-            return validationResults;
         }
     }
 }

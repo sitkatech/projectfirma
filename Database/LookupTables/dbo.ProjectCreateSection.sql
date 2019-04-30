@@ -6,7 +6,7 @@ values
 (3, 'LocationSimple', 'Simple Location', 30, 1, 1),
 (4, 'Organizations', 'Organizations', 40, 1, 1),
 (5, 'LocationDetailed', 'Detailed Location', 40, 0, 2),
-(6, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 1, 3),
+(6, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 0, 3),
 (7, 'ReportedAccomplishments', 'Reported Accomplishments', 70, 1, 3),
 (8, 'ExpectedFunding', 'Expected Funding', 80, 0, 4),
 (9, 'ReportedExpenditures', 'Reported Expenditures', 90, 1, 4),

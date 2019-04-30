@@ -78,12 +78,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 IsGeospatialAreaSectionComplete = true;
             }
 
-            var performanceMeasureValidationResults = new ExpectedPerformanceMeasureValuesViewModel(project).GetValidationResults();
-            IsPerformanceMeasureSectionComplete = !performanceMeasureValidationResults.Any();
+            IsPerformanceMeasureSectionComplete = IsBasicsSectionComplete;
 
-            var efValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList())
+            var expectedFundingValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList())
                 .GetValidationResults();
-            IsExpectedFundingSectionComplete = !efValidationResults.Any();
+            IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
 
             var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
             var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();

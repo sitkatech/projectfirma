@@ -188,7 +188,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCreateSectionExpectedAccomplishments : ProjectCreateSection
     {
         private ProjectCreateSectionExpectedAccomplishments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionExpectedAccomplishments Instance = new ProjectCreateSectionExpectedAccomplishments(6, @"ExpectedAccomplishments", @"Expected Accomplishments", 60, true, 3);
+        public static readonly ProjectCreateSectionExpectedAccomplishments Instance = new ProjectCreateSectionExpectedAccomplishments(6, @"ExpectedAccomplishments", @"Expected Accomplishments", 60, false, 3);
     }
 
     public partial class ProjectCreateSectionReportedAccomplishments : ProjectCreateSection

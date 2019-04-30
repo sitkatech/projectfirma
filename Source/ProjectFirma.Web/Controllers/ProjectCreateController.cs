@@ -375,7 +375,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(performanceMeasureExpecteds, allPerformanceMeasureExpecteds, allPerformanceMeasureExpectedSubcategoryOptions, project);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
             return GoToNextSection(viewModel, project,ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName);
         }
 
@@ -1384,9 +1384,9 @@ namespace ProjectFirma.Web.Controllers
             return Redirect(nextSection);
         }
 
-        private void DeletePerformanceMeasureActuals(Project project)
+        private static void DeletePerformanceMeasureActuals(Project project)
         {
-            foreach (var performanceMeasureActual in project.PerformanceMeasureActuals)
+            foreach (var performanceMeasureActual in project.PerformanceMeasureActuals.ToList())
             {
                 performanceMeasureActual.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
