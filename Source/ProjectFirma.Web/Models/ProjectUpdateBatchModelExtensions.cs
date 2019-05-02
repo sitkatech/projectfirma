@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectUpdateBatchModelExtensions
     {
-        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.InEditableState() && projectUpdateBatch.IsPassingAllValidationRules();
+        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.InEditableState() && projectUpdateBatch.IsPassingAllValidationRules() && ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
         public static bool IsReadyToApprove(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.IsPassingAllValidationRules();
 
