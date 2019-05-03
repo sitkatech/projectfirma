@@ -21,6 +21,7 @@
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectUpdate.Instructions
 
@@ -58,7 +59,7 @@
     </style>
 }
 
-<p>
+@*<p>
     This @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Update wizard is used to submit annual @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() updates. All @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized()
     in the Planning/Design, Implementation, or Post-Implementation stage are required to submit annual updates.
     @Html.LinkWithFieldDefinitionFor(ViewDataTyped.FieldDefinitionForProjectStage, String.Format("View {0} Definitions", ViewDataTyped.FieldDefinitionForProjectStage.GetFieldDefinitionLabel()), LabelWithSugarForExtensions.DefaultPopupWidth, new List<string> { "fieldDefinitionLink" })
@@ -71,9 +72,17 @@
     <li><strong>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</strong> <i>You must enter an accomplishment value for at least one @MultiTenantHelpers.GetPerformanceMeasureName()per year (or indicate you have no accomplishments)</i></li>
     <li><strong>Expenditures:</strong> <i>You must enter at least one Expenditure per year (if you spent nothing, enter a $0 expenditure)</i></li>
     <li><strong>Budgets:</strong> <i>You must enter @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() budgets</i></li>
-</ul>
-<p>In order to submit an update, all required information must be provided. You will see some icons next to some pages – here is what they mean:</p>
+</ul>*@
+
+    <div>
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.InstructionsViewPageContentViewData); }
+    </div>
+
+<p><strong>List of icons and what they mean:</strong></p>
 <ul style="list-style-type: none; padding: 0">
+    <li class="iconRow">
+        <div class="iconDefinition"><span class="requiredFieldIcon glyphicon glyphicon-flash" title="Required"></span></div> Required field
+    </li>
     <li class="iconRow">
         <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this update)
     </li>
@@ -83,12 +92,13 @@
     <li class="iconRow">
         <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)</div> Required information has been provided and the page is complete
     </li>
+    <li class="iconRow">
+        <div class="iconDefinition"><span class="helpicon glyphicon glyphicon-question-sign" title="Help"></span></div> Click to see field-specific help
+    </li>
 </ul>
 
 <p>Submitting this update will notify the reviewer. Your updates will be approved or returned to you for corrections/clarifications. The official @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() record will not be modified until the update is approved.</p>
-<p>
-    Click the <span class="helpicon glyphicon glyphicon-question-sign blue" title="Help"></span> icon to view field-specific help, and to see the reporting guidance for a specific @MultiTenantHelpers.GetPerformanceMeasureName(). You can also see this same guidance on the Detail pages available from the list of  <a href="@ViewDataTyped.PerformanceMeasuresUrl" target="_blank">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>.
-</p>
+
 <p>
     If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).
 </p>
