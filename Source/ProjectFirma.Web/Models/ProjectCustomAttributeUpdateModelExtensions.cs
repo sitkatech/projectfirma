@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirmaModels.Models
 {
@@ -44,10 +45,11 @@ namespace ProjectFirmaModels.Models
                     return new ProjectCustomAttributeValue(projectCustomAttributeID, x.AttributeValue);
                 })
                 .ToList();
-            project.ProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
+            var existingProjectCustomAttributes = project.ProjectCustomAttributes.ToList();
+            existingProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
                 allProjectCustomAttributes,
                 (a, b) => a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
-            project.ProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
+            existingProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
                 .ToList()
                 .Merge(projectCustomAttributeValuesFromProjectUpdate,
                     allProjectCustomAttributeValues,
