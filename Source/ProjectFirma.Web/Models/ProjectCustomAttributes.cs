@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirmaModels.Models
 {
@@ -27,7 +28,7 @@ namespace ProjectFirmaModels.Models
         public void UpdateModel(Project project, Person currentPerson)
         {
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var existingProjectCustomAttributes = project.ProjectCustomAttributes;
+            var existingProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))
@@ -70,7 +71,7 @@ namespace ProjectFirmaModels.Models
         public void UpdateModel(ProjectUpdate projectUpdate, Person currentPerson)
         {
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates;
+            var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))
