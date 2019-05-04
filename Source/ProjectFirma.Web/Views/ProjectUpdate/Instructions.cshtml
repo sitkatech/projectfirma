@@ -29,6 +29,10 @@
 @section JavascriptAndStylesContent
 {
     <style type="text/css">
+        .instructionsIconList {
+            list-style-type: none;
+            padding: 0;}
+
         .iconDefinition {
             width: 40px;
             text-align: center;
@@ -40,11 +44,6 @@
             padding: 4px 4px 4px 0;
         }
 
-        .instructionList li {
-            padding: 2px 2px 2px 0;
-        }
-
-
         .glyphicon-exclamation-sign {
             color: #f0ad4e;
         }
@@ -53,8 +52,9 @@
             color: green;
         }
 
-        #projectWizardContent
-        .glyphicon-flag {
+        #projectWizardContent .glyphicon-flag
+
+        {
             color: grey;
         }
     </style>
@@ -65,7 +65,7 @@
     </div>
 <br/>
 <p><strong>List of icons and what they mean:</strong></p>
-<ul style="list-style-type: none; padding: 0">
+<ul class="instructionsIconList">
     <li class="iconRow">
         <div class="iconDefinition">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</div> Required field
     </li>
