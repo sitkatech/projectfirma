@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Models
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
@@ -59,29 +60,14 @@
     </style>
 }
 
-@*<p>
-    This @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Update wizard is used to submit annual @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() updates. All @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized()
-    in the Planning/Design, Implementation, or Post-Implementation stage are required to submit annual updates.
-    @Html.LinkWithFieldDefinitionFor(ViewDataTyped.FieldDefinitionForProjectStage, String.Format("View {0} Definitions", ViewDataTyped.FieldDefinitionForProjectStage.GetFieldDefinitionLabel()), LabelWithSugarForExtensions.DefaultPopupWidth, new List<string> { "fieldDefinitionLink" })
-</p>
-
-<p>The various aspects of a @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() that are available for update can be seen on the left. Several of these sections are optional, but others are required:</p>
-<ul class="instructionList">
-    <li><strong>Basics:</strong> <i>You must enter the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s start and completion dates</i></li>
-    <li><strong>Location - Simple:</strong> <i>You must input your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s location via an interactive map or provide a short location description </i></li>
-    <li><strong>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized():</strong> <i>You must enter an accomplishment value for at least one @MultiTenantHelpers.GetPerformanceMeasureName()per year (or indicate you have no accomplishments)</i></li>
-    <li><strong>Expenditures:</strong> <i>You must enter at least one Expenditure per year (if you spent nothing, enter a $0 expenditure)</i></li>
-    <li><strong>Budgets:</strong> <i>You must enter @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() budgets</i></li>
-</ul>*@
-
     <div>
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.InstructionsViewPageContentViewData); }
     </div>
-
+<br/>
 <p><strong>List of icons and what they mean:</strong></p>
 <ul style="list-style-type: none; padding: 0">
     <li class="iconRow">
-        <div class="iconDefinition"><span class="requiredFieldIcon glyphicon glyphicon-flash" title="Required"></span></div> Required field
+        <div class="iconDefinition">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</div> Required field
     </li>
     <li class="iconRow">
         <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this update)
@@ -97,7 +83,7 @@
     </li>
 </ul>
 
-<p>Submitting this update will notify the reviewer. Your updates will be approved or returned to you for corrections/clarifications. The official @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() record will not be modified until the update is approved.</p>
+<p>Submitting this update will notify the reviewer. Your updates will be approved or returned to you for corrections/clarifications. The official @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record will not be modified until the update is approved.</p>
 
 <p>
     If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).

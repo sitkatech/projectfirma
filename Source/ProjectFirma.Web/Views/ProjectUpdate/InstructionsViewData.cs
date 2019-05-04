@@ -32,16 +32,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class InstructionsViewData : ProjectUpdateViewData
     {
         public string PerformanceMeasuresUrl { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectStage { get; }
         public ViewPageContentViewData InstructionsViewPageContentViewData { get; }
 
         public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), "Instructions")
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
-            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
-            FieldDefinitionForProjectStage = FieldDefinitionEnum.ProjectStage.ToType();
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
         }
     }

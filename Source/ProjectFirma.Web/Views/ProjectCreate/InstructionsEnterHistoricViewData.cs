@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly bool IsNewProjectCreate;
 
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
+       
+
         public InstructionsEnterHistoricViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
             PageTitle = $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
