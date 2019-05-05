@@ -66,7 +66,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
-            HtmlPageTitle += $" - {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates";
             EntityName = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update";
             PageTitle = $"Update: {Project.GetDisplayName()}";
             ProjectUpdateMyProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());

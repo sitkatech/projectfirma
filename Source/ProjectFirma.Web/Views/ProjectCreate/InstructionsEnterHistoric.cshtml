@@ -1,29 +1,37 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="InstructionsEnterHistoric.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="InstructionsEnterHistoric.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectCreate.InstructionsEnterHistoric
 
 @section JavascriptAndStylesContent
 {
     <style type="text/css">
+        .instructionsIconList {
+            list-style-type: none;
+            padding: 0;}
+
         .iconDefinition {
             width: 40px;
             text-align: center;
@@ -35,8 +43,18 @@ Source code is available upon request via <support@sitkatech.com>.
             padding: 4px 4px 4px 0;
         }
 
-        .instructionList li {
-            padding: 2px 2px 2px 0;
+        .glyphicon-exclamation-sign {
+            color: #f0ad4e;
+        }
+
+        .glyphicon-ok {
+            color: green;
+        }
+
+        #projectWizardContent .glyphicon-flag
+
+        {
+            color: grey;
         }
     </style>
 }
@@ -44,6 +62,29 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.InstructionsViewPageContentViewData); }
 </div>
+<br/>
+<p><strong>List of icons and what they mean:</strong></p>
+<ul class="instructionsIconList">
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</div> Required field
+    </li>
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoNotProvidedIcon)</div> Required information has not been completely provided (you can't submit this update)
+    </li>
+    <li class="iconRow">
+        <div class="iconDefinition">@Html.Raw(ProjectWizardComponents.RequiredInfoOkSubmitReadyIcon)</div> Required information has been provided and the page is complete
+    </li>
+    <li class="iconRow">
+        <div class="iconDefinition"><span class="helpicon glyphicon glyphicon-question-sign" title="Help"></span></div> Click to see field-specific help
+    </li>
+</ul>
+
+<p>Submitting this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() record for an existing @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() will notify the reviewer. Your submission will be approved or returned to you for corrections/clarifications.</p>
+
+<p>
+    If you have questions or run into problems, please @(ModalDialogFormHelper.ModalDialogFormLink("Request Support", ViewDataTyped.RequestSupportUrl, "request support", 800, "Submit Request", "Cancel", new List<string>(), null, null)).
+</p>
+
 <hr />
 <div class="pull-right">
     @if (ViewDataTyped.ProjectStateIsValidInWizard || ViewDataTyped.Project == null)

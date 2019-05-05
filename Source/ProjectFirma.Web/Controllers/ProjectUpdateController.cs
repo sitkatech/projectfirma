@@ -216,7 +216,8 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new InstructionsViewData(CurrentPerson, projectUpdateBatch, updateStatus);
+            var firmaPage = FirmaPageTypeEnum.ProjectUpdateInstructions.GetFirmaPage();
+            var viewData = new InstructionsViewData(CurrentPerson, projectUpdateBatch, updateStatus, firmaPage);
             return RazorView<Instructions, InstructionsViewData>(viewData);
         }
 

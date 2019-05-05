@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -36,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public readonly ViewPageContentViewData InstructionsViewPageContentViewData;
         public InstructionsProposalViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentPerson, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null)))
         {
-            PageTitle = "Propose Project";
+            PageTitle = $"Propose {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
             InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
