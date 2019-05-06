@@ -19,7 +19,8 @@ namespace ProjectFirma.Api.Controllers
         public IHttpActionResult Get(string apiKey)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
-            var result = _databaseEntities.Projects.ToList().Select(x => new ProjectDto(x)).ToList();
+            var projects = _databaseEntities.Projects.ToList().Where(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities"));
+            var result = projects.Where(x => x.ProjectCustomAttributes.Single(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities").ProjectCustomAttributeValues.Single().AttributeValue == "Yes").Select(x => new ProjectDto(x)).ToList();
             return Ok(result);
         }
 
