@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -20,6 +21,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPost]
         public IHttpActionResult PostPerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasureType = MapPerformanceMeasureTypeNameToPerformanceMeasureType(performanceMeasureDto.PerformanceMeasureTypeName);
             var performanceMeasureDataSourceType = MapPerformanceMeasureDataSourceTypeNameToPerformanceMeasureDataSourceType(performanceMeasureDto.PerformanceMeasureDataSourceTypeName);
             var measurementUnitType = MapMeasurementUnitTypeNameToMeasurementUnitType(performanceMeasureDto.MeasurementUnitTypeName);
@@ -100,6 +102,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -142,6 +145,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasureCriticalDefinitions(string apiKey, [FromBody] PerformanceMeasureCriticalDefinitionsDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -159,6 +163,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasureImportance(string apiKey, [FromBody] PerformanceMeasureImportanceDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -202,6 +207,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasureAdditionalInformation(string apiKey, [FromBody] PerformanceMeasureAdditionalInformationDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -219,6 +225,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasureProjectReporting(string apiKey, [FromBody] PerformanceMeasureProjectReportingDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -236,6 +243,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpPut]
         public IHttpActionResult UpdatePerformanceMeasureSubcategories(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == performanceMeasureDto.PerformanceMeasureID);
             if (performanceMeasure == null)
             {
@@ -306,6 +314,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpGet]
         public IHttpActionResult Get(string apiKey)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var result = _databaseEntities.PerformanceMeasures.ToList().Select(x => new PerformanceMeasureDto(x)).ToList();
             return Ok(result);
         }
@@ -314,6 +323,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpGet]
         public IHttpActionResult Get(string apiKey, int id)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
             {
@@ -328,6 +338,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetReportedValues(string apiKey, int id)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
             {
@@ -346,6 +357,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpGet]
         public IHttpActionResult GetExpectedValues(string apiKey, int id)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
             {
@@ -363,6 +375,7 @@ namespace ProjectFirma.Api.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(string apiKey, int id)
         {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var performanceMeasure = _databaseEntities.PerformanceMeasures.SingleOrDefault(x => x.PerformanceMeasureID == id);
             if (performanceMeasure == null)
             {

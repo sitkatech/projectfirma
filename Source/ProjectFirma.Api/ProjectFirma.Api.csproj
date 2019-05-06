@@ -143,6 +143,8 @@
     <Compile Include="Controllers\PerformanceMeasureSubcategoryDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
+    <Compile Include="Controllers\ProjectDto.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
