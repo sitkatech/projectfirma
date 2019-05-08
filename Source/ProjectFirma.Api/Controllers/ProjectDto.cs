@@ -26,6 +26,9 @@ namespace ProjectFirma.Api.Controllers
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
             LeadEntities = project.ProjectGeospatialAreas.Any() ? string.Join(", ", leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x)) : null;
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
+            EstimatedTotalCost = project.EstimatedTotalCost;
+            SecuredFunding = project.GetSecuredFunding();
+            UnfundedNeed = project.UnfundedNeed();
         }
 
         public ProjectDto()
@@ -48,5 +51,11 @@ namespace ProjectFirma.Api.Controllers
 
         public string TaxonomyLeafs { get; set; }
         public string DetailUrl { get; set; }
+        public decimal? UnfundedNeed { get; set; }
+
+        public decimal? SecuredFunding { get; set; }
+
+        public decimal? EstimatedTotalCost { get; set; }
+
     }
 }
