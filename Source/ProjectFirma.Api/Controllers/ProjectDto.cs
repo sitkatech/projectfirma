@@ -15,11 +15,11 @@ namespace ProjectFirma.Api.Controllers
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            TaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName;
-            var taxonomyLeafs = new List<string> {project.TaxonomyLeaf.TaxonomyLeafName};
+            TaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName();
+            var taxonomyLeafs = new List<string> {project.TaxonomyLeaf.GetDisplayName()};
             if (project.SecondaryProjectTaxonomyLeafs.Any())
             {
-                taxonomyLeafs.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.TaxonomyLeafName));
+                taxonomyLeafs.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.GetDisplayName()));
             }
             TaxonomyLeafs = string.Join(", ", taxonomyLeafs.OrderBy(x => x));
             Classifications = project.ProjectClassifications.Any() ? string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x)) : null;
