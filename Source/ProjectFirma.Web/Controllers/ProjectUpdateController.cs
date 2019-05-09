@@ -2505,6 +2505,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
 
             var viewModel = new OrganizationsViewModel(projectUpdateBatch);
 
@@ -2518,13 +2522,15 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
 
             if (!ModelState.IsValid)
             {
                 return ViewOrganizations(projectUpdateBatch, viewModel);
             }
-
-            
 
             HttpRequestStorage.DatabaseEntities.ProjectOrganizationUpdates.Load();
             var projectOrganizationUpdates = projectUpdateBatch.ProjectOrganizationUpdates.ToList();
