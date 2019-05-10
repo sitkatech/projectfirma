@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectExcelSpec(IEnumerable<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
+            AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.ProjectID);
             AddColumn(FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel(), x => x.ProjectName);
             AddColumn(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.GetFullNameLastFirst());
             AddColumn(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().GetFieldDefinitionLabel(), x => x.GetPrimaryContact()?.Email);
