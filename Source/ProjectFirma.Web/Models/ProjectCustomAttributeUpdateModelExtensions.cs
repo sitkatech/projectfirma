@@ -48,7 +48,7 @@ namespace ProjectFirmaModels.Models
             var existingProjectCustomAttributes = project.ProjectCustomAttributes.ToList();
             existingProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
                 allProjectCustomAttributes,
-                (a, b) => a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
+                (a, b) => a.ProjectID == b.ProjectID && a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
             existingProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
                 .ToList()
                 .Merge(projectCustomAttributeValuesFromProjectUpdate,
