@@ -275,7 +275,7 @@ namespace ProjectFirma.Web.Common
         {
             if (UsesTechnicalAssistanceParameters())
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Paramters",
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Parameters",
                     ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",
                         SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.TechnicalAssistanceParameters()),
                         "Technical Assistance Parameters", 800,
