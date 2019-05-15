@@ -36,6 +36,7 @@
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
+@using ProjectFirma.Web.Views.TechnicalAssistanceRequest
 @using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 @inherits ProjectFirma.Web.Views.Project.Detail
 
@@ -49,6 +50,7 @@
     <script src="@Url.Content("~/Views/ProjectFundingSourceRequest/ProjectFundingSourceRequestController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/TechnicalAssistanceRequest/TechnicalAssistanceRequestsController.js")" type="text/javascript"></script>
     <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
     <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
@@ -255,6 +257,32 @@
                         }
                     </div>
                 </div>
+                @* Technical Assistance Panel for Idaho *@
+                @if (ViewDataTyped.Project.TenantID == 9)
+                {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                                Technical Assistance Requests
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (ViewDataTyped.Project.IsProposal())
+                            {
+                                <p class="systemText">Technical Assistance Requests are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                            }
+                            else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
+                            {
+                                <p class="systemText">Technical Assistance Requests are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
+                            }
+                            else
+                            {
+                                TechnicalAssistanceRequestsDetail.RenderPartialView(Html, ViewDataTyped.TechnicalAssistanceRequestDetailViewData);
+                            }
+                        </div>
+                    </div>
+                }
 
                 <h2 class="sectionHeader">Funding</h2>
                 <div class="panel panelFirma">

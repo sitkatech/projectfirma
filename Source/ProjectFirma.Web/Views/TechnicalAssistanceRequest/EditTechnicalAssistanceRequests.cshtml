@@ -1,0 +1,204 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditTechnicalAssistanceRequests.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.TechnicalAssistanceRequest.EditTechnicalAssistanceRequests
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    angular.bootstrap(jQuery("#EditTechnicalAssistanceRequestsApp"), ["ProjectFirmaApp"]);
+
+    jQuery(".selectpicker").selectpicker("refresh");
+    jQuery(".modal").on("hidden.bs.modal",
+        function () {
+            jQuery(".bootstrap-select.open").removeClass("open");
+        });
+    // ]]>
+</script>
+
+<style>
+    .panel-heading a.collapsePanel:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+    }
+
+    .panel-heading a.collapsePanel.collapsed:after {
+        content: "\e080";
+    }
+
+    .modal {
+        overflow: scroll;
+    }
+
+    #EditTechnicalAssistanceRequestsApp table tbody tr:nth-child(4n+1), #EditTechnicalAssistanceRequestsApp table tbody tr:nth-child(4n+2) {
+        background: #f9f9f9;
+    }
+
+    .notesTextarea {
+        max-height: 60px;
+    }
+
+    tr.first, tr.first td {
+        border-bottom: none;
+    }
+
+    tr.last tr.last td {
+        border-top: none;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+
+<div id="EditTechnicalAssistanceRequestsApp" ng-controller="TechnicalAssistanceRequestsController">
+    <div class="form-group">
+        <label class="control-label">Technical Assistance Fiscal Year to Add:</label>
+        <div class="input-group">
+            <select ng-model="YearToAdd"
+                    class="selectpicker"
+                    data-live-search="true"
+                    data-container="body"
+                    title="Select a Year to Add"
+                    data-width="100%">
+                <option value="" disabled selected>Select a Year to Add</option>
+                <option ng-repeat="yearToAdd in getAddableFiscalYearStrings()"
+                        value="{{yearToAdd.CalendarYear}}"
+                        ng-selected="YearToAdd == yearToAdd.CalendarYear"
+                        ng-bind="yearToAdd.CalendarYearDisplay"
+                        data-tokens="{{yearToAdd.CalendarYearDisplay}}"></option>
+            </select>
+            <span class="input-group-btn">
+                <button class="btn btn-firma" type="button" ng-click="addRow()">
+                    <span class="glyphicon glyphicon-plus"></span> Add
+                </button>
+            </span>
+        </div>
+    </div>
+    <div style="max-height: 400px; overflow-y: scroll">
+        <div class="panel-group" id="accordion">
+            <div ng-repeat="reportedYear in getReportedYears()">
+                <div class="panel panelFirma" style="margin: 10px 10px 0;">
+                    <div class="panel-heading panelTitle">
+                        <a data-toggle="collapse" data-target="#collapse{{$index}}" href="#collapse{{$index}}" class="collapsePanel">
+                            <span ng-bind="reportedYear"></span>
+                        </a>
+                    </div>
+                    <div id="collapse{{$index}}" class="panel-collapse">
+                        <div class="panel-body" style="padding: 0 30px;">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Fiscal Year</th>
+                                    <th>Assistance Type</th>
+                                    <th>Assigned Person</th>
+                                    <th>Hours Requested</th>
+                                    <th>Hours Allocated</th>
+                                    <th>Hours Provided</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="request in getGroupedTechnicalAssistanceRequests(reportedYear)" class="first">
+                                        <td style="width: 50px">
+                                            <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(request)" style="cursor: pointer"></span>
+                                        </td>
+                                        <td style="width: 120px" ng-bind="reportedYear"> 
+                                        </td>
+                                        <td>
+                                            <select class="form-control"
+                                                ng-model="request.TechnicalAssistanceTypeID">
+                                                <option ng-repeat="technicalAssistanceType in technicalAssistanceTypes"
+                                                        value="{{technicalAssistanceType.TechnicalAssistanceTypeID}}"
+                                                        ng-selected="technicalAssistanceType.TechnicalAssistanceTypeID == request.TechnicalAssistanceTypeID">
+                                                    {{technicalAssistanceType.TechnicalAssistanceTypeDisplayName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control"
+                                                ng-model="request.PersonID">
+                                                <option ng-repeat="person in personSimples"
+                                                        value="{{person.PersonID}}"
+                                                        ng-selected="person.PersonID == request.PersonID">
+                                                    {{person.DisplayName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <input class="form-control" style="text-align: right"
+                                                   ng-model="request.HoursRequested" />
+                                        </td>
+                                        <td style="width: 100px">
+                                            <input class="form-control" style="text-align: right"
+                                                   ng-model="request.HoursAllocated" />
+                                        </td>
+                                        <td style="width: 100px">
+                                            <input class="form-control" style="text-align: right"
+                                                   ng-model="request.HoursProvided" />
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat-end class="last">
+                                        <td></td>
+                                        <td>Notes</td>
+                                        <td colspan="5" style="padding-top: 15px;">
+                                            <textarea class="form-control notesTextarea" ng-model="request.Notes"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" class="text-right">
+                                            <button class="btn btn-xs btn-firma" type="button" ng-click="addTechnicalAssistanceRequestToYear(reportedYear)">
+                                                <span class="glyphicon glyphicon-plus"></span> Add Technical Assistance Request
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="request in AngularModel.TechnicalAssistanceRequestSimples | orderBy:'TechnicalAssistanceRequestID'">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].TechnicalAssistanceRequestID).ToString().Replace("0", "{{$index}}")" value="{{request.TechnicalAssistanceRequestID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{request.ProjectID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].FiscalYear).ToString().Replace("0", "{{$index}}")" value="{{request.FiscalYear}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].PersonID).ToString().Replace("0", "{{$index}}")" value="{{request.PersonID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].TechnicalAssistanceTypeID).ToString().Replace("0", "{{$index}}")" value="{{request.TechnicalAssistanceTypeID}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].HoursRequested).ToString().Replace("0", "{{$index}}")" value="{{request.HoursRequested}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].HoursAllocated).ToString().Replace("0", "{{$index}}")" value="{{request.HoursAllocated}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].HoursProvided).ToString().Replace("0", "{{$index}}")" value="{{request.HoursProvided}}">
+            <input type="hidden" name="@Html.NameFor(x => x.TechnicalAssistanceRequestSimples[0].Notes).ToString().Replace("0", "{{$index}}")" value="{{request.Notes}}">
+        </div>
+    }
+</div>

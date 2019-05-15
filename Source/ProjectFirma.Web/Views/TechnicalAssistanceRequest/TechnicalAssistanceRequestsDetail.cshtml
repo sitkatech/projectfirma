@@ -1,0 +1,63 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="TechnicalAssistanceRequestDetail.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.TechnicalAssistanceRequest.TechnicalAssistanceRequestsDetail
+<div class="table-responsive">
+
+    @if (ViewDataTyped.TechnicalAssistanceRequests.Any())
+    {
+        <div style="overflow-x: auto">
+            <table class="table table-striped table-condensed table-hover">
+                <tr>
+                    <th>Fiscal Year</th>
+                    <th>Assigned Person</th>
+                    <th>Type</th>
+                    <th>Hours Requested</th>
+                    <th>Hours Allocated</th>
+                    <th>Hours Provided</th>
+                </tr>
+                @foreach (var technicalAssistanceRequest in ViewDataTyped.TechnicalAssistanceRequests)
+                {
+                    <tr>
+                        <td>@technicalAssistanceRequest.FiscalYear</td>
+                        <td>@(technicalAssistanceRequest.Person != null ? technicalAssistanceRequest.Person.GetFullNameFirstLast() : "None Selected")</td> 
+                        <td>@technicalAssistanceRequest.TechnicalAssistanceType.TechnicalAssistanceTypeDisplayName</td>
+                        <td>@technicalAssistanceRequest.HoursRequested</td>
+                        <td>@technicalAssistanceRequest.HoursAllocated</td>
+                        <td>@technicalAssistanceRequest.HoursProvided</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <th>Notes</th>
+                        <td colspan="4">@technicalAssistanceRequest.Notes</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="systemText">No technical assistance requests for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+    }
+</div>
