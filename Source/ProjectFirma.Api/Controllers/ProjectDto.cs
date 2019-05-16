@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeoJSON.Net.Feature;
+using LtInfo.Common.GeoJson;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Controllers
@@ -21,14 +23,18 @@ namespace ProjectFirma.Api.Controllers
             {
                 taxonomyLeafs.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.GetDisplayName()));
             }
-            TaxonomyLeafs = string.Join(", ", taxonomyLeafs.OrderBy(x => x));
-            Classifications = project.ProjectClassifications.Any() ? string.Join(", ", project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x)) : null;
+            TaxonomyLeafs = taxonomyLeafs.OrderBy(x => x).ToList();
+            Classifications = project.ProjectClassifications.Any() ? project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x).ToList() : new List<string>();
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
-            LeadEntities = project.ProjectGeospatialAreas.Any() ? string.Join(", ", leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x)) : null;
+            LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.EstimatedTotalCost;
             SecuredFunding = project.GetSecuredFunding();
             UnfundedNeed = project.UnfundedNeed();
+            if (project.ProjectLocationPoint != null)
+            {
+                LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
+            }
         }
 
         public ProjectDto()
@@ -43,19 +49,20 @@ namespace ProjectFirma.Api.Controllers
         public string TaxonomyTrunk { get; set; }
         public int? ImplementationStartYear { get; set; }
         public string PrimaryContact { get; set; }
-        public string LeadEntities { get; set; }
+        public List<string> LeadEntities { get; set; }
 
-        public string Classifications { get; set; }
+        public List<string> Classifications { get; set; }
 
         public int? CompletionYear { get; set; }
 
-        public string TaxonomyLeafs { get; set; }
+        public List<string> TaxonomyLeafs { get; set; }
         public string DetailUrl { get; set; }
         public decimal? UnfundedNeed { get; set; }
 
         public decimal? SecuredFunding { get; set; }
 
         public decimal? EstimatedTotalCost { get; set; }
+        public Feature LocationPointAsGeoJsonFeature { get; set; }
 
     }
 }
