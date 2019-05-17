@@ -71,6 +71,7 @@ using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimp
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
 using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
+using TechnicalAssistanceRequestUpdate = ProjectFirmaModels.Models.TechnicalAssistanceRequestUpdate;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -86,6 +87,8 @@ namespace ProjectFirma.Web.Controllers
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
         public const string PerformanceMeasureExpectedSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/PerformanceMeasureExpectedValuesSummary.cshtml";
+        public const string TechnicalAssistanceRequestPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/TechnicalAssistanceRequestsSummary.cshtml";
+
         //public const string ProjectDocumentsPartialViewPath = "~/Views/Shared/ProjectDocument/ProjectDocumentsDetail.cshtml";
 
         private static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(Project project)
@@ -1485,33 +1488,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public HtmlDiffContainer DiffTechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            return DiffTechnicalAssistanceRequestsImpl(project);
-        }
-
-        private HtmlDiffContainer DiffTechnicalAssistanceRequestsImpl(Project project)
-        {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-            var performanceMeasureExpectedValuesOriginal = new List<TechnicalAssistanceRequest>(project.TechnicalAssistanceRequests);
-            //            var performanceMeasureExpectedValuesUpdated = new List<TechnicalAssistanceRequest>(projectUpdateBatch.TechnicalAssistanceRequests);
-            //
-            //            var originalHtml = GeneratePartialViewForOriginalExpectedPerformanceMeasures(
-            //                performanceMeasureExpectedValuesOriginal,
-            //                performanceMeasureExpectedValuesUpdated);
-            //
-            //            var updatedHtml = GeneratePartialViewForModifiedExpectedPerformanceMeasures(
-            //                performanceMeasureExpectedValuesOriginal,
-            //                performanceMeasureExpectedValuesUpdated);
-            var originalHtml = "<div></div>";
-            var updatedHtml = "<div>I am the difference!</div>"; // TODO: obviously...
-
-            return new HtmlDiffContainer(originalHtml, updatedHtml);
-        }
-
-        [HttpGet]
         [ProjectUpdateAdminFeatureWithProjectContext]
         public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -2710,7 +2686,7 @@ namespace ProjectFirma.Web.Controllers
 
             var isExpectedPerformanceMeasuresUpdated = DiffExpectedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
 
-            var isTechnicalAssistanceRequestsUpdated = projectUpdateBatch.TenantID == Tenant.IdahoAssociatonOfSoilConservationDistricts.TenantID && DiffTechnicalAssistanceRequestsImpl(projectUpdateBatch.Project).HasChanged;
+            var isTechnicalAssistanceRequestsUpdated = projectUpdateBatch.TenantID == Tenant.IdahoAssociatonOfSoilConservationDistricts.TenantID;
 
             return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,

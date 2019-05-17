@@ -31,8 +31,7 @@ namespace ProjectFirmaModels.Models
         [Required]
         public int FiscalYear { get; set; }
         public int? PersonID { get; set; }
-        [Required]
-        public int TechnicalAssistanceTypeID { get; set; }
+        public int? TechnicalAssistanceTypeID { get; set; }
         public int? HoursRequested { get; set; }
         public int? HoursAllocated { get; set; }
         public int? HoursProvided { get; set; }

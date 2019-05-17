@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         {
             if (TechnicalAssistanceRequestSimples != null)
             {
-                var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples.Select(x => new ProjectFirmaModels.Models.TechnicalAssistanceRequest(x.TechnicalAssistanceRequestID, x.ProjectID, x.FiscalYear, x.PersonID.Value, x.TechnicalAssistanceTypeID, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
+                var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples.Select(x => new ProjectFirmaModels.Models.TechnicalAssistanceRequest(x.TechnicalAssistanceRequestID, x.ProjectID, x.FiscalYear, x.PersonID, x.TechnicalAssistanceTypeID.Value, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
                 var databaseEntities = HttpRequestStorage.DatabaseEntities;
                 currentTechnicalAssistanceRequests.Merge(updatedTechnicalAssistanceRequests, allTechnicalAssistanceRequests, 
                     (x, y) => x.TechnicalAssistanceRequestID == y.TechnicalAssistanceRequestID,
@@ -81,6 +81,9 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
+            var reportedYears = TechnicalAssistanceRequestSimples.Select(x => x.FiscalYear).Distinct().OrderByDescending(x => x).ToList();
+            var reportedYearsMissingData = reportedYears?.Select(x => x).Where(x => TechnicalAssistanceRequestSimples.Any(y => y.FiscalYear == x && y.TechnicalAssistanceTypeID == null)).ToList();
+            reportedYearsMissingData?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows missing a value for Assistance Type.")));
             return errors;
         }
     }

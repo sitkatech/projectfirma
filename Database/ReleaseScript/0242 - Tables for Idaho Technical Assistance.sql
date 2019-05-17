@@ -47,6 +47,3 @@ create table dbo.TechnicalAssistanceRequestUpdate (
 alter table dbo.ProjectUpdateBatch
 add TechnicalAssistanceRequestsComment varchar(1000) null
 go
-alter table dbo.ProjectUpdateBatch
-add TechnicalAssistanceRequestsDiffLog varchar(max) null
-go

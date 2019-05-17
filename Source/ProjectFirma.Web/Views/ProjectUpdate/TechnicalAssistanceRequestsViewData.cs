@@ -32,15 +32,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public TechnicalAssistanceRequestsViewDataForAngular ViewDataForAngular { get; }
         public readonly SectionCommentsViewData SectionCommentsViewData;
         public readonly string RefreshUrl;
-        public readonly string DiffUrl;
-
 
         public TechnicalAssistanceRequestsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = new TechnicalAssistanceRequestsViewDataForAngular(projectUpdateBatch.ProjectID, technicalAssistanceTypes, fiscalYearStrings, personSimples);
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.TechnicalAssistanceRequestsComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshTechnicalAssistanceRequests(projectUpdateBatch.Project));
-//            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffTechnicalAssistanceRequests(projectUpdateBatch.Project));
         }
     }
 

@@ -110,14 +110,14 @@
                             <span ng-bind="reportedYear"></span>
                         </a>
                     </div>
-                    <div id="collapse{{$index}}" class="panel-collapse">
+                    <div id="collapse{{$index}}" class="panel-collapse collapse in">
                         <div class="panel-body" style="padding: 0 30px;">
                             <table>
                                 <thead>
                                 <tr>
                                     <th></th>
                                     <th>Fiscal Year</th>
-                                    <th>Assistance Type</th>
+                                    <th>@Html.LabelWithRequiredTagFor("Assistance Type")</th>
                                     <th>Assigned Person</th>
                                     <th>Hours Requested</th>
                                     <th>Hours Allocated</th>

@@ -43,7 +43,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.NoExpendituresToReportExplanation).HasColumnName(@"NoExpendituresToReportExplanation").HasColumnType("varchar").IsOptional();
             Property(x => x.ExpectedPerformanceMeasuresComment).HasColumnName(@"ExpectedPerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.TechnicalAssistanceRequestsComment).HasColumnName(@"TechnicalAssistanceRequestsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
-            Property(x => x.TechnicalAssistanceRequestsDiffLog).HasColumnName(@"TechnicalAssistanceRequestsDiffLog").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

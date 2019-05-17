@@ -47,7 +47,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string geospatialAreaComment, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string noExpendituresToReportExplanation, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string technicalAssistanceRequestsDiffLog) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string geospatialAreaComment, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string noExpendituresToReportExplanation, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
@@ -76,7 +76,6 @@ namespace ProjectFirmaModels.Models
             this.NoExpendituresToReportExplanation = noExpendituresToReportExplanation;
             this.ExpectedPerformanceMeasuresComment = expectedPerformanceMeasuresComment;
             this.TechnicalAssistanceRequestsComment = technicalAssistanceRequestsComment;
-            this.TechnicalAssistanceRequestsDiffLog = technicalAssistanceRequestsDiffLog;
         }
 
         /// <summary>
@@ -313,7 +312,6 @@ namespace ProjectFirmaModels.Models
         public string NoExpendituresToReportExplanation { get; set; }
         public string ExpectedPerformanceMeasuresComment { get; set; }
         public string TechnicalAssistanceRequestsComment { get; set; }
-        public string TechnicalAssistanceRequestsDiffLog { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 

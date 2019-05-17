@@ -20,10 +20,24 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 
+using LtInfo.Common.Models;
+
 namespace ProjectFirmaModels.Models
 {
     public partial class TechnicalAssistanceRequest : IAuditableEntity
     {
+        public TechnicalAssistanceRequest(TechnicalAssistanceRequestUpdate technicalAssistanceRequestUpdate)
+        {
+            TechnicalAssistanceRequestID = ModelObjectHelpers.NotYetAssignedID;
+            ProjectID = technicalAssistanceRequestUpdate.ProjectUpdateBatch.ProjectID;
+            FiscalYear = technicalAssistanceRequestUpdate.FiscalYear;
+            PersonID = technicalAssistanceRequestUpdate.PersonID;
+            TechnicalAssistanceTypeID = technicalAssistanceRequestUpdate.TechnicalAssistanceTypeID;
+            HoursRequested = technicalAssistanceRequestUpdate.HoursRequested;
+            HoursAllocated = technicalAssistanceRequestUpdate.HoursAllocated;
+            HoursProvided = technicalAssistanceRequestUpdate.HoursProvided;
+            Notes = technicalAssistanceRequestUpdate.Notes;
+        }
         public string GetAuditDescriptionString()
         {
             return $"Technical Assistance Request " + TechnicalAssistanceRequestID;
