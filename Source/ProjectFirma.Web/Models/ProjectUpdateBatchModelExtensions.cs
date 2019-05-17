@@ -116,6 +116,9 @@ namespace ProjectFirma.Web.Models
             // Custom attributes
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
+            // Technical Assistance Requests - for Idaho
+            TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
             return projectUpdateBatch;
         }
 
@@ -131,6 +134,15 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch;
         }
 
+        public static void DeleteProjectExternalLinkUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectExternalLinkUpdates = projectUpdateBatch.ProjectExternalLinkUpdates.ToList();
+            foreach (var projectNoteUpdate in projectExternalLinkUpdates)
+            {
+                projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static void DeleteProjectImageUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             var fileResources = projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResource).ToList();
@@ -140,12 +152,12 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void DeleteProjectExternalLinkUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteTechnicalAssistanceRequestsUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectExternalLinkUpdates = projectUpdateBatch.ProjectExternalLinkUpdates.ToList();
-            foreach (var projectNoteUpdate in projectExternalLinkUpdates)
+            var technicalAssistanceRequestUpdates = projectUpdateBatch.TechnicalAssistanceRequestUpdates.ToList();
+            foreach (var technicalAssistanceRequestUpdate in technicalAssistanceRequestUpdates)
             {
-                projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                technicalAssistanceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -437,7 +449,9 @@ namespace ProjectFirma.Web.Models
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
+            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests
+            )
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
             projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears,
@@ -456,7 +470,8 @@ namespace ProjectFirma.Web.Models
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
-                allProjectCustomAttributeValues);
+                allProjectCustomAttributeValues,
+                allTechnicalAssistanceRequests);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentPerson, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
         }
@@ -492,7 +507,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
+            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests)
         {
             // basics
             projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
@@ -554,6 +570,9 @@ namespace ProjectFirma.Web.Models
 
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
+
+            // Techincal Assistance Requests - for Idaho
+            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 
         public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)

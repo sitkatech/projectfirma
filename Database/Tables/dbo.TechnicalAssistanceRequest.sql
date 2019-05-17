@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TechnicalAssistanceRequest](
 	[TechnicalAssistanceRequestID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[FiscalYear] [int] NOT NULL,
 	[PersonID] [int] NULL,
@@ -33,3 +34,8 @@ ALTER TABLE [dbo].[TechnicalAssistanceRequest]  WITH CHECK ADD  CONSTRAINT [FK_T
 REFERENCES [dbo].[TechnicalAssistanceType] ([TechnicalAssistanceTypeID])
 GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequest] CHECK CONSTRAINT [FK_TechnicalAssistanceRequest_TechnicalAssistanceType_TechnicalAssistanceTypeID]
+GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequest]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssitanceRequest_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequest] CHECK CONSTRAINT [FK_TechnicalAssitanceRequest_Tenant_TenantID]

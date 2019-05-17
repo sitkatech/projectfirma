@@ -16,7 +16,8 @@ namespace ProjectFirma.Web.Models
 
         private static List<ProjectSectionSimple> GetProjectUpdateSectionsImpl(ProjectUpdateBatch projectUpdateBatch, List<ProjectUpdateSection> projectUpdateSections, ProjectUpdateStatus projectUpdateStatus, bool ignoreStatus)
         {
-            return projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), !ignoreStatus && x.IsComplete(projectUpdateBatch), projectUpdateStatus != null && x.SectionIsUpdated(projectUpdateStatus))).OrderBy(x => x.SortOrder).ToList();
+            var sections = projectUpdateSections.Select(x => new ProjectSectionSimple(x, x.GetSectionUrl(projectUpdateBatch.Project), !ignoreStatus && x.IsComplete(projectUpdateBatch), projectUpdateStatus != null && x.SectionIsUpdated(projectUpdateStatus))).OrderBy(x => x.SortOrder).ToList();
+            return sections;
         }
 
         public static List<ProjectSectionSimple> GetProjectCreateSections(this ProjectWorkflowSectionGrouping projectWorkflowSectionGrouping, Project project, bool ignoreStatus)
@@ -128,7 +129,13 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
-                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                    var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                    // Remove Technical Assistance Requests for all tenants except Idah
+                    if (!MultiTenantHelpers.UsesTechnicalAssistanceParameters())
+                    {
+                        sections = sections.Where(x => x.SectionDisplayName != ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName).ToList();
+                    }
+                    return sections;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

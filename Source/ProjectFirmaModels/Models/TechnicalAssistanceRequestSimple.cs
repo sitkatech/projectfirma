@@ -46,7 +46,7 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Constructors for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
         public TechnicalAssistanceRequestSimple(TechnicalAssistanceRequest technicalAssistanceRequest)
         {
@@ -59,6 +59,19 @@ namespace ProjectFirmaModels.Models
             this.HoursAllocated = technicalAssistanceRequest.HoursAllocated;
             this.HoursProvided = technicalAssistanceRequest.HoursProvided;
             this.Notes = technicalAssistanceRequest.Notes;
+        }
+
+        public TechnicalAssistanceRequestSimple(TechnicalAssistanceRequestUpdate technicalAssistanceRequestUpdate)
+        {
+            this.TechnicalAssistanceRequestID = technicalAssistanceRequestUpdate.TechnicalAssistanceRequestUpdateID;
+            this.ProjectID = technicalAssistanceRequestUpdate.ProjectUpdateBatch.ProjectID;
+            this.FiscalYear = technicalAssistanceRequestUpdate.FiscalYear;
+            this.PersonID = technicalAssistanceRequestUpdate.PersonID;
+            this.TechnicalAssistanceTypeID = technicalAssistanceRequestUpdate.TechnicalAssistanceTypeID;
+            this.HoursRequested = technicalAssistanceRequestUpdate.HoursRequested;
+            this.HoursAllocated = technicalAssistanceRequestUpdate.HoursAllocated;
+            this.HoursProvided = technicalAssistanceRequestUpdate.HoursProvided;
+            this.Notes = technicalAssistanceRequestUpdate.Notes;
         }
     }
 }

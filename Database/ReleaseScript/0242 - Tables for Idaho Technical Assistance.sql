@@ -17,6 +17,7 @@ go
 -- Technical Assistance Request table
 create table dbo.TechnicalAssistanceRequest (
 	TechnicalAssistanceRequestID int not null identity(1,1) constraint PK_TechnicalAssistanceRequest_TechnicalAssistanceRequestID primary key,
+	TenantID int not null constraint FK_TechnicalAssitanceRequest_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	ProjectID int not null constraint FK_TechnicalAssistanceRequest_Project_ProjectID foreign key references dbo.Project(ProjectID),
 	FiscalYear int not null,
 	PersonID int null constraint FK_TechnicalAssistanceRequest_Person_PersonID foreign key references dbo.Person(PersonID),
@@ -26,3 +27,26 @@ create table dbo.TechnicalAssistanceRequest (
 	HoursProvided int null,
 	Notes varchar(max) null
 );
+
+-- Technical Assistance Request Update table
+create table dbo.TechnicalAssistanceRequestUpdate (
+	TechnicalAssistanceRequestUpdateID int not null identity(1,1) constraint PK_TechnicalAssistanceRequestUpdate_TechnicalAssistanceRequestUpdateID primary key,
+    TenantID int not null constraint FK_TechnicalAssitanceRequestUpdate_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	ProjectUpdateBatchID int not null constraint FK_TechnicalAssistanceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID foreign key references dbo.ProjectUpdateBatch(ProjectUpdateBatchID),
+	FiscalYear int not null,
+	PersonID int null constraint FK_TechnicalAssistanceRequestUpdate_Person_PersonID foreign key references dbo.Person(PersonID),
+	TechnicalAssistanceTypeID int not null constraint FK_TechnicalAssistanceRequestUpdate_TechnicalAssistanceType_TechnicalAssistanceTypeID foreign key references dbo.TechnicalAssistanceType(TechnicalAssistanceTypeID),
+	HoursRequested int null,
+	HoursAllocated int null,
+	HoursProvided int null,
+	Notes varchar(max) null
+);
+
+-- Add needed fields to ProjectUpdateBatch
+
+alter table dbo.ProjectUpdateBatch
+add TechnicalAssistanceRequestsComment varchar(1000) null
+go
+alter table dbo.ProjectUpdateBatch
+add TechnicalAssistanceRequestsDiffLog varchar(max) null
+go

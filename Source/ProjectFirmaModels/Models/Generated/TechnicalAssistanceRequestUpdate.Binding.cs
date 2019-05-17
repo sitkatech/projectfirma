@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[TechnicalAssistanceRequest]
+//  Source Table: [dbo].[TechnicalAssistanceRequestUpdate]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[TechnicalAssistanceRequest] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[TechnicalAssistanceRequest]")]
-    public partial class TechnicalAssistanceRequest : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[TechnicalAssistanceRequestUpdate] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[TechnicalAssistanceRequestUpdate]")]
+    public partial class TechnicalAssistanceRequestUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected TechnicalAssistanceRequest()
+        protected TechnicalAssistanceRequestUpdate()
         {
 
         }
@@ -30,10 +30,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceRequest(int technicalAssistanceRequestID, int projectID, int fiscalYear, int? personID, int technicalAssistanceTypeID, int? hoursRequested, int? hoursAllocated, int? hoursProvided, string notes) : this()
+        public TechnicalAssistanceRequestUpdate(int technicalAssistanceRequestUpdateID, int projectUpdateBatchID, int fiscalYear, int? personID, int technicalAssistanceTypeID, int? hoursRequested, int? hoursAllocated, int? hoursProvided, string notes) : this()
         {
-            this.TechnicalAssistanceRequestID = technicalAssistanceRequestID;
-            this.ProjectID = projectID;
+            this.TechnicalAssistanceRequestUpdateID = technicalAssistanceRequestUpdateID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FiscalYear = fiscalYear;
             this.PersonID = personID;
             this.TechnicalAssistanceTypeID = technicalAssistanceTypeID;
@@ -46,12 +46,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TechnicalAssistanceRequest(int projectID, int fiscalYear, int technicalAssistanceTypeID) : this()
+        public TechnicalAssistanceRequestUpdate(int projectUpdateBatchID, int fiscalYear, int technicalAssistanceTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TechnicalAssistanceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TechnicalAssistanceRequestUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectID = projectID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FiscalYear = fiscalYear;
             this.TechnicalAssistanceTypeID = technicalAssistanceTypeID;
         }
@@ -59,13 +59,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public TechnicalAssistanceRequest(Project project, int fiscalYear, TechnicalAssistanceType technicalAssistanceType) : this()
+        public TechnicalAssistanceRequestUpdate(ProjectUpdateBatch projectUpdateBatch, int fiscalYear, TechnicalAssistanceType technicalAssistanceType) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.TechnicalAssistanceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectID = project.ProjectID;
-            this.Project = project;
-            project.TechnicalAssistanceRequests.Add(this);
+            this.TechnicalAssistanceRequestUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            this.ProjectUpdateBatch = projectUpdateBatch;
+            projectUpdateBatch.TechnicalAssistanceRequestUpdates.Add(this);
             this.FiscalYear = fiscalYear;
             this.TechnicalAssistanceTypeID = technicalAssistanceType.TechnicalAssistanceTypeID;
         }
@@ -73,9 +73,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static TechnicalAssistanceRequest CreateNewBlank(Project project, TechnicalAssistanceType technicalAssistanceType)
+        public static TechnicalAssistanceRequestUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, TechnicalAssistanceType technicalAssistanceType)
         {
-            return new TechnicalAssistanceRequest(project, default(int), technicalAssistanceType);
+            return new TechnicalAssistanceRequestUpdate(projectUpdateBatch, default(int), technicalAssistanceType);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TechnicalAssistanceRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TechnicalAssistanceRequestUpdate).Name};
 
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllTechnicalAssistanceRequests.Remove(this);
+            dbContext.AllTechnicalAssistanceRequestUpdates.Remove(this);
         }
         
         /// <summary>
@@ -111,9 +111,9 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int TechnicalAssistanceRequestID { get; set; }
+        public int TechnicalAssistanceRequestUpdateID { get; set; }
         public int TenantID { get; set; }
-        public int ProjectID { get; set; }
+        public int ProjectUpdateBatchID { get; set; }
         public int FiscalYear { get; set; }
         public int? PersonID { get; set; }
         public int TechnicalAssistanceTypeID { get; set; }
@@ -122,10 +122,10 @@ namespace ProjectFirmaModels.Models
         public int? HoursProvided { get; set; }
         public string Notes { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return TechnicalAssistanceRequestID; } set { TechnicalAssistanceRequestID = value; } }
+        public int PrimaryKey { get { return TechnicalAssistanceRequestUpdateID; } set { TechnicalAssistanceRequestUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual Project Project { get; set; }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Person Person { get; set; }
         public TechnicalAssistanceType TechnicalAssistanceType { get { return TechnicalAssistanceType.AllLookupDictionary[TechnicalAssistanceTypeID]; } }
 

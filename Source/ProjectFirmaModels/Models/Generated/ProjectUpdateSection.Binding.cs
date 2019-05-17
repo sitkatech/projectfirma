@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
         public static readonly ProjectUpdateSectionNotesAndDocuments NotesAndDocuments = ProjectUpdateSectionNotesAndDocuments.Instance;
         public static readonly ProjectUpdateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectUpdateSectionExpectedAccomplishments.Instance;
+        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests TechnicalAssistanceRequests = ProjectUpdateSectionTechnicalAssistanceRequests.Instance;
 
         public static readonly List<ProjectUpdateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectUpdateSection> AllLookupDictionary;
@@ -38,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedAccomplishments };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedAccomplishments, TechnicalAssistanceRequests };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -136,6 +137,8 @@ namespace ProjectFirmaModels.Models
                     return Photos;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return ReportedAccomplishments;
+                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
+                    return TechnicalAssistanceRequests;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -154,7 +157,8 @@ namespace ProjectFirmaModels.Models
         Photos = 9,
         ExternalLinks = 10,
         NotesAndDocuments = 11,
-        ExpectedAccomplishments = 12
+        ExpectedAccomplishments = 12,
+        TechnicalAssistanceRequests = 13
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -221,5 +225,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectUpdateSectionExpectedAccomplishments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionExpectedAccomplishments Instance = new ProjectUpdateSectionExpectedAccomplishments(12, @"ExpectedAccomplishments", @"Expected Accomplishments", 60, true, 3);
+    }
+
+    public partial class ProjectUpdateSectionTechnicalAssistanceRequests : ProjectUpdateSection
+    {
+        private ProjectUpdateSectionTechnicalAssistanceRequests(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests Instance = new ProjectUpdateSectionTechnicalAssistanceRequests(13, @"TechnicalAssistanceRequests", @"Technical Assistance Requests", 90, false, 5);
     }
 }

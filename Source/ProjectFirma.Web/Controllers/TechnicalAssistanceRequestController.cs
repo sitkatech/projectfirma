@@ -19,19 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
+using ProjectFirmaModels.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -57,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditTechnicalAssistanceRequests(project, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.Load();
-            var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.Local;
+            var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
             var currentTechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
             viewModel.UpdateModel(currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
             return new ModalDialogFormJsonResult();

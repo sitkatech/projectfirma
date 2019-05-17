@@ -69,8 +69,8 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
-using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
+using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -1397,6 +1397,121 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult TechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var technicalAssistanceRequestUpdateSimples =
+                projectUpdateBatch.TechnicalAssistanceRequestUpdates.OrderByDescending(x => x.FiscalYear).ThenByDescending(x => x.TechnicalAssistanceRequestUpdateID).Select(x => new TechnicalAssistanceRequestSimple(x))
+                    .ToList();
+            var viewModel = new TechnicalAssistanceRequestsViewModel(technicalAssistanceRequestUpdateSimples, projectUpdateBatch.TechnicalAssistanceRequestsComment);
+            return ViewTechnicalAssistanceRequests(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult TechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey, TechnicalAssistanceRequestsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (!ModelState.IsValid)
+            {
+                return ViewTechnicalAssistanceRequests(projectUpdateBatch, viewModel);
+            }
+            var currentTechnicalAssistanceRequestUpdates = projectUpdateBatch.TechnicalAssistanceRequestUpdates.ToList();
+            HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequestUpdates.Load();
+            var allTechnicalAssistanceRequestUpdates = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequestUpdates.Local;
+            viewModel.UpdateModel(currentTechnicalAssistanceRequestUpdates, allTechnicalAssistanceRequestUpdates, projectUpdateBatch);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.TechnicalAssistanceRequestsComment = viewModel.TechnicalAssistanceRequestsComment;
+            }
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName);
+        }
+
+        private ViewResult ViewTechnicalAssistanceRequests(ProjectUpdateBatch projectUpdateBatch, TechnicalAssistanceRequestsViewModel viewModel)
+        {
+            var technicalAssistanceTypes = TechnicalAssistanceType.All;
+            var fiscalYearStrings = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 2).OrderByDescending(x => x).Select(x => new CalendarYearString(x)).ToList();
+            var personDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ProjectSteward.RoleID).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList().Select(x => new PersonSimple(x)).ToList();
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var viewData = new TechnicalAssistanceRequestsViewData(CurrentPerson, projectUpdateBatch, updateStatus, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
+            return RazorView<TechnicalAssistanceRequests, TechnicalAssistanceRequestsViewData, TechnicalAssistanceRequestsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult RefreshTechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshTechnicalAssistanceRequests(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshTechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteTechnicalAssistanceRequestsUpdates();
+            // refresh the data
+            ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshTechnicalAssistanceRequests(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the Technical Support Requests for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any changes made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public HtmlDiffContainer DiffTechnicalAssistanceRequests(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            return DiffTechnicalAssistanceRequestsImpl(project);
+        }
+
+        private HtmlDiffContainer DiffTechnicalAssistanceRequestsImpl(Project project)
+        {
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            var performanceMeasureExpectedValuesOriginal = new List<TechnicalAssistanceRequest>(project.TechnicalAssistanceRequests);
+            //            var performanceMeasureExpectedValuesUpdated = new List<TechnicalAssistanceRequest>(projectUpdateBatch.TechnicalAssistanceRequests);
+            //
+            //            var originalHtml = GeneratePartialViewForOriginalExpectedPerformanceMeasures(
+            //                performanceMeasureExpectedValuesOriginal,
+            //                performanceMeasureExpectedValuesUpdated);
+            //
+            //            var updatedHtml = GeneratePartialViewForModifiedExpectedPerformanceMeasures(
+            //                performanceMeasureExpectedValuesOriginal,
+            //                performanceMeasureExpectedValuesUpdated);
+            var originalHtml = "<div></div>";
+            var updatedHtml = "<div>I am the difference!</div>"; // TODO: obviously...
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        [HttpGet]
         [ProjectUpdateAdminFeatureWithProjectContext]
         public PartialViewResult Approve(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -1451,6 +1566,9 @@ namespace ProjectFirma.Web.Controllers
             var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
             var allProjectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local;
+            // Technical Assistance Requests for Idaho
+            HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Load();
+            var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1470,7 +1588,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
-                allProjectCustomAttributeValues);
+                allProjectCustomAttributeValues,
+                allTechnicalAssistanceRequests);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -2591,6 +2710,8 @@ namespace ProjectFirma.Web.Controllers
 
             var isExpectedPerformanceMeasuresUpdated = DiffExpectedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            var isTechnicalAssistanceRequestsUpdated = projectUpdateBatch.TenantID == Tenant.IdahoAssociatonOfSoilConservationDistricts.TenantID && DiffTechnicalAssistanceRequestsImpl(projectUpdateBatch.Project).HasChanged;
+
             return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
@@ -2603,7 +2724,8 @@ namespace ProjectFirma.Web.Controllers
                 isNotesUpdated,
                 isExpectedFundingUpdated,
                 isOrganizationsUpdated,
-                isExpectedPerformanceMeasuresUpdated);
+                isExpectedPerformanceMeasuresUpdated,
+                isTechnicalAssistanceRequestsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)

@@ -92,4 +92,12 @@
             return projectUpdateStatus.IsExpectedPerformanceMeasuresUpdated;
         }
     }
+
+    public partial class ProjectUpdateSectionTechnicalAssistanceRequests
+    {
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        {
+            return projectUpdateStatus.IsTechnicalAssistanceRequestsUpdated;
+        }
+    }
 }

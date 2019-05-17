@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("TechnicalAssistanceRequest", schema);
             HasKey(x => x.TechnicalAssistanceRequestID);
             Property(x => x.TechnicalAssistanceRequestID).HasColumnName(@"TechnicalAssistanceRequestID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.FiscalYear).HasColumnName(@"FiscalYear").HasColumnType("int").IsRequired();
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsOptional();

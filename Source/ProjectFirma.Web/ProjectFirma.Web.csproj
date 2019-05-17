@@ -144,12 +144,16 @@
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
     <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
+    <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
@@ -255,6 +259,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
+    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
@@ -386,6 +391,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
+    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

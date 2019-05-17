@@ -139,6 +139,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new TechnicalAssistanceParameterConfiguration());
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestConfiguration());
+            modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
@@ -334,7 +335,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TaxonomyTrunk> TaxonomyTrunks { get { return AllTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TechnicalAssistanceParameter> AllTechnicalAssistanceParameters { get; set; }
         public virtual IQueryable<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get { return AllTechnicalAssistanceParameters.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
+        public virtual DbSet<TechnicalAssistanceRequest> AllTechnicalAssistanceRequests { get; set; }
+        public virtual IQueryable<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get { return AllTechnicalAssistanceRequests.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<TechnicalAssistanceRequestUpdate> AllTechnicalAssistanceRequestUpdates { get; set; }
+        public virtual IQueryable<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get { return AllTechnicalAssistanceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
@@ -786,6 +790,9 @@ namespace ProjectFirmaModels.Models
 
                 case "TechnicalAssistanceRequest":
                     return TechnicalAssistanceRequests.GetTechnicalAssistanceRequest(primaryKey);
+
+                case "TechnicalAssistanceRequestUpdate":
+                    return TechnicalAssistanceRequestUpdates.GetTechnicalAssistanceRequestUpdate(primaryKey);
 
                 case "TechnicalAssistanceType":
                     var technicalAssistanceType = TechnicalAssistanceType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

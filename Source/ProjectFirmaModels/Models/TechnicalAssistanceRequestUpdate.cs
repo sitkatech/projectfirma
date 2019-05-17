@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TechnicalAssistanceRequestSimple.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="TechnicalAssistanceRequest.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,14 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-
 namespace ProjectFirmaModels.Models
 {
-    public partial class TechnicalAssistanceRequest : IAuditableEntity
+    public partial class TechnicalAssistanceRequestUpdate : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {
-            return $"Technical Assistance Request " + TechnicalAssistanceRequestID;
+            return $"Technical Assistance Request Update" + TechnicalAssistanceRequestUpdateID;
         }
     }
 }

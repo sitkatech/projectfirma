@@ -27,9 +27,9 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels;
 
-namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class EditTechnicalAssistanceRequestsViewModel : FormViewModel, IValidatableObject
+    public class TechnicalAssistanceRequestsViewModel : FormViewModel, IValidatableObject
     {
         public List<TechnicalAssistanceRequestSimple> TechnicalAssistanceRequestSimples { get; set; }
         // For ProjectUpdate process only
@@ -39,34 +39,30 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditTechnicalAssistanceRequestsViewModel()
+        public TechnicalAssistanceRequestsViewModel()
         {
         }
 
-        public  EditTechnicalAssistanceRequestsViewModel(ProjectFirmaModels.Models.Project project)
+        // Constructor for ProjectUpdate process
+        public TechnicalAssistanceRequestsViewModel(List<TechnicalAssistanceRequestSimple> technicalAssistanceRequestSimples, string technicalAssistanceRequestsComment)
         {
             // Preconditions
-            Check.EnsureNotNull(project);
-
-            var technicalAssistanceRequestSimples = new List<TechnicalAssistanceRequestSimple>();
-            if (project.TechnicalAssistanceRequests != null)
-            {
-                technicalAssistanceRequestSimples.AddRange(project.TechnicalAssistanceRequests.Select(x => new TechnicalAssistanceRequestSimple(x)).ToList());
-            }
+            Check.EnsureNotNull(technicalAssistanceRequestSimples);
             TechnicalAssistanceRequestSimples = technicalAssistanceRequestSimples;
+            TechnicalAssistanceRequestsComment = technicalAssistanceRequestsComment;
         }
 
-        public void UpdateModel(List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> currentTechnicalAssistanceRequests, IList<ProjectFirmaModels.Models.TechnicalAssistanceRequest> allTechnicalAssistanceRequests, ProjectFirmaModels.Models.Project project)
+        public void UpdateModel(List<TechnicalAssistanceRequestUpdate> currentTechnicalAssistanceRequests, IList<TechnicalAssistanceRequestUpdate> allTechnicalAssistanceRequests, ProjectUpdateBatch projectUpdateBatch)
         {
             if (TechnicalAssistanceRequestSimples != null)
             {
-                var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples.Select(x => new ProjectFirmaModels.Models.TechnicalAssistanceRequest(x.TechnicalAssistanceRequestID, x.ProjectID, x.FiscalYear, x.PersonID.Value, x.TechnicalAssistanceTypeID, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
+                var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples.Select(x => new TechnicalAssistanceRequestUpdate(x.TechnicalAssistanceRequestID, projectUpdateBatch.ProjectUpdateBatchID, x.FiscalYear, x.PersonID.Value, x.TechnicalAssistanceTypeID, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
                 var databaseEntities = HttpRequestStorage.DatabaseEntities;
                 currentTechnicalAssistanceRequests.Merge(updatedTechnicalAssistanceRequests, allTechnicalAssistanceRequests, 
-                    (x, y) => x.TechnicalAssistanceRequestID == y.TechnicalAssistanceRequestID,
+                    (x, y) => x.TechnicalAssistanceRequestUpdateID == y.TechnicalAssistanceRequestUpdateID,
                     (x, y) =>
                     {
-                        x.ProjectID = y.ProjectID;
+                        x.ProjectUpdateBatchID = y.ProjectUpdateBatchID;
                         x.FiscalYear = y.FiscalYear;
                         x.PersonID = y.PersonID;
                         x.TechnicalAssistanceTypeID = y.TechnicalAssistanceTypeID;
