@@ -24,6 +24,12 @@ namespace ProjectFirma.Api.Controllers
                 taxonomyLeafs.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.GetDisplayName()));
             }
             TaxonomyLeafs = taxonomyLeafs.OrderBy(x => x).ToList();
+            var taxonomyLeafsShortened = new List<string> {project.TaxonomyLeaf.TaxonomyLeafCode};
+            if (project.SecondaryProjectTaxonomyLeafs.Any())
+            {
+                taxonomyLeafsShortened.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.TaxonomyLeafCode));
+            }
+            TaxonomyLeafsShortened = taxonomyLeafsShortened.OrderBy(x => x).ToList();
             Classifications = project.ProjectClassifications.Any() ? project.ProjectClassifications.Select(x => x.Classification.DisplayName).OrderBy(x => x).ToList() : new List<string>();
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
             LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
@@ -56,6 +62,7 @@ namespace ProjectFirma.Api.Controllers
         public int? CompletionYear { get; set; }
 
         public List<string> TaxonomyLeafs { get; set; }
+        public List<string> TaxonomyLeafsShortened { get; set; }
         public string DetailUrl { get; set; }
         public decimal? UnfundedNeed { get; set; }
 
