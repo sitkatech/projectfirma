@@ -35,11 +35,6 @@ namespace ProjectFirma.Web.Models
 {
     public static class PerformanceMeasureModelExtensions
     {
-        public const int TechnicalAssistanceProvidedPMID = 2147;
-        public const int ProvidedSubcategoryOptionID = 2935;
-        public const int EngineeringAssistanceSubcategoryOptionID = 2938;
-        public const int ProvidedToConservationDistrictionsSubcategoryOptionID = 2994;
-
         public static HtmlString GetDisplayNameAsUrl(this PerformanceMeasure performanceMeasure)
         {
             return UrlTemplate.MakeHrefString(performanceMeasure.GetSummaryUrl(), performanceMeasure.PerformanceMeasureDisplayName);
@@ -162,70 +157,12 @@ namespace ProjectFirma.Web.Models
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
-            return GetPerformanceMeasureReportedValuesImpl(HttpRequestStorage.DatabaseEntities, performanceMeasure, performanceMeasureReportedValues);
-        }
-
-        private static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValuesImpl(DatabaseEntities databaseEntities, PerformanceMeasure performanceMeasure, List<PerformanceMeasureReportedValue> performanceMeasureReportedValues)
-        {
-            if (performanceMeasure.PerformanceMeasureDataSourceType == PerformanceMeasureDataSourceType.TechnicalAssistanceValue)
-            {
-                // the source for this PM is "Technical Assistance Provided to Conservation Districts"
-                if (performanceMeasure.PerformanceMeasureID != TechnicalAssistanceProvidedPMID)
-                {
-                    // should not be calling this from a context where that PM doesn't exist anyway, but let's not die if we do.
-                    return new List<PerformanceMeasureReportedValue>();
-                }
-
-                var performanceMeasureReportedValuesForTechnicalAssistancePM = performanceMeasureReportedValues.Where(x =>
-                {
-                    var performanceMeasureValueSubcategoryOptionIDs = x.PerformanceMeasureActualSubcategoryOptions
-                        .Select(y => y.PerformanceMeasureSubcategoryOptionID).ToList();
-                    return performanceMeasureValueSubcategoryOptionIDs
-                               .Contains(ProvidedSubcategoryOptionID) && performanceMeasureValueSubcategoryOptionIDs
-                               .Contains(ProvidedToConservationDistrictionsSubcategoryOptionID);
-                }); // Should only be counting "Provided" to "Conservation District" Technical Assistance Hours
-
-                // get these now to prepare for the main calculation
-                var technicalAssistanceParameters = databaseEntities.TechnicalAssistanceParameters.ToList();
-                var performanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>
-                {
-                    new VirtualPerformanceMeasureValueSubcategoryOption(performanceMeasure
-                        .PerformanceMeasureSubcategories
-                        .Single())
-                };
-
-                return performanceMeasureReportedValuesForTechnicalAssistancePM.Select(performanceMeasureReportedValue =>
-                {
-                    var year = performanceMeasureReportedValue.CalendarYear;
-                    var project = performanceMeasureReportedValue.Project;
-                    var technicalAssistanceParameter =
-                        technicalAssistanceParameters.SingleOrDefault(y => y.Year == year);
-                    var engineeringHourlyCost = technicalAssistanceParameter?.EngineeringHourlyCost;
-                    var otherAssistanceHourlyCost = technicalAssistanceParameter?.OtherAssistanceHourlyCost;
-
-                    var technicalAssistanceValueInYear = performanceMeasureReportedValue
-                        .PerformanceMeasureActualSubcategoryOptions
-                        .Select(y => y.PerformanceMeasureSubcategoryOptionID)
-                        .Contains(
-                            EngineeringAssistanceSubcategoryOptionID) // "Engineering Assistance" is treated differently from other kinds of technical assistance.
-                        ? performanceMeasureReportedValue.GetReportedValue().GetValueOrDefault() *
-                          (double) engineeringHourlyCost.GetValueOrDefault()
-                        : performanceMeasureReportedValue.GetReportedValue().GetValueOrDefault() *
-                          (double) otherAssistanceHourlyCost.GetValueOrDefault();
-                    return new PerformanceMeasureReportedValue(performanceMeasure, project, year,
-                        technicalAssistanceValueInYear)
-                    {
-                        PerformanceMeasureActualSubcategoryOptions = performanceMeasureActualSubcategoryOptions
-                    };
-                }).ToList();
-            }
-
             return performanceMeasureReportedValues;
         }
 
         public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
-            var performanceMeasureValues = GetPerformanceMeasureReportedValuesImpl(HttpRequestStorage.DatabaseEntities, performanceMeasure, performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects));
+            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
 
             var performanceMeasureActualsFiltered = projects?.Any() == true
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()

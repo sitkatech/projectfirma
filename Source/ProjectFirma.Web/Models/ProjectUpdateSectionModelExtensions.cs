@@ -38,6 +38,8 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return true;
+                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
+                    return true;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -74,6 +76,8 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project));
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project));
+                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.TechnicalAssistanceRequests(project));
                 default:
                     throw new ArgumentOutOfRangeException();
             }

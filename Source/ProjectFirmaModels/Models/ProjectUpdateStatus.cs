@@ -34,6 +34,7 @@ namespace ProjectFirmaModels.Models
         public bool IsNotesUpdated { get; }
         public bool IsOrganizationsUpdated { get; }
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
+        public bool IsTechnicalAssistanceRequestsUpdated { get;  }
 
         public ProjectUpdateStatus(bool isBasicsUpdated,
             bool isReportedPerformanceMeasuresUpdated,
@@ -45,7 +46,9 @@ namespace ProjectFirmaModels.Models
             bool isExternalLinksUpdated,
             bool isNotesUpdated,
             bool isExpectedFundingUpdated,
-            bool isOrganizationsUpdated, bool isExpectedPerformanceMeasuresUpdated)
+            bool isOrganizationsUpdated, 
+            bool isExpectedPerformanceMeasuresUpdated,
+            bool isTechnicalAssistanceRequestsUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
             IsReportedPerformanceMeasuresUpdated = isReportedPerformanceMeasuresUpdated;
@@ -59,6 +62,7 @@ namespace ProjectFirmaModels.Models
             IsExpectedFundingUpdated = isExpectedFundingUpdated;
             IsOrganizationsUpdated = isOrganizationsUpdated;
             IsExpectedPerformanceMeasuresUpdated = isExpectedPerformanceMeasuresUpdated;
+            IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
         }
     }
 }

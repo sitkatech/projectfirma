@@ -57,6 +57,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
@@ -143,10 +144,16 @@
     <Compile Include="Models\TaxonomyTierHelpers.cs" />
     <Compile Include="Models\TaxonomyTierSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
+    <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
+    <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
+    <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
@@ -252,6 +259,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
+    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
@@ -374,8 +382,6 @@
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewModel.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectStewardOrganization\Index.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexGridSpec.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexViewData.cs" />
@@ -384,6 +390,8 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
+    <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
+    <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -450,6 +458,11 @@
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\Edit.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewData.cs" />
     <Compile Include="Views\TaxonomyTierPerformanceMeasure\EditViewModel.cs" />
+    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cs" />
+    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewModel.cs" />
+    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cs" />
+    <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewData.cs" />
+    <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetailViewData.cs" />
     <Compile Include="Views\Tenant\EditTenantLogo.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoViewData.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoViewModel.cs" />
@@ -1295,6 +1308,7 @@
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasController.js" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
+    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
@@ -1308,7 +1322,6 @@
     <Compile Include="Views\ProjectUpdate\GeospatialAreaValidationResult.cs" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
-    <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
@@ -1353,6 +1366,8 @@
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewData.cs" />
     <Content Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cshtml" />
+    <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
+    <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

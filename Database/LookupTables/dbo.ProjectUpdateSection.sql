@@ -12,4 +12,5 @@ values
 (9, 'Photos', 'Photos', 100, 0, 5),
 (10, 'ExternalLinks', 'External Links', 125, 0, 5),
 (11, 'NotesAndDocuments', 'Documents and Notes', 120, 0, 5),
-(12, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 1, 3)
+(12, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 1, 3),
+(13, 'TechnicalAssistanceRequests', 'Technical Assistance Requests', 90, 0, 5)

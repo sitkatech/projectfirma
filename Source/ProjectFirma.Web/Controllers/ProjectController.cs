@@ -46,6 +46,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
+using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -153,6 +154,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
+            var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentPerson, project);
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
             var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(project.ProjectNotes),
@@ -189,6 +191,7 @@ namespace ProjectFirma.Web.Controllers
                 projectBasicsViewData,
                 projectLocationSummaryViewData,
                 projectFundingDetailViewData,
+                technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
                 projectExpendituresSummaryViewData,

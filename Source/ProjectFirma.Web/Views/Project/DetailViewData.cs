@@ -38,6 +38,7 @@ using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
+using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -91,6 +92,9 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
+        public string EditTechnicalAssistanceRequestsUrl { get; }
+        public TechnicalAssistanceRequestsDetailViewData TechnicalAssistanceRequestDetailViewData { get; }
+
 
         public string ProjectUpdateButtonText { get; }
         public bool CanLaunchProjectOrProposalWizard { get; }
@@ -107,6 +111,7 @@ namespace ProjectFirma.Web.Views.Project
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectFundingDetailViewData projectFundingDetailViewData,
+            TechnicalAssistanceRequestsDetailViewData technicalAssistanceRequestDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
@@ -270,6 +275,8 @@ namespace ProjectFirma.Web.Views.Project
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
 
             ProjectFundingDetailViewData = projectFundingDetailViewData;
+            EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
+            TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl =
                 SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c =>
                     c.EditProjectFundingSourceRequestsForProject(project));
