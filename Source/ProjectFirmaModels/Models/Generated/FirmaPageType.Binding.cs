@@ -169,6 +169,7 @@ namespace ProjectFirmaModels.Models
         ManageProjectCustomAttributeTypesList = 53,
         FactSheetCustomText = 54,
         UsersList = 55,
-        ProjectUpdateInstructions = 56
+        ProjectUpdateInstructions = 56,
+        TechnicalAssistanceInstructions = 57
     }
 }

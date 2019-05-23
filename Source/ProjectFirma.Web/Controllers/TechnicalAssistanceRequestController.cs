@@ -56,16 +56,17 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.Load();
             var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
             var currentTechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
-            viewModel.UpdateModel(currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
+            viewModel.UpdateModel(CurrentPerson, currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEditTechnicalAssistanceRequests(Project project, EditTechnicalAssistanceRequestsViewModel viewModel)
         {
+            var firmaPage = FirmaPageTypeEnum.TechnicalAssistanceInstructions.GetFirmaPage();
             var technicalAssistanceTypes = TechnicalAssistanceType.All;
             var fiscalYearStrings = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 2).OrderByDescending(x => x).Select(x => new CalendarYearString(x)).ToList();
             var personDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ProjectSteward.RoleID).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList().Select(x => new PersonSimple(x)).ToList();
-            var viewData = new EditTechnicalAssistanceRequestsViewData(project.ProjectID, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
+            var viewData = new EditTechnicalAssistanceRequestsViewData(CurrentPerson, firmaPage, project, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
             return RazorPartialView<EditTechnicalAssistanceRequests, EditTechnicalAssistanceRequestsViewData, EditTechnicalAssistanceRequestsViewModel>(viewData, viewModel);
         }
 

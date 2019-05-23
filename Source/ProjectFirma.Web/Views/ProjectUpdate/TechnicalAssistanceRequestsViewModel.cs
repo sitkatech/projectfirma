@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -52,34 +53,37 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             TechnicalAssistanceRequestsComment = technicalAssistanceRequestsComment;
         }
 
-        public void UpdateModel(List<TechnicalAssistanceRequestUpdate> currentTechnicalAssistanceRequests, IList<TechnicalAssistanceRequestUpdate> allTechnicalAssistanceRequests, ProjectUpdateBatch projectUpdateBatch)
+        public void UpdateModel(Person currentPerson, List<TechnicalAssistanceRequestUpdate> currentTechnicalAssistanceRequests, IList<TechnicalAssistanceRequestUpdate> allTechnicalAssistanceRequests, ProjectUpdateBatch projectUpdateBatch)
         {
-            if (TechnicalAssistanceRequestSimples != null)
-            {
-                var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples.Select(x => new TechnicalAssistanceRequestUpdate(x.TechnicalAssistanceRequestID, projectUpdateBatch.ProjectUpdateBatchID, x.FiscalYear, x.PersonID.Value, x.TechnicalAssistanceTypeID.Value, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
-                var databaseEntities = HttpRequestStorage.DatabaseEntities;
-                currentTechnicalAssistanceRequests.Merge(updatedTechnicalAssistanceRequests, allTechnicalAssistanceRequests, 
-                    (x, y) => x.TechnicalAssistanceRequestUpdateID == y.TechnicalAssistanceRequestUpdateID,
-                    (x, y) =>
-                    {
-                        x.ProjectUpdateBatchID = y.ProjectUpdateBatchID;
-                        x.FiscalYear = y.FiscalYear;
-                        x.PersonID = y.PersonID;
-                        x.TechnicalAssistanceTypeID = y.TechnicalAssistanceTypeID;
-                        x.HoursRequested = y.HoursRequested;
-                        x.HoursAllocated = y.HoursAllocated;
-                        x.HoursProvided = y.HoursProvided;
-                        x.Notes = y.Notes;
-                    }, databaseEntities);
-            }
+            var userCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentPerson, projectUpdateBatch.Project).HasPermission;
+            var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples != null ? 
+                TechnicalAssistanceRequestSimples.Select(x => new TechnicalAssistanceRequestUpdate(x.TechnicalAssistanceRequestID, projectUpdateBatch.ProjectUpdateBatchID, x.FiscalYear, x.PersonID, x.TechnicalAssistanceTypeID.Value, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList() :
+                new List<TechnicalAssistanceRequestUpdate>();
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            currentTechnicalAssistanceRequests.Merge(updatedTechnicalAssistanceRequests, allTechnicalAssistanceRequests, 
+                (x, y) => x.TechnicalAssistanceRequestUpdateID == y.TechnicalAssistanceRequestUpdateID,
+                (x, y) =>
+                {
+                    x.ProjectUpdateBatchID = y.ProjectUpdateBatchID;
+                    x.FiscalYear = y.FiscalYear;
+                    x.PersonID = y.PersonID;
+                    x.TechnicalAssistanceTypeID = y.TechnicalAssistanceTypeID;
+                    x.HoursRequested = y.HoursRequested;
+                    x.HoursAllocated = userCanAllocate ? y.HoursAllocated : x.HoursAllocated;
+                    x.HoursProvided = userCanAllocate ? y.HoursProvided : x.HoursProvided;
+                    x.Notes = y.Notes;
+                }, databaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            var reportedYears = TechnicalAssistanceRequestSimples.Select(x => x.FiscalYear).Distinct().OrderByDescending(x => x).ToList();
-            var reportedYearsMissingData = reportedYears?.Select(x => x).Where(x => TechnicalAssistanceRequestSimples.Any(y => y.FiscalYear == x && y.TechnicalAssistanceTypeID == null)).ToList();
-            reportedYearsMissingData?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows missing a value for Assistance Type.")));
+            if (TechnicalAssistanceRequestSimples != null)
+            {
+                var reportedYears = TechnicalAssistanceRequestSimples.Select(x => x.FiscalYear).Distinct().OrderByDescending(x => x).ToList();
+                var reportedYearsMissingData = reportedYears?.Select(x => x).Where(x => TechnicalAssistanceRequestSimples.Any(y => y.FiscalYear == x && y.TechnicalAssistanceTypeID == null)).ToList();
+                reportedYearsMissingData?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows missing a value for Assistance Type.")));
+            }
             return errors;
         }
     }
