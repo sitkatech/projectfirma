@@ -1434,7 +1434,7 @@ namespace ProjectFirma.Web.Controllers
             var currentTechnicalAssistanceRequestUpdates = projectUpdateBatch.TechnicalAssistanceRequestUpdates.ToList();
             HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequestUpdates.Load();
             var allTechnicalAssistanceRequestUpdates = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequestUpdates.Local;
-            viewModel.UpdateModel(currentTechnicalAssistanceRequestUpdates, allTechnicalAssistanceRequestUpdates, projectUpdateBatch);
+            viewModel.UpdateModel(CurrentPerson, currentTechnicalAssistanceRequestUpdates, allTechnicalAssistanceRequestUpdates, projectUpdateBatch);
             if (projectUpdateBatch.IsSubmitted())
             {
                 projectUpdateBatch.TechnicalAssistanceRequestsComment = viewModel.TechnicalAssistanceRequestsComment;
@@ -1446,11 +1446,12 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewTechnicalAssistanceRequests(ProjectUpdateBatch projectUpdateBatch, TechnicalAssistanceRequestsViewModel viewModel)
         {
+            var firmaPage = FirmaPageTypeEnum.TechnicalAssistanceInstructions.GetFirmaPage();
             var technicalAssistanceTypes = TechnicalAssistanceType.All;
             var fiscalYearStrings = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 2).OrderByDescending(x => x).Select(x => new CalendarYearString(x)).ToList();
             var personDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ProjectSteward.RoleID).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList().Select(x => new PersonSimple(x)).ToList();
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new TechnicalAssistanceRequestsViewData(CurrentPerson, projectUpdateBatch, updateStatus, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
+            var viewData = new TechnicalAssistanceRequestsViewData(CurrentPerson, firmaPage, projectUpdateBatch, updateStatus, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
             return RazorView<TechnicalAssistanceRequests, TechnicalAssistanceRequestsViewData, TechnicalAssistanceRequestsViewModel>(viewData, viewModel);
         }
 

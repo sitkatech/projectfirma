@@ -20,21 +20,29 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class TechnicalAssistanceRequestsViewData : ProjectUpdateViewData
     {
+        public ViewPageContentViewData TechnicalAssistanceInstructionsViewData { get; }
         public TechnicalAssistanceRequestsViewDataForAngular ViewDataForAngular { get; }
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        public readonly string RefreshUrl;
-
-        public TechnicalAssistanceRequestsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName)
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public string RefreshUrl { get; }
+        public bool UserCanAllocate { get; }
+        
+        public TechnicalAssistanceRequestsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName)
         {
+            Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
+            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
+            TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
+            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentPerson, projectUpdateBatch.Project).HasPermission;
             ViewDataForAngular = new TechnicalAssistanceRequestsViewDataForAngular(projectUpdateBatch.ProjectID, technicalAssistanceTypes, fiscalYearStrings, personSimples);
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.TechnicalAssistanceRequestsComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshTechnicalAssistanceRequests(projectUpdateBatch.Project));
@@ -48,7 +56,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public List<CalendarYearString> FiscalYearStrings { get; }
         public List<PersonSimple> PersonSimples { get; }
 
-        public TechnicalAssistanceRequestsViewDataForAngular(int projectID, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString>  fiscalYearStrings, List<PersonSimple> personSimples)
+
+        public TechnicalAssistanceRequestsViewDataForAngular(int projectID, List<TechnicalAssistanceType> technicalAssistanceTypes, 
+            List<CalendarYearString>  fiscalYearStrings, List<PersonSimple> personSimples)
         {
             ProjectID = projectID;
             TechnicalAssistanceTypes = technicalAssistanceTypes;

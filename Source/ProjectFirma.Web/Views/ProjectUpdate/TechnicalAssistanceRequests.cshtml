@@ -21,9 +21,8 @@
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
-@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared
 @inherits  TechnicalAssistanceRequests
 
 @section JavascriptAndStylesContent
@@ -44,8 +43,6 @@
     });
     jQuery(document).ready(function() {
         angular.bootstrap(jQuery("#EditTechnicalAssistanceRequestsApp"), ["ProjectFirmaApp"]);
-
-        jQuery(".selectpicker").selectpicker("refresh");
     });
 
     // ]]>
@@ -87,23 +84,20 @@
     @Html.ValidationSummary()
 </div>
 
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.TechnicalAssistanceInstructionsViewData); }
+</div>
 
 <div id="EditTechnicalAssistanceRequestsApp" ng-controller="TechnicalAssistanceRequestsController">
     <div class="form-group">
         <label class="control-label">Technical Assistance Fiscal Year to Add:</label>
         <div class="input-group">
-            <select ng-model="YearToAdd"
-                    class="selectpicker"
-                    data-live-search="true"
-                    data-container="body"
-                    title="Select a Year to Add"
-                    data-width="100%">
+            <select ng-model="YearToAdd" class="form-control">
                 <option value="" disabled selected>Select a Year to Add</option>
                 <option ng-repeat="yearToAdd in getAddableFiscalYearStrings()"
                         value="{{yearToAdd.CalendarYear}}"
                         ng-selected="YearToAdd == yearToAdd.CalendarYear"
-                        ng-bind="yearToAdd.CalendarYearDisplay"
-                        data-tokens="{{yearToAdd.CalendarYearDisplay}}"></option>
+                        ng-bind="yearToAdd.CalendarYearDisplay"></option>
             </select>
             <span class="input-group-btn">
                 <button class="btn btn-firma" type="button" ng-click="addRow()">
@@ -167,11 +161,12 @@
                                         </td>
                                         <td style="width: 100px">
                                             <input class="form-control" style="text-align: right"
-                                                   ng-model="request.HoursAllocated" />
+                                                   ng-model="request.HoursAllocated" @(!ViewDataTyped.UserCanAllocate ? "disabled=\"disabled\"" : "") />
+
                                         </td>
                                         <td style="width: 100px">
                                             <input class="form-control" style="text-align: right"
-                                                   ng-model="request.HoursProvided" />
+                                                   ng-model="request.HoursProvided" @(!ViewDataTyped.UserCanAllocate ? "disabled=\"disabled\"" : "") />
                                         </td>
                                     </tr>
                                     <tr ng-repeat-end class="last">

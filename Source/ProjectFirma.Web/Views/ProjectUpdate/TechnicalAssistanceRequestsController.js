@@ -36,16 +36,21 @@ angular.module("ProjectFirmaApp").controller("TechnicalAssistanceRequestsControl
     $scope.placeholderID = -1;
 
     $scope.getReportedYears = function () {
-        return [...new Set($scope.AngularModel.TechnicalAssistanceRequestSimples.map(item => item.FiscalYear))].sort().reverse();
+        var years = _($scope.AngularModel.TechnicalAssistanceRequestSimples).map(function (item) {
+            return item.FiscalYear;
+        }).uniq().sort().value();
+        return _(years.reverse()).value();
     }
 
     $scope.getAddableFiscalYearStrings = function () {
         var yearsInUse = $scope.getReportedYears();
-        return _($scope.fiscalYearStrings).filter(function (fys) { return !yearsInUse.includes(fys.CalendarYear); }).value();
+        return _.filter($scope.fiscalYearStrings, function (fys) {
+            return !yearsInUse.includes(fys.CalendarYear);
+        });
     }
 
     $scope.getGroupedTechnicalAssistanceRequests = function (fiscalYear) {
-        return _($scope.technicalAssistanceRequests).filter(function (tar) { return tar.FiscalYear === fiscalYear; }).value();
+        return _.filter($scope.technicalAssistanceRequests, function (tar) { return tar.FiscalYear === fiscalYear; });
     }
 
     $scope.addTechnicalAssistanceRequestToYear = function(reportedYear) {
@@ -74,7 +79,7 @@ angular.module("ProjectFirmaApp").controller("TechnicalAssistanceRequestsControl
                 $scope.AngularViewData.FiscalYearStrings,
                 "CalendarYear",
                 $scope.YearToAdd);
-            var newTechnicalAssistanceRequest = $scope.createNewRow($scope.YearToAdd);
+            var newTechnicalAssistanceRequest = $scope.createNewRow(yearToAdd.CalendarYear);
             $scope.AngularModel.TechnicalAssistanceRequestSimples.push(newTechnicalAssistanceRequest);
             $scope.YearToAdd = null;
         }
@@ -83,5 +88,6 @@ angular.module("ProjectFirmaApp").controller("TechnicalAssistanceRequestsControl
     $scope.deleteRow = function (rowToDelete) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.TechnicalAssistanceRequestSimples, rowToDelete);
     };
+
 });
 

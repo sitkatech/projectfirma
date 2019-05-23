@@ -20,24 +20,34 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
 {
     public class EditTechnicalAssistanceRequestsViewData : FirmaUserControlViewData
     {
+        public ViewPageContentViewData TechnicalAssistanceInstructionsViewData { get; }
         public int ProjectID { get; }
         public List<TechnicalAssistanceType> TechnicalAssistanceTypes { get; }
         public List<CalendarYearString> FiscalYearStrings { get;  }
-        public List<PersonSimple> PersonSimples { get; } 
+        public List<PersonSimple> PersonSimples { get; }
+        public bool UserCanAllocate { get; }
 
-        public EditTechnicalAssistanceRequestsViewData(int projectID, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base()
+
+        public EditTechnicalAssistanceRequestsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base()
         {
-            ProjectID = projectID;
+            Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
+            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
+            TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
+            ProjectID = project.ProjectID;
             TechnicalAssistanceTypes = technicalAssistanceTypes;
             FiscalYearStrings = fiscalYearStrings;
             PersonSimples = personSimples;
+            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentPerson, project).HasPermission;
+
         }
     }
 }
