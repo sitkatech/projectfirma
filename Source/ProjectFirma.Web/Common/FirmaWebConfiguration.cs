@@ -71,11 +71,19 @@ namespace ProjectFirma.Web.Common
             }
 
             var canonicalHost = canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
-            if (canonicalHost == null && FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Prod &&
-                hostName.Equals("www.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))
+            if (canonicalHost == null && FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Prod)
             {
-                return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
+                if (hostName.Equals("www.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
+                }
+                // temporary redirect for Idaho due to domain name change
+                else if (hostName.Equals("swcdemo.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return Tenant.IdahoAssociatonOfSoilConservationDistricts.CanonicalHostNameProd;
+                }
             }
+
             return canonicalHost;
         }
 

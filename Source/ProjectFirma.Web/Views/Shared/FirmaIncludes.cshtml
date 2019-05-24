@@ -20,6 +20,16 @@
     -----------------------------------------------------------------------*@
 @inherits ProjectFirma.Web.Views.Shared.FirmaIncludes
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134855355-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-134855355-1');
+</script>
+
 <link href="@Url.Content("~/Content/themes/base/all.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/css/jquery.ui.firma.min.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/Content/jquery.fancybox.css")" rel="stylesheet" type="text/css" />

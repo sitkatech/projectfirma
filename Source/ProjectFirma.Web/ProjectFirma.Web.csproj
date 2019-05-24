@@ -652,7 +652,6 @@
     <Content Include="ScriptsCustom\CkEditorReady.min.js.map" />
     <Content Include="ScriptsCustom\DatePickerReady.min.js.map" />
     <Content Include="ScriptsCustom\FancyboxReady.min.js.map" />
-    <Content Include="ScriptsCustom\GoogleAnalytics.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js.map" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.min.js">
       <DependentUpon>ProjectFirmaMaps.js</DependentUpon>
@@ -702,8 +701,6 @@
     <Content Include="ScriptsCustom\DatePickerReady.min.js" />
     <Content Include="ScriptsCustom\FancyboxReady.js" />
     <Content Include="ScriptsCustom\FancyboxReady.min.js" />
-    <Content Include="ScriptsCustom\GoogleAnalytics.js" />
-    <Content Include="ScriptsCustom\GoogleAnalytics.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.GeoServerMap.min.js" />
     <Content Include="ScriptsCustom\Maps\ProjectFirmaMaps.js" />
