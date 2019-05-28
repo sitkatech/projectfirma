@@ -20,6 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
@@ -38,9 +41,38 @@ namespace ProjectFirmaModels.Models
             HoursProvided = technicalAssistanceRequestUpdate.HoursProvided;
             Notes = technicalAssistanceRequestUpdate.Notes;
         }
+
+        public decimal GetValueProvided(List<TechnicalAssistanceParameter> technicalAssistanceParameters)
+        {
+            var yearParameter = technicalAssistanceParameters.Single(x => x.Year == FiscalYear);
+            var rate = GetRateToUse(yearParameter);
+            return rate * HoursProvided ?? 0;
+        }
+
+        private decimal GetRateToUse(TechnicalAssistanceParameter yearParameter)
+        {
+            decimal rate = 0;
+            switch (TechnicalAssistanceType.ToEnum)
+            {
+                case TechnicalAssistanceTypeEnum.Engineering:
+                    rate = yearParameter.EngineeringHourlyCost ?? 0;
+                    break;
+                case TechnicalAssistanceTypeEnum.CapacityBuilding:
+                case TechnicalAssistanceTypeEnum.EducationOutreach:
+                case TechnicalAssistanceTypeEnum.Operations:
+                case TechnicalAssistanceTypeEnum.TechnicalAssistance:
+                    rate = yearParameter.OtherAssistanceHourlyCost ?? 0;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            return rate;
+        }
+
         public string GetAuditDescriptionString()
         {
             return $"Technical Assistance Request " + TechnicalAssistanceRequestID;
         }
     }
 }
+ 

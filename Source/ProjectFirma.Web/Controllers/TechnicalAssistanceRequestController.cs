@@ -35,6 +35,25 @@ namespace ProjectFirma.Web.Controllers
     public class TechnicalAssistanceRequestController : FirmaBaseController
     {
         [HttpGet]
+        [TechnicalAssistanceRequestsViewFeature]
+        public ViewResult TechnicalAssistanceReport()
+        {
+            var firmaPage = FirmaPageTypeEnum.TechnicalAssistanceReport.GetFirmaPage();
+            var viewData = new TechnicalAssistanceReportViewData(CurrentPerson, firmaPage);
+            return RazorView<TechnicalAssistanceReport, TechnicalAssistanceReportViewData>(viewData);
+        }
+
+        [TechnicalAssistanceRequestsViewFeature]
+        public GridJsonNetJObjectResult<TechnicalAssistanceRequest> TechnicalAssistanceReportGridJsonData()
+        {
+            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
+            var gridSpec = new TechnicalAssistanceReportGridSpec(CurrentPerson, technicalAssistanceParameters);
+            var technicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.OrderBy(x => x.Project.ProjectName).ThenByDescending(x => x.FiscalYear).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TechnicalAssistanceRequest>(technicalAssistanceRequests, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult EditTechnicalAssistanceRequestsForProject(ProjectPrimaryKey projectPrimaryKey)
         {
