@@ -1,5 +1,4 @@
-﻿using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
+﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirmaModels.Models

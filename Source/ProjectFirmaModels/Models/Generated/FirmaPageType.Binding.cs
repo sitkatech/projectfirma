@@ -170,6 +170,7 @@ namespace ProjectFirmaModels.Models
         FactSheetCustomText = 54,
         UsersList = 55,
         ProjectUpdateInstructions = 56,
-        TechnicalAssistanceInstructions = 57
+        TechnicalAssistanceInstructions = 57,
+        TechnicalAssistanceReport = 58
     }
 }
