@@ -239,17 +239,13 @@
                                 }
                             }
                         }
-                        @* Technical Assistance Requests for Idaho only *@
-                        @if (MultiTenantHelpers.UsesTechnicalAssistanceParameters())
-                        {
-                            if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                             {
-                                 <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                                 <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                                 <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                                 <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                             }
-                        }
+                        @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
+                         {
+                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
+                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
+                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
+                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
+                         }
                     </ul>
                     }
                     else
