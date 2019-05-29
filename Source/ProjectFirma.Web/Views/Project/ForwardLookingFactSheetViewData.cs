@@ -59,15 +59,18 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafDisplayName { get; }
         public string TaxonomyLeafName { get; }
         public string TaxonomyBranchName { get; }
-
         public ViewPageContentViewData CustomFactSheetTextViewData { get; }
+        public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
+        public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
 
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson googleChartJson,
-            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText) : base(currentPerson, project)
+            List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, 
+            ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText,
+            List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -119,9 +122,10 @@ namespace ProjectFirma.Web.Views.Project
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
             UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
 
-
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
+            TechnicalAssistanceParameters = technicalAssistanceParameters;
+            TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
         }
 
         public HtmlString LegendHtml

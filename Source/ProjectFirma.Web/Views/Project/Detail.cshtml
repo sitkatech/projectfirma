@@ -258,28 +258,17 @@
                     </div>
                 </div>
                 @* Technical Assistance Panel for Idaho *@
-                @if (ViewDataTyped.Project.TenantID == 9)
+                @if (MultiTenantHelpers.UsesTechnicalAssistanceParameters())
                 {
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
-                                Technical Assistance Requests
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                                Engineering and Technical Assistance
                             </h3>
                         </div>
                         <div class="panel-body">
-                            @if (ViewDataTyped.Project.IsProposal())
-                            {
-                                <p class="systemText">Technical Assistance Requests are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
-                            }
-                            else if (ViewDataTyped.Project.ProjectStage == ProjectStage.PlanningDesign)
-                            {
-                                <p class="systemText">Technical Assistance Requests are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
-                            }
-                            else
-                            {
-                                TechnicalAssistanceRequestsDetail.RenderPartialView(Html, ViewDataTyped.TechnicalAssistanceRequestDetailViewData);
-                            }
+                            @{ TechnicalAssistanceRequestsDetail.RenderPartialView(Html, ViewDataTyped.TechnicalAssistanceRequestDetailViewData); }
                         </div>
                     </div>
                 }

@@ -26,9 +26,12 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
 {
     public class TechnicalAssistanceRequestsDetailViewData : FirmaViewData
     {
-        public readonly List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests;
+        public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
+        public bool CanViewNotes { get; }
+        public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
 
-        public TechnicalAssistanceRequestsDetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson)
+
+        public TechnicalAssistanceRequestsDetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, bool canViewNotes, List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson)
         {
             var technicalAssistanceRequests = new List<ProjectFirmaModels.Models.TechnicalAssistanceRequest>();
             if (project.TechnicalAssistanceRequests != null)
@@ -36,6 +39,8 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
                 technicalAssistanceRequests.AddRange(project.TechnicalAssistanceRequests.OrderByDescending(x => x.FiscalYear).Select(x => x).ToList());
             }
             TechnicalAssistanceRequests = technicalAssistanceRequests;
+            CanViewNotes = canViewNotes;
+            TechnicalAssistanceParameters = technicalAssistanceParameters;
         }
     }
 }
