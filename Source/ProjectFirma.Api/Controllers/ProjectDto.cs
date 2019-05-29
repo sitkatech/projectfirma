@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
@@ -17,7 +18,12 @@ namespace ProjectFirma.Api.Controllers
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            TaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName();
+            var taxonomyTrunks = new List<string> { project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName() };
+            if (project.SecondaryProjectTaxonomyLeafs.Any())
+            {
+                taxonomyTrunks.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName()));
+            }
+            TaxonomyTrunks = taxonomyTrunks.Distinct(StringComparer.InvariantCultureIgnoreCase).OrderBy(x => x).ToList();
             var taxonomyLeafs = new List<string> {project.TaxonomyLeaf.GetDisplayName()};
             if (project.SecondaryProjectTaxonomyLeafs.Any())
             {
@@ -52,7 +58,7 @@ namespace ProjectFirma.Api.Controllers
         public string ProjectStage { get; set; }
 
         public string ProjectName { get; set; }
-        public string TaxonomyTrunk { get; set; }
+        public List<string> TaxonomyTrunks { get; set; }
         public int? ImplementationStartYear { get; set; }
         public string PrimaryContact { get; set; }
         public List<string> LeadEntities { get; set; }
