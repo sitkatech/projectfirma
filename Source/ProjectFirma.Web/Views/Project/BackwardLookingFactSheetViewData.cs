@@ -58,12 +58,15 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafDisplayName { get; }
         public Person PrimaryContactPerson { get; }
         public ViewPageContentViewData CustomFactSheetPageTextViewData { get; }
+        public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
+        public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
 
         public BackwardLookingFactSheetViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson projectFactSheetGoogleChart,
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
-            ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet) : base(currentPerson, project)
+            ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet,
+            List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -119,6 +122,8 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
             CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
+            TechnicalAssistanceParameters = technicalAssistanceParameters;
+            TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
         }
     }
 }
