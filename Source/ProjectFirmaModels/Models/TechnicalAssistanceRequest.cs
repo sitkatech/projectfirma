@@ -44,7 +44,11 @@ namespace ProjectFirmaModels.Models
 
         public decimal GetValueProvided(List<TechnicalAssistanceParameter> technicalAssistanceParameters)
         {
-            var yearParameter = technicalAssistanceParameters.Single(x => x.Year == FiscalYear);
+            var yearParameter = technicalAssistanceParameters.SingleOrDefault(x => x.Year == FiscalYear);
+            if (yearParameter == null)
+            {
+                return 0;
+            }
             var rate = GetRateToUse(yearParameter);
             return rate * HoursProvided ?? 0;
         }
