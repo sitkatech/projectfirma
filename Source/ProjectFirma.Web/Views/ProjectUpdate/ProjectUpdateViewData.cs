@@ -19,16 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -82,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false);
+            ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
             ValidationWarnings = validationWarnings;

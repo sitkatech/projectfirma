@@ -38,4 +38,6 @@ values
 (53, 'ManageProjectCustomAttributeTypesList', 'Manage Project Custom Attribute Types List', 2),
 (54, 'FactSheetCustomText', 'Fact Sheet Custom Text', 2),
 (55, 'UsersList', 'Users List', 1),
-(56, 'ProjectUpdateInstructions', 'Project Update Instructions', 2)
+(56, 'ProjectUpdateInstructions', 'Project Update Instructions', 2),
+(57, 'TechnicalAssistanceInstructions', 'Technical Assistance Instructions', 1),
+(58, 'TechnicalAssistanceReport', 'Technical Assistance Report', 1)

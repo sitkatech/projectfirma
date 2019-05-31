@@ -484,6 +484,16 @@
     <Compile Include="Models\Generated\TechnicalAssistanceParameter.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TechnicalAssistanceParameterConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\TechnicalAssistanceParameterPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequest.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequest.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceRequestUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceType.Binding.cs" />
+    <Compile Include="Models\Generated\TechnicalAssistanceTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Tenant.Binding.cs" />
     <Compile Include="Models\Generated\TenantAttribute.Binding.cs" />
     <Compile Include="Models\Generated\TenantAttribute.DatabaseContextExtensions.cs" />
@@ -538,6 +548,9 @@
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
+    <Compile Include="Models\TechnicalAssistanceRequest.cs" />
+    <Compile Include="Models\TechnicalAssistanceRequestSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeRole.cs" />
     <Compile Include="Models\ReleaseNote.cs" />
     <Compile Include="Models\ProjectUpdateBatch.cs" />

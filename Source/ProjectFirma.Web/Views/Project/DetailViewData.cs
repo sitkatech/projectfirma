@@ -19,25 +19,24 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFunding;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
+using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -91,6 +90,9 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
+        public string EditTechnicalAssistanceRequestsUrl { get; }
+        public TechnicalAssistanceRequestsDetailViewData TechnicalAssistanceRequestDetailViewData { get; }
+
 
         public string ProjectUpdateButtonText { get; }
         public bool CanLaunchProjectOrProposalWizard { get; }
@@ -107,6 +109,7 @@ namespace ProjectFirma.Web.Views.Project
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectFundingDetailViewData projectFundingDetailViewData,
+            TechnicalAssistanceRequestsDetailViewData technicalAssistanceRequestDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
@@ -270,6 +273,8 @@ namespace ProjectFirma.Web.Views.Project
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
 
             ProjectFundingDetailViewData = projectFundingDetailViewData;
+            EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
+            TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl =
                 SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c =>
                     c.EditProjectFundingSourceRequestsForProject(project));
