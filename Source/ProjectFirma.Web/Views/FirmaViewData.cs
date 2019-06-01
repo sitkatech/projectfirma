@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Views
             });
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
 
-            MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, "Group1");
+            MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentPerson, "Group1");
 
             // Group 2 - System Config stuff
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentPerson, "Users", "Group2"));
