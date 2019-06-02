@@ -28,6 +28,7 @@ using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views;
 
@@ -271,9 +272,9 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
         }
 
-        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, string menuGroupName)
+        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, Person currentPerson, string menuGroupName)
         {
-            if (UsesTechnicalAssistanceParameters())
+            if (UsesTechnicalAssistanceParameters() && new FirmaAdminFeature().HasPermission(currentPerson).HasPermission)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Parameters",
                     ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",

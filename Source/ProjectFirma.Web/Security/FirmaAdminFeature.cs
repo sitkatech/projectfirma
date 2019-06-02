@@ -27,5 +27,14 @@ namespace ProjectFirma.Web.Security
     public class FirmaAdminFeature : FirmaFeature
     {
         public FirmaAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin }) { }
+
+        public PermissionCheckResult HasPermission(Person person)
+        {
+            if (HasPermissionByPerson(person))
+            {
+                return new PermissionCheckResult();
+            }
+            return new PermissionCheckResult("Does not have administration privileges");
+        }
     }
 }
