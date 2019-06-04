@@ -118,15 +118,8 @@ namespace ProjectFirmaModels.Models
                 var implementationProject = TestFramework.TestProject.Create();
                 implementationProject.ProjectStageID = ProjectStage.Implementation.ProjectStageID;
 
-
-                /*
-                Starting here we were unsure how to fix problems; we can't understand what intention was on the remaining failures. 
-                Were we intending to allow anonymous access, and the test is wrong? Or is the test right, and we started allowing anonymous access by mistake?
-                -- SLG 3/29/2019
-                 */
-
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
@@ -156,7 +149,7 @@ namespace ProjectFirmaModels.Models
                 postImplementationProject.ProjectStageID = ProjectStage.PostImplementation.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
@@ -186,7 +179,7 @@ namespace ProjectFirmaModels.Models
                 completedProject.ProjectStageID = ProjectStage.Completed.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
@@ -216,7 +209,7 @@ namespace ProjectFirmaModels.Models
                 terminatedProject.ProjectStageID = ProjectStage.Terminated.ProjectStageID;
 
                 // - View PMs -
-                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, false);
+                TestExpectedUserPermission(userAnonymous, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userNormal, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userAdmin, viewPerformanceMeasureFeature, true);
                 TestExpectedUserPermission(userSitkaAdmin, viewPerformanceMeasureFeature, true);
