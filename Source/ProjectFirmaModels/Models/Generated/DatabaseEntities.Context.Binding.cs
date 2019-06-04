@@ -243,7 +243,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
         public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectCustomAttributeTypeRole> ProjectCustomAttributeTypeRoles { get; set; }
+        public virtual DbSet<ProjectCustomAttributeTypeRole> AllProjectCustomAttributeTypeRoles { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeTypeRole> ProjectCustomAttributeTypeRoles { get { return AllProjectCustomAttributeTypeRoles.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeType> AllProjectCustomAttributeTypes { get; set; }
         public virtual IQueryable<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get { return AllProjectCustomAttributeTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeUpdate> AllProjectCustomAttributeUpdates { get; set; }

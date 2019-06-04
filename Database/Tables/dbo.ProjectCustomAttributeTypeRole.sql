@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ProjectCustomAttributeTypeRole](
 	[ProjectCustomAttributeTypeID] [int] NOT NULL,
 	[RoleID] [int] NOT NULL,
 	[ProjectCustomAttributeTypeRolePermissionTypeID] [int] NOT NULL,
+	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeTypeRoleID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomAttributeTypeRoleID] ASC
@@ -19,6 +20,11 @@ REFERENCES [dbo].[ProjectCustomAttributeType] ([ProjectCustomAttributeTypeID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole] CHECK CONSTRAINT [FK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeType_ProjectCustomAttributeTypeID]
 GO
+ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID] FOREIGN KEY([ProjectCustomAttributeTypeID], [TenantID])
+REFERENCES [dbo].[ProjectCustomAttributeType] ([ProjectCustomAttributeTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole] CHECK CONSTRAINT [FK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeTypeRolePermissionType_ProjectCustomAttributeTypeRolePermissionTypeID] FOREIGN KEY([ProjectCustomAttributeTypeRolePermissionTypeID])
 REFERENCES [dbo].[ProjectCustomAttributeTypeRolePermissionType] ([ProjectCustomAttributeTypeRolePermissionTypeID])
 GO
@@ -28,3 +34,8 @@ ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [
 REFERENCES [dbo].[Role] ([RoleID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole] CHECK CONSTRAINT [FK_ProjectCustomAttributeTypeRole_Role_RoleID]
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeTypeRole_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeTypeRole] CHECK CONSTRAINT [FK_ProjectCustomAttributeTypeRole_Tenant_TenantID]

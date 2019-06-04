@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             }
 
             projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Merge(newProjectCustomAttributeTypeRoles,
-                HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Local,
+                HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypeRoles.Local,
                 (x, y) => x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID && x.RoleID == y.RoleID &&
                           x.ProjectCustomAttributeTypeRolePermissionTypeID ==
                           y.ProjectCustomAttributeTypeRolePermissionTypeID, HttpRequestStorage.DatabaseEntities);

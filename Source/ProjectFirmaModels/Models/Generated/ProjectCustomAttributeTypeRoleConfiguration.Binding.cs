@@ -19,6 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectCustomAttributeTypeID).HasColumnName(@"ProjectCustomAttributeTypeID").HasColumnType("int").IsRequired();
             Property(x => x.RoleID).HasColumnName(@"RoleID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectCustomAttributeTypeRolePermissionTypeID).HasColumnName(@"ProjectCustomAttributeTypeRolePermissionTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.ProjectCustomAttributeType).WithMany(b => b.ProjectCustomAttributeTypeRoles).HasForeignKey(c => c.ProjectCustomAttributeTypeID).WillCascadeOnDelete(false); // FK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeType_ProjectCustomAttributeTypeID

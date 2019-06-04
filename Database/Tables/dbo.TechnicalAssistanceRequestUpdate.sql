@@ -25,10 +25,20 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate] CHECK CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_Person_PersonID]
 GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_Person_PersonID_TenantID] FOREIGN KEY([PersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate] CHECK CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_Person_PersonID_TenantID]
+GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate] CHECK CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
+GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate] CHECK CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
 GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequestUpdate]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssistanceRequestUpdate_TechnicalAssistanceType_TechnicalAssistanceTypeID] FOREIGN KEY([TechnicalAssistanceTypeID])
 REFERENCES [dbo].[TechnicalAssistanceType] ([TechnicalAssistanceTypeID])

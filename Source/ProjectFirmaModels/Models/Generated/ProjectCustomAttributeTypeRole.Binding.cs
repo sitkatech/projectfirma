@@ -15,9 +15,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectCustomAttributeTypeRole] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[ProjectCustomAttributeTypeRole] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ProjectCustomAttributeTypeRole]")]
-    public partial class ProjectCustomAttributeTypeRole : IHavePrimaryKey, ICanDeleteFull
+    public partial class ProjectCustomAttributeTypeRole : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -93,7 +93,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.ProjectCustomAttributeTypeRoles.Remove(this);
+            dbContext.AllProjectCustomAttributeTypeRoles.Remove(this);
         }
         
         /// <summary>
@@ -110,12 +110,14 @@ namespace ProjectFirmaModels.Models
         public int ProjectCustomAttributeTypeID { get; set; }
         public int RoleID { get; set; }
         public int ProjectCustomAttributeTypeRolePermissionTypeID { get; set; }
+        public int TenantID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeRoleID; } set { ProjectCustomAttributeTypeRoleID = value; } }
 
         public virtual ProjectCustomAttributeType ProjectCustomAttributeType { get; set; }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public ProjectCustomAttributeTypeRolePermissionType ProjectCustomAttributeTypeRolePermissionType { get { return ProjectCustomAttributeTypeRolePermissionType.AllLookupDictionary[ProjectCustomAttributeTypeRolePermissionTypeID]; } }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
