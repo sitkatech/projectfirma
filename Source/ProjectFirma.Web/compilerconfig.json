@@ -46,5 +46,9 @@
   {
     "outputFile": "Content/Bootstrap/firma/actionagenda.theme.css",
     "inputFile": "Content/Bootstrap/firma/actionagenda.theme.less"
+  },
+  {
+    "outputFile": "Content/Bootstrap/firma/bor.theme.css",
+    "inputFile": "Content/Bootstrap/firma/bor.theme.less"
   }
 ]

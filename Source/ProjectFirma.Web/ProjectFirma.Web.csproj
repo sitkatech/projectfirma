@@ -192,7 +192,14 @@
       <DependentUpon>actionagenda.theme.css</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.less" />
+    <Content Include="Content\Bootstrap\firma\bor.theme.css">
+      <DependentUpon>bor.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
+    <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
+      <DependentUpon>bor.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
