@@ -35,7 +35,7 @@ REFERENCES [dbo].[TechnicalAssistanceType] ([TechnicalAssistanceTypeID])
 GO
 ALTER TABLE [dbo].[TechnicalAssistanceRequest] CHECK CONSTRAINT [FK_TechnicalAssistanceRequest_TechnicalAssistanceType_TechnicalAssistanceTypeID]
 GO
-ALTER TABLE [dbo].[TechnicalAssistanceRequest]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssitanceRequest_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[TechnicalAssistanceRequest]  WITH CHECK ADD  CONSTRAINT [FK_TechnicalAssistanceRequest_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[TechnicalAssistanceRequest] CHECK CONSTRAINT [FK_TechnicalAssitanceRequest_Tenant_TenantID]
+ALTER TABLE [dbo].[TechnicalAssistanceRequest] CHECK CONSTRAINT [FK_TechnicalAssistanceRequest_Tenant_TenantID]
