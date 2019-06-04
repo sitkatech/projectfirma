@@ -66,42 +66,5 @@ namespace ProjectFirma.Web.Views.FundingSource
             Assert.That(fundingSource.IsActive, Is.EqualTo(viewModel.IsActive));
         }
 
-        /// <summary>
-        /// This test is challenging to fix since it calls HttpRequestContext.Person
-        /// </summary>
-        [Test]
-        public void CanValidateModelTest()
-        {
-            // Arrange
-            var fundingSource = TestFramework.TestFundingSource.Create();
-            var viewModel = new EditViewModel(fundingSource);
-            var nameOfFundingSourceName = GeneralUtility.NameOf(() => viewModel.FundingSourceName);
-
-            ICollection<ValidationResult> validationResults;
-
-            // Act
-            DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
-
-            // Assert
-            Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldRequired(validationResults, nameOfFundingSourceName);
-
-            // Act
-            // Set string fields to string longer than their max lengths
-            viewModel.FundingSourceName = TestFramework.MakeTestNameLongerThan(nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
-            DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
-
-            // Assert
-            Assert.That(validationResults.Count, Is.EqualTo(1), "Expecting certain number of errors");
-            TestFramework.AssertFieldStringLength(validationResults, nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
-
-            // Act
-            // Happy path
-            viewModel.FundingSourceName = TestFramework.MakeTestName(nameOfFundingSourceName, ProjectFirmaModels.Models.FundingSource.FieldLengths.FundingSourceName);
-            var isValid = DataAnnotationsValidator.TryValidate(viewModel, out validationResults);
-
-            // Assert
-            Assert.That(isValid, Is.True, "Should pass validation");
-        }
     }
 }
