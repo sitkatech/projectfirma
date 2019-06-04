@@ -107,17 +107,17 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int ProjectCustomAttributeTypeRoleID { get; set; }
+        public int TenantID { get; set; }
         public int ProjectCustomAttributeTypeID { get; set; }
         public int RoleID { get; set; }
         public int ProjectCustomAttributeTypeRolePermissionTypeID { get; set; }
-        public int TenantID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeRoleID; } set { ProjectCustomAttributeTypeRoleID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectCustomAttributeType ProjectCustomAttributeType { get; set; }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public ProjectCustomAttributeTypeRolePermissionType ProjectCustomAttributeTypeRolePermissionType { get { return ProjectCustomAttributeTypeRolePermissionType.AllLookupDictionary[ProjectCustomAttributeTypeRolePermissionTypeID]; } }
-        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

@@ -4,10 +4,10 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectCustomAttributeTypeRole](
 	[ProjectCustomAttributeTypeRoleID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ProjectCustomAttributeTypeID] [int] NOT NULL,
 	[RoleID] [int] NOT NULL,
 	[ProjectCustomAttributeTypeRolePermissionTypeID] [int] NOT NULL,
-	[TenantID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeTypeRoleID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomAttributeTypeRoleID] ASC
