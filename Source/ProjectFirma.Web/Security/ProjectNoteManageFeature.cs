@@ -51,4 +51,9 @@ namespace ProjectFirma.Web.Security
             return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
         }
     }
+
+
+
+
+
 }

@@ -1009,7 +1009,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectCreateFeature]
+        [ProjectNoteManageFeature]
         public PartialViewResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
             var projectNote = projectNotePrimaryKey.EntityObject;
@@ -1018,7 +1018,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectNoteManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditNote(ProjectNotePrimaryKey projectNotePrimaryKey, EditNoteViewModel viewModel)
         {
@@ -1038,7 +1038,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectCreateFeature]
+        [ProjectNoteManageFeature]
         public PartialViewResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
             var projectNote = projectNotePrimaryKey.EntityObject;
@@ -1059,7 +1059,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectNoteManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteNote(ProjectNotePrimaryKey projectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -1095,7 +1095,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectCreateFeature]
+        [ProjectDocumentEditAsAdminFeature]
         public PartialViewResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
@@ -1104,7 +1104,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectDocumentEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, EditProjectDocumentsViewModel viewModel)
         {
@@ -1130,7 +1130,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectCreateFeature]
+        [ProjectDocumentEditAsAdminFeature]
         public PartialViewResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
         {
             var projectDocument = projectDocumentPrimaryKey.EntityObject;
@@ -1151,7 +1151,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [ProjectDocumentEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
