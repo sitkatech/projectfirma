@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
