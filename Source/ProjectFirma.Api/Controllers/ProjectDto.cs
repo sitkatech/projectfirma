@@ -47,6 +47,8 @@ namespace ProjectFirma.Api.Controllers
             {
                 LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
             }
+
+            //ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
         }
 
         public ProjectDto()
@@ -77,5 +79,6 @@ namespace ProjectFirma.Api.Controllers
         public decimal? EstimatedTotalCost { get; set; }
         public Feature LocationPointAsGeoJsonFeature { get; set; }
 
+//        public List<ProjectCustomAttributeDto> ProjectCustomAttributes { get; set; }
     }
 }

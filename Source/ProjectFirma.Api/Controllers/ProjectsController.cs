@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
@@ -16,12 +17,32 @@ namespace ProjectFirma.Api.Controllers
 
         [Route("api/Projects/List/{apiKey}")]
         [HttpGet]
-        public IHttpActionResult Get(string apiKey)
+        public IHttpActionResult List(string apiKey)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
-            var projects = _databaseEntities.Projects.ToList().Where(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities"));
-            var result = projects.Where(x => x.ProjectCustomAttributes.Single(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities").ProjectCustomAttributeValues.Single().AttributeValue == "Yes").Select(x => new ProjectDto(x)).ToList();
+            var projects = _databaseEntities.Projects.ToList();
+            var result = projects.Select(x => new ProjectDto(x)).ToList();
             return Ok(result);
+        }
+
+        [Route("api/Projects/ListNTAs/{apiKey}/{nepFundedOnly}")]
+        [HttpGet]
+        public IHttpActionResult ListNTAs(string apiKey, bool nepFundedOnly)
+        {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            List<ProjectDto> result;
+            var projects = _databaseEntities.Projects.ToList();
+            if (nepFundedOnly)
+            {
+                var ntas = projects.Where(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities"));
+                result = ntas.Where(x => x.ProjectCustomAttributes.Single(y => y.ProjectCustomAttributeType.ProjectCustomAttributeTypeName == "NEP Funded Activities").ProjectCustomAttributeValues.Single().AttributeValue == "Yes").Select(x => new ProjectDto(x)).ToList();
+            }
+            else
+            {
+                result = projects.Select(x => new ProjectDto(x)).ToList();
+            }
+            return Ok(result);
+
         }
 
         [Route("api/Projects/Get/{apiKey}/{id}")]

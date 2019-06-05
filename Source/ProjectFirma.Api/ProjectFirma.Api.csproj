@@ -147,6 +147,7 @@
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
     <Compile Include="Controllers\OrganizationDto.cs" />
+    <Compile Include="Controllers\ProjectCustomAttributeDto.cs" />
     <Compile Include="Controllers\ProjectDto.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
