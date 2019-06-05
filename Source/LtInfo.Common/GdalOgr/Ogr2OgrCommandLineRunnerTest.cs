@@ -18,9 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -218,13 +217,13 @@ namespace LtInfo.Common.GdalOgr
             var destinationColumnName = "attribute";
             
             try
-            {                
+            {
                 CreateOgrRequiredTables(destinationTableName, null);
                 
                 // Act
                 // ---
                 ogr2OgrCommandLineRunner.ImportGeoJsonToMsSql(geoJson, TempDbSqlDatabase.DatabaseConnectionStringToTempDb, destinationTableName, sourceColumnName1, destinationColumnName, string.Format(", {0} as ProjectID", 77));
-                var result = ExecAdHocSql(string.Format("select * from {0}", destinationTableName));
+                var result = ExecAdHocSql($"select * from {destinationTableName}");
 
                 // Assert
                 // ------
