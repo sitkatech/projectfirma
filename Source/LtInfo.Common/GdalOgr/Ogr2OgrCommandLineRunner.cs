@@ -69,7 +69,7 @@ namespace LtInfo.Common.GdalOgr
         }
 
         public string ImportFileGdbToGeoJson(FileInfo inputGdbFile, string sourceLayerName, bool explodeCollections)
-        {            
+        {
             Check.Require(inputGdbFile.FullName.ToLower().EndsWith(".gdb.zip"),
                 $"Input filename for GDB input must end with .gdb.zip. Filename passed is {inputGdbFile.FullName}");
             Check.RequireFileExists(inputGdbFile, "Can't find input File GDB for import with ogr2ogr");

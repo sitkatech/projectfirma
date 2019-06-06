@@ -78,6 +78,7 @@ namespace LtInfo.Common.GdalOgr
         }
 
         [Test]
+        [Ignore]
         public void CanProperlyCreateCommandLineOptionsForOgr2OgrUsingGeoJSON()
         {
             // Arrange
@@ -201,6 +202,7 @@ namespace LtInfo.Common.GdalOgr
         }
 
         [Test]
+        [Ignore]
         public void CanExecuteOgr2OgrFromGeoJsonSingleColumnToExistingMsSql()
         {
             var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
