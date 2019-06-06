@@ -54,31 +54,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             Assert.That(viewModel.GeospatialAreaIDs, Is.EquivalentTo(allGeospatialAreas.Select(x => x.GeospatialAreaID)));
         }
 
-        [Test]
-        public void UpdateModelTest()
-        {
-            // Arrange
-            var geospatialArea1 = TestFramework.TestGeospatialArea.Create();
-            var geospatialArea2 = TestFramework.TestGeospatialArea.Create();
-            var geospatialArea3 = TestFramework.TestGeospatialArea.Create();
-            var geospatialArea4 = TestFramework.TestGeospatialArea.Create();
-
-            var project = TestFramework.TestProject.Create();
-            var projectGeospatialArea1 = TestFramework.TestProjectGeospatialArea.Create(project, geospatialArea1);
-            var projectGeospatialArea2 = TestFramework.TestProjectGeospatialArea.Create(project, geospatialArea2);
-
-            Assert.That(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID), Is.EquivalentTo(new List<int> { projectGeospatialArea1.GeospatialAreaID, projectGeospatialArea2.GeospatialAreaID }));
-
-            var geospatialAreasSelected = new List<ProjectFirmaModels.Models.GeospatialArea> { geospatialArea1, geospatialArea3, geospatialArea4 };
-
-            var viewModel = new EditProjectGeospatialAreasViewModel{ GeospatialAreaIDs = geospatialAreasSelected.Select(x => x.GeospatialAreaID).ToList() };
-
-            // Act
-            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
-            viewModel.UpdateModel(project, currentProjectGeospatialAreas, HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local);
-
-            // Assert
-            Assert.That(currentProjectGeospatialAreas.Select(x => x.GeospatialAreaID), Is.EquivalentTo(geospatialAreasSelected.Select(x => x.GeospatialAreaID)));
-        }
     }
 }

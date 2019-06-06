@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Common
         }
         public static List<string> CalculateYearRanges(IEnumerable<int> years)
         {
-            var yearsInOrder = years.OrderBy(x => x).ToList();
+            var yearsInOrder = years.Distinct().OrderBy(x => x).ToList();
             if (!yearsInOrder.Any())
             {
                 return new List<string>();

@@ -643,12 +643,13 @@ namespace ProjectFirma.Web.Models
                 // right now the test is constrained to just one funding source
                 if (expectedMissingYears.Any())
                 {
-                    string expectedMissingText =
-                        // This *seems* like it might be more helpful, but isn't what's actually going on, so I've changed it to match current reality. -- SLG 4/1/2019
-                        // Still not working however..
-                        //$"Missing Expenditures for Funding Source '{fundingSources.First().GetDisplayName()}' for the following years: {string.Join(", ", expectedMissingYears)}";
-                        $"Missing Expenditures for {expectedMissingYears.Min()}-{expectedMissingYears.Max()}";
-                    Assert.That(result, Is.EquivalentTo(new List<string>{ expectedMissingText }), assertionMessage);
+                    string yearRangeString = (expectedMissingYears.Count == 1) ?
+                        $"{expectedMissingYears.Single()}"
+                        :
+                        $"{expectedMissingYears.Min()}-{expectedMissingYears.Max()}";
+
+                    Assert.That(result.Count, Is.EqualTo(1), message: $"Expected only one error message but got:\r\n{String.Join("\r\n", result)}");
+                    Assert.That(result.First(), Is.StringStarting("Missing Expenditures ").And.EndsWith(yearRangeString), assertionMessage);
                 }
                 else
                 {

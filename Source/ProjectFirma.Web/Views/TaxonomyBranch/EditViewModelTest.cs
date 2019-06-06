@@ -45,22 +45,6 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         }
 
         [Test]
-        public void UpdateModelTest()
-        {
-            // Arrange
-            var testTaxonomyBranch = TestFramework.TestTaxonomyBranch.Create();
-            var viewModel = new EditViewModel(testTaxonomyBranch);
-            viewModel.TaxonomyBranchName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyBranchName), ProjectFirmaModels.Models.TaxonomyBranch.FieldLengths.TaxonomyBranchName);            
-
-            // Act
-            var testPerson = TestFramework.TestPerson.Create();
-            viewModel.UpdateModel(testTaxonomyBranch, testPerson);
-
-            // Assert
-            Assert.That(testTaxonomyBranch.TaxonomyBranchName, Is.EqualTo(viewModel.TaxonomyBranchName));
-        }
-
-        [Test]
         public void CanValidateModelTest()
         {
             // Arrange
