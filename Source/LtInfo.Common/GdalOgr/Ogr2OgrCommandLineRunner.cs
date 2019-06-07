@@ -34,7 +34,6 @@ namespace LtInfo.Common.GdalOgr
     {
         public const int DefaultCoordinateSystemId = 4326;
         public const int DefaultTimeOut = 110000;
-        public const string OgrGeoJsonTableName = "OGRGeoJSON";
 
         private readonly FileInfo _ogr2OgrExecutable;
         private readonly int _coordinateSystemId;
@@ -77,28 +76,6 @@ namespace LtInfo.Common.GdalOgr
             var commandLineArguments = BuildCommandLineArgumentsForFileGdbToGeoJson(inputGdbFile, _gdalDataPath, sourceLayerName, _coordinateSystemId, explodeCollections);
             var processUtilityResult = ExecuteOgr2OgrCommand(commandLineArguments);
             return processUtilityResult.StdOut;
-        }
-
-        public void ImportGeoJsonToMsSql(string geoJson, string connectionString, string destinationTableName, string sourceColumnName, string destinationColumnName, string extraColumns)
-        {
-            var databaseConnectionString = $"MSSQL:{connectionString}";
-            using (var geoJsonFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".json"))
-            {
-                File.WriteAllText(geoJsonFile.FileInfo.FullName, geoJson);
-                var commandLineArguments = BuildCommandLineArgumentsForGeoJsonToMsSql(geoJsonFile.FileInfo,
-                    sourceColumnName, destinationTableName, destinationColumnName, _gdalDataPath, databaseConnectionString, _coordinateSystemId, extraColumns);
-                ExecuteOgr2OgrCommand(commandLineArguments);
-            }
-        }
-
-        /// <summary>
-        /// Import GDB to SQL using GDAL Ogr2Ogr command line tool
-        /// </summary>
-        public void ImportArcGisQueryToMsSql(string arcGisQuery, string destinationTableName, string sourceColumnName, string destinationColumnName, string connectionString)
-        {
-            var databaseConnectionString = $"MSSQL:{connectionString}";
-            var commandLineArguments = BuildCommandLineArgumentsForArgGisQueryToMsSql(arcGisQuery, _gdalDataPath, databaseConnectionString, destinationTableName, sourceColumnName, destinationColumnName, _coordinateSystemId);
-            ExecuteOgr2OgrCommand(commandLineArguments);
         }
 
         private ProcessUtilityResult ExecuteOgr2OgrCommand(List<string> commandLineArguments)
@@ -148,59 +125,6 @@ namespace LtInfo.Common.GdalOgr
                 inputGdbFile.FullName,
                 "-nln",
                 targetTableName
-            };
-
-            return commandLineArguments;
-        }
-
-        /// <summary>
-        /// Produces the command line arguments for ogr2ogr.exe to run the File Geodatabase import.
-        /// <example>"C:\Program Files\GDAL\ogr2ogr.exe" -progress -append --config GDAL_DATA "C:\Program Files\GDAL\gdal-data" -t_srs "EPSG:4326" -f MSSQLSpatial "MSSQL:server=(local);database=Scratch;trusted_connection=yes" "C:\temp\GdalScratch\Sub_Actions_20131219.gdb" "Sub_Actions_Polygon_20131219" -nln MyTable</example>
-        /// </summary>
-        internal static List<string> BuildCommandLineArgumentsForArgGisQueryToMsSql(string arcGisQuery, DirectoryInfo gdalDataDirectoryInfo, string databaseConnectionString, string targetTableName, string sourceColumnName, string destinationColumnName, int coordinateSystemId)
-        {
-            var commandLineArguments =  new List<string>
-            {
-                "-append",
-                "-sql",
-                $"SELECT {sourceColumnName} AS {destinationColumnName} FROM {OgrGeoJsonTableName}",
-                "--config",
-                "GDAL_DATA",
-                gdalDataDirectoryInfo.FullName,
-                "-t_srs",
-                GetMapProjection(coordinateSystemId),
-                "-f",
-                "MSSQLSpatial",
-                databaseConnectionString,
-                $"\"{arcGisQuery}\"",
-                "-nln",
-                targetTableName
-            };
-
-            return commandLineArguments;
-        }
-
-        internal static List<string> BuildCommandLineArgumentsForGeoJsonToMsSql(FileInfo sourceGeoJsonFile, string sourceColumnName, string destinationTableName, string destinationColumnName, DirectoryInfo gdalDataDirectoryInfo, string databaseConnectionString, int coordinateSystemId, string extraColumns)
-        {
-            //c:\SVN\sitkatech\trunk\Corral\Build>"C:\Program Files\GDAL\ogr2ogr.exe" -preserve_fid --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -f MSSQLSpatial "MSSQL:server=localhost;database=tempdb;trusted_connection=yes" "C:\temp\geojson.json" -nln "TestTable"            
-
-            var commandLineArguments = new List<string>
-            {
-                "-append",
-                "-sql",
-                $"SELECT {sourceColumnName} AS {destinationColumnName}{extraColumns} FROM {OgrGeoJsonTableName}",
-                "--config",
-                "GDAL_DATA",
-                gdalDataDirectoryInfo.FullName,
-                "-t_srs",
-                GetMapProjection(coordinateSystemId),
-                "-explodecollections",
-                "-f",
-                "MSSQLSpatial",
-                databaseConnectionString,
-                sourceGeoJsonFile.FullName,
-                "-nln",
-                destinationTableName
             };
 
             return commandLineArguments;
