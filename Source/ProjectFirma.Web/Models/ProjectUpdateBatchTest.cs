@@ -62,6 +62,7 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = currentYear;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.CompletionYear = currentYear;
+            projectUpdateBatch.PrimaryKey = TestFramework.RandomInMemoryOnlyUniqueID();
 
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
@@ -77,6 +78,9 @@ namespace ProjectFirma.Web.Models
             TestFramework.TestProjectFundingSourceExpenditureUpdate.Create(projectUpdateBatch, fundingSource1, currentYear, 2000);
             projectUpdate.ProjectLocationSimpleTypeID = ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID;
             projectUpdate.ProjectLocationNotes = "No location for now";
+            var geospatialAreaType = TestFramework.TestGeospatialAreaType.Create();
+            var projectGeospatialAreaTypeNoteUpdate = new ProjectGeospatialAreaTypeNoteUpdate(projectUpdateBatch, geospatialAreaType, TestFramework.MakeTestName("Notes"));
+            projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.Add(projectGeospatialAreaTypeNoteUpdate);
 
             projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
