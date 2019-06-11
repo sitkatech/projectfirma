@@ -1,4 +1,6 @@
 ﻿using Hangfire.Dashboard;
+using Keystone.Common.OpenID;
+using Microsoft.Owin;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -8,7 +10,10 @@ namespace ProjectFirma.Web.ScheduledJobs
     {
         public bool Authorize(DashboardContext context)
         {
-            var person = HttpRequestStorage.Person;
+            var owinContext = new OwinContext(context.GetOwinEnvironment());
+            var person = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(owinContext.Authentication.User,
+                PersonModelExtensions.GetAnonymousSitkaUser(),
+                HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
             return person.IsAdministrator();
         }
     }

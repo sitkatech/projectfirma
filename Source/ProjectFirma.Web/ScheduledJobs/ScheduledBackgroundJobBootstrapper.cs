@@ -50,11 +50,6 @@ namespace ProjectFirma.Web.ScheduledJobs
             // http://hangfire.readthedocs.org/en/latest/background-processing/dealing-with-exceptions.html
             // Note that specific jobs may override this; look for uses of the AutomaticRetry symbol on specific job start functions.
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 0 });
-
-            app.UseHangfireDashboard("/hangfire", new DashboardOptions
-            {
-                Authorization = new[] { new HangfireFirmaWebAuthorizationFilter() }
-            });
         }
 
         /// <summary>

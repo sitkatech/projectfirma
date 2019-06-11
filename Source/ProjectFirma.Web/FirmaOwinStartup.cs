@@ -25,6 +25,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
+using Hangfire;
 
 // This is how Owin figures out the class to call on startup
 [assembly: OwinStartup(typeof(FirmaOwinStartup))]
@@ -41,7 +42,6 @@ namespace ProjectFirma.Web
         /// </summary>
         public void Configuration(IAppBuilder app)
         {
-            ScheduledBackgroundJobBootstrapper.ConfigureHangfireAndScheduledBackgroundJobs(app);
             SitkaHttpApplication.Logger.Info("Owin Startup");
             app.Use((ctx, next) =>
             {
@@ -141,9 +141,15 @@ namespace ProjectFirma.Web
                     }
                 });
 
+                // we have to do this per tenant so needs to belong here
+                branch.UseHangfireDashboard("/hangfire", new DashboardOptions
+                {
+                    Authorization = new[] { new HangfireFirmaWebAuthorizationFilter() }
+                });
                 return branch.Build()(ctx.Environment);
             });
 
+            ScheduledBackgroundJobBootstrapper.ConfigureHangfireAndScheduledBackgroundJobs(app);
         }
 
         private Tenant GetTenantFromUrl(IOwinRequest argRequest)
