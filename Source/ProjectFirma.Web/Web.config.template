@@ -31,7 +31,7 @@
     <add key="DefaultSupportPersonID" value="2"/>
     <add key="LogFileFolder" value="${application-root-dir}\Logs"/>
     <add key="PsInfoUrl" value="${psinfo-url}"/>
-    <add key="PsInfoDataCenterUrl" value="${psinfo-url}InfoCenter"/>
+    <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>

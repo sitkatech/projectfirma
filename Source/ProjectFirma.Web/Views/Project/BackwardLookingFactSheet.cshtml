@@ -118,7 +118,9 @@
             {
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-3">
-                        <strong>Lead Implementer</strong>
+                        @* <strong>Lead Implementer</strong> *@
+                        <strong>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</strong>
+
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         @ViewDataTyped.Project.GetPrimaryContactOrganization().OrganizationName

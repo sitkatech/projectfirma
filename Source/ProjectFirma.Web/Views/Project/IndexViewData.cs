@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Project
             GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>(), geospatialAreaTypes, projectCustomAttributeTypes) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
 
-            if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
+            if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
                 GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
             }
