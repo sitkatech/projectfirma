@@ -621,7 +621,7 @@ namespace ProjectFirmaModels.Models
         public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();
-            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).FirstOrDefault() : null;
+            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
         }
 
         public static ProjectUpdateBatch GetLatestUpdateBatch(this Project project)
