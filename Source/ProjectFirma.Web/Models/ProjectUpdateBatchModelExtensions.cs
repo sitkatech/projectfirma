@@ -62,6 +62,8 @@ namespace ProjectFirma.Web.Models
 
         public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, Person currentPerson)
         {
+            Check.Require(project.ProjectUpdateBatches.All(x => x.ProjectUpdateState == ProjectUpdateState.Approved), "Cannot create a new Project Update Batch, there is already an active update for this project.");
+
             var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentPerson);
 
             // basics & map
