@@ -256,6 +256,14 @@ namespace ProjectFirmaModels.Models
             return project.ProjectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First().ProjectUpdateState;
         }
 
+        public static ProjectUpdateState GetLatestUpdateStateResilientToDuplicateUpdateBatches(this Project project)
+        {
+            if (!project.ProjectUpdateBatches.Any())
+                return null;
+
+            return project.ProjectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First().ProjectUpdateState;
+        }
+
         public static string GetProjectLocationStateProvince(this Project project)
         {
             if (project.HasProjectLocationPoint())
@@ -606,13 +614,14 @@ namespace ProjectFirmaModels.Models
 
         public static ProjectUpdateBatch GetLatestNotApprovedUpdateBatch(this Project project)
         {
-            return project.ProjectUpdateBatches.SingleOrDefault(x => x.ProjectUpdateState != ProjectUpdateState.Approved);
+            // Making resilient to duplicate Update Batches (even though this should not occur), return latest if more than one are found
+            return project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState != ProjectUpdateState.Approved).OrderByDescending(x => x.LastUpdateDate).FirstOrDefault();
         }
 
         public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();
-            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).First() : null;
+            return projectUpdateBatches.Any() ? projectUpdateBatches.OrderByDescending(x => x.LastUpdateDate).FirstOrDefault() : null;
         }
 
         public static ProjectUpdateBatch GetLatestUpdateBatch(this Project project)

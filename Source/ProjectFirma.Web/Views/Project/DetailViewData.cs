@@ -211,7 +211,7 @@ namespace ProjectFirma.Web.Views.Project
             }
             else
             {
-                var latestUpdateState = project.GetLatestUpdateState();
+                var latestUpdateState = project.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
                 ProjectUpdateButtonText =
                     latestUpdateState == ProjectUpdateState.Submitted ||
                     latestUpdateState == ProjectUpdateState.Returned

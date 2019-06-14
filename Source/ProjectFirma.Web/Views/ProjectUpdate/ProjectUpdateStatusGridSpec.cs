@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add("Reporting Period Update Status",
                 x =>
                 {
-                    var projectUpdateState = x.GetLatestUpdateState();
+                    var projectUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
                     if (projectUpdateState == null ||
                         (projectUpdateState == ProjectUpdateState.Approved && x.GetLatestApprovedUpdateBatch().LastUpdateDate < FirmaDateUtilities.LastReportingPeriodStartDate()))
                         return "Not Started";
@@ -172,7 +172,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Add(String.Empty,
                 x =>
                 {
-                    var latestUpdateState = x.GetLatestUpdateState();
+                    var latestUpdateState = x.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
 
                     if (!x.IsUpdateMandatory() && (latestUpdateState == null || latestUpdateState == ProjectUpdateState.Approved))
                     {
