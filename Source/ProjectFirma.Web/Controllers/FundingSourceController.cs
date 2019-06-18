@@ -176,12 +176,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteFundingSource(FundingSource fundingSource, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !fundingSource.HasDependentObjects();
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", SitkaRoute<FundingSourceController>.BuildLinkFromExpression(x => x.Detail(fundingSource), "here"));
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var numberOfProjectsAssociated = fundingSource.GetAssociatedProjects(CurrentPerson).Count;
+            var confirmMessage =
+                $"This {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} is associated with {numberOfProjectsAssociated} Projects. Deleting the Funding Source will delete all associated expenditure records. Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -196,7 +196,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDeleteFundingSource(fundingSource, viewModel);
             }
+
             fundingSource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+
             SetMessageForDisplay($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {name} successfully deleted.");
             return new ModalDialogFormJsonResult();
         }
