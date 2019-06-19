@@ -30,9 +30,10 @@
 
 @section RightOfPageTitle
 {
-           
-    @ModalDialogFormHelper.ModalDialogFormLink("Pull User from Keystone", ViewDataTyped.PullUserFromKeystoneUrl, "Pull User from Keystone", new List<string> {"btn", "btn-firma", "btn-sm"}, ViewDataTyped.UserIsSitkaAdmin)
-
+    @if (ViewDataTyped.UserIsSitkaAdmin)
+    {
+        <a href="@ViewDataTyped.InviteUserUrl" class="btn btn-sm btn-firma">Invite User</a>
+    }
 }
 
 

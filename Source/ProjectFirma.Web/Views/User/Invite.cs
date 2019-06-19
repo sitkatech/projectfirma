@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PullUserFromKeystoneViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Invite.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,11 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.User
 {
-    public class PullUserFromKeystoneViewData
-    {       
-        public PullUserFromKeystoneViewData()
-        {
-            
-        }
+    public abstract class Invite : LtInfo.Common.Mvc.TypedWebViewPage<InviteViewData, InviteViewModel>
+    {
     }
 }

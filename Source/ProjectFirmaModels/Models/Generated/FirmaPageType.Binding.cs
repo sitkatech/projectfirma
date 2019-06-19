@@ -171,6 +171,7 @@ namespace ProjectFirmaModels.Models
         UsersList = 55,
         ProjectUpdateInstructions = 56,
         TechnicalAssistanceInstructions = 57,
-        TechnicalAssistanceReport = 58
+        TechnicalAssistanceReport = 58,
+        InviteUser = 59
     }
 }

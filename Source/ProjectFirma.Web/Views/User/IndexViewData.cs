@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -35,9 +34,8 @@ namespace ProjectFirma.Web.Views.User
         public string GridName { get; }
         public string GridDataUrl { get; }
 
-        public string PullUserFromKeystoneUrl { get; }
+        public string InviteUserUrl { get; }
         public bool UserIsSitkaAdmin { get; }
-        public IndexGridSpec.UsersStatusFilterTypeEnum UsersStatusFilterType { get; }
         public List<SelectListItem> ActiveOnlyOrAllUsersSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
 
@@ -47,7 +45,7 @@ namespace ProjectFirma.Web.Views.User
             GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
-            PullUserFromKeystoneUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.PullUserFromKeystone());
+            InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
 
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;

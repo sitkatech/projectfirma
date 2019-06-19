@@ -50,6 +50,7 @@
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
     <Compile Include="Common\IFieldDefinition.cs" />
     <Compile Include="Common\IFieldDefinitionDisplayAttribute.cs" />
+    <Compile Include="Common\KeystoneService.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
     <Compile Include="Common\SitkaController.cs" />
@@ -1263,9 +1264,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
-    <Compile Include="Views\User\PullUserFromKeystone.cs" />
-    <Compile Include="Views\User\PullUserFromKeystoneViewData.cs" />
-    <Compile Include="Views\User\PullUserFromKeystoneViewModel.cs" />
+    <Compile Include="Views\User\Invite.cs" />
+    <Compile Include="Views\User\InviteViewData.cs" />
+    <Compile Include="Views\User\InviteViewModel.cs" />
     <Compile Include="Views\WebServices\ViewAccessToken.cs" />
     <Compile Include="Views\WebServices\Index.cs" />
     <Compile Include="Views\WebServices\ViewAccessTokenViewData.cs" />
@@ -1318,7 +1319,6 @@
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasController.js" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsController.js" />
-    <Content Include="Views\User\PullUserFromKeystone.cshtml" />
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
@@ -1378,6 +1378,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <Content Include="Views\User\Invite.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

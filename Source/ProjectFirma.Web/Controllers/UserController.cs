@@ -23,12 +23,16 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web.Mvc;
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.User;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Email;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -45,8 +49,10 @@ namespace ProjectFirma.Web.Controllers
         [UserEditFeature]
         public ViewResult Index()
         {
-            const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum = IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers;
-            return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
+            const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
+                IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers;
+            return ViewIndex(
+                SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
         [UserEditFeature]
@@ -56,8 +62,18 @@ namespace ProjectFirma.Web.Controllers
 
             List<SelectListItem> activeOnlyOrAllUserSelectListItems = new List<SelectListItem>()
             {
-                new SelectListItem() {Text = "Active Users Only", Value = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers))},
-                new SelectListItem() {Text = "All Users", Value = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers))}
+                new SelectListItem()
+                {
+                    Text = "Active Users Only",
+                    Value = SitkaRoute<UserController>.BuildUrlFromExpression(x =>
+                        x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers))
+                },
+                new SelectListItem()
+                {
+                    Text = "All Users",
+                    Value = SitkaRoute<UserController>.BuildUrlFromExpression(x =>
+                        x.IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum.AllUsers))
+                }
             };
 
             var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOnlyOrAllUserSelectListItems);
@@ -65,10 +81,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [UserEditFeature]
-        public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
+        public GridJsonNetJObjectResult<Person> IndexGridJsonData(
+            IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentPerson);
-            var persons = HttpRequestStorage.DatabaseEntities.People.Include(x => x.Organization).Include(x => x.OrganizationsWhereYouAreThePrimaryContactPerson).ToList().Where(x => new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
+            var persons = HttpRequestStorage.DatabaseEntities.People.Include(x => x.Organization)
+                .Include(x => x.OrganizationsWhereYouAreThePrimaryContactPerson).ToList().Where(x =>
+                    new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
             switch (usersStatusFilterType)
             {
                 case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:
@@ -80,7 +99,9 @@ namespace ProjectFirma.Web.Controllers
                     throw new ArgumentOutOfRangeException("usersStatusFilterType", usersStatusFilterType,
                         null);
             }
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(persons.OrderBy(x => x.GetFullNameLastFirst()).ToList(), gridSpec);
+
+            var gridJsonNetJObjectResult =
+                new GridJsonNetJObjectResult<Person>(persons.OrderBy(x => x.GetFullNameLastFirst()).ToList(), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -103,6 +124,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
+
             viewModel.UpdateModel(person, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
@@ -110,7 +132,9 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
         {
             var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
-            var rolesAsSelectListItems = roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture), x => x.GetRoleDisplayName());
+            var rolesAsSelectListItems =
+                roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture),
+                    x => x.GetRoleDisplayName());
             var viewData = new EditRolesViewData(rolesAsSelectListItems);
             return RazorPartialView<EditRoles, EditRolesViewData, EditRolesViewModel>(viewData, viewModel);
         }
@@ -129,10 +153,12 @@ namespace ProjectFirma.Web.Controllers
             var canDelete = !person.HasDependentObjects() && person != CurrentPerson;
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {person.GetFullNameFirstLastAndOrg()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person", SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
+                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
+                viewModel);
         }
 
         [HttpPost]
@@ -145,6 +171,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDelete(person, viewModel);
             }
+
             person.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
@@ -154,16 +181,22 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var userNotificationGridSpec = new UserNotificationGridSpec();
-            var userNotificationGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.UserNotificationsGridJsonData(personPrimaryKey));
+            var userNotificationGridDataUrl =
+                SitkaRoute<UserController>.BuildUrlFromExpression(
+                    x => x.UserNotificationsGridJsonData(personPrimaryKey));
             var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
+                ObjectNameSingular =
+                    $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural =
+                    $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
                 SaveFiltersInCookie = true
             };
             const string basicProjectInfoGridName = "userProjectListGrid";
-            var basicProjectInfoGridDataUrl = SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
-            var activateInactivateUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
+            var basicProjectInfoGridDataUrl =
+                SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
+            var activateInactivateUrl =
+                SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
             var viewData = new DetailViewData(CurrentPerson,
                 person,
                 basicProjectInfoGridSpec,
@@ -181,7 +214,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.GetDisplayName()).ToList();
+            var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.GetDisplayName())
+                .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -213,27 +247,31 @@ namespace ProjectFirma.Web.Controllers
                 if (isPrimaryContactForAnyOrganization)
                 {
                     confirmMessage =
-                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x =>$"<li>{x.OrganizationName}</li>"))}</ul>";
+                        $@"You cannot inactive user '{person.GetFullNameFirstLast()}' because {person.FirstName} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for the following organizations: <ul> {string.Join("\r\n", person.GetPrimaryContactOrganizations().Select(x => $"<li>{x.OrganizationName}</li>"))}</ul>";
                 }
                 else
                 {
                     confirmMessage = $"Are you sure you want to inactivate user '{person.GetFullNameFirstLast()}'?";
                 }
+
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, !isPrimaryContactForAnyOrganization);
-                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(
+                    viewData, viewModel);
             }
             else
             {
                 confirmMessage = $"Are you sure you want to activate user '{person.GetFullNameFirstLast()}'?";
                 var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
-                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(
+                    viewData, viewModel);
             }
         }
 
         [HttpPost]
         [UserEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ActivateInactivatePerson(PersonPrimaryKey personPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult ActivateInactivatePerson(PersonPrimaryKey personPrimaryKey,
+            ConfirmDialogFormViewModel viewModel)
         {
             var person = personPrimaryKey.EntityObject;
             if (person.IsActive)
@@ -243,112 +281,20 @@ namespace ProjectFirma.Web.Controllers
                             person.FirstName
                         } is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}!");
             }
+
             if (!ModelState.IsValid)
             {
                 return ViewActivateInactivatePerson(person, viewModel);
             }
+
             if (person.IsActive)
             {
                 // if the person is currently active, we need to remove them from the support email list no matter what since we are about to inactivate the person
                 person.ReceiveSupportEmails = false;
             }
+
             person.IsActive = !person.IsActive;
             return new ModalDialogFormJsonResult();
-        }
-
-        [HttpGet]
-        [SitkaAdminFeature]
-        public PartialViewResult PullUserFromKeystone()
-        {
-            var viewModel = new PullUserFromKeystoneViewModel();
-
-            return ViewPullUserFromKeystone(viewModel);
-        }
-
-        [HttpPost]
-        [SitkaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult PullUserFromKeystone(PullUserFromKeystoneViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewPullUserFromKeystone(viewModel);
-            }
-
-            var keystoneClient = new KeystoneDataClient();
-
-            UserProfile keystoneUser = keystoneClient.GetUserProfileByUsername(FirmaWebConfiguration.KeystoneWebServiceApplicationGuid, viewModel.LoginName);
-            if (keystoneUser == null)
-            {
-                SetErrorForDisplay($"Person not added. The {FieldDefinitionEnum.Username.ToType().GetFieldDefinitionLabel()} was not found in Keystone");
-                return new ModalDialogFormJsonResult();    
-            }
-            
-            if (!keystoneUser.OrganizationGuid.HasValue)
-            {
-                SetErrorForDisplay($"Person not added. They have no {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
-            }
-
-            KeystoneDataService.Organization keystoneOrganization = null;
-            try
-            {
-                keystoneOrganization = keystoneClient.GetOrganization(keystoneUser.OrganizationGuid.Value);
-            }
-            catch (Exception)
-            {
-                SetErrorForDisplay($"Person not added. Could not find their {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} in Keystone");
-            }
-
-            if (keystoneOrganization == null)
-            {
-                SetErrorForDisplay("Person not added. Could not find their Organization in Keystone");
-
-            }
-            else
-            {
-                var firmaOrganization =
-                    HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(
-                        x => x.OrganizationGuid == keystoneUser.OrganizationGuid);
-                if (firmaOrganization == null)
-                {
-                    var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-                    firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
-                    {
-                        OrganizationGuid = keystoneOrganization.OrganizationGuid,
-                        OrganizationShortName = keystoneOrganization.ShortName,
-                        OrganizationUrl = keystoneOrganization.URL
-                    };
-                    HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
-                }
-
-                var firmaPerson =
-                    HttpRequestStorage.DatabaseEntities.People.SingleOrDefault(
-                        x => x.PersonGuid == keystoneUser.UserGuid);
-                if (firmaPerson != null)
-                {
-                    firmaPerson.OrganizationID = firmaOrganization.OrganizationID;
-                }
-                else
-                {
-                    firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName,
-                        keystoneUser.Email, Role.Unassigned, DateTime.Now, true, firmaOrganization, false,
-                        keystoneUser.LoginName);
-                    HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
-                }
-
-                HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-                SetMessageForDisplay($"{firmaPerson.GetFullNameFirstLastAndOrgAsUrl()} successfully added. You may want to <a href=\"{firmaPerson.GetDetailUrl()}\">assign them a role</a>.");
-            }
-            return new ModalDialogFormJsonResult();
-
-            
-        }
-
-        private PartialViewResult ViewPullUserFromKeystone(PullUserFromKeystoneViewModel viewModel)
-        {
-            var viewData = new PullUserFromKeystoneViewData();
-            return RazorPartialView<PullUserFromKeystone, PullUserFromKeystoneViewData, PullUserFromKeystoneViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -356,35 +302,41 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
-            var viewModel = new EditUserStewardshipAreasViewModel(person, MultiTenantHelpers.GetProjectStewardshipAreaType());
+            var viewModel =
+                new EditUserStewardshipAreasViewModel(person, MultiTenantHelpers.GetProjectStewardshipAreaType());
             return ViewEditStewardshipAreas(viewModel);
         }
 
         [HttpPost]
         [UserEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey, EditUserStewardshipAreasViewModel viewModel)
+        public ActionResult EditStewardshipAreas(PersonPrimaryKey personPrimaryKey,
+            EditUserStewardshipAreasViewModel viewModel)
         {
             var person = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewEditStewardshipAreas(viewModel);
             }
+
             var projectStewardshipAreaType = MultiTenantHelpers.GetProjectStewardshipAreaType().ToEnum;
 
             switch (projectStewardshipAreaType)
             {
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
                     HttpRequestStorage.DatabaseEntities.Organizations.Load();
-                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardOrganizations.Local);
+                    viewModel.UpdateModel(person,
+                        HttpRequestStorage.DatabaseEntities.AllPersonStewardOrganizations.Local);
                     break;
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
                     HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Load();
-                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardTaxonomyBranches.Local);
+                    viewModel.UpdateModel(person,
+                        HttpRequestStorage.DatabaseEntities.AllPersonStewardTaxonomyBranches.Local);
                     break;
                 case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
                     HttpRequestStorage.DatabaseEntities.GeospatialAreas.Load();
-                    viewModel.UpdateModel(person, HttpRequestStorage.DatabaseEntities.AllPersonStewardGeospatialAreas.Local);
+                    viewModel.UpdateModel(person,
+                        HttpRequestStorage.DatabaseEntities.AllPersonStewardGeospatialAreas.Local);
                     break;
                 default:
                     throw new InvalidOperationException(
@@ -392,7 +344,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
 
-            SetMessageForDisplay($"Assigned {FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()} successfully changed for {person.GetFullNameFirstLast()}.");
+            SetMessageForDisplay(
+                $"Assigned {FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()} successfully changed for {person.GetFullNameFirstLast()}.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -404,7 +357,8 @@ namespace ProjectFirma.Web.Controllers
             switch (projectStewardshipAreaType)
             {
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
-                    var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().Where(x=>x.CanStewardProjects()).ToList();
+                    var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
+                        .Where(x => x.CanStewardProjects()).ToList();
                     viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allOrganizations, false);
                     break;
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
@@ -420,8 +374,183 @@ namespace ProjectFirma.Web.Controllers
                         "The Stewardship Area editor should only be allowed for tenants with a Project Stewardship Area Type");
             }
 
-            return RazorPartialView<EditUserStewardshipAreas, EditUserStewardshipAreasViewData, EditUserStewardshipAreasViewModel>(viewData, viewModel);
+            return RazorPartialView<EditUserStewardshipAreas, EditUserStewardshipAreasViewData,
+                EditUserStewardshipAreasViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpGet]
+        public ActionResult Invite()
+        {
+            var viewModel = new InviteViewModel();
+            return ViewInvite(viewModel);
+        }
+
+        private ActionResult ViewInvite(InviteViewModel viewModel)
+        {
+            var firmaPage = FirmaPageTypeEnum.InviteUser.GetFirmaPage();
+            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.OrderBy(x => x.OrganizationName)
+                .ToList();
+            var cancelUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+            var viewData = new InviteViewData(CurrentPerson, organizations, firmaPage, cancelUrl);
+            return RazorView<Invite, InviteViewData, InviteViewModel>(viewData, viewModel);
+        }
+
+        [FirmaAdminFeature]
+        [HttpPost]
+        public ActionResult Invite(InviteViewModel viewModel)
+        {
+            var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
+            var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Support());
+            var inviteModel = new KeystoneService.KeystoneInviteModel
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                Email = viewModel.Email,
+                SiteName = toolDisplayName,
+                Subject = $"Invitation to {toolDisplayName}",
+                WelcomeText =
+                    $"You have been invited by a colleague, {CurrentPerson.GetFullNameFirstLast()}, to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
+                RedirectURL = homeUrl,
+                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a>",
+                OrganizationGuid = viewModel.OrganizationGuid,
+                SignatureBlock = $"The {toolDisplayName} team"
+            };
+
+            var keystoneService = new KeystoneService(HttpRequestStorage.GetHttpContextUserThroughOwin());
+            var response = keystoneService.Invite(inviteModel);
+            if (response.StatusCode != HttpStatusCode.OK || response.Error != null)
+            {
+                ModelState.AddModelError("Email",
+                    $"There was a problem inviting the user to Keystone: {response.Error.Message}.");
+                if (response.Error.ModelState != null)
+                {
+                    foreach (var modelStateKey in response.Error.ModelState.Keys)
+                    {
+                        foreach (var err in response.Error.ModelState[modelStateKey])
+                        {
+                            ModelState.AddModelError(modelStateKey, err);
+                        }
+                    }
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewInvite(viewModel);
+            }
+
+            var keystoneUser = response.Payload.Claims;
+            var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
+            if (existingUser != null)
+            {
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl()} already has an account.</a>.");
+                return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
+            }
+
+            var newUser = CreateNewFirmaPerson(keystoneUser, keystoneUser.OrganizationGuid);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            newUser.RoleID = Role.Normal.RoleID;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            if (!viewModel.DoNotSendInviteEmailIfExisting && !response.Payload.Created)
+            {
+                SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
+            }
+
+            SetMessageForDisplay(
+                $"{newUser.GetFullNameFirstLastAndOrgAsUrl()} successfully added. You may want to assign them a role</a>.");
+            return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
+        }
+
+        private static Person CreateNewFirmaPerson(KeystoneService.KeystoneUserClaims keystoneUser,
+            Guid? organizationGuid)
+        {
+            Organization organization;
+            if (organizationGuid.HasValue)
+            {
+                organization =
+                    HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(organizationGuid
+                        .Value);
+
+                if (organization == null)
+                {
+                    var keystoneClient = new KeystoneDataClient();
+
+
+                    var keystoneOrganization = keystoneClient.GetOrganization(organizationGuid.Value);
+
+
+                    var defaultOrganizationType =
+                        HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+                    var firmaOrganization =
+                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
+                        {
+                            OrganizationGuid = keystoneOrganization.OrganizationGuid,
+                            OrganizationShortName = keystoneOrganization.ShortName,
+                            OrganizationUrl = keystoneOrganization.URL
+                        };
+                    HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(firmaOrganization);
+
+                    HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+                    organization = firmaOrganization;
+                }
+            }
+            else
+            {
+                organization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
+            }
+
+
+            var firmaPerson = new Person(keystoneUser.UserGuid, keystoneUser.FirstName, keystoneUser.LastName,
+                keystoneUser.Email, Role.Unassigned, DateTime.Now, true, organization, false,
+                keystoneUser.LoginName);
+            HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
+            return firmaPerson;
+        }
+
+
+        private static void SendExistingKeystoneUserCreatedMessage(Person person, Person currentPerson)
+        {
+            var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            var subject = $"Invitation to {toolDisplayName}";
+            var message = $@"
+<div style='font-size: 12px; font-family: Arial'>
+    Welcome {person.FirstName},
+    <p>
+    You have been invited by a colleague, {currentPerson.GetFullNameFirstLast()}, to check out <a href=""{SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index())}\"">{toolDisplayName}</a>.
+</p>
+    <p>
+    Because you have logged into other systems that use the same log in service (Keystone) that {toolDisplayName} uses, you already have an account, but it needs to be activated for {toolDisplayName}.
+    </p>
+    <p>
+    When you have a moment, please activate your account by logging in:
+    </p>
+    <strong>Log in here:</strong>  <a href=""{SitkaRoute<AccountController>.BuildAbsoluteUrlFromExpression(x => x.LogOn())}"">{toolDisplayName}</a><br />
+    <strong>Your user name is:</strong> {person.LoginName}<br />
+    <p>
+    If you don't remember your password, you will be able to reset it from the link above.
+    </p>
+    <p>
+    Sincerely,<br />
+    The {toolDisplayName} team
+    </p>";
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(FirmaWebConfiguration.DoNotReplyEmail),
+                Subject = subject,
+                Body = message,
+                IsBodyHtml = true
+            };
+
+            mailMessage.ReplyToList.Add(currentPerson.Email);
+            mailMessage.To.Add(person.Email);
+            SitkaSmtpClient.Send(mailMessage);
         }
     }
-
 }
