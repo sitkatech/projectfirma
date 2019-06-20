@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.User
         public string GridDataUrl { get; }
 
         public string InviteUserUrl { get; }
-        public bool UserIsSitkaAdmin { get; }
+        public bool UserIsFirmaAdmin { get; }
         public List<SelectListItem> ActiveOnlyOrAllUsersSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
 
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.User
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());
-            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
 
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;
             ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";

@@ -23,7 +23,6 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.User
@@ -32,7 +31,7 @@ namespace ProjectFirma.Web.Views.User
     {
         public Person Person { get; }
         public string EditPersonOrganizationPrimaryContactUrl { get; }
-        public string Index { get; }
+        public string IndexUrl { get; }
 
         public bool UserHasPersonViewPermissions { get; }
         public bool UserHasPersonManagePermissions { get; }
@@ -61,10 +60,9 @@ namespace ProjectFirma.Web.Views.User
             Person = personToView;
             PageTitle = personToView.GetFullNameFirstLast() + (!personToView.IsActive ? " (inactive)" : string.Empty);
             EntityName = "User";
-            //TODO: This gets pulled up to root
+
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
-            Index = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index(
-                ));
+            IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
 
             UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentPerson, personToView).HasPermission;
             UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByPerson(currentPerson);

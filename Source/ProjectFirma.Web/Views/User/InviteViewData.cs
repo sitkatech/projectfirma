@@ -23,6 +23,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -30,6 +32,7 @@ namespace ProjectFirma.Web.Views.User
     {
         public IEnumerable<SelectListItem> AllOrganizations { get; }
         public string CancelUrl { get; }
+        public string IndexUrl { get; }
 
         public InviteViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> organizations, ProjectFirmaModels.Models.FirmaPage psInfoPage, string userIndexUrl) : base(currentPerson, psInfoPage)
         {
@@ -37,6 +40,7 @@ namespace ProjectFirma.Web.Views.User
             PageTitle = "Invite User";
             EntityName = "Users";
             AllOrganizations = organizations.ToSelectList(x => x.OrganizationGuid.ToString(), x => x.OrganizationName);
+            IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
         }
     }
 }

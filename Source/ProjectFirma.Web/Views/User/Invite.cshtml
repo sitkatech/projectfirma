@@ -26,6 +26,10 @@
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all Users</a>
+</div>
+
 @using (Html.BeginForm())
 {
     <div>
