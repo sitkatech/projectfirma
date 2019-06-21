@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FundingSourceEditFeature]
+        [FundingSourceDeleteFeature]
         public PartialViewResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
@@ -178,15 +178,16 @@ namespace ProjectFirma.Web.Controllers
         {
 
             var numberOfProjectsAssociated = fundingSource.GetAssociatedProjects(CurrentPerson).Count;
-            var confirmMessage =
-                $"This {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} is associated with {numberOfProjectsAssociated} Projects. Deleting the Funding Source will delete all associated expenditure records. Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?";
+            var confirmMessage = numberOfProjectsAssociated > 0 ?
+                $"This {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} is associated with {numberOfProjectsAssociated} Projects. Deleting the Funding Source will delete all associated expenditure records. Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?" :
+                $"Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?";
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [FundingSourceEditFeature]
+        [FundingSourceDeleteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

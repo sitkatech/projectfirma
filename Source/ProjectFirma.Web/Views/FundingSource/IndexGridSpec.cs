@@ -34,12 +34,11 @@ namespace ProjectFirma.Web.Views.FundingSource
     {
         public IndexGridSpec(Person currentPerson)
         {
-            var fundingSourceEditFeature = new FundingSourceEditFeature();
-            if (fundingSourceEditFeature.HasPermissionByPerson(currentPerson))
+            var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
+            if (fundingSourceDeleteFeature.HasPermissionByPerson(currentPerson))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceEditFeature.HasPermission(currentPerson, x).HasPermission, true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentPerson, x).HasPermission, true), 30, DhtmlxGridColumnFilterType.None);
             }
-
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);

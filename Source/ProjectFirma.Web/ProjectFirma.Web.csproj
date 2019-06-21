@@ -147,6 +147,7 @@
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
+    <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
