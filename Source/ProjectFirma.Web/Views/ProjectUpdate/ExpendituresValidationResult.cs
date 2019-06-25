@@ -59,7 +59,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             List<IFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             var errors = new List<string>();
-            var fundingSources = projectFundingSourceExpenditures.Select(x => x.FundingSource).GroupBy(x => x.FundingSourceID).Select(x => x.First()).ToList();
+            // Need to get FundingSources by IDs because we may have unsaved projectFundingSourceExpenditures that won't have a reference to the entity
+            var fundingSourcesIDs = projectFundingSourceExpenditures.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSources =
+                HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => fundingSourcesIDs.Contains(x.FundingSourceID));
 
             // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
             if (projectExemptReportingYearSimples.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(explanation))
