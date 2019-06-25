@@ -59,6 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             List<IFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
             var errors = new List<string>();
+            // Need to get FundingSources by IDs because we may have unsaved projectFundingSourceExpenditures that won't have a reference to the entity
             var fundingSourcesIDs = projectFundingSourceExpenditures.Select(x => x.FundingSourceID).Distinct().ToList();
             var fundingSources =
                 HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => fundingSourcesIDs.Contains(x.FundingSourceID));
