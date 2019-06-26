@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
+        [Ignore]
         public void ProjectUpdateBatchStatesTest()
         {
             var person = TestFramework.TestPerson.Create();
@@ -357,6 +358,7 @@ namespace ProjectFirma.Web.Models
         }
 
         [Test]
+        [Ignore]
         public void ValidateExpendituresAndForceValidationTest()
         {
             var projectUpdate = TestFramework.TestProjectUpdate.Create();
