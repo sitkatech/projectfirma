@@ -30,12 +30,79 @@ using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Help;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class HelpController : FirmaBaseController
     {
         public const string MessageForContactSubmittedSuccessfully = "Thank you for contacting us. We will get back to you soon!";
+
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        [HttpGet]
+        public ViewResult RequestSupport()
+        {
+            var currentPageUrl = string.Empty;
+            if (Request.UrlReferrer != null)
+            {
+                currentPageUrl = Request.UrlReferrer.ToString();
+            }
+            else if (Request.Url != null)
+            {
+                currentPageUrl = Request.Url.ToString();
+            }
+
+            var viewModel = new RequestSupportViewModel(currentPageUrl, null);
+            if (!IsCurrentUserAnonymous())
+            {
+                viewModel.RequestPersonName = CurrentPerson.GetFullNameFirstLast();
+                viewModel.RequestPersonEmail = CurrentPerson.Email;
+                if (CurrentPerson.Organization != null)
+                {
+                    viewModel.RequestPersonOrganization = CurrentPerson.Organization.OrganizationName;
+                }
+                viewModel.RequestPersonPhone = CurrentPerson.Phone;
+            }
+            viewModel.RequestDescription = "";
+            return ViewRequestSupport(viewModel);
+        }
+
+        private ViewResult ViewRequestSupport(RequestSupportViewModel viewModel)
+        {
+            var allSupportRequestTypes = SupportRequestType.All.OrderBy(x => x.SupportRequestTypeSortOrder);
+
+            var supportRequestTypes =
+                allSupportRequestTypes.OrderBy(x => x.SupportRequestTypeSortOrder)
+                    .ToSelectListWithEmptyFirstRow(x => x.SupportRequestTypeID.ToString(CultureInfo.InvariantCulture), x => x.GetSubjectLine());
+            var supportRequestTypeSimples = allSupportRequestTypes.Select(x => new SupportRequestTypeSimple(x)).ToList();
+            var cancelUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
+            var selectListWithEmptyFirstRow = allSupportRequestTypes.ToSelectListWithEmptyFirstRow(x => x.SupportRequestTypeID.ToString(), x => x.SupportRequestTypeDisplayName);
+            var supportFormViewData = new SupportFormViewData(string.Empty, IsCurrentUserAnonymous(), selectListWithEmptyFirstRow, supportRequestTypeSimples);
+            var viewData = new RequestSupportViewData(CurrentPerson, supportFormViewData, cancelUrl);
+            return RazorView<RequestSupport, RequestSupportViewData, RequestSupportViewModel>(viewData, viewModel);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RequestSupport(RequestSupportViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewRequestSupport(viewModel);
+            }
+            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentPerson);
+            viewModel.UpdateModel(supportRequestLog, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
+            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
+            SetMessageForDisplay("Message sent. Thank you for contacting us.");
+            var returnUrl = viewModel.ReturnUrl ?? SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
+            return Redirect(returnUrl);
+        }
+
+
+
 
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
@@ -97,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
             var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentPerson);
             viewModel.UpdateModel(supportRequestLog, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
-            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);               
+            SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Support request sent.");
             return new ModalDialogFormJsonResult();
         }

@@ -153,6 +153,9 @@
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
+    <Compile Include="Views\Help\RequestSupport.cs" />
+    <Compile Include="Views\Help\RequestSupportViewData.cs" />
+    <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
@@ -274,6 +277,7 @@
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
+    <Content Include="Views\Help\RequestSupport.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

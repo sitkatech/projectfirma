@@ -402,7 +402,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var toolDisplayName = MultiTenantHelpers.GetToolDisplayName();
             var homeUrl = SitkaRoute<HomeController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Index());
-            var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.Support());
+            var supportUrl = SitkaRoute<HelpController>.BuildAbsoluteUrlHttpsFromExpression(x => x.RequestSupport());
             var inviteModel = new KeystoneService.KeystoneInviteModel
             {
                 FirstName = viewModel.FirstName,

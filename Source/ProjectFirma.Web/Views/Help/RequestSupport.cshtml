@@ -1,0 +1,38 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="RequestSupport.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Help
+@using ProjectFirma.Web.Views.Shared
+@inherits RequestSupport
+
+@{ SupportForm.RenderPartialView(Html, ViewDataTyped.SupportFormViewData, Model); }
+<hr>
+<div class="row">
+    <div class="col-xs-12" style="text-align: right">
+        <button class="btn btn-firma" style="display: inline-block;" onclick="submitRequestSupportForm()">
+            Submit Request
+        </button>
+        <a href="@ViewDataTyped.CancelUrl" class="btn btn-firma" style="display: inline-block;">Cancel</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function submitRequestSupportForm() { jQuery("form").submit(); }
+</script>

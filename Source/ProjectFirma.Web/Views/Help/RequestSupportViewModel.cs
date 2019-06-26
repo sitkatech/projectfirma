@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SupportForm.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<copyright file="RequestSupportViewModel.cs" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -19,17 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web.Mvc;
-using LtInfo.Common.HtmlHelperExtensions;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Shared
+namespace ProjectFirma.Web.Views.Help
 {
-    public abstract class SupportForm : LtInfo.Common.Mvc.TypedWebPartialViewPage<SupportFormViewData, SupportFormViewModel>
+    public class RequestSupportViewModel : SupportFormViewModel
     {
-        public static void RenderPartialView(HtmlHelper html, SupportFormViewData viewData, SupportFormViewModel viewModel)
+        public string ReturnUrl { get; set; }
+
+        // Needed by model binder
+        public RequestSupportViewModel()
         {
-            html.RenderRazorSitkaPartial<SupportForm, SupportFormViewData, SupportFormViewModel>(viewData, viewModel);
         }
 
+        public RequestSupportViewModel(string currentPageUrl, SupportRequestTypeEnum? supportRequestTypeEnum) : base(currentPageUrl, supportRequestTypeEnum)
+        {
+        }
     }
 }
