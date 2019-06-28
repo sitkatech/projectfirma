@@ -16,21 +16,42 @@
 @firma-text-font: "Arial",sans-serif;
 @firma-text-fontSize: 14px;
 
-/*@PrimaryOrange: #f18c21; 
-@PrimaryYellow: #f6b330;*/
-@PrimaryBlue: #244A9F;
-@PrimarySand: #EAD7B5;
 
-@SecondarySand: #CB9F5B;
-@SecondaryTeal: #156357;
-/*@SecondaryGreen: #c6b42f; 
-@SecondaryBlue: #007c8a; 
-@SecondaryTan: #e3d2a6;*/
+//These colors are from the Reclamation Visual Identity chart (https://www.usbr.gov/vip/III-colors.html)
+@MainBlue: #244A9F;
+@MainSand: #CB9F5B;
+@SecondaryYellow: #FFD600;
+@SecondaryOrange: #FC7C00;
+@SecondaryRed: #B50C00;
+@SecondaryGreen: #6A9913;
+@SecondaryTeal: #23A491;
+@SecondaryPurple: #775BA9;
+
+//Deep Colors
+@MainBlueDeep: #152C5F;
+@MainSandDeep: #7A5F36;
+@SecondaryYellowDeep: #998000;
+@SecondaryOrangeDeep: #964A00;
+@SecondaryRedDeep: #4F0400;
+@SecondaryGreenDeep: #324809;
+@SecondaryTealDeep: #156357;
+@SecondaryPurpleDeep: #483665;
+
+//Pastel Colors
+@MainBluePastel: #A3ABD2;
+@MainSandPastel: #EAD7B5;
+@SecondaryYellowPastel: #FFEF94;
+@SecondaryOrangePastel: #FCCB89;
+@SecondaryRedPastel: #DE8C6D;
+@SecondaryGreenPastel: #BDD689;
+@SecondaryTealPastel: #A6DDCA;
+@SecondaryPurplePastel: #C7B7D9;
+
 
 @LinkBlue: #0000EE;
 
 @firma-text-color: #333;
-@firma-header-color: @PrimaryBlue;
+@firma-header-color: @MainBlue;
 
 @firma-background-color: #fff;
 @firma-contentBackground-color: #fff;
@@ -40,32 +61,32 @@
 @firma-contentLink-color-hover: @LinkBlue;
 
 
-@firma-logoHeaderBackground-color: @PrimaryBlue;
+@firma-logoHeaderBackground-color: @MainBlue;
 @firma-logoHeaderText-color: #fff;
-@firma-navBackground-color: @PrimarySand;
-@firma-navBorder-color: @SecondarySand;
-@firma-navText-color: @PrimaryBlue;
+@firma-navBackground-color: @MainSandPastel;
+@firma-navBorder-color: @MainSand;
+@firma-navText-color: @MainBlue;
 @firma-navItemText-color-hover: #fff;
-@firma-navItemBackground-color-hover: @SecondarySand;
+@firma-navItemBackground-color-hover: @MainSand;
 @firma-navItemBackground-color: transparent;
 @firma-navItemDropdownText-color: #1C2329;
-@firma-navItemDropdownText-color-hover: @PrimaryBlue;
-@firma-navItemDropdownBackground-color: @SecondarySand;
+@firma-navItemDropdownText-color-hover: @MainBlue;
+@firma-navItemDropdownBackground-color: @MainSand;
 @firma-navItemDropdownBackground-color-hover: #fff;
 
-@firma-panel-headerBackground-color: @PrimaryBlue;
+@firma-panel-headerBackground-color: @MainBlue;
 @firma-panel-headerText-color: #fff;
 @firma-panel-border-color: #ddd;
 @firma-panelDropdownText-color: #1C2329;
 @firma-panelDropdownBackground-color: #EBECEC;
 
-@firma-pageTitle-color: @PrimaryBlue;
-@firma-header-color: @PrimaryBlue;
+@firma-pageTitle-color: @MainBlue;
+@firma-header-color: @MainBlue;
 
-@firma-helpIcon-color: @PrimaryBlue;
+@firma-helpIcon-color: @MainBlue;
 @firma-helpIconGrid-color: #fff;
 
-@firma-buttonBackground-color: @PrimaryBlue;
+@firma-buttonBackground-color: @MainBlue;
 @firma-buttonText-color: #fff;
 @firma-buttonBackground-color-hover: #aaa;
 @firma-buttonText-color-hover: #fff;
@@ -73,14 +94,14 @@
 @firma-scrollSpyAccent-color: #fff;
 
 @firma-white: #fff;
-@firma-active-arrow-color: @SecondaryTeal;
+@firma-active-arrow-color: @SecondaryTealDeep;
 @firma-inactive-arrow-color: #bbb;
 
 @z-index-arrow: 900;
 
 @disabled-color: LightGray;
 
-@firma-footerBackground-color: @PrimaryBlue;
+@firma-footerBackground-color: @MainBlue;
 @firma-footerText-color: #fff;
 @firma-footerLink-color: #ccc;
 @firma-footerLink-color-hover: #ccc;
@@ -308,15 +329,15 @@ span.keyPhotoButton label {
 
 //Project FactSheet
 .factSheet .projectTaxonomy {
-    background-color: @PrimaryBlue !important;
+    background-color: @MainBlue !important;
 
 }
 .factSheet .headerPanel h2 {
-    color: @PrimaryBlue !important;
+    color: @MainBlue !important;
 }
 
 .factSheet .headerPanel {
-    border-left-color: @PrimaryBlue !important;
+    border-left-color: @MainBlue !important;
 }
 // Footer
 footer#footer {
