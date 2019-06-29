@@ -149,6 +149,7 @@ a:hover {
 
 .nav li a {
     font-family: @firma-text-font;
+    color: #666;
 }
 
 span.keyPhotoButton label {
@@ -167,9 +168,26 @@ span.keyPhotoButton label {
     border: 1px solid @firma-contentBorder-color;
 }
 
+.smallExplanationText{
+    color: #666;
+}
+.text-muted {
+    color: #666;
+}
+
+.badge {
+    background-color: #666;
+}
+
+.list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus {
+    color: #666;
+}
+.list-group-item.active h5 {
+    color: #fff;
+}
+
 
 // Header
-
 .expandToFillScreen {
     min-height: 100%;
 }
@@ -386,6 +404,12 @@ footer#footer {
         color: @firma-buttonText-color;
         background-color: @firma-buttonBackground-color;
     }
+footer#footer .hoverEditButton a.btn-firma, .hoverEditButton a.btn-firma {
+    background-color: #666;
+    color: #fff;
+}
+
+
     // Summary Layout - Legacy LT Info styling
     table.summaryLayout th,
     .stylizeLikeTH {
@@ -419,7 +443,7 @@ footer#footer {
         text-align: center;
     }
 
-    .singleArrow {
+    .arrow {
         &.current {
             background-color: @firma-active-arrow-color;
             border-left-color: @firma-active-arrow-color;
@@ -429,11 +453,11 @@ footer#footer {
         &.default {
             background-color: @firma-inactive-arrow-color;
             border-left-color: @firma-inactive-arrow-color;
-            color: @firma-white;
+            color: #444; //@firma-white;
         }
     }
-    /* First arrow */
-    .firstArrow {
+
+    /*.singleArrow {
         &.current {
             background-color: @firma-active-arrow-color;
             border-left-color: @firma-active-arrow-color;
@@ -445,6 +469,20 @@ footer#footer {
             border-left-color: @firma-inactive-arrow-color;
             color: @firma-white;
         }
+    }*/
+    /* First arrow */
+    .firstArrow {
+        /*&.current {
+            background-color: @firma-active-arrow-color;
+            border-left-color: @firma-active-arrow-color;
+            color: @firma-white;
+        }
+
+        &.default {
+            background-color: @firma-inactive-arrow-color;
+            border-left-color: @firma-inactive-arrow-color;
+            color: @firma-white;
+        }*/
 
         border-top-left-radius: .25rem;
         border-bottom-left-radius: .25rem;
@@ -469,17 +507,7 @@ footer#footer {
     }
     /* Middle arrow */
     .middleArrow {
-        &.current {
-            background-color: @firma-active-arrow-color;
-            border-left-color: @firma-active-arrow-color;
-            color: @firma-white;
-        }
-
-        &.default {
-            background-color: @firma-inactive-arrow-color;
-            border-left-color: @firma-inactive-arrow-color;
-            color: @firma-white;
-        }
+        
     }
 
     .middleArrow:before {
@@ -516,7 +544,7 @@ footer#footer {
     }
     /* Last arrow */
     .lastArrow {
-        &.current {
+        /*&.current {
             background-color: @firma-active-arrow-color;
             border-left-color: @firma-active-arrow-color;
             color: @firma-contentBackground-color;
@@ -526,7 +554,7 @@ footer#footer {
             background-color: @firma-inactive-arrow-color;
             border-left-color: @firma-inactive-arrow-color;
             color: @firma-contentBackground-color;
-        }
+        }*/
 
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;

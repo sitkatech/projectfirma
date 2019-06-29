@@ -37,6 +37,7 @@ a:hover {
 }
 .nav li a {
   font-family: "Arial", sans-serif;
+  color: #666;
 }
 span.keyPhotoButton label {
   color: #0000EE;
@@ -50,6 +51,23 @@ span.keyPhotoButton label {
 .firmaContent {
   background-color: #fff;
   border: 1px solid #fff;
+}
+.smallExplanationText {
+  color: #666;
+}
+.text-muted {
+  color: #666;
+}
+.badge {
+  background-color: #666;
+}
+.list-group-item.disabled,
+.list-group-item.disabled:hover,
+.list-group-item.disabled:focus {
+  color: #666;
+}
+.list-group-item.active h5 {
+  color: #fff;
 }
 .expandToFillScreen {
   min-height: 100%;
@@ -233,6 +251,11 @@ a.btn-firma {
   color: #fff;
   background-color: #244A9F;
 }
+footer#footer .hoverEditButton a.btn-firma,
+.hoverEditButton a.btn-firma {
+  background-color: #666;
+  color: #fff;
+}
 table.summaryLayout th,
 .stylizeLikeTH {
   text-align: left;
@@ -261,30 +284,44 @@ table.summaryLayout th,
   padding: 10px 15px;
   text-align: center;
 }
-.singleArrow.current {
+.arrow.current {
   background-color: #156357;
   border-left-color: #156357;
   color: #fff;
 }
-.singleArrow.default {
+.arrow.default {
   background-color: #bbb;
   border-left-color: #bbb;
-  color: #fff;
+  color: #444;
 }
+/*.singleArrow {
+        &.current {
+            background-color: @firma-active-arrow-color;
+            border-left-color: @firma-active-arrow-color;
+            color: @firma-white;
+        }
+
+        &.default {
+            background-color: @firma-inactive-arrow-color;
+            border-left-color: @firma-inactive-arrow-color;
+            color: @firma-white;
+        }
+    }*/
 /* First arrow */
 .firstArrow {
+  /*&.current {
+            background-color: @firma-active-arrow-color;
+            border-left-color: @firma-active-arrow-color;
+            color: @firma-white;
+        }
+
+        &.default {
+            background-color: @firma-inactive-arrow-color;
+            border-left-color: @firma-inactive-arrow-color;
+            color: @firma-white;
+        }*/
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
-}
-.firstArrow.current {
-  background-color: #156357;
-  border-left-color: #156357;
-  color: #fff;
-}
-.firstArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
-  color: #fff;
 }
 .firstArrow:after {
   content: '';
@@ -304,16 +341,6 @@ table.summaryLayout th,
   z-index: 900;
 }
 /* Middle arrow */
-.middleArrow.current {
-  background-color: #156357;
-  border-left-color: #156357;
-  color: #fff;
-}
-.middleArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
-  color: #fff;
-}
 .middleArrow:before {
   content: '';
   display: block;
@@ -347,18 +374,19 @@ table.summaryLayout th,
 }
 /* Last arrow */
 .lastArrow {
+  /*&.current {
+            background-color: @firma-active-arrow-color;
+            border-left-color: @firma-active-arrow-color;
+            color: @firma-contentBackground-color;
+        }
+
+        &.default {
+            background-color: @firma-inactive-arrow-color;
+            border-left-color: @firma-inactive-arrow-color;
+            color: @firma-contentBackground-color;
+        }*/
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
-}
-.lastArrow.current {
-  background-color: #156357;
-  border-left-color: #156357;
-  color: #fff;
-}
-.lastArrow.default {
-  background-color: #bbb;
-  border-left-color: #bbb;
-  color: #fff;
 }
 .lastArrow:before {
   content: '';
