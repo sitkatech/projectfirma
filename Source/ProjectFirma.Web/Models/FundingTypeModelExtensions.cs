@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using LtInfo.Common.DesignByContract;
+using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
@@ -25,6 +27,7 @@ namespace ProjectFirma.Web.Models
         public static string GetFundingTypeDisplayName(this FundingType fundingType)
         {
             var fundingTypeData = fundingType.GetFundingTypeData();
+            Check.Assert(fundingTypeData != null, $"No Funding Type Data setup for Funding Type: {fundingType.FundingTypeDisplayName}");
             return fundingTypeData.FundingTypeDisplayName;
         }
 
