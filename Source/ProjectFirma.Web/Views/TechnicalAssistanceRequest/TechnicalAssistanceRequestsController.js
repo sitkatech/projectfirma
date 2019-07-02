@@ -48,7 +48,7 @@ angular.module("ProjectFirmaApp").controller("TechnicalAssistanceRequestsControl
     }
 
     $scope.getAddableFiscalYearStrings = function () {
-        return $scope.fiscalYearStrings.filter(filterYears);
+        return $scope.fiscalYearStrings.filter(filterYears); // Calls filterYears for each fiscalYearString
     }
 
     $scope.getGroupedTechnicalAssistanceRequests = function (fiscalYear) {
