@@ -1474,7 +1474,6 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteTechnicalAssistanceRequestsUpdates();
             // refresh the data
-            ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
