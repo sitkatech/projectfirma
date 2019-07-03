@@ -372,6 +372,11 @@ namespace ProjectFirmaModels.Models
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
 
+                case "BudgetType":
+                    var budgetType = BudgetType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(budgetType, "BudgetType", primaryKey);
+                    return budgetType;
+
                 case "ClassificationPerformanceMeasure":
                     return ClassificationPerformanceMeasures.GetClassificationPerformanceMeasure(primaryKey);
 

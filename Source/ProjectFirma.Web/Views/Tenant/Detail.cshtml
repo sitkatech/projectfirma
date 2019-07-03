@@ -106,6 +106,16 @@
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.MinimumYear</div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">Budget Type</div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.BudgetType.BudgetTypeDisplayName
+                        @if (ViewDataTyped.UserHasTenantManagePermissions)
+                        {
+                            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBudgetTypeUrl, string.Format("Edit Tenant: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, "Save", "Cancel", new List<string>(), null, null)
+                        }
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ShowProposalsToThePublic.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ShowProposalsToThePublic.ToType().GetFieldDefinitionLabel()</div>
                     <div class="col-sm-7">@ViewDataTyped.TenantAttribute.ShowProposalsToThePublic.ToYesNo()</div>
                 </div>

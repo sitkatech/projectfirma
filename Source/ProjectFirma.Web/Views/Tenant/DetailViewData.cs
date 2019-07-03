@@ -29,27 +29,29 @@ namespace ProjectFirma.Web.Views.Tenant
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly ProjectFirmaModels.Models.Tenant Tenant;
-        public readonly TenantAttribute TenantAttribute;
-        public readonly string EditBasicsUrl;
-        public readonly string EditBoundingBoxUrl;
-        public readonly string EditClassificationSystemsUrl;
-        public readonly string EditStylesheetUrl;
-        public readonly string EditTenantLogoUrl;
-        public readonly bool UserHasTenantManagePermissions;
-        public readonly SitkaRoute<UserController> PrimaryContactRoute;
-        public readonly string DeleteTenantStyleSheetFileResourceUrl;
-        public readonly string DeleteTenantSquareLogoFileResourceUrl;
-        public readonly string DeleteTenantBannerLogoFileResourceUrl;
-        public readonly bool IsCurrentTenant;
-        public readonly string EditBoundingBoxFormID;
-        public readonly MapInitJson MapInitJson;
-        public readonly DetailGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
+        public ProjectFirmaModels.Models.Tenant Tenant { get; }
+        public TenantAttribute TenantAttribute { get; }
+        public string EditBasicsUrl { get; }
+        public string EditBudgetTypeUrl { get; }
+
+        public string EditBoundingBoxUrl { get; }
+        public string EditClassificationSystemsUrl { get; }
+        public string EditStylesheetUrl { get; }
+        public string EditTenantLogoUrl { get; }
+        public bool UserHasTenantManagePermissions { get; }
+        public SitkaRoute<UserController> PrimaryContactRoute { get; }
+        public string DeleteTenantStyleSheetFileResourceUrl { get; }
+        public string DeleteTenantSquareLogoFileResourceUrl { get; }
+        public string DeleteTenantBannerLogoFileResourceUrl { get; }
+        public bool IsCurrentTenant { get; }
+        public string EditBoundingBoxFormID { get; }
+        public MapInitJson MapInitJson { get; }
+        public DetailGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
-            string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
+            string editBasicsUrl, string editBudgetTypeUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl,
             string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName,
             string gridDataUrl, string editClassificationSystemsUrl, string editStylesheetUrl, string editTenantLogoUrl)
@@ -59,6 +61,7 @@ namespace ProjectFirma.Web.Views.Tenant
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             EditBasicsUrl = editBasicsUrl;
+            EditBudgetTypeUrl = editBudgetTypeUrl;
             EditBoundingBoxUrl = editBoundingBoxUrl;
             EditClassificationSystemsUrl = editClassificationSystemsUrl;
             EditStylesheetUrl = editStylesheetUrl;
