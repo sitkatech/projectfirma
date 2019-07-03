@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Views.Project
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
             : base(currentPerson, project)
         {
-            PageTitle = project.GetDisplayName().ToEllipsifiedStringClean(110);
+            PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
 
             ProjectStages = projectStages;

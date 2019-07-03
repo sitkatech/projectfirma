@@ -57,8 +57,8 @@
 
 
 
-    <p>Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of secured or unsecured funding is unknown, you can leave the amounts blank.</p>
-    <p>The Unfunded Need is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
+    <p>Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of Secured or @FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.</p>
+    <p>The @FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel() is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
 
 <hr />
 
@@ -180,7 +180,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType()):</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType(), FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel() + ":")</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
