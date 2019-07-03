@@ -151,7 +151,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectWorkflowSectionGroupingExpenditures : ProjectWorkflowSectionGrouping
     {
         private ProjectWorkflowSectionGroupingExpenditures(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
-        public static readonly ProjectWorkflowSectionGroupingExpenditures Instance = new ProjectWorkflowSectionGroupingExpenditures(4, @"Expenditures", @"Expenditures", 40);
+        public static readonly ProjectWorkflowSectionGroupingExpenditures Instance = new ProjectWorkflowSectionGroupingExpenditures(4, @"Expenditures", @"Financials", 40);
     }
 
     public partial class ProjectWorkflowSectionGroupingAdditionalData : ProjectWorkflowSectionGrouping
