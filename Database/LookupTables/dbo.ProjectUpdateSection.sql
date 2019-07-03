@@ -8,7 +8,7 @@ values
 (5, 'LocationDetailed', 'Detailed Location', 50, 0, 2),
 (6, 'ReportedAccomplishments', 'Reported Accomplishments', 70, 1, 3),
 (7, 'ExpectedFunding', 'Budget', 70, 0, 4),
-(8, 'Expenditures', 'Financials', 80, 1, 4),
+(8, 'Expenditures', 'Expenditures', 80, 1, 4),
 (9, 'Photos', 'Photos', 100, 0, 5),
 (10, 'ExternalLinks', 'External Links', 125, 0, 5),
 (11, 'NotesAndDocuments', 'Documents and Notes', 120, 0, 5),

@@ -200,7 +200,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectUpdateSectionExpenditures : ProjectUpdateSection
     {
         private ProjectUpdateSectionExpenditures(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionExpenditures Instance = new ProjectUpdateSectionExpenditures(8, @"Expenditures", @"Financials", 80, true, 4);
+        public static readonly ProjectUpdateSectionExpenditures Instance = new ProjectUpdateSectionExpenditures(8, @"Expenditures", @"Expenditures", 80, true, 4);
     }
 
     public partial class ProjectUpdateSectionPhotos : ProjectUpdateSection
