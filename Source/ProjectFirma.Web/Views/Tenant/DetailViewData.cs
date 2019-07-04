@@ -32,8 +32,6 @@ namespace ProjectFirma.Web.Views.Tenant
         public ProjectFirmaModels.Models.Tenant Tenant { get; }
         public TenantAttribute TenantAttribute { get; }
         public string EditBasicsUrl { get; }
-        public string EditBudgetTypeUrl { get; }
-
         public string EditBoundingBoxUrl { get; }
         public string EditClassificationSystemsUrl { get; }
         public string EditStylesheetUrl { get; }
@@ -49,19 +47,20 @@ namespace ProjectFirma.Web.Views.Tenant
         public DetailGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public bool UsesCostTypes { get; }
+        public string CostTypes { get; }
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
-            string editBasicsUrl, string editBudgetTypeUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
+            string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl,
             string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName,
-            string gridDataUrl, string editClassificationSystemsUrl, string editStylesheetUrl, string editTenantLogoUrl)
+            string gridDataUrl, string editClassificationSystemsUrl, string editStylesheetUrl, string editTenantLogoUrl, string costTypes)
             : base(currentPerson)
         {
             PageTitle = tenantAttribute.TenantShortDisplayName;
             Tenant = tenant;
             TenantAttribute = tenantAttribute;
             EditBasicsUrl = editBasicsUrl;
-            EditBudgetTypeUrl = editBudgetTypeUrl;
             EditBoundingBoxUrl = editBoundingBoxUrl;
             EditClassificationSystemsUrl = editClassificationSystemsUrl;
             EditStylesheetUrl = editStylesheetUrl;
@@ -77,6 +76,8 @@ namespace ProjectFirma.Web.Views.Tenant
             GridSpec = gridSpec;
             GridName = gridName;
             GridDataUrl = gridDataUrl;
+            UsesCostTypes = tenantAttribute.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID;
+            CostTypes = costTypes;
         }
     }
 }

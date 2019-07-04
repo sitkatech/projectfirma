@@ -46,7 +46,6 @@ namespace ProjectFirma.Web.Controllers
             var tenant = HttpRequestStorage.Tenant;
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var editBasicsUrl = new SitkaRoute<TenantController>(c => c.EditBasics()).BuildUrlFromExpression();
-            var editBudgetTypeUrl = new SitkaRoute<TenantController>(c => c.EditBudgetType()).BuildUrlFromExpression();
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
             var editClassificationSystemsUrl = new SitkaRoute<TenantController>(c => c.EditClassificationSystems()).BuildUrlFromExpression();
             var editStylesheetUrl = new SitkaRoute<TenantController>(c => c.EditStylesheet()).BuildUrlFromExpression();
@@ -68,12 +67,12 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Count > 0 ? string.Join(", ", HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList()) : null;
 
             var viewData = new DetailViewData(CurrentPerson,
                 tenant,
                 tenantAttribute,
                 editBasicsUrl,
-                editBudgetTypeUrl,
                 editBoundingBoxUrl,
                 deleteTenantStyleSheetFileResourceUrl,
                 deleteTenantSquareLogoFileResourceUrl,
@@ -85,7 +84,8 @@ namespace ProjectFirma.Web.Controllers
                 gridDataUrl, 
                 editClassificationSystemsUrl,
                 editStylesheetUrl,
-                editTenantLogoUrl);
+                editTenantLogoUrl,
+                costTypes);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -121,6 +121,13 @@ namespace ProjectFirma.Web.Controllers
             var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
             var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
             viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            if (viewModel.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID)
+            {
+                var existingCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+                var allCostTypes = HttpRequestStorage.DatabaseEntities.AllCostTypes.Local;
+
+                viewModel.UpdateCostTypes(existingCostTypes, allCostTypes);
+            }
             var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != viewModel.TaxonomyLevelID.Value || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel.TaxonomyLevelID != viewModel.AssociatePerfomanceMeasureTaxonomyLevelID.Value;
 
             if (clearOutTaxonomyLeafPerformanceMeasures)
@@ -190,105 +197,13 @@ namespace ProjectFirma.Web.Controllers
             var adminFeature = new FirmaAdminFeature();
             var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.GetFullNameFirstLast());
             var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
-            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
+            var budgetTypeID = viewModel.BudgetTypeID;
+            var budgetTypes = BudgetType.All.ToDictionary(x => x.BudgetTypeID, x => x.BudgetTypeDisplayName);
+            var disabledBudgetTypeValues = new List<int>() { BudgetType.NoBudget.BudgetTypeID, BudgetType.AnnualBudget.BudgetTypeID };
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList();
+            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
-
-        [HttpGet]
-        [SitkaAdminFeature]
-        public PartialViewResult EditBudgetType()
-        {
-            var tenant = HttpRequestStorage.Tenant;
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            var viewModel = new EditBudgetTypeViewModel(tenant, tenantAttribute);
-            return ViewEditBudgetType(viewModel);
-        }
-
-        [HttpPost]
-        [SitkaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditBudgetType(EditBudgetTypeViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewEditBudgetType(viewModel);
-            }
-
-//            var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
-//            var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
-//            var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
-//            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
-//            var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != viewModel.TaxonomyLevelID.Value || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel.TaxonomyLevelID != viewModel.AssociatePerfomanceMeasureTaxonomyLevelID.Value;
-//
-//            if (clearOutTaxonomyLeafPerformanceMeasures)
-//            {
-//                var taxonomyLeafPerformanceMeasures = HttpRequestStorage.DatabaseEntities.TaxonomyLeafPerformanceMeasures.ToList();
-//                foreach (var taxonomyLeafPerformanceMeasure in taxonomyLeafPerformanceMeasures)
-//                {
-//                    taxonomyLeafPerformanceMeasure.DeleteFull(HttpRequestStorage.DatabaseEntities);
-//                }
-//            }
-//
-//            // if we are shrinking the number of tiers, we need to collapse child records to hidden parent record(s) named "Default"
-//            if (oldTenantAttributeTaxonomyLevel.TaxonomyLevelID > viewModel.TaxonomyLevelID.Value)
-//            {
-//                var newTaxonomyLevel = TaxonomyLevel.ToType(viewModel.TaxonomyLevelID.Value);
-//                const string defaultTrunkOrBranchName = "Default";
-//                if (newTaxonomyLevel == TaxonomyLevel.Branch)
-//                {
-//                    // create a new "Default" trunk to move all branches to
-//                    // ensure that name does not already exist
-//                    var newTaxonomyTrunkDefault = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.SingleOrDefault(x =>
-//                                                      x.TaxonomyTrunkName == defaultTrunkOrBranchName) ?? new TaxonomyTrunk(defaultTrunkOrBranchName);
-//
-//                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-//                    foreach (var taxonomyBranch in taxonomyBranches)
-//                    {
-//                        taxonomyBranch.TaxonomyTrunk = newTaxonomyTrunkDefault;
-//                    }
-//                    HttpRequestStorage.DatabaseEntities.SaveChanges();
-//                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
-//                    foreach (var taxonomyTrunk in taxonomyTrunks)
-//                    {
-//                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
-//                    }
-//                }
-//                else if (newTaxonomyLevel == TaxonomyLevel.Leaf)
-//                {
-//                    var newTaxonomyTrunkDefault = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.SingleOrDefault(x =>
-//                                                      x.TaxonomyTrunkName == defaultTrunkOrBranchName) ?? new TaxonomyTrunk(defaultTrunkOrBranchName);
-//                    var newTaxonomyBranchDefault = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.SingleOrDefault(x =>
-//                                                       x.TaxonomyBranchName == defaultTrunkOrBranchName) ?? new TaxonomyBranch(newTaxonomyTrunkDefault, defaultTrunkOrBranchName);
-//                    var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
-//                    foreach (var taxonomyLeaf in taxonomyLeaves)
-//                    {
-//                        taxonomyLeaf.TaxonomyBranch = newTaxonomyBranchDefault;
-//                    }
-//                    HttpRequestStorage.DatabaseEntities.SaveChanges();
-//                    var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.Where(x => x.TaxonomyBranchID != newTaxonomyBranchDefault.TaxonomyBranchID).ToList();
-//                    foreach (var taxonomyBranch in taxonomyBranches)
-//                    {
-//                        taxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
-//                    }
-//
-//                    var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Where(x => x.TaxonomyTrunkID != newTaxonomyTrunkDefault.TaxonomyTrunkID).ToList();
-//                    foreach (var taxonomyTrunk in taxonomyTrunks)
-//                    {
-//                        taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
-//                    }
-//                }
-//            }
-
-            return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
-        }
-
-        private PartialViewResult ViewEditBudgetType(EditBudgetTypeViewModel viewModel)
-        {
-            var budgetTypes = BudgetType.All.ToSelectListWithEmptyFirstRow(x => x.BudgetTypeID.ToString(CultureInfo.InvariantCulture), x => x.BudgetTypeDisplayName);
-            var viewData = new EditBudgetTypeViewData(CurrentPerson, budgetTypes);
-            return RazorPartialView<EditBudgetType, EditBudgetTypeViewData, EditBudgetTypeViewModel>(viewData, viewModel);
-        }
-
 
         [HttpGet]
         [SitkaAdminFeature]

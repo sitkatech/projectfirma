@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
@@ -29,6 +31,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
@@ -51,6 +54,13 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Minimum Year")]
         [Required(ErrorMessage = "Must specify a Minimum Year")]
         public int? MinimumYear { get; set; }
+
+        [Required(ErrorMessage = "Must specify a Budget Type")]
+        [DisplayName("Budget Type")]
+        public int BudgetTypeID { get; set; }
+
+        [DisplayName("Cost Types")]
+        public List<string> CostTypes { get; set; }
 
         [DisplayName("Number Of Taxonomy Tiers To Use")]
         [Required(ErrorMessage = "Must specify a Number Of Taxonomy Tiers To Use")]
@@ -111,6 +121,7 @@ namespace ProjectFirma.Web.Views.Tenant
             TaxonomyLevelID = tenantAttribute.TaxonomyLevelID;
             AssociatePerfomanceMeasureTaxonomyLevelID = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID;
             MinimumYear = tenantAttribute.MinimumYear;
+            BudgetTypeID = tenantAttribute.BudgetTypeID;
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
@@ -136,8 +147,20 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             attribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             attribute.MinimumYear = MinimumYear ?? 0;
+            attribute.BudgetTypeID = BudgetTypeID;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+        }
+
+        public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)
+        {
+            var incomingCostTypes = new List<CostType>();
+            CostTypes.ForEach(x => incomingCostTypes.Add(new CostType(x)));
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            existingCostTypes.Merge(incomingCostTypes,
+                allCostTypes,
+                (x, y) => x.CostTypeName == y.CostTypeName,
+                databaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -156,6 +179,12 @@ namespace ProjectFirma.Web.Views.Tenant
             if (TaxonomyLevelID.Value < AssociatePerfomanceMeasureTaxonomyLevelID.Value)
             {
                 errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>("Cannot choose a Taxonomy Tier that does not exist!", m => m.AssociatePerfomanceMeasureTaxonomyLevelID));
+            }
+
+            // At least one Cost Type is required is selecting a Budget Type that uses Cost Types
+            if (BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID && CostTypes == null)
+            {
+                errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"One or more Cost Types must exist when selecting '{BudgetType.AnnualBudgetByCostType.BudgetTypeDisplayName}'", m => m.MinimumYear));
             }
 
             return errors;
