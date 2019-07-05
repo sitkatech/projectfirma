@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common;
+﻿using LtInfo.Common;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 {

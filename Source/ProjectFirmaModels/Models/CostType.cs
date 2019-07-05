@@ -1,6 +1,4 @@
-﻿using System.Web;
-
-namespace ProjectFirmaModels.Models
+﻿namespace ProjectFirmaModels.Models
 {
     public partial class CostType : IAuditableEntity
     {

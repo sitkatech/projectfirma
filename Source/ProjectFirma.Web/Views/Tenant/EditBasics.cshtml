@@ -120,7 +120,7 @@
                             style="width: auto"
                             id="BudgetTypeID"
                             name="BudgetTypeID"
-                            ng-model="selectedBudgetTypeID"
+                            ng-model="model.selectedBudgetTypeID"
                             ng-required="true">
                         <option value="">&lt;Choose one&gt;</option>
                         <option ng-repeat="budgetType in AngularViewData.BudgetTypes"
@@ -131,19 +131,19 @@
                         </option>
                     </select>
                 </div>
+                @Html.ValidationMessageFor(x => x.BudgetTypeID)
             </div>
             @* Enter Cost Types if required based on selected Budget Type *@
             <div ng-if="budgetTypeRequiresCostTypes()">
                 <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.CostTypes) <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span></sup></div>
                 <div class="col-md-8 costTypesExplanatoryText">You have opted to use cost types when budgeting projects.  Please define the Cost Types you would like to use, they will be available to all projects regardless of project type.</div>
-                @Html.ValidationMessageFor(x => x.BudgetTypeID)
                 
                 <div class="col-md-12 addNewCostType">
                     <div class="col-md-4"></div>
                     <div class="col-md-8 input-group input-group-small">
-                        <input class="form-control" type="text" placeholder="Enter a Cost Type" ng-model="enteredCostType"/>
+                        <input class="form-control" type="text" placeholder="Enter a Cost Type" ng-model="model.enteredCostType"/>
                         <div class="input-group-btn">
-                            <a class="btn btn-firma" ng-click="addCostType(enteredCostType)">
+                            <a class="btn btn-firma" ng-click="addCostType()">
                                 <span class="glyphicon glyphicon-plus"> Add</span>
                             </a>
                         </div>
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="col-md-12 costTypesContainer">
-                    <div ng-repeat="costType in costTypes track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4 costTypeBox">
+                    <div ng-repeat="costType in model.costTypes track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4 costTypeBox">
                         <div class="input-group input-group-sm">
                             <input class="form-control"
                                    type="text"

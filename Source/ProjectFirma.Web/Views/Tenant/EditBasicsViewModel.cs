@@ -18,20 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
@@ -184,7 +182,7 @@ namespace ProjectFirma.Web.Views.Tenant
             // At least one Cost Type is required is selecting a Budget Type that uses Cost Types
             if (BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID && CostTypes == null)
             {
-                errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"One or more Cost Types must exist when selecting '{BudgetType.AnnualBudgetByCostType.BudgetTypeDisplayName}'", m => m.MinimumYear));
+                errors.Add(new SitkaValidationResult<EditBasicsViewModel, int>($"One or more Cost Types must exist when selecting '{BudgetType.AnnualBudgetByCostType.BudgetTypeDisplayName}'", m => m.BudgetTypeID));
             }
 
             return errors;
