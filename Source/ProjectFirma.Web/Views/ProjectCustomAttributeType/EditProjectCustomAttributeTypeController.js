@@ -1,6 +1,8 @@
 ﻿angular.module("ProjectFirmaApp").controller("EditProjectCustomAttributeTypeController", function ($scope, $timeout, angularModelAndViewData) {
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.OptionsSchema = JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema) == undefined ? [] : JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema);
+
 
     $scope.getProjectCustomAttributeDataType = function (idToFind) {
         return Sitka.Methods.findElementInJsonArray($scope.AngularViewData.ProjectCustomAttributeDataTypes, "ID", idToFind);
@@ -37,7 +39,6 @@
         $scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema = JSON.stringify($scope.OptionsSchema);
     }
 
-    $scope.OptionsSchema = JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema) == undefined ? [] : JSON.parse($scope.AngularModel.ProjectCustomAttributeTypeOptionsSchema);
     $scope.ProjectCustomAttributeDataTypeSelected = $scope.AngularModel.ProjectCustomAttributeDataTypeID != null
         ? Sitka.Methods.findElementInJsonArray($scope.AngularViewData.ProjectCustomAttributeDataTypes,
             "ID",

@@ -28,12 +28,33 @@ namespace ProjectFirma.Web.Views.Tenant
     {
         public IEnumerable<SelectListItem> TenantPeople { get; }
         public IEnumerable<SelectListItem> TaxonomyLevels { get; }
+        public EditBasicsViewDataForAngular ViewDataForAngular { get; }
 
-        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels)
+        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels, 
+            int budgetTypeID, Dictionary<int, string> budgetTypes, IEnumerable<int> disabledBudgetTypeValues, List<string> costTypes)
             : base(currentPerson)
         {
             TenantPeople = tenantPeople;
             TaxonomyLevels = taxonomyLevels;
+            ViewDataForAngular = new EditBasicsViewDataForAngular(budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
+        }
+
+        public class EditBasicsViewDataForAngular
+        {
+            public int BudgetTypeID { get; }
+            public int BudgetTypeIDRequiringCostType { get; }
+            public Dictionary<int, string> BudgetTypes { get; }
+            public IEnumerable<int> DisabledBudgetTypeValues { get; }
+            public List<string> CostTypes { get; }
+
+            public EditBasicsViewDataForAngular(int budgetTypeID, Dictionary<int, string> budgetTypes, IEnumerable<int> disabledBudgetTypeValues, List<string> costTypes)
+            {
+                BudgetTypeID = budgetTypeID;
+                BudgetTypeIDRequiringCostType = BudgetType.AnnualBudgetByCostType.BudgetTypeID;
+                BudgetTypes = budgetTypes;
+                DisabledBudgetTypeValues = disabledBudgetTypeValues;
+                CostTypes = costTypes;
+            }
         }
     }
 }

@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\CostType.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
@@ -53,6 +54,8 @@
     <Compile Include="Models\Generated\AuditLogEventType.Binding.cs" />
     <Compile Include="Models\Generated\AuditLogEventTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLogPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\BudgetType.Binding.cs" />
+    <Compile Include="Models\Generated\BudgetTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Classification.Binding.cs" />
     <Compile Include="Models\Generated\Classification.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ClassificationConfiguration.Binding.cs" />
@@ -69,6 +72,10 @@
     <Compile Include="Models\Generated\CostParameterSet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostParameterSetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\CostType.Binding.cs" />
+    <Compile Include="Models\Generated\CostType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CostTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\County.Binding.cs" />
     <Compile Include="Models\Generated\County.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CountyConfiguration.Binding.cs" />
