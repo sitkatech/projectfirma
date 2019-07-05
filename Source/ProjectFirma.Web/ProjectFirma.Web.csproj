@@ -1370,6 +1370,7 @@
     <Content Include="Views\ProjectCustomAttributeType\Manage.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
+    <Content Include="Views\Tenant\EditBudgetTypeController.js" />
     <Content Include="Views\Tenant\EditStylesheet.cshtml" />
     <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />

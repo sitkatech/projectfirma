@@ -31,6 +31,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[EnableSecondaryProjectTaxonomyLeaf] [bit] NOT NULL,
 	[KeystoneOpenIDClientIdentifier] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[KeystoneOpenIDClientSecret] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[BudgetTypeID] [int] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -50,6 +51,11 @@ ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttrib
 REFERENCES [dbo].[AccomplishmentsDashboardFundingDisplayType] ([AccomplishmentsDashboardFundingDisplayTypeID])
 GO
 ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID]
+GO
+ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_BudgetType_BudgetTypeID] FOREIGN KEY([BudgetTypeID])
+REFERENCES [dbo].[BudgetType] ([BudgetTypeID])
+GO
+ALTER TABLE [dbo].[TenantAttribute] CHECK CONSTRAINT [FK_TenantAttribute_BudgetType_BudgetTypeID]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_FileResource_TenantBannerLogoFileResourceID_FileResourceID] FOREIGN KEY([TenantBannerLogoFileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])

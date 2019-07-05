@@ -48,6 +48,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new ClassificationSystemConfiguration());
             modelBuilder.Configurations.Add(new CostParameterSetConfiguration());
+            modelBuilder.Configurations.Add(new CostTypeConfiguration());
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
@@ -160,6 +161,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ClassificationSystem> ClassificationSystems { get { return AllClassificationSystems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<CostType> AllCostTypes { get; set; }
+        public virtual IQueryable<CostType> CostTypes { get { return AllCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
         public virtual IQueryable<County> Counties { get { return AllCounties.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPageImage> AllCustomPageImages { get; set; }
@@ -372,6 +375,11 @@ namespace ProjectFirmaModels.Models
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
 
+                case "BudgetType":
+                    var budgetType = BudgetType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(budgetType, "BudgetType", primaryKey);
+                    return budgetType;
+
                 case "ClassificationPerformanceMeasure":
                     return ClassificationPerformanceMeasures.GetClassificationPerformanceMeasure(primaryKey);
 
@@ -383,6 +391,9 @@ namespace ProjectFirmaModels.Models
 
                 case "CostParameterSet":
                     return CostParameterSets.GetCostParameterSet(primaryKey);
+
+                case "CostType":
+                    return CostTypes.GetCostType(primaryKey);
 
                 case "County":
                     return Counties.GetCounty(primaryKey);
