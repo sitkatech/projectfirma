@@ -284,6 +284,14 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        public static void AddTechnicalAssistanceReportMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
+        {
+            if (UsesTechnicalAssistanceParameters() && new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(currentPerson))
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TechnicalAssistanceRequestController>(c => c.TechnicalAssistanceReport()), currentPerson, "Technical Assistance Report"));
+            }
+        }
+
         public static ProjectStewardshipAreaType GetProjectStewardshipAreaType()
         {
             return GetTenantAttribute().ProjectStewardshipAreaType;
