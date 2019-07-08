@@ -14,11 +14,12 @@ namespace ProjectFirma.Web.Models
             {
                 case SupportRequestTypeEnum.ReportBug:
                 case SupportRequestTypeEnum.ForgotLoginInfo:
-                case SupportRequestTypeEnum.NewOrganizationOrFundingSource:
                 case SupportRequestTypeEnum.ProvideFeedback:
                 case SupportRequestTypeEnum.RequestOrganizationNameChange:
                 case SupportRequestTypeEnum.Other:
                     return supportRequestType.SupportRequestTypeDisplayName;
+                case SupportRequestTypeEnum.NewOrganizationOrFundingSource:
+                    return $"Need an {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} or {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} added to the list";
                 case SupportRequestTypeEnum.HelpWithProjectUpdate:
                     return $"Can't figure out how to update my {a.GetFieldDefinitionLabel()}";
                 case SupportRequestTypeEnum.RequestProjectPrimaryContactChange:
