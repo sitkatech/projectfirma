@@ -75,6 +75,10 @@ namespace ProjectFirma.Web.Common
             var canonicalHost = canonicalHostNames.FirstOrDefault(h => h.EndsWith(hostName, StringComparison.InvariantCultureIgnoreCase));
             if (canonicalHost == null && FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Prod)
             {
+                if (hostName.Equals("swcdemo.projectfirma.com", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return Tenant.IdahoAssociatonOfSoilConservationDistricts.CanonicalHostNameProd;
+                }
                 // Redirect to ProjectFirma home if domain is bad in Prod 
                 return Tenant.SitkaTechnologyGroup.CanonicalHostNameProd;
             }
