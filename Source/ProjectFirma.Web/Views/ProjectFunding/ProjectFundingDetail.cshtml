@@ -32,7 +32,7 @@
                 <tr>
                     <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                     <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                     <th class="text-right">Total</th>
                 </tr>
                 @foreach (var projectFundingSourceRequest in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))
@@ -58,6 +58,6 @@
     }
     else
     {
-        <p class="systemText">No funding sources identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+        <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
 </div>

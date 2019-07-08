@@ -116,10 +116,10 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="row">
             </div>
             <div class="col-xs-6">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType())
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
             </div>
             <div class="col-xs-6">
-                @ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()
             </div>
         </div>
     }

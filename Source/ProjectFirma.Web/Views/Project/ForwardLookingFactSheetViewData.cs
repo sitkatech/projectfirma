@@ -47,9 +47,11 @@ namespace ProjectFirma.Web.Views.Project
         public GoogleChartJson GoogleChartJson { get; }
         public string EstimatedTotalCost { get; }
 
+        public string NoFundingSourceIdentifiedLabel { get; }
         public string NoFundingSourceIdentified { get; }
         public string SecuredFunding { get; }
-        public string UnsecuredFunding { get; }
+        public string TargetedFundingLabel { get; }
+        public string TargetedFunding { get; }
 
         public string FundingRequest { get; }
         public int CalculatedChartHeight { get; }
@@ -118,9 +120,11 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
+            NoFundingSourceIdentifiedLabel = FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
+            TargetedFundingLabel = FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel();
+            TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
 
             FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
