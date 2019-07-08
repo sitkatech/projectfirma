@@ -42,8 +42,8 @@ Source code is available upon request via <support@sitkatech.com>.
     </script>
 
 }
-    <p>Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of Secured or @FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.</p>
-    <p>The @FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel() is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
+    <p>Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple funding sources. For each funding source, provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of Secured or @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.</p>
+    <p>The @FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel() is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
 
 <hr />
 
@@ -83,7 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <th></th>
                     <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                     <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                     <th style="text-align: right">Total</th>
                 </tr>
                 <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
@@ -171,7 +171,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType(), FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel() + ":")</div>
+                        <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType(), FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel() + ":")</div>
                         <div class="col-sm-3 text-right">
                             <span>
                                 {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
@@ -180,7 +180,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-sm-6 text-right" ng-show="getUnsecuredTotal() > 0">
                             (<span>
                                  {{(getUnsecuredTotal()) | currency:"$"}}
-                            </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType()))
+                            </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()))
                         </div>
                     </div>
             }

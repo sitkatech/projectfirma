@@ -22,8 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
-using GeoJSON.Net.Feature;
-using LtInfo.Common.GeoJson;
 
 namespace ProjectFirmaModels.Models
 {
@@ -32,7 +30,7 @@ namespace ProjectFirmaModels.Models
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
 
-        public decimal? UnfundedNeed => EstimatedTotalCost - GetSecuredFunding();
+        public decimal? NoFundingSourceIdentifiedFunding => EstimatedTotalCost - GetSecuredFunding();
 
         public decimal GetSecuredFunding()
         {

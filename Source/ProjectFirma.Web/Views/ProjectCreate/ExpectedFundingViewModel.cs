@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
                     yield return new ValidationResult(
-                        $"Secured Funding and {FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
+                        $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
                 }
             }
         }

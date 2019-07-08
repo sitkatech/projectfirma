@@ -46,7 +46,7 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? UnfundedNeed()
+        public decimal? GetNoFundingSourceIdentifiedFunding()
         {
             return EstimatedTotalCost - GetSecuredFunding();
         }
@@ -56,7 +56,7 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetUnsecuredFunding()
+        public decimal? GetTargetedFunding()
         {
             return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
         }
@@ -64,9 +64,9 @@ namespace ProjectFirmaModels.Models
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
             var securedFunding = GetSecuredFunding();
-            var unsecuredFunding = GetUnsecuredFunding();
+            var targetedFunding = GetTargetedFunding();
 
-            var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + unsecuredFunding ?? 0);
+            var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + targetedFunding ?? 0);
             if (noFundingSourceIdentifiedAmount >= 0)
             {
                 return noFundingSourceIdentifiedAmount;
