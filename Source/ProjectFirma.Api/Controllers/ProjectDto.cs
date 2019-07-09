@@ -42,7 +42,7 @@ namespace ProjectFirma.Api.Controllers
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.EstimatedTotalCost;
             SecuredFunding = project.GetSecuredFunding();
-            NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedFunding();
+            NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             if (project.ProjectLocationPoint != null)
             {
                 LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);

@@ -119,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
             </div>
             <div class="col-xs-6">
-                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency()
             </div>
         </div>
     }

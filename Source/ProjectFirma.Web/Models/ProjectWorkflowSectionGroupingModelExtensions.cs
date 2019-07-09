@@ -33,11 +33,11 @@ namespace ProjectFirma.Web.Models
                         projectCreateSectionsForAdditionalData.Add(ProjectCreateSection.Assessment);
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
-                case ProjectWorkflowSectionGroupingEnum.Expenditures:
-                    var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.ExpectedFunding, ProjectCreateSection.ReportedExpenditures }).ToList();
+                case ProjectWorkflowSectionGroupingEnum.Financials:
+                    var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Budget, ProjectCreateSection.ReportedExpenditures }).ToList();
                     if (project != null && project.IsExpectedFundingRelevant())
                     {
-                        projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ExpectedFunding);
+                        projectCreateSectionsForExpenditures.Add(ProjectCreateSection.Budget);
                     }
 
                     if (project != null && project.AreReportedExpendituresRelevant())
@@ -121,11 +121,11 @@ namespace ProjectFirma.Web.Models
                         projectUpdateSectionsForPerformanceMeasures.Add(ProjectUpdateSection.ReportedAccomplishments);
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForPerformanceMeasures, projectUpdateStatus, ignoreStatus);
-                case ProjectWorkflowSectionGroupingEnum.Expenditures:
-                    var projectUpdateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.ExpectedFunding }).ToList();
+                case ProjectWorkflowSectionGroupingEnum.Financials:
+                    var projectUpdateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.Budget }).ToList();
                     if (projectUpdateBatch.Project.IsExpectedFundingRelevant())
                     {
-                        projectUpdateSectionsForExpenditures.Add(ProjectUpdateSection.ExpectedFunding);
+                        projectUpdateSectionsForExpenditures.Add(ProjectUpdateSection.Budget);
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:

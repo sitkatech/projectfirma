@@ -273,7 +273,7 @@
                     </div>
                 }
 
-                <h2 class="sectionHeader">Funding</h2>
+                <h2 class="sectionHeader">Financials</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>
@@ -291,12 +291,12 @@
                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
                         </div>
                         <div class="row">
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</label>
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency()</div>
+                        </div>
+                        <div class="row">
                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</label>
-                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()</div>
-                            @if (ViewDataTyped.Project.GetTargetedFunding() > 0)
-                            {
-                                <div class="col-sm-6">(@ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()))</div>
-                            }
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency()</div>                            
                         </div>
                         <hr />
                         @{
