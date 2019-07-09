@@ -19,12 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {

@@ -71,7 +71,6 @@ using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimp
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
 using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
-using TechnicalAssistanceRequestUpdate = ProjectFirmaModels.Models.TechnicalAssistanceRequestUpdate;
 
 namespace ProjectFirma.Web.Controllers
 {

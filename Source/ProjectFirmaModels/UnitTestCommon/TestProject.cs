@@ -19,9 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Linq;
 using ProjectFirmaModels.Models;
+using System;
 
 namespace ProjectFirmaModels.UnitTestCommon
 {
