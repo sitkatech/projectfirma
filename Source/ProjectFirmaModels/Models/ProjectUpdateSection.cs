@@ -77,7 +77,7 @@
         }
     }
 
-    public partial class ProjectUpdateSectionExpectedFunding
+    public partial class ProjectUpdateSectionBudget
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {

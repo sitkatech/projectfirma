@@ -714,7 +714,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.ExpectedFunding.ProjectUpdateSectionDisplayName);
+                ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
         }
 
         private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)

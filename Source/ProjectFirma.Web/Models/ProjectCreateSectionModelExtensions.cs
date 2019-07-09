@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Models
                         ProjectID = project.ProjectID
                     }.GetValidationResults();
                     return !pmValidationResults.Any();
-                case ProjectCreateSectionEnum.ExpectedFunding:
+                case ProjectCreateSectionEnum.Budget:
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.ReportedExpenditures:
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
-                case ProjectCreateSectionEnum.ExpectedFunding:
+                case ProjectCreateSectionEnum.Budget:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ReportedExpenditures:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID)) : null;

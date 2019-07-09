@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using ProjectFirma.Web.Views.Shared.ProjectControls
@@ -272,7 +273,7 @@
                     </div>
                 }
 
-                <h2 class="sectionHeader">Funding</h2>
+                <h2 class="sectionHeader">Financials</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>
@@ -281,6 +282,24 @@
                         </h3>
                     </div>
                     <div class="panel-body">
+
+                        <div class="row">
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</label>
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</label>
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</label>
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency()</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</label>
+                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency()</div>                            
+                        </div>
+                        <hr />
                         @{
                             ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
                         }

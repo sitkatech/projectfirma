@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Views.Project
                 foreach (var googlePieChartSlice in FundingSourceRequestAmountGooglePieChartSlices.OrderBy(x => x.SortOrder))
                 {
                     legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " + googlePieChartSlice.Color + "'></div> ";
-                    legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Label + "</div>";
+                    legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Value.ToStringCurrency() + " " + googlePieChartSlice.Label + "</div>";
                     legendHtml += "<br>";
                 }
                 legendHtml += "</div>";

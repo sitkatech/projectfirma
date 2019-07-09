@@ -46,11 +46,6 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? GetNoFundingSourceIdentifiedFunding()
-        {
-            return EstimatedTotalCost - GetSecuredFunding();
-        }
-
         public decimal? GetSecuredFunding()
         {
             return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;

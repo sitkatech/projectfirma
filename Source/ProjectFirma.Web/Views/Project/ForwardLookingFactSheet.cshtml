@@ -341,7 +341,7 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                <h4>@ViewDataTyped.TargetedFundingLabel</h4>
+                <h4>Budget</h4>
                 <div class="chartPanel">
                     @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
                     {
@@ -353,7 +353,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No @ViewDataTyped.TargetedFundingLabel Sources identified</p>
+                            <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                         </div>
                     }
                 </div>
