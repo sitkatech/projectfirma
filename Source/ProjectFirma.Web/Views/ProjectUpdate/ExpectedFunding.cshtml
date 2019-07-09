@@ -144,7 +144,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 <p>
                     <label class="control-label">Summary of Total @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Costs and Funding:</label>
                 </p>
-                @if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
+                @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
                 {
                     <table>
                         <tr>

@@ -152,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
-    @if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.Capital)
+    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">
@@ -171,7 +171,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     }
-    else if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
+    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
     {
         <div class="form-group form-group-condensed">
             <div class="col-sm-4 control-label">

@@ -282,23 +282,23 @@
                         </h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</label>
-                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</label>
-                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</label>
-                            <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()</div>
-                            @if (ViewDataTyped.Project.GetTargetedFunding() > 0)
-                            {
-                                <div class="col-sm-6">(@ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()))</div>
-                            }
-                        </div>
-                        <hr />
+@*                         <div class="row"> *@
+@*                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</label> *@
+@*                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</div> *@
+@*                         </div> *@
+@*                         <div class="row"> *@
+@*                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</label> *@
+@*                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</div> *@
+@*                         </div> *@
+@*                         <div class="row"> *@
+@*                             <label class="col-xs-6 col-sm-3 text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</label> *@
+@*                             <div class="col-xs-6 col-sm-2 text-right">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()</div> *@
+@*                             @if (ViewDataTyped.Project.GetTargetedFunding() > 0) *@
+@*                             { *@
+@*                                 <div class="col-sm-6">(@ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()))</div> *@
+@*                             } *@
+@*                         </div> *@
+@*                         <hr/> *@
                         @{
                             ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
                         }

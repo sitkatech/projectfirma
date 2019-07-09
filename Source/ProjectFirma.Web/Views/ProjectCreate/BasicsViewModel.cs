@@ -121,13 +121,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectDescription = ProjectDescription;
             project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
             project.FundingTypeID = FundingTypeID;
-            if (FundingTypeID == (int) FundingTypeEnum.Capital)
+            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.EstimatedAnnualOperatingCost = null;
                 
             }
-            else if (FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
+            else if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
             {
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;

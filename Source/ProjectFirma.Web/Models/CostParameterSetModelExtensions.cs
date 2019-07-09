@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanCalculateCapitalCostInYearOfExpenditure(IProject project)
         {
-            bool hasCapitalFundingType = project.FundingType == FundingTypeEnum.Capital.ToType();
+            bool hasCapitalFundingType = project.FundingType == FundingType.BudgetVariesByYear;
             bool validCompletionYear = project.CompletionYear >= GetCurrentRTPYearForPVCalculations();
             bool isStagedIncluded = project.ProjectStage.IsStagedIncludedInTransporationCostCalculations();
 
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
-            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType() 
+            return project.FundingType == FundingType.BudgetSameEachYear
                    && project.EstimatedAnnualOperatingCost.HasValue
                    && project.CompletionYear.HasValue 
                    && project.ImplementationStartYear.HasValue 
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanCalculateLifecycleOperatingCost(this IProject project)
         {
-            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType()
+            return project.FundingType == FundingType.BudgetSameEachYear
                    && project.EstimatedAnnualOperatingCost.HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue;

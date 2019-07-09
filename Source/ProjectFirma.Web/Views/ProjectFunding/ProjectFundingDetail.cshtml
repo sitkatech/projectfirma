@@ -24,7 +24,77 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFunding.ProjectFundingDetail
 <div class="table-responsive">
+    @* Funding Basics *@
+    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+    {
+        @* SecuredFunding *@
+        <div class="row">
+            <div class="col-xs-6">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+            </div>
+            <div class="col-xs-6">
+                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
+            </div>
+        </div>
+        @* NoFundingSourceIdentified *@
+        <div class="row">
+            <div class="col-xs-6">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
+            </div>
+            <div class="col-xs-6">
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedFunding().ToStringCurrency()
+            </div>
+        </div>
+    }
+    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+    {
+        <div class="row">
+            <div class="col-xs-6">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
+            </div>
+            <div class="col-xs-6">
+                @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
+            </div>
+            @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
+            {
+                <div class="col-xs-6">
+                    <span>@ViewDataTyped.ProjectFundingCalculatedCosts.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
+                    @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
+                    {
+                        <span>(For years @ViewDataTyped.ProjectFundingCalculatedCosts.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using <a href="@ViewDataTyped.ProjectFundingCalculatedCosts.EditInflationUrl">@ViewDataTyped.ProjectFundingCalculatedCosts.InflationRate.ToStringPercent() annual inflation</a>)</span>
+                    }
+                    else
+                    {
+                        <span>(For years @ViewDataTyped.ProjectFundingCalculatedCosts.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using @ViewDataTyped.ProjectFundingCalculatedCosts.InflationRate.ToStringPercent() annual inflation)</span>
+                    }
+                </div>
+            }
+        </div>
+    }
+    @* Funding Type *@
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingType.ToType())
+        </div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.FundingType.FundingTypeDisplayName
+        </div>
+    </div>
+    @* EstimatedTotalCost *@
+    <div class="row">
+        <div class="col-xs-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
+        </div>
+    </div>
 
+    <hr />
+    @* Funding Sources *@
     @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
     {
         <div style="overflow-x: auto">

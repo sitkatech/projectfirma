@@ -119,13 +119,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
 
-            if (FundingTypeID == (int) FundingTypeEnum.Capital)
+            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
             {
                 project.EstimatedTotalCost = EstimatedTotalCost;
                 project.EstimatedAnnualOperatingCost = null;
 
             }
-            else if (FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
+            else if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
             {
                 project.EstimatedTotalCost = null;
                 project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
