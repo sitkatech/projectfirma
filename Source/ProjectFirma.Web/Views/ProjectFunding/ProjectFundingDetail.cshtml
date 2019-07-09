@@ -35,13 +35,13 @@
                     <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                     <th class="text-right">Total</th>
                 </tr>
-                @foreach (var projectFundingSourceRequest in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))
+                @foreach (var projectFundingSourceBudget in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))
                 {
                     <tr>
-                        <td>@Html.Raw(projectFundingSourceRequest.FundingSource.GetDisplayNameAsUrl())</td>
-                        <th class="text-right">@projectFundingSourceRequest.SecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@projectFundingSourceRequest.UnsecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@((projectFundingSourceRequest.UnsecuredAmount + projectFundingSourceRequest.SecuredAmount).ToStringCurrency())</th>
+                        <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
+                        <th class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</th>
+                        <th class="text-right">@projectFundingSourceBudget.UnsecuredAmount.ToStringCurrency()</th>
+                        <th class="text-right">@(((projectFundingSourceBudget.UnsecuredAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
                     </tr>
                 }
                 @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
@@ -50,7 +50,7 @@
                         <th>Total</th>
                         <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</th>
                         <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToStringCurrency()</th>
-                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToStringCurrency()</th>
+                        <th class="text-right">@((ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount) + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount)).ToStringCurrency())</th>
                     </tr>
                 }
             </table>

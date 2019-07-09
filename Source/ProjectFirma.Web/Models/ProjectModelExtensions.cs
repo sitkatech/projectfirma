@@ -389,7 +389,7 @@ namespace ProjectFirmaModels.Models
             if (noFundingSourceIdentifiedAmount > 0)
             {
                 var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
-                requestAmountsDictionary.Add(new GooglePieChartSlice("No Funding Source Identified Yet", noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
+                requestAmountsDictionary.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
             }
             return requestAmountsDictionary;
         }
