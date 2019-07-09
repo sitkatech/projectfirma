@@ -498,7 +498,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
             var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
             viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceRequests);
-            SetMessageForDisplay("Expected Funding successfully saved.");
+            SetMessageForDisplay("Budget successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }
 
