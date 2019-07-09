@@ -59,9 +59,8 @@
 
     <p>
         Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()).
-        For each @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of Secured or @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.
+        For each @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() or @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.
     </p>
-    <p>The @FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel() is the difference between the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Estimated Total Cost (as entered on the Basics page) and the Secured Funding.</p>
 
 <hr />
 
@@ -97,7 +96,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                     </span>
                 </div>
                 <p style="font-size: 12px;">
-                    Not listed?
+                    @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) not listed?
                     @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </p>
             </div>
