@@ -65,7 +65,7 @@ namespace ProjectFirmaModels.Models
             "ProjectUpdateHistory",
             "SupportRequestLog",
             "ProjectBudgetUpdate",
-            "ProjectFundingSourceRequestUpdate",
+            "ProjectFundingSourceBudgetUpdate",
             "ProjectDocumentUpdate",
             "PersonStewardOrganization",
             "PersonStewardTaxonomyBranch",

@@ -110,8 +110,8 @@
                     <tr>
                         <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
                         <th class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@projectFundingSourceBudget.UnsecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@(((projectFundingSourceBudget.UnsecuredAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
+                        <th class="text-right">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</th>
+                        <th class="text-right">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
                     </tr>
                 }
                 @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
@@ -119,8 +119,8 @@
                     <tr>
                         <th>Total</th>
                         <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</th>
-                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToStringCurrency()</th>
-                        <th class="text-right">@((ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount) + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount)).ToStringCurrency())</th>
+                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount).ToStringCurrency()</th>
+                        <th class="text-right">@((ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount) + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount)).ToStringCurrency())</th>
                     </tr>
                 }
             </table>

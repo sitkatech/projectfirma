@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectFundingSourceRequestsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectFundingSourceBudgetsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -22,66 +22,66 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ProjectFundingSourceRequest
+namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
-    public class EditProjectFundingSourceRequestsViewModel : FormViewModel, IValidatableObject
+    public class EditProjectFundingSourceBudgetViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProjectFundingSourceRequestSimple> ProjectFundingSourceRequests { get; set; }
+        public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditProjectFundingSourceRequestsViewModel()
+        public EditProjectFundingSourceBudgetViewModel()
         {
         }
 
-        public EditProjectFundingSourceRequestsViewModel(
-            List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
+        public EditProjectFundingSourceBudgetViewModel(
+            List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceRequests)
         {
-            ProjectFundingSourceRequests = projectFundingSourceRequests
-                .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
+            ProjectFundingSourceBudgets = projectFundingSourceRequests
+                .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
         }
 
-        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
-            IList<ProjectFirmaModels.Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
-            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceRequest>();
-            if (ProjectFundingSourceRequests != null)
+            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
+            if (ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests
-                    .Select(x => x.ToProjectFundingSourceRequest()).ToList();
+                projectFundingSourceRequestsUpdated = ProjectFundingSourceBudgets
+                    .Select(x => x.ToProjectFundingSourceBudget()).ToList();
             }
 
-            currentProjectFundingSourceRequests.Merge(projectFundingSourceRequestsUpdated,
-                allProjectFundingSourceRequests,
+            currentProjectFundingSourceBudgets.Merge(projectFundingSourceRequestsUpdated,
+                allProjectFundingSourceBudgets,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
                 {
                     x.SecuredAmount = y.SecuredAmount;
-                    x.UnsecuredAmount = y.UnsecuredAmount;
+                    x.TargetedAmount = y.TargetedAmount;
                 }, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (ProjectFundingSourceRequests == null)
+            if (ProjectFundingSourceBudgets == null)
             {
                 yield break;
             }
 
-            if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            if (ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
             {
                 yield return new ValidationResult("Each funding source can only be used once.");
             }
 
-            foreach (var projectFundingSourceRequest in ProjectFundingSourceRequests)
+            foreach (var projectFundingSourceRequest in ProjectFundingSourceBudgets)
             {
                 if (projectFundingSourceRequest.AreBothValuesZero())
                 {

@@ -26,7 +26,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
-    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceRequests, function(p) { return p.FundingSourceID; }); };
+    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function(p) { return p.FundingSourceID; }); };
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
@@ -36,20 +36,20 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
             }).value();
     };
 
-    $scope.getFundingSourceName = function(projectFundingSourceRequest)
+    $scope.getFundingSourceName = function(projectFundingSourceBudget)
     {
-        var fundingSourceToFind = $scope.getFundingSource(projectFundingSourceRequest.FundingSourceID);
+        var fundingSourceToFind = $scope.getFundingSource(projectFundingSourceBudget.FundingSourceID);
         return fundingSourceToFind.DisplayName;
     };
 
     $scope.getFundingSource = function (fundingSourceID) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceID == f.FundingSourceID; }); };
 
     $scope.getUnsecuredTotal = function () {
-        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceRequests, function (m, x) { return Number(m) + Number(x.UnsecuredAmount); }, 0));
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgets, function (m, x) { return Number(m) + Number(x.TargetedAmount); }, 0));
     };
 
     $scope.getSecuredTotal = function () {
-        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceRequests,
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgets,
             function (m, x) { return Number(m) + Number(x.SecuredAmount); },
             0));
     };
@@ -58,11 +58,11 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return Number($scope.getUnsecuredTotal()) + Number($scope.getSecuredTotal());
     }
 
-    $scope.getRowTotal = function (projectFundingSourceRequest) {
-        return Number(projectFundingSourceRequest.SecuredAmount) + Number(projectFundingSourceRequest.UnsecuredAmount);
+    $scope.getRowTotal = function (projectFundingSourceBudget) {
+        return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
     }
     
-    $scope.findProjectFundingSourceRequestRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceRequests, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
+    $scope.findProjectFundingSourceBudgetRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
 
     $scope.addRow = function()
     {
@@ -70,23 +70,23 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         {
             return;
         }
-        var newProjectFundingSourceRequest = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
-        $scope.AngularModel.ProjectFundingSourceRequests.push(newProjectFundingSourceRequest);
+        var newProjectFundingSourceBudget = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
+        $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
         $scope.resetFundingSourceToAdd();
     };
 
     $scope.createNewRow = function(projectID, fundingSourceID)
     {
-        var newProjectFundingSourceRequest = {
+        var newProjectFundingSourceBudget = {
             ProjectID: projectID,
             FundingSourceID: fundingSourceID,
             SecuredAmount: null,
-            UnsecuredAmount: null
+            TargetedAmount: null
         };
-        return newProjectFundingSourceRequest;
+        return newProjectFundingSourceBudget;
     };
 
-    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceRequests, rowToDelete); };
+    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgets, rowToDelete); };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;

@@ -31,10 +31,10 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public ProjectFirmaModels.Models.Project Project { get; }
         public bool UserHasProjectBudgetManagePermissions { get; }
         public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
-        public List<IFundingSourceRequestAmount> FundingSourceRequestAmounts { get; }
+        public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
 
         public ProjectFundingDetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
-            bool userHasProjectBudgetManagePermissions, List<IFundingSourceRequestAmount> fundingSourceRequestAmounts) : base(currentPerson)
+            bool userHasProjectBudgetManagePermissions, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts) : base(currentPerson)
         {
             Project = project;
             UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;

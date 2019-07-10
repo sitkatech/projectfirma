@@ -467,7 +467,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList());
+            var viewModel = new ExpectedFundingViewModel(project.ProjectFundingSourceBudgets.ToList());
             return ViewExpectedFunding(project, viewModel);
         }
 
@@ -494,10 +494,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(project, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests.Load();
-            var projectFundingSourceRequests = project.ProjectFundingSourceRequests.ToList();
-            var allProjectFundingSourceRequests = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceRequests.Local;
-            viewModel.UpdateModel(project, projectFundingSourceRequests, allProjectFundingSourceRequests);
+            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
+            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets);
             SetMessageForDisplay("Expected Funding successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }

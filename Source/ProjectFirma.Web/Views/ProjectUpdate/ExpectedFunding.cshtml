@@ -102,7 +102,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 </p>
             </div>
             <div style="overflow-x: auto" class="form-inline">
-                <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceRequests.length > 0">
+                <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">
                     <tr>
                         <th></th>
                         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
@@ -110,7 +110,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                         <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                         <th style="text-align: right">Total</th>
                     </tr>
-                    <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
+                    <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
                         <td>
                             <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceRequest)" style="cursor: pointer"></span>
                         </td>
@@ -119,7 +119,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                             <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control " ng-currency />
                         </td>
                         <td style="text-align: right">
-                            <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.UnsecuredAmount" class="sitkaCurrency form-control" ng-currency />
+                            <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.TargetedAmount" class="sitkaCurrency form-control" ng-currency />
                         </td>
                         <th style="text-align: right">
                             {{ getRowTotal(projectFundingSourceRequest) | currency:"$"}}
@@ -200,11 +200,11 @@ else if (ViewDataTyped.AreProjectBasicsValid)
 
 
 
-            <div ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceRequests | orderBy:[getFundingSourceName]">
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.ProjectID}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.FundingSourceID}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.SecuredAmount}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceRequests[0].UnsecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.UnsecuredAmount}}" />
+            <div ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.ProjectID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.FundingSourceID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.SecuredAmount}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.TargetedAmount}}" />
             </div>
 
             @if (ViewDataTyped.ShowApproveAndReturnButton)

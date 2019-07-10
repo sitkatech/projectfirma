@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedFundingViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProjectFundingSourceRequestSimple> ProjectFundingSourceRequests { get; set; }
+        public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
 
 
         /// <summary>
@@ -42,31 +42,31 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpectedFundingViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequests)
+        public ExpectedFundingViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceRequests)
         {
-            ProjectFundingSourceRequests = projectFundingSourceRequests
-                .Select(x => new ProjectFundingSourceRequestSimple(x)).ToList();
+            ProjectFundingSourceBudgets = projectFundingSourceRequests
+                .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
-            List<ProjectFirmaModels.Models.ProjectFundingSourceRequest> currentProjectFundingSourceRequests,
-            IList<ProjectFirmaModels.Models.ProjectFundingSourceRequest> allProjectFundingSourceRequests)
+            List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
-            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceRequest>();
-            if (ProjectFundingSourceRequests != null)
+            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
+            if (ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceRequests
-                    .Select(x => x.ToProjectFundingSourceRequest()).ToList();
+                projectFundingSourceRequestsUpdated = ProjectFundingSourceBudgets
+                    .Select(x => x.ToProjectFundingSourceBudget()).ToList();
             }
 
-            currentProjectFundingSourceRequests.Merge(projectFundingSourceRequestsUpdated,
-                allProjectFundingSourceRequests,
+            currentProjectFundingSourceBudgets.Merge(projectFundingSourceRequestsUpdated,
+                allProjectFundingSourceBudgets,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
                 {
                     x.SecuredAmount = y.SecuredAmount;
-                    x.UnsecuredAmount = y.UnsecuredAmount;
+                    x.TargetedAmount = y.TargetedAmount;
                 }, HttpRequestStorage.DatabaseEntities);
         }
 
@@ -77,17 +77,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<ValidationResult> GetValidationResults()
         {
-            if (ProjectFundingSourceRequests == null)
+            if (ProjectFundingSourceBudgets == null)
             {
                 yield break;
             }
 
-            if (ProjectFundingSourceRequests.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            if (ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
             {
                 yield return new ValidationResult("Each funding source can only be used once.");
             }
 
-            foreach (var projectFundingSourceRequest in ProjectFundingSourceRequests)
+            foreach (var projectFundingSourceRequest in ProjectFundingSourceBudgets)
             {
                 if (projectFundingSourceRequest.AreBothValuesZero())
                 {

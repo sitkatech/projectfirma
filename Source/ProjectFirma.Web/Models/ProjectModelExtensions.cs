@@ -165,7 +165,7 @@ namespace ProjectFirmaModels.Models
         public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project)
         {
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+                .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
                 .Select(x => new ProjectOrganizationRelationship(project, x, RelationshipTypeModelExtensions.RelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
@@ -236,7 +236,7 @@ namespace ProjectFirmaModels.Models
             {
                 // Default is Funding Organizations
                 var organizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                    .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization))
+                    .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization))
                     .Distinct(new HavePrimaryKeyComparer<Organization>());
                 return organizations;
             }
@@ -346,12 +346,12 @@ namespace ProjectFirmaModels.Models
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
 
-            var securedAmountsDictionary = project.ProjectFundingSourceRequests.Where(x => x.SecuredAmount > 0)
+            var securedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.SecuredAmount));
-            var unsecuredAmountsDictionary = project.ProjectFundingSourceRequests.Where(x => x.UnsecuredAmount > 0)
+            var targetedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.TargetedAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.UnsecuredAmount));
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.TargetedAmount));
 
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var unsecuredColorHsl = new { hue = 33.3, sat = 240.0 };
@@ -368,12 +368,12 @@ namespace ProjectFirmaModels.Models
             }).ToList();
             googlePieChartSlices.AddRange(securedPieChartSlices);
 
-            var unsecuredPieChartSlices = unsecuredAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
+            var unsecuredPieChartSlices = targetedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
 
-                var luminosity = 100.0 * (unsecuredAmountsDictionary.Count - index - 1) / unsecuredAmountsDictionary.Count + 120;
+                var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(unsecuredColorHsl.hue, unsecuredColorHsl.sat, luminosity));
                 return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();

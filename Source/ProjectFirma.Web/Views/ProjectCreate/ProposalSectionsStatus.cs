@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             IsPerformanceMeasureSectionComplete = IsBasicsSectionComplete;
 
-            var expectedFundingValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList())
+            var expectedFundingValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceBudgets.ToList())
                 .GetValidationResults();
             IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
 

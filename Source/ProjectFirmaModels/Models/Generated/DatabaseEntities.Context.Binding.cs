@@ -102,10 +102,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureUpdateConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceRequestConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new ProjectGeospatialAreaTypeNoteConfiguration());
             modelBuilder.Configurations.Add(new ProjectGeospatialAreaTypeNoteUpdateConfiguration());
@@ -263,14 +263,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectExternalLink> ProjectExternalLinks { get { return AllProjectExternalLinks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExternalLinkUpdate> AllProjectExternalLinkUpdates { get; set; }
         public virtual IQueryable<ProjectExternalLinkUpdate> ProjectExternalLinkUpdates { get { return AllProjectExternalLinkUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectFundingSourceBudget> AllProjectFundingSourceBudgets { get; set; }
+        public virtual IQueryable<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get { return AllProjectFundingSourceBudgets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectFundingSourceBudgetUpdate> AllProjectFundingSourceBudgetUpdates { get; set; }
+        public virtual IQueryable<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get { return AllProjectFundingSourceBudgetUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditure> AllProjectFundingSourceExpenditures { get; set; }
         public virtual IQueryable<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get { return AllProjectFundingSourceExpenditures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectFundingSourceExpenditureUpdate> AllProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual IQueryable<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get { return AllProjectFundingSourceExpenditureUpdates.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectFundingSourceRequest> AllProjectFundingSourceRequests { get; set; }
-        public virtual IQueryable<ProjectFundingSourceRequest> ProjectFundingSourceRequests { get { return AllProjectFundingSourceRequests.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectFundingSourceRequestUpdate> AllProjectFundingSourceRequestUpdates { get; set; }
-        public virtual IQueryable<ProjectFundingSourceRequestUpdate> ProjectFundingSourceRequestUpdates { get { return AllProjectFundingSourceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectGeospatialArea> AllProjectGeospatialAreas { get; set; }
         public virtual IQueryable<ProjectGeospatialArea> ProjectGeospatialAreas { get { return AllProjectGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectGeospatialAreaTypeNote> AllProjectGeospatialAreaTypeNotes { get; set; }
@@ -631,17 +631,17 @@ namespace ProjectFirmaModels.Models
                 case "ProjectExternalLinkUpdate":
                     return ProjectExternalLinkUpdates.GetProjectExternalLinkUpdate(primaryKey);
 
+                case "ProjectFundingSourceBudget":
+                    return ProjectFundingSourceBudgets.GetProjectFundingSourceBudget(primaryKey);
+
+                case "ProjectFundingSourceBudgetUpdate":
+                    return ProjectFundingSourceBudgetUpdates.GetProjectFundingSourceBudgetUpdate(primaryKey);
+
                 case "ProjectFundingSourceExpenditure":
                     return ProjectFundingSourceExpenditures.GetProjectFundingSourceExpenditure(primaryKey);
 
                 case "ProjectFundingSourceExpenditureUpdate":
                     return ProjectFundingSourceExpenditureUpdates.GetProjectFundingSourceExpenditureUpdate(primaryKey);
-
-                case "ProjectFundingSourceRequest":
-                    return ProjectFundingSourceRequests.GetProjectFundingSourceRequest(primaryKey);
-
-                case "ProjectFundingSourceRequestUpdate":
-                    return ProjectFundingSourceRequestUpdates.GetProjectFundingSourceRequestUpdate(primaryKey);
 
                 case "ProjectGeospatialArea":
                     return ProjectGeospatialAreas.GetProjectGeospatialArea(primaryKey);
