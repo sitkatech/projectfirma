@@ -235,6 +235,7 @@ namespace ProjectFirma.Web.Controllers
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+
             var fundingTypes = FundingType.All.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
@@ -498,7 +499,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
             viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets);
-            SetMessageForDisplay("Expected Funding successfully saved.");
+            SetMessageForDisplay("Budget successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }
 
