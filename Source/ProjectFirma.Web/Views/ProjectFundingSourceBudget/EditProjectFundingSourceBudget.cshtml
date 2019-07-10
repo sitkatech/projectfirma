@@ -30,7 +30,7 @@ Source code is available upon request via <support@sitkatech.com>.
         angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
             function() {
                 return {
-                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                    AngularModel: @Html.Raw(JObject.FromObject(Model.ViewModelForAngular)),
                     AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
                 };
             });
@@ -43,6 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
             });
     })
     // ]]>
+
 </script>
 
 <div class="row">
@@ -55,6 +56,46 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <div ng-app="ProjectFirmaApp" id="EditFundingSourceBudgetsApp" ng-controller="ProjectFundingSourceBudgetController" style="max-height: 600px;">
+            <div class="form-group">
+                <label class="control-label">
+                    @Html.Label("Does the project budget vary by year or is it the same?")
+                </label>
+                <div class="input-group">
+                    @* @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" }) *@
+                    <select ng-model="selectedFundingTypeID"
+                            class="selectpicker"
+                            data-container="body"
+                            title="Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add"
+                            data-width="100%">
+                        <option value="null" disabled selected></option>
+                        <option ng-repeat="fundingType in fundingTypes()"
+                                value="{{fundingType.Value}}"
+                                ng-selected="selectedFundingTypeID == fundingType.Value"
+                                ng-bind="fundingType.Text">
+                        </option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.FundingTypeID)
+                </div>
+            </div>
+        
+            <div class="form-group" ng-if="budgetVariesByYear()">
+                <label class="control-label">
+                    @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
+                </label>
+                <div class="input-group">
+                    @Html.EditorFor(m => m.EstimatedTotalCost)
+                    @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
+                </div>
+            </div>
+            <div class="form-group" ng-if="!budgetVariesByYear()">
+                <label class="control-label">
+                    @Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)
+                </label>
+                <div class="input-group">
+                    @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
+                    @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
+                </div>
+            </div>
             @if (ViewDataTyped.FromFundingSource)
             {
                 <div class="form-group">
@@ -105,7 +146,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             </button>
                         </span>
                     </div>
-                    <br />
+                    <br/>
                 </div>
             }
             <table class="dialogFormLayout" style="margin-top: 20px; table-layout: fixed" ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">
@@ -155,11 +196,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
             @using (Html.BeginForm())
             {
+                <input type="hidden" name="@Html.NameFor(x => x.FundingTypeID)" value="{{selectedFundingTypeID}}"/>
                 <div ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName, getProjectName]">
-                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectID}}"/>
-                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.FundingSourceID}}"/>
-                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.TargetedAmount}}"/>
-                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.SecuredAmount}}"/>
+                    <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectID}}"/>
+                    <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.FundingSourceID}}"/>
+                    <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.TargetedAmount}}"/>
+                    <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.SecuredAmount}}"/>
                 </div>
             }
         </div>

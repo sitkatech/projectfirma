@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var currentProjectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            var viewModel = new EditProjectFundingSourceBudgetViewModel(currentProjectFundingSourceBudgets);
+            var viewModel = new EditProjectFundingSourceBudgetViewModel(project, currentProjectFundingSourceBudgets);
             return ViewEditProjectFundingSourceBudgets(project, viewModel);
         }
 
@@ -54,31 +54,26 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditProjectFundingSourceBudgets(project, viewModel);
             }
-            return UpdateProjectFundingSourceBudgets(viewModel, currentProjectFundingSourceBudgets);
+            return UpdateProjectFundingSourceBudgets(viewModel, project, currentProjectFundingSourceBudgets);
         }
 
         private static ActionResult UpdateProjectFundingSourceBudgets(EditProjectFundingSourceBudgetViewModel viewModel,
+            Project project,
              List<ProjectFundingSourceBudget> currentProjectFundingSourceBudgets)
         {
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(currentProjectFundingSourceBudgets, allProjectFundingSourceBudgets);
+            viewModel.UpdateModel(project, currentProjectFundingSourceBudgets, allProjectFundingSourceBudgets);
 
             return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditProjectFundingSourceBudgets(FundingSource fundingSource,
-            EditProjectFundingSourceBudgetViewModel viewModel)
-        {
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Select(x => new ProjectSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var viewData = new EditProjectFundingSourceBudgetViewData(new FundingSourceSimple(fundingSource), allProjects);
-            return RazorPartialView<EditProjectFundingSourceBudget, EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>(viewData, viewModel);
         }
 
         private PartialViewResult ViewEditProjectFundingSourceBudgets(Project project, EditProjectFundingSourceBudgetViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), allFundingSources);
+            var selectedFundingTypeID = project.FundingTypeID;
+            var fundingTypes = FundingType.All.ToList();
+            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), selectedFundingTypeID, fundingTypes, allFundingSources);
             return RazorPartialView<EditProjectFundingSourceBudget, EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>(viewData, viewModel);
         }
     }

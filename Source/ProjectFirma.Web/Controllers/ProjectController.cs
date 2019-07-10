@@ -88,11 +88,10 @@ namespace ProjectFirma.Web.Controllers
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
-            var fundingTypes = FundingType.All.ToList();
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
-                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), fundingTypes, organizations,
+                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,

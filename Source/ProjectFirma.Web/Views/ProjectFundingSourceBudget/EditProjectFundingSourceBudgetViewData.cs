@@ -20,6 +20,9 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Globalization;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -27,36 +30,41 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
     public class EditProjectFundingSourceBudgetViewData : FirmaUserControlViewData
     {
-        public readonly List<FundingSourceSimple> AllFundingSources;
-        public readonly List<ProjectSimple> AllProjects;
-        public readonly int? ProjectID;
-        public readonly int? FundingSourceID;
-        public readonly bool FromFundingSource;
+        public int SelectedFundingTypeID { get; }
+        public IEnumerable<SelectListItem> FundingTypes { get; }
+        public List<FundingSourceSimple> AllFundingSources { get; }
+        public List<ProjectSimple> AllProjects { get; }
+        public int? ProjectID { get; }
+        public int? FundingSourceID { get; }
+        public bool FromFundingSource { get; }
 
-        private EditProjectFundingSourceBudgetViewData(List<ProjectSimple> allProjects,
-            List<FundingSourceSimple> allFundingSources,
-            int? projectID,
-            int? fundingSourceID)
+        public EditProjectFundingSourceBudgetViewData(ProjectSimple project, int selectedFundingTypeID, 
+            IEnumerable<FundingType> fundingTypes,
+            List<FundingSourceSimple> allFundingSources)
         {
+            SelectedFundingTypeID = selectedFundingTypeID;
+            AllProjects = new List<ProjectSimple> {project};
+            FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             AllFundingSources = allFundingSources;
-            ProjectID = projectID;
-            FundingSourceID = fundingSourceID;
-            AllProjects = allProjects;
-            
+            ProjectID = project.ProjectID;
             var displayMode = FundingSourceID.HasValue ? EditorDisplayMode.FromFundingSource : EditorDisplayMode.FromProject;
             FromFundingSource = displayMode == EditorDisplayMode.FromFundingSource;
         }
 
-        public EditProjectFundingSourceBudgetViewData(ProjectSimple project,
-            List<FundingSourceSimple> allFundingSources)
-            : this(new List<ProjectSimple> { project }, allFundingSources, project.ProjectID, null)
-        {
-        }
+//        public EditProjectFundingSourceBudgetViewData(ProjectSimple project,
+//            int selectedFundingTypeID,
+//            IEnumerable<FundingType> fundingTypes,
+//            List<FundingSourceSimple> allFundingSources)
+//            : this(selectedFundingTypeID, fundingTypes, new List <ProjectSimple> { project }, allFundingSources, project.ProjectID, null)
+//        {
+//        }
 
-        public EditProjectFundingSourceBudgetViewData(FundingSourceSimple fundingSource, List<ProjectSimple> allProjects)
-            : this(allProjects, new List<FundingSourceSimple> {fundingSource}, null, fundingSource.FundingSourceID)
-        {
-        }
+//        public EditProjectFundingSourceBudgetViewData(FundingSourceSimple fundingSource,
+//            IEnumerable<FundingType> fundingTypes,
+//            List<ProjectSimple> allProjects)
+//            : this(fundingTypes, allProjects, new List<FundingSourceSimple> {fundingSource}, null, fundingSource.FundingSourceID)
+//        {
+//        }
 
         public enum EditorDisplayMode
         {

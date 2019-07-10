@@ -19,12 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -32,7 +34,18 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
     public class EditProjectFundingSourceBudgetViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
+        [Required]
+        public int FundingTypeID { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
+        public Money? EstimatedTotalCost { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
+        public Money? EstimatedAnnualOperatingCost { get; set; }
+
+        public ViewModelForAngularEditor ViewModelForAngular { get; set; }
+
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -41,21 +54,54 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         {
         }
 
-        public EditProjectFundingSourceBudgetViewModel(
+        public EditProjectFundingSourceBudgetViewModel(ProjectFirmaModels.Models.Project project, 
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
         {
-            ProjectFundingSourceBudgets = projectFundingSourceBudgets
-                .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
+            FundingTypeID = project.FundingTypeID;
+            EstimatedTotalCost = project.EstimatedTotalCost;
+            EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            ViewModelForAngular = new ViewModelForAngularEditor(projectFundingSourceBudgets);
+
         }
 
-        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
+        public class ViewModelForAngularEditor
+        {
+            public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
+
+            public ViewModelForAngularEditor()
+            {
+            }
+
+            public ViewModelForAngularEditor(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
+            {
+                ProjectFundingSourceBudgets = projectFundingSourceBudgets
+                    .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
+            }
+
+        }
+
+        public void UpdateModel(ProjectFirmaModels.Models.Project project,
+            List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
+            project.FundingTypeID = FundingTypeID;
+            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+            {
+                project.EstimatedTotalCost = EstimatedTotalCost;
+                project.EstimatedAnnualOperatingCost = null;
+
+            }
+            else if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+            {
+                project.EstimatedTotalCost = null;
+                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+            }
+
             var projectFundingSourceBudgetsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
-            if (ProjectFundingSourceBudgets != null)
+            if (ViewModelForAngular?.ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceBudgetsUpdated = ProjectFundingSourceBudgets
+                projectFundingSourceBudgetsUpdated = ViewModelForAngular?.ProjectFundingSourceBudgets
                     .Select(x => x.ToProjectFundingSourceBudget()).ToList();
             }
 
@@ -71,17 +117,20 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (ProjectFundingSourceBudgets == null)
+            if (ViewModelForAngular?.ProjectFundingSourceBudgets == null)
             {
                 yield break;
             }
 
-            if (ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+
+            if (ViewModelForAngular.ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
             {
                 yield return new ValidationResult("Each funding source can only be used once.");
             }
 
-            foreach (var projectFundingSourceBudget in ProjectFundingSourceBudgets)
+            // Add validation for conditionally-required fields
+
+            foreach (var projectFundingSourceBudget in ViewModelForAngular.ProjectFundingSourceBudgets)
             {
                 if (projectFundingSourceBudget.AreBothValuesZero())
                 {
