@@ -10,12 +10,12 @@ namespace ProjectFirmaModels.Models
         {
             var project = projectUpdateBatch.Project;
             projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
-                projectFundingSourceRequest =>
+                projectFundingSourceBudget =>
                     new ProjectFundingSourceBudgetUpdate(projectUpdateBatch,
-                        projectFundingSourceRequest.FundingSource)
+                        projectFundingSourceBudget.FundingSource)
                     {
-                        SecuredAmount = projectFundingSourceRequest.SecuredAmount,
-                        TargetedAmount = projectFundingSourceRequest.TargetedAmount
+                        SecuredAmount = projectFundingSourceBudget.SecuredAmount,
+                        TargetedAmount = projectFundingSourceBudget.TargetedAmount
                     }
             ).ToList();
         }

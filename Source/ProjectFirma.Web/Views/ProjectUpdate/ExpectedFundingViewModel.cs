@@ -46,10 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ExpectedFundingViewModel(List<ProjectFundingSourceBudgetUpdate> projectFundingSourceRequestUpdates,
+        public ExpectedFundingViewModel(List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates,
             string comments)
         {
-            ProjectFundingSourceBudgets = projectFundingSourceRequestUpdates.Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
+            ProjectFundingSourceBudgets = projectFundingSourceBudgetUpdates.Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
             Comments = comments;
         }
 
@@ -57,14 +57,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             List<ProjectFundingSourceBudgetUpdate> currentProjectFundingSourceBudgetUpdates,
             IList<ProjectFundingSourceBudgetUpdate> allProjectFundingSourceBudgetUpdates)
         {
-            var projectFundingSourceRequestUpdatesUpdated = new List<ProjectFundingSourceBudgetUpdate>();
+            var projectFundingSourceBudgetUpdatesUpdated = new List<ProjectFundingSourceBudgetUpdate>();
             if (ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestUpdatesUpdated = ProjectFundingSourceBudgets.Select(x => x.ToProjectFundingSourceBudgetUpdate()).ToList();
+                projectFundingSourceBudgetUpdatesUpdated = ProjectFundingSourceBudgets.Select(x => x.ToProjectFundingSourceBudgetUpdate()).ToList();
             }
 
-            currentProjectFundingSourceBudgetUpdates.Merge(projectFundingSourceRequestUpdatesUpdated,
+            currentProjectFundingSourceBudgetUpdates.Merge(projectFundingSourceBudgetUpdatesUpdated,
                 allProjectFundingSourceBudgetUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
@@ -86,13 +86,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 yield return new ValidationResult("Each Funding Source can only be used once.");
             }
 
-            foreach (var projectFundingSourceRequest in ProjectFundingSourceBudgets)
+            foreach (var projectFundingSourceBudget in ProjectFundingSourceBudgets)
             {
-                if (projectFundingSourceRequest.AreBothValuesZero())
+                if (projectFundingSourceBudget.AreBothValuesZero())
                 {
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
-                            x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
+                            x.FundingSourceID == projectFundingSourceBudget.FundingSourceID);
                     yield return new ValidationResult(
                         $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
                 }

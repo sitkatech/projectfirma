@@ -88,19 +88,19 @@ Source code is available upon request via <support@sitkatech.com>.
                     <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                     <th style="text-align: right">Total</th>
                 </tr>
-                <tr ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
+                <tr ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
                     <td>
-                        <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceRequest)" style="cursor: pointer"></span>
+                        <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceBudget)" style="cursor: pointer"></span>
                     </td>
-                    <td ng-bind="getFundingSourceName(projectFundingSourceRequest)"></td>
+                    <td ng-bind="getFundingSourceName(projectFundingSourceBudget)"></td>
                     <td style="text-align: right">
-                        <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
+                        <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.SecuredAmount" class="sitkaCurrency form-control " ng-currency/>
                     </td>
                     <td style="text-align: right">
-                        <input type="text" style="text-align: right" ng-model="projectFundingSourceRequest.TargetedAmount" class="sitkaCurrency form-control" ng-currency/>
+                        <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.TargetedAmount" class="sitkaCurrency form-control" ng-currency/>
                     </td>
                     <th style="text-align: right">
-                        {{ getRowTotal(projectFundingSourceRequest) | currency:"$"}}
+                        {{ getRowTotal(projectFundingSourceBudget) | currency:"$"}}
                     </th>
                 </tr>
                 <tr>
@@ -109,7 +109,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         {{ getSecuredTotal() | currency:"$"}}
                     </th>
                     <th style="text-align: right">
-                        {{ getUnsecuredTotal() | currency:"$"}}
+                        {{ getTargetedTotal() | currency:"$"}}
                     </th>
                     <th style="text-align: right">
                         {{ getTotal() | currency:"$"}}
@@ -119,11 +119,11 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
 
 
-        <div ng-repeat="projectFundingSourceRequest in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.ProjectID}}"/>
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.FundingSourceID}}"/>
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.SecuredAmount}}"/>
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceRequest.TargetedAmount}}"/>
+        <div ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.FundingSourceID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.SecuredAmount}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.TargetedAmount}}"/>
         </div>
         <hr/>
 
@@ -179,9 +179,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                 {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}}
                             </span>
                         </div>
-                        <div class="col-sm-6 text-right" ng-show="getUnsecuredTotal() > 0">
+                        <div class="col-sm-6 text-right" ng-show="getTargetedTotal() > 0">
                             (<span>
-                                 {{(getUnsecuredTotal()) | currency:"$"}}
+                                 {{(getTargetedTotal()) | currency:"$"}}
                             </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()))
                         </div>
                     </div>

@@ -42,24 +42,24 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         }
 
         public EditProjectFundingSourceBudgetViewModel(
-            List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceRequests)
+            List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
         {
-            ProjectFundingSourceBudgets = projectFundingSourceRequests
+            ProjectFundingSourceBudgets = projectFundingSourceBudgets
                 .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
         }
 
         public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
-            var projectFundingSourceRequestsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
+            var projectFundingSourceBudgetsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
             if (ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceRequestsUpdated = ProjectFundingSourceBudgets
+                projectFundingSourceBudgetsUpdated = ProjectFundingSourceBudgets
                     .Select(x => x.ToProjectFundingSourceBudget()).ToList();
             }
 
-            currentProjectFundingSourceBudgets.Merge(projectFundingSourceRequestsUpdated,
+            currentProjectFundingSourceBudgets.Merge(projectFundingSourceBudgetsUpdated,
                 allProjectFundingSourceBudgets,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
@@ -81,13 +81,13 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 yield return new ValidationResult("Each funding source can only be used once.");
             }
 
-            foreach (var projectFundingSourceRequest in ProjectFundingSourceBudgets)
+            foreach (var projectFundingSourceBudget in ProjectFundingSourceBudgets)
             {
-                if (projectFundingSourceRequest.AreBothValuesZero())
+                if (projectFundingSourceBudget.AreBothValuesZero())
                 {
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
-                            x.FundingSourceID == projectFundingSourceRequest.FundingSourceID);
+                            x.FundingSourceID == projectFundingSourceBudget.FundingSourceID);
                     yield return new ValidationResult(
                         $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
                 }

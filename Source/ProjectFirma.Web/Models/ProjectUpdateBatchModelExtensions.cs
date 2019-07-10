@@ -210,10 +210,10 @@ namespace ProjectFirma.Web.Models
 
         public static void DeleteProjectFundingSourceBudgetUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectFundingSourceRequestUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            foreach (var projectFundingSourceRequestUpdate in projectFundingSourceRequestUpdates)
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
                 {
-                    projectFundingSourceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                    projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
         }
 

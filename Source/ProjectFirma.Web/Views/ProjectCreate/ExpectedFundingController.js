@@ -44,7 +44,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.getFundingSource = function (fundingSourceID) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceID == f.FundingSourceID; }); };
 
-    $scope.getUnsecuredTotal = function () {
+    $scope.getTargetedTotal = function () {
         return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgets, function (m, x) { return Number(m) + Number(x.TargetedAmount); }, 0));
     };
 
@@ -55,7 +55,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     };
 
     $scope.getTotal = function () {
-        return Number($scope.getUnsecuredTotal()) + Number($scope.getSecuredTotal());
+        return Number($scope.getTargetedTotal()) + Number($scope.getSecuredTotal());
     }
 
     $scope.getRowTotal = function (projectFundingSourceBudget) {
