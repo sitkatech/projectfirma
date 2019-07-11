@@ -60,16 +60,19 @@ namespace ProjectFirmaModels.Models
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
-
-            var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + targetedFunding ?? 0);
+            var totalCost = EstimatedTotalCost ?? EstimatedAnnualOperatingCost;
+            var noFundingSourceIdentifiedAmount = (totalCost ?? 0) - (securedFunding + targetedFunding ?? 0);
             if (noFundingSourceIdentifiedAmount >= 0)
             {
                 return noFundingSourceIdentifiedAmount;
             }
-
             return null;
         }
 
+        public decimal GetNoFundingSourceIdentifiedAmountOrZero()
+        {
+            return GetNoFundingSourceIdentifiedAmount() ?? 0;
+        }
 
         public decimal? TotalExpenditures
         {

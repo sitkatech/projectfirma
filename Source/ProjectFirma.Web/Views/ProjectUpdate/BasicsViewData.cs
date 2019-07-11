@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         
             InflationRate = inflationRate;
             CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(projectUpdate);
+            TotalOperatingCostInYearOfExpenditure = projectUpdate.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(projectUpdate);
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;

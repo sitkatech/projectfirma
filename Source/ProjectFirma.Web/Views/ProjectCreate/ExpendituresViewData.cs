@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(project);
+            TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
             InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
             StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
         }

@@ -66,7 +66,6 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\CostParameterSetModelExtensions.cs" />
-    <Compile Include="Models\CostTest.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />

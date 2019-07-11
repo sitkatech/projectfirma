@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectFunding
             CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(project);
             EditInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
             InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(project);
+            TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
         }
     }

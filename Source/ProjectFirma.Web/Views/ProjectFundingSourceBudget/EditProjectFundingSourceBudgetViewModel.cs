@@ -85,17 +85,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
             project.FundingTypeID = FundingTypeID;
-            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
-            {
-                project.EstimatedTotalCost = EstimatedTotalCost;
-                project.EstimatedAnnualOperatingCost = null;
+            project.EstimatedTotalCost = EstimatedTotalCost;
+            project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
 
-            }
-            else if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
-            {
-                project.EstimatedTotalCost = null;
-                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
-            }
 
             var projectFundingSourceBudgetsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
             if (ViewModelForAngular?.ProjectFundingSourceBudgets != null)
@@ -117,18 +109,30 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (ViewModelForAngular?.ProjectFundingSourceBudgets == null)
+            var validationResults = new List<ValidationResult>();
+
+            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && EstimatedTotalCost == null)
             {
-                yield break;
+                validationResults.Add(new ValidationResult("Since this budget varies by year, an Estimated Total Cost must be entered."));
             }
 
+            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && EstimatedAnnualOperatingCost == null)
+            {
+                validationResults.Add(new ValidationResult("Since this budget is the same each year, an Estimated Annual Operating Cost must be entered."));
+            }
+
+            // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
+            ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>());
+
+            if (ViewModelForAngular.ProjectFundingSourceBudgets == null)
+            {
+                return validationResults;
+            }
 
             if (ViewModelForAngular.ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
             {
-                yield return new ValidationResult("Each funding source can only be used once.");
+                validationResults.Add(new ValidationResult("Each funding source can only be used once."));
             }
-
-            // Add validation for conditionally-required fields
 
             foreach (var projectFundingSourceBudget in ViewModelForAngular.ProjectFundingSourceBudgets)
             {
@@ -137,10 +141,11 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceBudget.FundingSourceID);
-                    yield return new ValidationResult(
-                        $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
+                    validationResults.Add(new ValidationResult(
+                        $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank."));
                 }
             }
+            return validationResults;
         }
     }
 }

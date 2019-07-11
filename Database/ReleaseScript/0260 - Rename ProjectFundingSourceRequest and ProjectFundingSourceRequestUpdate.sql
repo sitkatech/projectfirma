@@ -56,3 +56,12 @@ go
 
 -- Rename table
 EXEC sp_rename 'dbo.ProjectFundingSourceRequestUpdate', 'ProjectFundingSourceBudgetUpdate';
+
+-- Update custom field labels
+update dbo.FieldDefinitionData
+set FieldDefinitionLabel = 'Targeted Funding'
+where TenantID = 11 and FieldDefinitionID = 248
+
+update dbo.FieldDefinitionData
+set FieldDefinitionLabel = 'No Funding Indentified'
+where TenantID = 11 and FieldDefinitionID = 41

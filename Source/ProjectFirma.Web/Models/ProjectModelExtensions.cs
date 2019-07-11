@@ -25,6 +25,7 @@ using System.Data.Entity.Spatial;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Web;
 using GeoJSON.Net.Feature;
 using ProjectFirma.Web.Controllers;
@@ -392,6 +393,27 @@ namespace ProjectFirmaModels.Models
                 requestAmountsDictionary.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
             }
             return requestAmountsDictionary;
+        }
+
+        public static decimal GetEstimatedTotalCost(this Project project)
+        {
+            return project.EstimatedTotalCost ?? 0;
+        }
+
+        public static decimal GetEstimatedAnnualOperatingCost(this Project project)
+        {
+            return project.EstimatedAnnualOperatingCost ?? 0;
+        }
+
+        public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
+        {
+            if (!project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
+            {
+                return null;
+            }
+
+            var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.EstimatedAnnualOperatingCost.Value;
         }
 
         public static bool IsEditableToThisPerson(this Project project, Person person)
