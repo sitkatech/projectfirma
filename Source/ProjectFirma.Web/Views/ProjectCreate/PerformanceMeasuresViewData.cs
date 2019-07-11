@@ -26,6 +26,7 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using PerformanceMeasureSubcategoryOptionSimple = ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOptionSimple;
 
@@ -41,6 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string DiffUrl { get; }
 
         public string ReportingYearLabel { get; }
+        public string ConfigurePerformanceMeasuresUrl { get; }
 
         public PerformanceMeasuresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
@@ -58,6 +60,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             
             IsImplementationStartYearValid = project.ImplementationStartYear.HasValue && project.ImplementationStartYear < project.CompletionYear;
             ReportingYearLabel = "Year";
+            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson))
+            {
+                ConfigurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.Manage());
+            }
         }
 
         public class ViewDataForAngularEditor
