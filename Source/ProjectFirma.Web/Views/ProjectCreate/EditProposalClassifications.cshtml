@@ -34,6 +34,24 @@
     }
 </style>
 
+@if (!ViewDataTyped.ClassificationSystems.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        <p>
+            <strong>Warning!</strong>
+            There are no @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() configured.
+            @if (!string.IsNullOrEmpty(ViewDataTyped.ConfigureClassificationSystemsUrl))
+            {
+                <span>You may configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() <a title="Configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()" href="@ViewDataTyped.ConfigureClassificationSystemsUrl" target="_blank">here</a>.</span>
+            }
+            else
+            {
+                <span><a href="mailto:@Html.Raw(FirmaWebConfiguration.SitkaSupportEmail)?subject=Project Classifications are not setup">Contact support</a> to get @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() setup.</span>
+            }
+        </p>
+    </div>
+}
+
 @using (Html.BeginForm())
 {
     <div>
