@@ -285,8 +285,8 @@ table.summaryLayout th,
   text-align: center;
 }
 .arrow.current {
-  background-color: #156357;
-  border-left-color: #156357;
+  background-color: #964A00;
+  border-left-color: #964A00;
   color: #fff;
 }
 .arrow.default {
