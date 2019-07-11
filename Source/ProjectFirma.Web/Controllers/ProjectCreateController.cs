@@ -348,8 +348,14 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
+            var configurePerformanceMeasuresUrl = string.Empty;
+            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            {
+                configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
+            }
+
             var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(
-                new List<ProjectSimple> {new ProjectSimple(project)}, performanceMeasures, project.ProjectID, false);
+                new List<ProjectSimple> {new ProjectSimple(project)}, performanceMeasures, project.ProjectID, false, configurePerformanceMeasuresUrl);
             var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }
