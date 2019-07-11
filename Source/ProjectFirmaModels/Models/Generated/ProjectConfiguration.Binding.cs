@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PlanningDesignStartYear).HasColumnName(@"PlanningDesignStartYear").HasColumnType("int").IsOptional();
             Property(x => x.ProjectLocationSimpleTypeID).HasColumnName(@"ProjectLocationSimpleTypeID").HasColumnType("int").IsRequired();
             Property(x => x.EstimatedAnnualOperatingCost).HasColumnName(@"EstimatedAnnualOperatingCost").HasColumnType("money").IsOptional().HasPrecision(19,4);
-            Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectApprovalStatusID).HasColumnName(@"ProjectApprovalStatusID").HasColumnType("int").IsRequired();
             Property(x => x.ProposingPersonID).HasColumnName(@"ProposingPersonID").HasColumnType("int").IsOptional();

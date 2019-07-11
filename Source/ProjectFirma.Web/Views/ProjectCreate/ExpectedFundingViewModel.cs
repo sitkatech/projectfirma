@@ -19,21 +19,31 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedFundingViewModel : FormViewModel, IValidatableObject
     {
-        public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
+        [Required]
+        public int FundingTypeID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
+        public Money? EstimatedTotalCost { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
+        public Money? EstimatedAnnualOperatingCost { get; set; }
+
+        public ViewModelForAngularEditor ViewModelForAngular { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -42,21 +52,45 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpectedFundingViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
+        public ExpectedFundingViewModel(ProjectFirmaModels.Models.Project project)
         {
-            ProjectFundingSourceBudgets = projectFundingSourceBudgets
-                .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
+            FundingTypeID = project.FundingTypeID ?? 0;
+            EstimatedTotalCost = project.EstimatedTotalCost;
+            EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            ViewModelForAngular = new ViewModelForAngularEditor(projectFundingSourceBudgets);
+        }
+
+        public class ViewModelForAngularEditor
+        {
+            public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
+
+            public ViewModelForAngularEditor()
+            {
+            }
+
+            public ViewModelForAngularEditor(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
+            {
+                ProjectFundingSourceBudgets = projectFundingSourceBudgets
+                    .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
+            }
+
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
+            project.FundingTypeID = FundingTypeID;
+            project.EstimatedTotalCost = EstimatedTotalCost;
+            project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
+
+
             var projectFundingSourceBudgetsUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>();
-            if (ProjectFundingSourceBudgets != null)
+            if (ViewModelForAngular?.ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceBudgetsUpdated = ProjectFundingSourceBudgets
+                projectFundingSourceBudgetsUpdated = ViewModelForAngular?.ProjectFundingSourceBudgets
                     .Select(x => x.ToProjectFundingSourceBudget()).ToList();
             }
 
@@ -77,27 +111,43 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<ValidationResult> GetValidationResults()
         {
-            if (ProjectFundingSourceBudgets == null)
+            var validationResults = new List<ValidationResult>();
+
+            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && EstimatedTotalCost == null)
             {
-                yield break;
+                validationResults.Add(new ValidationResult("Since this budget varies by year, an Estimated Total Cost must be entered."));
             }
 
-            if (ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && EstimatedAnnualOperatingCost == null)
             {
-                yield return new ValidationResult("Each funding source can only be used once.");
+                validationResults.Add(new ValidationResult("Since this budget is the same each year, an Estimated Annual Operating Cost must be entered."));
             }
 
-            foreach (var projectFundingSourceBudget in ProjectFundingSourceBudgets)
+            // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
+            ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>());
+
+            if (ViewModelForAngular.ProjectFundingSourceBudgets == null)
+            {
+                return validationResults;
+            }
+
+            if (ViewModelForAngular.ProjectFundingSourceBudgets.GroupBy(x => x.FundingSourceID).Any(x => x.Count() > 1))
+            {
+                validationResults.Add(new ValidationResult("Each funding source can only be used once."));
+            }
+
+            foreach (var projectFundingSourceBudget in ViewModelForAngular.ProjectFundingSourceBudgets)
             {
                 if (projectFundingSourceBudget.AreBothValuesZero())
                 {
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceBudget.FundingSourceID);
-                    yield return new ValidationResult(
-                        $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank.");
+                    validationResults.Add(new ValidationResult(
+                        $"Secured Funding and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} cannot both be zero for funding source: {fundingSource.GetDisplayName()}. If the amount of Secured or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can leave the amounts blank."));
                 }
             }
+            return validationResults;
         }
     }
 }

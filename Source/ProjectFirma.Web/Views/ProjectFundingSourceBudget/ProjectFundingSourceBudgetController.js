@@ -136,6 +136,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
         return selectedFundingTypeID === 1;
     }
 
+    $scope.budgetSameEachYear = function () {
+        var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
+        return selectedFundingTypeID === 2;
+    }
+
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;

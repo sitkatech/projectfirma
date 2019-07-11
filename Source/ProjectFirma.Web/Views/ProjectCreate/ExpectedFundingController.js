@@ -20,13 +20,26 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ExpectedFundingController", function($scope, angularModelAndViewData)
 {
+    $scope.AngularModel = angularModelAndViewData.AngularModel;
+    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+
+    $scope.costs = {
+        estimatedTotalCost: $scope.AngularViewData.EstimatedTotalCost > 0 ? $scope.AngularViewData.EstimatedTotalCost : null,
+        estimatedAnnualOperatingCost: $scope.AngularViewData.EstimatedAnnualOperatingCost > 0 ? $scope.AngularViewData.EstimatedAnnualOperatingCost : null
+    };
+
+
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
-    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function(p) { return p.FundingSourceID; }); };
+    $scope.getAllUsedFundingSourceIds = function () { return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function (p) { return p.FundingSourceID; }); };
+
+    $scope.setSelectedFundingTypeID = function () {
+        $scope.selectedFundingTypeID = $scope.AngularViewData.SelectedFundingTypeID;
+    };
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
@@ -86,10 +99,23 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return newProjectFundingSourceBudget;
     };
 
-    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgets, rowToDelete); };
+    $scope.deleteRow = function (rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgets, rowToDelete); };
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.fundingTypes = function () {
+        return $scope.AngularViewData.FundingTypes;
+    }
+
+    $scope.budgetVariesByYear = function () {
+        var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
+        return selectedFundingTypeID === 1;
+    }
+
+    $scope.budgetSameEachYear = function () {
+        var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
+        return selectedFundingTypeID === 2;
+    }
+
     $scope.resetFundingSourceToAdd();
     $scope.ProjectIDToAdd = $scope.AngularViewData.ProjectID;
+    $scope.setSelectedFundingTypeID();
 });

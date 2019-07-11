@@ -38,11 +38,11 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public int? FundingSourceID { get; }
         public bool FromFundingSource { get; }
 
-        public EditProjectFundingSourceBudgetViewData(ProjectSimple project, int selectedFundingTypeID, 
+        public EditProjectFundingSourceBudgetViewData(ProjectSimple project, int? selectedFundingTypeID, 
             IEnumerable<FundingType> fundingTypes,
             List<FundingSourceSimple> allFundingSources)
         {
-            SelectedFundingTypeID = selectedFundingTypeID;
+            SelectedFundingTypeID = selectedFundingTypeID ?? 0;
             AllProjects = new List<ProjectSimple> {project};
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             AllFundingSources = allFundingSources;

@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[Project](
 	[PlanningDesignStartYear] [int] NULL,
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
 	[EstimatedAnnualOperatingCost] [money] NULL,
-	[FundingTypeID] [int] NOT NULL,
+	[FundingTypeID] [int] NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[ProjectApprovalStatusID] [int] NOT NULL,
 	[ProposingPersonID] [int] NULL,

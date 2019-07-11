@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using DocumentFormat.OpenXml.EMMA
 @using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
@@ -60,13 +59,12 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <div class="form-group">
                     <label class="control-label">
-                        @Html.Label("Does the project budget vary by year or is it the same?")
+                        @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
                     </label>
                     <div class="input-group">
                         <select ng-model="selectedFundingTypeID"
                                 class="selectpicker"
                                 data-container="body"
-                                title="Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add"
                                 data-width="100%">
                             <option value="null" disabled selected></option>
                             <option ng-repeat="fundingType in fundingTypes()"
@@ -88,7 +86,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
                     </div>
                 </div>
-                <div class="form-group" ng-if="!budgetVariesByYear()">
+                <div class="form-group" ng-if="budgetSameEachYear()">
                     <label class="control-label">
                         What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
                     </label>

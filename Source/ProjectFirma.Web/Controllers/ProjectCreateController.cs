@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -39,6 +40,7 @@ using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Models;
@@ -196,7 +198,6 @@ namespace ProjectFirma.Web.Controllers
                 PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
                 ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
                 CompletionYear = importExternalProjectStaging.EndYear,
-                EstimatedTotalCost = importExternalProjectStaging.EstimatedCost
             };
             return ViewCreateAndEditBasics(viewModel, true);
         }
@@ -218,7 +219,6 @@ namespace ProjectFirma.Web.Controllers
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                viewModel.FundingTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
             {
                 ProposingPerson = CurrentPerson,
@@ -468,16 +468,15 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ExpectedFundingViewModel(project.ProjectFundingSourceBudgets.ToList());
+            var viewModel = new ExpectedFundingViewModel(project);
             return ViewExpectedFunding(project, viewModel);
         }
 
         private ViewResult ViewExpectedFunding(Project project, ExpectedFundingViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var estimatedTotalCost = project.EstimatedTotalCost ?? 0;
-            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(project, allFundingSources, estimatedTotalCost);
-
+            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
+            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(project, allFundingSources, fundingTypes);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsExpectedFundingSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 

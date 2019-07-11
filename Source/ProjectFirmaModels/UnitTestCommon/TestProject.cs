@@ -33,14 +33,12 @@ namespace ProjectFirmaModels.UnitTestCommon
                 var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
                 var projectStage = ProjectStage.PlanningDesign;
 
-                var budgetVariesByYearFundingType = FundingType.BudgetVariesByYear;
-
                 string testProjectName = $"Test Project Name {Guid.NewGuid()}";
                 string testProjectDescription = $"Test Project Description {Guid.NewGuid()}";
                 const bool isFeatured = false;
                 // Using object rather than ID based constructors. Failure to do this will result in a half-baked object later, where IDs work, but not Object accessors interior to the
                 // Project.
-                var project = new Project(taxonomyLeaf, projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, budgetVariesByYearFundingType, ProjectApprovalStatus.Approved);
+                var project = new Project(taxonomyLeaf, projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, ProjectApprovalStatus.Approved);
 
                 return project;
             }
