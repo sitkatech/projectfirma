@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Project
         public string TargetedFundingLabel { get; }
         public string TargetedFunding { get; }
 
-        public string FundingRequest { get; }
+        public string FundingBudget { get; }
         public int CalculatedChartHeight { get; }
         public string FactSheetPdfUrl { get; }
 
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Views.Project
             TargetedFundingLabel = FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel();
             TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
 
-            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
+            FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount).ToStringCurrency() : ViewUtilities.Unknown;
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();

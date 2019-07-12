@@ -19,13 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -80,7 +78,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             IsPerformanceMeasureSectionComplete = IsBasicsSectionComplete;
 
-            var expectedFundingValidationResults = new ExpectedFundingViewModel(project.ProjectFundingSourceRequests.ToList())
+            var expectedFundingValidationResults = new ExpectedFundingViewModel(project)
                 .GetValidationResults();
             IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
 

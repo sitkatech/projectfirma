@@ -275,8 +275,8 @@ namespace ProjectFirma.Web.Views.Project
             EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
             TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl =
-                SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c =>
-                    c.EditProjectFundingSourceRequestsForProject(project));
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c =>
+                    c.EditProjectFundingSourceBudgetsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;

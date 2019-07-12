@@ -18,16 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -67,16 +66,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
-        public Money? EstimatedTotalCost { get; set; }
-        
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
-        public Money? EstimatedAnnualOperatingCost { get; set; }
-      
-        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
-        [Required]
-        public int FundingTypeID { get; set; }
-
         public int? ImportExternalProjectStagingID { get; set; }
 
         public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
@@ -96,9 +85,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
             ProjectStageID = project.ProjectStageID;            
-            FundingTypeID = project.FundingTypeID;
-            EstimatedTotalCost = project.EstimatedTotalCost;
-            EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
@@ -119,20 +105,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
-            project.FundingTypeID = FundingTypeID;
-            if (FundingTypeID == (int) FundingTypeEnum.Capital)
-            {
-                project.EstimatedTotalCost = EstimatedTotalCost;
-                project.EstimatedAnnualOperatingCost = null;
-                
-            }
-            else if (FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
-            {
-                project.EstimatedTotalCost = null;
-                project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
-            }
-            
+            project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;          
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
