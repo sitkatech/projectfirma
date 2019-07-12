@@ -37,6 +37,8 @@ namespace ProjectFirma.Web
     /// </summary>
     public class FirmaOwinStartup
     {
+        private static readonly object BranchBuildLock = new object();
+
         /// <summary>
         ///     Function required by <see cref="OwinStartupAttribute" />
         /// </summary>
@@ -45,108 +47,121 @@ namespace ProjectFirma.Web
             SitkaHttpApplication.Logger.Info("Owin Startup");
             app.Use((ctx, next) =>
             {
-                var branch = app.New();
-                JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
-
-                var tenant = GetTenantFromUrl(ctx.Request);
-                HttpRequestStorage.Tenant = tenant;
-
-                var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
-                var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
-                branch.UseCookieAuthentication(new CookieAuthenticationOptions
+                // Trying a lock here to prevent sporadic "Collection was modified; enumeration operation may not execute." error.      
+                lock (BranchBuildLock)
                 {
-                    AuthenticationType = "Cookies",
-                    CookieManager = new SystemWebChunkingCookieManager(),
-                    CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
-                });
+                    var branch = app.New();
+                    JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
-                branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
-                {
-                    Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
-                    ResponseType = "id_token token",
-                    Scope = "openid all_claims keystone",
-                    UseTokenLifetime = false,
-                    SignInAsAuthenticationType = "Cookies",
-                    CallbackPath = new PathString("/Account/LogOn"),
-                    ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
-                    ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,
-                    RedirectUri = $"https://{canonicalHostNameForEnvironment}/Account/LogOn", // this has to match the keystone client redirect uri
-                    PostLogoutRedirectUri = $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+                    var tenant = GetTenantFromUrl(ctx.Request);
+                    HttpRequestStorage.Tenant = tenant;
 
-                    Notifications = new OpenIdConnectAuthenticationNotifications
+                    var canonicalHostNameForEnvironment =
+                        FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
+                    var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
+                    branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
-                        AuthenticationFailed = (context) =>
+                        AuthenticationType = "Cookies",
+                        CookieManager = new SystemWebChunkingCookieManager(),
+                        CookieName =
+                            $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}"
+                    });
+
+                    branch.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+                    {
+                        Authority = FirmaWebConfiguration.KeystoneOpenIDUrl,
+                        ResponseType = "id_token token",
+                        Scope = "openid all_claims keystone",
+                        UseTokenLifetime = false,
+                        SignInAsAuthenticationType = "Cookies",
+                        CallbackPath = new PathString("/Account/LogOn"),
+                        ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
+                        ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,
+                        RedirectUri =
+                            $"https://{canonicalHostNameForEnvironment}/Account/LogOn", // this has to match the keystone client redirect uri
+                        PostLogoutRedirectUri =
+                            $"https://{canonicalHostNameForEnvironment}/", // OpenID is super picky about this; url must match what Keystone has EXACTLY (Trailing slash and all)
+
+                        Notifications = new OpenIdConnectAuthenticationNotifications
                         {
-                            if ((context.Exception.Message.StartsWith("OICE_20004") || context.Exception.Message.Contains("IDX10311")))
+                            AuthenticationFailed = (context) =>
                             {
-                                context.SkipToNextMiddleware();
+                                if ((context.Exception.Message.StartsWith("OICE_20004") ||
+                                     context.Exception.Message.Contains("IDX10311")))
+                                {
+                                    context.SkipToNextMiddleware();
+                                    return Task.FromResult(0);
+                                }
+
+                                return Task.FromResult(0);
+                            },
+                            SecurityTokenValidated = n =>
+                            {
+                                HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
+                                SitkaHttpApplication.Logger.Debug(
+                                    $"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
+
+                                var claimsIdentity = n.AuthenticationTicket.Identity;
+                                claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+                                if (n.ProtocolMessage.Code != null)
+                                {
+                                    claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
+                                }
+
+                                if (n.ProtocolMessage.AccessToken != null)
+                                {
+                                    claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+                                }
+
+                                //map name claim to default name type
+                                claimsIdentity.AddClaim(new Claim(
+                                    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+                                    claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
+
+                                if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
+                                {
+                                    KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
+                                }
+
+                                return Task.FromResult(0);
+                            },
+                            RedirectToIdentityProvider = n =>
+                            {
+                                //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
+                                //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
+                                if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                                {
+                                    var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+                                    if (idTokenHint != null)
+                                    {
+                                        n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                    }
+                                }
+                                else if (n.ProtocolMessage.RequestType ==
+                                         OpenIdConnectRequestType.AuthenticationRequest)
+                                {
+                                    var httpContextBase = GetHttpContext(n);
+                                    var referrer = httpContextBase.Request.UrlReferrer;
+                                    if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
+                                    {
+                                        n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
+                                    }
+                                }
+
                                 return Task.FromResult(0);
                             }
-
-                            return Task.FromResult(0);
-                        },
-                        SecurityTokenValidated = n =>
-                        {
-                            HttpRequestStorage.Tenant = GetTenantFromUrl(n.Request);
-                            SitkaHttpApplication.Logger.Debug($"In SecurityTokenValidated: TenantID {HttpRequestStorage.Tenant.TenantID}, Url: {n.Request.Uri.ToString()}");
-
-                            var claimsIdentity = n.AuthenticationTicket.Identity;
-                            claimsIdentity.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
-
-                            if (n.ProtocolMessage.Code != null)
-                            {
-                                claimsIdentity.AddClaim(new Claim("code", n.ProtocolMessage.Code));
-                            }
-
-                            if (n.ProtocolMessage.AccessToken != null)
-                            {
-                                claimsIdentity.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
-                            }
-
-                            //map name claim to default name type
-                            claimsIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", claimsIdentity.FindFirst(KeystoneOpenIDClaimTypes.Name).Value.ToString()));
-
-                            if (claimsIdentity.IsAuthenticated) // we have a token and we can determine the person.
-                            {
-                                KeystoneOpenIDUtilities.OpenIDClaimHandler(SyncLocalAccountStore, claimsIdentity);
-                            }
-
-                            return Task.FromResult(0);
-                        },
-                        RedirectToIdentityProvider = n =>
-                        {
-                            //n.ProtocolMessage.RedirectUri = GetHomePage(); // dynamic home page for multiple subdomains
-                            //n.ProtocolMessage.PostLogoutRedirectUri = GetOuterPage(); // dynamic landing page for multiple subdomains
-                            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
-                            {
-                                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
-
-                                if (idTokenHint != null)
-                                {
-                                    n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
-                                }
-                            }
-                            else if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.AuthenticationRequest)
-                            {
-                                var httpContextBase = GetHttpContext(n);
-                                var referrer = httpContextBase.Request.UrlReferrer;
-                                if (referrer != null && referrer.Host == canonicalHostNameForEnvironment)
-                                {
-                                    n.Response.Cookies.Append("ReturnURL", referrer.PathAndQuery);
-                                }
-                            }
-
-                            return Task.FromResult(0);
                         }
-                    }
-                });
+                    });
 
-                // we have to do this per tenant so needs to belong here
-                branch.UseHangfireDashboard("/hangfire", new DashboardOptions
-                {
-                    Authorization = new[] { new HangfireFirmaWebAuthorizationFilter() }
-                });
-                return branch.Build()(ctx.Environment);
+                    // we have to do this per tenant so needs to belong here
+                    branch.UseHangfireDashboard("/hangfire", new DashboardOptions
+                    {
+                        Authorization = new[] {new HangfireFirmaWebAuthorizationFilter()}
+                    });
+                    return branch.Build()(ctx.Environment);
+                }
             });
 
             ScheduledBackgroundJobBootstrapper.ConfigureHangfireAndScheduledBackgroundJobs(app);
@@ -155,17 +170,20 @@ namespace ProjectFirma.Web
         private Tenant GetTenantFromUrl(IOwinRequest argRequest)
         {
             var urlHost = argRequest.Host.ToString();
-            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+            var tenant = Tenant.All.SingleOrDefault(x =>
+                urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x),
+                    StringComparison.InvariantCultureIgnoreCase));
             Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
             return tenant;
         }
 
         private static HttpContextBase GetHttpContext(BaseContext<OpenIdConnectAuthenticationOptions> n)
         {
-            return (HttpContextBase)n.OwinContext.Environment["System.Web.HttpContextBase"];
+            return (HttpContextBase) n.OwinContext.Environment["System.Web.HttpContextBase"];
         }
 
-        public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, IIdentity userIdentity)
+        public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims,
+            IIdentity userIdentity)
         {
             SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
                 userIdentity.Name,
@@ -178,7 +196,8 @@ namespace ProjectFirma.Web
             if (person == null)
             {
                 // new user - provision with limited role
-                SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - creating local profile for User '{0}'", keystoneUserClaims.UserGuid);
+                SitkaHttpApplication.Logger.DebugFormat(
+                    "In SyncLocalAccountStore - creating local profile for User '{0}'", keystoneUserClaims.UserGuid);
                 var unknownOrganization = HttpRequestStorage.DatabaseEntities.Organizations.GetUnknownOrganization();
                 person = new Person(keystoneUserClaims.UserGuid,
                     keystoneUserClaims.FirstName,
@@ -197,7 +216,8 @@ namespace ProjectFirma.Web
             else
             {
                 // existing user - sync values
-                SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - syncing local profile for User '{0}'", keystoneUserClaims.UserGuid);
+                SitkaHttpApplication.Logger.DebugFormat(
+                    "In SyncLocalAccountStore - syncing local profile for User '{0}'", keystoneUserClaims.UserGuid);
             }
 
             person.FirstName = keystoneUserClaims.FirstName;
@@ -210,12 +230,16 @@ namespace ProjectFirma.Web
             if (keystoneUserClaims.OrganizationGuid.HasValue)
             {
                 // first look by guid, then by name; if not available, create it on the fly since it is a person org
-                var organization = (HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(keystoneUserClaims.OrganizationGuid.Value) ??
-                                    HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(keystoneUserClaims.OrganizationName));
+                var organization =
+                    (HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(
+                         keystoneUserClaims.OrganizationGuid.Value) ??
+                     HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(
+                         keystoneUserClaims.OrganizationName));
 
                 if (organization == null)
                 {
-                    var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+                    var defaultOrganizationType =
+                        HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
@@ -227,6 +251,7 @@ namespace ProjectFirma.Web
                 {
                     organization.OrganizationGuid = keystoneUserClaims.OrganizationGuid;
                 }
+
                 person.Organization = organization;
                 person.OrganizationID = organization.OrganizationID;
             }
@@ -253,13 +278,13 @@ namespace ProjectFirma.Web
             }
 
             return HttpRequestStorage.Person;
-
         }
 
 
         private static void SendNewUserCreatedMessage(Person person, string loginName)
         {
-            var subject = $"{MultiTenantHelpers.GetToolDisplayName()} User added: {person.GetFullNameFirstLast()} ({person.GetOrganizationDescriptor()})";
+            var subject =
+                $"{MultiTenantHelpers.GetToolDisplayName()} User added: {person.GetFullNameFirstLast()} ({person.GetOrganizationDescriptor()})";
             var message = $@"
     <div style='font-size: 12px; font-family: Arial'>
         <strong>User added:</strong> {person.GetFullNameFirstLast()}<br />
@@ -269,8 +294,8 @@ namespace ProjectFirma.Web
         <br />
         <p>
             You may want to <a href=""{
-                SitkaRoute<UserController>.BuildAbsoluteUrlFromExpression(x => x.Detail(person.PersonID))
-            }"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
+                    SitkaRoute<UserController>.BuildAbsoluteUrlFromExpression(x => x.Detail(person.PersonID))
+                }"">assign this user roles</a> to allow them to work with specific areas of the site. Or you can leave the user with an unassigned role if they don't need special privileges.
         </p>
         <br />
         <br />
@@ -291,7 +316,8 @@ namespace ProjectFirma.Web
         private static void SendNewOrganizationCreatedMessage(Person person, string loginName)
         {
             var organization = person.Organization;
-            var subject = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} added: {person.Organization.GetDisplayName()}";
+            var subject =
+                $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} added: {person.Organization.GetDisplayName()}";
 
             var message = $@"
 <div style='font-size: 12px; font-family: Arial'>
@@ -302,11 +328,11 @@ namespace ProjectFirma.Web
     <br />
     <p>
         You may want to <a href=""{
-            SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization
-                .OrganizationID))
-        }"">add detail for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}</a> such as its abbreviation, {
+                    SitkaRoute<OrganizationController>.BuildAbsoluteUrlFromExpression(x => x.Detail(organization
+                        .OrganizationID))
+                }"">add detail for this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}</a> such as its abbreviation, {
                     FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()
-        }, website, logo, etc. This will make its {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} summary page display better.
+                }, website, logo, etc. This will make its {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} summary page display better.
     </p>
     <br />
     <br />
