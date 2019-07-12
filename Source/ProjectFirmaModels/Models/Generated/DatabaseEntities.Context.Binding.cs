@@ -66,7 +66,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new FundingTypeConfiguration());
-            modelBuilder.Configurations.Add(new FundingTypeDataConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
@@ -197,6 +196,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSourceCustomAttributeValue> FundingSourceCustomAttributeValues { get { return AllFundingSourceCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FundingType> FundingTypes { get; set; }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
@@ -478,9 +478,7 @@ namespace ProjectFirmaModels.Models
                     return FundingSources.GetFundingSource(primaryKey);
 
                 case "FundingType":
-                    var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
-                    return fundingType;
+                    return FundingTypes.GetFundingType(primaryKey);
 
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
