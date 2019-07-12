@@ -32,6 +32,7 @@ using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
 using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
@@ -50,14 +51,16 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.FundingSourcesList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, fundingSourceCustomAttributeTypes);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [FundingSourceViewFeature]
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
+            var gridSpec = new IndexGridSpec(CurrentPerson, fundingSourceCustomAttributeTypes);
             var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
@@ -161,7 +164,13 @@ namespace ProjectFirma.Web.Controllers
             };
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceRequestsGridSpec);
+
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
+            var projectCustomAttributeTypesViewData = new DisplayFundingSourceCustomAttributesViewData(
+                fundingSourceCustomAttributeTypes.ToList(),
+                new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
+
+            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceRequestsGridSpec, projectCustomAttributeTypesViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

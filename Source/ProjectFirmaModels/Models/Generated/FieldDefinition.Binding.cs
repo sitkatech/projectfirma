@@ -229,6 +229,10 @@ namespace ProjectFirmaModels.Models
         SignificantDigits = 278,
         TenantShortDisplayName = 279,
         ToolDisplayName = 280,
-        TenantSquareLogo = 281
+        TenantSquareLogo = 281,
+        FundingSourceCustomAttribute = 282,
+        FundingSourceCustomAttributeDataType = 283,
+        FundingSourceCustomAttributeTypeEditableBy = 284,
+        FundingSourceCustomAttributeTypeViewableBy = 285
     }
 }

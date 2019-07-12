@@ -1,0 +1,178 @@
+﻿@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.FundingSourceCustomAttributeType.Edit
+
+<script type="text/javascript" src="@Url.Content("~/Views/FundingSourceCustomAttributeType/EditFundingSourceCustomAttributeTypeController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+        angular.module("ProjectFirmaApp")
+            .factory("angularModelAndViewData",
+                function()
+                {
+                    return {
+                        AngularModel: @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                        AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+                    };
+                });
+        angular.bootstrap(jQuery("[ng-controller=\"EditFundingSourceCustomAttributeTypeController\"]"), ["ProjectFirmaApp"]);
+    });
+    // ]]>
+</script>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
+
+<form method="POST" action="@ViewDataTyped.SubmitUrl" id="EditFundingSourceCustomAttributeTypeControllerApp" name="customAttributeTypeForm"
+      ng-app="ProjectFirmaApp" ng-controller="EditFundingSourceCustomAttributeTypeController" ng-submit="submit()" ng-cloak>
+    @Html.HiddenFor(m => m.FundingSourceCustomAttributeTypeID)
+    <input type="hidden" name="@Html.NameFor(m => m.FundingSourceCustomAttributeTypeOptionsSchema)" ng-value="AngularModel.FundingSourceCustomAttributeTypeOptionsSchema" />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="validationError">
+                @Html.ValidationSummary()
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.FundingSourceCustomAttributeTypeName)
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.FundingSourceCustomAttributeTypeName, new { @class = "form-control", style = "width:100%" })
+                        @Html.ValidationMessageFor(m => m.FundingSourceCustomAttributeTypeName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.IsRequired)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+                        @Html.ValidationMessageFor(m => m.IsRequired)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.FundingSourceCustomAttributeTypeDesription)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.TextAreaWithMaxLengthFor(m => m.FundingSourceCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.FundingSourceCustomAttributeTypeDesription)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.FundingSourceCustomAttributeDataTypeID)
+                    </div>
+                    <div class="col-sm-9">
+                        <select class="form-control"
+                                style="width: auto"
+                                name="FundingSourceCustomAttributeDataTypeID"
+                                ng-model="FundingSourceCustomAttributeDataTypeID"
+                                ng-change="updateFundingSourceCustomAttributeDataType()"
+                                ng-required="true">
+                            <option value="">&lt;Choose one&gt;</option>
+                            <option ng-repeat="customAttributeDataType in AngularViewData.FundingSourceCustomAttributeDataTypes"
+                                    ng-selected="AngularModel.FundingSourceCustomAttributeDataTypeID == customAttributeDataType.ID"
+                                    ng-value="customAttributeDataType.ID">
+                                {{customAttributeDataType.DisplayName}}
+                            </option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.FundingSourceCustomAttributeDataTypeID)
+                    </div>
+                </div>
+                <div ng-if="FundingSourceCustomAttributeDataTypeSelected == null">
+                    <div class="alert alert-warning" role="alert">
+                        Select a @FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType().GetFieldDefinitionLabel() to enter the required information
+                    </div>
+                </div>
+                <div ng-if="FundingSourceCustomAttributeDataTypeSelected != null">
+                    <div ng-if="selectedFundingSourceCustomAttributeDataTypeHasMeasurementUnit()">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">
+                                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, true)
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { style = "width: auto;", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="selectedFundingSourceCustomAttributeDataTypeHasOptions()">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">
+                                @Html.LabelWithSugarFor(m => m.FundingSourceCustomAttributeTypeOptionsSchema, true)
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div ng-repeat="item in OptionsSchema track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4">
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control"
+                                                   ng-model="OptionsSchema[$index]"
+                                                   type="text"
+                                                   value="{{OptionsSchema[$index]}}"
+                                                   placeholder="e.g. Sand, Compost">
+                                            <div class="input-group-btn">
+                                                <a class="btn btn-firma"><span class="glyphicon glyphicon-remove" ng-click="removeInput($index)"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <button class="btn btn-firma btn-sm" type="button" ng-click="addInput()">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.FundingSourceCustomAttributeTypeEditableBy.ToType())
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(x => x.EditableByNormal) @Html.LabelFor(x => x.EditableByNormal, new {style = "font-weight : normal; padding-right : 10px;"})
+                        @Html.CheckBoxFor(x => x.EditableByProjectSteward) @Html.LabelFor(x => x.EditableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">                       
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.FundingSourceCustomAttributeTypeViewableBy.ToType())
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        <label>@string.Format("Include In {0} Grid?", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(x => x.FundingSourceCustomAttributeIncludeInGridSpec, true) Yes
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(x => x.FundingSourceCustomAttributeIncludeInGridSpec, false) No
+                        </label>
+                        @Html.ValidationMessageFor(m => m.FundingSourceCustomAttributeIncludeInGridSpec)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
