@@ -34,8 +34,8 @@ namespace ProjectFirmaModels.Models
 
         public decimal GetSecuredFunding()
         {
-            return ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Any()
-                ? ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
+            return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
+                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
                 : 0;
         }
 

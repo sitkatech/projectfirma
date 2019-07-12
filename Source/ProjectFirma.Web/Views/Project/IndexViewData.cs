@@ -19,14 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
+using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -43,7 +42,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List";
 
-            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingTypeData>(), geospatialAreaTypes, projectCustomAttributeTypes) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingType>(), geospatialAreaTypes, projectCustomAttributeTypes) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
 
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))

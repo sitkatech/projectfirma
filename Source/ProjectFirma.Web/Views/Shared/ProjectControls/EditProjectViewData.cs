@@ -35,7 +35,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<SelectListItem> StartYearRange { get; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; }
         public IEnumerable<SelectListItem> ProjectStages { get; }
-        public IEnumerable<SelectListItem> FundingTypes { get; }
         public IEnumerable<SelectListItem> Organizations { get; }
         public IEnumerable<SelectListItem> PrimaryContactPeople { get; }
         public Person DefaultPrimaryContactPerson { get; }
@@ -49,8 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
-            IEnumerable<ProjectStage> projectStages,
-            IEnumerable<FundingType> fundingTypes,
+            IEnumerable<ProjectStage> projectStages,            
             IEnumerable<ProjectFirmaModels.Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
@@ -63,7 +61,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
             TotalExpenditures = totalExpenditures;
             ProjectStages = projectStages.OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
-            FundingTypes = fundingTypes.OrderBy(x => x.GetFundingTypeSortOrder()).ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.GetFundingTypeDisplayName());
             Organizations = organizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), y => y.GetDisplayName());
             PrimaryContactPeople = primaryContactPeople.ToSelectListWithEmptyFirstRow(
                     x => x.PersonID.ToString(CultureInfo.InvariantCulture), y => y.GetFullNameFirstLastAndOrgShortName(),

@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
 
             // Expected Funding
-            ProjectFundingSourceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // expected performance measures
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -208,13 +208,13 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void DeleteProjectFundingSourceRequestUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectFundingSourceBudgetUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectFundingSourceRequestUpdates = projectUpdateBatch.ProjectFundingSourceRequestUpdates.ToList();
-            foreach (var projectFundingSourceRequestUpdate in projectFundingSourceRequestUpdates)
-            {
-                projectFundingSourceRequestUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            }
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
+                {
+                    projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
         }
 
         public static void DeletePerformanceMeasureActualUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -356,7 +356,7 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateExpenditures();
         }
 
-        public static ExpectedFundingValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceRequestSimple> newProjectFundingSourceRequests)
+        public static ExpectedFundingValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
         {
             return new ExpectedFundingValidationResult();
         }
@@ -447,7 +447,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
             IList<ProjectGeospatialArea> projectGeospatialAreas, 
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
-            IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -468,7 +468,7 @@ namespace ProjectFirma.Web.Models
                 projectLocations,
                 projectGeospatialAreas,
                 projectGeospatialAreaTypeNotes,
-                projectFundingSourceRequests,
+                projectFundingSourceBudgets,
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
@@ -505,7 +505,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
             IList<ProjectGeospatialArea> projectGeospatialAreas,
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
-            IList<ProjectFundingSourceRequest> projectFundingSourceRequests,
+            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -519,7 +519,7 @@ namespace ProjectFirma.Web.Models
             ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceExpenditures);
 
             // expected funding
-            ProjectFundingSourceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceRequests);
+            ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
 
             // TODO: Neutered per #1136; most likely will bring back when BOR project starts
             //  project budgets

@@ -103,33 +103,33 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.ProjectStageID)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-xs-4 control-label">
-                @Html.LabelWithSugarFor(m => m.FundingTypeID)
-            </div>
-            <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
-                @Html.ValidationMessageFor(m => m.FundingTypeID)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-4 control-label cap-label">
-                @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
-            </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(m => m.EstimatedTotalCost)
-                @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-4 control-label op-label">
-                @Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)
-            </div>
-            <div class="col-xs-8">
-                @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
-                @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-            </div>
-        </div>
+        @* <div class="form-group"> *@
+        @*     <div class="col-xs-4 control-label"> *@
+        @*         @Html.LabelWithSugarFor(m => m.FundingTypeID) *@
+        @*     </div> *@
+        @*     <div class="col-xs-8"> *@
+        @*         @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" }) *@
+        @*         @Html.ValidationMessageFor(m => m.FundingTypeID) *@
+        @*     </div> *@
+        @* </div> *@
+        @* <div class="form-group"> *@
+        @*     <div class="col-xs-4 control-label cap-label"> *@
+        @*         @Html.LabelWithSugarFor(m => m.EstimatedTotalCost) *@
+        @*     </div> *@
+        @*     <div class="col-xs-8"> *@
+        @*         @Html.EditorFor(m => m.EstimatedTotalCost) *@
+        @*         @Html.ValidationMessageFor(m => m.EstimatedTotalCost) *@
+        @*     </div> *@
+        @* </div> *@
+        @* <div class="form-group"> *@
+        @*     <div class="col-xs-4 control-label op-label"> *@
+        @*         @Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost) *@
+        @*     </div> *@
+        @*     <div class="col-xs-8"> *@
+        @*         @Html.EditorFor(m => m.EstimatedAnnualOperatingCost) *@
+        @*         @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost) *@
+        @*     </div> *@
+        @* </div> *@
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
@@ -165,29 +165,6 @@ Source code is available upon request via <support@sitkatech.com>.
     @Html.HiddenFor(m => m.OldProjectStageID)
 }
 
-<script type="text/javascript">
-    // <![CDATA[
-    function displaySelectedFundingTypeFields() {
-        var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
-        if (fundingTypeDropdown.val() == 1) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
-            jQuery(".op-label").css("color", "#666");
-            jQuery(".cap-label").css("color", "");
-        }
-        else if (fundingTypeDropdown.val() == 2) {
-            jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
-            jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
-            jQuery(".op-label").css("color", "");
-            jQuery(".cap-label").css("color", "#666");
-        }
-    }
-
-    jQuery(document).ready(function() {
-        displaySelectedFundingTypeFields(); 
-    });
-    // ]]>
-</script>
 @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
 {
     <script type="text/javascript">

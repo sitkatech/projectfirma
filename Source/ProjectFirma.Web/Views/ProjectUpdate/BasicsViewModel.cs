@@ -18,15 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+using LtInfo.Common;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -50,12 +49,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
-        public Money? EstimatedTotalCost { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedAnnualOperatingCost)]
-        public Money? EstimatedAnnualOperatingCost { get; set; }
-
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
@@ -76,8 +69,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             PlanningDesignStartYear = projectUpdate.PlanningDesignStartYear;
             ImplementationStartYear = projectUpdate.ImplementationStartYear;
             CompletionYear = projectUpdate.CompletionYear;
-            EstimatedTotalCost = projectUpdate.EstimatedTotalCost;
-            EstimatedAnnualOperatingCost = projectUpdate.EstimatedAnnualOperatingCost;
             Comments = comments;
             ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
         }
@@ -89,8 +80,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.PlanningDesignStartYear = PlanningDesignStartYear;
             projectUpdate.ImplementationStartYear = ImplementationStartYear;
             projectUpdate.CompletionYear = CompletionYear;
-            projectUpdate.EstimatedTotalCost = EstimatedTotalCost;
-            projectUpdate.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             ProjectCustomAttributes?.UpdateModel(projectUpdate, currentPerson);
         }
 

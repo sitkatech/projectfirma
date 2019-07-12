@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PlanningDesignStartYear).HasColumnName(@"PlanningDesignStartYear").HasColumnType("int").IsOptional();
             Property(x => x.ProjectLocationSimpleTypeID).HasColumnName(@"ProjectLocationSimpleTypeID").HasColumnType("int").IsRequired();
             Property(x => x.EstimatedAnnualOperatingCost).HasColumnName(@"EstimatedAnnualOperatingCost").HasColumnType("money").IsOptional().HasPrecision(19,4);
-            Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectApprovalStatusID).HasColumnName(@"ProjectApprovalStatusID").HasColumnType("int").IsRequired();
             Property(x => x.ProposingPersonID).HasColumnName(@"ProposingPersonID").HasColumnType("int").IsOptional();
@@ -45,7 +45,6 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID
-            HasRequired(a => a.FundingType).WithMany(b => b.Projects).HasForeignKey(c => c.FundingTypeID).WillCascadeOnDelete(false); // FK_Project_FundingType_FundingTypeID
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.ProjectsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Project_Person_PrimaryContactPersonID_PersonID
             HasOptional(a => a.ProposingPerson).WithMany(b => b.ProjectsWhereYouAreTheProposingPerson).HasForeignKey(c => c.ProposingPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ProposingPersonID_PersonID
             HasOptional(a => a.ReviewedByPerson).WithMany(b => b.ProjectsWhereYouAreTheReviewedByPerson).HasForeignKey(c => c.ReviewedByPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ReviewedByPersonID_PersonID

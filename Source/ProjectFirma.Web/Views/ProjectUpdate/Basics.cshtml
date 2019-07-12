@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectUpdate
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Views
@@ -152,63 +151,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.TaxonomyLeafDisplayName
         </div>
     </div>
-    @if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.Capital)
-    {
-        <div class="form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
-            </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.EditorFor(m => m.EstimatedTotalCost)
-                    @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-                }
-                else
-                {
-                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</p>
-                }
-            </div>
-        </div>
-    }
-    else if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
-    {
-        <div class="form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
-            </div>
-            <div class="col-sm-8">
-                @if (ViewDataTyped.IsEditable)
-                {
-                    @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
-                    @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-                }
-                else
-                {
-                    <p class="form-control-static">@ViewDataTyped.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</p>
-                }
-            </div>
-        </div>
-        <div class="form-group form-group-condensed">
-            <div class="col-sm-4 control-label">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.LifecycleOperatingCost.ToType())
-            </div>
-            <div class="col-sm-8">
-                <p class="form-control-static">@ViewDataTyped.ProjectUpdate.LifecycleOperatingCost().ToStringCurrency()</p>
-            </div>
-        </div>
-        if (ViewDataTyped.ProjectUpdate.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
-        {
-            <div class="form-group form-group-condensed">
-                <div class="col-sm-4 control-label">
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
-                </div>
-                <div class="col-sm-8">
-                    <p class="form-control-static">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency() (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)</p>
-                </div>
-            </div>
-        }
-    }
+
     @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
     {
         <hr />
@@ -222,8 +165,6 @@ Source code is available upon request via <support@sitkatech.com>.
             ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);
         }
     }
-
-
 </div>
 
     if (ViewDataTyped.IsEditable)

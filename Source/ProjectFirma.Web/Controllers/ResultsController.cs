@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
             var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard();
             if (relationshipTypeToReportInAccomplishmentsDashboard == null)
             {
-                var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceRequests
+                var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
                     .Select(x => x.FundingSource.Organization).ToList();
                 var reportedFundingOrganization = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures
                     .Select(x => x.FundingSource.Organization).ToList();
