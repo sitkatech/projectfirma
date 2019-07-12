@@ -57,6 +57,12 @@ go
 -- Rename table
 EXEC sp_rename 'dbo.ProjectFundingSourceRequestUpdate', 'ProjectFundingSourceBudgetUpdate';
 
+-- Rename check constraints on Project
+EXEC sp_rename 'dbo.CK_Project_AnnualCostForOperationsProjectsOnly', 'CK_Project_AnnualCostForBudgetSameEachYearProjectsOnly', 'OBJECT';
+EXEC sp_rename 'dbo.CK_Project_TotalCostForCapitalProjectsOnly', 'CK_Project_TotalCostForBudgetVariesByYearProjectsOnly', 'OBJECT';
+
+
+
 -- Update custom field labels
 update dbo.FieldDefinitionData
 set FieldDefinitionLabel = 'Targeted Funding'
