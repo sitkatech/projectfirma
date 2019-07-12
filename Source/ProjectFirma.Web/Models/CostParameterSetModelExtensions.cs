@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanCalculateCapitalCostInYearOfExpenditure(IProject project)
         {
-            bool hasCapitalFundingType = project.FundingType == FundingTypeEnum.Capital.ToType();
+            bool hasCapitalFundingType = project.FundingType == FundingType.BudgetVariesByYear;
             bool validCompletionYear = project.CompletionYear >= GetCurrentRTPYearForPVCalculations();
-            bool isStagedIncluded = project.ProjectStage.IsStagedIncludedInTransporationCostCalculations();
+            bool isStagedIncluded = project.ProjectStage.IsStageIncludedInTransporationCostCalculations();
 
             return hasCapitalFundingType
                    && project.EstimatedTotalCost.HasValue
@@ -52,55 +52,13 @@ namespace ProjectFirma.Web.Models
                    && isStagedIncluded;
         }
 
-        public static decimal? CalculateTotalRemainingOperatingCost(IProject project)
-        {
-            if (!project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
-            {
-                return null;
-            }
-
-            return CalculateTotalRemainingOperatingCostImpl(project.EstimatedAnnualOperatingCost.Value, GetLatestInflationRate(), GetCurrentRTPYearForPVCalculations(),
-                project.ImplementationStartYear.Value,
-                project.CompletionYear.Value);
-        }
-
-        public static decimal? CalculateTotalRemainingOperatingCostImpl(decimal annualCost, decimal inflationRate, int baseYear, int startYear, int endYear)
-        {
-            var totalOperatingCost = 0m;
-            var startYearForTotalOperatingCostCalculation = StartYearForTotalCostCalculationsImpl(startYear).Value;
-            for (var i = startYearForTotalOperatingCostCalculation; i <= endYear; i++)
-            {
-                totalOperatingCost += FirmaMathUtilities.FutureValueOfPresentSum(annualCost, inflationRate, baseYear, i);
-            }
-            return totalOperatingCost;
-        }
-
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
-            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType() 
+            return project.FundingType == FundingType.BudgetSameEachYear
                    && project.EstimatedAnnualOperatingCost.HasValue
                    && project.CompletionYear.HasValue 
                    && project.ImplementationStartYear.HasValue 
-                   && project.CompletionYear >= GetCurrentRTPYearForPVCalculations()
-                   && project.ProjectStage.IsStagedIncludedInTransporationCostCalculations();
-        }
-
-        public static decimal? LifecycleOperatingCost(this IProject project)
-        {
-            if (!project.CanCalculateLifecycleOperatingCost())
-            {
-                return null;
-            }
-
-            return (project.CompletionYear - project.ImplementationStartYear)*project.EstimatedAnnualOperatingCost;
-        }
-
-        public static bool CanCalculateLifecycleOperatingCost(this IProject project)
-        {
-            return project.FundingType == FundingTypeEnum.OperationsAndMaintenance.ToType()
-                   && project.EstimatedAnnualOperatingCost.HasValue
-                   && project.CompletionYear.HasValue
-                   && project.ImplementationStartYear.HasValue;
+                   && project.ProjectStage.IsStageIncludedInTransporationCostCalculations();
         }
 
         public static int GetCurrentRTPYearForPVCalculations()

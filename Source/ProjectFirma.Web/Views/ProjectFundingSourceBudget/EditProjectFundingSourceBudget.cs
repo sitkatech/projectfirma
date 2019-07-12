@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceRequest.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectFundingSourceBudgets.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,16 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using LtInfo.Common;
-
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
-    public partial class ProjectFundingSourceRequest : IAuditableEntity, IFundingSourceRequestAmount
+    public abstract class EditProjectFundingSourceBudget : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>
     {
-        public string GetAuditDescriptionString()
-        {
-            return $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Request Amount: {UnsecuredAmount.ToStringCurrency()}";
-        }
     }
 }
