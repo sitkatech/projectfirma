@@ -27,6 +27,7 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.FundingSource
@@ -38,6 +39,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
         public readonly string EditFundingSourceUrl;
         public readonly string ManageFundingSourcesUrl;
+        public readonly string EditFundingSourceCustomAttributesUrl;
 
         public readonly List<int> CalendarYearsForProjectExpenditures;
 
@@ -50,7 +52,9 @@ namespace ProjectFirma.Web.Views.FundingSource
         public readonly string ProjectFundingSourceRequestsGridName;
         public readonly string ProjectFundingSourceRequestsGridDataUrl;
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec) : base(currentPerson)
+        public DisplayFundingSourceCustomAttributesViewData DisplayFundingSourceCustomAttributeTypesViewData { get; private set; }
+
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) : base(currentPerson)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
@@ -59,6 +63,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
+
+            EditFundingSourceCustomAttributesUrl = SitkaRoute<FundingSourceCustomAttributesController>.BuildUrlFromExpression(c => c.EditFundingSourceCustomAttributesForFundingSource(fundingSource));
 
             var projectFundingSourceExpenditures = FundingSource.ProjectFundingSourceExpenditures.ToList();
             CalendarYearsForProjectExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(fundingSource);
@@ -77,6 +83,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             ProjectFundingSourceRequestsGridSpec = projectFundingSourceRequestsGridSpec;
             ProjectFundingSourceRequestsGridName = "projectsFundingSourceRequestsFromFundingSourceGrid";
             ProjectFundingSourceRequestsGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceRequestsGridJsonData(fundingSource));
+
+            DisplayFundingSourceCustomAttributeTypesViewData = displayFundingSourceCustomAttributeTypesViewData;
         }
     }
 }

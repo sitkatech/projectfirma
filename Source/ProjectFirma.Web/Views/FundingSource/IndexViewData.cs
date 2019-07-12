@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -34,11 +36,11 @@ namespace ProjectFirma.Web.Views.FundingSource
         public bool HasPerformanceMeasureManagePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeType) : base(currentPerson, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
 
-            GridSpec = new IndexGridSpec(currentPerson)
+            GridSpec = new IndexGridSpec(currentPerson, fundingSourceCustomAttributeType)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}",

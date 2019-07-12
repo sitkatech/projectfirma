@@ -71,5 +71,26 @@ namespace ProjectFirma.Web.Models
                 : (int?)null;
         }
 
+        public static string GetFundingSourceCustomAttributesValue(this FundingSource fundingSource, FundingSourceCustomAttributeType fundingSourceCustomAttributeType)
+        {
+            var fundingSourceCustomAttribute = fundingSource.FundingSourceCustomAttributes.SingleOrDefault(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID);
+            if (fundingSourceCustomAttribute != null)
+            {
+                if (fundingSourceCustomAttributeType.FundingSourceCustomAttributeDataType == FundingSourceCustomAttributeDataType.DateTime)
+                {
+                    return DateTime.TryParse(fundingSourceCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return string.Join(", ",
+                        fundingSourceCustomAttribute.FundingSourceCustomAttributeValues.Select(x => x.AttributeValue));
+                }
+            }
+            else
+            {
+                return "None";
+            }
+        }
+
     }
 }

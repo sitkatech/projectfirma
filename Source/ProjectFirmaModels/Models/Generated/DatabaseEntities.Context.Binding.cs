@@ -61,6 +61,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
+            modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
+            modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
+            modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeRoleConfiguration());
+            modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new FundingTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingTypeDataConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
@@ -183,6 +187,14 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPage> AllFirmaPages { get; set; }
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
+        public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
+        public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FundingSourceCustomAttributeTypeRole> AllFundingSourceCustomAttributeTypeRoles { get; set; }
+        public virtual IQueryable<FundingSourceCustomAttributeTypeRole> FundingSourceCustomAttributeTypeRoles { get { return AllFundingSourceCustomAttributeTypeRoles.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FundingSourceCustomAttributeType> AllFundingSourceCustomAttributeTypes { get; set; }
+        public virtual IQueryable<FundingSourceCustomAttributeType> FundingSourceCustomAttributeTypes { get { return AllFundingSourceCustomAttributeTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FundingSourceCustomAttributeValue> AllFundingSourceCustomAttributeValues { get; set; }
+        public virtual IQueryable<FundingSourceCustomAttributeValue> FundingSourceCustomAttributeValues { get { return AllFundingSourceCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingTypeData> AllFundingTypeDatas { get; set; }
@@ -442,6 +454,28 @@ namespace ProjectFirmaModels.Models
 
                 case "FirmaPageType":
                     return FirmaPageTypes.GetFirmaPageType(primaryKey);
+
+                case "FundingSourceCustomAttributeDataType":
+                    var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(fundingSourceCustomAttributeDataType, "FundingSourceCustomAttributeDataType", primaryKey);
+                    return fundingSourceCustomAttributeDataType;
+
+                case "FundingSourceCustomAttribute":
+                    return FundingSourceCustomAttributes.GetFundingSourceCustomAttribute(primaryKey);
+
+                case "FundingSourceCustomAttributeTypeRolePermissionType":
+                    var fundingSourceCustomAttributeTypeRolePermissionType = FundingSourceCustomAttributeTypeRolePermissionType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(fundingSourceCustomAttributeTypeRolePermissionType, "FundingSourceCustomAttributeTypeRolePermissionType", primaryKey);
+                    return fundingSourceCustomAttributeTypeRolePermissionType;
+
+                case "FundingSourceCustomAttributeTypeRole":
+                    return FundingSourceCustomAttributeTypeRoles.GetFundingSourceCustomAttributeTypeRole(primaryKey);
+
+                case "FundingSourceCustomAttributeType":
+                    return FundingSourceCustomAttributeTypes.GetFundingSourceCustomAttributeType(primaryKey);
+
+                case "FundingSourceCustomAttributeValue":
+                    return FundingSourceCustomAttributeValues.GetFundingSourceCustomAttributeValue(primaryKey);
 
                 case "FundingSource":
                     return FundingSources.GetFundingSource(primaryKey);
