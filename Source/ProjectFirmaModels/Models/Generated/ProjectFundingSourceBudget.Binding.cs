@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[FundingTypeData]
+//  Source Table: [dbo].[ProjectFundingSourceBudget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[FundingTypeData] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[FundingTypeData]")]
-    public partial class FundingTypeData : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[ProjectFundingSourceBudget] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[ProjectFundingSourceBudget]")]
+    public partial class ProjectFundingSourceBudget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected FundingTypeData()
+        protected ProjectFundingSourceBudget()
         {
 
         }
@@ -30,50 +30,48 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FundingTypeData(int fundingTypeDataID, int fundingTypeID, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder) : this()
+        public ProjectFundingSourceBudget(int projectFundingSourceBudgetID, int projectID, int fundingSourceID, decimal? securedAmount, decimal? targetedAmount) : this()
         {
-            this.FundingTypeDataID = fundingTypeDataID;
-            this.FundingTypeID = fundingTypeID;
-            this.FundingTypeDisplayName = fundingTypeDisplayName;
-            this.FundingTypeShortName = fundingTypeShortName;
-            this.SortOrder = sortOrder;
+            this.ProjectFundingSourceBudgetID = projectFundingSourceBudgetID;
+            this.ProjectID = projectID;
+            this.FundingSourceID = fundingSourceID;
+            this.SecuredAmount = securedAmount;
+            this.TargetedAmount = targetedAmount;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FundingTypeData(int fundingTypeID, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder) : this()
+        public ProjectFundingSourceBudget(int projectID, int fundingSourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.FundingTypeDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.FundingTypeID = fundingTypeID;
-            this.FundingTypeDisplayName = fundingTypeDisplayName;
-            this.FundingTypeShortName = fundingTypeShortName;
-            this.SortOrder = sortOrder;
+            this.ProjectID = projectID;
+            this.FundingSourceID = fundingSourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public FundingTypeData(FundingType fundingType, string fundingTypeDisplayName, string fundingTypeShortName, int sortOrder) : this()
+        public ProjectFundingSourceBudget(Project project, FundingSource fundingSource) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.FundingTypeDataID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.FundingTypeID = fundingType.FundingTypeID;
-            this.FundingType = fundingType;
-            fundingType.FundingTypeDatas.Add(this);
-            this.FundingTypeDisplayName = fundingTypeDisplayName;
-            this.FundingTypeShortName = fundingTypeShortName;
-            this.SortOrder = sortOrder;
+            this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectID = project.ProjectID;
+            this.Project = project;
+            project.ProjectFundingSourceBudgets.Add(this);
+            this.FundingSourceID = fundingSource.FundingSourceID;
+            this.FundingSource = fundingSource;
+            fundingSource.ProjectFundingSourceBudgets.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static FundingTypeData CreateNewBlank(FundingType fundingType)
+        public static ProjectFundingSourceBudget CreateNewBlank(Project project, FundingSource fundingSource)
         {
-            return new FundingTypeData(fundingType, default(string), default(string), default(int));
+            return new ProjectFundingSourceBudget(project, fundingSource);
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingTypeData).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectFundingSourceBudget).Name};
 
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllFundingTypeDatas.Remove(this);
+            dbContext.AllProjectFundingSourceBudgets.Remove(this);
         }
         
         /// <summary>
@@ -109,22 +107,22 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int FundingTypeDataID { get; set; }
+        public int ProjectFundingSourceBudgetID { get; set; }
         public int TenantID { get; set; }
-        public int FundingTypeID { get; set; }
-        public string FundingTypeDisplayName { get; set; }
-        public string FundingTypeShortName { get; set; }
-        public int SortOrder { get; set; }
+        public int ProjectID { get; set; }
+        public int FundingSourceID { get; set; }
+        public decimal? SecuredAmount { get; set; }
+        public decimal? TargetedAmount { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return FundingTypeDataID; } set { FundingTypeDataID = value; } }
+        public int PrimaryKey { get { return ProjectFundingSourceBudgetID; } set { ProjectFundingSourceBudgetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual FundingType FundingType { get; set; }
+        public virtual Project Project { get; set; }
+        public virtual FundingSource FundingSource { get; set; }
 
         public static class FieldLengths
         {
-            public const int FundingTypeDisplayName = 100;
-            public const int FundingTypeShortName = 20;
+
         }
     }
 }

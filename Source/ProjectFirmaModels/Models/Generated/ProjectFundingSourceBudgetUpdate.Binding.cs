@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectFundingSourceRequest]
+//  Source Table: [dbo].[ProjectFundingSourceBudgetUpdate]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectFundingSourceRequest] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[ProjectFundingSourceRequest]")]
-    public partial class ProjectFundingSourceRequest : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[ProjectFundingSourceBudgetUpdate] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[ProjectFundingSourceBudgetUpdate]")]
+    public partial class ProjectFundingSourceBudgetUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectFundingSourceRequest()
+        protected ProjectFundingSourceBudgetUpdate()
         {
 
         }
@@ -30,48 +30,48 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequest(int projectFundingSourceRequestID, int projectID, int fundingSourceID, decimal? securedAmount, decimal? unsecuredAmount) : this()
+        public ProjectFundingSourceBudgetUpdate(int projectFundingSourceBudgetUpdateID, int projectUpdateBatchID, int fundingSourceID, decimal? securedAmount, decimal? targetedAmount) : this()
         {
-            this.ProjectFundingSourceRequestID = projectFundingSourceRequestID;
-            this.ProjectID = projectID;
+            this.ProjectFundingSourceBudgetUpdateID = projectFundingSourceBudgetUpdateID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
             this.SecuredAmount = securedAmount;
-            this.UnsecuredAmount = unsecuredAmount;
+            this.TargetedAmount = targetedAmount;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceRequest(int projectID, int fundingSourceID) : this()
+        public ProjectFundingSourceBudgetUpdate(int projectUpdateBatchID, int fundingSourceID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectFundingSourceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ProjectID = projectID;
+            this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectFundingSourceRequest(Project project, FundingSource fundingSource) : this()
+        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectFundingSourceRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectID = project.ProjectID;
-            this.Project = project;
-            project.ProjectFundingSourceRequests.Add(this);
+            this.ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            this.ProjectUpdateBatch = projectUpdateBatch;
+            projectUpdateBatch.ProjectFundingSourceBudgetUpdates.Add(this);
             this.FundingSourceID = fundingSource.FundingSourceID;
             this.FundingSource = fundingSource;
-            fundingSource.ProjectFundingSourceRequests.Add(this);
+            fundingSource.ProjectFundingSourceBudgetUpdates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectFundingSourceRequest CreateNewBlank(Project project, FundingSource fundingSource)
+        public static ProjectFundingSourceBudgetUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource)
         {
-            return new ProjectFundingSourceRequest(project, fundingSource);
+            return new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectFundingSourceRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectFundingSourceBudgetUpdate).Name};
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllProjectFundingSourceRequests.Remove(this);
+            dbContext.AllProjectFundingSourceBudgetUpdates.Remove(this);
         }
         
         /// <summary>
@@ -107,17 +107,17 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ProjectFundingSourceRequestID { get; set; }
+        public int ProjectFundingSourceBudgetUpdateID { get; set; }
         public int TenantID { get; set; }
-        public int ProjectID { get; set; }
+        public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
         public decimal? SecuredAmount { get; set; }
-        public decimal? UnsecuredAmount { get; set; }
+        public decimal? TargetedAmount { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectFundingSourceRequestID; } set { ProjectFundingSourceRequestID = value; } }
+        public int PrimaryKey { get { return ProjectFundingSourceBudgetUpdateID; } set { ProjectFundingSourceBudgetUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual Project Project { get; set; }
+        public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual FundingSource FundingSource { get; set; }
 
         public static class FieldLengths

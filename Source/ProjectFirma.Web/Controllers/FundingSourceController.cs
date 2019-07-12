@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Controllers
             // Which makes this guy bork (bork bork bork)
             googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
-            var projectFundingSourceRequestsGridSpec = new ProjectFundingSourceRequestsGridSpec()
+            var projectFundingSourceBudgetGridSpec = new ProjectFundingSourceBudgetGridSpec()
             {
                 ObjectNameSingular = "Project",
                 ObjectNamePlural = "Projects",
@@ -170,7 +170,7 @@ namespace ProjectFirma.Web.Controllers
                 fundingSourceCustomAttributeTypes.ToList(),
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
 
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceRequestsGridSpec, projectCustomAttributeTypesViewData);
+            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -228,12 +228,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [FundingSourceViewFeature]
-        public GridJsonNetJObjectResult<ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        public GridJsonNetJObjectResult<ProjectFundingSourceBudget> ProjectFundingSourceBudgetGridJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var projectFundingSourceRequests = fundingSource.ProjectFundingSourceRequests.ToList();
-            var gridSpec = new ProjectFundingSourceRequestsGridSpec();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceRequest>(projectFundingSourceRequests, gridSpec);
+            var projectFundingSourceBudgets = fundingSource.ProjectFundingSourceBudgets.ToList();
+            var gridSpec = new ProjectFundingSourceBudgetGridSpec();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceBudget>(projectFundingSourceBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
     }

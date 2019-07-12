@@ -7,9 +7,9 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
-    public class ProjectFundingSourceRequestsGridSpec : GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest>
+    public class ProjectFundingSourceBudgetGridSpec : GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget>
     {
-        public ProjectFundingSourceRequestsGridSpec()
+        public ProjectFundingSourceBudgetGridSpec()
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(),
                 a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.GetDisplayName()),
@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.FundingSource
                 DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), a => a.SecuredAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), a => a.UnsecuredAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), a => a.TargetedAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
         }
     }
 }
