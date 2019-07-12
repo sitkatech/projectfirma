@@ -20,13 +20,20 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ExpectedFundingController", function($scope, angularModelAndViewData)
 {
+    $scope.AngularModel = angularModelAndViewData.AngularModel;
+    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+
+    $scope.costs = {
+        estimatedTotalCost: $scope.AngularViewData.EstimatedTotalCost > 0 ? $scope.AngularViewData.EstimatedTotalCost : null,
+        estimatedAnnualOperatingCost: $scope.AngularViewData.EstimatedAnnualOperatingCost > 0 ? $scope.AngularViewData.EstimatedAnnualOperatingCost : null
+    };
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
-    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function(p) { return p.FundingSourceID; }); };
+    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, function(p) { return p.FundingSourceID; }); };
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
@@ -37,20 +44,20 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     };
 
 
-    $scope.getFundingSourceName = function(projectFundingSourceBudget)
+    $scope.getFundingSourceName = function(projectFundingSourceBudgetUpdateSimple)
     {
-        var fundingSourceToFind = $scope.getFundingSource(projectFundingSourceBudget.FundingSourceID);
+        var fundingSourceToFind = $scope.getFundingSource(projectFundingSourceBudgetUpdateSimple.FundingSourceID);
         return fundingSourceToFind.DisplayName;
     };
 
     $scope.getFundingSource = function (fundingSourceID) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceID == f.FundingSourceID; }); };
 
     $scope.getTargetedTotal = function () {
-        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgets, function (m, x) { return Number(m) + Number(x.TargetedAmount); }, 0));
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, function (m, x) { return Number(m) + Number(x.TargetedAmount); }, 0));
     };
 
     $scope.getSecuredTotal = function () {
-        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgets,
+        return Number(_.reduce($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples,
             function(m, x) { return Number(m) + Number(x.SecuredAmount); },
             0));
     };
@@ -59,11 +66,11 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return Number($scope.getTargetedTotal()) + Number($scope.getSecuredTotal());
     }
 
-    $scope.getRowTotal = function (projectFundingSourceBudget) {
-        return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
+    $scope.getRowTotal = function (projectFundingSourceBudgetUpdateSimple) {
+        return Number(projectFundingSourceBudgetUpdateSimple.SecuredAmount) + Number(projectFundingSourceBudgetUpdateSimple.TargetedAmount);
     }
     
-    $scope.findProjectFundingSourceBudgetRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
+    $scope.findProjectFundingSourceBudgetUpdateSimpleRow = function(projectUpdateBatchID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, function(pfse) { return pfse.ProjectUpdateBatchID == projectUpdateBatchID && pfse.FundingSourceID == fundingSourceID; }); }
 
     $scope.addRow = function()
     {
@@ -71,26 +78,34 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         {
             return;
         }
-        var newProjectFundingSourceBudget = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
-        $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
+        var newProjectFundingSourceBudgetUpdateSimple = $scope.createNewRow($scope.ProjectUpdateBatchIDToAdd, $scope.FundingSourceIDToAdd);
+        $scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples.push(newProjectFundingSourceBudgetUpdateSimple);
         $scope.resetFundingSourceToAdd();
     };
 
-    $scope.createNewRow = function(projectID, fundingSourceID)
+    $scope.createNewRow = function(projectUpdateBatchID, fundingSourceID)
     {
-        var newProjectFundingSourceBudget = {
-            ProjectID: projectID,
+        var newProjectFundingSourceBudgetUpdateSimple = {
+            ProjectUpdateBatchID: projectUpdateBatchID,
             FundingSourceID: fundingSourceID,
             SecuredAmount: null,
             TargetedAmount: null
         };
-        return newProjectFundingSourceBudget;
+        return newProjectFundingSourceBudgetUpdateSimple;
     };
 
-    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgets, rowToDelete); };
+    $scope.budgetVariesByYear = function () {
+        return $scope.AngularViewData.FundingTypeID === 1;
+    }
+
+    $scope.budgetSameEachYear = function () {
+        return $scope.AngularViewData.FundingTypeID === 2;
+    }
+
+    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, rowToDelete); };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.resetFundingSourceToAdd();
-    $scope.ProjectIDToAdd = $scope.AngularViewData.ProjectID;
+    $scope.ProjectUpdateBatchIDToAdd = $scope.AngularViewData.ProjectUpdateBatchID;
 });

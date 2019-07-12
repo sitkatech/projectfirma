@@ -19,25 +19,24 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
+using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Web;
-using GeoJSON.Net.Feature;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirmaModels.Models
 {

@@ -21,7 +21,7 @@
 
         public ProjectFundingSourceBudgetSimple(ProjectFundingSourceBudgetUpdate projectFundingSourceBudgetUpdate)
         {
-            ProjectID = projectFundingSourceBudgetUpdate.ProjectUpdateBatchID;
+            ProjectUpdateBatchID = projectFundingSourceBudgetUpdate.ProjectUpdateBatchID;
             FundingSourceID = projectFundingSourceBudgetUpdate.FundingSourceID;
             TargetedAmount = projectFundingSourceBudgetUpdate.TargetedAmount;
             SecuredAmount = projectFundingSourceBudgetUpdate.SecuredAmount;
@@ -33,13 +33,14 @@
         }
 
         public int ProjectID { get; set; }
+        public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
         public decimal? SecuredAmount { get; set; }
         public decimal? TargetedAmount { get; set; }
 
         public ProjectFundingSourceBudgetUpdate ToProjectFundingSourceBudgetUpdate()
         {
-            return new ProjectFundingSourceBudgetUpdate(ProjectID, FundingSourceID) { SecuredAmount = SecuredAmount, TargetedAmount = TargetedAmount };
+            return new ProjectFundingSourceBudgetUpdate(ProjectUpdateBatchID, FundingSourceID) { SecuredAmount = SecuredAmount, TargetedAmount = TargetedAmount };
         }
 
         public bool AreBothValuesZero()

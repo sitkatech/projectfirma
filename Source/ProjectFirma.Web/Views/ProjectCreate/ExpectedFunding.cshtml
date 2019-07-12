@@ -75,7 +75,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Total Cost?
             </label>
             <div class="input-group">
-                @* @Html.EditorFor(m => m.EstimatedTotalCost) *@
                 <input type="text" name="@Html.NameFor(x => x.EstimatedTotalCost)" ng-model="costs.estimatedTotalCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
 
                 @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
@@ -86,7 +85,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
             </label>
             <div class="input-group">
-                @* @Html.EditorFor(m => m.EstimatedAnnualOperatingCost) *@
                 <input type="text" name="@Html.NameFor(x => x.EstimatedAnnualOperatingCost)" ng-model="costs.estimatedAnnualOperatingCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
                 @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
             </div>
@@ -243,62 +241,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     </div>
                 </div>
             </div>
-@*             @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID) *@
-@*             { *@
-@*                 <table> *@
-@*                     <tr> *@
-@*                         <td style="width: 240px"> *@
-@*                             Estimated Annual Operating Cost: *@
-@*                         </td> *@
-@*                         <td> *@
-@*                             <span>@ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()</span> *@
-@*                         </td> *@
-@*                     </tr> *@
-@*                     <tr> *@
-@*                         <td> *@
-@*                             Estimated Total Operating Cost: *@
-@*                         </td> *@
-@*                         <td> *@
-@*                             <span>@ViewDataTyped.Project.EstimatedTotalCost</span> *@
-@*                         </td> *@
-@*                     </tr> *@
-@*                 </table> *@
-@*             } *@
-@*             else *@
-@*             { *@
-@*                 <div class="row"> *@
-@*                     <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType()):</div> *@
-@*                     <div class="col-sm-3 text-right"> *@
-@*                         <span> *@
-@*                             {{ AngularViewData.EstimatedTotalCost | currency:"$"}} *@
-@*                         </span> *@
-@*                     </div> *@
-@*                 </div> *@
-@* *@
-@*                 <div class="row"> *@
-@*                     <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()):</div> *@
-@*                     <div class="col-sm-3 text-right"> *@
-@*                         <span> *@
-@*                             {{getSecuredTotal() | currency:"$"}} *@
-@*                         </span> *@
-@*                     </div> *@
-@*                 </div> *@
-@* *@
-@*                 <div class="row"> *@
-@*                     <div class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType(), FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel() + ":")</div> *@
-@*                     <div class="col-sm-3 text-right"> *@
-@*                         <span> *@
-@*                             {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal()) | currency:"$"}} *@
-@*                         </span> *@
-@*                     </div> *@
-@*                     <div class="col-sm-6 text-right" ng-show="getTargetedTotal() > 0"> *@
-@*                         ( *@
-@*                         <span> *@
-@*                             {{(getTargetedTotal()) | currency:"$"}} *@
-@*                         </span> identified as @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())) *@
-@*                     </div> *@
-@*                 </div> *@
-@*             } *@
         </div>
     </div>
 }

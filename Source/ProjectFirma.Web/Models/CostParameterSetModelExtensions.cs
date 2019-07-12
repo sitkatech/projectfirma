@@ -61,24 +61,6 @@ namespace ProjectFirma.Web.Models
                    && project.ProjectStage.IsStageIncludedInTransporationCostCalculations();
         }
 
-        public static decimal? LifecycleOperatingCost(this IProject project)
-        {
-            if (!project.CanCalculateLifecycleOperatingCost())
-            {
-                return null;
-            }
-
-            return (project.CompletionYear - project.ImplementationStartYear)*project.EstimatedAnnualOperatingCost;
-        }
-
-        public static bool CanCalculateLifecycleOperatingCost(this IProject project)
-        {
-            return project.FundingType == FundingType.BudgetSameEachYear
-                   && project.EstimatedAnnualOperatingCost.HasValue
-                   && project.CompletionYear.HasValue
-                   && project.ImplementationStartYear.HasValue;
-        }
-
         public static int GetCurrentRTPYearForPVCalculations()
         {
             var costParameterSet = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest();

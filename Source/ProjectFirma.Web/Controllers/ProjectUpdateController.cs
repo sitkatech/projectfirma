@@ -684,7 +684,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var viewModel = new ExpectedFundingViewModel(projectFundingSourceBudgetUpdates,
+            var viewModel = new ExpectedFundingViewModel(project, projectFundingSourceBudgetUpdates,
                 projectUpdateBatch.ExpectedFundingComment);
             return ViewExpectedFunding(projectUpdateBatch, viewModel);
         }
@@ -704,6 +704,16 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
+            if (project.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
+            {
+                ModelState.AddModelError("EstimatedTotalCost", "Since this budget varies by year, an Estimated Total Cost must be entered.");
+                return ViewExpectedFunding(projectUpdateBatch, viewModel);
+            }
+            if (project.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
+            {
+                ModelState.AddModelError("EstimatedAnnualOperatingCost", "Since this budget is the same each year, an Estimated Annual Operating Cost must be entered.");
+                return ViewExpectedFunding(projectUpdateBatch, viewModel);
+            }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgetUpdates.Local;
@@ -720,12 +730,14 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ProjectFundingSourceBudgets);
+            var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples);
             var estimatedTotalCost = projectUpdateBatch.ProjectUpdate.EstimatedTotalCost ?? 0;
+            var estimatedAnnualOperatingCost = projectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost ?? 0;
 
             var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
                 allFundingSources,
-                estimatedTotalCost);
+                estimatedTotalCost,
+                estimatedAnnualOperatingCost);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, projectUpdateBatch.Project, false, new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates));
 
             var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);

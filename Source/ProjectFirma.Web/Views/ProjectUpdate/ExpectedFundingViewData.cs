@@ -18,13 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectFunding;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -52,19 +51,22 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public class ViewDataForAngularClass
         {
-            public readonly List<FundingSourceSimple> AllFundingSources;
-            // Actually a ProjectUpdateBatchID
-            public readonly int ProjectID;
-            public readonly decimal EstimatedTotalCost;
+            public List<FundingSourceSimple> AllFundingSources { get; }
+            public int ProjectUpdateBatchID { get; }
+            public int FundingTypeID { get; }
+            public decimal EstimatedTotalCost { get; }
+            public decimal EstimatedAnnualOperatingCost { get; }
 
             public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
-                decimal estimatedTotalCost)
+                decimal estimatedTotalCost,
+                decimal estimatedAnnualOperatingCost)
             {
                 AllFundingSources = allFundingSources;
-                ProjectID = projectUpdateBatch.ProjectUpdateBatchID;
+                ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+                FundingTypeID = projectUpdateBatch.Project.FundingTypeID ?? 0;
                 EstimatedTotalCost = estimatedTotalCost;
-                
+                EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             }
         }
     }

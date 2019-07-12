@@ -74,7 +74,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 ProjectFundingSourceBudgets = projectFundingSourceBudgets
                     .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
             }
-
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
