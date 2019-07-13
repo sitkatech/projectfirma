@@ -75,7 +75,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
     }
     
-    $scope.findProjectFundingSourceBudgetRow = function(projectUpdateBatchID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectUpdateBatchID == projectUpdateBatchID && pfse.FundingSourceID == fundingSourceID; }); }
+    $scope.findProjectFundingSourceBudgetRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
 
     $scope.addRow = function()
     {
@@ -83,15 +83,15 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         {
             return;
         }
-        var newProjectFundingSourceBudget = $scope.createNewRow($scope.ProjectUpdateBatchIDToAdd, $scope.FundingSourceIDToAdd);
+        var newProjectFundingSourceBudget = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
         $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
         $scope.resetFundingSourceToAdd();
     };
 
-    $scope.createNewRow = function(projectUpdateBatchID, fundingSourceID)
+    $scope.createNewRow = function(projectID, fundingSourceID)
     {
         var newProjectFundingSourceBudget = {
-            ProjectUpdateBatchID: projectUpdateBatchID,
+            ProjectID: projectID,
             FundingSourceID: fundingSourceID,
             SecuredAmount: null,
             TargetedAmount: null
@@ -116,6 +116,6 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     }
 
     $scope.resetFundingSourceToAdd();
-    $scope.ProjectUpdateBatchIDToAdd = $scope.AngularViewData.ProjectUpdateBatchID;
+    $scope.ProjectIDToAdd = $scope.AngularViewData.ProjectID;
     $scope.setSelectedFundingTypeID();
 });
