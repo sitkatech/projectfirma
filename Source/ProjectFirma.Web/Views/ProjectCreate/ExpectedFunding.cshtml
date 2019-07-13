@@ -60,11 +60,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         class="selectpicker"
                         data-container="body"
                         data-width="100%">
-                    <option value="null" disabled selected></option>
                     <option ng-repeat="fundingType in fundingTypes()"
                             value="{{fundingType.Value}}"
                             ng-selected="selectedFundingTypeID == fundingType.Value"
-                            ng-bind="fundingType.Text"></option>
+                            ng-bind="fundingType.Text"
+                            ></option>
                 </select>
                 @Html.ValidationMessageFor(m => m.FundingTypeID)
             </div>
