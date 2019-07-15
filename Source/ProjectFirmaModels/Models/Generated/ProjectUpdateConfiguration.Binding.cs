@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectLocationSimpleTypeID).HasColumnName(@"ProjectLocationSimpleTypeID").HasColumnType("int").IsRequired();
             Property(x => x.EstimatedAnnualOperatingCost).HasColumnName(@"EstimatedAnnualOperatingCost").HasColumnType("decimal").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
+            Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID

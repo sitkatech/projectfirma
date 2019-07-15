@@ -312,6 +312,13 @@ namespace ProjectFirmaModels.Models
             return project.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.ImplementationStartYear.Value) : null;
         }
 
+        public static int? StartYearForTotalCostCalculations(this IProject project)
+        {
+            return project.ImplementationStartYear.HasValue && project.ImplementationStartYear < DateTime.Now.Year
+                ? DateTime.Now.Year
+                : project.ImplementationStartYear;
+        }
+
         public static List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices(Project project)
         {
             var sortOrder = 0;
@@ -413,6 +420,15 @@ namespace ProjectFirmaModels.Models
 
             var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
             return (project.CompletionYear.Value - startYearForRemaining + 1) * project.EstimatedAnnualOperatingCost.Value;
+        }
+
+        public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
+        {
+            return project.FundingType == FundingType.BudgetSameEachYear
+                   && project.EstimatedAnnualOperatingCost.HasValue
+                   && project.CompletionYear.HasValue
+                   && project.ImplementationStartYear.HasValue
+                   && project.ProjectStage.IsStageIncludedInCostCalculations();
         }
 
         public static bool IsEditableToThisPerson(this Project project, Person person)

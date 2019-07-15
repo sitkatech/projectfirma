@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int? primaryContactPersonID) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int? primaryContactPersonID, int? fundingTypeID) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -45,6 +45,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
             this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             this.PrimaryContactPersonID = primaryContactPersonID;
+            this.FundingTypeID = fundingTypeID;
         }
 
         /// <summary>
@@ -130,6 +131,7 @@ namespace ProjectFirmaModels.Models
         public int ProjectLocationSimpleTypeID { get; set; }
         public decimal? EstimatedAnnualOperatingCost { get; set; }
         public int? PrimaryContactPersonID { get; set; }
+        public int? FundingTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
@@ -138,6 +140,7 @@ namespace ProjectFirmaModels.Models
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
+        public FundingType FundingType { get { return FundingTypeID.HasValue ? FundingType.AllLookupDictionary[FundingTypeID.Value] : null; } }
 
         public static class FieldLengths
         {

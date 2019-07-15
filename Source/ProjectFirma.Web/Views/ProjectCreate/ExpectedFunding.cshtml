@@ -60,11 +60,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         class="selectpicker"
                         data-container="body"
                         data-width="100%">
-                    <option value="null" disabled selected></option>
                     <option ng-repeat="fundingType in fundingTypes()"
                             value="{{fundingType.Value}}"
                             ng-selected="selectedFundingTypeID == fundingType.Value"
-                            ng-bind="fundingType.Text"></option>
+                            ng-bind="fundingType.Text"
+                            ></option>
                 </select>
                 @Html.ValidationMessageFor(m => m.FundingTypeID)
             </div>
@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="form-group" ng-if="budgetVariesByYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Total Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()?
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedTotalCost)" ng-model="costs.estimatedTotalCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
@@ -82,7 +82,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group" ng-if="budgetSameEachYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()?
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedAnnualOperatingCost)" ng-model="costs.estimatedAnnualOperatingCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
@@ -201,7 +201,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType()):</div>
                     <div class="col-sm-3 text-right">
                         <span>
-                            {{ (AngularViewData.EstimatedTotalCost - getSecuredTotal() - getTargetedTotal()) | currency:"$"}}
+                            {{ (costs.estimatedTotalCost - getSecuredTotal() - getTargetedTotal()) | currency:"$"}}
                         </span>
                     </div>
                 </div>

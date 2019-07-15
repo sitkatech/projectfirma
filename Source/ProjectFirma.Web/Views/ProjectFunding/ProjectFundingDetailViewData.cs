@@ -46,19 +46,13 @@ namespace ProjectFirma.Web.Views.ProjectFunding
 
     public class ProjectFundingCalculatedCosts
     {
-        public decimal? CapitalCostInYearOfExpenditure { get; }
-        public string EditInflationUrl { get; }
-        public decimal InflationRate { get; }
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
+        public int? StartYearForTotalCostCalculation { get; }
 
         public ProjectFundingCalculatedCosts(ProjectFirmaModels.Models.Project project)
         {
-            CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(project);
-            EditInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
-            InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
             TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
-            StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
+            StartYearForTotalCostCalculation = project.StartYearForTotalCostCalculations();
         }
     }
 }
