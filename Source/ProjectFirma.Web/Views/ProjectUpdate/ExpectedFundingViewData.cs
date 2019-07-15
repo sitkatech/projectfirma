@@ -29,14 +29,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ExpectedFundingViewData : ProjectUpdateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
 
-        public readonly string RequestFundingSourceUrl;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        
+        public string RequestFundingSourceUrl { get; }
+        public ViewDataForAngularClass ViewDataForAngular { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public string FundingTypeDisplayName { get; }
+
         public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectFundingDetailViewData projectFundingDetailViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
@@ -47,6 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
             ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
+            FundingTypeDisplayName = projectUpdateBatch.ProjectUpdate.FundingType.FundingTypeDisplayName;
         }
 
         public class ViewDataForAngularClass
@@ -64,7 +66,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 AllFundingSources = allFundingSources;
                 ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
-                FundingTypeID = projectUpdateBatch.Project.FundingTypeID ?? 0;
+                FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingType.FundingTypeID;
                 EstimatedTotalCost = estimatedTotalCost;
                 EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             }

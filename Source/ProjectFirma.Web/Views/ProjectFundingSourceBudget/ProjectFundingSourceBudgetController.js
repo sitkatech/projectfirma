@@ -22,8 +22,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
 {
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;
-    $scope.FromProject = !$scope.FromFundingSource;
+    $scope.projectID = $scope.AngularViewData.ProjectID;
 
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
@@ -31,10 +30,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
 
     $scope.resetFundingSourceIDToAdd = function () { $scope.FundingSourceIDToAdd = ($scope.FromFundingSource) ? $scope.getFundingSource(angularModelAndViewData.AngularViewData.FundingSourceID).FundingSourceID : null; };
 
-    $scope.resetProjectIDToAdd = function () { $scope.ProjectIDToAdd = ($scope.FromProject) ? $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID).ProjectID : null; };
-
     $scope.setSelectedFundingTypeID = function() {
-        $scope.selectedFundingTypeID = $scope.AngularViewData.SelectedFundingTypeID;
+        $scope.selectedFundingTypeID = $scope.AngularModel.FundingTypeID;
     };
 
     $scope.getAllUsedFundingSourceIds = function () {
@@ -48,26 +45,6 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
         }).sortBy(function (fs) {
             return [fs.FundingSourceName.toLowerCase()];
         }).value();
-    };
-
-    $scope.getAllUsedProjectIDs = function () {
-        return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function (p) { return p.ProjectID; });
-    };
-
-    $scope.filteredProjects = function () {
-        var usedProjectIDs = $scope.getAllUsedProjectIDs();
-        return _($scope.AngularViewData.AllProjects).filter(function (f) { return !_.includes(usedProjectIDs, f.ProjectID); })
-            .sortBy(["DisplayName"]).value();
-    };
-
-    $scope.getProjectName = function (projectFundingSourceBudget)
-    {
-        var projectToFind = $scope.getProject(projectFundingSourceBudget.ProjectID);
-        return projectToFind.DisplayName;
-    };
-
-    $scope.getProject = function (projectID) {
-        return _.find($scope.AngularViewData.AllProjects, function (f) { return projectID == f.ProjectID; });
     };
 
     $scope.getFundingSourceName = function (projectFundingSourceBudget) {
@@ -97,25 +74,23 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
         return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
     }
     
-    $scope.findProjectFundingSourceBudgetRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
+    $scope.findProjectFundingSourceBudgetRow = function(fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == $scope.projectID && pfse.FundingSourceID == fundingSourceID; }); }
 
     $scope.addRow = function()
     {
-        if (($scope.FundingSourceIDToAdd == null) || ($scope.ProjectIDToAdd == null)) {
+        if ($scope.FundingSourceIDToAdd == null) {
             return;
         }
-        var newProjectFundingSourceBudget = $scope.createNewRow($scope.ProjectIDToAdd, $scope.FundingSourceIDToAdd);
+        var newProjectFundingSourceBudget = $scope.createNewRow($scope.FundingSourceIDToAdd);
         $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
         $scope.resetFundingSourceIDToAdd();
-        $scope.resetProjectIDToAdd();
     };
 
-    $scope.createNewRow = function (projectID, fundingSourceID)
+    $scope.createNewRow = function (fundingSourceID)
     {
-        var project = $scope.getProject(projectID);
         var fundingSource = $scope.getFundingSource(fundingSourceID);
         var newProjectFundingSourceBudget = {
-            ProjectID: project.ProjectID,
+            ProjectID: $scope.projectID,
             FundingSourceID: fundingSource.FundingSourceID,
             SecuredAmount: null,
             TargetedAmount: null
@@ -141,12 +116,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
         return selectedFundingTypeID === 2;
     }
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.FromFundingSource = angularModelAndViewData.AngularViewData.FromFundingSource;
-    $scope.FromProject = !$scope.FromFundingSource;
     $scope.resetFundingSourceIDToAdd();
-    $scope.resetProjectIDToAdd();
     $scope.setSelectedFundingTypeID();
 });
 
