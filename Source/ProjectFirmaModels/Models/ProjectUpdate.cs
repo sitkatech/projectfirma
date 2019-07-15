@@ -55,6 +55,7 @@ namespace ProjectFirmaModels.Models
             CompletionYear = project.CompletionYear;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            FundingTypeID = project.FundingTypeID;
         }
 
         public void LoadSimpleLocationFromProject(Project project)
@@ -74,6 +75,7 @@ namespace ProjectFirmaModels.Models
             project.EstimatedTotalCost = EstimatedTotalCost;
             project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.FundingTypeID = FundingTypeID;
         }
 
         public void CommitSimpleLocationToProject(Project project)
@@ -86,8 +88,6 @@ namespace ProjectFirmaModels.Models
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         public bool HasProjectLocationDetail => ProjectUpdateBatch.ProjectLocationUpdates.Any();
-
-        public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
         public IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes() => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
 
