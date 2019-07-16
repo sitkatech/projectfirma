@@ -30,46 +30,20 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
     public class EditProjectFundingSourceBudgetViewData : FirmaUserControlViewData
     {
-        public int SelectedFundingTypeID { get; }
         public IEnumerable<SelectListItem> FundingTypes { get; }
         public List<FundingSourceSimple> AllFundingSources { get; }
         public List<ProjectSimple> AllProjects { get; }
         public int? ProjectID { get; }
         public int? FundingSourceID { get; }
-        public bool FromFundingSource { get; }
 
-        public EditProjectFundingSourceBudgetViewData(ProjectSimple project, int? selectedFundingTypeID, 
+        public EditProjectFundingSourceBudgetViewData(ProjectSimple project, 
             IEnumerable<FundingType> fundingTypes,
             List<FundingSourceSimple> allFundingSources)
         {
-            SelectedFundingTypeID = selectedFundingTypeID ?? 0;
             AllProjects = new List<ProjectSimple> {project};
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             AllFundingSources = allFundingSources;
             ProjectID = project.ProjectID;
-            var displayMode = FundingSourceID.HasValue ? EditorDisplayMode.FromFundingSource : EditorDisplayMode.FromProject;
-            FromFundingSource = displayMode == EditorDisplayMode.FromFundingSource;
-        }
-
-//        public EditProjectFundingSourceBudgetViewData(ProjectSimple project,
-//            int selectedFundingTypeID,
-//            IEnumerable<FundingType> fundingTypes,
-//            List<FundingSourceSimple> allFundingSources)
-//            : this(selectedFundingTypeID, fundingTypes, new List <ProjectSimple> { project }, allFundingSources, project.ProjectID, null)
-//        {
-//        }
-
-//        public EditProjectFundingSourceBudgetViewData(FundingSourceSimple fundingSource,
-//            IEnumerable<FundingType> fundingTypes,
-//            List<ProjectSimple> allProjects)
-//            : this(fundingTypes, allProjects, new List<FundingSourceSimple> {fundingSource}, null, fundingSource.FundingSourceID)
-//        {
-//        }
-
-        public enum EditorDisplayMode
-        {
-            FromProject,
-            FromFundingSource
         }
     }
 }

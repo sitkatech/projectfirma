@@ -279,7 +279,6 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewBasics(ProjectUpdate projectUpdate, BasicsViewModel viewModel)
         {
             var basicsValidationResult = projectUpdate.ProjectUpdateBatch.ValidateProjectBasics();
-            var inflationRate = HttpRequestStorage.DatabaseEntities.CostParameterSets.Latest().InflationRate;
             var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch); // note, the way the diff for the basics section is built, it will actually "commit" the updated values to the project, so it needs to be done last, or we need to change the current approach
 
             var projectStages = projectUpdate.ProjectUpdateBatch.Project.ProjectStage.GetProjectStagesThatProjectCanUpdateTo();
@@ -288,7 +287,7 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeTypes,
                 new List<IProjectCustomAttribute>(projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.ToList()));
 
-            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, inflationRate, updateStatus, basicsValidationResult, projectCustomAttributeTypes, projectCustomAttributeTypesViewData);
+            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, updateStatus, basicsValidationResult, projectCustomAttributeTypes, projectCustomAttributeTypesViewData);
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
@@ -704,14 +703,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (project.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
             {
-                ModelState.AddModelError("EstimatedTotalCost", "Since this budget varies by year, an Estimated Total Cost must be entered.");
+                ModelState.AddModelError("EstimatedTotalCost", $"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().FieldDefinitionDisplayName} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (project.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
             {
-                ModelState.AddModelError("EstimatedAnnualOperatingCost", "Since this budget is the same each year, an Estimated Annual Operating Cost must be entered.");
+                ModelState.AddModelError("EstimatedAnnualOperatingCost", $"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().FieldDefinitionDisplayName} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
@@ -764,6 +763,10 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            // Need to revert project-level budget data too
+            projectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            projectUpdateBatch.ProjectUpdate.EstimatedTotalCost = project.EstimatedTotalCost;
+
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }

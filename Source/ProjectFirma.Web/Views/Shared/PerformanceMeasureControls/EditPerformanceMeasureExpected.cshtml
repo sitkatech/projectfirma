@@ -67,6 +67,19 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="validationError">
             @Html.ValidationSummary()
         </div>
+        @if (!ViewDataTyped.AllPerformanceMeasures.Any())
+        {
+            <div class="alert alert-danger" role="alert">
+                <p>
+                    <strong>Warning!</strong>
+                    There are no @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() configured.
+                    @if (!string.IsNullOrEmpty(ViewDataTyped.ConfigurePerformanceMeasuresUrl))
+                    {
+                        <span>You may configure @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() <a title="Configure @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()" href="@ViewDataTyped.ConfigurePerformanceMeasuresUrl" target="_blank">here</a>.</span>
+                    }
+                </p>
+            </div>
+        }
     </div>
 </div>
 <div class="row">

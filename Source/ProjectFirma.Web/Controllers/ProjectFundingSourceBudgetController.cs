@@ -71,9 +71,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectFundingSourceBudgets(Project project, EditProjectFundingSourceBudgetViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var selectedFundingTypeID = project.FundingTypeID ?? 0;
             var fundingTypes = FundingType.All.ToList();
-            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), selectedFundingTypeID, fundingTypes, allFundingSources);
+            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), fundingTypes, allFundingSources);
             return RazorPartialView<EditProjectFundingSourceBudget, EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>(viewData, viewModel);
         }
     }
