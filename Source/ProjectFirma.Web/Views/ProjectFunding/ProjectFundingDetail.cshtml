@@ -63,6 +63,11 @@
                 @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency()
             </div>
         </div>
+
+        if (!ViewDataTyped.FundingSourceRequestAmounts.Any())
+        {
+            <hr />
+        }
     }
     @* If the Budget is the Same Each Year *@
     else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
@@ -115,6 +120,11 @@
                 @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency() per year
             </div>
         </div>
+
+        if (!ViewDataTyped.FundingSourceRequestAmounts.Any())
+        {
+            <hr />
+        }
     }
 
 
@@ -152,7 +162,6 @@
     }
     else
     {
-        <hr/>
         <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
 </div>

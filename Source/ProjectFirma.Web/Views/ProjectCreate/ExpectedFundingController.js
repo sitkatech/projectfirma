@@ -38,7 +38,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     $scope.getAllUsedFundingSourceIds = function () { return _.map($scope.AngularModel.ProjectFundingSourceBudgets, function (p) { return p.FundingSourceID; }); };
 
     $scope.setSelectedFundingTypeID = function () {
-        $scope.selectedFundingTypeID = $scope.AngularViewData.SelectedFundingTypeID;
+        $scope.selectedFundingTypeID = $scope.AngularModel.FundingTypeID;
     };
 
     $scope.filteredFundingSources = function () {
