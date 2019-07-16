@@ -117,12 +117,11 @@
         </div>
     }
 
-    <hr />
 
     @* Funding Sources *@
     @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
     {
-        <div style="overflow-x: auto">
+        <div style="overflow-x: auto; margin-top: 40px;">
             <table class="table table-striped table-condensed table-hover">
                 <tr>
                     <th style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
@@ -153,6 +152,7 @@
     }
     else
     {
+        <hr/>
         <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
 </div>

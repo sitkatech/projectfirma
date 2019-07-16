@@ -703,14 +703,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (project.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
             {
-                ModelState.AddModelError("EstimatedTotalCost", "Since this budget varies by year, an Estimated Total Cost must be entered.");
+                ModelState.AddModelError("EstimatedTotalCost", $"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().FieldDefinitionDisplayName} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (project.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
             {
-                ModelState.AddModelError("EstimatedAnnualOperatingCost", "Since this budget is the same each year, an Estimated Annual Operating Cost must be entered.");
+                ModelState.AddModelError("EstimatedAnnualOperatingCost", $"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().FieldDefinitionDisplayName} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
@@ -763,6 +763,10 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            // Need to revert project-level budget data too
+            projectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            projectUpdateBatch.ProjectUpdate.EstimatedTotalCost = project.EstimatedTotalCost;
+
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
