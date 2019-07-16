@@ -20,7 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -31,6 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ProjectName { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForClassification { get; }
+        public string ConfigureClassificationSystemsUrl { get; }
 
         public EditProposalClassificationsViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems, string currentSectionDisplayName, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, currentSectionDisplayName, proposalSectionsStatus)
@@ -39,6 +43,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ClassificationSystems = classificationSystems;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForClassification = FieldDefinitionEnum.Classification.ToType();
+            if (new SitkaAdminFeature().HasPermissionByPerson(currentPerson))
+            {
+                ConfigureClassificationSystemsUrl = SitkaRoute<TenantController>.BuildUrlFromExpression(tc => tc.Detail());
+            }
         }
     }
 }
