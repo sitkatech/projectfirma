@@ -47,10 +47,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
+using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -683,7 +685,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var viewModel = new ExpectedFundingViewModel(project, projectFundingSourceBudgetUpdates,
+            var viewModel = new ExpectedFundingViewModel(projectUpdateBatch, projectFundingSourceBudgetUpdates,
                 projectUpdateBatch.ExpectedFundingComment);
             return ViewExpectedFunding(projectUpdateBatch, viewModel);
         }
@@ -703,14 +705,14 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear && viewModel.EstimatedTotalCost == null )
+            if (viewModel.ViewModelForAngular.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && viewModel.EstimatedTotalCost == null )
             {
-                ModelState.AddModelError("EstimatedTotalCost", $"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().FieldDefinitionDisplayName} must be entered.");
+                ModelState.AddModelError("EstimatedTotalCost", $"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
-            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetSameEachYear && viewModel.EstimatedAnnualOperatingCost == null)
+            if (viewModel.ViewModelForAngular.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && viewModel.EstimatedAnnualOperatingCost == null)
             {
-                ModelState.AddModelError("EstimatedAnnualOperatingCost", $"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().FieldDefinitionDisplayName} must be entered.");
+                ModelState.AddModelError("EstimatedAnnualOperatingCost", $"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()} must be entered.");
                 return ViewExpectedFunding(projectUpdateBatch, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
@@ -729,12 +731,14 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples);
             var estimatedTotalCost = projectUpdateBatch.ProjectUpdate.EstimatedTotalCost ?? 0;
             var estimatedAnnualOperatingCost = projectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost ?? 0;
 
             var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
                 allFundingSources,
+                fundingTypes,
                 estimatedTotalCost,
                 estimatedAnnualOperatingCost);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, projectUpdateBatch.Project, false, new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates));
@@ -775,7 +779,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewData =
                 new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the expected funding for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+                    $"Are you sure you want to refresh the budget for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

@@ -64,7 +64,7 @@ Source code is available upon request via <support@sitkatech.com>.
             {
                 <div class="form-group">
                     <label class="control-label">
-                        @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
+                        @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?") <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
                     </label>
                     <div class="input-group" style="text-align: right;">
                         <select ng-model="selectedFundingTypeID"
@@ -85,7 +85,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="form-group" ng-if="budgetVariesByYear()">
                     @* Estimated Total Cost *@
                     <label class="control-label">
-                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()?
+                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()? <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
                     </label>
                     <div class="input-group">
                         @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "pull-right" })
@@ -95,7 +95,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @* Estimated Annual Operating Cost *@
                 <div class="form-group" ng-if="budgetSameEachYear()">
                     <label class="control-label">
-                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()?
+                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()? <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
                     </label>
                     <div class="input-group">
                         @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)

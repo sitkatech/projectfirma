@@ -55,9 +55,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public decimal EstimatedAnnualOperatingCost { get; }
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
-            public int SelectedFundingTypeID { get; }
-
-
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
@@ -68,7 +65,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 EstimatedTotalCost = project.EstimatedTotalCost ?? 0;
                 EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost ?? 0;
                 FundingTypes = fundingTypes;
-                SelectedFundingTypeID = project.FundingTypeID ?? 0;
             }
         }
     }
