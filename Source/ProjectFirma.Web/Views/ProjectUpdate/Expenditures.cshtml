@@ -79,7 +79,7 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
                 @if (ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
                 {
                     <td>
-                        <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)
+                        <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.CompletionYear)
                     </td>
                 }
             </tr>

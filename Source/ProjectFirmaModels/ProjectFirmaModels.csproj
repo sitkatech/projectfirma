@@ -67,10 +67,6 @@
     <Compile Include="Models\Generated\ClassificationSystem.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ClassificationSystemConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ClassificationSystemPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\CostParameterSet.Binding.cs" />
-    <Compile Include="Models\Generated\CostParameterSet.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\CostParameterSetConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\CostParameterSetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostType.Binding.cs" />
     <Compile Include="Models\Generated\CostType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostTypeConfiguration.Binding.cs" />
@@ -551,8 +547,6 @@
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\ClassificationSystem.cs" />
     <Compile Include="Models\ClassificationSystemSimple.cs" />
-    <Compile Include="Models\CostParameterSet.cs" />
-    <Compile Include="Models\CostParameterSet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\County.cs" />
     <Compile Include="Models\CustomPage.cs" />
     <Compile Include="Models\CustomPageImage.cs" />
@@ -592,7 +586,6 @@
     <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
     <Compile Include="UnitTestCommon\TestClassification.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
-    <Compile Include="UnitTestCommon\TestCostParameterSet.cs" />
     <Compile Include="UnitTestCommon\TestFileResource.cs" />
     <Compile Include="UnitTestCommon\TestFramework.cs" />
     <Compile Include="UnitTestCommon\TestFundingSource.cs" />

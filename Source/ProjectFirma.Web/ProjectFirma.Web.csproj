@@ -68,7 +68,6 @@
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
-    <Compile Include="Models\CostParameterSetModelExtensions.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
@@ -860,7 +859,6 @@
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\AssessmentController.cs" />
-    <Compile Include="Controllers\CostParameterSetController.cs" />
     <Compile Include="Controllers\ClassificationController.cs" />
     <Compile Include="Models\AssessmentQuestionModelExtensions.cs" />
     <Compile Include="Models\AssessmentSubGoalModelExtensions.cs" />
@@ -1280,12 +1278,6 @@
     <Compile Include="Views\Assessment\ExcelSpec.cs" />
     <Compile Include="Views\Assessment\Manage.cs" />
     <Compile Include="Views\Assessment\ManageViewData.cs" />
-    <Compile Include="Views\CostParameterSet\New.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewData.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewModel.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewModelTest.cs" />
-    <Compile Include="Views\CostParameterSet\Detail.cs" />
-    <Compile Include="Views\CostParameterSet\DetailViewData.cs" />
     <Compile Include="Views\Tenant\DetailViewData.cs" />
     <Compile Include="Views\Tenant\EditBasics.cs" />
     <Compile Include="Views\Tenant\EditBoundingBox.cs" />
@@ -2998,8 +2990,6 @@
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Detail.cshtml" />
     <Content Include="Views\Assessment\Manage.cshtml" />
-    <Content Include="Views\CostParameterSet\New.cshtml" />
-    <Content Include="Views\CostParameterSet\Detail.cshtml" />
     <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />

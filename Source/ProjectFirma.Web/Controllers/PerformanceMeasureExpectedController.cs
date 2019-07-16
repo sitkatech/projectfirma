@@ -70,7 +70,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditPerformanceMeasureExpecteds(Project project, EditPerformanceMeasureExpectedViewModel viewModel)
         {
             var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList();
-            var viewData = new EditPerformanceMeasureExpectedViewData(project, performanceMeasures);
+            var configurePerformanceMeasuresUrl = string.Empty;
+            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            {
+                configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
+            }
+            var viewData = new EditPerformanceMeasureExpectedViewData(project, performanceMeasures, configurePerformanceMeasuresUrl);
             return RazorPartialView<EditPerformanceMeasureExpected, EditPerformanceMeasureExpectedViewData, EditPerformanceMeasureExpectedViewModel>(viewData, viewModel);
         }
     }

@@ -71,9 +71,14 @@ else if (ViewDataTyped.AreProjectBasicsValid)
     using (Html.BeginForm())
     {
         <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
+        
+        <div>
+            <strong>@ViewDataTyped.FundingTypeDescriptionHtmlString</strong>
+        </div>
+
         <div class="form-group" ng-if="budgetVariesByYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Total Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()?
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedTotalCost)" ng-model="costs.estimatedTotalCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
@@ -83,7 +88,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
         </div>
         <div class="form-group" ng-if="budgetSameEachYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()?
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedAnnualOperatingCost)" ng-model="costs.estimatedAnnualOperatingCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>

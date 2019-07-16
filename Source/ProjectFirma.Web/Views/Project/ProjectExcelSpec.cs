@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using ProjectFirma.Web.Common;
@@ -67,8 +68,9 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
             AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType.FundingTypeName);
             AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.EstimatedTotalCost);
+            AddColumn(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel(), x => x.EstimatedAnnualOperatingCost);
             AddColumn(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
-            AddColumn(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding());
+            AddColumn(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetTargetedFunding());
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
@@ -85,7 +87,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectOrganizationRelationship>
+    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<ProjectOrganizationRelationship>
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
@@ -158,7 +160,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectGeospatialAreaExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectGeospatialArea>
+    public class ProjectGeospatialAreaExcelSpec : ExcelWorksheetSpec<ProjectGeospatialArea>
     {
         public ProjectGeospatialAreaExcelSpec()
         {
@@ -171,7 +173,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectClassificationExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectClassification>
+    public class ProjectClassificationExcelSpec : ExcelWorksheetSpec<ProjectClassification>
     {
         public ProjectClassificationExcelSpec()
         {

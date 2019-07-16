@@ -80,7 +80,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
-            project.FundingTypeID = FundingTypeID;
+            if (FundingTypeID > 0)
+            {
+                project.FundingTypeID = FundingTypeID;
+            }
             project.EstimatedTotalCost = EstimatedTotalCost;
             project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
 

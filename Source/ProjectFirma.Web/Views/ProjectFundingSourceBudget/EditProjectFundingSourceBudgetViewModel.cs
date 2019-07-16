@@ -33,9 +33,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
     public class EditProjectFundingSourceBudgetViewModel : FormViewModel, IValidatableObject
     {
-        [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
-        [Required]
-        public int FundingTypeID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EstimatedTotalCost)]
         public Money? EstimatedTotalCost { get; set; }
@@ -56,23 +53,27 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public EditProjectFundingSourceBudgetViewModel(ProjectFirmaModels.Models.Project project, 
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
         {
-            FundingTypeID = project.FundingTypeID ?? 0;
+            var fundingTypeID = project.FundingTypeID ?? 0;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
-            ViewModelForAngular = new ViewModelForAngularEditor(projectFundingSourceBudgets);
+            ViewModelForAngular = new ViewModelForAngularEditor(fundingTypeID, projectFundingSourceBudgets);
 
         }
 
         public class ViewModelForAngularEditor
         {
+            [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
+            [Required]
+            public int FundingTypeID { get; set; }
             public List<ProjectFundingSourceBudgetSimple> ProjectFundingSourceBudgets { get; set; }
 
             public ViewModelForAngularEditor()
             {
             }
 
-            public ViewModelForAngularEditor(List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
+            public ViewModelForAngularEditor(int fundingTypeId, List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgets)
             {
+                FundingTypeID = fundingTypeId;
                 ProjectFundingSourceBudgets = projectFundingSourceBudgets
                     .Select(x => new ProjectFundingSourceBudgetSimple(x)).ToList();
             }
@@ -83,7 +84,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             List<ProjectFirmaModels.Models.ProjectFundingSourceBudget> currentProjectFundingSourceBudgets,
             IList<ProjectFirmaModels.Models.ProjectFundingSourceBudget> allProjectFundingSourceBudgets)
         {
-            project.FundingTypeID = FundingTypeID;
+            project.FundingTypeID = ViewModelForAngular.FundingTypeID;
             project.EstimatedTotalCost = EstimatedTotalCost;
             project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
 
@@ -110,18 +111,18 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         {
             var validationResults = new List<ValidationResult>();
 
-            if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && EstimatedTotalCost == null)
+            if (ViewModelForAngular.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && EstimatedTotalCost == null)
             {
-                validationResults.Add(new ValidationResult("Since this budget varies by year, an Estimated Total Cost must be entered."));
+                validationResults.Add(new ValidationResult($"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().FieldDefinitionDisplayName} must be entered."));
             }
 
-            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && EstimatedAnnualOperatingCost == null)
+            if (ViewModelForAngular.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && EstimatedAnnualOperatingCost == null)
             {
-                validationResults.Add(new ValidationResult("Since this budget is the same each year, an Estimated Annual Operating Cost must be entered."));
+                validationResults.Add(new ValidationResult($"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().FieldDefinitionDisplayName} must be entered."));
             }
 
             // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
-            ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>());
+            ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(0, new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>());
 
             if (ViewModelForAngular.ProjectFundingSourceBudgets == null)
             {

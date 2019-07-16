@@ -44,6 +44,11 @@ Source code is available upon request via <support@sitkatech.com>.
     // ]]>
 
 </script>
+<style>
+    #EstimatedAnnualOperatingCost, #EstimatedTotalCost {
+        text-align: right;
+    }
+</style>
 
 <div class="row">
     <div class="col-xs-12">
@@ -61,68 +66,42 @@ Source code is available upon request via <support@sitkatech.com>.
                     <label class="control-label">
                         @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
                     </label>
-                    <div class="input-group">
+                    <div class="input-group" style="text-align: right;">
                         <select ng-model="selectedFundingTypeID"
                                 class="selectpicker"
                                 data-container="body"
                                 data-width="100%">
-                            <option value="null" disabled selected></option>
+                            @* <option value="null" disabled selected></option> *@
                             <option ng-repeat="fundingType in fundingTypes()"
                                     value="{{fundingType.Value}}"
                                     ng-selected="selectedFundingTypeID == fundingType.Value"
                                     ng-bind="fundingType.Text">
                             </option>
                         </select>
-                        @Html.ValidationMessageFor(m => m.FundingTypeID)
+                        @Html.ValidationMessageFor(m => m.ViewModelForAngular.FundingTypeID)
                     </div>
                 </div>
 
                 <div class="form-group" ng-if="budgetVariesByYear()">
+                    @* Estimated Total Cost *@
                     <label class="control-label">
-                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Total Cost?
+                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()?
                     </label>
                     <div class="input-group">
-                        @Html.EditorFor(m => m.EstimatedTotalCost)
+                        @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "pull-right" })
                         @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
                     </div>
                 </div>
+                @* Estimated Annual Operating Cost *@
                 <div class="form-group" ng-if="budgetSameEachYear()">
                     <label class="control-label">
-                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
+                        What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()?
                     </label>
                     <div class="input-group">
                         @Html.EditorFor(m => m.EstimatedAnnualOperatingCost)
                         @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
                     </div>
                 </div>
-                if (ViewDataTyped.FromFundingSource)
-                {
-                    <div class="form-group">
-                        <label class="control-label">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add:</label>
-                        <div class="input-group">
-                            <select ng-model="ProjectIDToAdd"
-                                    class="selectpicker"
-                                    data-live-search="true"
-                                    data-container="body"
-                                    title="Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() to Add"
-                                    data-width="100%">
-                                <option value="null" disabled selected></option>
-                                <option ng-repeat="project in filteredProjects()"
-                                        value="{{project.ProjectID}}"
-                                        ng-selected="ProjectIDToAdd == project.ProjectID"
-                                        ng-bind="project.DisplayName"
-                                        data-tokens="{{project.DisplayName}}"></option>
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-firma" type="button" ng-click="addRow()">
-                                    <span class="glyphicon glyphicon-plus"></span> Add
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                }
-                else
-                {
                     <div class="form-group">
                         <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
                         <div class="input-group">
@@ -137,7 +116,8 @@ Source code is available upon request via <support@sitkatech.com>.
                                         value="{{fundingSource.FundingSourceID}}"
                                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
                                         ng-bind="fundingSource.DisplayName"
-                                        data-tokens=" {{fundingSource.DisplayName}}  {{fundingSource.OrganizationFullName}} "></option>
+                                        data-tokens=" {{fundingSource.DisplayName}}  {{fundingSource.OrganizationFullName}} "
+                                        ></option>
                             </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-firma" type="button" ng-click="addRow()">
@@ -147,7 +127,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                         <br/>
                     </div>
-                }
+                
                 <table class="dialogFormLayout" style="margin-top: 20px; table-layout: fixed" ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">
                     <colgroup>
                         <col class="col-xs-1"/>
@@ -159,7 +139,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tbody>
                     <tr>
                         <th></th>
-                        <th style="white-space: nowrap">@Html.Raw(ViewDataTyped.FromFundingSource ? Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType()) : Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
+                        <th style="white-space: nowrap">@Html.Raw(Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
                         <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
                         <th style="text-align: right; padding-right: 17px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
                         <th style="text-align: right;">Total</th>
@@ -167,7 +147,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <tr ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName, getProjectName]" style="padding-bottom: 2px;">
                         <td>
                             <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceBudget)" style="cursor: pointer"></span></td>
-                        <td ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceBudget)" : "getFundingSourceName(projectFundingSourceBudget)")">
+                        <td ng-bind="@("getFundingSourceName(projectFundingSourceBudget)")">
                         <td style="text-align: right; padding-right: 17px;">
                             <input style="float: right; text-align: right" type="text" ng-model="projectFundingSourceBudget.SecuredAmount" class="sitkaCurrency form-control" ng-currency/>
                         </td>
@@ -193,7 +173,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     </tbody>
                 </table>
 
-                <input type="hidden" name="@Html.NameFor(x => x.FundingTypeID)" value="{{selectedFundingTypeID}}"/>
+                <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.FundingTypeID)" value="{{selectedFundingTypeID}}"/>
                 <div ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName, getProjectName]">
                     <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectID}}"/>
                     <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.FundingSourceID}}"/>

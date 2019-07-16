@@ -24,19 +24,22 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Web;
+using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ExpectedFundingViewData : ProjectUpdateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
 
-        public readonly string RequestFundingSourceUrl;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        
+        public string RequestFundingSourceUrl { get; }
+        public ViewDataForAngularClass ViewDataForAngular { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public HtmlString FundingTypeDescriptionHtmlString { get; }
+
         public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectFundingDetailViewData projectFundingDetailViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
@@ -47,6 +50,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
             ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            FundingTypeDescriptionHtmlString = projectUpdateBatch.ProjectUpdate.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID ? 
+                $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s budget varies by year or it's a one-year project. If this is incorrect, <a href='mailto:{tenantAttribute.PrimaryContactPerson.Email}'>contact support</a>.".ToHTMLFormattedString() 
+                : $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s budget is the same each year. If this is incorrect, <a href='mailto:{tenantAttribute.PrimaryContactPerson.Email}'>contact support</a>.".ToHTMLFormattedString();
         }
 
         public class ViewDataForAngularClass
@@ -64,7 +71,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 AllFundingSources = allFundingSources;
                 ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
-                FundingTypeID = projectUpdateBatch.Project.FundingTypeID ?? 0;
+                FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingType.FundingTypeID;
                 EstimatedTotalCost = estimatedTotalCost;
                 EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             }
