@@ -768,6 +768,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Need to revert project-level budget data too
+            projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
             projectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
             projectUpdateBatch.ProjectUpdate.EstimatedTotalCost = project.EstimatedTotalCost;
 
