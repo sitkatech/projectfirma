@@ -19,9 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Linq;
 using ProjectFirmaModels.Models;
+using System;
 
 namespace ProjectFirmaModels.UnitTestCommon
 {
@@ -34,14 +33,12 @@ namespace ProjectFirmaModels.UnitTestCommon
                 var taxonomyLeaf = TestFramework.TestTaxonomyLeaf.Create();
                 var projectStage = ProjectStage.PlanningDesign;
 
-                var capitalFundingType = HttpRequestStorageForTest.DatabaseEntities.FundingTypes.Single(ft =>ft.FundingTypeID == (int) FundingTypeEnum.Capital);
-
                 string testProjectName = $"Test Project Name {Guid.NewGuid()}";
                 string testProjectDescription = $"Test Project Description {Guid.NewGuid()}";
                 const bool isFeatured = false;
                 // Using object rather than ID based constructors. Failure to do this will result in a half-baked object later, where IDs work, but not Object accessors interior to the
                 // Project.
-                var project = new Project(taxonomyLeaf, projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, capitalFundingType, ProjectApprovalStatus.Approved);
+                var project = new Project(taxonomyLeaf, projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, ProjectApprovalStatus.Approved);
 
                 return project;
             }

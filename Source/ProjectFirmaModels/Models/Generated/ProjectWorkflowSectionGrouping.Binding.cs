@@ -21,7 +21,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectWorkflowSectionGroupingOverview Overview = ProjectWorkflowSectionGroupingOverview.Instance;
         public static readonly ProjectWorkflowSectionGroupingSpatialInformation SpatialInformation = ProjectWorkflowSectionGroupingSpatialInformation.Instance;
         public static readonly ProjectWorkflowSectionGroupingAccomplishments Accomplishments = ProjectWorkflowSectionGroupingAccomplishments.Instance;
-        public static readonly ProjectWorkflowSectionGroupingExpenditures Expenditures = ProjectWorkflowSectionGroupingExpenditures.Instance;
+        public static readonly ProjectWorkflowSectionGroupingFinancials Financials = ProjectWorkflowSectionGroupingFinancials.Instance;
         public static readonly ProjectWorkflowSectionGroupingAdditionalData AdditionalData = ProjectWorkflowSectionGroupingAdditionalData.Instance;
 
         public static readonly List<ProjectWorkflowSectionGrouping> All;
@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectWorkflowSectionGrouping()
         {
-            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, Accomplishments, Expenditures, AdditionalData };
+            All = new List<ProjectWorkflowSectionGrouping> { Overview, SpatialInformation, Accomplishments, Financials, AdditionalData };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectWorkflowSectionGrouping>(All.ToDictionary(x => x.ProjectWorkflowSectionGroupingID));
         }
 
@@ -109,8 +109,8 @@ namespace ProjectFirmaModels.Models
                     return Accomplishments;
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     return AdditionalData;
-                case ProjectWorkflowSectionGroupingEnum.Expenditures:
-                    return Expenditures;
+                case ProjectWorkflowSectionGroupingEnum.Financials:
+                    return Financials;
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     return Overview;
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
@@ -126,7 +126,7 @@ namespace ProjectFirmaModels.Models
         Overview = 1,
         SpatialInformation = 2,
         Accomplishments = 3,
-        Expenditures = 4,
+        Financials = 4,
         AdditionalData = 5
     }
 
@@ -148,10 +148,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectWorkflowSectionGroupingAccomplishments Instance = new ProjectWorkflowSectionGroupingAccomplishments(3, @"Accomplishments", @"Accomplishments", 30);
     }
 
-    public partial class ProjectWorkflowSectionGroupingExpenditures : ProjectWorkflowSectionGrouping
+    public partial class ProjectWorkflowSectionGroupingFinancials : ProjectWorkflowSectionGrouping
     {
-        private ProjectWorkflowSectionGroupingExpenditures(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
-        public static readonly ProjectWorkflowSectionGroupingExpenditures Instance = new ProjectWorkflowSectionGroupingExpenditures(4, @"Expenditures", @"Expenditures", 40);
+        private ProjectWorkflowSectionGroupingFinancials(int projectWorkflowSectionGroupingID, string projectWorkflowSectionGroupingName, string projectWorkflowSectionGroupingDisplayName, int sortOrder) : base(projectWorkflowSectionGroupingID, projectWorkflowSectionGroupingName, projectWorkflowSectionGroupingDisplayName, sortOrder) {}
+        public static readonly ProjectWorkflowSectionGroupingFinancials Instance = new ProjectWorkflowSectionGroupingFinancials(4, @"Financials", @"Financials", 40);
     }
 
     public partial class ProjectWorkflowSectionGroupingAdditionalData : ProjectWorkflowSectionGrouping

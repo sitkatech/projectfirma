@@ -18,43 +18,53 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectFunding;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpectedFundingViewData : ProjectCreateViewData
     {
-        public readonly string RequestFundingSourceUrl;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
+        public string RequestFundingSourceUrl { get; }
+        public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
+
+        public ViewDataForAngularClass ViewDataForAngular { get; }
 
         public ExpectedFundingViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
-            ViewDataForAngularClass viewDataForAngularClass) : base(currentPerson, project, ProjectCreateSection.ExpectedFunding.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ViewDataForAngularClass viewDataForAngularClass
+            ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            ViewDataForAngular = viewDataForAngularClass;
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
+            ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
+            ViewDataForAngular = viewDataForAngularClass;
         }
 
         public class ViewDataForAngularClass
         {
-            public readonly List<FundingSourceSimple> AllFundingSources;
+            public List<FundingSourceSimple> AllFundingSources { get; }
             // Actually a ProjectID
-            public readonly int ProjectID;
-            public readonly decimal EstimatedTotalCost;
+            public int ProjectID { get; }
+            public decimal EstimatedTotalCost { get; }
+            public decimal EstimatedAnnualOperatingCost { get; }
 
-            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project projectProposedBatch,
+            public IEnumerable<SelectListItem> FundingTypes { get; }
+
+            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                decimal estimatedTotalCost)
+                IEnumerable<SelectListItem> fundingTypes)
             {
                 AllFundingSources = allFundingSources;
-                ProjectID = projectProposedBatch.ProjectID;
-                EstimatedTotalCost = estimatedTotalCost;
+                ProjectID = project.ProjectID;
+                EstimatedTotalCost = project.EstimatedTotalCost ?? 0;
+                EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost ?? 0;
+                FundingTypes = fundingTypes;
             }
         }
     }

@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return projectUpdateBatch.AreReportedPerformanceMeasuresValid();
-                case ProjectUpdateSectionEnum.ExpectedFunding:
+                case ProjectUpdateSectionEnum.Budget:
                     return true;
                 case ProjectUpdateSectionEnum.Expenditures:
                     return projectUpdateBatch.AreExpendituresValid();
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project));
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReportedPerformanceMeasures(project));
-                case ProjectUpdateSectionEnum.ExpectedFunding:
+                case ProjectUpdateSectionEnum.Budget:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project));
                 case ProjectUpdateSectionEnum.Expenditures:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));

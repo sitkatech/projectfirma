@@ -42,11 +42,13 @@ angular.module("ProjectFirmaApp").controller("TechnicalAssistanceRequestsControl
         return _(years.reverse()).value();
     }
 
-    $scope.getAddableFiscalYearStrings = function () {
+    function filterYears(year) {
         var yearsInUse = $scope.getReportedYears();
-        return _.filter($scope.fiscalYearStrings, function (fys) {
-            return !yearsInUse.includes(fys.CalendarYear);
-        });
+        return yearsInUse.indexOf(year.CalendarYear) < 0;  // IE doesn't support Array.includes()
+    }
+
+    $scope.getAddableFiscalYearStrings = function () {
+        return $scope.fiscalYearStrings.filter(filterYears); // Calls filterYears for each fiscalYearString
     }
 
     $scope.getGroupedTechnicalAssistanceRequests = function (fiscalYear) {

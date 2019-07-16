@@ -34,23 +34,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
     <script type="text/javascript">
         // <![CDATA[
-        function displaySelectedFundingTypeFields() {
-            var fundingTypeDropdown = jQuery("#@Html.IdFor(x => x.FundingTypeID)");
-            if (fundingTypeDropdown.val() === "1") {
-                jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', false);
-                jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', true);
-                jQuery(".op-label").css("color", "#666");
-                jQuery(".cap-label").css("color", "");
-            } else if (fundingTypeDropdown.val() === "2") {
-                jQuery("#@Html.IdFor(x => x.EstimatedTotalCost)").prop('disabled', true);
-                jQuery("#@Html.IdFor(x => x.EstimatedAnnualOperatingCost)").prop('disabled', false);
-                jQuery(".op-label").css("color", "");
-                jQuery(".cap-label").css("color", "#666");
-            }
-        }
-
         jQuery(document).ready(function() {
-            displaySelectedFundingTypeFields();
             HookupCheckIfFormIsDirty(undefined, ".submitProject");
 
             // Bypass the "Could not parse a blank value" error
@@ -134,7 +118,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
     {
         <div class="form-group">
-            <div class="col-xs-12 col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, false)</div>
+            <div class="col-xs-12 col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, true)</div>
             <div class="col-xs-12 col-sm-8">
                 <div class="input-group" style="margin-bottom: 1em;">
                     <select class="selectpicker" id="secondaryProjectTaxonomyLeafSelectionDropdown" data-live-search="true" data-live-search-placeholder="Search">
@@ -208,33 +192,6 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         @Html.HiddenFor(m => m.ProjectStageID)
     }
-    <div class="form-group">
-        <div class="col-xs-12 col-sm-4 control-label">
-            @Html.LabelWithSugarFor(m => m.FundingTypeID)
-        </div>
-        <div class="col-xs-12 col-sm-8">
-            @Html.DropDownListFor(m => m.FundingTypeID, ViewDataTyped.FundingTypes, new { onchange = "displaySelectedFundingTypeFields()", @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.FundingTypeID)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-12 col-sm-4 control-label">
-            @Html.LabelWithSugarFor(m => m.EstimatedTotalCost)
-        </div>
-        <div class="col-xs-12 col-sm-8">
-            @Html.EditorFor(m => m.EstimatedTotalCost, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-xs-12 col-sm-4 control-label">
-            @Html.LabelWithSugarFor(m => m.EstimatedAnnualOperatingCost)
-        </div>
-        <div class="col-xs-12 col-sm-8">
-            @Html.EditorFor(m => m.EstimatedAnnualOperatingCost, new { @class = "form-control", style = "width: auto;" })
-            @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-        </div>
-    </div>
     <div class="form-group">
         <div class="col-xs-12 col-sm-4 control-label">
             @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)

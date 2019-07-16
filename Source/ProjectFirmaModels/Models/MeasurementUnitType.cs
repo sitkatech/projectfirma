@@ -28,7 +28,8 @@ namespace ProjectFirmaModels.Models
         public virtual string DisplayValue(double? reportedValue)
         {
             var stringPrecision = new string('0', NumberOfSignificantDigits);
-            return reportedValue.HasValue ? $"{reportedValue.Value.ToString($"#,###,###,##0.{stringPrecision}")} {LegendDisplayName}"
+            var unitDisplayName = MeasurementUnitTypeID == (int)MeasurementUnitTypeEnum.Number ? "" : LegendDisplayName;
+            return reportedValue.HasValue ? $"{reportedValue.Value.ToString($"#,###,###,##0.{stringPrecision}")} {unitDisplayName}"
                 : ViewUtilities.NotAvailableString;
         }
     }

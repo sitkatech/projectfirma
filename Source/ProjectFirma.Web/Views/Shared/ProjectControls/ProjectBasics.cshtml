@@ -61,8 +61,8 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="row">
             <div class="col-xs-12">
                 <label>
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.TaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                    Secondary @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                    @FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
                 </label>
             </div>
         </div>
@@ -96,73 +96,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    <hr />
-
-    @if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.Capital)
-    {
-        <div class="row">
-            <div class="col-xs-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</div>
-            <div class="col-xs-6">
-                @ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
-            </div>
-            <div class="col-xs-6">
-                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
-            </div>
-            <div class="row">
-            </div>
-            <div class="col-xs-6">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.UnfundedNeed.ToType())
-            </div>
-            <div class="col-xs-6">
-                @ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()
-            </div>
-        </div>
-    }
-    else if (ViewDataTyped.Project.FundingTypeID == (int)FundingTypeEnum.OperationsAndMaintenance)
-    {
-        <div class="row">
-            <div class="col-xs-6">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
-            </div>
-            <div class="col-xs-6">
-                @ViewDataTyped.Project.EstimatedAnnualOperatingCost.ToStringCurrency()
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
-            </div>
-            @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
-            {
-                <div class="col-xs-6">
-                    <span>@ViewDataTyped.ProjectBasicsCalculatedCosts.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
-                    @if (ViewDataTyped.UserHasProjectBudgetManagePermissions)
-                    {
-                        <span>(For years @ViewDataTyped.ProjectBasicsCalculatedCosts.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using <a href="@ViewDataTyped.ProjectBasicsCalculatedCosts.EditInflationUrl">@ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation</a>)</span>
-                    }
-                    else
-                    {
-                        <span>(For years @ViewDataTyped.ProjectBasicsCalculatedCosts.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using @ViewDataTyped.ProjectBasicsCalculatedCosts.InflationRate.ToStringPercent() annual inflation)</span>
-                    }
-                </div>
-            }
-        </div>
-    }
-    <div class="row">
-        <div class="col-xs-6">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingType.ToType())
-        </div>
-        <div class="col-xs-6">
-            @ViewDataTyped.Project.FundingType.GetFundingTypeDisplayName()
-        </div>
-    </div>
-
-    <hr />
+     <hr />
 
     <div class="row">
         <div class="col-xs-6">

@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
 
         public abstract bool RequiresReportedExpenditures();
         public abstract bool RequiresPerformanceMeasureActuals();
-        public abstract bool IsStagedIncludedInTransporationCostCalculations();
+        public abstract bool IsStageIncludedInCostCalculations();
         public abstract bool ShouldShowOnMap();
 
         public abstract IEnumerable<ProjectStage> GetProjectStagesThatProjectCanUpdateTo();
@@ -71,7 +71,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return true;
         }
@@ -110,7 +110,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return true;
         }
@@ -151,7 +151,7 @@ namespace ProjectFirmaModels.Models
             return true;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return true;
         }
@@ -189,7 +189,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return false;
         }
@@ -228,7 +228,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return false;
         }
@@ -266,7 +266,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return true;
         }
@@ -304,7 +304,7 @@ namespace ProjectFirmaModels.Models
             return false;
         }
 
-        public override bool IsStagedIncludedInTransporationCostCalculations()
+        public override bool IsStageIncludedInCostCalculations()
         {
             return false;
         }

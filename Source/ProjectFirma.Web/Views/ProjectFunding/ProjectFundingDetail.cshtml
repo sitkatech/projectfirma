@@ -23,34 +23,138 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectFunding.ProjectFundingDetail
-<div class="table-responsive">
+<div class="table-responsive" style="overflow-x: hidden">
+    @* Funding Basics *@
 
+    @* If the Budget Changes per year *@
+    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+    {
+        @* Estimated Total Cost *@
+        <div class="row">
+            <div class="col-xs-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetEstimatedTotalCost().ToStringCurrency()
+            </div>
+        </div>
+        @* Secured Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
+            </div>
+        </div>
+        @* Targeted Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency()
+            </div>
+        </div>
+        @* No Funding Source Identified *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency()
+            </div>
+        </div>
+
+        if (!ViewDataTyped.FundingSourceRequestAmounts.Any())
+        {
+            <hr />
+        }
+    }
+    @* If the Budget is the Same Each Year *@
+    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+    {
+        @* Estimated Annual Cost *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetEstimatedAnnualOperatingCost().ToStringCurrency()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
+            </div>
+            @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
+            {
+                <div class="col-xs-9">
+                    <span>@ViewDataTyped.ProjectFundingCalculatedCosts.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
+                    <span>(For years @ViewDataTyped.ProjectFundingCalculatedCosts.StartYearForTotalCostCalculation-@ViewDataTyped.Project.CompletionYear)</span>
+                </div>
+            }
+        </div>
+        @* Secured Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency() per year
+            </div>
+        </div>
+        @* Targeted Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() per year
+            </div>
+        </div>
+        @* No Funding Source Identified *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency() per year
+            </div>
+        </div>
+
+        if (!ViewDataTyped.FundingSourceRequestAmounts.Any())
+        {
+            <hr />
+        }
+    }
+
+
+    @* Funding Sources *@
     @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
     {
-        <div style="overflow-x: auto">
+        <div style="overflow-x: auto; margin-top: 40px;">
             <table class="table table-striped table-condensed table-hover">
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
-                    <th class="text-right">Total</th>
+                    <th style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th class="text-right">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
                 </tr>
-                @foreach (var projectFundingSourceRequest in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))
+                @foreach (var projectFundingSourceBudget in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.GetDisplayName()))
                 {
                     <tr>
-                        <td>@Html.Raw(projectFundingSourceRequest.FundingSource.GetDisplayNameAsUrl())</td>
-                        <th class="text-right">@projectFundingSourceRequest.SecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@projectFundingSourceRequest.UnsecuredAmount.ToStringCurrency()</th>
-                        <th class="text-right">@((projectFundingSourceRequest.UnsecuredAmount + projectFundingSourceRequest.SecuredAmount).ToStringCurrency())</th>
+                        <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
+                        <th class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</th>
+                        <th class="text-right">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</th>
+                        <th class="text-right">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
                     </tr>
                 }
                 @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
                 {
                     <tr>
-                        <th>Total</th>
+                        <th>Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
                         <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</th>
-                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToStringCurrency()</th>
-                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToStringCurrency()</th>
+                        <th class="text-right">@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount).ToStringCurrency()</th>
+                        <th class="text-right">@((ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount) + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount)).ToStringCurrency())</th>
                     </tr>
                 }
             </table>
@@ -58,6 +162,6 @@
     }
     else
     {
-        <p class="systemText">No funding sources identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+        <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
 </div>

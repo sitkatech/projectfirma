@@ -65,8 +65,6 @@
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
-    <Compile Include="Models\CostParameterSetModelExtensions.cs" />
-    <Compile Include="Models\CostTest.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
@@ -79,7 +77,6 @@
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
-    <Compile Include="Models\FundingTypeModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
@@ -116,7 +113,7 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
-    <Compile Include="Models\ProjectFundingSourceRequestUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceBudgetUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
     <Compile Include="Models\ProjectImageUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectInternalNoteModelExtensions.cs" />
@@ -361,7 +358,7 @@
     <Compile Include="Common\RouteTableBuilderTest.cs" />
     <Compile Include="Common\SitkaLinkBuilder.cs" />
     <Compile Include="Common\SitkaRouteTableEntry.cs" />
-    <Compile Include="Controllers\ProjectFundingSourceRequestController.cs" />
+    <Compile Include="Controllers\ProjectFundingSourceBudgetController.cs" />
     <Compile Include="Controllers\GoogleChartController.cs" />
     <Compile Include="Models\HslColor.cs" />
     <Compile Include="Security\FirmaFeatureForProject.cs" />
@@ -371,7 +368,7 @@
     <Compile Include="Security\ProjectApproveFeature.cs" />
     <Compile Include="Security\ProjectDeleteProposalFeature.cs" />
     <Compile Include="Security\ProjectUpdateAdminFeatureWithProjectContext.cs" />
-    <Compile Include="Views\FundingSource\ProjectFundingSourceRequestsGridSpec.cs" />
+    <Compile Include="Views\FundingSource\ProjectFundingSourceBudgetGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\DownloadChartDataViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\GoogleChartExcelSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureChartExcelSpec.cs" />
@@ -394,9 +391,9 @@
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCreateHelper.cs" />
-    <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cs" />
-    <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewData.cs" />
-    <Compile Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequestsViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetViewData.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetViewModel.cs" />
     <Compile Include="Views\ProjectStewardOrganization\Index.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexGridSpec.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexViewData.cs" />
@@ -413,7 +410,7 @@
     <Compile Include="Views\ProjectUpdate\GeospatialArea.cs" />
     <Compile Include="Views\Project\ForwardLookingFactSheet.cs" />
     <Compile Include="Views\Project\ForwardLookingFactSheetViewData.cs" />
-    <Compile Include="Views\Project\FundingSourceRequestAmount.cs" />
+    <Compile Include="Views\Project\FundingSourceBudgetAmount.cs" />
     <Compile Include="Views\Organization\ProjectFundingSourceExpendituresForOrganizationGridSpec.cs" />
     <Compile Include="Views\Project\PendingGridSpec.cs" />
     <Compile Include="Views\Project\Pending.cs" />
@@ -835,7 +832,6 @@
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Controllers\AssessmentController.cs" />
-    <Compile Include="Controllers\CostParameterSetController.cs" />
     <Compile Include="Controllers\ClassificationController.cs" />
     <Compile Include="Models\AssessmentQuestionModelExtensions.cs" />
     <Compile Include="Models\AssessmentSubGoalModelExtensions.cs" />
@@ -1255,12 +1251,6 @@
     <Compile Include="Views\Assessment\ExcelSpec.cs" />
     <Compile Include="Views\Assessment\Manage.cs" />
     <Compile Include="Views\Assessment\ManageViewData.cs" />
-    <Compile Include="Views\CostParameterSet\New.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewData.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewModel.cs" />
-    <Compile Include="Views\CostParameterSet\NewViewModelTest.cs" />
-    <Compile Include="Views\CostParameterSet\Detail.cs" />
-    <Compile Include="Views\CostParameterSet\DetailViewData.cs" />
     <Compile Include="Views\Tenant\DetailViewData.cs" />
     <Compile Include="Views\Tenant\EditBasics.cs" />
     <Compile Include="Views\Tenant\EditBoundingBox.cs" />
@@ -1317,7 +1307,7 @@
     <Content Include="Views\ProjectCreate\ExpectedFundingController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
-    <Content Include="Views\ProjectFundingSourceRequest\ProjectFundingSourceRequestController.js" />
+    <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetController.js" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
@@ -1336,7 +1326,7 @@
     <Compile Include="Views\ProjectUpdate\GeospatialAreaValidationResult.cs" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
-    <Content Include="Views\ProjectFundingSourceRequest\EditProjectFundingSourceRequests.cshtml" />
+    <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
@@ -1370,6 +1360,7 @@
     <Content Include="Views\ProjectCustomAttributeType\Manage.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
+    <Content Include="Views\Tenant\EditBudgetTypeController.js" />
     <Content Include="Views\Tenant\EditStylesheet.cshtml" />
     <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
@@ -2971,8 +2962,6 @@
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Detail.cshtml" />
     <Content Include="Views\Assessment\Manage.cshtml" />
-    <Content Include="Views\CostParameterSet\New.cshtml" />
-    <Content Include="Views\CostParameterSet\Detail.cshtml" />
     <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />

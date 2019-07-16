@@ -19,18 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -46,17 +44,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public ProjectFirmaModels.Models.ProjectUpdate ProjectUpdate { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
-
-        public decimal InflationRate { get; }
-        public decimal? CapitalCostInYearOfExpenditure { get; }
-        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
+        public int? StartYearForTotalCostCalculation { get; }
         public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; }
 
 
         public BasicsViewData(Person currentPerson, ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
-            IEnumerable<ProjectStage> projectStages, decimal inflationRate, ProjectUpdateStatus projectUpdateStatus,
+            IEnumerable<ProjectStage> projectStages, ProjectUpdateStatus projectUpdateStatus,
             BasicsValidationResult basicsValidationResult,
             IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
             : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
@@ -70,11 +64,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshBasics(Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned());
-                        
-            InflationRate = inflationRate;
-            CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(projectUpdate);
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(projectUpdate);
-            StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(projectUpdate);
+            StartYearForTotalCostCalculation = projectUpdate.StartYearForTotalCostCalculations();
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;
         }

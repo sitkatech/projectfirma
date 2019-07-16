@@ -67,6 +67,7 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Count > 0 ? string.Join(", ", HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList()) : null;
 
             var viewData = new DetailViewData(CurrentPerson,
                 tenant,
@@ -83,7 +84,8 @@ namespace ProjectFirma.Web.Controllers
                 gridDataUrl, 
                 editClassificationSystemsUrl,
                 editStylesheetUrl,
-                editTenantLogoUrl);
+                editTenantLogoUrl,
+                costTypes);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -119,6 +121,13 @@ namespace ProjectFirma.Web.Controllers
             var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
             var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
             viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            if (viewModel.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID)
+            {
+                var existingCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+                var allCostTypes = HttpRequestStorage.DatabaseEntities.AllCostTypes.Local;
+
+                viewModel.UpdateCostTypes(existingCostTypes, allCostTypes);
+            }
             var clearOutTaxonomyLeafPerformanceMeasures = oldTenantAttributeTaxonomyLevel.TaxonomyLevelID != viewModel.TaxonomyLevelID.Value || oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel.TaxonomyLevelID != viewModel.AssociatePerfomanceMeasureTaxonomyLevelID.Value;
 
             if (clearOutTaxonomyLeafPerformanceMeasures)
@@ -188,10 +197,13 @@ namespace ProjectFirma.Web.Controllers
             var adminFeature = new FirmaAdminFeature();
             var tenantPeople = HttpRequestStorage.DatabaseEntities.People.ToList().Where(x => adminFeature.HasPermissionByPerson(x)).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture), x => x.GetFullNameFirstLast());
             var taxonomyLevels = TaxonomyLevel.All.ToSelectListWithEmptyFirstRow(x => x.TaxonomyLevelID.ToString(CultureInfo.InvariantCulture), x => x.TaxonomyLevelDisplayName);
-            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels);
+            var budgetTypeID = viewModel.BudgetTypeID;
+            var budgetTypes = BudgetType.All.ToDictionary(x => x.BudgetTypeID, x => x.BudgetTypeDisplayName);
+            var disabledBudgetTypeValues = new List<int>() { BudgetType.NoBudget.BudgetTypeID, BudgetType.AnnualBudget.BudgetTypeID };
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList();
+            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
-
 
         [HttpGet]
         [SitkaAdminFeature]

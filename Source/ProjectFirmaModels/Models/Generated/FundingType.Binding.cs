@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[FundingType]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -15,118 +16,114 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    [Table("[dbo].[FundingType]")]
-    public partial class FundingType : IHavePrimaryKey
+    public abstract partial class FundingType : IHavePrimaryKey
     {
+        public static readonly FundingTypeBudgetVariesByYear BudgetVariesByYear = FundingTypeBudgetVariesByYear.Instance;
+        public static readonly FundingTypeBudgetSameEachYear BudgetSameEachYear = FundingTypeBudgetSameEachYear.Instance;
+
+        public static readonly List<FundingType> All;
+        public static readonly ReadOnlyDictionary<int, FundingType> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected FundingType()
+        static FundingType()
         {
-            this.FundingTypeDatas = new HashSet<FundingTypeData>();
-            this.Projects = new HashSet<Project>();
+            All = new List<FundingType> { BudgetVariesByYear, BudgetSameEachYear };
+            AllLookupDictionary = new ReadOnlyDictionary<int, FundingType>(All.ToDictionary(x => x.FundingTypeID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public FundingType(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName) : this()
+        protected FundingType(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName)
         {
-            this.FundingTypeID = fundingTypeID;
-            this.FundingTypeName = fundingTypeName;
-            this.FundingTypeDisplayName = fundingTypeDisplayName;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public FundingType(string fundingTypeName, string fundingTypeDisplayName) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.FundingTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.FundingTypeName = fundingTypeName;
-            this.FundingTypeDisplayName = fundingTypeDisplayName;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static FundingType CreateNewBlank()
-        {
-            return new FundingType(default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return FundingTypeDatas.Any() || Projects.Any();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingType).Name, typeof(FundingTypeData).Name, typeof(Project).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.FundingTypes.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in FundingTypeDatas.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in Projects.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            FundingTypeID = fundingTypeID;
+            FundingTypeName = fundingTypeName;
+            FundingTypeDisplayName = fundingTypeDisplayName;
         }
 
         [Key]
-        public int FundingTypeID { get; set; }
-        public string FundingTypeName { get; set; }
-        public string FundingTypeDisplayName { get; set; }
+        public int FundingTypeID { get; private set; }
+        public string FundingTypeName { get; private set; }
+        public string FundingTypeDisplayName { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return FundingTypeID; } set { FundingTypeID = value; } }
+        public int PrimaryKey { get { return FundingTypeID; } }
 
-        public virtual ICollection<FundingTypeData> FundingTypeDatas { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(FundingType other)
         {
-            public const int FundingTypeName = 100;
-            public const int FundingTypeDisplayName = 100;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.FundingTypeID == FundingTypeID;
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as FundingType);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return FundingTypeID;
+        }
+
+        public static bool operator ==(FundingType left, FundingType right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(FundingType left, FundingType right)
+        {
+            return !Equals(left, right);
+        }
+
+        public FundingTypeEnum ToEnum { get { return (FundingTypeEnum)GetHashCode(); } }
+
+        public static FundingType ToType(int enumValue)
+        {
+            return ToType((FundingTypeEnum)enumValue);
+        }
+
+        public static FundingType ToType(FundingTypeEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case FundingTypeEnum.BudgetSameEachYear:
+                    return BudgetSameEachYear;
+                case FundingTypeEnum.BudgetVariesByYear:
+                    return BudgetVariesByYear;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
         }
     }
 
-    
     public enum FundingTypeEnum
     {
-        Capital = 1,
-        OperationsAndMaintenance = 2
+        BudgetVariesByYear = 1,
+        BudgetSameEachYear = 2
+    }
+
+    public partial class FundingTypeBudgetVariesByYear : FundingType
+    {
+        private FundingTypeBudgetVariesByYear(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName) {}
+        public static readonly FundingTypeBudgetVariesByYear Instance = new FundingTypeBudgetVariesByYear(1, @"BudgetVariesByYear", @"Budget varies by year, or it's a one-year project");
+    }
+
+    public partial class FundingTypeBudgetSameEachYear : FundingType
+    {
+        private FundingTypeBudgetSameEachYear(int fundingTypeID, string fundingTypeName, string fundingTypeDisplayName) : base(fundingTypeID, fundingTypeName, fundingTypeDisplayName) {}
+        public static readonly FundingTypeBudgetSameEachYear Instance = new FundingTypeBudgetSameEachYear(2, @"BudgetSameEachYear", @"Budget is the same each year (e.g. annual maintenance)");
     }
 }

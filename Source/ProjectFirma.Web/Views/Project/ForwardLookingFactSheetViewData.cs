@@ -47,11 +47,13 @@ namespace ProjectFirma.Web.Views.Project
         public GoogleChartJson GoogleChartJson { get; }
         public string EstimatedTotalCost { get; }
 
+        public string NoFundingSourceIdentifiedLabel { get; }
         public string NoFundingSourceIdentified { get; }
         public string SecuredFunding { get; }
-        public string UnsecuredFunding { get; }
+        public string TargetedFundingLabel { get; }
+        public string TargetedFunding { get; }
 
-        public string FundingRequest { get; }
+        public string FundingBudget { get; }
         public int CalculatedChartHeight { get; }
         public string FactSheetPdfUrl { get; }
 
@@ -118,11 +120,13 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             EstimatedTotalCost = Project.EstimatedTotalCost.HasValue ? Project.EstimatedTotalCost.ToStringCurrency() : "";
+            NoFundingSourceIdentifiedLabel = FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            UnsecuredFunding = Project.GetUnsecuredFunding().ToStringCurrency();
+            TargetedFundingLabel = FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel();
+            TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
 
-            FundingRequest = project.ProjectFundingSourceRequests.Any() ? project.ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount).ToStringCurrency() : ViewUtilities.Unknown;
+            FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount).ToStringCurrency() : ViewUtilities.Unknown;
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
@@ -136,7 +140,7 @@ namespace ProjectFirma.Web.Views.Project
                 foreach (var googlePieChartSlice in FundingSourceRequestAmountGooglePieChartSlices.OrderBy(x => x.SortOrder))
                 {
                     legendHtml += "<div class='chartLegendColorBox' style='display:inline-block; border: solid 6px " + googlePieChartSlice.Color + "'></div> ";
-                    legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Label + "</div>";
+                    legendHtml += "<div style='display:inline-block' >" + googlePieChartSlice.Value.ToStringCurrency() + " " + googlePieChartSlice.Label + "</div>";
                     legendHtml += "<br>";
                 }
                 legendHtml += "</div>";

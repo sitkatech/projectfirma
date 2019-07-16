@@ -19,6 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
+using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
@@ -26,17 +37,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using GeoJSON.Net.Feature;
-using ProjectFirma.Web.Controllers;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirmaModels.Models
 {
@@ -165,7 +165,7 @@ namespace ProjectFirmaModels.Models
         public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project)
         {
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+                .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
                 .Select(x => new ProjectOrganizationRelationship(project, x, RelationshipTypeModelExtensions.RelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
@@ -236,7 +236,7 @@ namespace ProjectFirmaModels.Models
             {
                 // Default is Funding Organizations
                 var organizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                    .Union(project.ProjectFundingSourceRequests.Select(x => x.FundingSource.Organization))
+                    .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization))
                     .Distinct(new HavePrimaryKeyComparer<Organization>());
                 return organizations;
             }
@@ -312,6 +312,13 @@ namespace ProjectFirmaModels.Models
             return project.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.ImplementationStartYear.Value) : null;
         }
 
+        public static int? StartYearForTotalCostCalculations(this IProject project)
+        {
+            return project.ImplementationStartYear.HasValue && project.ImplementationStartYear < DateTime.Now.Year
+                ? DateTime.Now.Year
+                : project.ImplementationStartYear;
+        }
+
         public static List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices(Project project)
         {
             var sortOrder = 0;
@@ -346,15 +353,15 @@ namespace ProjectFirmaModels.Models
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
 
-            var securedAmountsDictionary = project.ProjectFundingSourceRequests.Where(x => x.SecuredAmount > 0)
+            var securedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
                 .ToDictionary(x => x.Key, x => x.Sum(y => y.SecuredAmount));
-            var unsecuredAmountsDictionary = project.ProjectFundingSourceRequests.Where(x => x.UnsecuredAmount > 0)
+            var targetedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.TargetedAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.UnsecuredAmount));
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.TargetedAmount));
 
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
-            var unsecuredColorHsl = new { hue = 33.3, sat = 240.0 };
+            var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
             var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
@@ -368,16 +375,16 @@ namespace ProjectFirmaModels.Models
             }).ToList();
             googlePieChartSlices.AddRange(securedPieChartSlices);
 
-            var unsecuredPieChartSlices = unsecuredAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
+            var targetedPieChartSlices = targetedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
 
-                var luminosity = 100.0 * (unsecuredAmountsDictionary.Count - index - 1) / unsecuredAmountsDictionary.Count + 120;
-                var color = ColorTranslator.ToHtml(new HslColor(unsecuredColorHsl.hue, unsecuredColorHsl.sat, luminosity));
-                return new GooglePieChartSlice("Targeted Funding: " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
+                var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
+                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
-            googlePieChartSlices.AddRange(unsecuredPieChartSlices);
+            googlePieChartSlices.AddRange(targetedPieChartSlices);
 
             return googlePieChartSlices;
         }
@@ -389,9 +396,39 @@ namespace ProjectFirmaModels.Models
             if (noFundingSourceIdentifiedAmount > 0)
             {
                 var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
-                requestAmountsDictionary.Add(new GooglePieChartSlice("No Funding Source Identified", noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
+                requestAmountsDictionary.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), noFundingSourceIdentifiedAmount, sortOrder, "#dbdbdb"));
             }
             return requestAmountsDictionary;
+        }
+
+        public static decimal GetEstimatedTotalCost(this Project project)
+        {
+            return project.EstimatedTotalCost ?? 0;
+        }
+
+        public static decimal GetEstimatedAnnualOperatingCost(this Project project)
+        {
+            return project.EstimatedAnnualOperatingCost ?? 0;
+        }
+
+        public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
+        {
+            if (!project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
+            {
+                return null;
+            }
+
+            var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.EstimatedAnnualOperatingCost.Value;
+        }
+
+        public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
+        {
+            return project.FundingType == FundingType.BudgetSameEachYear
+                   && project.EstimatedAnnualOperatingCost.HasValue
+                   && project.CompletionYear.HasValue
+                   && project.ImplementationStartYear.HasValue
+                   && project.ProjectStage.IsStageIncludedInCostCalculations();
         }
 
         public static bool IsEditableToThisPerson(this Project project, Person person)

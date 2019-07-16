@@ -33,24 +33,24 @@ namespace ProjectFirma.Web.Views.FundingSource
 {
     public class DetailViewData : FirmaViewData
     {
-        public readonly ProjectFirmaModels.Models.FundingSource FundingSource;
-        public readonly bool UserHasFundingSourceManagePermissions;
-        public readonly bool UserHasProjectFundingSourceExpenditureManagePermissions;
-        public readonly string EditFundingSourceUrl;
-        public readonly string ManageFundingSourcesUrl;
+        public ProjectFirmaModels.Models.FundingSource FundingSource { get; }
+        public bool UserHasFundingSourceManagePermissions { get; }
+        public bool UserHasProjectFundingSourceExpenditureManagePermissions { get; }
+        public string EditFundingSourceUrl { get; }
+        public string ManageFundingSourcesUrl { get; }
 
-        public readonly List<int> CalendarYearsForProjectExpenditures;
+        public List<int> CalendarYearsForProjectExpenditures { get; }
 
-        public readonly ProjectCalendarYearExpendituresGridSpec ProjectCalendarYearExpendituresGridSpec;
-        public readonly string ProjectCalendarYearExpendituresGridName;
-        public readonly string ProjectCalendarYearExpendituresGridDataUrl;
-        public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
+        public ProjectCalendarYearExpendituresGridSpec ProjectCalendarYearExpendituresGridSpec { get; }
+        public string ProjectCalendarYearExpendituresGridName { get; }
+        public string ProjectCalendarYearExpendituresGridDataUrl { get; }
+        public ViewGoogleChartViewData ViewGoogleChartViewData { get; }
 
-        public readonly GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> ProjectFundingSourceRequestsGridSpec;
-        public readonly string ProjectFundingSourceRequestsGridName;
-        public readonly string ProjectFundingSourceRequestsGridDataUrl;
+        public GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> ProjectFundingSourceBudgetGridSpec { get; }
+        public string ProjectFundingSourceBudgetGridName { get; }
+        public string ProjectFundingSourceBudgetGridDataUrl { get; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceRequest> projectFundingSourceRequestsGridSpec) : base(currentPerson)
+        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec) : base(currentPerson)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
@@ -74,9 +74,9 @@ namespace ProjectFirma.Web.Views.FundingSource
             ProjectCalendarYearExpendituresGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectCalendarYearExpendituresGridJsonData(fundingSource));
             ManageFundingSourcesUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.Index());
 
-            ProjectFundingSourceRequestsGridSpec = projectFundingSourceRequestsGridSpec;
-            ProjectFundingSourceRequestsGridName = "projectsFundingSourceRequestsFromFundingSourceGrid";
-            ProjectFundingSourceRequestsGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceRequestsGridJsonData(fundingSource));
+            ProjectFundingSourceBudgetGridSpec = projectFundingSourceBudgetGridSpec;
+            ProjectFundingSourceBudgetGridName = "projectsFundingSourceRequestsFromFundingSourceGrid";
+            ProjectFundingSourceBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceBudgetGridJsonData(fundingSource));
         }
     }
 }

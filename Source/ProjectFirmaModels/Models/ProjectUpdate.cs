@@ -22,8 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
-using GeoJSON.Net.Feature;
-using LtInfo.Common.GeoJson;
 
 namespace ProjectFirmaModels.Models
 {
@@ -32,12 +30,12 @@ namespace ProjectFirmaModels.Models
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
 
-        public decimal? UnfundedNeed => EstimatedTotalCost - GetSecuredFunding();
+        public decimal? NoFundingSourceIdentifiedFunding => EstimatedTotalCost - GetSecuredFunding();
 
         public decimal GetSecuredFunding()
         {
-            return ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Any()
-                ? ProjectUpdateBatch.ProjectFundingSourceRequestUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
+            return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
+                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
                 : 0;
         }
 
@@ -57,6 +55,7 @@ namespace ProjectFirmaModels.Models
             CompletionYear = project.CompletionYear;
             EstimatedTotalCost = project.EstimatedTotalCost;
             EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            FundingTypeID = project.FundingTypeID;
         }
 
         public void LoadSimpleLocationFromProject(Project project)
@@ -76,6 +75,7 @@ namespace ProjectFirmaModels.Models
             project.EstimatedTotalCost = EstimatedTotalCost;
             project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.FundingTypeID = FundingTypeID;
         }
 
         public void CommitSimpleLocationToProject(Project project)
@@ -88,8 +88,6 @@ namespace ProjectFirmaModels.Models
         public bool HasProjectLocationPoint => ProjectLocationPoint != null;
 
         public bool HasProjectLocationDetail => ProjectUpdateBatch.ProjectLocationUpdates.Any();
-
-        public FundingType FundingType => ProjectUpdateBatch.Project.FundingType;
 
         public IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes() => ProjectUpdateBatch.ProjectCustomAttributeUpdates;
 

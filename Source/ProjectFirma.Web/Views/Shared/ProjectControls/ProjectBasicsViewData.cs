@@ -19,12 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -32,7 +30,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public ProjectFirmaModels.Models.Project Project { get; }
         public bool UserHasProjectBudgetManagePermissions { get; }
-        public ProjectBasicsCalculatedCosts ProjectBasicsCalculatedCosts { get; }
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
         public TenantAttribute TenantAttribute { get; set; }
         public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
@@ -47,7 +44,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
             IsNotTaxonomyLevelLeafOrBranch = !MultiTenantHelpers.IsTaxonomyLevelBranch() && IsNotTaxonomyLevelLeaf;
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
-            ProjectBasicsCalculatedCosts = new ProjectBasicsCalculatedCosts(project);
             TenantAttribute = tenantAttribute;
 
             if (tenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
@@ -55,23 +51,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 SecondaryTaxonomyLeaves = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf).OrderBy(x => x.GetDisplayName());
             }
         }        
-    }
-
-    public class ProjectBasicsCalculatedCosts
-    {
-        public decimal? CapitalCostInYearOfExpenditure { get; }
-        public string EditInflationUrl { get; }
-        public decimal InflationRate { get; }
-        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
-
-        public ProjectBasicsCalculatedCosts(ProjectFirmaModels.Models.Project project)
-        {
-            CapitalCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateCapitalCostInYearOfExpenditure(project);
-            EditInflationUrl = SitkaRoute<CostParameterSetController>.BuildUrlFromExpression(controller => controller.Detail());
-            InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(project);
-            StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
-        }
     }
 }

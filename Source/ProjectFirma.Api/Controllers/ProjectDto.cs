@@ -42,7 +42,7 @@ namespace ProjectFirma.Api.Controllers
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.EstimatedTotalCost;
             SecuredFunding = project.GetSecuredFunding();
-            UnfundedNeed = project.UnfundedNeed();
+            NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             if (project.ProjectLocationPoint != null)
             {
                 LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
@@ -72,7 +72,7 @@ namespace ProjectFirma.Api.Controllers
         public List<string> TaxonomyLeafs { get; set; }
         public List<string> TaxonomyLeafsShortened { get; set; }
         public string DetailUrl { get; set; }
-        public decimal? UnfundedNeed { get; set; }
+        public decimal? NoFundingSourceIdentifiedFunding { get; set; }
 
         public decimal? SecuredFunding { get; set; }
 

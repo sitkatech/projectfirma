@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionOrganizations Organizations = ProjectUpdateSectionOrganizations.Instance;
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
         public static readonly ProjectUpdateSectionReportedAccomplishments ReportedAccomplishments = ProjectUpdateSectionReportedAccomplishments.Instance;
-        public static readonly ProjectUpdateSectionExpectedFunding ExpectedFunding = ProjectUpdateSectionExpectedFunding.Instance;
+        public static readonly ProjectUpdateSectionBudget Budget = ProjectUpdateSectionBudget.Instance;
         public static readonly ProjectUpdateSectionExpenditures Expenditures = ProjectUpdateSectionExpenditures.Instance;
         public static readonly ProjectUpdateSectionPhotos Photos = ProjectUpdateSectionPhotos.Instance;
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, ExpectedFunding, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedAccomplishments, TechnicalAssistanceRequests };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, NotesAndDocuments, ExpectedAccomplishments, TechnicalAssistanceRequests };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -117,10 +117,10 @@ namespace ProjectFirmaModels.Models
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return Basics;
+                case ProjectUpdateSectionEnum.Budget:
+                    return Budget;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
-                case ProjectUpdateSectionEnum.ExpectedFunding:
-                    return ExpectedFunding;
                 case ProjectUpdateSectionEnum.Expenditures:
                     return Expenditures;
                 case ProjectUpdateSectionEnum.ExternalLinks:
@@ -152,7 +152,7 @@ namespace ProjectFirmaModels.Models
         Organizations = 4,
         LocationDetailed = 5,
         ReportedAccomplishments = 6,
-        ExpectedFunding = 7,
+        Budget = 7,
         Expenditures = 8,
         Photos = 9,
         ExternalLinks = 10,
@@ -191,10 +191,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionReportedAccomplishments Instance = new ProjectUpdateSectionReportedAccomplishments(6, @"ReportedAccomplishments", @"Reported Accomplishments", 70, true, 3);
     }
 
-    public partial class ProjectUpdateSectionExpectedFunding : ProjectUpdateSection
+    public partial class ProjectUpdateSectionBudget : ProjectUpdateSection
     {
-        private ProjectUpdateSectionExpectedFunding(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionExpectedFunding Instance = new ProjectUpdateSectionExpectedFunding(7, @"ExpectedFunding", @"Expected Funding", 70, false, 4);
+        private ProjectUpdateSectionBudget(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionBudget Instance = new ProjectUpdateSectionBudget(7, @"Budget", @"Budget", 70, false, 4);
     }
 
     public partial class ProjectUpdateSectionExpenditures : ProjectUpdateSection

@@ -18,10 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using PerformanceMeasureSubcategoryOptionSimple = ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOptionSimple;
@@ -37,7 +40,9 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         public readonly int? ProjectID;
         public readonly bool UsePanelLayout;
 
-        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout)
+        public string ConfigurePerformanceMeasuresUrl { get; }
+
+        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout, string configurePerformanceMeasuresUrl)
         {
             ProjectID = projectID;
             AllPerformanceMeasures = allPerformanceMeasures.SortByOrderThenName().Select(x => new PerformanceMeasureSimple(x)).ToList();
@@ -47,10 +52,11 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             AllProjects = allProjects;
             UsePanelLayout = usePanelLayout;
+            ConfigurePerformanceMeasuresUrl = configurePerformanceMeasuresUrl;
         }
 
-        public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures)
-            : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true)
+        public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, string configurePerformanceMeasuresUrl)
+            : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true, configurePerformanceMeasuresUrl)
         {
         }
     }

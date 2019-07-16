@@ -30,15 +30,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpendituresViewData : ProjectCreateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
-        public readonly ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData;
-        public readonly string RequestFundingSourceUrl;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
-        
-        public readonly decimal? TotalOperatingCostInYearOfExpenditure;
-        public readonly decimal InflationRate;
-        public readonly int? StartYearForTotalOperatingCostCalculation;
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
+        public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
+        public string RequestFundingSourceUrl { get; }
+        public ViewDataForAngularClass ViewDataForAngular { get; }
+
+        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
+        public int? StartYearForTotalOperatingCostCalculation { get; }
 
         public ExpendituresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
@@ -49,19 +48,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             
-            TotalOperatingCostInYearOfExpenditure = CostParameterSetModelExtensions.CalculateTotalRemainingOperatingCost(project);
-            InflationRate = CostParameterSetModelExtensions.GetLatestInflationRate();
-            StartYearForTotalOperatingCostCalculation = CostParameterSetModelExtensions.StartYearForTotalCostCalculations(project);
+            TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
+            StartYearForTotalOperatingCostCalculation = project.StartYearForTotalCostCalculations();
         }
 
         public class ViewDataForAngularClass
         {
-            public readonly List<int> CalendarYearRange;
-            public readonly List<FundingSourceSimple> AllFundingSources;
-            public readonly int ProjectID;
-            public readonly int MaxYear;
-            public readonly bool UseFiscalYears;
-            public readonly bool ShowNoExpendituresExplanation;
+            public List<int> CalendarYearRange { get; }
+            public List<FundingSourceSimple> AllFundingSources { get; }
+            public int ProjectID { get; }
+            public int MaxYear { get; }
+            public bool UseFiscalYears { get; }
+            public bool ShowNoExpendituresExplanation { get; }
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,

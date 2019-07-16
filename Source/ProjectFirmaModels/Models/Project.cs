@@ -46,35 +46,33 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? UnfundedNeed()
-        {
-            return EstimatedTotalCost - GetSecuredFunding();
-        }
-
         public decimal? GetSecuredFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetUnsecuredFunding()
+        public decimal? GetTargetedFunding()
         {
-            return ProjectFundingSourceRequests.Any() ? (decimal?)ProjectFundingSourceRequests.Sum(x => x.UnsecuredAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
             var securedFunding = GetSecuredFunding();
-            var unsecuredFunding = GetUnsecuredFunding();
-
-            var noFundingSourceIdentifiedAmount = (EstimatedTotalCost ?? 0) - (securedFunding + unsecuredFunding ?? 0);
+            var targetedFunding = GetTargetedFunding();
+            var totalCost = EstimatedTotalCost ?? EstimatedAnnualOperatingCost;
+            var noFundingSourceIdentifiedAmount = (totalCost ?? 0) - (securedFunding + targetedFunding ?? 0);
             if (noFundingSourceIdentifiedAmount >= 0)
             {
                 return noFundingSourceIdentifiedAmount;
             }
-
             return null;
         }
 
+        public decimal GetNoFundingSourceIdentifiedAmountOrZero()
+        {
+            return GetNoFundingSourceIdentifiedAmount() ?? 0;
+        }
 
         public decimal? TotalExpenditures
         {

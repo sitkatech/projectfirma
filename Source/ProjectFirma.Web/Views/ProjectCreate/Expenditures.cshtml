@@ -51,13 +51,13 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
         Other financial information for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that might be helpful:
     </p>
 
-    @if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.Capital)
+    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
     {
         <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.EstimatedTotalCost.ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.UnfundedNeed().ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency()</span></div>
     }
-    else if (ViewDataTyped.Project.FundingTypeID == (int) FundingTypeEnum.OperationsAndMaintenance)
+    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
     {
         <table>
             <tr>
@@ -75,7 +75,7 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
                 @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
                 {
                     <td>
-                        <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear using @ViewDataTyped.InflationRate.ToStringPercent() annual inflation)
+                        <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear )
                     </td>
                 }
             </tr>

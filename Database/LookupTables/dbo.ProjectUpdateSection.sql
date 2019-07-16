@@ -7,7 +7,7 @@ values
 (4, 'Organizations', 'Organizations', 40, 1, 1),
 (5, 'LocationDetailed', 'Detailed Location', 50, 0, 2),
 (6, 'ReportedAccomplishments', 'Reported Accomplishments', 70, 1, 3),
-(7, 'ExpectedFunding', 'Expected Funding', 70, 0, 4),
+(7, 'Budget', 'Budget', 70, 0, 4),
 (8, 'Expenditures', 'Expenditures', 80, 1, 4),
 (9, 'Photos', 'Photos', 100, 0, 5),
 (10, 'ExternalLinks', 'External Links', 125, 0, 5),

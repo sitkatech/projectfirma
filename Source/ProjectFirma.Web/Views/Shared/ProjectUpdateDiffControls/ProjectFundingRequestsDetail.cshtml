@@ -35,7 +35,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <tr>
         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
         <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.UnsecuredFunding.ToType())</th>
+        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
         <th style="text-align: right">Total</th>
     </tr>
     @foreach (var fundingSourceRequestAmount in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.FundingSourceName))
@@ -46,10 +46,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 <span >@fundingSourceRequestAmount.SecuredAmount.ToStringCurrency()</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
-                <span >@fundingSourceRequestAmount.UnsecuredAmount.ToStringCurrency()</span>
+                <span >@fundingSourceRequestAmount.TargetedAmount.ToStringCurrency()</span>
             </td>
             <th style="text-align: right">
-                <span >@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.UnsecuredAmount).ToStringCurrency())</span>
+                <span >@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.TargetedAmount).ToStringCurrency())</span>
             </th>
         </tr>
     }
@@ -61,10 +61,10 @@ Source code is available upon request via <support@sitkatech.com>.
                 <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</span>
             </td>
             <td style="text-align: right">
-                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.UnsecuredAmount).ToStringCurrency()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount).ToStringCurrency()</span>
             </td>
             <th style="text-align: right">
-                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.UnsecuredAmount).ToStringCurrency()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount).ToStringCurrency()</span>
             </th>
         </tr>
     }

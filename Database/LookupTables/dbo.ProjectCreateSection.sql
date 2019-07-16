@@ -8,7 +8,7 @@ values
 (5, 'LocationDetailed', 'Detailed Location', 40, 0, 2),
 (6, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 0, 3),
 (7, 'ReportedAccomplishments', 'Reported Accomplishments', 70, 1, 3),
-(8, 'ExpectedFunding', 'Expected Funding', 80, 0, 4),
+(8, 'Budget', 'Budget', 80, 0, 4),
 (9, 'ReportedExpenditures', 'Reported Expenditures', 90, 1, 4),
 (11, 'Classifications', 'Classifications', 110, 1, 5),
 (12, 'Assessment', 'Asssessment', 120, 1, 5),

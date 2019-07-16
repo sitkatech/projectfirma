@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionLocationDetailed LocationDetailed = ProjectCreateSectionLocationDetailed.Instance;
         public static readonly ProjectCreateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectCreateSectionExpectedAccomplishments.Instance;
         public static readonly ProjectCreateSectionReportedAccomplishments ReportedAccomplishments = ProjectCreateSectionReportedAccomplishments.Instance;
-        public static readonly ProjectCreateSectionExpectedFunding ExpectedFunding = ProjectCreateSectionExpectedFunding.Instance;
+        public static readonly ProjectCreateSectionBudget Budget = ProjectCreateSectionBudget.Instance;
         public static readonly ProjectCreateSectionReportedExpenditures ReportedExpenditures = ProjectCreateSectionReportedExpenditures.Instance;
         public static readonly ProjectCreateSectionClassifications Classifications = ProjectCreateSectionClassifications.Instance;
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, ExpectedFunding, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -119,12 +119,12 @@ namespace ProjectFirmaModels.Models
                     return Assessment;
                 case ProjectCreateSectionEnum.Basics:
                     return Basics;
+                case ProjectCreateSectionEnum.Budget:
+                    return Budget;
                 case ProjectCreateSectionEnum.Classifications:
                     return Classifications;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
-                case ProjectCreateSectionEnum.ExpectedFunding:
-                    return ExpectedFunding;
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return LocationDetailed;
                 case ProjectCreateSectionEnum.LocationSimple:
@@ -153,7 +153,7 @@ namespace ProjectFirmaModels.Models
         LocationDetailed = 5,
         ExpectedAccomplishments = 6,
         ReportedAccomplishments = 7,
-        ExpectedFunding = 8,
+        Budget = 8,
         ReportedExpenditures = 9,
         Classifications = 11,
         Assessment = 12,
@@ -197,10 +197,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionReportedAccomplishments Instance = new ProjectCreateSectionReportedAccomplishments(7, @"ReportedAccomplishments", @"Reported Accomplishments", 70, true, 3);
     }
 
-    public partial class ProjectCreateSectionExpectedFunding : ProjectCreateSection
+    public partial class ProjectCreateSectionBudget : ProjectCreateSection
     {
-        private ProjectCreateSectionExpectedFunding(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionExpectedFunding Instance = new ProjectCreateSectionExpectedFunding(8, @"ExpectedFunding", @"Expected Funding", 80, false, 4);
+        private ProjectCreateSectionBudget(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionBudget Instance = new ProjectCreateSectionBudget(8, @"Budget", @"Budget", 80, false, 4);
     }
 
     public partial class ProjectCreateSectionReportedExpenditures : ProjectCreateSection

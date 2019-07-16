@@ -202,16 +202,16 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong style="white-space: nowrap;">No Funding Identified</strong>
+                    <strong>@ViewDataTyped.NoFundingSourceIdentifiedLabel</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.NoFundingSourceIdentified
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong> @FieldDefinitionEnum.UnsecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
+                    <strong> @ViewDataTyped.TargetedFundingLabel</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    @ViewDataTyped.UnsecuredFunding
+                    @ViewDataTyped.TargetedFunding
                 </div>
             </div>
         </div>
@@ -341,7 +341,7 @@
         </div>
         <div class="col-sm-12 col-md-6">
             <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                <h4>Targeted Funding</h4>
+                <h4>Budget</h4>
                 <div class="chartPanel">
                     @if (ViewDataTyped.FundingSourceRequestAmountGooglePieChartSlices.Any())
                     {
@@ -353,7 +353,7 @@
                     else
                     {
                         <div class="text-center">
-                            <p class="systemText">No Targeted Funding Sources identified</p>
+                            <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                         </div>
                     }
                 </div>
