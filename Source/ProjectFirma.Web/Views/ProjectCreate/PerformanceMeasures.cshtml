@@ -76,7 +76,12 @@
 </p>
 <hr />
 
-    <div class="row">
+<div class="row">
+    <div class="col-xs-12">
+        
+    </div>
+</div>
+<div class="row">
         <div class="col-xs-12">
             <div ng-app="ProjectFirmaApp" ng-controller="PerformanceMeasuresController">
                 @if (Model.ProjectExemptReportingYears != null && Model.ProjectExemptReportingYears.Any())
@@ -98,6 +103,20 @@
                         </div>
                     </div>
                     <hr />
+                }
+                
+                @if (!ViewDataTyped.ViewDataForAngular.AllPerformanceMeasures.Any())
+                {
+                    <div class="alert alert-danger" role="alert">
+                        <p>
+                            <strong>Warning!</strong>
+                            There are no @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() configured.
+                            @if (!string.IsNullOrEmpty(ViewDataTyped.ConfigurePerformanceMeasuresUrl))
+                            {
+                                <span>You may configure @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() <a title="Configure @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()" href="@ViewDataTyped.ConfigurePerformanceMeasuresUrl" target="_blank">here</a>.</span>
+                            }
+                        </p>
+                    </div>
                 }
                 <div class="form-group">
                     <label class="control-label">@MultiTenantHelpers.GetPerformanceMeasureName() to Add:</label>
