@@ -113,12 +113,12 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
             if (ViewModelForAngular.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && EstimatedTotalCost == null)
             {
-                validationResults.Add(new ValidationResult("Since this budget varies by year, an Estimated Total Cost must be entered."));
+                validationResults.Add(new ValidationResult($"Since this budget varies by year, an {FieldDefinitionEnum.EstimatedTotalCost.ToType().FieldDefinitionDisplayName} must be entered."));
             }
 
             if (ViewModelForAngular.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && EstimatedAnnualOperatingCost == null)
             {
-                validationResults.Add(new ValidationResult("Since this budget is the same each year, an Estimated Annual Operating Cost must be entered."));
+                validationResults.Add(new ValidationResult($"Since this budget is the same each year, an {FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().FieldDefinitionDisplayName} must be entered."));
             }
 
             // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
