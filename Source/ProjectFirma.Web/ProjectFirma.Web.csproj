@@ -57,7 +57,10 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
+    <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
@@ -74,6 +77,8 @@
     <Compile Include="Models\FirmaHomePageImageModelExtensions.cs" />
     <Compile Include="Models\FirmaPageModelExtensions.cs" />
     <Compile Include="Models\FirmaPageTypeTest.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributes.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
@@ -147,6 +152,19 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\DetailViewData.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\Edit.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\EditViewData.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\EditViewModel.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\Manage.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\ManageViewData.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributeType\FundingSourceCustomAttributeTypeGridSpec.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributes.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributesViewData.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributesViewModel.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributes.cs" />
+    <Compile Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributesViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
@@ -163,7 +181,10 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cs" />
+    <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
@@ -267,6 +288,7 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
+    <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
@@ -275,6 +297,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\Help\RequestSupport.cshtml" />
+    <Content Include="Views\FundingSourceCustomAttributeType\Detail.cshtml" />
+    <Content Include="Views\FundingSourceCustomAttributeType\Edit.cshtml" />
+    <Content Include="Views\FundingSourceCustomAttributeType\Manage.cshtml" />
+    <Content Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributes.cshtml" />
+    <Content Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributes.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1375,6 +1402,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
+    <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

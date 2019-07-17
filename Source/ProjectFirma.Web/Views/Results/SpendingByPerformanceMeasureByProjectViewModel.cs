@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
@@ -26,6 +28,7 @@ namespace ProjectFirma.Web.Views.Results
     {
         public int? PerformanceMeasureID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasure)]
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; set; }
 
         /// <summary>

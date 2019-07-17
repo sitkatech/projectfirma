@@ -1,0 +1,82 @@
+﻿@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Security
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.FundingSourceCustomAttributeType.Detail
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@section RightOfPageTitle
+{
+    @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Attribute", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.FundingSourceCustomAttributeType.GetEditUrl(), "Edit Attribute", new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
+    }
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.ManageUrl">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        Back to all @FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                Basics
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Name")</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType())</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.FundingSourceCustomAttributeDataType.FundingSourceCustomAttributeDataTypeDisplayName</div>
+                </div>
+                @if (ViewDataTyped.FundingSourceCustomAttributeType.MeasurementUnitTypeID != null)
+                {
+                    <div class="row">
+                        <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</label>
+                        <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.GetMeasurementUnitDisplayName()</div>
+                    </div>
+                }
+                @if (ViewDataTyped.FundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeOptionsSchema != null)
+                {
+                    <div class="row">
+                        <label class="col-sm-3 control-label text-right">@Html.Label("Options")</label>
+                        <div class="col-sm-9">@string.Join(", ", ViewDataTyped.FundingSourceCustomAttributeType.GetOptionsSchemaAsListOfString())</div>
+                    </div>
+                }
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Required?")</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.IsRequired.ToYesNo()</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Description")</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeDescription</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceCustomAttributeTypeEditableBy.ToType())</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.GetEditableRoles()</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSourceCustomAttributeTypeViewableBy.ToType())</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.GetViewableRoles()</div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label(string.Format("Include In {0} Grid?", FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()))</label>
+                    <div class="col-sm-9">@ViewDataTyped.FundingSourceCustomAttributeType.IncludeInFundingSourceGrid.ToYesNo()</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -50,6 +50,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public int TaxonomyTrunkID { get; set; }
 
         [Required]
+        [DisplayName("Theme Color")]
         public string ThemeColor { get; set; }
 
         /// <summary>

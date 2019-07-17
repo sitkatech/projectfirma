@@ -45,29 +45,6 @@ namespace ProjectFirma.Web.Common
 
         public const int DefaultPopupWidth = 300;
 
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
-        {
-            return LabelWithSugarFor(html, expression, DefaultPopupWidth);
-        }
-
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, string labelText)
-        {
-            return LabelWithSugarFor(html, expression, DefaultPopupWidth, labelText);
-        }
-
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition)
-        {
-            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth);
-        }
         public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, ClassificationSystem classificationSystem)
         {
             return LabelWithSugarFor(html, classificationSystem, DisplayStyle.HelpIconWithLabel);
@@ -78,19 +55,20 @@ namespace ProjectFirma.Web.Common
         }
 
         /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon and with custom label text
+        /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition)
         {
-            return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, DisplayStyle.HelpIconWithLabel, labelText);
+            return LabelWithSugarFor(html, fieldDefinition, DisplayStyle.HelpIconWithLabel);
         }
 
         /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
+        /// Does what LabelWithHelpFor does and adds a help icon and with custom label text
+        /// labeltext is there only to be used if you need a label that is different from the Field Definition Custom Label
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, int popupWidth)
+        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, string labelText)
         {
-            return LabelWithSugarFor(html, fieldDefinition, popupWidth, DisplayStyle.HelpIconWithLabel);
+            return LabelWithSugarFor(fieldDefinition, DisplayStyle.HelpIconWithLabel, labelText);
         }
 
         /// <summary>
@@ -98,52 +76,23 @@ namespace ProjectFirma.Web.Common
         /// </summary>
         public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, DisplayStyle displayStyle)
         {
-            return LabelWithSugarFor(html, fieldDefinition, DefaultPopupWidth, displayStyle);
+            return LabelWithSugarFor(fieldDefinition, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
         }
 
         /// <summary>
         /// Does what LabelWithHelpFor does and adds a help icon
         /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression)
         {
-            return LabelWithSugarFor(fieldDefinition, DefaultPopupWidth, displayStyle, labelText);
+            return LabelWithSugarFor(html, expression, null, null);
+        }
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, bool hasRequiredAttribute)
+        {
+            return LabelWithSugarFor(html, expression, null, hasRequiredAttribute);
         }
 
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithSugarFor(this HtmlHelper html, FieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle)
-        {
-            return LabelWithSugarFor(fieldDefinition, popupWidth, displayStyle, fieldDefinition.GetFieldDefinitionLabel());
-        }
-
-        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
-        {
-            return LinkWithFieldDefinitionFor(html, fieldDefinition, linkText, DefaultPopupWidth, cssClasses);
-        }
-
-        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, int popupWidth, List<string> cssClasses)
-        {
-            var fieldDefinitionLinkTag = new TagBuilder("a");
-            fieldDefinitionLinkTag.Attributes.Add("href", "javascript:void(0)");
-            fieldDefinitionLinkTag.Attributes.Add("class", string.Join(" ", cssClasses));
-            var labelText = fieldDefinition.GetFieldDefinitionLabel();
-            fieldDefinitionLinkTag.Attributes.Add("title", $"Click to get help on {labelText}");
-            fieldDefinitionLinkTag.InnerHtml = linkText;
-            var urlToContent = fieldDefinition.GetContentUrl();
-            AddHelpToolTipPopupToHtmlTag(fieldDefinitionLinkTag, labelText, urlToContent, popupWidth);
-            return new MvcHtmlString(fieldDefinitionLinkTag.ToString(TagRenderMode.Normal));
-        }
-
-        /// <summary>
-        /// Does what LabelWithHelpFor does and adds a help icon
-        /// </summary>
-        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth)
-        {
-            return LabelWithSugarFor(html, expression, popupWidth, null);
-        }
-
-        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, int popupWidth, string labelText)
+        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html,
+            Expression<Func<TViewModel, TValue>> expression, string labelText, bool? isRequired)
         {
             var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var memberExpression = (expression.Body as MemberExpression);
@@ -155,7 +104,7 @@ namespace ProjectFirma.Web.Common
             var fieldDefinitionDisplayAttribute = memberExpression.Member.GetCustomAttributes(fieldDefinitionDisplayAttributeType, true).Cast<IFieldDefinitionDisplayAttribute>().SingleOrDefault();
 
             var requiredAttributeType = typeof(RequiredAttribute);
-            var hasRequiredAttribute = memberExpression.Member.GetCustomAttributes(requiredAttributeType, true).Cast<RequiredAttribute>().Any();
+            var hasRequiredAttribute = isRequired ?? memberExpression.Member.GetCustomAttributes(requiredAttributeType, true).Cast<RequiredAttribute>().Any();
             var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
 
             if (fieldDefinitionDisplayAttribute == null)
@@ -168,22 +117,15 @@ namespace ProjectFirma.Web.Common
                 var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
                 var fullHtmlFieldID = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldId(htmlFieldName);
                 var fieldDefinitionDisplayName = string.IsNullOrWhiteSpace(labelText) ? fieldDefinition.GetFieldDefinitionLabel() : labelText;
-                return LabelWithSugarFor(fieldDefinitionData, fullHtmlFieldID, popupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName, fieldDefinition.GetContentUrl());
+                return LabelWithSugarFor(fieldDefinitionData, fullHtmlFieldID, DefaultPopupWidth, DisplayStyle.HelpIconWithLabel, hasRequiredAttribute, fieldDefinitionDisplayName, fieldDefinition.GetContentUrl());
             }
         }
 
-        public static MvcHtmlString LabelWithSugarFor<TViewModel, TValue>(this HtmlHelper<TViewModel> html, Expression<Func<TViewModel, TValue>> expression, bool hasRequiredAttribute)
-        {
-            var metadata = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            var htmlFieldName = ExpressionHelper.GetExpressionText(expression);
-            return LabelWithRequiredTagForImpl(html, metadata, htmlFieldName, hasRequiredAttribute, null, null);
-        }
-
-        public static MvcHtmlString LabelWithSugarFor(FieldDefinition fieldDefinition, int popupWidth, DisplayStyle displayStyle, string labelText)
+        public static MvcHtmlString LabelWithSugarFor(FieldDefinition fieldDefinition, DisplayStyle displayStyle, string labelText)
         {
             var fullHtmlFieldID = labelText.Replace(" ", "");
             // in this case, we are not trying to tie it to an actual viewmodel; we only want it to be safe as an id to find by jquery
-            return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, popupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
+            return LabelWithSugarFor(fieldDefinition.GetFieldDefinitionData(), fullHtmlFieldID, DefaultPopupWidth, displayStyle, false, labelText, fieldDefinition.GetContentUrl());
         }
 
         public static MvcHtmlString LabelWithSugarFor(IFieldDefinitionData fieldDefinitionData, string fullHtmlFieldID, int popupWidth, DisplayStyle displayStyle, bool hasRequiredAttribute, string labelText, string urlToContent)
@@ -287,16 +229,22 @@ namespace ProjectFirma.Web.Common
             tagBuilder.Attributes.Add("onmouseover", string.Format("ProjectFirma.Views.Methods.addHelpTooltipPopup(this, {0}, {1}, {2})", labelText.ToJS(), urlToContent.ToJS(), popupWidth));
         }
 
-        public static MvcHtmlString GenerateHelpLink(string linkText, string popupTitleText, string urlToContent, int popupWidth)
+        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, List<string> cssClasses)
         {
-            var helpIconImgTag = new TagBuilder("span");
-            helpIconImgTag.Attributes.Add("class", "helpicon glyphicon glyphicon-question-sign helpiconGridBlue");
-            helpIconImgTag.Attributes.Add("title", string.Format("Click to get help on {0}", linkText));
-            AddHelpToolTipPopupToHtmlTag(helpIconImgTag, popupTitleText, urlToContent, popupWidth);
-            var labelTag = new TagBuilder("a");
-            AddHelpToolTipPopupToHtmlTag(labelTag, popupTitleText, urlToContent, popupWidth);
-            labelTag.SetInnerText(linkText);
-            return MvcHtmlString.Create(string.Format("{0} {1}", helpIconImgTag.ToString(TagRenderMode.Normal), labelTag.ToString(TagRenderMode.Normal)));
+            return LinkWithFieldDefinitionFor(html, fieldDefinition, linkText, DefaultPopupWidth, cssClasses);
         }
-    }    
+
+        public static MvcHtmlString LinkWithFieldDefinitionFor(this HtmlHelper html, FieldDefinition fieldDefinition, string linkText, int popupWidth, List<string> cssClasses)
+        {
+            var fieldDefinitionLinkTag = new TagBuilder("a");
+            fieldDefinitionLinkTag.Attributes.Add("href", "javascript:void(0)");
+            fieldDefinitionLinkTag.Attributes.Add("class", string.Join(" ", cssClasses));
+            var labelText = fieldDefinition.GetFieldDefinitionLabel();
+            fieldDefinitionLinkTag.Attributes.Add("title", $"Click to get help on {labelText}");
+            fieldDefinitionLinkTag.InnerHtml = linkText;
+            var urlToContent = fieldDefinition.GetContentUrl();
+            AddHelpToolTipPopupToHtmlTag(fieldDefinitionLinkTag, labelText, urlToContent, popupWidth);
+            return new MvcHtmlString(fieldDefinitionLinkTag.ToString(TagRenderMode.Normal));
+        }
+    }
 }
