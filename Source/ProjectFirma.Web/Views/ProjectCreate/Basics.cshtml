@@ -118,7 +118,11 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
     {
         <div class="form-group">
-            <div class="col-xs-12 col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, false)</div>
+            <div class="col-xs-12 col-sm-4 control-label">
+                @* Getting a cross-tenant field definition custom label bug here *@
+                @* @Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, true) *@
+               @Html.Label(@FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabel()) <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+            </div>
             <div class="col-xs-12 col-sm-8">
                 <div class="input-group" style="margin-bottom: 1em;">
                     <select class="selectpicker" id="secondaryProjectTaxonomyLeafSelectionDropdown" data-live-search="true" data-live-search-placeholder="Search">
