@@ -1,5 +1,5 @@
-insert into dbo.FieldDefinitionData(FieldDefinitionID)
-select a.FieldDefinitionID
+insert into dbo.FieldDefinitionData(TenantID, FieldDefinitionID)
+select a.TenantID, a.FieldDefinitionID
 from
 (
 	select t.TenantID, FieldDefinitionID
