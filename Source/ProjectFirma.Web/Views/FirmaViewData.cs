@@ -212,6 +212,7 @@ namespace ProjectFirma.Web.Views
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
                     new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentPerson,
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes", "Group3"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentPerson, $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} Custom Attributes", "Group3"));
             }
 
             // Group 4 - Other
