@@ -18,7 +18,6 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.TaxonomyLeaf.Edit
 
@@ -58,7 +57,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.ThemeColor, "Theme Color")
+                @Html.LabelWithSugarFor(x => x.ThemeColor)
             </div>
             <div class="col-sm-9">
                 <div id="themeColorPicker" class="input-group colorpicker-component">

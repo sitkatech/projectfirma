@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureDisplayNamePluralized = fieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabelPluralized();
             PerformanceMeasureHeaderDisplayName = showHelpLinks
                 ? LabelWithSugarForExtensions.LabelWithSugarFor(
-                    fieldDefinitionForPerformanceMeasure, LabelWithSugarForExtensions.DefaultPopupWidth,
+                    fieldDefinitionForPerformanceMeasure,
                     LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, PerformanceMeasureDisplayName)
                 : new HtmlString(PerformanceMeasureDisplayName);
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());

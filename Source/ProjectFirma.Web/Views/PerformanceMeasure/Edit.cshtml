@@ -50,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, string.Format("{0}", FieldDefinitionEnum.MeasurementUnit.ToType().GetFieldDefinitionLabel()))
+            @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID)
         </div>
         <div class="col-sm-9">
             @Html.DropDownListFor(m => m.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { @class = "form-control" })
@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition, "Description")
+            @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition)
         </div>
         <div class="col-sm-9">
             <div style="max-height: 600px; overflow-y: auto">

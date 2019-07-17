@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Common
         private static string ToGridHeaderString(this FieldDefinition fieldDefinition, int popupWidth, string fieldDefinitionDisplayName)
         {
             return
-                LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition, popupWidth,
+                LabelWithSugarForExtensions.LabelWithSugarFor(fieldDefinition,
                     LabelWithSugarForExtensions.DisplayStyle.AsGridHeader, fieldDefinitionDisplayName).ToString();
         }
 

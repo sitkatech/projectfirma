@@ -38,7 +38,8 @@ namespace ProjectFirma.Web.Views.Classification
         [Required]
         public int ClassificationID { get; set; }
 
-        [Required]        
+        [DisplayName("Name")]
+        [Required]
         [StringLength(ProjectFirmaModels.Models.Classification.FieldLengths.DisplayName)]
         public string DisplayName { get; set; }
 
@@ -55,6 +56,7 @@ namespace ProjectFirma.Web.Views.Classification
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase KeyImageFileResourceData { get; set; }
 
+        [DisplayName("Theme Color")]
         [Required]
         public string ThemeColor { get; set; }
 
