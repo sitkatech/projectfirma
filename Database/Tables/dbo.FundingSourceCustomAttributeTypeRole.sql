@@ -15,11 +15,6 @@ CREATE TABLE [dbo].[FundingSourceCustomAttributeTypeRole](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_FSCustomAttributeTypeRole_FSCustomAttributeTypeRolePermissionType_FSCustomAttributeTypeRolePermissionTypeID] FOREIGN KEY([FundingSourceCustomAttributeTypeRolePermissionTypeID])
-REFERENCES [dbo].[FundingSourceCustomAttributeTypeRolePermissionType] ([FundingSourceCustomAttributeTypeRolePermissionTypeID])
-GO
-ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole] CHECK CONSTRAINT [FK_FSCustomAttributeTypeRole_FSCustomAttributeTypeRolePermissionType_FSCustomAttributeTypeRolePermissionTypeID]
-GO
 ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_FundingSourceCustomAttributeTypeRole_FundingSourceCustomAttributeType_FundingSourceCustomAttributeTypeID] FOREIGN KEY([FundingSourceCustomAttributeTypeID])
 REFERENCES [dbo].[FundingSourceCustomAttributeType] ([FundingSourceCustomAttributeTypeID])
 GO
@@ -29,6 +24,11 @@ ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole]  WITH CHECK ADD  CONSTR
 REFERENCES [dbo].[FundingSourceCustomAttributeType] ([FundingSourceCustomAttributeTypeID], [TenantID])
 GO
 ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole] CHECK CONSTRAINT [FK_FundingSourceCustomAttributeTypeRole_FundingSourceCustomAttributeType_FundingSourceCustomAttributeTypeID_TenantID]
+GO
+ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_FundingSourceCustomAttributeTypeRole_FundingSourceCustomAttributeTypeRolePermissionType_FundingSourceCustomAttributeTypeRoleP] FOREIGN KEY([FundingSourceCustomAttributeTypeRolePermissionTypeID])
+REFERENCES [dbo].[FundingSourceCustomAttributeTypeRolePermissionType] ([FundingSourceCustomAttributeTypeRolePermissionTypeID])
+GO
+ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole] CHECK CONSTRAINT [FK_FundingSourceCustomAttributeTypeRole_FundingSourceCustomAttributeTypeRolePermissionType_FundingSourceCustomAttributeTypeRoleP]
 GO
 ALTER TABLE [dbo].[FundingSourceCustomAttributeTypeRole]  WITH CHECK ADD  CONSTRAINT [FK_FundingSourceCustomAttributeTypeRole_Role_RoleID] FOREIGN KEY([RoleID])
 REFERENCES [dbo].[Role] ([RoleID])
