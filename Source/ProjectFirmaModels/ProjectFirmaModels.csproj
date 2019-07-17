@@ -147,8 +147,6 @@
     <Compile Include="Models\Generated\FundingSourceCustomAttributeValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FundingSourcePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FundingType.Binding.cs" />
-    <Compile Include="Models\Generated\FundingType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\FundingTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FundingTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialArea.DatabaseContextExtensions.cs" />

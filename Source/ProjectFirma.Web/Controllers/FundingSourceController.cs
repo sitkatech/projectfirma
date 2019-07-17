@@ -171,6 +171,7 @@ namespace ProjectFirma.Web.Controllers
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
 
             var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
+
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
