@@ -195,7 +195,6 @@ namespace ProjectFirmaModels.Models
         TaxonomyLeafDisplayNameForProject = 244,
         ProjectRelationshipType = 245,
         ProjectSteward = 246,
-        ChartLastUpdatedDate = 247,
         TargetedFunding = 248,
         ProjectStewardOrganizationDisplayName = 249,
         ClassificationSystem = 250,

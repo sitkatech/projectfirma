@@ -13,8 +13,8 @@ update dbo.FieldDefinitionData
 set FieldDefinitionLabel = 'Goal Statement'
 where FieldDefinitionID = 241
 
-insert into dbo.FieldDefinitionData(FieldDefinitionID)
-select a.FieldDefinitionID
+insert into dbo.FieldDefinitionData(TenantID, FieldDefinitionID)
+select a.TenantID, a.FieldDefinitionID
 from
 (
 	select t.TenantID, FieldDefinitionID

@@ -70,7 +70,6 @@ VALUES
 (244, N'TaxonomyLeafDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>'),
 (245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>'),
 (246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>'),
-(247, N'Chart Last Updated Date', N'ChartLastUpdatedDate', N'<p>The date this chart was last updated with current information.</p>'),
 (248, N'TargetedFunding', N'Targeted Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>'),
 (249, N'ProjectStewardOrganizationDisplayName', N'Project Steward Organization Display Name', N'<p>Label for Organization types that can steward projects.</p>'),
 (250, N'ClassificationSystem', N'Classification System', N'<p>The type of logical system used to group projects according to overarching program themes or goals.</p>'),
