@@ -103,6 +103,8 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Enable Secondary Project Taxonomy Leaf")]
         public bool EnableSecondaryProjectTaxonomyLeaf { get; set; }
 
+        [DisplayName("Can Manage Custom Attributes")]
+        public bool CanManageCustomAttributes { get; set; }
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -125,6 +127,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ShowLeadImplementerLogoOnFactSheet = tenantAttribute.ShowLeadImplementerLogoOnFactSheet;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
+            CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -135,6 +138,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.ShowLeadImplementerLogoOnFactSheet = ShowLeadImplementerLogoOnFactSheet;
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
             attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
+            attribute.CanManageCustomAttributes = CanManageCustomAttributes;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
