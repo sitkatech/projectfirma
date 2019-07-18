@@ -135,5 +135,26 @@ namespace ProjectFirma.Web.Models
 
             return new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
         }
+
+        public static string GetFundingSourceCustomAttributesValue(this ProjectFundingSourceExpenditure projectFundingSourceExpenditure, FundingSourceCustomAttributeType fundingSourceCustomAttributeType)
+        {
+            var fundingSourceCustomAttribute = projectFundingSourceExpenditure.FundingSource.FundingSourceCustomAttributes.SingleOrDefault(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID);
+            if (fundingSourceCustomAttribute != null)
+            {
+                if (fundingSourceCustomAttributeType.FundingSourceCustomAttributeDataType == FundingSourceCustomAttributeDataType.DateTime)
+                {
+                    return DateTime.TryParse(fundingSourceCustomAttribute.GetCustomAttributeValues().Single().AttributeValue, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return string.Join(", ",
+                        fundingSourceCustomAttribute.FundingSourceCustomAttributeValues.Select(x => x.AttributeValue));
+                }
+            }
+            else
+            {
+                return "None";
+            }
+        }
     }
 }

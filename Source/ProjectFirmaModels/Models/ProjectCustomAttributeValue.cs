@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         {
-            return $"Custom Attribute Value (ID: {ProjectCustomAttributeID}, value = \"{AttributeValue}\")";
+            return $"Project Custom Attribute Value (ID: {ProjectCustomAttributeID}, value = \"{AttributeValue}\")";
         }
 
         public void SetIProjectCustomAttributeValueID(int value) => ProjectCustomAttributeValueID = value;
