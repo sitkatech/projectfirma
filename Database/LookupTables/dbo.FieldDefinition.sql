@@ -81,7 +81,7 @@ VALUES
 (256, N'TaxonomyLeafDescription', N'Taxonomy Leaf Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>'),
 (257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>'),
 (258, N'ShowLeadImplementerLogoOnFactSheet', N'Show Lead Implementer Logo on Project Fact Sheet?', N'<p>When this option is set, project fact sheets will include the lead implementer''s logo under the website logo. When not set, only the website logo will be shown on fact sheets.'),
-(259, N'ProjectCustomAttribute', N'Custom Attribute', N''),
+(259, N'ProjectCustomAttribute', N'Project Custom Attribute', N''),
 (260, N'ProjectCustomAttributeDataType', N'Data Type', N''),
 (261, N'ProjectUpdateKickOffDate', N'Kick-off Date', N'The date to send the initial notification about Project Updates to Primary Contacts'),
 (262, N'ProjectUpdateReminderInterval', N'Reminder Interval (days)', N'The number of days between repeated Project Update Reminders'),
