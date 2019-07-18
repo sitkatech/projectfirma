@@ -2673,12 +2673,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
-            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
+            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allOrganizationRelationshipTypes, defaultPrimaryContact);
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.RelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
@@ -2827,7 +2827,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             projectOrganizations.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
-                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+                new ProjectOrganization(x.Organization, x.OrganizationRelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
@@ -2847,7 +2847,7 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizations = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
 
             projectOrganizations.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
-                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+                new ProjectOrganization(x.Organization, x.OrganizationRelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
@@ -2857,14 +2857,14 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.RelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }
 
         public class ProjectOrganizationEqualityComparer : EqualityComparerByProperty<IProjectOrganization>
         {
-            public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.RelationshipType.RelationshipTypeID})
+            public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.OrganizationRelationshipType.OrganizationRelationshipTypeID })
             {
             }
         }

@@ -28,12 +28,12 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Views.OrganizationAndRelationshipType;
+using ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class OrganizationAndRelationshipTypeController : FirmaBaseController
+    public class OrganizationTypeAndOrganizationRelationshipTypeController : FirmaBaseController
     {
         [OrganizationAndRelationshipTypeViewFeature]
         public ViewResult Index()
@@ -64,12 +64,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationAndRelationshipTypeViewFeature]
-        public GridJsonNetJObjectResult<RelationshipType> RelationshipTypeGridJsonData()
+        public GridJsonNetJObjectResult<OrganizationRelationshipType> OrganizationRelationshipTypeGridJsonData()
         {
             var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new RelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList());
-            var relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList().OrderBy(x => x.RelationshipTypeName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<RelationshipType>(relationshipTypes, gridSpec);
+            var gridSpec = new OrganizationRelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList());
+            var organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList().OrderBy(x => x.OrganizationRelationshipTypeName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<OrganizationRelationshipType>(organizationRelationshipTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
             var fieldDefinitionLabel = FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel();
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete this {fieldDefinitionLabel} '{organizationType.OrganizationTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(fieldDefinitionLabel, SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(fieldDefinitionLabel, SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -171,89 +171,89 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [OrganizationAndRelationshipTypeManageFeature]
-        public PartialViewResult NewRelationshipType()
+        public PartialViewResult NewOrganizationRelationshipType()
         {
-            var viewModel = new EditRelationshipTypeViewModel();
-            return ViewNewRelationshipType(viewModel);
+            var viewModel = new EditOrganizationRelationshipTypeViewModel();
+            return ViewNewOrganizationRelationshipType(viewModel);
         }
 
         [HttpPost]
         [OrganizationAndRelationshipTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewRelationshipType(EditRelationshipTypeViewModel viewModel)
+        public ActionResult NewOrganizationRelationshipType(EditOrganizationRelationshipTypeViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewNewRelationshipType(viewModel);
+                return ViewNewOrganizationRelationshipType(viewModel);
             }
-            var relationshipType = new RelationshipType(viewModel.RelationshipTypeName, false, false, false, false, false);
-            HttpRequestStorage.DatabaseEntities.AllRelationshipTypes.Add(relationshipType);
+            var relationshipType = new OrganizationRelationshipType(viewModel.OrganizationRelationshipTypeName, false, false, false, false, false);
+            HttpRequestStorage.DatabaseEntities.AllOrganizationRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            HttpRequestStorage.DatabaseEntities.OrganizationTypeRelationshipTypes.Load();
-            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeRelationshipTypes.Local;
+            HttpRequestStorage.DatabaseEntities.OrganizationTypeOrganizationRelationshipTypes.Load();
+            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeOrganizationRelationshipTypes.Local;
 
             viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.RelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.OrganizationRelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
         [OrganizationAndRelationshipTypeManageFeature]
-        public PartialViewResult EditRelationshipType(RelationshipTypePrimaryKey relationshipTypePrimaryKey)
+        public PartialViewResult EditOrganizationRelationshipType(OrganizationRelationshipTypePrimaryKey organizationRelationshipTypePrimaryKey)
         {
-            var relationshipType = relationshipTypePrimaryKey.EntityObject;
-            var viewModel = new EditRelationshipTypeViewModel(relationshipType);
-            return ViewEditRelationshipType(viewModel);
+            var organizationRelationshipType = organizationRelationshipTypePrimaryKey.EntityObject;
+            var viewModel = new EditOrganizationRelationshipTypeViewModel(organizationRelationshipType);
+            return ViewEditOrganizationRelationshipType(viewModel);
         }
 
         [HttpPost]
         [OrganizationAndRelationshipTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditRelationshipType(RelationshipTypePrimaryKey relationshipTypePrimaryKey, EditRelationshipTypeViewModel viewModel)
+        public ActionResult EditOrganizationRelationshipType(OrganizationRelationshipTypePrimaryKey organizationRelationshipTypePrimaryKey, EditOrganizationRelationshipTypeViewModel viewModel)
         {
-            var relationshipType = relationshipTypePrimaryKey.EntityObject;
+            var relationshipType = organizationRelationshipTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditRelationshipType(viewModel);
+                return ViewEditOrganizationRelationshipType(viewModel);
             }
 
-            HttpRequestStorage.DatabaseEntities.OrganizationTypeRelationshipTypes.Load();
-            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeRelationshipTypes.Local;
+            HttpRequestStorage.DatabaseEntities.OrganizationTypeOrganizationRelationshipTypes.Load();
+            var organizationTypeRelationshipTypes = HttpRequestStorage.DatabaseEntities.AllOrganizationTypeOrganizationRelationshipTypes.Local;
 
             viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNewRelationshipType(EditRelationshipTypeViewModel viewModel)
+        private PartialViewResult ViewNewOrganizationRelationshipType(EditOrganizationRelationshipTypeViewModel viewModel)
         {
-            return ViewEditRelationshipType(viewModel);
+            return ViewEditOrganizationRelationshipType(viewModel);
         }
 
-        private PartialViewResult ViewEditRelationshipType(EditRelationshipTypeViewModel viewModel)
+        private PartialViewResult ViewEditOrganizationRelationshipType(EditOrganizationRelationshipTypeViewModel viewModel)
         {
             var allOrganizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
-            var viewData = new EditRelationshipTypeViewData(allOrganizationTypes);
-            return RazorPartialView<EditRelationshipType, EditRelationshipTypeViewData, EditRelationshipTypeViewModel>(viewData, viewModel);
+            var viewData = new EditOrganizationRelationshipTypeViewData(allOrganizationTypes);
+            return RazorPartialView<EditOrganizationRelationshipType, EditOrganizationRelationshipTypeViewData, EditOrganizationRelationshipTypeViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
         [OrganizationAndRelationshipTypeManageFeature]
-        public PartialViewResult DeleteRelationshipType(RelationshipTypePrimaryKey relationshipTypePrimaryKey)
+        public PartialViewResult DeleteOrganizationRelationshipType(OrganizationRelationshipTypePrimaryKey organizationRelationshipTypePrimaryKey)
         {
-            var relationshipType = relationshipTypePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(relationshipType.RelationshipTypeID);
-            return ViewDeleteRelationshipType(relationshipType, viewModel);
+            var organizationRelationshipType = organizationRelationshipTypePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(organizationRelationshipType.OrganizationRelationshipTypeID);
+            return ViewDeleteRelationshipType(organizationRelationshipType, viewModel);
         }
 
-        private PartialViewResult ViewDeleteRelationshipType(RelationshipType relationshipType, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteRelationshipType(OrganizationRelationshipType organizationRelationshipType, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = relationshipType.CanDelete();
+            var canDelete = organizationRelationshipType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} '{relationshipType.RelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<OrganizationAndRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} '{organizationRelationshipType.OrganizationRelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -262,14 +262,14 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [OrganizationAndRelationshipTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteRelationshipType(RelationshipTypePrimaryKey relationshipTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteOrganizationRelationshipType(OrganizationRelationshipTypePrimaryKey organizationRelationshipTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var relationshipType = relationshipTypePrimaryKey.EntityObject;
+            var organizationRelationshipType = organizationRelationshipTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteRelationshipType(relationshipType, viewModel);
+                return ViewDeleteRelationshipType(organizationRelationshipType, viewModel);
             }
-            relationshipType.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            organizationRelationshipType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

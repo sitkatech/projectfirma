@@ -29,24 +29,24 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
+namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 {
-    public class RelationshipTypeGridSpec : GridSpec<RelationshipType>
+    public class OrganizationRelationshipTypeGridSpec : GridSpec<OrganizationRelationshipType>
     {
-        public RelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
+        public OrganizationRelationshipTypeGridSpec(bool hasManagePermissions, List<OrganizationType> allOrganizationTypes)
         {
             var basicsColumnGroupCount = 5;
 
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditRelationshipType(a)),
-                        $"Edit {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.RelationshipTypeName}\"")),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationRelationshipType(a)),
+                        $"Edit {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.OrganizationRelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
-            Add($"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.RelationshipTypeName, 240);
+            Add($"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.OrganizationRelationshipTypeName, 240);
             Add($"Can Steward {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}?", a => a.CanStewardProjects.ToCheckboxImageOrEmptyForGrid(), 90);
             Add("Serves as Primary Contact?", a => a.IsPrimaryContact.ToCheckboxImageOrEmptyForGrid(), 90);
             Add($"Must be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);

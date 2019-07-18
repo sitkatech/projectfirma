@@ -36,7 +36,7 @@ namespace ProjectFirmaModels.UnitTestCommon
 
             public static ProjectOrganization Create(Project project, Organization organization)
             {
-                var projectOrganization = ProjectOrganization.CreateNewBlank(project, organization, RelationshipType.CreateNewBlank());
+                var projectOrganization = ProjectOrganization.CreateNewBlank(project, organization, OrganizationRelationshipType.CreateNewBlank());
                 return projectOrganization;
             }
         }

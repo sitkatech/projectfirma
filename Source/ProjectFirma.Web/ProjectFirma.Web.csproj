@@ -131,7 +131,7 @@
     <Compile Include="Models\ProjectUpdateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
-    <Compile Include="Models\RelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -489,7 +489,7 @@
     <Compile Include="Views\Tenant\EditClassificationSystemsViewModel.cs" />
     <Compile Include="Views\GeospatialArea\MapTooltipViewData.cs" />
     <Compile Include="Views\GeospatialArea\MapTooltip.cs" />
-    <Compile Include="Controllers\OrganizationAndRelationshipTypeController.cs" />
+    <Compile Include="Controllers\OrganizationTypeAndOrganizationRelationshipTypeController.cs" />
     <Compile Include="Models\LayerGeoJsonType.cs" />
     <Compile Include="Views\Organization\EditBoundaryErrors.cs" />
     <Compile Include="Controllers\FirmaHomePageImageController.cs" />
@@ -764,7 +764,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Organization\PullOrganizationFromKeystone.cshtml" />
-    <Content Include="Views\OrganizationAndRelationshipType\EditRelationshipType.cshtml" />
+    <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipType.cshtml" />
     <Content Include="Views\Organization\EditBoundary.cshtml" />
     <Content Include="Views\Home\ManageHomePageImages.cshtml" />
     <Content Include="Views\Organization\ApproveUploadGis.cshtml" />
@@ -789,10 +789,10 @@
     </Compile>
     <Compile Include="Views\Home\FeaturedProjects.cs" />
     <Compile Include="Views\Home\FeaturedProjectsViewData.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipType.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipTypeViewData.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditRelationshipTypeViewModel.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\RelationshipTypeGridSpec.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipType.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeViewData.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeViewModel.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\OrganizationRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\Home\ManageHomePageImagesViewData.cs" />
     <Compile Include="Views\Home\ManageHomePageImages.cs" />
     <Compile Include="Views\Organization\PullOrganizationFromKeystone.cs" />
@@ -880,12 +880,12 @@
     <Compile Include="Security\SpendingByPerformanceMeasureByProjectViewFeature.cs" />
     <Compile Include="Security\SpendingByOrganizationTypeByOrganizationViewFeature.cs" />
     <Compile Include="Views\Classification\IndexGridSpec.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationType.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationTypeViewData.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\EditOrganizationTypeViewModel.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\Index.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\OrganizationTypeGridSpec.cs" />
-    <Compile Include="Views\OrganizationAndRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationType.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationTypeViewData.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationTypeViewModel.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\Index.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\OrganizationTypeGridSpec.cs" />
+    <Compile Include="Views\OrganizationTypeAndOrganizationRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\FirmaHomePageImage\Edit.cs" />
     <Compile Include="Views\FirmaHomePageImage\EditViewData.cs" />
     <Compile Include="Views\FirmaHomePageImage\EditViewModel.cs" />
@@ -1317,8 +1317,8 @@
     <Content Include="Views\Tenant\Detail.cshtml" />
     <Content Include="Views\Tenant\EditBasics.cshtml" />
     <Content Include="Views\Tenant\EditBoundingBox.cshtml" />
-    <Content Include="Views\OrganizationAndRelationshipType\EditOrganizationType.cshtml" />
-    <Content Include="Views\OrganizationAndRelationshipType\Index.cshtml" />
+    <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationType.cshtml" />
+    <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\Index.cshtml" />
     <Content Include="Views\FirmaHomePageImage\Edit.cshtml" />
     <Content Include="Views\FirmaHomePageImage\New.cshtml" />
     <Content Include="Views\Shared\ViewPageContent.cshtml" />

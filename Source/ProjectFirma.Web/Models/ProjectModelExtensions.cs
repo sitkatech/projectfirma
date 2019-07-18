@@ -166,20 +166,20 @@ namespace ProjectFirmaModels.Models
         {
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
                 .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
-                .Select(x => new ProjectOrganizationRelationship(project, x, RelationshipTypeModelExtensions.RelationshipTypeNameFunder));
+                .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
 
         public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
-            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
             return explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList();
         }
 
         public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project)
         {
-            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
             return explicitOrganizations;
         }
@@ -232,7 +232,7 @@ namespace ProjectFirmaModels.Models
 
         public static IEnumerable<Organization> GetOrganizationsToReportInAccomplishments(this Project project)
         {
-            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
+            if (MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard() == null)
             {
                 // Default is Funding Organizations
                 var organizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
@@ -241,7 +241,7 @@ namespace ProjectFirmaModels.Models
                 return organizations;
             }
 
-            return project.ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+            return project.ProjectOrganizations.Where(x => x.OrganizationRelationshipType.ReportInAccomplishmentsDashboard)
                 .Select(x => x.Organization).ToList();
         }
 
@@ -620,10 +620,10 @@ namespace ProjectFirmaModels.Models
             var fundingOrganizations = project.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
-                .Where(x => x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
+                .Where(x => x.OrganizationRelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
             associatedOrganizations.RemoveAll(x => x.OrganizationID == project.GetPrimaryContactOrganization()?.OrganizationID);
-            var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
-                .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+            var organizationNames = associatedOrganizations.OrderByDescending(x => x.OrganizationRelationshipType.IsPrimaryContact)
+                .ThenByDescending(x => x.OrganizationRelationshipType.CanStewardProjects)
                 .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
                 .Distinct().ToList();
             return organizationNames.Any() ? String.Join(", ", organizationNames) : String.Empty;

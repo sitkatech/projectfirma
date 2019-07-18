@@ -30,7 +30,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
+namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 {
     public class OrganizationTypeGridSpec : GridSpec<OrganizationType>
     {
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(OrganizationTypeModelExtensions.GetDeleteUrl(x), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationAndRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildUrlFromExpression(t => t.EditOrganizationType(a)),
                         $"Edit {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()} '{a.OrganizationTypeName}'")),
                     30, DhtmlxGridColumnFilterType.None);
             }

@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[OrganizationTypeRelationshipType]
+//  Source Table: [dbo].[OrganizationTypeOrganizationRelationshipType]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[OrganizationTypeRelationshipType] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[OrganizationTypeRelationshipType]")]
-    public partial class OrganizationTypeRelationshipType : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[OrganizationTypeOrganizationRelationshipType] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[OrganizationTypeOrganizationRelationshipType]")]
+    public partial class OrganizationTypeOrganizationRelationshipType : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected OrganizationTypeRelationshipType()
+        protected OrganizationTypeOrganizationRelationshipType()
         {
 
         }
@@ -30,46 +30,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationTypeRelationshipType(int organizationTypeRelationshipTypeID, int organizationTypeID, int relationshipTypeID) : this()
+        public OrganizationTypeOrganizationRelationshipType(int organizationTypeOrganizationRelationshipTypeID, int organizationTypeID, int organizationRelationshipTypeID) : this()
         {
-            this.OrganizationTypeRelationshipTypeID = organizationTypeRelationshipTypeID;
+            this.OrganizationTypeOrganizationRelationshipTypeID = organizationTypeOrganizationRelationshipTypeID;
             this.OrganizationTypeID = organizationTypeID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public OrganizationTypeRelationshipType(int organizationTypeID, int relationshipTypeID) : this()
+        public OrganizationTypeOrganizationRelationshipType(int organizationTypeID, int organizationRelationshipTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.OrganizationTypeRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.OrganizationTypeOrganizationRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.OrganizationTypeID = organizationTypeID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public OrganizationTypeRelationshipType(OrganizationType organizationType, RelationshipType relationshipType) : this()
+        public OrganizationTypeOrganizationRelationshipType(OrganizationType organizationType, OrganizationRelationshipType organizationRelationshipType) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.OrganizationTypeRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.OrganizationTypeOrganizationRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.OrganizationTypeID = organizationType.OrganizationTypeID;
             this.OrganizationType = organizationType;
-            organizationType.OrganizationTypeRelationshipTypes.Add(this);
-            this.RelationshipTypeID = relationshipType.RelationshipTypeID;
-            this.RelationshipType = relationshipType;
-            relationshipType.OrganizationTypeRelationshipTypes.Add(this);
+            organizationType.OrganizationTypeOrganizationRelationshipTypes.Add(this);
+            this.OrganizationRelationshipTypeID = organizationRelationshipType.OrganizationRelationshipTypeID;
+            this.OrganizationRelationshipType = organizationRelationshipType;
+            organizationRelationshipType.OrganizationTypeOrganizationRelationshipTypes.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static OrganizationTypeRelationshipType CreateNewBlank(OrganizationType organizationType, RelationshipType relationshipType)
+        public static OrganizationTypeOrganizationRelationshipType CreateNewBlank(OrganizationType organizationType, OrganizationRelationshipType organizationRelationshipType)
         {
-            return new OrganizationTypeRelationshipType(organizationType, relationshipType);
+            return new OrganizationTypeOrganizationRelationshipType(organizationType, organizationRelationshipType);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationTypeRelationshipType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationTypeOrganizationRelationshipType).Name};
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllOrganizationTypeRelationshipTypes.Remove(this);
+            dbContext.AllOrganizationTypeOrganizationRelationshipTypes.Remove(this);
         }
         
         /// <summary>
@@ -105,16 +105,16 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int OrganizationTypeRelationshipTypeID { get; set; }
+        public int OrganizationTypeOrganizationRelationshipTypeID { get; set; }
         public int TenantID { get; set; }
         public int OrganizationTypeID { get; set; }
-        public int RelationshipTypeID { get; set; }
+        public int OrganizationRelationshipTypeID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return OrganizationTypeRelationshipTypeID; } set { OrganizationTypeRelationshipTypeID = value; } }
+        public int PrimaryKey { get { return OrganizationTypeOrganizationRelationshipTypeID; } set { OrganizationTypeOrganizationRelationshipTypeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual OrganizationType OrganizationType { get; set; }
-        public virtual RelationshipType RelationshipType { get; set; }
+        public virtual OrganizationRelationshipType OrganizationRelationshipType { get; set; }
 
         public static class FieldLengths
         {

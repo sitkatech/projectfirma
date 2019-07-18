@@ -115,7 +115,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         protected OrganizationType()
         {
             this.Organizations = new HashSet<Organization>();
-            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
+            this.OrganizationTypeOrganizationRelationshipTypes = new HashSet<OrganizationTypeOrganizationRelationshipType>();
         }
 
         /// <summary>
@@ -73,13 +73,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Organizations.Any() || OrganizationTypeRelationshipTypes.Any();
+            return Organizations.Any() || OrganizationTypeOrganizationRelationshipTypes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeRelationshipType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationType).Name, typeof(Organization).Name, typeof(OrganizationTypeOrganizationRelationshipType).Name};
 
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in OrganizationTypeRelationshipTypes.ToList())
+            foreach(var x in OrganizationTypeOrganizationRelationshipTypes.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -128,7 +128,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return OrganizationTypeID; } set { OrganizationTypeID = value; } }
 
         public virtual ICollection<Organization> Organizations { get; set; }
-        public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
+        public virtual ICollection<OrganizationTypeOrganizationRelationshipType> OrganizationTypeOrganizationRelationshipTypes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

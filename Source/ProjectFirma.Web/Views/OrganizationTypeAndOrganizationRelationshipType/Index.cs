@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Index.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,19 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
-
-namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
+namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 {
-    public class EditRelationshipTypeViewData : FirmaUserControlViewData
+    public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
     {
-        public readonly List<OrganizationType> AllOrganizationTypes;
-        public EditRelationshipTypeViewData(List<OrganizationType> allOrganizationTypes)
-        {
-            AllOrganizationTypes = allOrganizationTypes.OrderBy(x => x.OrganizationTypeName).ToList();
-        }
     }
 }

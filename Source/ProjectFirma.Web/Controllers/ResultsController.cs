@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
 
             List<Organization> organizations;
             // default to Funding Organizations if no relationship type is selected to report in the dashboard.
-            var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard();
+            var relationshipTypeToReportInAccomplishmentsDashboard = MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard();
             if (relationshipTypeToReportInAccomplishmentsDashboard == null)
             {
                 var expectedFundingOrganizations = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 organizations = HttpRequestStorage.DatabaseEntities.Projects.ToList().SelectMany(x =>
                     x.ProjectOrganizations.Where(y =>
-                        y.RelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();              
+                        y.OrganizationRelationshipType == relationshipTypeToReportInAccomplishmentsDashboard).Select(z => z.Organization)).ToList().Distinct(new HavePrimaryKeyComparer<Organization>()).OrderBy(x => x.OrganizationName).ToList();              
             }
 
             var defaultEndYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -491,20 +491,20 @@ namespace ProjectFirma.Web.Controllers
                 return ViewConfigureAccomplishmentsDashboard(viewModel);
             }
 
-            var relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes;
+            var organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes;
 
-            viewModel.UpdateModel(relationshipTypes);
+            viewModel.UpdateModel(organizationRelationshipTypes);
 
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewConfigureAccomplishmentsDashboard(ConfigureAccomplishmentsDashboardViewModel viewModel)
         {
-            IEnumerable<SelectListItem> relationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes
+            IEnumerable<SelectListItem> organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes
                 .ToList().ToSelectListWithEmptyFirstRow(
-                    x => x.RelationshipTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.RelationshipTypeName.ToString(CultureInfo.InvariantCulture), "Funding Organization (Default)");
-            var viewData = new ConfigureAccomplishmentsDashboardViewData(relationshipTypes);
+                    x => x.OrganizationRelationshipTypeID.ToString(CultureInfo.InvariantCulture),
+                    x => x.OrganizationRelationshipTypeName.ToString(CultureInfo.InvariantCulture), "Funding Organization (Default)");
+            var viewData = new ConfigureAccomplishmentsDashboardViewData(organizationRelationshipTypes);
             return RazorPartialView<ConfigureAccomplishmentsDashboard, ConfigureAccomplishmentsDashboardViewData,
                 ConfigureAccomplishmentsDashboardViewModel>(viewData, viewModel);
         }

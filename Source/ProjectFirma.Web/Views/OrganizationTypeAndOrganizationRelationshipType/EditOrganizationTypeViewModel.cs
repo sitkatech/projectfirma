@@ -28,7 +28,7 @@ using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.OrganizationAndRelationshipType
+namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
 {
     public class EditOrganizationTypeViewModel : FormViewModel, IValidatableObject
     {

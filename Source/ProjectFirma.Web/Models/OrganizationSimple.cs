@@ -74,9 +74,9 @@ namespace ProjectFirma.Web.Models
             URL = organization.OrganizationUrl;
             DetailUrl = organization.GetDetailUrl();
             LogoFileResourceID = organization.LogoFileResourceID;
-            ValidRelationshipTypeSimples = organization.OrganizationType?.OrganizationTypeRelationshipTypes.Select(x => x.RelationshipType).ToList()
-                                               .Select(x => new RelationshipTypeSimple(x))
-                                               .ToList() ?? new List<RelationshipTypeSimple>();
+            ValidOrganizationRelationshipTypeSimples = organization.OrganizationType?.OrganizationTypeOrganizationRelationshipTypes.Select(x => x.OrganizationRelationshipType).ToList()
+                                               .Select(x => new OrganizationRelationshipTypeSimple(x))
+                                               .ToList() ?? new List<OrganizationRelationshipTypeSimple>();
         }
 
         public int OrganizationID { get; set; }
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Models
         public string URL { get; set; }
         public string DetailUrl { get; set; }
         public int? LogoFileResourceID { get; set; }
-        public List<RelationshipTypeSimple> ValidRelationshipTypeSimples;
+        public List<OrganizationRelationshipTypeSimple> ValidOrganizationRelationshipTypeSimples;
 
         public string DisplayName
         {

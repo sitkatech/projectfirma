@@ -67,8 +67,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
-            modelBuilder.Configurations.Add(new OrganizationTypeRelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationTypeOrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualSubcategoryOptionConfiguration());
@@ -125,7 +126,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
-            modelBuilder.Configurations.Add(new RelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
@@ -192,10 +192,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationRelationshipType> OrganizationRelationshipTypes { get { return AllOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<OrganizationTypeRelationshipType> AllOrganizationTypeRelationshipTypes { get; set; }
-        public virtual IQueryable<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get { return AllOrganizationTypeRelationshipTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationTypeOrganizationRelationshipType> AllOrganizationTypeOrganizationRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationTypeOrganizationRelationshipType> OrganizationTypeOrganizationRelationshipTypes { get { return AllOrganizationTypeOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
         public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Person> AllPeople { get; set; }
@@ -310,8 +312,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
-        public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
@@ -473,11 +473,14 @@ namespace ProjectFirmaModels.Models
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
 
+                case "OrganizationRelationshipType":
+                    return OrganizationRelationshipTypes.GetOrganizationRelationshipType(primaryKey);
+
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
-                case "OrganizationTypeRelationshipType":
-                    return OrganizationTypeRelationshipTypes.GetOrganizationTypeRelationshipType(primaryKey);
+                case "OrganizationTypeOrganizationRelationshipType":
+                    return OrganizationTypeOrganizationRelationshipTypes.GetOrganizationTypeOrganizationRelationshipType(primaryKey);
 
                 case "OrganizationType":
                     return OrganizationTypes.GetOrganizationType(primaryKey);
@@ -739,9 +742,6 @@ namespace ProjectFirmaModels.Models
                     var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
                     return projectWorkflowSectionGrouping;
-
-                case "RelationshipType":
-                    return RelationshipTypes.GetRelationshipType(primaryKey);
 
                 case "ReleaseNote":
                     return ReleaseNotes.GetReleaseNote(primaryKey);

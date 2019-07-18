@@ -178,24 +178,24 @@ namespace ProjectFirma.Web.Models
 
         public static bool CanBeAnApprovingOrganization(this Organization organization)
         {
-            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+            return organization.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any(x => x.OrganizationRelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.OrganizationRelationshipTypeID);
         }
 
         public static bool CanBeReportedInAccomplishmentsDashboard(this Organization organization)
         {
-            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x =>
-                x.RelationshipTypeID == MultiTenantHelpers
-                    .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID);
+            return organization.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any(x =>
+                x.OrganizationRelationshipTypeID == MultiTenantHelpers
+                    .GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard()?.OrganizationRelationshipTypeID);
         }
 
         public static bool CanBeAPrimaryContactOrganization(this Organization organization)
         {
-            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.RelationshipTypeID);
+            return organization.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any(x => x.OrganizationRelationshipTypeID == MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship()?.OrganizationRelationshipTypeID);
         }
 
         public static bool CanStewardProjects(this Organization organization)
         {
-            return organization.OrganizationType.OrganizationTypeRelationshipTypes.Any(x => x.RelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.RelationshipTypeID);
+            return organization.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any(x => x.OrganizationRelationshipTypeID == MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship()?.OrganizationRelationshipTypeID);
         }
 
         public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(this Organization organization,

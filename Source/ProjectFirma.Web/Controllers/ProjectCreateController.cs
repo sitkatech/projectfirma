@@ -1416,7 +1416,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
             var editOrganizationsViewData = new EditOrganizationsViewData(project, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);

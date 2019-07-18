@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[ProjectOrganization](
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[OrganizationID] [int] NOT NULL,
-	[RelationshipTypeID] [int] NOT NULL,
+	[OrganizationRelationshipTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectOrganization_ProjectOrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectOrganizationID] ASC
@@ -30,6 +30,16 @@ REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_Organization_OrganizationID_TenantID]
 GO
+ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_OrganizationRelationshipType_OrganizationRelationshipTypeID] FOREIGN KEY([OrganizationRelationshipTypeID])
+REFERENCES [dbo].[OrganizationRelationshipType] ([OrganizationRelationshipTypeID])
+GO
+ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_OrganizationRelationshipType_OrganizationRelationshipTypeID]
+GO
+ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_OrganizationRelationshipType_OrganizationRelationshipTypeID_TenantID] FOREIGN KEY([OrganizationRelationshipTypeID], [TenantID])
+REFERENCES [dbo].[OrganizationRelationshipType] ([OrganizationRelationshipTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_OrganizationRelationshipType_OrganizationRelationshipTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
@@ -39,16 +49,6 @@ ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectO
 REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_Project_ProjectID_TenantID]
-GO
-ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID] FOREIGN KEY([RelationshipTypeID])
-REFERENCES [dbo].[RelationshipType] ([RelationshipTypeID])
-GO
-ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID]
-GO
-ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID] FOREIGN KEY([RelationshipTypeID], [TenantID])
-REFERENCES [dbo].[RelationshipType] ([RelationshipTypeID], [TenantID])
-GO
-ALTER TABLE [dbo].[ProjectOrganization] CHECK CONSTRAINT [FK_ProjectOrganization_RelationshipType_RelationshipTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectOrganization]  WITH CHECK ADD  CONSTRAINT [FK_ProjectOrganization_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

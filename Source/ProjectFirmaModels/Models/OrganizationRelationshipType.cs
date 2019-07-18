@@ -4,18 +4,18 @@ using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class RelationshipType : IAuditableEntity
+    public partial class OrganizationRelationshipType : IAuditableEntity
     {
         public bool CanDelete()
         {
             return !ProjectOrganizations.Any();
         }
 
-        public string GetAuditDescriptionString() => RelationshipTypeName;
+        public string GetAuditDescriptionString() => OrganizationRelationshipTypeName;
 
         public bool HasOrganizationsWithSpatialBoundary()
         {
-            return OrganizationTypeRelationshipTypes.Any(x =>
+            return OrganizationTypeOrganizationRelationshipTypes.Any(x =>
                 x.OrganizationType.Organizations.Any(y => y.OrganizationBoundary != null));            
         }
 
@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
                 return null;
             }
 
-            var organizationsInThisRelatonshipTypeWithBoundary = OrganizationTypeRelationshipTypes.SelectMany(x =>
+            var organizationsInThisRelatonshipTypeWithBoundary = OrganizationTypeOrganizationRelationshipTypes.SelectMany(x =>
                 x.OrganizationType.Organizations.Where(y => y.OrganizationBoundary != null));
 
             return organizationsInThisRelatonshipTypeWithBoundary.FirstOrDefault(x =>
@@ -54,7 +54,7 @@ namespace ProjectFirmaModels.Models
 
         public bool IsAssociatedWithOrganizationType(OrganizationType organizationType)
         {
-            return OrganizationTypeRelationshipTypes.Select(x => x.OrganizationType).Contains(organizationType);
+            return OrganizationTypeOrganizationRelationshipTypes.Select(x => x.OrganizationType).Contains(organizationType);
         }
     }
 }

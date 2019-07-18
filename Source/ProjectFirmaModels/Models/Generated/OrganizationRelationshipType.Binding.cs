@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[RelationshipType]
+//  Source Table: [dbo].[OrganizationRelationshipType]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,16 +15,16 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[RelationshipType] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[RelationshipType]")]
-    public partial class RelationshipType : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[OrganizationRelationshipType] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[OrganizationRelationshipType]")]
+    public partial class OrganizationRelationshipType : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected RelationshipType()
+        protected OrganizationRelationshipType()
         {
-            this.OrganizationTypeRelationshipTypes = new HashSet<OrganizationTypeRelationshipType>();
+            this.OrganizationTypeOrganizationRelationshipTypes = new HashSet<OrganizationTypeOrganizationRelationshipType>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
         }
@@ -32,14 +32,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(int relationshipTypeID, string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string relationshipTypeDescription, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
+        public OrganizationRelationshipType(int organizationRelationshipTypeID, string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, string organizationRelationshipTypeDescription, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
         {
-            this.RelationshipTypeID = relationshipTypeID;
-            this.RelationshipTypeName = relationshipTypeName;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
+            this.OrganizationRelationshipTypeName = organizationRelationshipTypeName;
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
-            this.RelationshipTypeDescription = relationshipTypeDescription;
+            this.OrganizationRelationshipTypeDescription = organizationRelationshipTypeDescription;
             this.ReportInAccomplishmentsDashboard = reportInAccomplishmentsDashboard;
             this.ShowOnFactSheet = showOnFactSheet;
         }
@@ -47,12 +47,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public RelationshipType(string relationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
+        public OrganizationRelationshipType(string organizationRelationshipTypeName, bool canStewardProjects, bool isPrimaryContact, bool canOnlyBeRelatedOnceToAProject, bool reportInAccomplishmentsDashboard, bool showOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.RelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.OrganizationRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.RelationshipTypeName = relationshipTypeName;
+            this.OrganizationRelationshipTypeName = organizationRelationshipTypeName;
             this.CanStewardProjects = canStewardProjects;
             this.IsPrimaryContact = isPrimaryContact;
             this.CanOnlyBeRelatedOnceToAProject = canOnlyBeRelatedOnceToAProject;
@@ -64,9 +64,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static RelationshipType CreateNewBlank()
+        public static OrganizationRelationshipType CreateNewBlank()
         {
-            return new RelationshipType(default(string), default(bool), default(bool), default(bool), default(bool), default(bool));
+            return new OrganizationRelationshipType(default(string), default(bool), default(bool), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -75,13 +75,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return OrganizationTypeRelationshipTypes.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
+            return OrganizationTypeOrganizationRelationshipTypes.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(RelationshipType).Name, typeof(OrganizationTypeRelationshipType).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(OrganizationRelationshipType).Name, typeof(OrganizationTypeOrganizationRelationshipType).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllRelationshipTypes.Remove(this);
+            dbContext.AllOrganizationRelationshipTypes.Remove(this);
         }
         
         /// <summary>
@@ -106,7 +106,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in OrganizationTypeRelationshipTypes.ToList())
+            foreach(var x in OrganizationTypeOrganizationRelationshipTypes.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -123,27 +123,27 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int RelationshipTypeID { get; set; }
+        public int OrganizationRelationshipTypeID { get; set; }
         public int TenantID { get; set; }
-        public string RelationshipTypeName { get; set; }
+        public string OrganizationRelationshipTypeName { get; set; }
         public bool CanStewardProjects { get; set; }
         public bool IsPrimaryContact { get; set; }
         public bool CanOnlyBeRelatedOnceToAProject { get; set; }
-        public string RelationshipTypeDescription { get; set; }
+        public string OrganizationRelationshipTypeDescription { get; set; }
         public bool ReportInAccomplishmentsDashboard { get; set; }
         public bool ShowOnFactSheet { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return RelationshipTypeID; } set { RelationshipTypeID = value; } }
+        public int PrimaryKey { get { return OrganizationRelationshipTypeID; } set { OrganizationRelationshipTypeID = value; } }
 
-        public virtual ICollection<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get; set; }
+        public virtual ICollection<OrganizationTypeOrganizationRelationshipType> OrganizationTypeOrganizationRelationshipTypes { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {
-            public const int RelationshipTypeName = 200;
-            public const int RelationshipTypeDescription = 360;
+            public const int OrganizationRelationshipTypeName = 200;
+            public const int OrganizationRelationshipTypeDescription = 360;
         }
     }
 }

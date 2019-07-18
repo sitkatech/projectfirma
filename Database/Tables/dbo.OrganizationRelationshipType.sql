@@ -2,34 +2,34 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[RelationshipType](
-	[RelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[OrganizationRelationshipType](
+	[OrganizationRelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[RelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[OrganizationRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[CanStewardProjects] [bit] NOT NULL,
 	[IsPrimaryContact] [bit] NOT NULL,
 	[CanOnlyBeRelatedOnceToAProject] [bit] NOT NULL,
-	[RelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReportInAccomplishmentsDashboard] [bit] NOT NULL,
 	[ShowOnFactSheet] [bit] NOT NULL,
- CONSTRAINT [PK_RelationshipType_RelationshipTypeID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_OrganizationRelationshipType_OrganizationRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
-	[RelationshipTypeID] ASC
+	[OrganizationRelationshipTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_RelationshipType_RelationshipTypeID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_OrganizationRelationshipType_OrganizationRelationshipTypeID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[RelationshipTypeID] ASC,
+	[OrganizationRelationshipTypeID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_RelationshipType_RelationshipTypeName_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_OrganizationRelationshipType_OrganizationRelationshipTypeName_TenantID] UNIQUE NONCLUSTERED 
 (
-	[RelationshipTypeName] ASC,
+	[OrganizationRelationshipTypeName] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_CanStewardProjects_OneTruePerTenant] ON [dbo].[RelationshipType]
+CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_CanStewardProjects_OneTruePerTenant] ON [dbo].[OrganizationRelationshipType]
 (
 	[TenantID] ASC,
 	[CanStewardProjects] ASC
@@ -37,7 +37,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_CanStewardProjects_OneTrue
 WHERE ([CanStewardProjects]=(1))
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_IsPrimaryContact_OneTruePerTenant] ON [dbo].[RelationshipType]
+CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_IsPrimaryContact_OneTruePerTenant] ON [dbo].[OrganizationRelationshipType]
 (
 	[TenantID] ASC,
 	[IsPrimaryContact] ASC
@@ -45,7 +45,7 @@ CREATE UNIQUE NONCLUSTERED INDEX [CK_RelationshipType_IsPrimaryContact_OneTruePe
 WHERE ([IsPrimaryContact]=(1))
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[RelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_RelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[OrganizationRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_OrganizationRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[RelationshipType] CHECK CONSTRAINT [FK_RelationshipType_Tenant_TenantID]
+ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [FK_OrganizationRelationshipType_Tenant_TenantID]

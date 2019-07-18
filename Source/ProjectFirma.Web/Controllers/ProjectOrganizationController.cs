@@ -70,10 +70,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
 
-            var viewData = new EditOrganizationsViewData(project, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
+            var viewData = new EditOrganizationsViewData(project, allOrganizations, allPeople, allOrganizationRelationshipTypes, defaultPrimaryContact);
             return RazorPartialView<EditOrganizations, EditOrganizationsViewData, EditOrganizationsViewModel>(viewData, viewModel);
         }
     }

@@ -12,7 +12,7 @@ namespace ProjectFirmaModels.Models
             projectUpdateBatch.ProjectUpdate.PrimaryContactPersonID = project.PrimaryContactPersonID;
             projectUpdateBatch.ProjectOrganizationUpdates =
                 project.ProjectOrganizations.Select(
-                    po => new ProjectOrganizationUpdate(projectUpdateBatch, po.Organization, po.RelationshipType)
+                    po => new ProjectOrganizationUpdate(projectUpdateBatch, po.Organization, po.OrganizationRelationshipType)
                 ).ToList();
         }
 
@@ -21,9 +21,9 @@ namespace ProjectFirmaModels.Models
             var project = projectUpdateBatch.Project;
             var projectOrganizationsFromProjectUpdate =
                 projectUpdateBatch.ProjectOrganizationUpdates.Select(
-                    x => new ProjectOrganization(project.ProjectID, x.OrganizationID, x.RelationshipTypeID)).ToList();
+                    x => new ProjectOrganization(project.ProjectID, x.OrganizationID, x.OrganizationRelationshipTypeID)).ToList();
             project.ProjectOrganizations.Merge(projectOrganizationsFromProjectUpdate, allProjectOrganizations,
-                (x, y) => x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+                (x, y) => x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

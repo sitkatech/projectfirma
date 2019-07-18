@@ -24,7 +24,7 @@
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.OrganizationAndRelationshipType.Index
+@inherits ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
@@ -44,5 +44,5 @@
     @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.RelationshipTypeGridSpec, ViewDataTyped.RelationshipTypeGridName, ViewDataTyped.RelationshipTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.DhtmlxGrid(ViewDataTyped.OrganizationRelationshipTypeGridSpec, ViewDataTyped.OrganizationRelationshipTypeGridName, ViewDataTyped.OrganizationRelationshipTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

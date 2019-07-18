@@ -4,25 +4,25 @@
     {
         public Project Project { get; }
         public Organization Organization { get; }
-        public string RelationshipTypeName { get; }
+        public string OrganizationRelationshipTypeName { get; }
         public string DisplayCssClass { get; }
 
 
-        public ProjectOrganizationRelationship(Project project, Organization organization, RelationshipType relationshipType)
+        public ProjectOrganizationRelationship(Project project, Organization organization, OrganizationRelationshipType organizationRelationshipType)
         {
             Project = project;
             Organization = organization;
-            RelationshipTypeName = relationshipType.RelationshipTypeName;
+            OrganizationRelationshipTypeName = organizationRelationshipType.OrganizationRelationshipTypeName;
         }
 
-        public ProjectOrganizationRelationship(Project project, Organization organization, string relationshipTypeName)
+        public ProjectOrganizationRelationship(Project project, Organization organization, string organizationRelationshipTypeName)
         {
             Project = project;
             Organization = organization;
-            RelationshipTypeName = relationshipTypeName;
+            OrganizationRelationshipTypeName = organizationRelationshipTypeName;
         }
 
-        public ProjectOrganizationRelationship(Project project, Organization organization, RelationshipType relationshipType, string displayCssClass) : this(project, organization, relationshipType)
+        public ProjectOrganizationRelationship(Project project, Organization organization, OrganizationRelationshipType organizationRelationshipType, string displayCssClass) : this(project, organization, organizationRelationshipType)
         {
             DisplayCssClass = displayCssClass;
         }

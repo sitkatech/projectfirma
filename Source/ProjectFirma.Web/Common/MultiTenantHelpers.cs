@@ -189,14 +189,14 @@ namespace ProjectFirma.Web.Common
             return GetCanStewardProjectsOrganizationRelationship() != null;
         }
 
-        public static RelationshipType GetCanStewardProjectsOrganizationRelationship()
+        public static OrganizationRelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
+            return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
         }
 
-        public static RelationshipType GetRelationshipTypeToReportInAccomplishmentsDashboard()
+        public static OrganizationRelationshipType GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x =>
+            return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x =>
                 x.ReportInAccomplishmentsDashboard);
         }
 
@@ -205,9 +205,9 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttribute().EnableAccomplishmentsDashboard;
         }
 
-        public static RelationshipType GetIsPrimaryContactOrganizationRelationship()
+        public static OrganizationRelationshipType GetIsPrimaryContactOrganizationRelationship()
         {
-            return HttpRequestStorage.DatabaseEntities.RelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
+            return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact);
         }
 
         public static bool ShowProposalsToThePublic()
