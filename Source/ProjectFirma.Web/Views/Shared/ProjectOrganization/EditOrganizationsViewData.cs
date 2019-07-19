@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<PersonSimple> AllPeople { get; }
         public List<OrganizationRelationshipTypeSimple> AllOrganizationRelationshipTypes { get; }
         public Dictionary<int, OrganizationSimple> OrganizationContainingProjectSimpleLocation { get; }
-        public OrganizationRelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
+        public OrganizationRelationshipTypeSimple PrimaryContactOrganizationRelationshipTypeSimple { get; }
 
         public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes, Person defaultPrimaryContactPerson)
         {            
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 });
 
             var primaryContactRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
-            PrimaryContactRelationshipTypeSimple = primaryContactRelationshipType != null
+            PrimaryContactOrganizationRelationshipTypeSimple = primaryContactRelationshipType != null
                 ? new OrganizationRelationshipTypeSimple(primaryContactRelationshipType)
                 : null;
             AllOrganizationRelationshipTypes = allOrganizationRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new OrganizationRelationshipTypeSimple(x)).ToList();
