@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", function($scope,
     angularModelAndViewData) {
     $scope.OrganizationToAdd = null;
-    //debugger;
+
     $scope.$watch(function() {
         jQuery(".selectpicker").selectpicker("refresh");
 
@@ -29,9 +29,13 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         jQuery("form").trigger("input");
     });
 
+    $scope.getAvailableOrganizationsForRelationshipType = function (relationshipType, comingFrom) {
+        //debugger;
+        if (relationshipType == null) {
+            //debugger;
+            return null;
+        }
 
-
-    $scope.getAvailableOrganizationsForRelationshipType = function(relationshipType) {
         var organizationsForRelationshipType = _.filter($scope.AngularViewData.AllOrganizations,
             function(organization) {
                 return $scope.organizationIsValidForRelationshipType(organization, relationshipType);
@@ -41,7 +45,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         } else {
             var usedOrganizations = _.filter($scope.AngularModel.ProjectOrganizationSimples,
                 function(f) {
-                    return f.RelationshipTypeID == relationshipType.OrganizationRelationshipTypeID;
+                    return f.OrganizationRelationshipTypeID == relationshipType.OrganizationRelationshipTypeID;
                 });
             var usedOrganizationIDs = _.map(usedOrganizations,
                 function (f) {
@@ -147,7 +151,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             var projectOrganizationSimple =
                 Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
                     "RelationshipTypeID",
-                    relationshipType.RelationshipTypeID);
+                    relationshipType.OrganizationRelationshipTypeID);
 
             if (projectOrganizationSimple != null) {
                 projectOrganizationSimple.OrganizationID = Number(organizationID);
@@ -176,6 +180,9 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
     };
 
     $scope.dropdownDefaultOption = function (relationshipType) {
+        if (relationshipType == null) {
+            return "Select One";
+        }
 
         if (relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
             return "Select the " + relationshipType.OrganizationRelationshipTypeName;
@@ -184,7 +191,8 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         }
     };
 
-    $scope.validRelationshipTypes = function(organizationID) {
+    $scope.validRelationshipTypes = function (organizationID) {
+        //debugger;
         var organization =
             Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
                 "OrganizationID",
@@ -195,7 +203,10 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
     };
 
     $scope.getSelectedPrimaryContactOrganization = function (relationshipType) {
-        debugger;
+        if (relationshipType === null) {
+            return null;
+        }
+
         var selectedPrimaryContactOrganizationID =
             Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
                 "RelationshipTypeID",
@@ -214,7 +225,11 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
     }
 
     $scope.primaryContactOrganization = function (relationshipType) {
-        return $scope.getSelectedPrimaryContactOrganization(relationshipType);
+        if (relationshipType != null) {
+            return $scope.getSelectedPrimaryContactOrganization(relationshipType);
+        }
+
+        return null;
     }
 
     $scope.primaryContactOrganizationPersonDisplayName = function (relationshipType) {
