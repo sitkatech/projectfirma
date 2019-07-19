@@ -3,6 +3,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 {
@@ -18,7 +19,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             : base(currentPerson, neptunePage)
         {
             EntityName = "Attribute Type";
-            PageTitle = "Manage Custom Attributes";
+            PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
 
             NewProjectCustomAttributeTypeUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(t => t.New());
             GridSpec = new ProjectCustomAttributeTypeGridSpec()

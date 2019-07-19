@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
@@ -32,7 +33,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.FundingSource>
     {
-        public IndexGridSpec(Person currentPerson)
+        public IndexGridSpec(Person currentPerson, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
             if (fundingSourceDeleteFeature.HasPermissionByPerson(currentPerson))
@@ -47,6 +48,13 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add(FieldDefinitionEnum.FundingSourceAmount.ToType().ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add("Total Expenditures", a => a.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes.OrderBy(x => x.FundingSourceCustomAttributeTypeName))
+            {
+                if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentPerson))
+                {
+                    Add($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}", a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+                }
+            }
         }
     }
 }

@@ -132,7 +132,7 @@
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
                 {
                     <small style="font-weight: normal;" class="pull-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ChartLastUpdatedDate.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, "Last Updated"):
+                        Last Updated:
                         @ViewDataTyped.LastUpdatedDate.ToStringDate()
                     </small>
                 }

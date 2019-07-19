@@ -49,6 +49,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyBranch)]
         public int TaxonomyBranchID { get; set; }
 
+        [DisplayName("Theme Color")]
         public string ThemeColor { get; set; }
 
         /// <summary>

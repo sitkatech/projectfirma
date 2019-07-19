@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EditReportedExpendituresUrl { get; }
         public string EditExternalLinksUrl { get; }
         public string EditExpectedFundingUrl { get; }
+        public string EditProjectCustomAttributesUrl { get; }
 
         public ProjectBasicsViewData ProjectBasicsViewData { get; }
         public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
@@ -117,6 +118,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
             bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
+            string editProjectCustomAttributesUrl, 
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
@@ -254,6 +256,8 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectBasicsViewData = projectBasicsViewData;
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;
+
+            EditProjectCustomAttributesUrl = editProjectCustomAttributesUrl;
 
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             MapFormID = mapFormID;

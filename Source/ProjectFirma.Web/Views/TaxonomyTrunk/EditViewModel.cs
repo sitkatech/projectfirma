@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         [Required]
         public HtmlString TaxonomyTrunkDescription { get; set; }
 
+        [DisplayName("Theme Color")]
         [Required]
         public string ThemeColor { get; set; }
 

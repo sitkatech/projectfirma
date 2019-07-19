@@ -91,11 +91,11 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureType.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureType.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType(), string.Format("{0}", FieldDefinitionEnum.MeasurementUnit.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
                 </div>
                 <div class="row">
@@ -103,7 +103,7 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType().GetFieldDefinitionLabel()))</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
                 </div>
                 <div class="row">
@@ -179,7 +179,7 @@
                 <hr />
                 <div class="row">
                     <div class="col-xs-5 fieldLabel">
-                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Reporting Instructions @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectReportingUrl, string.Format("Edit {0} Reporting: {1}", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 800, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     </div>
                     <div class="col-xs-7">
                         @ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString
@@ -198,7 +198,7 @@
                 <h2>
                     @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubcategoriesAndOptionsUrl, string.Format("Edit {0}: {1}",
                              MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 900, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabel()
+                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
@@ -208,7 +208,8 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType(), string.Format("{0}", FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType().GetFieldDefinitionLabelPluralized()))</th>
+                                <th>
+                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -231,7 +232,7 @@
                 }
                 else
                 {
-                    <p class="systemText">No @FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
+                    <p class="systemText">No @ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategory.GetFieldDefinitionLabelPluralized() for this @MultiTenantHelpers.GetPerformanceMeasureName().</p>
                 }
             </div>
         </div>
@@ -251,7 +252,7 @@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Expected @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() Results per @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</h2>
+        <h2>Expected @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureExpectedGridSpec, ViewDataTyped.PerformanceMeasureExpectedsGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
@@ -260,7 +261,7 @@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        <h2>Reported @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() Results per @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</h2>
+        <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
     </div>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)

@@ -1,6 +1,7 @@
 ﻿TableSchema	TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
 dbo	AuditLog	ProjectID					
 dbo	AuditLog	RecordID					
+dbo	FundingSourceCustomAttributeType	IncludeInFundingSourceGrid					
 dbo	ProjectCustomAttributeType	IncludeInProjectGrid					
 HangFire	AggregatedCounter	Id					
 HangFire	Counter	Id					

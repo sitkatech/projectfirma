@@ -148,13 +148,18 @@ namespace ProjectFirma.Web.Views.Project
 
     public class ProjectFundingSourceExpenditureExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>
     {
-        public ProjectFundingSourceExpenditureExcelSpec()
+        public ProjectFundingSourceExpenditureExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn($"Funding {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.Organization.OrganizationName);
             AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName);
+            foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes)
+            {
+                AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
+                    a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
+            }
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }

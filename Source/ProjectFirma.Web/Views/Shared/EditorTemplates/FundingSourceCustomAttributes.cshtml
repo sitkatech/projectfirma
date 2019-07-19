@@ -1,0 +1,140 @@
+﻿@using System.ComponentModel
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+
+@model FundingSourceCustomAttributes
+
+@{
+    var fundingSourceCustomAttributeTypes = ViewData.ContainsKey("FundingSourceCustomAttributes") && ViewData["FundingSourceCustomAttributes"] is IEnumerable<FundingSourceCustomAttributeType>
+        ? ((IEnumerable<FundingSourceCustomAttributeType>)ViewData["FundingSourceCustomAttributes"]).ToList()
+        : new List<FundingSourceCustomAttributeType>();
+    var colLeft = ViewData.ContainsKey("colLeft") && ViewData["colLeft"] is int ? ViewData["colLeft"] : 4;
+    var colRight = ViewData.ContainsKey("colRight") && ViewData["colRight"] is int ? ViewData["colRight"] : 8;
+}
+
+@for (var indexOfAttribute = 0; indexOfAttribute < fundingSourceCustomAttributeTypes.Count; indexOfAttribute++)
+{
+    var attribute = fundingSourceCustomAttributeTypes[indexOfAttribute];
+    var attributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.SingleOrDefault(m => m.FundingSourceCustomAttributeTypeID == attribute.FundingSourceCustomAttributeTypeID) : null;
+    var indexOfAttributeSimple = Model != null && Model.Attributes != null ? Model.Attributes.IndexOf(attributeSimple) : (int?)null;
+    <div class="form-group">
+        <label class="col-sm-@colLeft control-label">
+            @if (!string.IsNullOrWhiteSpace(attribute.FundingSourceCustomAttributeTypeDescription))
+            {
+                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(attribute.FundingSourceCustomAttributeTypeName, attribute.FundingSourceCustomAttributeTypeDescription.ToHTMLFormattedString(), attribute.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+            }
+            @(attribute != null ? attribute.FundingSourceCustomAttributeTypeName : null)
+            @if (attribute != null && attribute.IsRequired)
+            {
+                <span>
+                    <sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>
+                </span>
+            }
+        </label>
+        <div class="col-sm-@colRight">
+            <input type="hidden" name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeTypeID).ToString().Replace("0", indexOfAttribute.ToString()))"
+                   value="@(attribute != null ? attribute.FundingSourceCustomAttributeTypeID : (int?) null)" />
+            @if (attribute != null)
+            {
+                switch (attribute.FundingSourceCustomAttributeDataType.ToEnum)
+                {
+                    case FundingSourceCustomAttributeDataTypeEnum.DateTime:
+                        <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
+                               name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
+                               value="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null ? attributeSimple.FundingSourceCustomAttributeValues[0] : null)" />
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues != null)
+                        {
+                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues.Count; valueIndex++)
+                            {
+                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues[valueIndex])
+                            }
+                        }
+                        break;
+                    case FundingSourceCustomAttributeDataTypeEnum.Integer:
+                    case FundingSourceCustomAttributeDataTypeEnum.Decimal:
+                        if (attribute.MeasurementUnitType != null && !string.IsNullOrWhiteSpace(attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName))
+                        {
+                            <div class="input-group col-xs-5 col-sm-8 col-md-6 col-lg-5">
+                                <input class="form-control" type="number" aria-describedby="attributeUnit" style="z-index: 1;"
+                                       name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
+                                       value="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null ? attributeSimple.FundingSourceCustomAttributeValues[0] : null)" />
+                                <span class="input-group-addon" id="attributeUnit">@attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <input class="form-control" type="number" aria-describedby="attributeUnit" style="width: auto;"
+                                   name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
+                                   value="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null ? attributeSimple.FundingSourceCustomAttributeValues[0] : null)" />
+                        }
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues != null)
+                        {
+                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues.Count; valueIndex++)
+                            {
+                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues[valueIndex])
+                            }
+                        }
+                        break;
+                    case FundingSourceCustomAttributeDataTypeEnum.PickFromList:
+                        <select class="form-control" style="width: auto;"
+                                name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))">
+                            <option value=""></option>
+                            @foreach (var option in attribute.GetOptionsSchemaAsListOfString())
+                            {
+                                <option value="@option"
+                                        selected="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null && attributeSimple.FundingSourceCustomAttributeValues[0] == option)">
+                                    @option
+                                </option>
+                            }
+                        </select>
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues != null)
+                        {
+                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues.Count; valueIndex++)
+                            {
+                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues[valueIndex])
+                            }
+                        }
+                        break;
+                    case FundingSourceCustomAttributeDataTypeEnum.MultiSelect:
+                        for (var j = 0; j < attribute.GetOptionsSchemaAsListOfString().Count; j++)
+                        {
+                            var option = attribute.GetOptionsSchemaAsListOfString()[j];
+                            <input type="checkbox"
+                                   id="@string.Format("multiselect_{0}", option)"
+                                   value="@option"
+                                   name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))[]"
+                                   checked="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null && attributeSimple.FundingSourceCustomAttributeValues.Any(value => value == option))">
+                            <label for="@string.Format("multiselect_{0}", option)">@option</label>
+                            <br />
+                        }
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues != null)
+                        {
+                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues.Count; valueIndex++)
+                            {
+                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues[valueIndex])
+                            }
+                        }
+                        break;
+                    case FundingSourceCustomAttributeDataTypeEnum.String:
+                        <input class="form-control" type="text" style="width: auto;"
+                               name="@(Html.NameFor(m => m.Attributes[0].FundingSourceCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
+                               value="@(attributeSimple != null && attributeSimple.FundingSourceCustomAttributeValues != null ? attributeSimple.FundingSourceCustomAttributeValues[0] : null)" />
+                        if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues != null)
+                        {
+                            for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues.Count; valueIndex++)
+                            {
+                                @Html.ValidationMessageFor(m => m.Attributes[indexOfAttributeSimple.Value].FundingSourceCustomAttributeValues[valueIndex])
+                            }
+                        }
+                        break;
+                    default:
+                        throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.FundingSourceCustomAttributeDataType.ToEnum.ToString()));
+                }
+            }
+        </div>
+    </div>
+}

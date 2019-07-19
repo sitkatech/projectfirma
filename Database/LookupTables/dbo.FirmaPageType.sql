@@ -41,4 +41,6 @@ values
 (56, 'ProjectUpdateInstructions', 'Project Update Instructions', 2),
 (57, 'TechnicalAssistanceInstructions', 'Technical Assistance Instructions', 1),
 (58, 'TechnicalAssistanceReport', 'Technical Assistance Report', 1),
-(59, 'InviteUser', 'Invite User', 1)
+(59, 'InviteUser', 'Invite User', 1),
+(60, 'ManageFundingSourceCustomAttributeTypeInstructions', 'Manage Funding Source Custom Attribute Type Instructions', 2),
+(61, 'ManageFundingSourceCustomAttributeTypesList', 'Manage Funding Source Custom Attribute Types List', 2)

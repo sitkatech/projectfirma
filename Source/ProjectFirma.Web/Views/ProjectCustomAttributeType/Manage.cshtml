@@ -16,7 +16,7 @@
 {
     @if (ViewDataTyped.HasManagePermissions)
     {
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectCustomAttributeTypeUrl, string.Format("Create New {0} Custom Attribute", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectCustomAttributeTypeUrl, string.Format("Create New {0}", FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()), new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
     }
 }
 

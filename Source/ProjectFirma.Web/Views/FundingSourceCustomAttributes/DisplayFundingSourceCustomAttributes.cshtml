@@ -1,0 +1,57 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="FundingSourceCustomAttributes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.FundingSourceCustomAttributes.DisplayFundingSourceCustomAttributes
+
+<dl class="dl-horizontal">
+
+    @foreach (var fundingSourceCustomAttributeType in ViewDataTyped.FundingSourceCustomAttributeTypes)
+    {
+        var fundingSourceCustomAttribute = ViewDataTyped.FundingSourceCustomAttributes.SingleOrDefault(x => x.FundingSourceCustomAttributeTypeID == fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeID);
+        <dt class="fundingSourceCustomAttributes">
+            @if (!string.IsNullOrWhiteSpace(fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeDescription))
+            {
+                @LabelWithSugarForExtensions.GenerateHelpIconImgTag(fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName, fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeDescription.ToHTMLFormattedString(), fundingSourceCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
+            }
+            @fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName
+        </dt>
+        <dd class="fundingSourceCustomAttributes">
+            @if (fundingSourceCustomAttribute != null)
+            {
+                if (fundingSourceCustomAttributeType.FundingSourceCustomAttributeDataType == FundingSourceCustomAttributeDataType.DateTime)
+                {
+                    @fundingSourceCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                }
+                else
+                {
+                    @(string.Join(", ", fundingSourceCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                }
+            }
+            else
+            {
+                <em class="text-muted">None</em>
+            }
+        </dd>
+    }
+</dl>
