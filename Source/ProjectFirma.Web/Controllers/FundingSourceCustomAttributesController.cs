@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditFundingSourceCustomAttibutes(FundingSource fundingSource, EditFundingSourceCustomAttributesViewModel viewModel)
         {
 
-            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
 
             var viewData = new EditFundingSourceCustomAttributesViewData(
                 fundingSourceCustomAttributeTypes,
