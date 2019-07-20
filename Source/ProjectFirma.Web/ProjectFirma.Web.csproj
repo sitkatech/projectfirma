@@ -171,6 +171,16 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactRelationshipType.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactRelationshipTypeViewData.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactRelationshipTypeViewModel.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactType.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactTypeViewData.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\EditContactTypeViewModel.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\Index.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\ContactRelationshipTypeGridSpec.cs" />
+    <Compile Include="Views\ContactTypeAndContactRelationshipType\ContactTypeGridSpec.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
@@ -302,6 +312,9 @@
     <Content Include="Views\FundingSourceCustomAttributeType\Manage.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributes.cshtml" />
+    <Content Include="Views\ContactTypeAndContactRelationshipType\EditContactRelationshipType.cshtml" />
+    <Content Include="Views\ContactTypeAndContactRelationshipType\EditContactType.cshtml" />
+    <Content Include="Views\ContactTypeAndContactRelationshipType\Index.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
