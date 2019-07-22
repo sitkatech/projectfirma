@@ -20,7 +20,6 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
             Add(FieldDefinitionEnum.FundingSourceCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.FundingSourceCustomAttributeDataType.FundingSourceCustomAttributeDataTypeDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString(), a => a.GetMeasurementUnitDisplayName(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Required?", a => a.IsRequired.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add(FieldDefinitionEnum.FundingSourceCustomAttributeTypeEditableBy.ToType().ToGridHeaderString(), x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.FundingSourceCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
             Add($"Include In {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} Grid?", a => a.IncludeInFundingSourceGrid.ToYesNo() ?? ViewUtilities.NoAnswerProvided, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }

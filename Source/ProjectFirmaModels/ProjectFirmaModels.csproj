@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -33,8 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
-    <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentGoal.Binding.cs" />
@@ -524,6 +522,8 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\FundingSourceCustomAttribute.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeSimple.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeDataType.cs" />
