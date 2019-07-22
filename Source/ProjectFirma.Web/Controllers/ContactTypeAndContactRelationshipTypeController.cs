@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewContactType(viewModel);
             }
-            var contactType = new ContactType(viewModel.ContactTypeName, viewModel.ContactTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultContactType ?? false, viewModel.IsFundingType ?? false);
+            var contactType = new ContactType(viewModel.ContactTypeName, viewModel.ContactTypeAbbreviation, viewModel.IsDefaultContactType ?? false);
             viewModel.UpdateModel(contactType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllContactTypes.Add(contactType);
 
@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewContactRelationshipType(viewModel);
             }
-            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false, false, false, false, false);
+            var relationshipType = new ContactRelationshipType(viewModel.ContactRelationshipTypeName, false);
             HttpRequestStorage.DatabaseEntities.AllContactRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 

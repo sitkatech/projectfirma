@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ContactType()
         {
             this.ContactTypeContactRelationshipTypes = new HashSet<ContactTypeContactRelationshipType>();
+            this.People = new HashSet<Person>();
         }
 
         /// <summary>
@@ -66,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ContactTypeContactRelationshipTypes.Any();
+            return ContactTypeContactRelationshipTypes.Any() || People.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContactType).Name, typeof(ContactTypeContactRelationshipType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContactType).Name, typeof(ContactTypeContactRelationshipType).Name, typeof(Person).Name};
 
 
         /// <summary>
@@ -101,6 +102,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in People.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -113,6 +119,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ContactTypeID; } set { ContactTypeID = value; } }
 
         public virtual ICollection<ContactTypeContactRelationshipType> ContactTypeContactRelationshipTypes { get; set; }
+        public virtual ICollection<Person> People { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

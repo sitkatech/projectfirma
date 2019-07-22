@@ -60,6 +60,7 @@
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\ContactTypeAndContactRelationshipTypeController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
+    <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\ContactTypeModelExtensions.cs" />
     <Compile Include="Models\EntityDocument.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
@@ -150,6 +153,8 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
+    <Compile Include="Security\ContactAndContactRelationshipTypeManageFeature.cs" />
+    <Compile Include="Security\ContactAndContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />

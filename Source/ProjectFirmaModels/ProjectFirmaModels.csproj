@@ -542,6 +542,11 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\ContactRelationshipType.cs" />
+    <Compile Include="Models\ContactRelationshipTypeSimple.cs" />
+    <Compile Include="Models\ContactType.cs" />
+    <Compile Include="Models\ContactType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ContactTypeContactRelationshipType.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\FundingSourceCustomAttribute.cs" />
@@ -581,6 +586,7 @@
     <Compile Include="Models\FundingSource.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
+    <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
@@ -588,6 +594,9 @@
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectContact.cs" />
+    <Compile Include="Models\ProjectContactRelationship.cs" />
+    <Compile Include="Models\ProjectContactUpdate.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequest.cs" />

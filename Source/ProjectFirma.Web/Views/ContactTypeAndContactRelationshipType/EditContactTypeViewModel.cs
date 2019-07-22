@@ -46,20 +46,9 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
         public string ContactTypeAbbreviation { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.LegendColor)]
-        public string LegendColor { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ShowOnProjectMaps)]
-        public bool? ShowOnProjectMaps { get; set; }
-
-        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsDefaultContactType)]
         public bool? IsDefaultContactType { get; set; }
 
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFundingType)]
-        public bool? IsFundingType { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -73,20 +62,14 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
             ContactTypeID = contactType.ContactTypeID;
             ContactTypeName = contactType.ContactTypeName;
             ContactTypeAbbreviation = contactType.ContactTypeAbbreviation;
-            LegendColor = contactType.LegendColor;
-            ShowOnProjectMaps = contactType.ShowOnProjectMaps;
             IsDefaultContactType = contactType.IsDefaultContactType;
-            IsFundingType = contactType.IsFundingType;
         }
 
         public void UpdateModel(ContactType contactType, Person currentPerson)
         {
             contactType.ContactTypeName = ContactTypeName;
             contactType.ContactTypeAbbreviation = ContactTypeAbbreviation; 
-            contactType.LegendColor = LegendColor;
-            contactType.ShowOnProjectMaps = ShowOnProjectMaps ?? false;
             contactType.IsDefaultContactType = IsDefaultContactType ?? false;
-            contactType.IsFundingType = IsFundingType ?? false;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

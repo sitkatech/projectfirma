@@ -45,23 +45,14 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new ContactAndRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
+            var hasManagePermissions = new ContactAndContactRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
             ContactTypeGridSpec = new ContactTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-//            if (hasManagePermissions)
-//            {
-//                ContactTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ContactAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewContactType()), $"Create a new {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabel()}");
-//            }
 
             ContactTypeGridName = "contactTypeGrid";
             ContactTypeGridDataUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactTypeGridJsonData());
 
             ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.ContactTypes.ToList()) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
-
-//            if (hasManagePermissions)
-//            {
-//                RelationshipTypeGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ContactAndRelationshipTypeController>.BuildUrlFromExpression(t => t.NewRelationshipType()), $"Create a new {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}");
-//            }
 
             ContactRelationshipTypeGridName = "relationshipTypeGrid";
             ContactRelationshipTypeGridDataUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactRelationshipTypeGridJsonData());

@@ -50,11 +50,5 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
             
         }
 
-        private static HtmlString ToLegendColor(ContactType contactType)
-        {
-            var div = new TagBuilder("div");
-            div.Attributes["style"] = $"background-color: {contactType.LegendColor}; height: 1em; width: 1em; display: block; margin: auto;";
-            return div.ToString().ToHTMLFormattedString();
-        }
     }
 }

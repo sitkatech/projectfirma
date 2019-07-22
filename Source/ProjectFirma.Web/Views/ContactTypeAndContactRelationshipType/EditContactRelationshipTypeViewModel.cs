@@ -81,11 +81,8 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
             ContactTypeIDs = contactRelationshipType.ContactTypeContactRelationshipTypes
                 .Select(x => x.ContactTypeID)
                 .ToList();
-            CanStewardProjects = contactRelationshipType.CanStewardProjects;
-            IsPrimaryContact = contactRelationshipType.IsPrimaryContact;
             CanOnlyBeRelatedOnceToAProject = contactRelationshipType.CanOnlyBeRelatedOnceToAProject;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
-            ShowOnFactSheet = contactRelationshipType.ShowOnFactSheet;
         }
 
         public void UpdateModel(ContactRelationshipType contactRelationshipType, ICollection<ContactTypeContactRelationshipType> allContactTypeContactRelationshipTypes)
@@ -98,37 +95,20 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
                 allContactTypeContactRelationshipTypes,
                 (x, y) => x.ContactTypeID == y.ContactTypeID && x.ContactRelationshipTypeID == y.ContactRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
 
-            contactRelationshipType.CanStewardProjects = CanStewardProjects ?? false; // Should never be null due to required validation attribute
-            contactRelationshipType.IsPrimaryContact = IsPrimaryContact ?? false; // Should never be null due to required validation attribute
-            contactRelationshipType.CanOnlyBeRelatedOnceToAProject = contactRelationshipType.CanStewardProjects || contactRelationshipType.IsPrimaryContact || (CanOnlyBeRelatedOnceToAProject ?? false); // can steward projects and isprimarycontact can only related once to a project
-            contactRelationshipType.ShowOnFactSheet = ShowOnFactSheet ?? false; // sShould never be null due to required validation attribute
+
+            contactRelationshipType.CanOnlyBeRelatedOnceToAProject = CanOnlyBeRelatedOnceToAProject ?? false;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var contactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
-            if (!ContactRelationshipTypeModelExtensions.IsContactRelationshipTypeNameUnique(contactRelationshipTypes, ContactRelationshipTypeName, RelationshipTypeID))
+            if (!contactRelationshipTypes.IsContactRelationshipTypeNameUnique(ContactRelationshipTypeName, RelationshipTypeID))
             {
                 yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, string>("Name already exists.",
                     x => x.ContactRelationshipTypeName);
             }
 
-            if (CanStewardProjects == true &&
-                contactRelationshipTypes.Any(x => x.ContactRelationshipTypeID != RelationshipTypeID && x.CanStewardProjects))
-            {
-                yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
-                    m => m.CanStewardProjects);
-            }
-
-            if (IsPrimaryContact == true &&
-                contactRelationshipTypes.Any(x => x.ContactRelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
-            {
-                yield return new SitkaValidationResult<EditContactRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
-                    m => m.IsPrimaryContact);
-            }
         }
     }
 }

@@ -61,7 +61,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName, int? contactTypeID) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -79,6 +79,7 @@ namespace ProjectFirmaModels.Models
             this.ReceiveSupportEmails = receiveSupportEmails;
             this.WebServiceAccessToken = webServiceAccessToken;
             this.LoginName = loginName;
+            this.ContactTypeID = contactTypeID;
         }
 
         /// <summary>
@@ -346,6 +347,7 @@ namespace ProjectFirmaModels.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
+        public int? ContactTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
@@ -384,6 +386,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
+        public virtual ContactType ContactType { get; set; }
 
         public static class FieldLengths
         {

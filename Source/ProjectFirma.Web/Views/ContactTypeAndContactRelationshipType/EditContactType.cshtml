@@ -43,34 +43,6 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>        
         <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.LegendColor)
-            </div>
-            <div class="col-sm-9">
-                <div id="themeColorPicker" class="input-group colorpicker-component">
-                    @Html.TextBoxFor(x => x.LegendColor, new { @class = "form-control" })
-                    <span class="input-group-addon"><i></i></span>
-                    @Html.ValidationMessageFor(x => x.LegendColor)
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnProjectMaps)</div>
-            <div class="col-sm-9">
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, true) Yes
-                    </label>
-                </div>
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.ShowOnProjectMaps, false) No
-                    </label>
-                </div>
-                @Html.ValidationMessageFor(m => m.ShowOnProjectMaps)
-            </div>
-        </div>
-        <div class="form-group">
             <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsDefaultContactType)</div>
             <div class="col-sm-9">
                 <div class="radio-inline">
@@ -86,26 +58,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.IsDefaultContactType)
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsFundingType)</div>
-            <div class="col-sm-9">
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.IsFundingType, true) Yes
-                    </label>
-                </div>
-                <div class="radio-inline">
-                    <label>
-                        @Html.RadioButtonFor(m => m.IsFundingType, false) No
-                    </label>
-                </div>
-                @Html.ValidationMessageFor(m => m.IsFundingType)
-            </div>
-        </div>
     </div>
     @Html.HiddenFor(m => m.ContactTypeID)
 }
-
-<script type="text/javascript">
-    jQuery(document).ready(function () { jQuery("#themeColorPicker").colorpicker({format: 'hex'}); });
-</script>

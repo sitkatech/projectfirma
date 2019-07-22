@@ -126,8 +126,6 @@ GO
 
 
 --ProjectContact table
-
-
 CREATE TABLE [dbo].[ProjectContact](
 	[ProjectContactID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
@@ -268,5 +266,7 @@ GO
 
 
 
-
+--add reference to ContactType on Person table
+alter table dbo.Person
+add ContactTypeID int null constraint FK_Person_ContactType_ContactTypeID foreign key references dbo.ContactType(ContactTypeID);
 
