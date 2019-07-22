@@ -22,14 +22,15 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectDescription).HasColumnName(@"ProjectDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(4000);
             Property(x => x.ImplementationStartYear).HasColumnName(@"ImplementationStartYear").HasColumnType("int").IsOptional();
             Property(x => x.CompletionYear).HasColumnName(@"CompletionYear").HasColumnType("int").IsOptional();
-            Property(x => x.EstimatedTotalCost).HasColumnName(@"EstimatedTotalCost").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.EstimatedTotalCostDeprecated).HasColumnName(@"EstimatedTotalCostDeprecated").HasColumnType("money").IsOptional().HasPrecision(19,4);
             Property(x => x.ProjectLocationPoint).HasColumnName(@"ProjectLocationPoint").HasColumnType("geometry").IsOptional();
             Property(x => x.ProjectLocationNotes).HasColumnName(@"ProjectLocationNotes").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(4000);
             Property(x => x.PlanningDesignStartYear).HasColumnName(@"PlanningDesignStartYear").HasColumnType("int").IsOptional();
             Property(x => x.ProjectLocationSimpleTypeID).HasColumnName(@"ProjectLocationSimpleTypeID").HasColumnType("int").IsRequired();
-            Property(x => x.EstimatedAnnualOperatingCost).HasColumnName(@"EstimatedAnnualOperatingCost").HasColumnType("decimal").IsOptional();
+            Property(x => x.EstimatedAnnualOperatingCostDeprecated).HasColumnName(@"EstimatedAnnualOperatingCostDeprecated").HasColumnType("decimal").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
             Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
+            Property(x => x.NoFundingSourceIdentifiedYet).HasColumnName(@"NoFundingSourceIdentifiedYet").HasColumnType("money").IsOptional().HasPrecision(19,4);
 
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID

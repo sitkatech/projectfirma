@@ -39,18 +39,12 @@ namespace ProjectFirmaModels.Models
                 HasPlanningDesignStartYearChanged() ||
                 HasImplementationStartYearChanged() ||
                 HasCompletionYearChanged() ||
-                HasEstimatedTotalCostChanged() ||
-                HasEstimatedAnnualOperatingCostChanged();
+                HasNoFundingSourceIdentifiedYetChanged();
         }
 
-        private bool HasEstimatedAnnualOperatingCostChanged()
+        private bool HasNoFundingSourceIdentifiedYetChanged()
         {
-            return OriginalProjectUpdate.EstimatedAnnualOperatingCost != ModifiedProjectUpdate.EstimatedAnnualOperatingCost;
-        }
-
-        private bool HasEstimatedTotalCostChanged()
-        {
-            return OriginalProjectUpdate.EstimatedTotalCost != ModifiedProjectUpdate.EstimatedTotalCost;
+            return OriginalProjectUpdate.NoFundingSourceIdentifiedYet != ModifiedProjectUpdate.NoFundingSourceIdentifiedYet;
         }
 
         private bool HasCompletionYearChanged()

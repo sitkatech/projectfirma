@@ -43,9 +43,14 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     };
 
     $scope.filteredFundingSources = function () {
+        var unknownFundingSourceNames = [
+            "Unknown/Unassigned",
+            "Unknown",
+            "Unspecified"
+        ];
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
         return _($scope.AngularViewData.AllFundingSources).filter(function(f) {
-               return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID);
+               return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID) && !_.contains(unknownFundingSourceNames, f.FundingSourceName);
             }).sortBy(function (fs) {
                 return [fs.FundingSourceName.toLowerCase()];
             }).value();
