@@ -34,11 +34,29 @@
     }
 </style>
 
+@if (!ViewDataTyped.ClassificationSystems.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        <p>
+            <strong>Warning!</strong>
+            There are no @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() configured and you will not be able to continue until they are configured.
+            @if (!string.IsNullOrEmpty(ViewDataTyped.ConfigureClassificationSystemsUrl))
+            {
+                <span>You may configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() <a title="Configure @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized()" href="@ViewDataTyped.ConfigureClassificationSystemsUrl" target="_blank">here</a>.</span>
+            }
+            else
+            {
+                <span><a href="mailto:@Html.Raw(FirmaWebConfiguration.SitkaSupportEmail)?subject=Project Classifications are not setup">Contact support</a> to get @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized() setup.</span>
+            }
+        </p>
+    </div>
+}
+
 @using (Html.BeginForm())
 {
     <div>
         Click the checkboxes below to associate this
-        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabelPluralized())).
+        @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
     </div>
     <div>
 
@@ -130,6 +148,12 @@
         }
 
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
+
+        var hasClassificationSetupData = @ViewDataTyped.ClassificationSystems.Any().ToString().ToLower();
+        if (!hasClassificationSetupData) {
+            jQuery('form button[type="button"]').attr('disabled','disabled');
+        }
+
     });
 
     function saveForm(autoAdvance) {

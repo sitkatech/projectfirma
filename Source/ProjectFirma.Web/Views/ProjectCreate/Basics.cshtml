@@ -108,7 +108,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="form-horizontal">
     <div class="form-group">
         <div class="col-xs-12 col-sm-4 control-label">
-            @Html.LabelWithSugarFor(m => m.TaxonomyLeafID, 600, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject())
+            @Html.LabelWithSugarFor(m => m.TaxonomyLeafID, MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject(), null)
         </div>
         <div class="col-xs-12 col-sm-8">
             @Html.SearchableDropDownListFor(x => x.TaxonomyLeafID, ViewDataTyped.TaxonomyLeafs, string.Format("Select a {0}", MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()))
@@ -118,7 +118,9 @@ Source code is available upon request via <support@sitkatech.com>.
     @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
     {
         <div class="form-group">
-            <div class="col-xs-12 col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, false)</div>
+            <div class="col-xs-12 col-sm-4 control-label">
+                 @Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, true) 
+            </div>
             <div class="col-xs-12 col-sm-8">
                 <div class="input-group" style="margin-bottom: 1em;">
                     <select class="selectpicker" id="secondaryProjectTaxonomyLeafSelectionDropdown" data-live-search="true" data-live-search-placeholder="Search">

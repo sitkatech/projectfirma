@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
 }
 
 <div style="margin-top: 10px">
-    @Html.LabelWithSugarFor(x => x.PerformanceMeasure, MultiTenantHelpers.GetPerformanceMeasureName()):
+    @Html.LabelWithSugarFor(x => x.PerformanceMeasure):
     @Html.DropDownListFor(x => x.PerformanceMeasureID, new SelectList(ViewDataTyped.PerformanceMeasures, "PerformanceMeasureID", "DisplayName", ViewDataTyped.SelectedPerformanceMeasure.PerformanceMeasureID), new { onchange = "reloadWithNewPerformanceMeasure()" })
 </div>
 

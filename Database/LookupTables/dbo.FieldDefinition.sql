@@ -70,7 +70,6 @@ VALUES
 (244, N'TaxonomyLeafDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>'),
 (245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>'),
 (246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>'),
-(247, N'Chart Last Updated Date', N'ChartLastUpdatedDate', N'<p>The date this chart was last updated with current information.</p>'),
 (248, N'TargetedFunding', N'Targeted Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>'),
 (249, N'ProjectStewardOrganizationDisplayName', N'Project Steward Organization Display Name', N'<p>Label for Organization types that can steward projects.</p>'),
 (250, N'ClassificationSystem', N'Classification System', N'<p>The type of logical system used to group projects according to overarching program themes or goals.</p>'),
@@ -82,7 +81,7 @@ VALUES
 (256, N'TaxonomyLeafDescription', N'Taxonomy Leaf Description', N'<p>The long-form description of the entries in the project taxonomy system.</p>'),
 (257, N'ShowProposalsToThePublic', N'Show Proposals To The Public', N'<p>When this option is set, projects in the Pending Approval state will be shown on project maps and on the Proposal page. When not set, no proposals will be visible to anonymous users. All proposals should be shown on the proposals page for Normal+ users.</p>'),
 (258, N'ShowLeadImplementerLogoOnFactSheet', N'Show Lead Implementer Logo on Project Fact Sheet?', N'<p>When this option is set, project fact sheets will include the lead implementer''s logo under the website logo. When not set, only the website logo will be shown on fact sheets.'),
-(259, N'ProjectCustomAttribute', N'Custom Attribute', N''),
+(259, N'ProjectCustomAttribute', N'Project Custom Attribute', N''),
 (260, N'ProjectCustomAttributeDataType', N'Data Type', N''),
 (261, N'ProjectUpdateKickOffDate', N'Kick-off Date', N'The date to send the initial notification about Project Updates to Primary Contacts'),
 (262, N'ProjectUpdateReminderInterval', N'Reminder Interval (days)', N'The number of days between repeated Project Update Reminders'),
@@ -104,4 +103,8 @@ VALUES
 (278, N'SignificantDigits', N'Significant Digits', 'This is the number of significant digits that are allowed in the database for the measurement unit selected for this performance measure. This many digits will be displayed on the project detail page and in the performance measure charts.  (E.g 0.123456)'),
 (279, N'TenantShortDisplayName', N'Tenant Short Display Name', N'This will be displayed as the first half of the browser tab (before the |), as the page title for the Tenant Configuration Page, as the display name for the tenant in the Tenant Grid, and in confirmation messages to verify the user is altering data for the right tenant'),
 (280, N'ToolDisplayName', N'Tenant Display Tool', N'This will displayed in Notification Emails sent out by the Project Firma Tool and the Page Title for the Home Page of the Website'),
-(281, N'TenantSquareLogo', N'Tenant Square Logo', N'This will be used in the Email Notification of Project Updates, the subject of Scheduled Project Update Job Reminders, Backward and Forward Looking Fact Sheets, Being Displayed in Tenant Configuration Logos Card, and Editing Tenant Configuration Logos')
+(281, N'TenantSquareLogo', N'Tenant Square Logo', N'This will be used in the Email Notification of Project Updates, the subject of Scheduled Project Update Job Reminders, Backward and Forward Looking Fact Sheets, Being Displayed in Tenant Configuration Logos Card, and Editing Tenant Configuration Logos'),
+(282, N'FundingSourceCustomAttribute', N'Funding Source Custom Attribute', N''),
+(283, N'FundingSourceCustomAttributeDataType', N'Funding Source Custom Attribute Data Type', N''),
+(284, N'FundingSourceCustomAttributeTypeEditableBy', 'Funding Source Custom Attribute Editable By' , N'This field definition is in reference to who can edit a specific custom attribute, Admins and Sitka Admins can edit any custom attribute'),
+(285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute')

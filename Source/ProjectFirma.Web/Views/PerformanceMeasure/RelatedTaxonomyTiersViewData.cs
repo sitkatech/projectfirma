@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             TaxonomyTierDisplayName = fieldDefinitionForTaxonomyTier.GetFieldDefinitionLabel();
             TaxonomyTierHeaderDisplayName = showHelpLinks
                 ? LabelWithSugarForExtensions.LabelWithSugarFor(
-                    fieldDefinitionForTaxonomyTier, LabelWithSugarForExtensions.DefaultPopupWidth,
+                    fieldDefinitionForTaxonomyTier,
                     LabelWithSugarForExtensions.DisplayStyle.HelpIconWithLabel, TaxonomyTierDisplayName)
                 : new HtmlString(TaxonomyTierDisplayName);
             TaxonomyTierDisplayNamePluralized = fieldDefinitionForTaxonomyTier.GetFieldDefinitionLabelPluralized();

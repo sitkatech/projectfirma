@@ -86,7 +86,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="row taxonomyRow">
             <div class="col-sm-5 col-sm-offset-@(i++) taxonomyBasicsPanelLabel">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType(), string.Format("{0}", FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()))
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.Project.ToType())
             </div>
             <div class="col-sm-4">
                 <span class="taxonomyLink selected">@ViewDataTyped.Project.GetDisplayName()</span>

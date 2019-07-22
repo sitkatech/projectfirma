@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public int MeasurementUnitTypeID { get; set; }
 
         [Required]
+        [DisplayName("Description")]
         public string PerformanceMeasureDefinition { get; set; }
 
         [Required]

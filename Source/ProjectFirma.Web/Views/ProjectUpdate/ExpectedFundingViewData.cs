@@ -18,25 +18,28 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ExpectedFundingViewData : ProjectUpdateViewData
     {
-        public readonly string RefreshUrl;
-        public readonly string DiffUrl;
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
 
-        public readonly string RequestFundingSourceUrl;
-        public readonly ViewDataForAngularClass ViewDataForAngular;
-        public readonly SectionCommentsViewData SectionCommentsViewData;
-        
+        public string RequestFundingSourceUrl { get; }
+        public ViewDataForAngularClass ViewDataForAngular { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public string FundingTypeDescriptionString { get; }
+
         public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectFundingDetailViewData projectFundingDetailViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
@@ -47,24 +50,28 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
             ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
+            FundingTypeDescriptionString = projectUpdateBatch.ProjectUpdate.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID ? " varies by year or it's a one-year project." : " is the same each year.";
         }
 
         public class ViewDataForAngularClass
         {
             public List<FundingSourceSimple> AllFundingSources { get; }
             public int ProjectUpdateBatchID { get; }
-            public int FundingTypeID { get; }
+            public int? FundingTypeID { get; }
             public decimal EstimatedTotalCost { get; }
             public decimal EstimatedAnnualOperatingCost { get; }
-
+            public IEnumerable<SelectListItem> FundingTypes { get; }
+            
             public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
+                IEnumerable<SelectListItem> fundingTypes,
                 decimal estimatedTotalCost,
                 decimal estimatedAnnualOperatingCost)
             {
                 AllFundingSources = allFundingSources;
+                FundingTypes = fundingTypes;
                 ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
-                FundingTypeID = projectUpdateBatch.Project.FundingTypeID ?? 0;
+                FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingType?.FundingTypeID;
                 EstimatedTotalCost = estimatedTotalCost;
                 EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
             }

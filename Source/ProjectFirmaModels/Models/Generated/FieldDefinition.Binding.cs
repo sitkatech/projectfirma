@@ -195,7 +195,6 @@ namespace ProjectFirmaModels.Models
         TaxonomyLeafDisplayNameForProject = 244,
         ProjectRelationshipType = 245,
         ProjectSteward = 246,
-        ChartLastUpdatedDate = 247,
         TargetedFunding = 248,
         ProjectStewardOrganizationDisplayName = 249,
         ClassificationSystem = 250,
@@ -229,6 +228,10 @@ namespace ProjectFirmaModels.Models
         SignificantDigits = 278,
         TenantShortDisplayName = 279,
         ToolDisplayName = 280,
-        TenantSquareLogo = 281
+        TenantSquareLogo = 281,
+        FundingSourceCustomAttribute = 282,
+        FundingSourceCustomAttributeDataType = 283,
+        FundingSourceCustomAttributeTypeEditableBy = 284,
+        FundingSourceCustomAttributeTypeViewableBy = 285
     }
 }

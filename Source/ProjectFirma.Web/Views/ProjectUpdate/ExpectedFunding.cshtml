@@ -71,9 +71,28 @@ else if (ViewDataTyped.AreProjectBasicsValid)
     using (Html.BeginForm())
     {
         <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
+            <div class="form-group">
+                <label class="control-label">
+                    @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
+                </label>
+                <div class="input-group">
+                    <select ng-model="selectedFundingTypeID"
+                            class="selectpicker"
+                            data-container="body"
+                            data-width="100%">
+                        <option ng-repeat="fundingType in fundingTypes()"
+                                value="{{fundingType.Value}}"
+                                ng-selected="selectedFundingTypeID == fundingType.Value"
+                                ng-bind="fundingType.Text"
+                        ></option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.ViewModelForAngular.FundingTypeID)
+                </div>
+            </div>
+
         <div class="form-group" ng-if="budgetVariesByYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Total Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()? <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span></sup>
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedTotalCost)" ng-model="costs.estimatedTotalCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
@@ -83,7 +102,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
         </div>
         <div class="form-group" ng-if="budgetSameEachYear()">
             <label class="control-label">
-                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s Estimated Annual Cost?
+                What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()? <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span></sup>
             </label>
             <div class="input-group">
                 <input type="text" name="@Html.NameFor(x => x.EstimatedAnnualOperatingCost)" ng-model="costs.estimatedAnnualOperatingCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency/>
@@ -237,7 +256,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
             </div>
         </div>
 
-
+        <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.FundingTypeID)" value="{{selectedFundingTypeID}}"/>
         <div ng-repeat="projectFundingSourceBudgetUpdateSimple in AngularModel.ProjectFundingSourceBudgetUpdateSimples | orderBy:[getFundingSourceName]">
             <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples[0].ProjectUpdateBatchID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudgetUpdateSimple.ProjectUpdateBatchID}}"/>
             <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudgetUpdateSimple.FundingSourceID}}"/>

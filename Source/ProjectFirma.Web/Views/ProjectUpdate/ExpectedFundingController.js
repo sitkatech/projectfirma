@@ -33,7 +33,11 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.resetFundingSourceToAdd = function () { $scope.FundingSourceToAdd = null; };
 
-    $scope.getAllUsedFundingSourceIds = function() { return _.map($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, function(p) { return p.FundingSourceID; }); };
+    $scope.getAllUsedFundingSourceIds = function () { return _.map($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, function (p) { return p.FundingSourceID; }); };
+
+    $scope.setSelectedFundingTypeID = function () {
+        $scope.selectedFundingTypeID = $scope.AngularModel.FundingTypeID;
+    };
 
     $scope.filteredFundingSources = function () {
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
@@ -102,10 +106,24 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return $scope.AngularViewData.FundingTypeID === 2;
     }
 
-    $scope.deleteRow = function(rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, rowToDelete); };
+    $scope.deleteRow = function (rowToDelete) { Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceBudgetUpdateSimples, rowToDelete); };
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.fundingTypes = function () {
+        return $scope.AngularViewData.FundingTypes;
+    }
+
+    $scope.budgetVariesByYear = function () {
+        var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
+        return selectedFundingTypeID === 1;
+    }
+
+    $scope.budgetSameEachYear = function () {
+        var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
+        return selectedFundingTypeID === 2;
+    }
+
+
     $scope.resetFundingSourceToAdd();
     $scope.ProjectUpdateBatchIDToAdd = $scope.AngularViewData.ProjectUpdateBatchID;
+    $scope.setSelectedFundingTypeID();
 });
