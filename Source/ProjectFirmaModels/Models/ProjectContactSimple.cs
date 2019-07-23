@@ -12,34 +12,34 @@
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public ProjectContactSimple(ProjectOrganization projectOrganization)
+        public ProjectContactSimple(ProjectContact projectContact)
             : this()
         {
-            OrganizationID = projectOrganization.OrganizationID;
-            OrganizationName = projectOrganization.Organization.OrganizationName;
-            OrganizationRelationshipTypeID = projectOrganization.OrganizationRelationshipTypeID;
+            ContactID = projectContact.ContactID;
+            ContactName = projectContact.Contact.GetFullNameFirstLast();
+            ContactRelationshipTypeID = projectContact.ContactRelationshipTypeID;
         }
 
-        public ProjectContactSimple(ProjectOrganizationUpdate projectOrganization)
+        public ProjectContactSimple(ProjectContactUpdate projectContactUpdate)
         {
-            OrganizationID = projectOrganization.OrganizationID;
-            OrganizationName = projectOrganization.Organization.OrganizationName;
-            OrganizationRelationshipTypeID = projectOrganization.OrganizationRelationshipTypeID;
+            ContactID = projectContactUpdate.ContactID;
+            ContactName = projectContactUpdate.Contact.GetFullNameFirstLast();
+            ContactRelationshipTypeID = projectContactUpdate.ContactRelationshipTypeID;
         }
 
-        public ProjectContactSimple(int organizationID, int organizationRelationshipTypeId)
+        public ProjectContactSimple(int contactId, int contactRelationshipTypeId)
         {
-            OrganizationID = organizationID;
-            OrganizationRelationshipTypeID = organizationRelationshipTypeId;
+            ContactID = contactId;
+            ContactRelationshipTypeID = contactRelationshipTypeId;
         }
 
-        public int OrganizationID { get; set; }
-        public int OrganizationRelationshipTypeID { get; set; }
-        public string OrganizationName { get; private set; }
+        public int ContactID { get; set; }
+        public int ContactRelationshipTypeID { get; set; }
+        public string ContactName { get; private set; }
 
         public ProjectContactUpdate ToProjectContactUpdate(ProjectUpdateBatch projectUpdateBatch)
         {
-            return new ProjectContactUpdate(projectUpdateBatch.ProjectUpdateBatchID, OrganizationID, OrganizationRelationshipTypeID);
+            return new ProjectContactUpdate(projectUpdateBatch.ProjectUpdateBatchID, ContactID, ContactRelationshipTypeID);
         }
     }
 }
