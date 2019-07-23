@@ -542,6 +542,8 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
+    <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\ContactRelationshipType.cs" />
     <Compile Include="Models\ContactRelationshipTypeSimple.cs" />
     <Compile Include="Models\ContactType.cs" />

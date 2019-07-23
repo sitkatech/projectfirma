@@ -392,7 +392,7 @@ namespace ProjectFirmaModels.Models
         public static List<GooglePieChartSlice> GetRequestAmountGooglePieChartSlices(this Project project)
         {
             var requestAmountsDictionary = project.GetFundingSourceRequestGooglePieChartSlices();
-            var noFundingSourceIdentifiedAmount = Convert.ToDouble(project.EstimatedTotalCost ?? 0) - requestAmountsDictionary.Sum(x => x.Value);
+            var noFundingSourceIdentifiedAmount = Convert.ToDouble(project.NoFundingSourceIdentifiedYet ?? 0);
             if (noFundingSourceIdentifiedAmount > 0)
             {
                 var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
@@ -403,12 +403,7 @@ namespace ProjectFirmaModels.Models
 
         public static decimal GetEstimatedTotalCost(this Project project)
         {
-            return project.EstimatedTotalCost ?? 0;
-        }
-
-        public static decimal GetEstimatedAnnualOperatingCost(this Project project)
-        {
-            return project.EstimatedAnnualOperatingCost ?? 0;
+            return project.GetEstimatedTotalCost() ?? 0;
         }
 
         public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
@@ -419,13 +414,13 @@ namespace ProjectFirmaModels.Models
             }
 
             var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
-            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.EstimatedAnnualOperatingCost.Value;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalCost().Value;
         }
 
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
             return project.FundingType == FundingType.BudgetSameEachYear
-                   && project.EstimatedAnnualOperatingCost.HasValue
+                   && project.GetEstimatedTotalCost().HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue
                    && project.ProjectStage.IsStageIncludedInCostCalculations();

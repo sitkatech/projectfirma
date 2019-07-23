@@ -30,7 +30,7 @@ VALUES
 (36, N'ProjectStage', N'Project Stage', N'<p>Where a project exists in the project life cycle - Planning/Design, Implementation, Complete, Terminated, etc.</p>'),
 (39, N'ClassificationName', N'Classification Name', N'<p>The name of the grouping in this classification system.</p>'),
 (40, N'EstimatedTotalCost', N'Estimated Total Cost', N'<p>The total estimated cost to complete all stages of project implementation.</p>'),
-(41, N'NoFundingSourceIdentified', N'No Funding Source Identified Yet', N'<p>The difference between the Total Cost and Secured Funding for a project or program.</p>'),
+(41, N'NoFundingSourceIdentified', N'No Funding Source Identified Yet', N'<p>The amount of the overall or annual project cost that does not have a source of funds. Targeted funds (e.g. grant applications) are not included in this amount because a funding source has been identified for those funds.</p>'),
 (42, N'Username', N'User name', N'<p>Password required to log into the system&nbsp;order to access and edit project and program information that is not allowed by public users.</p>'),
 (44, N'Project', N'Project', N'<p>The core entity that ProjectFirma tracks - A collection of activities, with Performance Measures and Expenditures, that contribute to meeting program goals.</p>'),
 (46, N'Classification', N'Classification', N'<p>One of the groupings in a logical system used to group projects according to overarching program themes or goals.</p>'),

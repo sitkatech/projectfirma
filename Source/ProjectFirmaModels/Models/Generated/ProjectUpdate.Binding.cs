@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int? primaryContactPersonID, int? fundingTypeID) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, decimal? noFundingSourceIdentifiedYet) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -38,14 +38,15 @@ namespace ProjectFirmaModels.Models
             this.ProjectDescription = projectDescription;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
-            this.EstimatedTotalCost = estimatedTotalCost;
+            this.EstimatedTotalCostDeprecated = estimatedTotalCostDeprecated;
             this.ProjectLocationPoint = projectLocationPoint;
             this.ProjectLocationNotes = projectLocationNotes;
             this.PlanningDesignStartYear = planningDesignStartYear;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
-            this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
+            this.EstimatedAnnualOperatingCostDeprecated = estimatedAnnualOperatingCostDeprecated;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.FundingTypeID = fundingTypeID;
+            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
@@ -124,14 +125,15 @@ namespace ProjectFirmaModels.Models
         public string ProjectDescription { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
-        public decimal? EstimatedTotalCost { get; set; }
+        public decimal? EstimatedTotalCostDeprecated { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
         public string ProjectLocationNotes { get; set; }
         public int? PlanningDesignStartYear { get; set; }
         public int ProjectLocationSimpleTypeID { get; set; }
-        public decimal? EstimatedAnnualOperatingCost { get; set; }
+        public decimal? EstimatedAnnualOperatingCostDeprecated { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public int? FundingTypeID { get; set; }
+        public decimal? NoFundingSourceIdentifiedYet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
