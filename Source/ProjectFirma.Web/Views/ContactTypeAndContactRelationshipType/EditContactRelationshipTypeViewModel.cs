@@ -47,24 +47,12 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
         public List<int> ContactTypeIDs { get; set; }
 
         [Required]
-        [DisplayName("Can Steward?")]
-        public bool? CanStewardProjects { get; set; }
-
-        [Required]
-        [DisplayName("Serves as Primary Contact?")]
-        public bool? IsPrimaryContact { get; set; }
-
-        [Required]
         [DisplayName("Must be Related to Once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
         public string ContactRelationshipTypeDescription { get; set; }
-
-        [Required]
-        [DisplayName("Show on Fact Sheet?")]
-        public bool? ShowOnFactSheet { get; set; }
 
 
         /// <summary>

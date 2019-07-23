@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Views.User
         public string ActivateInactivateUrl { get; }
         public bool TenantHasStewardshipAreas { get; }
 
+        public HtmlString EditRolesLink { get; }
+
+        public HtmlString EditContactTypeLink { get; }
+
         public DetailViewData(Person currentPerson,
             Person personToView,
             Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
@@ -74,6 +78,11 @@ namespace ProjectFirma.Web.Views.User
                     true)
                 : new HtmlString(string.Empty);
 
+            EditContactTypeLink = UserHasPersonManagePermissions
+                ? ModalDialogFormHelper.ModalDialogFormLink($"Edit Contact Type", SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditUsersContactType(personToView)),
+                    $"Edit Contact Type for User - {personToView.GetFullNameFirstLast()}", null, UserHasPersonManagePermissions)
+                : new HtmlString(string.Empty);
+
             BasicProjectInfoGridSpec = basicProjectInfoGridSpec;
             BasicProjectInfoGridName = basicProjectInfoGridName;
             BasicProjectInfoGridDataUrl = basicProjectInfoGridDataUrl;
@@ -86,6 +95,6 @@ namespace ProjectFirma.Web.Views.User
             TenantHasStewardshipAreas = MultiTenantHelpers.GetProjectStewardshipAreaType() != null;
         }
 
-        public readonly HtmlString EditRolesLink;
+        
     }
 }

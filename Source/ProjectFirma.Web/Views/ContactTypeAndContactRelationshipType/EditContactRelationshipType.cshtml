@@ -41,38 +41,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanStewardProjects)</div>
-                <div class="col-xs-12 col-sm-9">
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.CanStewardProjects, true) Yes
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.CanStewardProjects, false) No
-                        </label>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.CanStewardProjects)
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsPrimaryContact)</div>
-                <div class="col-xs-12 col-sm-9">
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.IsPrimaryContact, true) Yes
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.IsPrimaryContact, false) No
-                        </label>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.IsPrimaryContact)
-                </div>
-            </div>
-            <div class="form-group">
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanOnlyBeRelatedOnceToAProject)</div>
                 <div class="col-sm-9">
                     <div class="radio-inline">
@@ -86,22 +54,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         </label>
                     </div>
                     @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnFactSheet)</div>
-                <div class="col-sm-9">
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, true) Yes
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, false) No
-                        </label>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.ShowOnFactSheet)
                 </div>
             </div>
 

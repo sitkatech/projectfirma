@@ -107,11 +107,44 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [UserEditFeature]
+        public PartialViewResult EditUsersContactType(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new EditUsersContactTypeViewModel(person);
+            return ViewEditUsersContactType(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditUsersContactType(PersonPrimaryKey personPrimaryKey, EditUsersContactTypeViewModel viewModel)
+        {
+            var person = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditUsersContactType(viewModel);
+            }
+
+            viewModel.UpdateModel(person, CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditUsersContactType(EditUsersContactTypeViewModel viewModel)
+        {
+            var contactTypes = HttpRequestStorage.DatabaseEntities.ContactTypes.ToList();
+            var contactTypesAsSelectListItems = contactTypes.ToSelectListWithEmptyFirstRow(x => x.ContactTypeID.ToString(CultureInfo.InvariantCulture), y => y.ContactTypeName);
+            var viewData = new EditUsersContactTypeViewData(contactTypesAsSelectListItems);
+            return RazorPartialView<EditUsersContactType, EditUsersContactTypeViewData, EditUsersContactTypeViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [UserEditFeature]
         public PartialViewResult EditRoles(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
             var viewModel = new EditRolesViewModel(person);
-            return ViewEdit(viewModel);
+            return ViewEditRoles(viewModel);
         }
 
         [HttpPost]
@@ -122,14 +155,14 @@ namespace ProjectFirma.Web.Controllers
             var person = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEditRoles(viewModel);
             }
 
             viewModel.UpdateModel(person, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
+        private PartialViewResult ViewEditRoles(EditRolesViewModel viewModel)
         {
             var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
             var rolesAsSelectListItems =

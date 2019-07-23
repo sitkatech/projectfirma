@@ -20,6 +20,11 @@ namespace ProjectFirmaModels.Models
             return contactType == null;
         }
 
+        public static string GetContactTypeName(this ContactType contactType)
+        {
+            return contactType != null ? contactType.ContactTypeName : "Not Selected";
+        }
+
         public static string GetDeleteUrl(ContactType contactType)
         {
             return SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(c =>

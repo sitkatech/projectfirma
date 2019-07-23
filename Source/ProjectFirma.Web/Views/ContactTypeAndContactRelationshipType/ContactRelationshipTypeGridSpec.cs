@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
@@ -54,12 +55,18 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
                 Add(contactType.ContactTypeName, a => a.IsAssociatedWithContactType(contactType).ToCheckboxImageOrEmptyForGrid(), 90);
             }
 
-            GroupingHeader =
-                BuildGroupingHeader(new ColumnHeaderGroupingList
-                {
-                    {"", basicsColumnGroupCount},
-                    {$"Applicable to the following {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}:", allContactTypes.Count}                    
-                });
+            if (allContactTypes.Any())
+            {
+                GroupingHeader =
+                    BuildGroupingHeader(new ColumnHeaderGroupingList
+                    {
+                        {"", basicsColumnGroupCount},
+                        {
+                            $"Applicable to the following {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}:",
+                            allContactTypes.Count
+                        }
+                    });
+            }
 
         }
     }
