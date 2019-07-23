@@ -13,9 +13,9 @@ namespace ProjectFirmaModels.Models
 
         public string GetAuditDescriptionString() => ContactRelationshipTypeName;
 
-        public bool IsAssociatedWithContactType(ContactType contactType)
-        {
-            return ContactTypeContactRelationshipTypes.Select(x => x.ContactType).Contains(contactType);
-        }
+        //public bool IsAssociatedWithContactType(ContactType contactType)
+        //{
+        //    return ContactTypeContactRelationshipTypes.Select(x => x.ContactType).Contains(contactType);
+        //}
     }
 }

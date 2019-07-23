@@ -43,36 +43,23 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         {
         }
 
-        public EditContactsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectOrganization> projectOrganizations,
+        public EditContactsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectContact> projectContacts,
             Person currentPerson)
         {           
             PrimaryContactPersonID = project.PrimaryContactPersonID;
-            
-            ProjectContactSimples = projectOrganizations.Select(x => new ProjectOrganizationSimple(x)).ToList();
-
-            // If the current person belongs to a primary contact organization, and the current project has no primary contact organization set, prepopulate.
-            if (currentPerson != null && currentPerson.Organization.CanBeAPrimaryContactOrganization())
-            {
-                var primaryContactOrganizationRelationshipTypeIDs = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes
-                    .Where(x => x.IsPrimaryContact).Select(x => x.OrganizationRelationshipTypeID).ToList();
-                if (!projectOrganizations.Any(x => primaryContactOrganizationRelationshipTypeIDs.Contains(x.OrganizationRelationshipTypeID)))
-                {
-                    ProjectContactSimples.AddRange(primaryContactOrganizationRelationshipTypeIDs.Select(x =>
-                        new ProjectOrganizationSimple(currentPerson.OrganizationID, x)));
-                }
-            }
+            ProjectContactSimples = projectContacts.Select(x => new ProjectContactSimple(x)).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, ICollection<ProjectFirmaModels.Models.ProjectOrganization> allProjectOrganizations)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, ICollection<ProjectFirmaModels.Models.ProjectContact> allProjectContacts)
         {
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
-            var projectOrganizationsUpdated = ProjectContactSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.ContactID)).Select(x =>
-                new ProjectFirmaModels.Models.ProjectOrganization(project.ProjectID, x.ContactID, x.ContactRelationshipTypeID)).ToList();
+            var projectContactsUpdated = ProjectContactSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.ContactID)).Select(x =>
+                new ProjectFirmaModels.Models.ProjectContact(project.ProjectID, x.ContactID, x.ContactRelationshipTypeID)).ToList();
 
-            project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
-                allProjectOrganizations,
-                (x, y) => x.ProjectID == y.ProjectID && x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+            project.ProjectContacts.Merge(projectContactsUpdated,
+                allProjectContacts,
+                (x, y) => x.ProjectID == y.ProjectID && x.ContactID == y.ContactID && x.ContactRelationshipTypeID == y.ContactRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -86,48 +73,47 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
 
             if (ProjectContactSimples == null)
             {
-                ProjectContactSimples = new List<ProjectOrganizationSimple>();
+                ProjectContactSimples = new List<ProjectContactSimple>();
             }
 
-            if (ProjectContactSimples.GroupBy(x => new { RelationshipTypeID = x.ContactRelationshipTypeID, OrganizationID = x.ContactID }).Any(x => x.Count() > 1))
+            if (ProjectContactSimples.GroupBy(x => new { RelationshipTypeID = x.ContactRelationshipTypeID, PersonID = x.ContactID }).Any(x => x.Count() > 1))
             {
-                errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times."));
+                errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same contact multiple times."));
             }
             
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
 
-            var projectOrganizationsGroupedByRelationshipTypeID =
-                ProjectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
-
-            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
-                .Select(relationshipType => new ValidationResult(
-                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\".")));
+            var projectContactsGroupedByRelationshipTypeID = ProjectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
 
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) == 0)
+                .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
-                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\".")));
+                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
 
-            var allValidRelationshipTypes = ProjectContactSimples.All(x =>
-            {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.ContactID);
-                var organizationType = organization.OrganizationType;
+            errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
+                .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
+                .Select(relationshipType => new ValidationResult(
+                    $"Must have one contact with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
 
-                if (organizationType != null)
-                {
-                    var organizationTypeOrganizationRelationshipTypeIDs =
-                        organizationType.OrganizationTypeOrganizationRelationshipTypes.Select(y => y.OrganizationRelationshipTypeID);
+            //var allValidRelationshipTypes = ProjectContactSimples.All(x =>
+            //{
+            //    var contact = HttpRequestStorage.DatabaseEntities.People.FirstOrDefault(people => people.PersonID == x.ContactID);
+            //    var contactType = contact.ContactType;
 
-                    return organizationTypeOrganizationRelationshipTypeIDs.Contains(x.ContactRelationshipTypeID);
-                }
-                return false;
-            });
+            //    if (contactType != null)
+            //    {
+            //        var contactTypeContactRelationshipTypeIDs =
+            //            contactType.ContactTypeContactRelationshipTypes.Select(y => y.ContactRelationshipTypeID);
 
-            if (!allValidRelationshipTypes)
-            {
-                errors.Add(new ValidationResult("One or more relationship types are invalid."));
-            }
+            //        return contactTypeContactRelationshipTypeIDs.Contains(x.ContactRelationshipTypeID);
+            //    }
+            //    return false;
+            //});
+
+            //if (!allValidRelationshipTypes)
+            //{
+            //    errors.Add(new ValidationResult("One or more relationship types are invalid."));
+            //}
 
             return errors;
         }

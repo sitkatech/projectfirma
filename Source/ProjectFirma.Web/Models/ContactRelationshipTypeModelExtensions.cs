@@ -17,7 +17,7 @@ namespace ProjectFirmaModels.Models
 
         public static string GetDeleteUrl(this ContactRelationshipType contactRelationshipType)
         {
-            return SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(c =>
+            return SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(c =>
                 c.DeleteContactRelationshipType(contactRelationshipType.ContactRelationshipTypeID));
         }
     }

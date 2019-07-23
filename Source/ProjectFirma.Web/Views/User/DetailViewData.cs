@@ -48,8 +48,6 @@ namespace ProjectFirma.Web.Views.User
 
         public HtmlString EditRolesLink { get; }
 
-        public HtmlString EditContactTypeLink { get; }
-
         public DetailViewData(Person currentPerson,
             Person personToView,
             Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
@@ -76,11 +74,6 @@ namespace ProjectFirma.Web.Views.User
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
                     $"Edit Roles for User - {personToView.GetFullNameFirstLast()}",
                     true)
-                : new HtmlString(string.Empty);
-
-            EditContactTypeLink = UserHasPersonManagePermissions
-                ? ModalDialogFormHelper.ModalDialogFormLink($"Edit Contact Type", SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditUsersContactType(personToView)),
-                    $"Edit Contact Type for User - {personToView.GetFullNameFirstLast()}", null, UserHasPersonManagePermissions)
                 : new HtmlString(string.Empty);
 
             BasicProjectInfoGridSpec = basicProjectInfoGridSpec;

@@ -35,7 +35,7 @@
     });
     jQuery(document).ready(function ()
     {
-        angular.bootstrap(jQuery("#EditOrganizationsAngularApp"), ["ProjectFirmaApp"]);
+        angular.bootstrap(jQuery("#EditContactsAngularApp"), ["ProjectFirmaApp"]);
 
         jQuery(".selectpicker").selectpicker("refresh");
         jQuery(".modal").on("hidden.bs.modal",
@@ -54,96 +54,60 @@
             padding-top: 0;
         }
 
-        .col-xs-5.organizationIdSelectGroup div.bootstrap-select.btn-group {
+        .col-xs-5.contactIdSelectGroup div.bootstrap-select.btn-group {
             width: 100%;
         }
     </style>
     <div class="validationError">
         @Html.ValidationSummary()
     </div>
-    <div id="EditOrganizationsAngularApp" ng-controller="ProjectOrganizationController">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Select the @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() and @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
-                <p class="systemText">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
-            </div>
-        </div>
-        @*------------------------------------ Primary Contact Relationship Type (if there is one) and Primary Contact ------------------------------------*@
-        <br />
-        <div ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">
-            <div class="row">
-                @*Relationship type and description*@
-                <div class="col-md-12"><label ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeName"></label><sup ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="smallExplanationText" ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeDescription"></p>
-                </div>
-                <div class="col-md-12">
-                    <div class="row">
-                        @*Selectpicker*@
-                        <div class="col-md-12">
-                            <div class="input-group" style="width: 100%;">
-                                <select class="selectpicker" id="todo{{AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID],AngularViewData.PrimaryContactRelationshipTypeSimple)" data-width="100%" data-live-search="true" data-size="8">
-                                    <option value="" disabled selected ng-bind="dropdownDefaultOption(AngularViewData.PrimaryContactRelationshipTypeSimple)">Select one</option>
-                                    <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(AngularViewData.PrimaryContactRelationshipTypeSimple, 'primaryContact')"
-                                            ng-bind="organization.OrganizationName"
-                                            ng-value="organization.OrganizationID"
-                                            ng-selected="isOptionSelected(organization,AngularViewData.PrimaryContactRelationshipTypeSimple)"></option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr />
+    <div id="EditContactsAngularApp" ng-controller="ProjectContactController">
 
         @*------------------------------------ All Other Relationship Types ------------------------------------*@
-        <div ng-repeat="relationshipType in AngularViewData.AllOrganizationRelationshipTypes | orderBy:['-OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject','OrganizationRelationshipTypeName']">
+        <div ng-repeat="relationshipType in AngularViewData.AllContactRelationshipTypes | orderBy:['-ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject','ContactRelationshipTypeName']">
             <hr />
             <div class="row">
                 @*Relationship type and description*@
-                <div class="col-md-12"><label ng-bind="relationshipType.OrganizationRelationshipTypeName"></label><sup ng-show="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
+                <div class="col-md-12"><label ng-bind="relationshipType.ContactRelationshipTypeName"></label><sup ng-show="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <p class="smallExplanationText" ng-bind="relationshipType.OrganizationRelationshipTypeDescription"></p>
+                    <p class="smallExplanationText" ng-bind="relationshipType.ContactRelationshipTypeDescription"></p>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
                         @*Selectpicker*@
                         <div class="col-md-12">
                             <div class="input-group" style="width: 100%;">
-                                <select class="selectpicker" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
+                                <select class="selectpicker" id="todo{{relationshipType.ContactRelationshipTypeID}}" ng-model="selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-change="selectionChanged(selectedContactID[relationshipType.ContactRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
                                     <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                    <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType, 'iteratingOver')"
-                                            ng-bind="organization.OrganizationName"
-                                            ng-value="organization.OrganizationID"
-                                            ng-selected="isOptionSelected(organization,relationshipType)"></option>
+                                    <option ng-repeat="contact in getAvailableContactsForRelationshipType(relationshipType, 'iteratingOver')"
+                                            ng-bind="contact.ContactName"
+                                            ng-value="contact.ContactID"
+                                            ng-selected="isOptionSelected(contact,relationshipType)"></option>
                                 </select>
-                                <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID], relationshipType.OrganizationRelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-show="!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectContactSimple(selectedContactID[relationshipType.ContactRelationshipTypeID], relationshipType.ContactRelationshipTypeID)" ng-disabled="!selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-show="!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     Add
                                 </button>
-                                <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectOrganizationSimpleFromProjectLocation(relationshipType)" ng-show="canSetOrganizationFromProjectLocation(relationshipType)">
+                                <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectContactSimpleFromProjectLocation(relationshipType)" ng-show="canSetContactFromProjectLocation(relationshipType)">
                                     <span class="glyphicon glyphicon-map-marker"></span>
                                     Set from Simple Location
                                 </button>
                             </div>
                             <p class="help-block alert alert-warning" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">
-                                <span>The currently selected {{relationshipType.OrganizationRelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated organizations boundary, or this may warrant updating either the simple location or the associated organization.</span>
+                                <span>The currently selected {{relationshipType.ContactRelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated contacts boundary, or this may warrant updating either the simple location or the associated contact.</span>
                             </p>
                         </div>
                     </div>
-                    <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.OrganizationRelationshipTypeID)" ng-hide="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                    <div class="row" ng-repeat="contact in chosenContactsForRelationshipType(relationshipType.ContactRelationshipTypeID)" ng-hide="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
                         @*Selections*@
                         <div class="col-md-12">
                             <span>
-                                <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.OrganizationRelationshipTypeID); $event.preventDefault();">
+                                <a href="#" ng-click="removeProjectContactSimple(contact.ContactID, relationshipType.ContactRelationshipTypeID); $event.preventDefault();">
                                     <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
                                 </a>
-                            </span><span ng-bind="organization.OrganizationName"></span>
+                            </span><span ng-bind="contact.ContactName"></span>
                         </div>
                     </div>
                 </div>
@@ -152,9 +116,9 @@
         @using (Html.BeginForm())
         {
             <input type="hidden" name="@Html.NameFor(x => x.PrimaryContactPersonID)" value="{{AngularModel.PrimaryContactPersonID}}" />
-            <div ng-repeat="projectOrganization in AngularModel.ProjectOrganizationSimples">
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationID}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationRelationshipTypeID}}" />
+            <div ng-repeat="projectContact in AngularModel.ProjectContactSimples">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactID).ToString().Replace("0", "{{$index}}")" value="{{projectContact.ContactID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectContact.ContactRelationshipTypeID}}" />
             </div>
         }
     </div>

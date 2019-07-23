@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditContactRelationshipType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
+
+namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
-    public abstract class EditContactType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditContactTypeViewData, EditContactTypeViewModel>
+    public abstract class EditContactRelationshipType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditContactRelationshipTypeViewData, EditContactRelationshipTypeViewModel>
     {
     }
 }

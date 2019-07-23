@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactTypeViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditContactRelationshipTypeViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,12 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
+namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
-    public class EditContactTypeViewData : FirmaUserControlViewData
+    public class EditContactRelationshipTypeViewData : FirmaUserControlViewData
     {
-       
-        public EditContactTypeViewData()
+
+        public EditContactRelationshipTypeViewData()
         {
 
         }

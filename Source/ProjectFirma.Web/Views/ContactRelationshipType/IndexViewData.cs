@@ -19,46 +19,35 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
+namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
     public class IndexViewData : FirmaViewData
     {
-        public ContactTypeGridSpec ContactTypeGridSpec { get; } 
-        public string ContactTypeGridName { get; }
-        public string ContactTypeGridDataUrl { get; }
 
         public ContactRelationshipTypeGridSpec ContactRelationshipTypeGridSpec { get; }
         public string ContactRelationshipTypeGridName { get; }
         public string ContactRelationshipTypeGridDataUrl { get; }
         public bool HasManagePermissions { get; }
-        public string NewContactTypeUrl { get; }
         public string NewProjectAssociationUrl { get; }
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new ContactAndContactRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
-            ContactTypeGridSpec = new ContactTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
 
-
-            ContactTypeGridName = "contactTypeGrid";
-            ContactTypeGridDataUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactTypeGridJsonData());
-
-            ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.ContactTypes.ToList()) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ContactRelationshipTypeGridName = "relationshipTypeGrid";
-            ContactRelationshipTypeGridDataUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactRelationshipTypeGridJsonData());
+            ContactRelationshipTypeGridDataUrl = SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactRelationshipTypeGridJsonData());
             HasManagePermissions = hasManagePermissions;
-            NewContactTypeUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(t => t.NewContactType());
-            NewProjectAssociationUrl = SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(t => t.NewContactRelationshipType());
+            NewProjectAssociationUrl = SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(t => t.NewContactRelationshipType());
         }
     }
 }

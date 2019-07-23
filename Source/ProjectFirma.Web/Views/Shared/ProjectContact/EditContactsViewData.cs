@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -32,11 +31,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public List<PersonSimple> AllContacts { get; }
         public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
 
-        public EditContactsViewData(IEnumerable<Person> allContacts, List<ContactRelationshipType> allContactRelationshipTypes)
+        public EditContactsViewData(IEnumerable<Person> allContacts, List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
         {            
-            AllContacts = allContacts.Where(x => x.ContactType.ContactTypeContactRelationshipTypes.Any()).Select(x => new PersonSimple(x)).ToList();
-
-
+            AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
             AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(x)).ToList();
         }
     }

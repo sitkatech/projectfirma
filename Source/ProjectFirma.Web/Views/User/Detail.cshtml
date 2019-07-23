@@ -89,17 +89,6 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabel()</div>
-                        <div class="col-xs-8">
-                            @ViewDataTyped.Person.ContactType.GetContactTypeName()
-                            @if (ViewDataTyped.UserHasPersonManagePermissions)
-                            {
-                                <div>@ViewDataTyped.EditContactTypeLink</div>
-                            }
-                        </div>
-
-                    </div>
                     @if (ViewDataTyped.UserHasPersonManagePermissions)
                     {
                         <div class="row">

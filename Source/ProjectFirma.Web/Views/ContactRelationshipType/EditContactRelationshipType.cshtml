@@ -18,11 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
-@using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType.EditContactRelationshipType
+@inherits ProjectFirma.Web.Views.ContactRelationshipType.EditContactRelationshipType
               
 
 <div class="validationError">
@@ -64,15 +61,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
                 </div>
             </div>
-
-            <hr />
-            <p>Select which @FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with this @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()</p>
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ContactTypeIDs)</div>
-                <div class="col-xs-12 col-sm-9">
-                    @Html.CheckBoxListFor(x => x.ContactTypeIDs, ViewDataTyped.AllContactTypes.ToSelectList(x => x.ContactTypeID.ToString(), x => x.ContactTypeName), new { style ="display:block"}, CheckboxExtensions.ColNumber.twoCols)
-                </div>
-            </div>                        
+                     
         </div>
         @Html.HiddenFor(m => m.RelationshipTypeID)
     }

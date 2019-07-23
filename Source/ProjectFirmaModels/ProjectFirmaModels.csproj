@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -538,11 +538,6 @@
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\ContactRelationshipType.cs" />
     <Compile Include="Models\ContactRelationshipTypeSimple.cs" />
-    <Compile Include="Models\ContactType.cs" />
-    <Compile Include="Models\ContactType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\ContactTypeContactRelationshipType.cs" />
-    <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
-    <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
     <Compile Include="Models\FundingSourceCustomAttribute.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeSimple.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeDataType.cs" />
@@ -590,6 +585,7 @@
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectContact.cs" />
     <Compile Include="Models\ProjectContactRelationship.cs" />
+    <Compile Include="Models\ProjectContactSimple.cs" />
     <Compile Include="Models\ProjectContactUpdate.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

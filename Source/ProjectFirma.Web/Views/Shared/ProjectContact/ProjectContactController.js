@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectOrganizationController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectContactController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ProjectContactController", function($scope,
     angularModelAndViewData) {
-    $scope.OrganizationToAdd = null;
+    $scope.ContactToAdd = null;
 
     $scope.$watch(function() {
         jQuery(".selectpicker").selectpicker("refresh");
@@ -29,70 +29,70 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         jQuery("form").trigger("input");
     });
 
-    $scope.getAvailableOrganizationsForRelationshipType = function (relationshipType, comingFrom) {
+    $scope.getAvailableContactsForRelationshipType = function (relationshipType, comingFrom) {
         //debugger;
         if (relationshipType == null) {
             //debugger;
             return null;
         }
 
-        var organizationsForRelationshipType = _.filter($scope.AngularViewData.AllOrganizations,
-            function(organization) {
-                return $scope.organizationIsValidForRelationshipType(organization, relationshipType);
+        var contactsForRelationshipType = _.filter($scope.AngularViewData.AllContacts,
+            function(contact) {
+                return $scope.contactIsValidForRelationshipType(contact, relationshipType);
             });
-        if (relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
-            return organizationsForRelationshipType;
+        if (relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            return contactsForRelationshipType;
         } else {
-            var usedOrganizations = _.filter($scope.AngularModel.ProjectOrganizationSimples,
+            var usedContacts = _.filter($scope.AngularModel.ProjectContactSimples,
                 function(f) {
-                    return f.OrganizationRelationshipTypeID == relationshipType.OrganizationRelationshipTypeID;
+                    return f.ContactRelationshipTypeID == relationshipType.ContactRelationshipTypeID;
                 });
-            var usedOrganizationIDs = _.map(usedOrganizations,
+            var usedContactIDs = _.map(usedContacts,
                 function (f) {
-                    return f.OrganizationID;
+                    return f.ContactID;
                 });
 
-            var filteredList = _.filter(organizationsForRelationshipType,
+            var filteredList = _.filter(contactsForRelationshipType,
                 function (f) {
-                    return !_.includes(usedOrganizationIDs, f.OrganizationID);
+                    return !_.includes(usedContactIDs, f.ContactID);
                 });
 
             return filteredList;
         }
     };
 
-    $scope.organizationIsValidForRelationshipType = function(organization, relationshipType) {
-        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(organization.OrganizationID),
+    $scope.contactIsValidForRelationshipType = function(contact, relationshipType) {
+        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(contact.ContactID),
             function(rt) {
-                return rt.OrganizationRelationshipTypeID;
+                return rt.ContactRelationshipTypeID;
             });
-        return _.includes(validRelationshipTypeIDs, relationshipType.OrganizationRelationshipTypeID);
+        return _.includes(validRelationshipTypeIDs, relationshipType.ContactRelationshipTypeID);
     };
 
-    $scope.chosenOrganizationsForRelationshipType = function(relationshipTypeID) {
-        var chosenOrganizationSimples = _.filter($scope.AngularModel.ProjectOrganizationSimples,
+    $scope.chosenContactsForRelationshipType = function(relationshipTypeID) {
+        var chosenContactSimples = _.filter($scope.AngularModel.ProjectContactSimples,
             function(s) {
-                return s.OrganizationRelationshipTypeID == relationshipTypeID;
+                return s.ContactRelationshipTypeID == relationshipTypeID;
             });
 
-        var organizations = _.map(chosenOrganizationSimples,
+        var contacts = _.map(chosenContactSimples,
             function(s) {
-                var organization =
-                    Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
-                        "OrganizationID",
-                        s.OrganizationID);
-                return organization;
+                var contact =
+                    Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
+                        "ContactID",
+                        s.ContactID);
+                return contact;
             });
-        return organizations;
+        return contacts;
     };
 
-    $scope.canSetOrganizationFromProjectLocation = function(relationshipType) {
-        if (!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject ||
-            !relationshipType.OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary) {
+    $scope.canSetContactFromProjectLocation = function(relationshipType) {
+        if (!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject ||
+            !relationshipType.ContactRelationshipTypeHasContactsWithSpatialBoundary) {
             return false;
         }
 
-        if ($scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.OrganizationRelationshipTypeID] ===
+        if ($scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID] ===
             null) {
             return false;
         }
@@ -100,82 +100,82 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         return true;
     };
 
-    $scope.setProjectOrganizationSimpleFromProjectLocation = function(relationshipType) {
-        if (!$scope.canSetOrganizationFromProjectLocation(relationshipType)) {
+    $scope.setProjectContactSimpleFromProjectLocation = function(relationshipType) {
+        if (!$scope.canSetContactFromProjectLocation(relationshipType)) {
             return;
         }
 
-        var organizationID = Number(
-            $scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.OrganizationRelationshipTypeID]
-            .OrganizationID);
+        var contactID = Number(
+            $scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID]
+            .ContactID);
 
-        $scope.selectionChanged(organizationID, relationshipType);
+        $scope.selectionChanged(contactID, relationshipType);
     };
 
     $scope.selectedOrgDoesNotMatchSpatialOrg = function (relationshipType) {
 
-        if (!$scope.canSetOrganizationFromProjectLocation(relationshipType)) {
+        if (!$scope.canSetContactFromProjectLocation(relationshipType)) {
             return false;
         }
 
-        var spatialOrganizationID = Number(
-            $scope.AngularViewData.OrganizationContainingProjectSimpleLocation[relationshipType.OrganizationRelationshipTypeID].OrganizationID);
+        var spatialContactID = Number(
+            $scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID].ContactID);
 
-        var projectOrganizationSimple =
-            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+        var projectContactSimple =
+            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
                 "RelationshipTypeID",
-                relationshipType.OrganizationRelationshipTypeID);
+                relationshipType.ContactRelationshipTypeID);
 
-        return spatialOrganizationID !== projectOrganizationSimple.OrganizationID;
+        return spatialContactID !== projectContactSimple.ContactID;
     };
 
-    $scope.addProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
-        $scope.AngularModel.ProjectOrganizationSimples.push({
-            OrganizationID: Number(organizationID),
-            OrganizationRelationshipTypeID: relationshipTypeID
+    $scope.addProjectContactSimple = function(contactID, relationshipTypeID) {
+        $scope.AngularModel.ProjectContactSimples.push({
+            ContactID: Number(contactID),
+            ContactRelationshipTypeID: relationshipTypeID
         });
-        $scope.resetSelectedOrganizationID(relationshipTypeID);
+        $scope.resetSelectedContactID(relationshipTypeID);
     };
 
-    $scope.removeProjectOrganizationSimple = function(organizationID, relationshipTypeID) {
-        _.remove($scope.AngularModel.ProjectOrganizationSimples,
+    $scope.removeProjectContactSimple = function(contactID, relationshipTypeID) {
+        _.remove($scope.AngularModel.ProjectContactSimples,
             function(pos) {
-                return pos.OrganizationID == organizationID && pos.OrganizationRelationshipTypeID == relationshipTypeID;
+                return pos.ContactID == contactID && pos.ContactRelationshipTypeID == relationshipTypeID;
             });
     };
 
-    $scope.selectionChanged = function(organizationID, relationshipType) {
+    $scope.selectionChanged = function(contactID, relationshipType) {
         // changing the dropdown selection for a one-and-only-one relationship type should update the model
-        if (relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
-            // if there's already a projectOrganizationSimple for this relationship type, just change the OrganizationID
-            var projectOrganizationSimple =
-                Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+        if (relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            // if there's already a projectContactSimple for this relationship type, just change the ContactID
+            var projectContactSimple =
+                Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
                     "RelationshipTypeID",
-                    relationshipType.OrganizationRelationshipTypeID);
+                    relationshipType.ContactRelationshipTypeID);
 
-            if (projectOrganizationSimple != null) {
-                projectOrganizationSimple.OrganizationID = Number(organizationID);
+            if (projectContactSimple != null) {
+                projectContactSimple.ContactID = Number(contactID);
             } else {
-                $scope.AngularModel.ProjectOrganizationSimples.push({
-                    OrganizationID: Number(organizationID),
-                    OrganizationRelationshipTypeID: relationshipType.OrganizationRelationshipTypeID
+                $scope.AngularModel.ProjectContactSimples.push({
+                    ContactID: Number(contactID),
+                    ContactRelationshipTypeID: relationshipType.ContactRelationshipTypeID
                 });
             }
         } // but nothing should happen if it's a many-or-none relationship type
     };
 
-    $scope.resetSelectedOrganizationID = function(relationshipTypeID) {
-        $scope.selectedOrganizationID[relationshipTypeID] = "";
+    $scope.resetSelectedContactID = function(relationshipTypeID) {
+        $scope.selectedContactID[relationshipTypeID] = "";
     };
 
-    $scope.isOptionSelected = function(organization, relationshipType) {
-        if (!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+    $scope.isOptionSelected = function(contact, relationshipType) {
+        if (!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
             return false;
         }
-        return _.any($scope.AngularModel.ProjectOrganizationSimples,
+        return _.any($scope.AngularModel.ProjectContactSimples,
             function(pos) {
-                return pos.OrganizationID == organization.OrganizationID &&
-                    pos.OrganizationRelationshipTypeID == relationshipType.OrganizationRelationshipTypeID;
+                return pos.ContactID == contact.ContactID &&
+                    pos.ContactRelationshipTypeID == relationshipType.ContactRelationshipTypeID;
             });
     };
 
@@ -184,57 +184,57 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
             return "Select One";
         }
 
-        if (relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
-            return "Select the " + relationshipType.OrganizationRelationshipTypeName;
+        if (relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
+            return "Select the " + relationshipType.ContactRelationshipTypeName;
         } else {
-            return "Add a " + relationshipType.OrganizationRelationshipTypeName;
+            return "Add a " + relationshipType.ContactRelationshipTypeName;
         }
     };
 
-    $scope.validRelationshipTypes = function (organizationID) {
+    $scope.validRelationshipTypes = function (contactID) {
         //debugger;
-        var organization =
-            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
-                "OrganizationID",
-                organizationID);
+        var contact =
+            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
+                "ContactID",
+                contactID);
 
-        var valid = organization == null ? [] : organization.ValidOrganizationRelationshipTypeSimples;
+        var valid = contact == null ? [] : contact.ValidContactRelationshipTypeSimples;
         return valid;
     };
 
-    $scope.getSelectedPrimaryContactOrganization = function (relationshipType) {
+    $scope.getSelectedPrimaryContactContact = function (relationshipType) {
         if (relationshipType === null) {
             return null;
         }
 
-        var selectedPrimaryContactOrganizationID =
-            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
+        var selectedPrimaryContactContactID =
+            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
                 "RelationshipTypeID",
-                relationshipType.OrganizationRelationshipTypeID).OrganizationID;
+                relationshipType.ContactRelationshipTypeID).ContactID;
 
-        var selectedPrimaryContactOrganization =
-            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllOrganizations,
-                "OrganizationID",
-                selectedPrimaryContactOrganizationID);
+        var selectedPrimaryContactContact =
+            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
+                "ContactID",
+                selectedPrimaryContactContactID);
 
-        return selectedPrimaryContactOrganization;
+        return selectedPrimaryContactContact;
     }
 
-    $scope.primaryContactOrganizationHasNoPrimaryContact = function(relationshipType) {
-        return $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonID == null;
+    $scope.primaryContactContactHasNoPrimaryContact = function(relationshipType) {
+        return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonID == null;
     }
 
-    $scope.primaryContactOrganization = function (relationshipType) {
+    $scope.primaryContactContact = function (relationshipType) {
         if (relationshipType != null) {
-            return $scope.getSelectedPrimaryContactOrganization(relationshipType);
+            return $scope.getSelectedPrimaryContactContact(relationshipType);
         }
 
         return null;
     }
 
-    $scope.primaryContactOrganizationPersonDisplayName = function (relationshipType) {
+    $scope.primaryContactContactPersonDisplayName = function (relationshipType) {
         if (relationshipType != null) {
-            return $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonDisplayName;
+            return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonDisplayName;
         }
 
         return "nobody";
@@ -252,5 +252,5 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.selectedOrganizationID = {};
+    $scope.selectedContactID = {};
 });

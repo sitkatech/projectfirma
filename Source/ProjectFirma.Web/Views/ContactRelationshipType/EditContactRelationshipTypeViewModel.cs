@@ -26,11 +26,9 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
+namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
     public class EditContactRelationshipTypeViewModel : FormViewModel, IValidatableObject
     {
@@ -38,13 +36,9 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
         public int RelationshipTypeID { get; set; }
 
         [Required]
-        [StringLength(ContactRelationshipType.FieldLengths.ContactRelationshipTypeName)]
+        [StringLength(ProjectFirmaModels.Models.ContactRelationshipType.FieldLengths.ContactRelationshipTypeName)]
         [DisplayName("Name")]
         public string ContactRelationshipTypeName { get; set; }
-      
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ContactType)]
-        public List<int> ContactTypeIDs { get; set; }
 
         [Required]
         [DisplayName("Must be Related to Once?")]
@@ -62,27 +56,17 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
         {
         }
 
-        public EditContactRelationshipTypeViewModel(ContactRelationshipType contactRelationshipType)
+        public EditContactRelationshipTypeViewModel(ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
         {
             RelationshipTypeID = contactRelationshipType.ContactRelationshipTypeID;
             ContactRelationshipTypeName = contactRelationshipType.ContactRelationshipTypeName;
-            ContactTypeIDs = contactRelationshipType.ContactTypeContactRelationshipTypes
-                .Select(x => x.ContactTypeID)
-                .ToList();
             CanOnlyBeRelatedOnceToAProject = contactRelationshipType.CanOnlyBeRelatedOnceToAProject;
             ContactRelationshipTypeDescription = contactRelationshipType.ContactRelationshipTypeDescription;
         }
 
-        public void UpdateModel(ContactRelationshipType contactRelationshipType, ICollection<ContactTypeContactRelationshipType> allContactTypeContactRelationshipTypes)
+        public void UpdateModel(ProjectFirmaModels.Models.ContactRelationshipType contactRelationshipType)
         {
             contactRelationshipType.ContactRelationshipTypeName = ContactRelationshipTypeName;
-
-            var contactTypesUpdated = ContactTypeIDs.Select(x => new ContactTypeContactRelationshipType(x, contactRelationshipType.ContactRelationshipTypeID)).ToList();
-
-            contactRelationshipType.ContactTypeContactRelationshipTypes.Merge(contactTypesUpdated,
-                allContactTypeContactRelationshipTypes,
-                (x, y) => x.ContactTypeID == y.ContactTypeID && x.ContactRelationshipTypeID == y.ContactRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
-
 
             contactRelationshipType.CanOnlyBeRelatedOnceToAProject = CanOnlyBeRelatedOnceToAProject ?? false;
             contactRelationshipType.ContactRelationshipTypeDescription = ContactRelationshipTypeDescription;

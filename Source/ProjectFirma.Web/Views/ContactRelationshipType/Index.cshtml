@@ -24,20 +24,12 @@
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType.Index
+@inherits ProjectFirma.Web.Views.ContactRelationshipType.Index
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-<br />
-<div>
-    <h4>@FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()</h4>
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewContactTypeUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
-</div>
-<div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.ContactTypeGridSpec, ViewDataTyped.ContactTypeGridName, ViewDataTyped.ContactTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-</div>
 <br />
 <div>
     <h4>@FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>

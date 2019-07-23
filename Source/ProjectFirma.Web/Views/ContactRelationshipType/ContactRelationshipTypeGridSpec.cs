@@ -19,8 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
@@ -30,18 +28,18 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
+namespace ProjectFirma.Web.Views.ContactRelationshipType
 {
-    public class ContactRelationshipTypeGridSpec : GridSpec<ContactRelationshipType>
+    public class ContactRelationshipTypeGridSpec : GridSpec<ProjectFirmaModels.Models.ContactRelationshipType>
     {
-        public ContactRelationshipTypeGridSpec(bool hasManagePermissions, List<ContactType> allContactTypes)
+        public ContactRelationshipTypeGridSpec(bool hasManagePermissions)
         {
             var basicsColumnGroupCount = 5;
 
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ContactTypeAndContactRelationshipTypeController>.BuildUrlFromExpression(t => t.EditContactRelationshipType(a)),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(t => t.EditContactRelationshipType(a)),
                         $"Edit {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.ContactRelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
@@ -50,23 +48,6 @@ namespace ProjectFirma.Web.Views.ContactTypeAndContactRelationshipType
             Add($"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.ContactRelationshipTypeName, 240);
             Add($"Must be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 
-            foreach (var contactType in allContactTypes)
-            {
-                Add(contactType.ContactTypeName, a => a.IsAssociatedWithContactType(contactType).ToCheckboxImageOrEmptyForGrid(), 90);
-            }
-
-            if (allContactTypes.Any())
-            {
-                GroupingHeader =
-                    BuildGroupingHeader(new ColumnHeaderGroupingList
-                    {
-                        {"", basicsColumnGroupCount},
-                        {
-                            $"Applicable to the following {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}:",
-                            allContactTypes.Count
-                        }
-                    });
-            }
 
         }
     }
