@@ -67,8 +67,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         {
             project.PrimaryContactPersonID = PrimaryContactPersonID;
 
-            var projectOrganizationsUpdated = ProjectContactSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.OrganizationID)).Select(x =>
-                new ProjectFirmaModels.Models.ProjectOrganization(project.ProjectID, x.OrganizationID, x.OrganizationRelationshipTypeID)).ToList();
+            var projectOrganizationsUpdated = ProjectContactSimples.Where(x => ModelObjectHelpers.IsRealPrimaryKeyValue(x.ContactID)).Select(x =>
+                new ProjectFirmaModels.Models.ProjectOrganization(project.ProjectID, x.ContactID, x.ContactRelationshipTypeID)).ToList();
 
             project.ProjectOrganizations.Merge(projectOrganizationsUpdated,
                 allProjectOrganizations,
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
                 ProjectContactSimples = new List<ProjectOrganizationSimple>();
             }
 
-            if (ProjectContactSimples.GroupBy(x => new { RelationshipTypeID = x.OrganizationRelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
+            if (ProjectContactSimples.GroupBy(x => new { RelationshipTypeID = x.ContactRelationshipTypeID, OrganizationID = x.ContactID }).Any(x => x.Count() > 1))
             {
                 errors.Add(new ValidationResult($"Cannot have the same relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times."));
             }
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
 
             var projectOrganizationsGroupedByRelationshipTypeID =
-                ProjectContactSimples.GroupBy(x => x.OrganizationRelationshipTypeID).ToList();
+                ProjectContactSimples.GroupBy(x => x.ContactRelationshipTypeID).ToList();
 
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
 
             var allValidRelationshipTypes = ProjectContactSimples.All(x =>
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.OrganizationID);
+                var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(x.ContactID);
                 var organizationType = organization.OrganizationType;
 
                 if (organizationType != null)
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
                     var organizationTypeOrganizationRelationshipTypeIDs =
                         organizationType.OrganizationTypeOrganizationRelationshipTypes.Select(y => y.OrganizationRelationshipTypeID);
 
-                    return organizationTypeOrganizationRelationshipTypeIDs.Contains(x.OrganizationRelationshipTypeID);
+                    return organizationTypeOrganizationRelationshipTypeIDs.Contains(x.ContactRelationshipTypeID);
                 }
                 return false;
             });
