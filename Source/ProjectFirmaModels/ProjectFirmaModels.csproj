@@ -71,14 +71,6 @@
     <Compile Include="Models\Generated\ContactRelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ContactRelationshipTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ContactRelationshipTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ContactType.Binding.cs" />
-    <Compile Include="Models\Generated\ContactType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ContactTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ContactTypeContactRelationshipType.Binding.cs" />
-    <Compile Include="Models\Generated\ContactTypeContactRelationshipType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ContactTypeContactRelationshipTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ContactTypeContactRelationshipTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ContactTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostType.Binding.cs" />
     <Compile Include="Models\Generated\CostType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostTypeConfiguration.Binding.cs" />

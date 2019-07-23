@@ -48,8 +48,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new ClassificationSystemConfiguration());
             modelBuilder.Configurations.Add(new ContactRelationshipTypeConfiguration());
-            modelBuilder.Configurations.Add(new ContactTypeConfiguration());
-            modelBuilder.Configurations.Add(new ContactTypeContactRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new CostTypeConfiguration());
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
@@ -167,10 +165,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ClassificationSystem> ClassificationSystems { get { return AllClassificationSystems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ContactRelationshipType> AllContactRelationshipTypes { get; set; }
         public virtual IQueryable<ContactRelationshipType> ContactRelationshipTypes { get { return AllContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ContactTypeContactRelationshipType> AllContactTypeContactRelationshipTypes { get; set; }
-        public virtual IQueryable<ContactTypeContactRelationshipType> ContactTypeContactRelationshipTypes { get { return AllContactTypeContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ContactType> AllContactTypes { get; set; }
-        public virtual IQueryable<ContactType> ContactTypes { get { return AllContactTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CostType> AllCostTypes { get; set; }
         public virtual IQueryable<CostType> CostTypes { get { return AllCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
@@ -410,12 +404,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ContactRelationshipType":
                     return ContactRelationshipTypes.GetContactRelationshipType(primaryKey);
-
-                case "ContactTypeContactRelationshipType":
-                    return ContactTypeContactRelationshipTypes.GetContactTypeContactRelationshipType(primaryKey);
-
-                case "ContactType":
-                    return ContactTypes.GetContactType(primaryKey);
 
                 case "CostType":
                     return CostTypes.GetCostType(primaryKey);

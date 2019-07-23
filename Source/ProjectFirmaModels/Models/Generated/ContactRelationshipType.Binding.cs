@@ -24,7 +24,6 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ContactRelationshipType()
         {
-            this.ContactTypeContactRelationshipTypes = new HashSet<ContactTypeContactRelationshipType>();
             this.ProjectContacts = new HashSet<ProjectContact>();
             this.ProjectContactUpdates = new HashSet<ProjectContactUpdate>();
         }
@@ -67,13 +66,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ContactTypeContactRelationshipTypes.Any() || ProjectContacts.Any() || ProjectContactUpdates.Any();
+            return ProjectContacts.Any() || ProjectContactUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContactRelationshipType).Name, typeof(ContactTypeContactRelationshipType).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContactRelationshipType).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name};
 
 
         /// <summary>
@@ -98,11 +97,6 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ContactTypeContactRelationshipTypes.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in ProjectContacts.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -123,7 +117,6 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ContactRelationshipTypeID; } set { ContactRelationshipTypeID = value; } }
 
-        public virtual ICollection<ContactTypeContactRelationshipType> ContactTypeContactRelationshipTypes { get; set; }
         public virtual ICollection<ProjectContact> ProjectContacts { get; set; }
         public virtual ICollection<ProjectContactUpdate> ProjectContactUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

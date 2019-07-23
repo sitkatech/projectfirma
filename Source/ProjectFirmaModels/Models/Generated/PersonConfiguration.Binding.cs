@@ -32,11 +32,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReceiveSupportEmails).HasColumnName(@"ReceiveSupportEmails").HasColumnType("bit").IsRequired();
             Property(x => x.WebServiceAccessToken).HasColumnName(@"WebServiceAccessToken").HasColumnType("uniqueidentifier").IsOptional();
             Property(x => x.LoginName).HasColumnName(@"LoginName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(128);
-            Property(x => x.ContactTypeID).HasColumnName(@"ContactTypeID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.Organization).WithMany(b => b.People).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Person_Organization_OrganizationID
-            HasOptional(a => a.ContactType).WithMany(b => b.People).HasForeignKey(c => c.ContactTypeID).WillCascadeOnDelete(false); // FK_Person_ContactType_ContactTypeID
         }
     }
 }
