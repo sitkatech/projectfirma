@@ -88,12 +88,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) > 1)
                 .Select(relationshipType => new ValidationResult(
-                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
+                    $"Cannot have more than one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
 
             errors.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectContactsGroupedByRelationshipTypeID.Count(po => po.Key == rt.ContactRelationshipTypeID) == 0)
                 .Select(relationshipType => new ValidationResult(
-                    $"Must have one contact with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
+                    $"Must have one contact with a {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.ContactRelationshipTypeName}\".")));
 
             //var allValidRelationshipTypes = ProjectContactSimples.All(x =>
             //{

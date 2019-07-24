@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
 
             var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
 
-            ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ContactRelationshipTypeGridName = "relationshipTypeGrid";
             ContactRelationshipTypeGridDataUrl = SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(otc => otc.ContactRelationshipTypeGridJsonData());

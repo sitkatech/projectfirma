@@ -32,8 +32,8 @@
 
 <br />
 <div>
-    <h4>@FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
+    <h4>@FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.ContactRelationshipTypeGridSpec, ViewDataTyped.ContactRelationshipTypeGridName, ViewDataTyped.ContactRelationshipTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

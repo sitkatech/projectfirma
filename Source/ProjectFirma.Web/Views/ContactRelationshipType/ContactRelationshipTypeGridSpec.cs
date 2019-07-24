@@ -40,12 +40,12 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ContactRelationshipTypeController>.BuildUrlFromExpression(t => t.EditContactRelationshipType(a)),
-                        $"Edit {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.ContactRelationshipTypeName}\"")),
+                        $"Edit {FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} \"{a.ContactRelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
-            Add($"{FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.ContactRelationshipTypeName, 240);
+            Add($"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.ContactRelationshipTypeName, 240);
             Add($"Must be Related to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Once?", a => a.CanOnlyBeRelatedOnceToAProject.ToCheckboxImageOrEmptyForGrid(), 90);
 
 

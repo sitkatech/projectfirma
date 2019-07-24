@@ -235,6 +235,7 @@ namespace ProjectFirmaModels.Models
         FundingSourceCustomAttributeTypeViewableBy = 285,
         ContactType = 286,
         ContactTypeAbbreviation = 287,
-        IsDefaultContactType = 288
+        IsDefaultContactType = 288,
+        ProjectContactRelationshipType = 289
     }
 }

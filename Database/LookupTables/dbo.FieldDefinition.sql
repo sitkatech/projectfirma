@@ -110,4 +110,5 @@ VALUES
 (285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute'),
 (286, N'ContactType', N'Contact Type', N'<p>A categorization of a contact.</p>'),
 (287, N'ContactTypeAbbreviation', N'Contact Type Abbreviation', N'An Abbreviation of the Contact Type. Must be unique.'),
-(288, N'IsDefaultContactType', N'Is Default Contact Type?', 'Contacts that are automatically added to the list when a new user logs in must be given a Contact Type. This field identifies which Contact Type to use as the default. Only one Contact Type can be the default (e.g. IsDefaultContactType=1 for only one).')
+(288, N'IsDefaultContactType', N'Is Default Contact Type?', 'Contacts that are automatically added to the list when a new user logs in must be given a Contact Type. This field identifies which Contact Type to use as the default. Only one Contact Type can be the default (e.g. IsDefaultContactType=1 for only one).'),
+(289, N'ProjectContactRelationshipType', N'Project Contact Relationship Type', N'<p>A categorization of a relationship between a contact and a project, e.g. Technical Lead, Project Manager, Landowner.</p>')
