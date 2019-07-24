@@ -55,13 +55,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
                 .Select(relationshipType => 
-                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
+                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
 
             // not zero todo right linq?
             _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
                 .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) == 0)
                 .Select(relationshipType => 
-                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
+                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
 
             // todo right linq?
             var allValidRelationshipTypes = projectOrganizationSimples.All(x =>

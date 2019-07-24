@@ -818,7 +818,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var projectStewardLabel = FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel();
             var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
-            var projectRelationshipTypeLabel = FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel();
+            var projectRelationshipTypeLabel = FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Steward {projectLabel}\" {projectRelationshipTypeLabel}."

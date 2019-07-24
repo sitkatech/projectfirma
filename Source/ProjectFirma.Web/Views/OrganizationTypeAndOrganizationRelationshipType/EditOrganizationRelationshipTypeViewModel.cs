@@ -118,7 +118,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                 organizationRelationshipTypes.Any(x => x.OrganizationRelationshipTypeID != RelationshipTypeID && x.CanStewardProjects))
             {
                 yield return new SitkaValidationResult<EditOrganizationRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
+                    $"There can only be one {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Can Steward Projects?\" is set to \"Yes\".",
                     m => m.CanStewardProjects);
             }
 
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                 organizationRelationshipTypes.Any(x => x.OrganizationRelationshipTypeID != RelationshipTypeID && x.IsPrimaryContact))
             {
                 yield return new SitkaValidationResult<EditOrganizationRelationshipTypeViewModel, bool?>(
-                    $"There can only be one {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
+                    $"There can only be one {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
                     m => m.IsPrimaryContact);
             }
         }

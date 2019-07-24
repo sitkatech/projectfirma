@@ -193,7 +193,7 @@ namespace ProjectFirmaModels.Models
         ClassificationNarrative = 242,
         TaxonomySystemName = 243,
         TaxonomyLeafDisplayNameForProject = 244,
-        ProjectRelationshipType = 245,
+        ProjectOrganizationRelationshipType = 245,
         ProjectSteward = 246,
         TargetedFunding = 248,
         ProjectStewardOrganizationDisplayName = 249,

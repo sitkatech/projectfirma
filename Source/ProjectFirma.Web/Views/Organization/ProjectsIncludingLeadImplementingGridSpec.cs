@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Organization
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
 
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.ProjectRelationshipType.ToType().ToGridHeaderStringPlural(FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabelPluralized()),
+            Add(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().ToGridHeaderStringPlural(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabelPluralized()),
                 a => string.Join(", ", a.GetAssociatedOrganizationRelationships().Where(x => x.Organization.OrganizationID == organization.OrganizationID).Select(x => x.OrganizationRelationshipTypeName)), 180, DhtmlxGridColumnFilterType.Text);
 
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);

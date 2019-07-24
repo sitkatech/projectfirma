@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(relationshipType, organizationTypeRelationshipTypes);
             
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.OrganizationRelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.OrganizationRelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -252,8 +252,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = organizationRelationshipType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} '{organizationRelationshipType.OrganizationRelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} '{organizationRelationshipType.OrganizationRelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
