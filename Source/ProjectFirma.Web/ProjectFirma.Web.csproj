@@ -181,6 +181,9 @@
     <Compile Include="Views\ContactRelationshipType\Index.cs" />
     <Compile Include="Views\ContactRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\ContactRelationshipType\ContactRelationshipTypeGridSpec.cs" />
+    <Compile Include="Views\ProjectCreate\Contacts.cs" />
+    <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
@@ -448,6 +451,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
+    <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

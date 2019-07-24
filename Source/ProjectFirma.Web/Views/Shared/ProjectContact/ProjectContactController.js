@@ -29,17 +29,14 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         jQuery("form").trigger("input");
     });
 
-    $scope.getAvailableContactsForRelationshipType = function (relationshipType, comingFrom) {
+    $scope.getAvailableContactsForRelationshipType = function (relationshipType) {
         //debugger;
         if (relationshipType == null) {
             //debugger;
             return null;
         }
 
-        var contactsForRelationshipType = _.filter($scope.AngularViewData.AllContacts,
-            function(contact) {
-                return $scope.contactIsValidForRelationshipType(contact, relationshipType);
-            });
+        var contactsForRelationshipType = $scope.AngularViewData.AllContacts;
         if (relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
             return contactsForRelationshipType;
         } else {
@@ -54,20 +51,20 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
 
             var filteredList = _.filter(contactsForRelationshipType,
                 function (f) {
-                    return !_.includes(usedContactIDs, f.ContactID);
+                    return !_.includes(usedContactIDs, f.PersonID);
                 });
 
             return filteredList;
         }
     };
 
-    $scope.contactIsValidForRelationshipType = function(contact, relationshipType) {
-        var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(contact.ContactID),
-            function(rt) {
-                return rt.ContactRelationshipTypeID;
-            });
-        return _.includes(validRelationshipTypeIDs, relationshipType.ContactRelationshipTypeID);
-    };
+    //$scope.contactIsValidForRelationshipType = function(contact, relationshipType) {
+    //    var validRelationshipTypeIDs = _.map($scope.validRelationshipTypes(contact.PersonID),
+    //        function(rt) {
+    //            return rt.ContactRelationshipTypeID;
+    //        });
+    //    return _.includes(validRelationshipTypeIDs, relationshipType.ContactRelationshipTypeID);
+    //};
 
     $scope.chosenContactsForRelationshipType = function(relationshipTypeID) {
         var chosenContactSimples = _.filter($scope.AngularModel.ProjectContactSimples,
@@ -79,7 +76,7 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
             function(s) {
                 var contact =
                     Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
-                        "ContactID",
+                        "PersonID",
                         s.ContactID);
                 return contact;
             });
@@ -168,13 +165,13 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         $scope.selectedContactID[relationshipTypeID] = "";
     };
 
-    $scope.isOptionSelected = function(contact, relationshipType) {
+    $scope.isOptionSelected = function(person, relationshipType) {
         if (!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject) {
             return false;
         }
         return _.any($scope.AngularModel.ProjectContactSimples,
             function(pos) {
-                return pos.ContactID == contact.ContactID &&
+                return pos.ContactID == person.PersonID &&
                     pos.ContactRelationshipTypeID == relationshipType.ContactRelationshipTypeID;
             });
     };
@@ -191,64 +188,64 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         }
     };
 
-    $scope.validRelationshipTypes = function (contactID) {
-        //debugger;
-        var contact =
-            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
-                "ContactID",
-                contactID);
+    //$scope.validRelationshipTypes = function (personID) {
+    //    //debugger;
+    //    var contact =
+    //        Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
+    //            "PersonID",
+    //            personID);
 
-        var valid = contact == null ? [] : contact.ValidContactRelationshipTypeSimples;
-        return valid;
-    };
+    //    var valid = contact == null ? [] : contact.ValidContactRelationshipTypeSimples;
+    //    return valid;
+    //};
 
-    $scope.getSelectedPrimaryContactContact = function (relationshipType) {
-        if (relationshipType === null) {
-            return null;
-        }
+    //$scope.getSelectedPrimaryContactContact = function (relationshipType) {
+    //    if (relationshipType === null) {
+    //        return null;
+    //    }
 
-        var selectedPrimaryContactContactID =
-            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
-                "RelationshipTypeID",
-                relationshipType.ContactRelationshipTypeID).ContactID;
+    //    var selectedPrimaryContactContactID =
+    //        Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
+    //            "RelationshipTypeID",
+    //            relationshipType.ContactRelationshipTypeID).ContactID;
 
-        var selectedPrimaryContactContact =
-            Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
-                "ContactID",
-                selectedPrimaryContactContactID);
+    //    var selectedPrimaryContactContact =
+    //        Sitka.Methods.findElementInJsonArray($scope.AngularViewData.AllContacts,
+    //            "PersonID",
+    //            selectedPrimaryContactContactID);
 
-        return selectedPrimaryContactContact;
-    }
+    //    return selectedPrimaryContactContact;
+    //}
 
-    $scope.primaryContactContactHasNoPrimaryContact = function(relationshipType) {
-        return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonID == null;
-    }
+    //$scope.primaryContactContactHasNoPrimaryContact = function(relationshipType) {
+    //    return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonID == null;
+    //}
 
-    $scope.primaryContactContact = function (relationshipType) {
-        if (relationshipType != null) {
-            return $scope.getSelectedPrimaryContactContact(relationshipType);
-        }
+    //$scope.primaryContactContact = function (relationshipType) {
+    //    if (relationshipType != null) {
+    //        return $scope.getSelectedPrimaryContactContact(relationshipType);
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
-    $scope.primaryContactContactPersonDisplayName = function (relationshipType) {
-        if (relationshipType != null) {
-            return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonDisplayName;
-        }
+    //$scope.primaryContactContactPersonDisplayName = function (relationshipType) {
+    //    if (relationshipType != null) {
+    //        return $scope.getSelectedPrimaryContactContact(relationshipType).PrimaryContactPersonDisplayName;
+    //    }
 
-        return "nobody";
-    }
+    //    return "nobody";
+    //}
 
-    $scope.isPersonSelected = function (personID) {
-        var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
+    //$scope.isPersonSelected = function (personID) {
+    //    var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
 
-        return primaryContactPersonId === personID;
-    };
+    //    return primaryContactPersonId === personID;
+    //};
 
-    $scope.primaryContactPersonChange = function (personID) {
-        $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
-    }
+    //$scope.primaryContactPersonChange = function (personID) {
+    //    $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
+    //}
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;

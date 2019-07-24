@@ -62,7 +62,11 @@
         @Html.ValidationSummary()
     </div>
     <div id="EditContactsAngularApp" ng-controller="ProjectContactController">
-
+        <div class="row">
+            <div class="col-md-12">
+                <p>Select the Contacts that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single contact(e.g. Primary Contact); these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other relationship types can apply to any number of contacts and are not required.</p>
+            </div>
+        </div>
         @*------------------------------------ All Other Relationship Types ------------------------------------*@
         <div ng-repeat="relationshipType in AngularViewData.AllContactRelationshipTypes | orderBy:['-ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject','ContactRelationshipTypeName']">
             <hr />
@@ -81,9 +85,9 @@
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" id="todo{{relationshipType.ContactRelationshipTypeID}}" ng-model="selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-change="selectionChanged(selectedContactID[relationshipType.ContactRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
                                     <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                    <option ng-repeat="contact in getAvailableContactsForRelationshipType(relationshipType, 'iteratingOver')"
-                                            ng-bind="contact.ContactName"
-                                            ng-value="contact.ContactID"
+                                    <option ng-repeat="contact in getAvailableContactsForRelationshipType(relationshipType)"
+                                            ng-bind="contact.FullNameWithOrgShortName"
+                                            ng-value="contact.PersonID"
                                             ng-selected="isOptionSelected(contact,relationshipType)"></option>
                                 </select>
                                 <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectContactSimple(selectedContactID[relationshipType.ContactRelationshipTypeID], relationshipType.ContactRelationshipTypeID)" ng-disabled="!selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-show="!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">
@@ -107,7 +111,7 @@
                                 <a href="#" ng-click="removeProjectContactSimple(contact.ContactID, relationshipType.ContactRelationshipTypeID); $event.preventDefault();">
                                     <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
                                 </a>
-                            </span><span ng-bind="contact.ContactName"></span>
+                            </span><span ng-bind="contact.FullNameWithOrgShortName"></span>
                         </div>
                     </div>
                 </div>

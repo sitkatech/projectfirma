@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ContactsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,22 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectContact
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditContactsViewData
+    public class ContactsViewData : ProjectCreateViewData
     {
-        public List<PersonSimple> AllContacts { get; }
-        public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
+        public readonly EditContactsViewData EditContactsViewData;
 
-        public EditContactsViewData(IEnumerable<Person> allContacts, List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
+        public ContactsViewData(Person currentPerson,
+            ProjectFirmaModels.Models.Project project,
+            ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentPerson, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
-            AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(x)).ToList();
+            EditContactsViewData = editContactsViewData;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ContactsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -21,20 +21,23 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectContact
-{
-    public class EditContactsViewData
+namespace ProjectFirma.Web.Views.ProjectCreate
+{    
+    public class ContactsViewModel : EditContactsViewModel
     {
-        public List<PersonSimple> AllContacts { get; }
-        public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
-
-        public EditContactsViewData(IEnumerable<Person> allContacts, List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
+        /// <summary>
+        /// Needed by the ModelBinder
+        /// </summary>
+        public ContactsViewModel()
         {
-            AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
-            AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(x)).ToList();
         }
-    }
+
+        public ContactsViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson) : base(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentPerson)
+        {
+            
+        }
+    }    
 }

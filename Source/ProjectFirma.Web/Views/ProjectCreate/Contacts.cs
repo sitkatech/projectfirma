@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditContactsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Contacts.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,23 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-
-namespace ProjectFirma.Web.Views.Shared.ProjectContact
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditContactsViewData
+    public abstract class Contacts : LtInfo.Common.Mvc.TypedWebViewPage<ContactsViewData, ContactsViewModel>
     {
-        public List<PersonSimple> AllContacts { get; }
-        public List<ContactRelationshipTypeSimple> AllContactRelationshipTypes { get; }
-
-        public EditContactsViewData(IEnumerable<Person> allContacts, List<ProjectFirmaModels.Models.ContactRelationshipType> allContactRelationshipTypes)
-        {
-            AllContacts = allContacts.Select(x => new PersonSimple(x)).ToList();
-            AllContactRelationshipTypes = allContactRelationshipTypes.Select(x => new ContactRelationshipTypeSimple(x)).ToList();
-        }
     }
 }
