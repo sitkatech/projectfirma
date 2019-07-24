@@ -45,7 +45,3 @@ ALTER TABLE [dbo].[ProjectFundingSourceBudget]  WITH CHECK ADD  CONSTRAINT [FK_P
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceBudget] CHECK CONSTRAINT [FK_ProjectFundingSourceBudget_Tenant_TenantID]
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceBudget]  WITH CHECK ADD  CONSTRAINT [CK_ProjectFundingSourceBudget_SecuredTargetedAmountBothCannotBeZero] CHECK  (([SecuredAmount]<>(0) OR [TargetedAmount]<>(0)))
-GO
-ALTER TABLE [dbo].[ProjectFundingSourceBudget] CHECK CONSTRAINT [CK_ProjectFundingSourceBudget_SecuredTargetedAmountBothCannotBeZero]

@@ -48,5 +48,10 @@
             return
                 SecuredAmount == 0 && TargetedAmount == 0;
         }
+
+        public bool AnyValueIsNull()
+        {
+            return SecuredAmount == null || TargetedAmount == null;
+        }
     }
 }

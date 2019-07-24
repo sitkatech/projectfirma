@@ -78,7 +78,7 @@
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
             </div>
             <div class="col-xs-9">
-                @ViewDataTyped.Project.GetEstimatedAnnualOperatingCost().ToStringCurrency()
+                @ViewDataTyped.Project.GetEstimatedTotalCost().ToStringCurrency()
             </div>
         </div>
         <div class="row">
