@@ -209,7 +209,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
 
         var selectedPrimaryContactOrganizationID =
             Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
-                "RelationshipTypeID",
+                "OrganizationRelationshipTypeID",
                 relationshipType.OrganizationRelationshipTypeID).OrganizationID;
 
         var selectedPrimaryContactOrganization =
