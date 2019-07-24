@@ -94,9 +94,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.createNewRow = function(projectID, fundingSourceID)
     {
+        var fundingSource = $scope.getFundingSource(fundingSourceID);
         var newProjectFundingSourceBudget = {
             ProjectID: projectID,
-            FundingSourceID: fundingSourceID,
+            FundingSourceID: fundingSource.FundingSourceID,
             SecuredAmount: null,
             TargetedAmount: null
         };
@@ -119,12 +120,16 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
         return selectedFundingTypeID === 2;
     }
 
+    $scope.budgetTypeNotSelected = function () {
+        return !$scope.budgetVariesByYear() && !$scope.budgetSameEachYear();
+    }
+
     $scope.getYearRange = function () {
         var startYear = $scope.AngularViewData.ImplementationStartYear === null
-            ? "N/A"
+            ? "Start"
             : $scope.AngularViewData.ImplementationStartYear;
         var endYear = $scope.AngularViewData.CompletionYear === null
-            ? "N/A"
+            ? "End"
             : $scope.AngularViewData.CompletionYear;
         return startYear + " - " + endYear;
     }

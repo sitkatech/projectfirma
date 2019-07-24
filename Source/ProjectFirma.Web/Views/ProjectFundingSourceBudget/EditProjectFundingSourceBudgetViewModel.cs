@@ -108,14 +108,21 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
             if (ViewModelForAngular.FundingTypeID == 0)
             {
-                validationResults.Add(new ValidationResult($"Please select a  {FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel()}."));
+                validationResults.Add(new ValidationResult($"You must answer the question \"Does the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} budget vary by year or is it the same?\""));
             }
 
             // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
             ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(0, new List<ProjectFirmaModels.Models.ProjectFundingSourceBudget>(), 0);
 
+            if (ViewModelForAngular.FundingTypeID != 0 && ViewModelForAngular.NoFundingSourceIdentifiedYet == null)
+            {
+                validationResults.Add(new ValidationResult($"{FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()} cannot be blank. If the amount is unknown, you can enter zero."));
+            }
+
             if (ViewModelForAngular.ProjectFundingSourceBudgets == null)
             {
+                // set to empty list so model will be valid when returning with validation error
+                ViewModelForAngular.ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetSimple>();
                 return validationResults;
             }
 

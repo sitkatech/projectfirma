@@ -126,12 +126,16 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
         return selectedFundingTypeID === 2;
     }
 
-    $scope.getYearRange = function() {
+    $scope.budgetTypeNotSelected = function () {
+        return !$scope.budgetVariesByYear() && !$scope.budgetSameEachYear();
+    }
+
+    $scope.getYearRange = function () {
         var startYear = $scope.AngularViewData.ImplementationStartYear === null
-            ? "N/A"
+            ? "Start"
             : $scope.AngularViewData.ImplementationStartYear;
         var endYear = $scope.AngularViewData.CompletionYear === null
-            ? "N/A"
+            ? "End"
             : $scope.AngularViewData.CompletionYear;
         return startYear + " - " + endYear;
     }

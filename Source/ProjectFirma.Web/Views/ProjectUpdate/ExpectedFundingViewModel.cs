@@ -113,8 +113,25 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
             ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(0, new List<ProjectFundingSourceBudgetUpdate>(), 0);
 
+            if (ViewModelForAngular.FundingTypeID == 0 && ViewModelForAngular.NoFundingSourceIdentifiedYet != null)
+            {
+                validationResults.Add(new ValidationResult($"You must answer the question \"Does the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} budget vary by year or is it the same?\" when entering a value for {FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()}"));
+            }
+
+            if (ViewModelForAngular.FundingTypeID == 0 && ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples != null)
+            {
+                validationResults.Add(new ValidationResult($"You must answer the question \"Does the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} budget vary by year or is it the same?\" when entering any values for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}"));
+            }
+
+            if (ViewModelForAngular.FundingTypeID != 0 && ViewModelForAngular.NoFundingSourceIdentifiedYet == null)
+            {
+                validationResults.Add(new ValidationResult($"{FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()} cannot be blank. If the amount is unknown, you can enter zero."));
+            }
+
             if (ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples == null)
             {
+                // set to empty list so model will be valid when returning with validation error
+                ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples = new List<ProjectFundingSourceBudgetSimple>();
                 return validationResults;
             }
 
