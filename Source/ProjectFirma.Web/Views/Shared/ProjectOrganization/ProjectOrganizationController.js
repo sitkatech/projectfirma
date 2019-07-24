@@ -29,7 +29,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
         jQuery("form").trigger("input");
     });
 
-    $scope.getAvailableOrganizationsForRelationshipType = function (relationshipType, comingFrom) {
+    $scope.getAvailableOrganizationsForRelationshipType = function (relationshipType) {
         //debugger;
         if (relationshipType == null) {
             //debugger;

@@ -89,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="input-group" style="width: 100%;">
                             <select class="selectpicker" id="todo{{AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID],AngularViewData.PrimaryContactRelationshipTypeSimple)" data-width="100%" data-live-search="true" data-size="8">
                                 <option value="" disabled selected ng-bind="dropdownDefaultOption(AngularViewData.PrimaryContactRelationshipTypeSimple)">Select one</option>
-                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(AngularViewData.PrimaryContactRelationshipTypeSimple, 'primaryContact')"
+                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(AngularViewData.PrimaryContactRelationshipTypeSimple)"
                                         ng-bind="organization.OrganizationName"
                                         ng-value="organization.OrganizationID"
                                         ng-selected="isOptionSelected(organization,AngularViewData.PrimaryContactRelationshipTypeSimple)"></option>
@@ -152,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="input-group" style="width: 100%;">
                             <select class="selectpicker" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
                                 <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
-                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType, 'iteratingOver')"
+                                <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                                         ng-bind="organization.OrganizationName"
                                         ng-value="organization.OrganizationID"
                                         ng-selected="isOptionSelected(organization,relationshipType)"></option>
