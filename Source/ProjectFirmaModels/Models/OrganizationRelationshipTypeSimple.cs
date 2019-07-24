@@ -32,10 +32,12 @@ namespace ProjectFirmaModels.Models
             OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject = organizationRelationshipType.CanOnlyBeRelatedOnceToAProject;
             OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary = organizationRelationshipType.HasOrganizationsWithSpatialBoundary();
             OrganizationRelationshipTypeDescription = organizationRelationshipType.OrganizationRelationshipTypeDescription;
+            OrganizationRelationshipTypeIsPrimaryContact = organizationRelationshipType.IsPrimaryContact;
         }
 
         public int OrganizationRelationshipTypeID { get; set; }
         public string OrganizationRelationshipTypeName { get; set; }
+        public bool OrganizationRelationshipTypeIsPrimaryContact { get; set; }
         public bool OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject { get; set; }
         public bool OrganizationRelationshipTypeHasOrganizationsWithSpatialBoundary { get; set; }
         public string OrganizationRelationshipTypeDescription { get; set; }

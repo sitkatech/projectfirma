@@ -237,11 +237,11 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
     //    return "nobody";
     //}
 
-    //$scope.isPersonSelected = function (personID) {
-    //    var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
+    $scope.isPersonSelected = function (personID) {
+        var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
 
-    //    return primaryContactPersonId === personID;
-    //};
+        return primaryContactPersonId === personID;
+    };
 
     //$scope.primaryContactPersonChange = function (personID) {
     //    $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);

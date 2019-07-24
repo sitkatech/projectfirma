@@ -123,7 +123,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
 
         var projectOrganizationSimple =
             Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
-                "RelationshipTypeID",
+                "OrganizationRelationshipTypeID",
                 relationshipType.OrganizationRelationshipTypeID);
 
         return spatialOrganizationID !== projectOrganizationSimple.OrganizationID;
@@ -150,7 +150,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             // if there's already a projectOrganizationSimple for this relationship type, just change the OrganizationID
             var projectOrganizationSimple =
                 Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectOrganizationSimples,
-                    "RelationshipTypeID",
+                    "OrganizationRelationshipTypeID",
                     relationshipType.OrganizationRelationshipTypeID);
 
             if (projectOrganizationSimple != null) {
@@ -161,7 +161,12 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
                     OrganizationRelationshipTypeID: relationshipType.OrganizationRelationshipTypeID
                 });
             }
+            
         } // but nothing should happen if it's a many-or-none relationship type
+        debugger;
+        if (relationshipType.OrganizationRelationshipTypeIsPrimaryContact) {
+            $scope.AngularModel.PrimaryContactPersonID = $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonID;
+        }
     };
 
     $scope.resetSelectedOrganizationID = function(relationshipTypeID) {
