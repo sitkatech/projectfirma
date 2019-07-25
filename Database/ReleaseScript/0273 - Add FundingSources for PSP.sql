@@ -699,6 +699,8 @@ insert into dbo.FundingSource(FundingSourceName, OrganizationID, FundingSourceDe
 select distinct f.FundingSourceName, o.OrganizationID, f.FundingSourceDescription, 1 as IsActive, 11 as TenantID
 from #fsattr f
 join dbo.Organization o on f.OrganizationName = o.OrganizationName and o.TenantID = 11
+left join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.TenantID = 11
+where fs.FundingSourceID is null
 order by f.FundingSourceName
 
 select *
@@ -712,11 +714,12 @@ join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.T
 where f.FundingAuthority is not null
 
 insert into dbo.FundingSourceCustomAttributeValue(TenantID, FundingSourceCustomAttributeID, AttributeValue)
-select fs.TenantID, fsca.FundingSourceCustomAttributeID, f.FundingAuthority as AttributeValue
+select distinct fs.TenantID, fsca.FundingSourceCustomAttributeID, f.FundingAuthority as AttributeValue
 from #fsattr f
 join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.TenantID = 11
 join dbo.FundingSourceCustomAttribute fsca on fs.FundingSourceID = fsca.FundingSourceID and fsca.FundingSourceCustomAttributeTypeID = 1 and fsca.TenantID = fs.TenantID
-where f.FundingAuthority is not null
+left join dbo.FundingSourceCustomAttributeValue fscav on fsca.FundingSourceCustomAttributeID = fscav.FundingSourceCustomAttributeID and f.FundingAuthority = fscav.AttributeValue
+where f.FundingAuthority is not null and fscav.FundingSourceCustomAttributeValueID is null
 
 
 insert into dbo.FundingSourceCustomAttribute(TenantID, FundingSourceID, FundingSourceCustomAttributeTypeID)
@@ -726,11 +729,12 @@ join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.T
 where f.ParentFundingProgram is not null
 
 insert into dbo.FundingSourceCustomAttributeValue(TenantID, FundingSourceCustomAttributeID, AttributeValue)
-select fs.TenantID, fsca.FundingSourceCustomAttributeID, f.ParentFundingProgram as AttributeValue
+select distinct fs.TenantID, fsca.FundingSourceCustomAttributeID, f.ParentFundingProgram as AttributeValue
 from #fsattr f
 join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.TenantID = 11
 join dbo.FundingSourceCustomAttribute fsca on fs.FundingSourceID = fsca.FundingSourceID and fsca.FundingSourceCustomAttributeTypeID = 2 and fsca.TenantID = fs.TenantID
-where f.ParentFundingProgram is not null
+left join dbo.FundingSourceCustomAttributeValue fscav on fsca.FundingSourceCustomAttributeID = fscav.FundingSourceCustomAttributeID and f.ParentFundingProgram = fscav.AttributeValue
+where f.ParentFundingProgram is not null and fscav.FundingSourceCustomAttributeValueID is null
 
 
 insert into dbo.FundingSourceCustomAttribute(TenantID, FundingSourceID, FundingSourceCustomAttributeTypeID)
@@ -740,11 +744,12 @@ join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.T
 where f.FundingAccount is not null
 
 insert into dbo.FundingSourceCustomAttributeValue(TenantID, FundingSourceCustomAttributeID, AttributeValue)
-select fs.TenantID, fsca.FundingSourceCustomAttributeID, f.FundingAccount as AttributeValue
+select distinct fs.TenantID, fsca.FundingSourceCustomAttributeID, f.FundingAccount as AttributeValue
 from #fsattr f
 join dbo.FundingSource fs on f.FundingSourceName = fs.FundingSourceName and fs.TenantID = 11
 join dbo.FundingSourceCustomAttribute fsca on fs.FundingSourceID = fsca.FundingSourceID and fsca.FundingSourceCustomAttributeTypeID = 3 and fsca.TenantID = fs.TenantID
-where f.FundingAccount is not null
+left join dbo.FundingSourceCustomAttributeValue fscav on fsca.FundingSourceCustomAttributeID = fscav.FundingSourceCustomAttributeID and f.FundingAccount = fscav.AttributeValue
+where f.FundingAccount is not null and fscav.FundingSourceCustomAttributeValueID is null
 
 select count(*) --fs.FundingSourceName, fscat.FundingSourceCustomAttributeTypeName, fscav.AttributeValue
 from dbo.FundingSource fs
