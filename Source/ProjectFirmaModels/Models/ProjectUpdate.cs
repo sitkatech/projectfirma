@@ -85,9 +85,7 @@ namespace ProjectFirmaModels.Models
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
-            project.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
-            project.FundingTypeID = FundingTypeID;
         }
 
         public void CommitSimpleLocationToProject(Project project)

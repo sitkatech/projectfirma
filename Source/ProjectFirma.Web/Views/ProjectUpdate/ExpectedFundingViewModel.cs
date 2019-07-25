@@ -113,8 +113,20 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             // ViewModelForAngular will be null if no ProjectFundingSourceBudgets are entered, recreate it so model will be valid when returning with validation error
             ViewModelForAngular = ViewModelForAngular ?? new ViewModelForAngularEditor(0, new List<ProjectFundingSourceBudgetUpdate>(), 0);
 
+            if (ViewModelForAngular.FundingTypeID == 0 && (ViewModelForAngular.NoFundingSourceIdentifiedYet != null || ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples != null))
+            {
+                validationResults.Add(new ValidationResult($"You must answer the question \"Does the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} budget vary by year or is it the same?\" when entering any funding values."));
+            }
+
+            if (ViewModelForAngular.FundingTypeID != 0 && ViewModelForAngular.NoFundingSourceIdentifiedYet == null)
+            {
+                validationResults.Add(new ValidationResult($"{FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()} cannot be blank. If the amount is unknown, you can enter zero."));
+            }
+
             if (ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples == null)
             {
+                // set to empty list so model will be valid when returning with validation error
+                ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples = new List<ProjectFundingSourceBudgetSimple>();
                 return validationResults;
             }
 
@@ -131,7 +143,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>
                             x.FundingSourceID == projectFundingSourceBudget.FundingSourceID);
                     validationResults.Add(new ValidationResult(
-                        $"{FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()} and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} must both have values for funding source: {fundingSource.GetDisplayName()}. If the amount of {FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()} or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can enter zero."));
+                        $"{FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()} and {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} must both have values for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}: {fundingSource.GetDisplayName()}. If the amount of {FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()} or {FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} is unknown, you can enter zero."));
                 }
             }
             return validationResults;
