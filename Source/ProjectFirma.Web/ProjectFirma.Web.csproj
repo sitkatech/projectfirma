@@ -81,6 +81,7 @@
     <Compile Include="Models\FundingSourceCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
+    <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
@@ -173,6 +174,9 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
@@ -292,6 +296,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
+    <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
@@ -431,6 +436,7 @@
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

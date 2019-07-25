@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Models;
+
 namespace ProjectFirmaModels.Models
 {
     public partial class ProjectFundingSourceExpenditureUpdate : IFundingSourceExpenditure
@@ -27,5 +29,32 @@ namespace ProjectFirmaModels.Models
         {
             return ExpenditureAmount;
         }
+
+        public ProjectFundingSourceExpenditureUpdate(int projectUpdateBatchID, int fundingSourceID, int calendarYear, decimal expenditureAmount, int? costTypeID) : this()
+        {
+            ProjectFundingSourceExpenditureUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectUpdateBatchID = projectUpdateBatchID;
+            FundingSourceID = fundingSourceID;
+            CalendarYear = calendarYear;
+            ExpenditureAmount = expenditureAmount;
+            CostTypeID = costTypeID;
+        }
+
+
+        public ProjectFundingSourceExpenditureUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int calendarYear, decimal expenditureAmount, int? costTypeID) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            ProjectFundingSourceExpenditureUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            ProjectUpdateBatch = projectUpdateBatch;
+            projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.Add(this);
+            FundingSourceID = fundingSource.FundingSourceID;
+            FundingSource = fundingSource;
+            CostTypeID = costTypeID;
+            fundingSource.ProjectFundingSourceExpenditureUpdates.Add(this);
+            CalendarYear = calendarYear;
+            ExpenditureAmount = expenditureAmount;
+        }
     }
+
 }
