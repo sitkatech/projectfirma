@@ -163,7 +163,7 @@ angular.module("ProjectFirmaApp").controller("ProjectOrganizationController", fu
             }
             
         } // but nothing should happen if it's a many-or-none relationship type
-        debugger;
+        //debugger;
         if (relationshipType.OrganizationRelationshipTypeIsPrimaryContact) {
             $scope.AngularModel.PrimaryContactPersonID = $scope.getSelectedPrimaryContactOrganization(relationshipType).PrimaryContactPersonID;
         }
