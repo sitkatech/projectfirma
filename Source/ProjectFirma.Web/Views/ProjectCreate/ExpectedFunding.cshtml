@@ -127,10 +127,10 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div style="overflow-x: auto" class="form-inline">
         <label class="control-label">3. Enter amount provided by each @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
-        <table class="table funding" style="margin-top: 20px; overflow: scroll; margin-bottom: 0;">
+        <table class="table funding table-condensed" style="margin-top: 20px; overflow: scroll; margin-bottom: 0;">
             <tr>
                 <th></th>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                <th ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
                 <th style="text-align: right" ng-if="budgetVariesByYear() || budgetTypeNotSelected()" ng-bind="@("getYearRange()")"></th>
                 <th style="text-align: right" ng-if="budgetSameEachYear()">Each Year</th>
             </tr>
@@ -157,7 +157,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 </td>
             </tr>
         </table>
-        <table class="table funding" style="margin-bottom: 0px; overflow: scroll">
+        <table class="table funding table-condensed" style="margin-bottom: 0px; overflow: scroll">
+            <tbody>
             <tr>
                 <td></td>
                 <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
@@ -173,6 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     {{getTotalEstimatedCost() | currency:"$"}}
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 
@@ -191,7 +193,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <label ng-if="budgetSameEachYear()" class="control-label">4. Confirm this summary of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()</label>
         </p>
         <div>
-            <table class="table table-bordered table-condensed" style="overflow: scroll; width: auto;">
+            <table class="table table-bordered table-condensed" style="overflow: scroll;">
                 <tr class="summaryTableHeader">
                     <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</td>
                     <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</td>

@@ -25,11 +25,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
     public class ProjectFundingRequestsDetailViewData : FirmaUserControlViewData
     {
+        public readonly int? FundingTypeID;
+        public readonly string FundingTypeDisplayName;
         public readonly List<FundingSourceBudgetAmount> FundingSourceRequestAmounts;
+        public readonly decimal? NoFundingSourceIdentifiedYet;
+        public readonly int? PlanningDesignStartYear;
+        public readonly int? CompletionYear;
 
-        public ProjectFundingRequestsDetailViewData(List<FundingSourceBudgetAmount> fundingSourceRequestAmounts)
+        public ProjectFundingRequestsDetailViewData(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
         {
+            FundingTypeID = fundingTypeID;
+            FundingTypeDisplayName = fundingTypeDisplayName;
             FundingSourceRequestAmounts = fundingSourceRequestAmounts;
+            NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
+            PlanningDesignStartYear = planningDesignStartYear;
+            CompletionYear = completionYear;
         }
     }
 }

@@ -129,11 +129,11 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
 
                 <label class="control-label">3. Enter amount provided by each @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
-                <table class="table dialogFormLayout funding" style="margin-top: 20px; margin-bottom: 0;">
+                <table class="table dialogFormLayout funding table-condensed" style="margin-top: 20px; margin-bottom: 0;">
                     <tbody>
                         <tr>
                             <th></th>
-                            <th style="white-space: nowrap">@Html.Raw(Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
+                            <th ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0" style="white-space: nowrap">@Html.Raw(Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()))</th>
                             <th style="text-align: right; padding-right: 17px;" ng-if="budgetVariesByYear() || budgetTypeNotSelected()" ng-bind="@("getYearRange()")"></th>
                             <th style="text-align: right; padding-right: 17px;" ng-if="budgetSameEachYear()">Each Year</th>
                         </tr>
@@ -161,13 +161,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         </tr>
                     </tbody>
                 </table>
-                <table class="table dialogFormLayout funding" style="margin-bottom: 0px; ">
+                <table class="table dialogFormLayout funding table-condensed" style="margin-bottom: 0px; ">
                     <tbody>
                     <tr>
                         <td></td>
                         <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
-                        <td style="text-align: right; padding-right: 17px;">
-                            <input type="text" style="text-align: right; width: auto;" ng-model="AngularModel.NoFundingSourceIdentifiedYet" class="sitkaCurrency form-control" ng-currency />
+                        <td style="text-align: right; padding-right: 17px; width: auto;">
+                            <input type="text" style="text-align: right;" ng-model="AngularModel.NoFundingSourceIdentifiedYet" class="sitkaCurrency form-control" ng-currency />
                         </td>
                     </tr>
                     <tr>
@@ -187,7 +187,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label ng-if="budgetSameEachYear()" class="control-label">4. Confirm this summary of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()</label>
                     </p>
                     <div>
-                        <table class="table table-bordered table-condensed" style="overflow: scroll; width: auto;">
+                        <table class="table table-bordered table-condensed" style="overflow: scroll;">
                             <tr class="summaryTableHeader">
                                 <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</td>
                                 <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</td>

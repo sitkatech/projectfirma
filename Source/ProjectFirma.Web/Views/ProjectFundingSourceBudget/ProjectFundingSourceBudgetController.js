@@ -131,9 +131,9 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
     }
 
     $scope.getYearRange = function () {
-        var startYear = $scope.AngularViewData.ImplementationStartYear === null
+        var startYear = $scope.AngularViewData.PlanningDesignStartYear === null
             ? "Start"
-            : $scope.AngularViewData.ImplementationStartYear;
+            : $scope.AngularViewData.PlanningDesignStartYear;
         var endYear = $scope.AngularViewData.CompletionYear === null
             ? "End"
             : $scope.AngularViewData.CompletionYear;
