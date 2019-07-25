@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public List<FundingSourceSimple> AllFundingSources { get; }
             // Actually a ProjectID
             public int ProjectID { get; }
-            public int? ImplementationStartYear { get; }
+            public int? PlanningDesignStartYear { get; }
             public int? CompletionYear { get; }
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
                 FundingTypes = fundingTypes;
-                ImplementationStartYear = project.ImplementationStartYear;
+                PlanningDesignStartYear = project.PlanningDesignStartYear;
                 CompletionYear = project.CompletionYear;
             }
         }
