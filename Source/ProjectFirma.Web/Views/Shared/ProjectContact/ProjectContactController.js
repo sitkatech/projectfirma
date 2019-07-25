@@ -134,7 +134,8 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         $scope.resetSelectedContactID(relationshipTypeID);
     };
 
-    $scope.removeProjectContactSimple = function(contactID, relationshipTypeID) {
+    $scope.removeProjectContactSimple = function (contactID, relationshipTypeID) {
+        
         _.remove($scope.AngularModel.ProjectContactSimples,
             function(pos) {
                 return pos.ContactID == contactID && pos.ContactRelationshipTypeID == relationshipTypeID;
@@ -242,6 +243,11 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
 
         return primaryContactPersonId === personID;
     };
+
+    $scope.getContactsForPrimaryContactDropdown = function() {
+        //debugger;
+        return $scope.AngularViewData.AllContacts;
+    }
 
     //$scope.primaryContactPersonChange = function (personID) {
     //    $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
