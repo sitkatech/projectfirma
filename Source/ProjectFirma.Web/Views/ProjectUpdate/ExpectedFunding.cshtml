@@ -184,7 +184,7 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                     <td></td>
                     <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
                     <td style="text-align: right;">
-                        <input type="text" style="text-align: right" ng-model="AngularModel.NoFundingSourceIdentifiedYet" class="sitkaCurrency form-control" ng-currency/>
+                        <input type="text" style="text-align: right" ng-model="AngularModel.NoFundingSourceIdentifiedYet" class="sitkaCurrency form-control" ng-currency-allow-negative/>
                     </td>
                 </tr>
                 <tr>
