@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var fundingTypes = FundingType.All.ToList();
-            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), fundingTypes, allFundingSources);
+            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), fundingTypes, allFundingSources, project.PlanningDesignStartYear, project.CompletionYear);
             return RazorPartialView<EditProjectFundingSourceBudget, EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>(viewData, viewModel);
         }
     }

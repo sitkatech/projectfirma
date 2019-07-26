@@ -39,10 +39,16 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
     };
 
     $scope.filteredFundingSources = function () {
+        var unknownFundingSourceNames = [
+            "Unknown/Unassigned",
+            "Unknown",
+            "Unspecified"
+        ];
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
         return _($scope.AngularViewData.AllFundingSources).filter(function (f) {
-            return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID);
-        }).sortBy(function (fs) {
+            return f.IsActive && !_.contains(usedFundingSourceIDs, f.FundingSourceID)
+                && !_.contains(unknownFundingSourceNames, f.FundingSourceName);
+        }).sortBy(function(fs) {
             return [fs.FundingSourceName.toLowerCase()];
         }).value();
     };
@@ -68,6 +74,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
 
     $scope.getTotal = function () {
         return Number($scope.getTargetedTotal()) + Number($scope.getSecuredTotal());
+    }
+
+    $scope.getTotalEstimatedCost = function() {
+        return Number($scope.AngularModel.NoFundingSourceIdentifiedYet) + $scope.getTotal();
     }
 
     $scope.getRowTotal = function (projectFundingSourceBudget) {
@@ -114,6 +124,20 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetControll
     $scope.budgetSameEachYear = function () {
         var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
         return selectedFundingTypeID === 2;
+    }
+
+    $scope.budgetTypeNotSelected = function () {
+        return !$scope.budgetVariesByYear() && !$scope.budgetSameEachYear();
+    }
+
+    $scope.getYearRange = function () {
+        var startYear = $scope.AngularViewData.PlanningDesignStartYear === null
+            ? "Start"
+            : $scope.AngularViewData.PlanningDesignStartYear;
+        var endYear = $scope.AngularViewData.CompletionYear === null
+            ? "End"
+            : $scope.AngularViewData.CompletionYear;
+        return startYear + " - " + endYear;
     }
 
     $scope.resetFundingSourceIDToAdd();

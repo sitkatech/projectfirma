@@ -39,11 +39,38 @@ Source code is available upon request via <support@sitkatech.com>.
         });
         // ]]>
     </script>
+    <style>
+        .table > tbody > tr.secondRow > td {
+            border-top: none
+        }
+
+        .table > tbody > tr > th {
+            border-top: none
+        }
+
+        .funding td:first-child, .funding th:first-child {
+            width: 30px;
+        }
+
+        .summaryTableHeader {
+            background-color: #666666;
+        }
+
+        .summaryTableHeader label, .summaryTableHeader span {
+            color: #FFFFFF;
+            font-weight: normal;
+        }
+
+        .summaryTableRow {
+            background-color: #ffffff;
+        }
+    </style>
 
 }
     <p>
-        Enter the expected funding for your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). You may enter multiple @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()).
-        For each @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), provide the amount of funding that has been secured, and the amount that is targeted but not yet secured. If the amount of @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() or @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() is unknown, you can leave the amounts blank.
+        Enter your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel())'s total budget by @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) and based on whether the funding is @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() or @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel().
+        Enter the value of any funding gaps for which you have not identified a @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) in the "@(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel())" row.
+        If you haven't yet identified any @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()), you can skip step 2 and just enter values in the "@(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel())" row.
     </p>
 
 <hr />
@@ -53,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
     <div class="form-group">
         <label class="control-label">
-            @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
+            1. @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
         </label>
         <div class="input-group">
             <select ng-model="selectedFundingTypeID"
@@ -69,30 +96,10 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    <div class="form-group" ng-if="budgetVariesByYear()">
-        <label class="control-label">
-            What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()?
-        </label>
-        <div class="input-group">
-            <input type="text" name="@Html.NameFor(x => x.EstimatedTotalCost)" ng-model="costs.estimatedTotalCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency />
-
-            @Html.ValidationMessageFor(m => m.EstimatedTotalCost)
-        </div>
-    </div>
-    <div class="form-group" ng-if="budgetSameEachYear()">
-        <label class="control-label">
-            What is your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()’s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()?
-        </label>
-        <div class="input-group">
-            <input type="text" name="@Html.NameFor(x => x.EstimatedAnnualOperatingCost)" ng-model="costs.estimatedAnnualOperatingCost" class="form-control sitkaCurrency" style="text-align: right;" ng-currency />
-            @Html.ValidationMessageFor(m => m.EstimatedAnnualOperatingCost)
-        </div>
-    </div>
-
     <hr />
 
     <div class="form-group">
-        <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
+        <label class="control-label">2. Identify your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel())'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized().</label>
         <div class="input-group">
             <select ng-model="FundingSourceIDToAdd"
                     class="selectpicker"
@@ -119,126 +126,88 @@ Source code is available upon request via <support@sitkatech.com>.
         </p>
     </div>
     <div style="overflow-x: auto" class="form-inline">
-        <table class="table" style="margin-top: 20px; overflow: scroll" ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">
+        <label class="control-label">3. Enter amount provided by each @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
+        <table class="table funding table-condensed" style="margin-top: 20px; overflow: scroll; margin-bottom: 0;">
             <tr>
                 <th></th>
-                <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-                <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-                <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
-                <th style="text-align: right">Total</th>
+                <th ng-show="AngularModel.ProjectFundingSourceBudgets.length > 0">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                <th style="text-align: right" ng-if="budgetVariesByYear() || budgetTypeNotSelected()" ng-bind="@("getYearRange()")"></th>
+                <th style="text-align: right" ng-if="budgetSameEachYear()">Each Year</th>
             </tr>
-            <tr ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
+            <tr ng-repeat-start="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
                 <td>
                     <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceBudget)" style="cursor: pointer"></span>
                 </td>
-                <td ng-bind="getFundingSourceName(projectFundingSourceBudget)"></td>
+                <td>
+                    <span ng-bind="getFundingSourceName(projectFundingSourceBudget)"></span>
+                    <span style="font-style: italic"> - @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
+                </td>
                 <td style="text-align: right">
                     <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.SecuredAmount" class="sitkaCurrency form-control " ng-currency />
+                </td>
+            </tr>
+            <tr ng-repeat-end class="secondRow">
+                <td></td>
+                <td>
+                    <span ng-bind="getFundingSourceName(projectFundingSourceBudget)"></span>
+                    <span style="font-style: italic"> - @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
                 </td>
                 <td style="text-align: right">
                     <input type="text" style="text-align: right" ng-model="projectFundingSourceBudget.TargetedAmount" class="sitkaCurrency form-control" ng-currency />
                 </td>
-                <th style="text-align: right">
-                    {{ getRowTotal(projectFundingSourceBudget) | currency:"$"}}
-                </th>
+            </tr>
+        </table>
+        <table class="table funding table-condensed" style="margin-bottom: 0px; overflow: scroll">
+            <tbody>
+            <tr>
+                <td></td>
+                <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
+                <td style="text-align: right;">
+                    <input type="text" style="text-align: right" ng-model="AngularModel.NoFundingSourceIdentifiedYet" class="sitkaCurrency form-control" ng-currency-allow-negative />
+                </td>
             </tr>
             <tr>
-                <th colspan="2">Total</th>
-                <th style="text-align: right">
-                    {{ getSecuredTotal() | currency:"$"}}
-                </th>
-                <th style="text-align: right">
-                    {{ getTargetedTotal() | currency:"$"}}
-                </th>
-                <th style="text-align: right">
-                    {{ getTotal() | currency:"$"}}
-                </th>
+                <td></td>
+                <td ng-if="budgetVariesByYear() || budgetTypeNotSelected()">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</td>
+                <td ng-if="budgetSameEachYear()">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())</td>
+                <td style="text-align: right; font-weight: bold;">
+                    {{getTotalEstimatedCost() | currency:"$"}}
+                </td>
             </tr>
+            </tbody>
         </table>
     </div>
 
     <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.FundingTypeID)" value="{{selectedFundingTypeID}}" />
+    <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.NoFundingSourceIdentifiedYet)" value="{{AngularModel.NoFundingSourceIdentifiedYet}}" />
     <div ng-repeat="projectFundingSourceBudget in AngularModel.ProjectFundingSourceBudgets | orderBy:[getFundingSourceName]">
         <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectID}}" />
         <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.FundingSourceID}}" />
         <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.SecuredAmount}}" />
         <input type="hidden" name="@Html.NameFor(x => x.ViewModelForAngular.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.TargetedAmount}}" />
     </div>
-    <hr />
 
     <div style="margin: 10px 0px; padding: 5px 10px;">
         <p>
-            <label class="control-label">Summary of Total @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Costs and Funding:</label>
+            <label ng-if="budgetVariesByYear() || budgetTypeNotSelected()" class="control-label">4. Confirm this summary of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()</label>
+            <label ng-if="budgetSameEachYear()" class="control-label">4. Confirm this summary of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()</label>
         </p>
-        @* If the Budget Changes per year *@
-        <div ng-if="budgetVariesByYear()">
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ costs.estimatedTotalCost | currency:"$"}}
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ getSecuredTotal() | currency:"$" }}
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ getTargetedTotal() | currency:"$" }}
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ (costs.estimatedTotalCost - getSecuredTotal() - getTargetedTotal()) | currency:"$"}}
-                    </span>
-                </div>
-            </div>
-        </div>
-        @* If the Budget Same Each year *@
-        <div ng-if="budgetSameEachYear()">
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ costs.estimatedAnnualOperatingCost | currency:"$"}}
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ getSecuredTotal() | currency:"$" }} per year
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ getTargetedTotal() | currency:"$" }} per year
-                    </span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType()):</div>
-                <div class="col-sm-3 text-right">
-                    <span>
-                        {{ (costs.estimatedAnnualOperatingCost - getSecuredTotal() - getTargetedTotal()) | currency:"$"}} per year
-                    </span>
-                </div>
-            </div>
+        <div>
+            <table class="table table-bordered table-condensed" style="overflow: scroll;">
+                <tr class="summaryTableHeader">
+                    <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</td>
+                    <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</td>
+                    <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
+                    <td ng-if="budgetVariesByYear() || budgetTypeNotSelected()">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType(), "TOTAL")</td>
+                    <td ng-if="budgetSameEachYear()">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType(), "TOTAL")</td>
+                </tr>
+                <tr class="summaryTableRow">
+                    <td>{{ getSecuredTotal() | currency:"$" }}</td>
+                    <td>{{ getTargetedTotal() | currency:"$" }}</td>
+                    <td>{{ AngularModel.NoFundingSourceIdentifiedYet | currency:"$"}}</td>
+                    <td>{{ getTotalEstimatedCost() | currency:"$"}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

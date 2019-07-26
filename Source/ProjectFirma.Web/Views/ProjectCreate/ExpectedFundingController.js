@@ -23,11 +23,6 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-    $scope.costs = {
-        estimatedTotalCost: $scope.AngularViewData.EstimatedTotalCost > 0 ? $scope.AngularViewData.EstimatedTotalCost : null,
-        estimatedAnnualOperatingCost: $scope.AngularViewData.EstimatedAnnualOperatingCost > 0 ? $scope.AngularViewData.EstimatedAnnualOperatingCost : null
-    };
-
 
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
@@ -42,8 +37,13 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     };
 
     $scope.filteredFundingSources = function () {
+        var unknownFundingSourceNames = [
+            "Unknown/Unassigned",
+            "Unknown",
+            "Unspecified"
+        ];
         var usedFundingSourceIDs = $scope.getAllUsedFundingSourceIds();
-        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID); })
+        return _($scope.AngularViewData.AllFundingSources).filter(function (f) { return f.IsActive && !_.includes(usedFundingSourceIDs, f.FundingSourceID) && !_.contains(unknownFundingSourceNames, f.FundingSourceName); })
             .sortBy(function (fs) {
                 return [fs.FundingSourceName.toLowerCase(), fs.OrganizationName.toLowerCase()];
             }).value();
@@ -74,6 +74,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     $scope.getRowTotal = function (projectFundingSourceBudget) {
         return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
     }
+
+    $scope.getTotalEstimatedCost = function () {
+        return Number($scope.AngularModel.NoFundingSourceIdentifiedYet) + $scope.getTotal();
+    }
     
     $scope.findProjectFundingSourceBudgetRow = function(projectID, fundingSourceID) { return _.find($scope.AngularModel.ProjectFundingSourceBudgets, function(pfse) { return pfse.ProjectID == projectID && pfse.FundingSourceID == fundingSourceID; }); }
 
@@ -90,9 +94,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
 
     $scope.createNewRow = function(projectID, fundingSourceID)
     {
+        var fundingSource = $scope.getFundingSource(fundingSourceID);
         var newProjectFundingSourceBudget = {
             ProjectID: projectID,
-            FundingSourceID: fundingSourceID,
+            FundingSourceID: fundingSource.FundingSourceID,
             SecuredAmount: null,
             TargetedAmount: null
         };
@@ -113,6 +118,20 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingController", functi
     $scope.budgetSameEachYear = function () {
         var selectedFundingTypeID = typeof $scope.selectedFundingTypeID === "number" ? $scope.selectedFundingTypeID : parseInt($scope.selectedFundingTypeID);
         return selectedFundingTypeID === 2;
+    }
+
+    $scope.budgetTypeNotSelected = function () {
+        return !$scope.budgetVariesByYear() && !$scope.budgetSameEachYear();
+    }
+
+    $scope.getYearRange = function () {
+        var startYear = $scope.AngularViewData.PlanningDesignStartYear === null
+            ? "Start"
+            : $scope.AngularViewData.PlanningDesignStartYear;
+        var endYear = $scope.AngularViewData.CompletionYear === null
+            ? "End"
+            : $scope.AngularViewData.CompletionYear;
+        return startYear + " - " + endYear;
     }
 
     $scope.resetFundingSourceToAdd();

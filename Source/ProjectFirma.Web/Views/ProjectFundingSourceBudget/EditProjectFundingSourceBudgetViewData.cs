@@ -35,15 +35,20 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public List<ProjectSimple> AllProjects { get; }
         public int? ProjectID { get; }
         public int? FundingSourceID { get; }
+        public int? PlanningDesignStartYear { get; }
+        public int? CompletionYear { get; }
 
         public EditProjectFundingSourceBudgetViewData(ProjectSimple project, 
             IEnumerable<FundingType> fundingTypes,
-            List<FundingSourceSimple> allFundingSources)
+            List<FundingSourceSimple> allFundingSources,
+            int? planningDesignStartYear, int? completionYear)
         {
             AllProjects = new List<ProjectSimple> {project};
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             AllFundingSources = allFundingSources;
             ProjectID = project.ProjectID;
+            PlanningDesignStartYear = planningDesignStartYear;
+            CompletionYear = completionYear;
         }
     }
 }

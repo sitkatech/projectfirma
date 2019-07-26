@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
             TaxonomyLeaf = project.TaxonomyLeaf;
-            EstimatedTotalCost = project.EstimatedTotalCost.HasValue ? project.EstimatedTotalCost.ToStringCurrency() : "Unknown";
+            EstimatedTotalCost = project.GetEstimatedTotalCost().HasValue ? project.GetEstimatedTotalCost().ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();
             project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.ClassificationSystem>()).ToList().ForEach(x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));

@@ -129,6 +129,7 @@ namespace ProjectFirma.Web.Models
         public static Person GetAnonymousSitkaUser()
         {
             var anonymousSitkaUser = new Person(Person.AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
+            anonymousSitkaUser.TenantID = HttpRequestStorage.Tenant?.TenantID ?? 0;
             // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
             return anonymousSitkaUser;
         }

@@ -58,22 +58,21 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             public List<FundingSourceSimple> AllFundingSources { get; }
             public int ProjectUpdateBatchID { get; }
             public int? FundingTypeID { get; }
-            public decimal EstimatedTotalCost { get; }
-            public decimal EstimatedAnnualOperatingCost { get; }
             public IEnumerable<SelectListItem> FundingTypes { get; }
-            
+            public int? PlanningDesignStartYear { get; }
+            public int? CompletionYear { get; }
+
             public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
                 IEnumerable<SelectListItem> fundingTypes,
-                decimal estimatedTotalCost,
-                decimal estimatedAnnualOperatingCost)
+                int? planningDesignStartYear, int? completionYear)
             {
                 AllFundingSources = allFundingSources;
                 FundingTypes = fundingTypes;
                 ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
                 FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingType?.FundingTypeID;
-                EstimatedTotalCost = estimatedTotalCost;
-                EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
+                PlanningDesignStartYear = planningDesignStartYear;
+                CompletionYear = completionYear;
             }
         }
     }

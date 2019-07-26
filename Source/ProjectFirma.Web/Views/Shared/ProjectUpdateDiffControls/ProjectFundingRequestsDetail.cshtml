@@ -25,6 +25,15 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @inherits ProjectFundingRequestsDetail
 
+
+<div class="form-group">
+    <label class="control-label">
+        1. @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
+    </label>
+    <div class="input-group">
+        <span>@ViewDataTyped.FundingTypeDisplayName</span>
+    </div>
+</div>
 <table class="summaryLayout">
     <colgroup>
         <col>
@@ -34,23 +43,53 @@ Source code is available upon request via <support@sitkatech.com>.
     </colgroup>
     <tr>
         <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())</th>
-        <th style="text-align: right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())</th>
-        <th style="text-align: right">Total</th>
+        @if (ViewDataTyped.FundingTypeID == null || ViewDataTyped.FundingTypeID == 1)
+        {
+            <th style="text-align: right" ng-if="@ViewDataTyped.FundingTypeID === 1">
+                @if (ViewDataTyped.PlanningDesignStartYear != null)
+                {
+                    <span>@ViewDataTyped.PlanningDesignStartYear</span>
+                }
+                else
+                {
+                    <span>Start</span>
+                }
+                <span> - </span>
+                @if (ViewDataTyped.CompletionYear != null)
+                {
+                    <span>@ViewDataTyped.CompletionYear</span>
+                }
+                else
+                {
+                    <span>End</span>
+                }
+            </th>
+        }
+        @if (ViewDataTyped.FundingTypeID == 2)
+        {
+            <th style="text-align: right" ng-if="@ViewDataTyped.FundingTypeID === 1">Each Year</th>
+        }
+
     </tr>
     @foreach (var fundingSourceRequestAmount in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.FundingSourceName))
     {
         <tr class="@fundingSourceRequestAmount.DisplayCssClass">
-            <td>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</td>
+            <td>
+                <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
+                <span style="font-style: italic"> - @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
+            </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
                 <span >@fundingSourceRequestAmount.SecuredAmount.ToStringCurrency()</span>
+            </td>
+        </tr>
+        <tr class="@fundingSourceRequestAmount.DisplayCssClass">
+            <td>
+                <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
+                <span style="font-style: italic"> - @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
                 <span >@fundingSourceRequestAmount.TargetedAmount.ToStringCurrency()</span>
             </td>
-            <th style="text-align: right">
-                <span >@((fundingSourceRequestAmount.SecuredAmount + fundingSourceRequestAmount.TargetedAmount).ToStringCurrency())</span>
-            </th>
         </tr>
     }
     @if (ViewDataTyped.FundingSourceRequestAmounts.Any())
@@ -73,3 +112,24 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     <p class="systemText">No expected funding has been reported for this project.</p>
 }
+<table class="summaryLayout">
+    <tr>
+        <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
+        <td>@ViewDataTyped.NoFundingSourceIdentifiedYet.ToStringCurrency()</td>
+    </tr>
+    @if (ViewDataTyped.FundingTypeID == null || ViewDataTyped.FundingTypeID == 1)
+    {
+        <tr>
+            <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</td>
+            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount)).ToStringCurrency())</td>
+        </tr>
+    }
+    @if (ViewDataTyped.FundingTypeID == 2)
+    {
+        <tr>
+            <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())</td>
+            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount)).ToStringCurrency())</td>
+        </tr>
+    }
+
+</table>

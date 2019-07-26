@@ -23,14 +23,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectDescription).HasColumnName(@"ProjectDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(4000);
             Property(x => x.ImplementationStartYear).HasColumnName(@"ImplementationStartYear").HasColumnType("int").IsOptional();
             Property(x => x.CompletionYear).HasColumnName(@"CompletionYear").HasColumnType("int").IsOptional();
-            Property(x => x.EstimatedTotalCost).HasColumnName(@"EstimatedTotalCost").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.EstimatedTotalCostDeprecated).HasColumnName(@"EstimatedTotalCostDeprecated").HasColumnType("money").IsOptional().HasPrecision(19,4);
             Property(x => x.ProjectLocationPoint).HasColumnName(@"ProjectLocationPoint").HasColumnType("geometry").IsOptional();
             Property(x => x.PerformanceMeasureActualYearsExemptionExplanation).HasColumnName(@"PerformanceMeasureActualYearsExemptionExplanation").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(4000);
             Property(x => x.IsFeatured).HasColumnName(@"IsFeatured").HasColumnType("bit").IsRequired();
             Property(x => x.ProjectLocationNotes).HasColumnName(@"ProjectLocationNotes").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(4000);
             Property(x => x.PlanningDesignStartYear).HasColumnName(@"PlanningDesignStartYear").HasColumnType("int").IsOptional();
             Property(x => x.ProjectLocationSimpleTypeID).HasColumnName(@"ProjectLocationSimpleTypeID").HasColumnType("int").IsRequired();
-            Property(x => x.EstimatedAnnualOperatingCost).HasColumnName(@"EstimatedAnnualOperatingCost").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.EstimatedAnnualOperatingCostDeprecated).HasColumnName(@"EstimatedAnnualOperatingCostDeprecated").HasColumnType("money").IsOptional().HasPrecision(19,4);
             Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
             Property(x => x.PrimaryContactPersonID).HasColumnName(@"PrimaryContactPersonID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectApprovalStatusID).HasColumnName(@"ProjectApprovalStatusID").HasColumnType("int").IsRequired();
@@ -42,6 +42,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReviewedByPersonID).HasColumnName(@"ReviewedByPersonID").HasColumnType("int").IsOptional();
             Property(x => x.DefaultBoundingBox).HasColumnName(@"DefaultBoundingBox").HasColumnType("geometry").IsOptional();
             Property(x => x.NoExpendituresToReportExplanation).HasColumnName(@"NoExpendituresToReportExplanation").HasColumnType("varchar").IsOptional();
+            Property(x => x.NoFundingSourceIdentifiedYet).HasColumnName(@"NoFundingSourceIdentifiedYet").HasColumnType("money").IsOptional().HasPrecision(19,4);
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID

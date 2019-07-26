@@ -30,13 +30,27 @@ namespace ProjectFirmaModels.Models
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
 
-        public decimal? NoFundingSourceIdentifiedFunding => EstimatedTotalCost - GetSecuredFunding();
-
         public decimal GetSecuredFunding()
         {
             return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
                 ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
                 : 0;
+        }
+
+        public decimal GetTargetedFunding()
+        {
+            return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
+                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.TargetedAmount.GetValueOrDefault())
+                : 0;
+        }
+
+        public decimal? GetEstimatedTotalCost()
+        {
+            var securedFunding = GetSecuredFunding();
+            var targetedFunding = GetTargetedFunding();
+            return NoFundingSourceIdentifiedYet != null
+                ? NoFundingSourceIdentifiedYet + securedFunding + targetedFunding
+                : null;
         }
 
         public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
@@ -53,8 +67,7 @@ namespace ProjectFirmaModels.Models
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            EstimatedTotalCost = project.EstimatedTotalCost;
-            EstimatedAnnualOperatingCost = project.EstimatedAnnualOperatingCost;
+            NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
             FundingTypeID = project.FundingTypeID;
         }
 
@@ -72,10 +85,7 @@ namespace ProjectFirmaModels.Models
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
-            project.EstimatedTotalCost = EstimatedTotalCost;
-            project.EstimatedAnnualOperatingCost = EstimatedAnnualOperatingCost;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
-            project.FundingTypeID = FundingTypeID;
         }
 
         public void CommitSimpleLocationToProject(Project project)

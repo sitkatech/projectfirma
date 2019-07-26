@@ -57,9 +57,9 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
 
     @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
     {
-        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedTotalCost.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedFunding.ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet.ToStringCurrency()</span></div>
     }
     else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
     {
@@ -69,7 +69,7 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
                     @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel():
                 </td>
                 <td>
-                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.EstimatedAnnualOperatingCost.ToStringCurrency()</span>
+                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span>
                 </td>
             </tr>
             <tr>

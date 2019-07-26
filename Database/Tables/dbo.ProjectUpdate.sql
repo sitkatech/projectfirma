@@ -10,14 +10,15 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[ProjectDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
-	[EstimatedTotalCost] [money] NULL,
+	[EstimatedTotalCostDeprecated] [money] NULL,
 	[ProjectLocationPoint] [geometry] NULL,
 	[ProjectLocationNotes] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PlanningDesignStartYear] [int] NULL,
 	[ProjectLocationSimpleTypeID] [int] NOT NULL,
-	[EstimatedAnnualOperatingCost] [decimal](18, 0) NULL,
+	[EstimatedAnnualOperatingCostDeprecated] [decimal](18, 0) NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[FundingTypeID] [int] NULL,
+	[NoFundingSourceIdentifiedYet] [money] NULL,
  CONSTRAINT [PK_ProjectUpdate_ProjectUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateID] ASC

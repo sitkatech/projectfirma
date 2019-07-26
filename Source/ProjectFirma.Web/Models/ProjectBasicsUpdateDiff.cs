@@ -38,19 +38,7 @@ namespace ProjectFirmaModels.Models
                 HasProjectStageChanged() ||
                 HasPlanningDesignStartYearChanged() ||
                 HasImplementationStartYearChanged() ||
-                HasCompletionYearChanged() ||
-                HasEstimatedTotalCostChanged() ||
-                HasEstimatedAnnualOperatingCostChanged();
-        }
-
-        private bool HasEstimatedAnnualOperatingCostChanged()
-        {
-            return OriginalProjectUpdate.EstimatedAnnualOperatingCost != ModifiedProjectUpdate.EstimatedAnnualOperatingCost;
-        }
-
-        private bool HasEstimatedTotalCostChanged()
-        {
-            return OriginalProjectUpdate.EstimatedTotalCost != ModifiedProjectUpdate.EstimatedTotalCost;
+                HasCompletionYearChanged();
         }
 
         private bool HasCompletionYearChanged()
