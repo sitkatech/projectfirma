@@ -300,6 +300,10 @@
                         {
                             <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
+                        else if (ViewDataTyped.ReportExpendituresByCostType)
+                        {
+                            ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
+                        }
                         else
                         {
                             ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);

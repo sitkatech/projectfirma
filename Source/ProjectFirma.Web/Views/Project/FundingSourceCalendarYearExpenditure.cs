@@ -62,10 +62,6 @@ namespace ProjectFirma.Web.Views.Project
             DisplayCssClass = displayCssClass;
         }
 
-        public FundingSourceCalendarYearExpenditure(Dictionary<int, decimal?> calendarYearExpenditure) : this(null, calendarYearExpenditure, null)
-        {
-        }
-
         public static List<FundingSourceCalendarYearExpenditure> CreateFromFundingSourcesAndCalendarYears(List<IFundingSourceExpenditure> fundingSourceExpenditures, List<int> calendarYears)
         {
             var distinctFundingSources = fundingSourceExpenditures.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.FundingSource>());
