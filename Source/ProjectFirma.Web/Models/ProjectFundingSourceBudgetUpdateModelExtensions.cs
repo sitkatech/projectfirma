@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectFundingSourceBudgetUpdateModelExtensions
     {
@@ -24,6 +26,8 @@ namespace ProjectFirmaModels.Models
             IList<ProjectFundingSourceBudget> allProjectFundingSourceBudget)
         {
             var project = projectUpdateBatch.Project;
+            project.NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
+            project.FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
                 .ProjectFundingSourceBudgetUpdates
                 .Select(x => new ProjectFundingSourceBudget(project.ProjectID, x.FundingSource.FundingSourceID)
