@@ -33,6 +33,7 @@
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.Shared.ProjectContact
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @using ProjectFirma.Web.Views.TechnicalAssistanceRequest
@@ -211,19 +212,31 @@
                         }
                     </div>
                 </div>
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
-                            @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
-                    </div>
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h3>
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
+                        @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
+                    </h3>
                 </div>
+                <div class="panel-body">
+                    @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
+                </div>
+            </div>
+            
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h3>
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
+                        Contacts
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
+                </div>
+            </div>
 
-                <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+            <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>

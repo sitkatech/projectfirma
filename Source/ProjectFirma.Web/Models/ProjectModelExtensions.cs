@@ -184,6 +184,12 @@ namespace ProjectFirmaModels.Models
             return explicitOrganizations;
         }
 
+        public static List<ProjectContactRelationship> GetAssociatedContactRelationships(this Project project)
+        {
+            var contacts = project.ProjectContacts.Select(x => new ProjectContactRelationship(project, x.Contact, x.ContactRelationshipType)).ToList();
+            return contacts;
+        }
+
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int? currentProjectID)
         {
             if (String.IsNullOrWhiteSpace(projectName))

@@ -36,6 +36,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -100,7 +101,9 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
-        public readonly ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData;
+        public ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData { get; }
+        public ProjectContactsDetailViewData ProjectContactsDetailViewData { get; }
+        public string EditProjectContactsUrl { get; }
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
         public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
@@ -125,7 +128,8 @@ namespace ProjectFirma.Web.Views.Project
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
-            string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
+            string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
+            ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl)
             : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
@@ -313,7 +317,10 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
-           
+
+            ProjectContactsDetailViewData = projectContactsDetailViewData;
+            EditProjectContactsUrl = editProjectContactsUrl;
+
             EditProjectGeospatialAreaFormID = ProjectGeospatialAreaController.GetEditProjectGeospatialAreasFormID();
 
             ProjectStewardCannotEditUrl =

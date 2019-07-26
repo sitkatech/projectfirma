@@ -46,6 +46,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -180,6 +181,9 @@ namespace ProjectFirma.Web.Controllers
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
+
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
@@ -223,7 +227,11 @@ namespace ProjectFirma.Web.Controllers
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
                 classificationSystems,
-                ProjectLocationController.EditProjectBoundingBoxFormID, geospatialAreaTypes, projectCustomAttributeTypesViewData);
+                ProjectLocationController.EditProjectBoundingBoxFormID, 
+                geospatialAreaTypes, 
+                projectCustomAttributeTypesViewData,
+                projectContactsDetailViewData,
+                editContactsUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

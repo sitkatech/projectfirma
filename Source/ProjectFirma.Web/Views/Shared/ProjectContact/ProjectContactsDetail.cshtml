@@ -49,7 +49,7 @@
                         @foreach (var x in projectContacts)
                         {
                             <li>
-                                <span class="@x.DisplayCssClass">@x.Contact.GetFullNameFirstLastAsUrl()</span>
+                                <span class="@x.DisplayCssClass">@x.Contact.GetFullNameFirstLastAndOrgAsUrl()</span>
                             </li>
                         }
                     </ul>
