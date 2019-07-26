@@ -88,13 +88,6 @@
                                         ng-selected="isPersonSelected(person.PersonID)"></option>
                             </select>
                         </div>
-                        @*<p class="help-block alert alert-info" ng-show="isPersonSelected(null)">
-                            <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">The default @FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel() is the person set as the @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() for the <span ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeName"></span>, if there is one.</span>
-                            <span>Currently, this means <span style="font-weight: bold" ng-bind="primaryContactOrganizationPersonDisplayName(AngularViewData.PrimaryContactRelationshipTypeSimple)"></span> will be the @(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()).</span>
-                            <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null && primaryContactOrganizationHasNoPrimaryContact(AngularViewData.PrimaryContactRelationshipTypeSimple)">
-                                Consider setting a @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() for <a href="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).DetailUrl}}" alt="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName}}" ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName"></a>.
-                            </span>
-                        </p>*@
                     </div>
                 </div>
             </div>
