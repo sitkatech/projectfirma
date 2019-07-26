@@ -38,13 +38,7 @@ namespace ProjectFirmaModels.Models
                 HasProjectStageChanged() ||
                 HasPlanningDesignStartYearChanged() ||
                 HasImplementationStartYearChanged() ||
-                HasCompletionYearChanged() ||
-                HasNoFundingSourceIdentifiedYetChanged();
-        }
-
-        private bool HasNoFundingSourceIdentifiedYetChanged()
-        {
-            return OriginalProjectUpdate.NoFundingSourceIdentifiedYet != ModifiedProjectUpdate.NoFundingSourceIdentifiedYet;
+                HasCompletionYearChanged();
         }
 
         private bool HasCompletionYearChanged()
