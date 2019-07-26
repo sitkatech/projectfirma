@@ -1204,11 +1204,14 @@ td.stage {
 .systemText {
   font-style: italic;
 }
-#EditFundingSourceExpendituresApp table {
+#EditFundingSourceExpendituresApp table,
+#EditFundingSourceExpendituresByCostTypeApp table {
   table-layout: fixed;
 }
 #EditFundingSourceExpendituresApp td,
-#EditFundingSourceExpendituresApp th {
+#EditFundingSourceExpendituresByCostTypeApp td,
+#EditFundingSourceExpendituresApp th,
+#EditFundingSourceExpendituresByCostTypeApp th {
   min-width: 128px;
   width: 128px;
   overflow: hidden;

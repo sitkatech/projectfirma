@@ -138,10 +138,9 @@ namespace ProjectFirma.Web.Controllers
             // Use a different editor for Reported Expenditures if the Tenant's selected BudgetType is Budget by Year and Cost Type
             var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var reportExpendituresByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
-            //            var editReportedExpendituresUrl = reportExpendituresByCostType ?
-            //                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
-            //                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
-            var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            var editReportedExpendituresUrl = reportExpendituresByCostType ?
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 

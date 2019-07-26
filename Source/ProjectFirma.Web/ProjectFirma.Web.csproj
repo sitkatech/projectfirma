@@ -173,6 +173,9 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
@@ -298,6 +301,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
@@ -440,6 +444,7 @@
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
+    <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

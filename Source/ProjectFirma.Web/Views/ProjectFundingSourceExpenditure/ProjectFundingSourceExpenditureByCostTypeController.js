@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpendituresController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectFundingSourceExpenditureByCostTypeController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController", function($scope, angularModelAndViewData)
+angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByCostTypeController", function ($scope, angularModelAndViewData)
 {
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
@@ -33,8 +33,8 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
 
     $scope.getAllUsedCalendarYears = function () { return $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().map("CalendarYear").flatten().union().sortBy().value(); };
 
-    $scope.getCalendarYearRange = function() {
-         return _.sortBy(_.union($scope.getAllUsedCalendarYears(), angularModelAndViewData.AngularViewData.CalendarYearRange));
+    $scope.getCalendarYearRange = function () {
+        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), angularModelAndViewData.AngularViewData.CalendarYearRange));
     };
 
     $scope.getAllUsedFundingSourceIds = function () { return _.uniq(_.map($scope.AngularModel.ProjectFundingSourceExpenditures, function (p) { return p.FundingSourceID; })); };
@@ -194,3 +194,4 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
 
     $scope.resetfundingSourceIDToAdd();
 });
+
