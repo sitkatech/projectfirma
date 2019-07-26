@@ -83,48 +83,7 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         return contacts;
     };
 
-    $scope.canSetContactFromProjectLocation = function(relationshipType) {
-        if (!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject ||
-            !relationshipType.ContactRelationshipTypeHasContactsWithSpatialBoundary) {
-            return false;
-        }
 
-        if ($scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID] ===
-            null) {
-            return false;
-        }
-
-        return true;
-    };
-
-    $scope.setProjectContactSimpleFromProjectLocation = function(relationshipType) {
-        if (!$scope.canSetContactFromProjectLocation(relationshipType)) {
-            return;
-        }
-
-        var contactID = Number(
-            $scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID]
-            .ContactID);
-
-        $scope.selectionChanged(contactID, relationshipType);
-    };
-
-    $scope.selectedOrgDoesNotMatchSpatialOrg = function (relationshipType) {
-
-        if (!$scope.canSetContactFromProjectLocation(relationshipType)) {
-            return false;
-        }
-
-        var spatialContactID = Number(
-            $scope.AngularViewData.ContactContainingProjectSimpleLocation[relationshipType.ContactRelationshipTypeID].ContactID);
-
-        var projectContactSimple =
-            Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
-                "RelationshipTypeID",
-                relationshipType.ContactRelationshipTypeID);
-
-        return spatialContactID !== projectContactSimple.ContactID;
-    };
 
     $scope.addProjectContactSimple = function(contactID, relationshipTypeID) {
         $scope.AngularModel.ProjectContactSimples.push({
@@ -249,9 +208,9 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
         return $scope.AngularViewData.AllContacts;
     }
 
-    //$scope.primaryContactPersonChange = function (personID) {
-    //    $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
-    //}
+    $scope.primaryContactPersonChange = function (personID) {
+        $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
+    }
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;

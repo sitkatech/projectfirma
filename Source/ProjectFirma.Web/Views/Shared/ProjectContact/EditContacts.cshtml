@@ -80,7 +80,7 @@
                     @*Selectpicker*@
                     <div class="col-md-12">
                         <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" ng-model="PrimaryContactPersonID" data-width="100%" data-live-search="true" data-size="8">
+                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
                                 <option value="" disabled ng-selected="isPersonSelected(null)">Select One</option>
                                 <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
                                         ng-bind="person.FullNameWithOrgShortName"
@@ -126,14 +126,7 @@
                                     <span class="glyphicon glyphicon-plus"></span>
                                     Add
                                 </button>
-                                <button type="button" class="btn btn-sm btn-firma" ng-click="setProjectContactSimpleFromProjectLocation(relationshipType)" ng-show="canSetContactFromProjectLocation(relationshipType)">
-                                    <span class="glyphicon glyphicon-map-marker"></span>
-                                    Set from Simple Location
-                                </button>
                             </div>
-                            <p class="help-block alert alert-warning" ng-show="selectedOrgDoesNotMatchSpatialOrg(relationshipType)">
-                                <span>The currently selected {{relationshipType.ContactRelationshipTypeName}} does not match the project simple location - this may be OK if the project location is outside the associated contacts boundary, or this may warrant updating either the simple location or the associated contact.</span>
-                            </p>
                         </div>
                     </div>
                     <div class="row" ng-repeat="contact in chosenContactsForRelationshipType(relationshipType.ContactRelationshipTypeID)" ng-hide="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
