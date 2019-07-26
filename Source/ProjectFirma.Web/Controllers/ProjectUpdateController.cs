@@ -727,7 +727,7 @@ namespace ProjectFirma.Web.Controllers
             var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
                 allFundingSources,
                 fundingTypes,
-                projectUpdateBatch.ProjectUpdate.ImplementationStartYear,
+                projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear,
                 projectUpdateBatch.ProjectUpdate.CompletionYear);
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, projectUpdateBatch.Project, false, new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates));
 
@@ -2270,13 +2270,14 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var projectFundingSourceBudgetsOriginal = new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
             var projectFundingSourceBudgetsUpdated = new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
-            var originalHtml = GeneratePartialViewForOriginalFundingRequests(projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated);
-            var updatedHtml = GeneratePartialViewForModifiedFundingRequests(projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated);
+            var originalHtml = GeneratePartialViewForOriginalFundingRequests(project.FundingTypeID, project.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated, project.NoFundingSourceIdentifiedYet, project.PlanningDesignStartYear, project.CompletionYear);
+            var updatedHtml = GeneratePartialViewForModifiedFundingRequests(projectUpdateBatch.ProjectUpdate.FundingTypeID, projectUpdateBatch.ProjectUpdate.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated, 
+                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet, projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear, projectUpdateBatch.ProjectUpdate.CompletionYear);
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalFundingRequests(List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated)
+        private string GeneratePartialViewForOriginalFundingRequests(int? fundingTypeIdOriginal, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
+            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetOriginal, int? planningDesignStartYear, int? completionYear)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
@@ -2285,11 +2286,11 @@ namespace ProjectFirma.Web.Controllers
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
-            return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
+            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdOriginal, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetOriginal, planningDesignStartYear, completionYear);
         }
 
-        private string GeneratePartialViewForModifiedFundingRequests(List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated)
+        private string GeneratePartialViewForModifiedFundingRequests(int? fundingTypeIdUpdated, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
+            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetUpdated, int? planningDesignStartYear, int? completionYear)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
@@ -2298,12 +2299,12 @@ namespace ProjectFirma.Web.Controllers
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-            return GeneratePartialViewForExpectedFundingAsString(fundingSourceRequestAmounts);
+            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdUpdated, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetUpdated, planningDesignStartYear, completionYear);
         }
 
-        private string GeneratePartialViewForExpectedFundingAsString(List<FundingSourceBudgetAmount> fundingSourceRequestAmounts)
+        private string GeneratePartialViewForExpectedFundingAsString(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
         {
-            var viewData = new ProjectFundingRequestsDetailViewData(fundingSourceRequestAmounts);
+            var viewData = new ProjectFundingRequestsDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear);
             var partialViewAsString = RenderPartialViewToString(ProjectExpectedFundingPartialViewPath, viewData);
             return partialViewAsString;
         }
