@@ -53,6 +53,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -87,6 +88,7 @@ namespace ProjectFirma.Web.Controllers
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
+        public const string ProjectContactsPartialViewPath = "~/Views/Shared/ProjectContact/ProjectContactsDetail.cshtml";
         public const string PerformanceMeasureExpectedSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/PerformanceMeasureExpectedValuesSummary.cshtml";
         public const string TechnicalAssistanceRequestPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/TechnicalAssistanceRequestsSummary.cshtml";
 
@@ -1551,6 +1553,8 @@ namespace ProjectFirma.Web.Controllers
             // Technical Assistance Requests for Idaho
             HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Load();
             var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
+            var allProjectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
@@ -1571,7 +1575,8 @@ namespace ProjectFirma.Web.Controllers
                 allProjectDocuments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests);
+                allTechnicalAssistanceRequests,
+                allProjectContacts);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -2691,6 +2696,8 @@ namespace ProjectFirma.Web.Controllers
 
             var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
+            var isContactsUpdated = DiffContactsImpl(projectUpdateBatch.ProjectID).HasChanged;
+
             var isExpectedPerformanceMeasuresUpdated = DiffExpectedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             var isTechnicalAssistanceRequestsUpdated = projectUpdateBatch.TenantID == Tenant.IdahoAssociatonOfSoilConservationDistricts.TenantID;
@@ -2708,7 +2715,8 @@ namespace ProjectFirma.Web.Controllers
                 isExpectedFundingUpdated,
                 isOrganizationsUpdated,
                 isExpectedPerformanceMeasuresUpdated,
-                isTechnicalAssistanceRequestsUpdated);
+                isTechnicalAssistanceRequestsUpdated,
+                isContactsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -2856,6 +2864,191 @@ namespace ProjectFirma.Web.Controllers
             {
             }
         }
+
+
+        #region 'Contacts'
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult Contacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var viewModel = new ContactsViewModel(projectUpdateBatch);
+
+            return ViewContacts(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Contacts(ProjectPrimaryKey projectPrimaryKey, ContactsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewContacts(projectUpdateBatch, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectContactUpdates.Load();
+            var projectContactUpdates = projectUpdateBatch.ProjectContactUpdates.ToList();
+            var allProjectContactUpdates = HttpRequestStorage.DatabaseEntities.AllProjectContactUpdates.Local;
+
+            viewModel.UpdateModel(projectUpdateBatch, projectContactUpdates, allProjectContactUpdates);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ContactsComment = viewModel.Comments;
+            }
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Contact successfully saved.");
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Contacts.ProjectUpdateSectionDisplayName);
+        }
+
+        private ActionResult ViewContacts(ProjectUpdateBatch projectUpdateBatch, ContactsViewModel viewModel)
+        {
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var contactsValidationResult = projectUpdateBatch.ValidateContacts();
+
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
+            var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
+
+            var editContactsViewData = new EditContactsViewData(allPeople, allContactRelationshipTypes);
+
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var viewData = new ContactsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);
+
+            return RazorView<Contacts, ContactsViewData, ContactsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult RefreshContacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshContacts(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshContacts(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectContactUpdates();
+            // refresh data
+            ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshContacts(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the Contacts for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffContacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffContactsImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffContactsImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+
+            var projectContactsOriginal = new List<IProjectContact>(project.ProjectContacts.ToList());
+            var projectContactsUpdated = new List<IProjectContact>(projectUpdateBatch.ProjectContactUpdates.ToList());
+
+            var updatedHtml = GeneratePartialViewForModifiedContacts(projectContactsOriginal, projectContactsUpdated, projectUpdateBatch.ProjectUpdate);
+            var originalHtml = GeneratePartialViewForOriginalContacts(projectContactsOriginal, projectContactsUpdated, projectUpdateBatch.Project);
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForModifiedContacts(
+            List<IProjectContact> projectContactsOriginal,
+            List<IProjectContact> projectContactsUpdated, ProjectUpdate projectUpdate)
+        {
+            var contactsInOriginal = projectContactsOriginal;
+            var contactsInUpdated = projectContactsUpdated;
+            var comparer = new ProjectContactEqualityComparer();
+
+            var contactsOnlyInOriginal = contactsInOriginal.Where(x => !contactsInUpdated.Contains(x, comparer)).ToList();
+            var projectContacts = projectContactsOriginal.Select(x => new ProjectContact(x)).ToList();
+
+
+            projectContacts.AddRange(projectContactsUpdated.Where(x => !contactsInOriginal.Contains(x, comparer)).Select(x =>
+                new ProjectContact(x.Contact, x.ContactRelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+            projectContacts
+                .Where(x => contactsOnlyInOriginal.Contains(x, comparer)).ToList()
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
+
+            return GeneratePartialViewForContactsAsString(projectContacts, projectUpdate.GetPrimaryContact());
+        }
+
+        private string GeneratePartialViewForOriginalContacts(
+            List<IProjectContact> projectContactsOriginal,
+            List<IProjectContact> projectContactsUpdated, Project project)
+        {
+            var contactsInOriginal = projectContactsOriginal;
+            var contactsInUpdated = projectContactsUpdated;
+            var comparer = new ProjectContactEqualityComparer();
+
+            var contactsOnlyInUpdated = contactsInUpdated.Where(x => !contactsInOriginal.Contains(x, comparer)).ToList();
+            var projectContacts = projectContactsUpdated.Select(x => new ProjectContact(x)).ToList();
+
+            projectContacts.AddRange(projectContactsOriginal.Where(x => !contactsInUpdated.Contains(x, comparer)).Select(x =>
+                new ProjectContact(x.Contact, x.ContactRelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+            projectContacts
+                .Where(x => contactsOnlyInUpdated.Contains(x, comparer)).ToList()
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
+
+            return GeneratePartialViewForContactsAsString(projectContacts, project.GetPrimaryContact());
+        }
+
+        private string GeneratePartialViewForContactsAsString(IEnumerable<ProjectContact> projectContacts, Person primaryContactPerson)
+        {
+            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var partialViewAsString = RenderPartialViewToString(ProjectContactsPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+
+        public class ProjectContactEqualityComparer : EqualityComparerByProperty<IProjectContact>
+        {
+            public ProjectContactEqualityComparer() : base(x => new { x.Contact.PersonID, x.ContactRelationshipType.ContactRelationshipTypeID })
+            {
+            }
+        }
+        #endregion 'Contacts'
+
+
+
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 

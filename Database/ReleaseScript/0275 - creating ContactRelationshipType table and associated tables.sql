@@ -270,3 +270,6 @@ GO
 --alter table dbo.Person
 --add ContactTypeID int null constraint FK_Person_ContactType_ContactTypeID foreign key references dbo.ContactType(ContactTypeID);
 
+--add comment field to ProjectUpdateBatch
+alter table dbo.ProjectUpdateBatch
+add ContactsComment varchar(1000) null

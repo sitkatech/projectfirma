@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class OrganizationsViewModel : EditOrganizationsViewModel
     {
         [DisplayName("Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
+        [StringLength(ProjectUpdateBatch.FieldLengths.OrganizationsComment)]
         public string Comments { get; set; }
 
         /// <summary>

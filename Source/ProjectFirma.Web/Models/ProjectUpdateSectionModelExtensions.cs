@@ -22,6 +22,8 @@ namespace ProjectFirma.Web.Models
                     return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:
                     return projectUpdateBatch.AreOrganizationsValid();
+                case ProjectUpdateSectionEnum.Contacts:
+                    return projectUpdateBatch.AreContactsValid();
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
@@ -60,6 +62,8 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
                 case ProjectUpdateSectionEnum.Organizations:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Organizations(project));
+                case ProjectUpdateSectionEnum.Contacts:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Contacts(project));
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project));
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
