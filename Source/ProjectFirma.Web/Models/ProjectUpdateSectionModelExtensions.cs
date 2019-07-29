@@ -71,7 +71,9 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.Budget:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project));
                 case ProjectUpdateSectionEnum.Expenditures:
-                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
+                    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
+                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
+                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
                 case ProjectUpdateSectionEnum.Photos:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(project));
                 case ProjectUpdateSectionEnum.ExternalLinks:

@@ -64,10 +64,13 @@ namespace ProjectFirma.Web.Views.Project
         public PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData { get; }
         public PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData { get; }
         public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
+        public ProjectExpendituresByCostTypeDetailViewData ProjectExpendituresByCostTypeDetailViewData { get; }
         public ImageGalleryViewData ImageGalleryViewData { get; }
         public EntityNotesViewData ProjectNotesViewData { get; }
         public EntityNotesViewData InternalNotesViewData { get; }
         public EntityExternalLinksViewData EntityExternalLinksViewData { get; }
+
+        public bool ReportExpendituresByCostType { get; }
 
         public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
 
@@ -116,6 +119,7 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
+            ProjectExpendituresByCostTypeDetailViewData projectExpendituresByCostTypeDetailViewData,
             ImageGalleryViewData imageGalleryViewData, EntityNotesViewData projectNotesViewData, EntityNotesViewData internalNotesViewData,
             EntityExternalLinksViewData entityExternalLinksViewData,
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
@@ -124,7 +128,8 @@ namespace ProjectFirma.Web.Views.Project
             string editProjectCustomAttributesUrl, 
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
-            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, 
+            bool reportExpendituresByCostType, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
@@ -287,6 +292,7 @@ namespace ProjectFirma.Web.Views.Project
                     c.EditProjectFundingSourceBudgetsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
+            ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;
             GeospatialAreaTypes = geospatialAreaTypes;
             DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;
@@ -308,6 +314,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectUpdateBatchGridDataUrl =
                 SitkaRoute<ProjectController>.BuildUrlFromExpression(x =>
                     x.ProjectUpdateBatchGridJsonData(project.ProjectID));
+
+            ReportExpendituresByCostType = reportExpendituresByCostType;
 
             AuditLogsGridSpec = auditLogsGridSpec;
             AuditLogsGridName = "projectAuditLogsGrid";
@@ -331,7 +339,6 @@ namespace ProjectFirma.Web.Views.Project
 
             ClassificationSystems = classificationSystems;
 
-            //ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(project, currentPerson, !project.IsProposal());
             ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
                 EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
                 SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,

@@ -18,13 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -60,10 +59,6 @@ namespace ProjectFirma.Web.Views.Project
             FundingSource = fundingSource;
             CalendarYearExpenditure = calendarYearExpenditure;
             DisplayCssClass = displayCssClass;
-        }
-
-        public FundingSourceCalendarYearExpenditure(Dictionary<int, decimal?> calendarYearExpenditure) : this(null, calendarYearExpenditure, null)
-        {
         }
 
         public static List<FundingSourceCalendarYearExpenditure> CreateFromFundingSourcesAndCalendarYears(List<IFundingSourceExpenditure> fundingSourceExpenditures, List<int> calendarYears)

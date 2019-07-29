@@ -30,13 +30,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceExpenditure(int projectFundingSourceExpenditureID, int projectID, int fundingSourceID, int calendarYear, decimal expenditureAmount) : this()
+        public ProjectFundingSourceExpenditure(int projectFundingSourceExpenditureID, int projectID, int fundingSourceID, int calendarYear, decimal expenditureAmount, int? costTypeID) : this()
         {
             this.ProjectFundingSourceExpenditureID = projectFundingSourceExpenditureID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
             this.CalendarYear = calendarYear;
             this.ExpenditureAmount = expenditureAmount;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
@@ -117,12 +118,14 @@ namespace ProjectFirmaModels.Models
         public int FundingSourceID { get; set; }
         public int CalendarYear { get; set; }
         public decimal ExpenditureAmount { get; set; }
+        public int? CostTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectFundingSourceExpenditureID; } set { ProjectFundingSourceExpenditureID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual FundingSource FundingSource { get; set; }
+        public virtual CostType CostType { get; set; }
 
         public static class FieldLengths
         {
