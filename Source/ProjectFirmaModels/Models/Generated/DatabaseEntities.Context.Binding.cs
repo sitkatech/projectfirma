@@ -598,11 +598,6 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(projectColorByType, "ProjectColorByType", primaryKey);
                     return projectColorByType;
 
-                case "ProjectCostType":
-                    var projectCostType = ProjectCostType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectCostType, "ProjectCostType", primaryKey);
-                    return projectCostType;
-
                 case "ProjectCreateSection":
                     var projectCreateSection = ProjectCreateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCreateSection, "ProjectCreateSection", primaryKey);
