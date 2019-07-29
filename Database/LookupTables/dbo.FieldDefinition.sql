@@ -107,4 +107,5 @@ VALUES
 (282, N'FundingSourceCustomAttribute', N'Funding Source Custom Attribute', N''),
 (283, N'FundingSourceCustomAttributeDataType', N'Funding Source Custom Attribute Data Type', N''),
 (284, N'FundingSourceCustomAttributeTypeEditableBy', 'Funding Source Custom Attribute Editable By' , N'This field definition is in reference to who can edit a specific custom attribute, Admins and Sitka Admins can edit any custom attribute'),
-(285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute')
+(285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute'),
+(286, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.')

@@ -37,6 +37,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
         public int? StartYearForTotalOperatingCostCalculation { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType{ get; }
+
 
         public ExpendituresByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
@@ -50,6 +55,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpendituresComment, projectUpdateBatch.IsReturned());
             TotalOperatingCostInYearOfExpenditure = ProjectUpdateBatch.ProjectUpdate.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = projectUpdateBatch.ProjectUpdate.StartYearForTotalCostCalculations();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
 
         public class ViewDataForAngularClass

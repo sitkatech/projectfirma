@@ -133,7 +133,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
             return;
         }
-        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow($scope.AngularViewData.ProjectID, fundingSourceId, calendarYear); });
+        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow(fundingSourceId, calendarYear); });
     };
 
     $scope.getProjectFundingSourceExpenditureRowsForFundingSource = function (fundingSourceId) {
@@ -167,7 +167,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         return newProjectFundingSourceExpenditure;
     };
 
-    $scope.addCalendarYearExpenditureRow = function (projectId, fundingSourceId, calendarYear) {
+    $scope.addCalendarYearExpenditureRow = function (fundingSourceId, calendarYear) {
         var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
             for (var i = 0; i < projectFundingSourceExpenditureRowsForFundingSource.length; ++i) {
@@ -181,6 +181,13 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
             CalendarYear: calendarYear,
             ExpenditureAmount: null
         };
+    };
+
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function (f) {
+                f.IsExempt = isChecked;
+            });
     };
 
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
