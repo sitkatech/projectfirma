@@ -19,6 +19,7 @@ namespace ProjectFirmaModels.Models
     public abstract partial class ProjectLocationSimpleType : IHavePrimaryKey
     {
         public static readonly ProjectLocationSimpleTypePointOnMap PointOnMap = ProjectLocationSimpleTypePointOnMap.Instance;
+        public static readonly ProjectLocationSimpleTypeLatLngInput LatLngInput = ProjectLocationSimpleTypeLatLngInput.Instance;
         public static readonly ProjectLocationSimpleTypeNone None = ProjectLocationSimpleTypeNone.Instance;
 
         public static readonly List<ProjectLocationSimpleType> All;
@@ -29,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectLocationSimpleType()
         {
-            All = new List<ProjectLocationSimpleType> { PointOnMap, None };
+            All = new List<ProjectLocationSimpleType> { PointOnMap, LatLngInput, None };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectLocationSimpleType>(All.ToDictionary(x => x.ProjectLocationSimpleTypeID));
         }
 
@@ -101,6 +102,8 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
+                case ProjectLocationSimpleTypeEnum.LatLngInput:
+                    return LatLngInput;
                 case ProjectLocationSimpleTypeEnum.None:
                     return None;
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
@@ -114,6 +117,7 @@ namespace ProjectFirmaModels.Models
     public enum ProjectLocationSimpleTypeEnum
     {
         PointOnMap = 1,
+        LatLngInput = 2,
         None = 3
     }
 
@@ -121,6 +125,12 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectLocationSimpleTypePointOnMap(int projectLocationSimpleTypeID, string projectLocationSimpleTypeName, string displayInstructions, int displayOrder) : base(projectLocationSimpleTypeID, projectLocationSimpleTypeName, displayInstructions, displayOrder) {}
         public static readonly ProjectLocationSimpleTypePointOnMap Instance = new ProjectLocationSimpleTypePointOnMap(1, @"PointOnMap", @"Plot a point on the map", 1);
+    }
+
+    public partial class ProjectLocationSimpleTypeLatLngInput : ProjectLocationSimpleType
+    {
+        private ProjectLocationSimpleTypeLatLngInput(int projectLocationSimpleTypeID, string projectLocationSimpleTypeName, string displayInstructions, int displayOrder) : base(projectLocationSimpleTypeID, projectLocationSimpleTypeName, displayInstructions, displayOrder) {}
+        public static readonly ProjectLocationSimpleTypeLatLngInput Instance = new ProjectLocationSimpleTypeLatLngInput(2, @"LatLngInput", @"Enter lat/lng coordinates (DD)", 2);
     }
 
     public partial class ProjectLocationSimpleTypeNone : ProjectLocationSimpleType

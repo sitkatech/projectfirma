@@ -79,7 +79,6 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForProjectLocation, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
             <strong>How do you want to specify your simple @ViewDataTyped.FieldDefinitionForProjectLocation.GetFieldDefinitionLabel()?</strong>
             <span><sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></span>
-
             <div class="form-group">
                 <div class="radio">
                     <label class="noBold">
@@ -90,9 +89,34 @@ Source code is available upon request via <support@sitkatech.com>.
                         Plot a point on the map
                     </label>
                 </div>
-                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointX)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)}}" />
-                <input type="hidden" name="@Html.NameFor(m => m.ProjectLocationPointY)" value="{{AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)}}" />
                 @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
+            </div>
+            <div class="form-group">
+                <div class="radio">
+                    <label class="noBold">
+                        <input type="radio" name="@Html.NameFor(m => m.ProjectLocationSimpleType)"
+                               ng-model="AngularModel.ProjectLocationSimpleType"
+                               value="@ProjectLocationSimpleTypeEnum.LatLngInput"
+                               ng-click="toggleMap()" />
+                        Enter lat/lng coordinates (DD)
+                    </label>
+                </div>
+                @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
+            </div>
+            
+            <div class="form-group" ng-show="displayLatLngInputs()">
+                <div class="input-group">
+                    <div class="input-group-addon">Lat</div>
+                    <input class="form-control text-right" type="number" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointY)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointY)" ng-change="changedLatLngInput()" />
+                    @Html.ValidationMessageFor(x => x.ProjectLocationPointY)
+                </div>
+            </div>
+            <div class="form-group" ng-show="displayLatLngInputs()">
+                <div class="input-group">
+                    <div class="input-group-addon">Lng</div>
+                    <input class="form-control text-right" type="number" placeholder="0.00" name="@Html.NameFor(m => m.ProjectLocationPointX)" ng-model="AngularModel.@Html.NameFor(m => m.ProjectLocationPointX)" ng-change="changedLatLngInput()" />
+                    @Html.ValidationMessageFor(x => x.ProjectLocationPointX)
+                </div>
             </div>
             <div class="form-group">
                 <div class="radio">
