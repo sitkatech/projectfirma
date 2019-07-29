@@ -514,6 +514,11 @@ namespace ProjectFirma.Web.Controllers
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 
+            var contactsSpec = new ProjectImplementingContactsExcelSpec();
+            var projectContacts = projects.SelectMany(p => p.GetAssociatedContactRelationships()).ToList();
+            var wsContacts = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Contacts", contactsSpec, projectContacts);
+            workSheets.Add(wsContacts);
+
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
             var wsProjectNotes = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabelPluralized()}", projectNoteSpec, projectNotes);
