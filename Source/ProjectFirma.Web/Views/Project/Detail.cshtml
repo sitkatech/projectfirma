@@ -46,6 +46,8 @@
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureController.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Views/ProjectFundingSourceExpenditure/ProjectFundingSourceExpenditureByCostTypeController.js")" type="text/javascript"></script>
+
     <script src="@Url.Content("~/Views/ProjectFundingSourceBudget/ProjectFundingSourceBudgetController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
@@ -299,6 +301,10 @@
                         @if (ViewDataTyped.Project.IsProposal())
                         {
                             <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+                        }
+                        else if (ViewDataTyped.ReportExpendituresByCostType)
+                        {
+                            ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
                         }
                         else
                         {

@@ -85,7 +85,7 @@
             </th>
         </tr>
 
-
+        
 
     </table>
 }
@@ -128,7 +128,7 @@ else
                 Selected Years:
             </td>
             <td>
-                @string.Join(", ", @ViewDataTyped.ProjectExemptReportingYears)
+                @string.Join(", ", @ViewDataTyped.ProjectExemptReportingYears.OrderBy(x => x))
             </td>
         </tr>
         <tr>
