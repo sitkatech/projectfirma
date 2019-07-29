@@ -140,19 +140,19 @@ else
             <tr>
                 <td style="width: 30px; min-width: 30px;"></td>
                 <td style="white-space: nowrap">
-                    All
+                    All Cost Types
                 </td>
-                <td style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
+                <th style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
                     <span> {{getExpenditureTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
-                </td>
+                </th>
                 <th style="text-align: right"> {{getExpenditureTotalForFundingSource(fundingSourceID) | currency:"$"}}</th>
             </tr>
             </tbody>
             <tbody style="border-top: 2px solid #ddd">
             <tr>
                 <td colspan="2"><label class="control-label">Total Expenditures</label></td>
-                <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right"> {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}</td>
-                <td style="text-align: right"> {{getExpenditureTotalForCalendarYear() | currency:"$"}}</td>
+                <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right"> {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}</th>
+                <th style="text-align: right"> {{getExpenditureTotalForCalendarYear() | currency:"$"}}</th>
             </tr>
             </tbody>
         </table>
