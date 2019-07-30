@@ -74,13 +74,13 @@
                     return;
                 }
 
-                var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
-
                 // if either the lat or lng are empty we should remove the selected point from the map
                 if (!latlng.lat || !latlng.lng) {
                     $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
                     return;
                 }
+
+                var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
 
                 // if we haven't returned (the lat lng numbers look good enough for the setPointOnMap function) we can set the point on the map
                 setPointOnMap(latlng);
