@@ -2374,12 +2374,6 @@ namespace ProjectFirma.Web.Controllers
 
             var projectExpenditureByCostTypesInOriginal = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresOriginal,
                 calendarYearsOriginal);
-            // we need to zero out calendar year values only in original
-            foreach (var transportationProjectBudgetAmount2 in projectExpenditureByCostTypesInOriginal)
-            {
-                ZeroOutBudget(transportationProjectBudgetAmount2, calendarYearsOriginal.Except(calendarYearsUpdated).ToList());
-            }
-
             var projectExpenditureByCostTypesInModified = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresModified, calendarYearsUpdated);
 
             // find the ones that are only in the modified set and add them and mark them as "added"
@@ -2391,7 +2385,6 @@ namespace ProjectFirma.Web.Controllers
             projectExpenditureByCostTypesInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList()
                 .ForEach(x =>
                 {
-                    ZeroOutBudget(x, calendarYearsOriginal);
                     x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
                 });
 
