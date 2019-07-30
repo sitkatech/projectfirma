@@ -74,8 +74,8 @@
                     return;
                 }
 
-                // if either the lat or lng are empty we should remove the selected point from the map
-                if (!latlng.lat || !latlng.lng) {
+                // if either the lat or lng are falsy we should remove the selected point from the map
+                if (!$scope.AngularModel.ProjectLocationPointY || !$scope.AngularModel.ProjectLocationPointX) {
                     $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
                     return;
                 }
