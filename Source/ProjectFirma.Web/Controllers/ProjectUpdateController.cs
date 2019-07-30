@@ -2567,6 +2567,7 @@ namespace ProjectFirma.Web.Controllers
             switch (project.ProjectLocationSimpleType.ToEnum)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
+                case ProjectLocationSimpleTypeEnum.LatLngInput:
                     if (project.ProjectLocationPoint == null || projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null)
                     {
                         SitkaLogger.Instance.LogDetailedErrorMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectID} appears to have inconsistent simple location configuration.");
