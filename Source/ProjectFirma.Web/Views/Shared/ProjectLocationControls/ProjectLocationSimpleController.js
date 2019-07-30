@@ -70,6 +70,10 @@
             };
 
             $scope.changedLatLngInput = function () {
+                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX)) {
+                    return;
+                }
+
                 var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
 
                 // if either the lat or lng are empty we should remove the selected point from the map
