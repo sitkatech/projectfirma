@@ -43,7 +43,7 @@
     </script>
 }
 
-To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'s annual expenditures by @(ViewDataTyped.FundingSourceFieldDefinition.GetFieldDefinitionLabel()) and Cost Type. If the @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel()) has no expenditures to report in any year provide and explanation.
+To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s annual expenditures by @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel()) and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). If the @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()) has no expenditures to report in any year provide and explanation.
 
 <hr />
 @using (Html.BeginForm())
@@ -62,12 +62,12 @@ To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'
             @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, { "class", "form-control" } })
         </div>
         <div class="form-group">
-            <label class="control-label">2. Select the Cost Types that are relevant to the  @ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel().</label>
+            <label class="control-label">2. Select the @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized() that are relevant to the  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</label>
             <p>TBD</p>
         </div>
         <div class="form-group">
             <div style="display: inline-block; vertical-align: top">
-                <label>3. Identify the @ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel()'s  @ViewDataTyped.FundingSourceFieldDefinition.GetFieldDefinitionLabelPluralized(). You can add more than one.</label>
+                <label>3. Identify the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s  @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized(). You can add more than one.</label>
             </div>
             <br />
             <div class="input-group" style="padding-bottom: 5px;">
@@ -75,9 +75,9 @@ To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'
                         class="selectpicker"
                         data-live-search="true"
                         data-container="body"
-                        title="Select a @ViewDataTyped.FundingSourceFieldDefinition.GetFieldDefinitionLabel() to Add"
+                        title="Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add"
                         data-width="70%">
-                    <option value="null" disabled selected>Select a @ViewDataTyped.FundingSourceFieldDefinition.GetFieldDefinitionLabel() to Add</option>
+                    <option value="null" disabled selected>Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add</option>
                     <option ng-repeat="fundingSource in filteredFundingSources()"
                             value="{{fundingSource.FundingSourceID}}"
                             ng-selected="fundingSourceIDToAdd == fundingSource.FundingSourceID"
@@ -93,13 +93,14 @@ To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FundingSourceFieldDefinition.GetFieldDefinitionLabel(), and Cost Type. If there is no amount to report, enter a zero ($0). </label>
+            <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel(), and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). If there is no amount to report, enter a zero ($0). </label>
         </div>
         <div>
-            <table class="table-responsive table-condensed" style="display: block; overflow: auto;">
+            <p class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to start entering expenditures</p>
+            <table class="table-responsive table-condensed" style="display: block; overflow: auto;" ng-show="getAllUsedFundingSourceIds().length > 0">
                 <thead>
                     <tr>
-                        <th style="white-space: nowrap" colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FundingSourceFieldDefinition)</th>
+                        <th style="white-space: nowrap" colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
                         <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
                             <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
                             <span ng-bind="calendarYear"></span>
@@ -108,7 +109,7 @@ To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'
                         <th style="text-align: right">Total</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top:2px solid #ddd">
+                <tbody ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
                     <tr>
                         <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
                         <td colspan="{{getCalendarYearRange().length + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
@@ -126,19 +127,19 @@ To enter your @(ViewDataTyped.ProjectFieldDefinition.GetFieldDefinitionLabel())'
                     <tr>
                         <td style="width: 30px; min-width: 30px;"></td>
                         <td style="white-space: nowrap">
-                            All
+                            All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
                         </td>
-                        <td style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
+                        <th style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
                             <span> {{getExpenditureTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
-                        </td>
+                        </th>
                         <th style="text-align: right"> {{getExpenditureTotalForFundingSource(fundingSourceID) | currency:"$"}}</th>
                     </tr>
                 </tbody>
-                <tbody style="border-top:2px solid #ddd">
+                <tbody style="border-top: 2px solid #ddd">
                     <tr>
                         <td colspan="2"><label class="control-label">Total Expenditures</label></td>
-                        <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right"> {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}</td>
-                        <td style="text-align: right"> {{getExpenditureTotalForCalendarYear() | currency:"$"}}</td>
+                        <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right"> {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}</th>
+                        <th style="text-align: right"> {{getExpenditureTotalForCalendarYear() | currency:"$"}}</th>
                     </tr>
                 </tbody>
             </table>

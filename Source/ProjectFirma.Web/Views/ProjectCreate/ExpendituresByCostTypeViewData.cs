@@ -35,8 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
         public int? StartYearForTotalOperatingCostCalculation { get; }
-        public ProjectFirmaModels.Models.FieldDefinition ProjectFieldDefinition { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FundingSourceFieldDefinition { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
         public ExpendituresByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
@@ -47,8 +48,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = project.StartYearForTotalCostCalculations();
-            ProjectFieldDefinition = FieldDefinitionEnum.Project.ToType();
-            FundingSourceFieldDefinition = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
 
         public class ViewDataForAngularClass
