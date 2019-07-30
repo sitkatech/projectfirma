@@ -702,7 +702,7 @@ namespace ProjectFirmaModels.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if (project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && project.HasProjectLocationPoint())
+            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint())
             {
                 featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
             }

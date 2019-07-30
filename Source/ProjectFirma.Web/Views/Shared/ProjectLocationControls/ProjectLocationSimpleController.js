@@ -70,10 +70,7 @@
             };
 
             $scope.changedLatLngInput = function () {
-                var latlng = {
-                    "lat": $scope.AngularModel.ProjectLocationPointY,
-                    "lng": $scope.AngularModel.ProjectLocationPointX
-                };
+                var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
 
                 // if either the lat or lng are empty we should remove the selected point from the map
                 if (!latlng.lat || !latlng.lng) {
@@ -170,9 +167,15 @@
                             size: "m"
                         })
                     });
-
+               
                 $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
                 $scope.projectLocationMap.map.panTo(latlng);
+
+                var latlngWrapped = latlng.wrap();
+                $scope.propertiesForPointOnMap = {
+                    Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
+                    Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
+                };
             }
 
             $scope.getProjectLocationProperties = function() {
@@ -249,6 +252,10 @@
                                 console.error("There was an error getting the initial " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + " name to display.");
                             });
                     }
+                    // 7/29/2019 SMG & TK: Added setTimeout so map pans to lat lng when opening modal dialog, for some reason without setTimeout the map does not pan
+                    setTimeout(function () {
+                        $scope.projectLocationMap.map.panTo(latlng);
+                    }, 1);
                 }
             };
 
