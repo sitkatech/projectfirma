@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if (projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && projectUpdate.ProjectLocationPoint != null)
+            if ((projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || projectUpdate.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && projectUpdate.ProjectLocationPoint != null)
             {
                 featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(projectUpdate.ProjectLocationPoint));
             }

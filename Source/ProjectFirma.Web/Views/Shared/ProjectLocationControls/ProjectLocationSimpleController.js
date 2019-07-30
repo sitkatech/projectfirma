@@ -26,13 +26,25 @@
                 stroke: true
             };
 
-            $scope.toggleMap = function() {
+            $scope.toggleMap = function () {
                 switch ($scope.AngularModel.ProjectLocationSimpleType) {
                 case "PointOnMap":
                     document.getElementById($scope.AngularViewData.MapInitJson.MapDivID).style.cursor = "crosshair";
                     $scope.projectLocationMap.unblockMap();
                     $scope.projectLocationMap.map.scrollWheelZoom.enable();
 
+                    if ($scope.projectLocationMap.currentSelectedPoint) {
+                        $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
+                    }
+
+                    if ($scope.projectLocationMap.currentSelectedGeometry) {
+                        $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedGeometry);
+                    }
+                    break;
+                case "LatLngInput":
+                    document.getElementById($scope.AngularViewData.MapInitJson.MapDivID).style.cursor = "default";
+                    $scope.projectLocationMap.unblockMap();
+                    $scope.projectLocationMap.map.scrollWheelZoom.enable();
                     if ($scope.projectLocationMap.currentSelectedPoint) {
                         $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
                     }
@@ -57,6 +69,23 @@
                 }
             };
 
+            $scope.changedLatLngInput = function () {
+                if (isNaN($scope.AngularModel.ProjectLocationPointY) || isNaN($scope.AngularModel.ProjectLocationPointX)) {
+                    return;
+                }
+
+                // if either the lat or lng are falsy we should remove the selected point from the map
+                if (!$scope.AngularModel.ProjectLocationPointY || !$scope.AngularModel.ProjectLocationPointX) {
+                    $scope.projectLocationMap.map.removeLayer($scope.projectLocationMap.currentSelectedPoint);
+                    return;
+                }
+
+                var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
+
+                // if we haven't returned (the lat lng numbers look good enough for the setPointOnMap function) we can set the point on the map
+                setPointOnMap(latlng);
+            }
+
             function onMapClick(event) {
                 switch ($scope.AngularModel.ProjectLocationSimpleType) {
                 case "PointOnMap":
@@ -65,6 +94,7 @@
                             $scope.$apply();
                         });
                     break;
+                case "LatLngInput":
                 case "None": // Do nothing
                     break;
                 }
@@ -141,20 +171,31 @@
                             size: "m"
                         })
                     });
-
+               
                 $scope.projectLocationMap.map.addLayer($scope.projectLocationMap.currentSelectedPoint);
                 $scope.projectLocationMap.map.panTo(latlng);
+
+                var latlngWrapped = latlng.wrap();
+                $scope.propertiesForPointOnMap = {
+                    Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
+                    Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
+                };
             }
 
             $scope.getProjectLocationProperties = function() {
                 switch ($scope.AngularModel.ProjectLocationSimpleType) {
                 case "PointOnMap":
                     return $scope.propertiesForPointOnMap;
+                case "LatLngInput":
                 case "None": // Do nothing
                     break;
                 }
                 return null;
             };
+
+            $scope.displayLatLngInputs = function() {
+                return ($scope.AngularModel.ProjectLocationSimpleType === "LatLngInput");
+            }
 
             ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer  = function() {
                 // Override parent to do nothing
@@ -183,6 +224,8 @@
                     var latlng = new L.LatLng($scope.AngularModel.ProjectLocationPointY, $scope.AngularModel.ProjectLocationPointX);
                     var latlngWrapped = latlng.wrap();
                     $scope.projectLocationMap.currentSelectedPoint = L.marker(latlng, { icon: L.MakiMarkers.icon({ icon: "marker", color: $scope.selectedStyle.color, size: "m" }) });
+                    // set the point on the map if it is initialized with data
+                    setPointOnMap(latlng);
 
                     $scope.propertiesForPointOnMap = {
                         Latitude: L.Util.formatNum(latlngWrapped.lat, 4),
@@ -213,6 +256,10 @@
                                 console.error("There was an error getting the initial " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + " name to display.");
                             });
                     }
+                    // 7/29/2019 SMG & TK: Added setTimeout so map pans to lat lng when opening modal dialog, for some reason without setTimeout the map does not pan
+                    setTimeout(function () {
+                        $scope.projectLocationMap.map.panTo(latlng);
+                    }, 1);
                 }
             };
 
