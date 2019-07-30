@@ -85,7 +85,11 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Budget:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.ReportedExpenditures:
-                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID)) : null;
+                    return ProjectCreateSection.Basics.IsComplete(project) 
+                        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                            ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project.ProjectID)) 
+                            : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID))
+                        : null;
                 case ProjectCreateSectionEnum.Classifications:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Assessment:

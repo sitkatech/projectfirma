@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpendituresViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ExpendituresByCostTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -31,7 +31,7 @@ using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpendituresViewModel : FormViewModel, IValidatableObject
+    public class ExpendituresByCostTypeViewModel : FormViewModel, IValidatableObject
     {
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }
@@ -49,16 +49,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public ExpendituresViewModel()
+        public ExpendituresByCostTypeViewModel()
         {
         }
 
-        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate,
+        public ExpendituresByCostTypeViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate,
             List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
             ProjectExemptReportingYears = projectExemptReportingYears;
             Explanation = projectUpdateBatch.NoExpendituresToReportExplanation;
-            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearsToPopulate);
+            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromListByCostType(projectUpdateBatch, calendarYearsToPopulate);
             ShowValidationWarnings = true;
             Comments = projectUpdateBatch.ExpendituresComment;
         }
@@ -67,6 +67,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             List<ProjectFundingSourceExpenditureUpdate> currentProjectFundingSourceExpenditureUpdates,
             IList<ProjectFundingSourceExpenditureUpdate> allProjectFundingSourceExpenditureUpdates)
         {
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            databaseEntities.ProjectExemptReportingYearUpdates.Load();
             var projectFundingSourceExpenditureUpdatesUpdated = new List<ProjectFundingSourceExpenditureUpdate>();
             if (ProjectFundingSourceExpenditures != null)
             {
@@ -74,9 +76,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditureUpdates(projectUpdateBatch)).ToList();
             }
 
+            currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
+                allProjectFundingSourceExpenditureUpdates,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
+
             var currentProjectExemptYears = projectUpdateBatch.GetExpendituresExemptReportingYears();
-            var databaseEntities = HttpRequestStorage.DatabaseEntities;
-            databaseEntities.ProjectExemptReportingYearUpdates.Load();
             var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYearUpdates.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();
             if (ProjectExemptReportingYears != null)
@@ -93,10 +98,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             projectUpdateBatch.NoExpendituresToReportExplanation = Explanation;
 
-            currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
-                allProjectFundingSourceExpenditureUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

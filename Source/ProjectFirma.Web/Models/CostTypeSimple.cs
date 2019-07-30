@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IProjectBudgetAmount.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="CostTypeSimple.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,12 +18,28 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirmaModels.Models
+
+using ProjectFirmaModels.Models;
+
+namespace ProjectFirma.Web.Models
 {
-    public interface IProjectBudgetAmount : IFundingSourceExpenditure
+    public class CostTypeSimple
     {
-        int ProjectID { get; }
-        ProjectCostType ProjectCostType { get; }
-        int ProjectCostTypeID { get; }
+        public int CostTypeID { get; set; }
+        public string CostTypeName { get; set; }
+
+        /// <summary>
+        /// Needed by ModelBinder
+        /// </summary>
+        public CostTypeSimple()
+        {
+        }
+
+        public CostTypeSimple(CostType costType)
+        {
+            CostTypeID = costType.CostTypeID;
+            CostTypeName = costType.CostTypeName;
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpendituresViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ExpendituresByCostTypeViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,17 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpendituresViewData : ProjectUpdateViewData
+    public class ExpendituresByCostTypeViewData : ProjectUpdateViewData
     {
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
@@ -41,8 +40,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType{ get; }
 
-        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
+
+        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
+            ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
@@ -56,12 +58,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
 
         public class ViewDataForAngularClass
         {
             public List<int> CalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
+            public List<CostTypeSimple> AllCostTypes { get; }
+
             public int ProjectID { get; }
             public int MaxYear { get; }
             public bool UseFiscalYears { get; }
@@ -69,11 +74,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
+                List<CostTypeSimple> allCostTypes,
                 List<int> calendarYearRange, bool showNoExpendituresExplanation)
             {
                 CalendarYearRange = calendarYearRange;
                 ShowNoExpendituresExplanation = showNoExpendituresExplanation;
                 AllFundingSources = allFundingSources;
+                AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;
                 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();

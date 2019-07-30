@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectFundingSourceExpendituresViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ExpendituresByCostTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,25 +18,28 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 
-namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditProjectFundingSourceExpendituresViewModel : FormViewModel, IValidatableObject
+    public class ExpendituresByCostTypeViewModel : FormViewModel, IValidatableObject
     {
-        public int ProjectID { get; set; }
+        public int? ProjectID { get; set; }
+
+        [DisplayName("Show Validation Warnings?")]
+        public bool ShowValidationWarnings { get; set; }
 
         public List<ProjectFundingSourceExpenditureBulk> ProjectFundingSourceExpenditures { get; set; }
+
         public string Explanation { get; set; }
 
         public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
@@ -44,28 +47,25 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditProjectFundingSourceExpendituresViewModel()
+        public ExpendituresByCostTypeViewModel()
         {
         }
 
-        public EditProjectFundingSourceExpendituresViewModel(ProjectFirmaModels.Models.Project project,
-                                                            List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditureBulks,
-                                                            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
+        public ExpendituresByCostTypeViewModel(ProjectFirmaModels.Models.Project project, List<int> calendarYearsToPopulate,
+            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
         {
-            // Preconditions
-            Check.EnsureNotNull(project);
-            Check.EnsureNotNull(projectFundingSourceExpenditureBulks);
-            Check.EnsureNotNull(projectExemptReportingYears);
-
-            ProjectFundingSourceExpenditures = projectFundingSourceExpenditureBulks;
             ProjectExemptReportingYears = projectExemptReportingYears;
             Explanation = project.NoExpendituresToReportExplanation;
-            ProjectID = project.ProjectID;
+            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
+            ShowValidationWarnings = true;
         }
 
-        public void UpdateModel(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
-            IList<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures, ProjectFirmaModels.Models.Project project)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project,
+            List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> currentProjectFundingSourceExpenditures,
+            IList<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> allProjectFundingSourceExpenditures)
         {
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            databaseEntities.ProjectExemptReportingYearUpdates.Load();
             var projectFundingSourceExpendituresUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>();
             if (ProjectFundingSourceExpenditures != null)
             {
@@ -73,9 +73,12 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
                 projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditures()).ToList();
             }
 
+            currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
+                allProjectFundingSourceExpenditures,
+                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
+
             var currentProjectExemptYears = project.GetExpendituresExemptReportingYears();
-            var databaseEntities = HttpRequestStorage.DatabaseEntities;
-            databaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYears.Local;
             var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
             if (ProjectExemptReportingYears != null)
@@ -91,19 +94,19 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, databaseEntities);
 
             project.NoExpendituresToReportExplanation = Explanation;
-
-            currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
-                allProjectFundingSourceExpenditures,
-                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
-            var validationErrors = ExpendituresValidationResult.Validate(ProjectFundingSourceExpenditures, ProjectExemptReportingYears, Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange());
-            errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
+            var emptyRows = ProjectFundingSourceExpenditures?.Where(x =>
+                x.CalendarYearExpenditures.All(y => !y.MonetaryAmount.HasValue));
+
+            if (emptyRows?.Any() ?? false)
+            {
+                errors.Add(new ValidationResult($"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} could not be saved because there are blank rows. Enter a value in all fields or delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()} for which there is no expenditure data to report."));
+            }
+
             return errors;
         }
     }

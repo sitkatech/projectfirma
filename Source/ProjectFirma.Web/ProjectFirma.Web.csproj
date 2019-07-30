@@ -81,6 +81,7 @@
     <Compile Include="Models\FundingSourceCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
+    <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceCostTypeExpenditureAmount.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
@@ -171,8 +173,17 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
     <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\TechnicalAssistanceRequestsViewModel.cs" />
@@ -180,6 +191,8 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributes.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
@@ -291,7 +304,10 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
+    <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
+    <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
     <None Include="packages.config" />
@@ -302,6 +318,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\Manage.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributes.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -431,6 +448,8 @@
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
+    <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1403,6 +1422,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1609,7 +1629,6 @@
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\ProjectModelExtensions.cs" />
     <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
-    <Compile Include="Models\ProjectBudgetBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectPerformanceMeasurePermissionsTest.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />
