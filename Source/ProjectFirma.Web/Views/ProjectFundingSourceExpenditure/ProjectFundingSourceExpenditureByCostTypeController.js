@@ -183,6 +183,13 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
         };
     };
 
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function (f) {
+                f.IsExempt = isChecked;
+            });
+    };
+
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
         var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
