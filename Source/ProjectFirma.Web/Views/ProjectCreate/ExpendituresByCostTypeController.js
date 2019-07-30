@@ -133,7 +133,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
             return;
         }
-        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow(fundingSourceId, calendarYear); });
+        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow($scope.AngularViewData.ProjectID, fundingSourceId, calendarYear); });
     };
 
     $scope.getProjectFundingSourceExpenditureRowsForFundingSource = function (fundingSourceId) {
@@ -167,7 +167,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         return newProjectFundingSourceExpenditure;
     };
 
-    $scope.addCalendarYearExpenditureRow = function (fundingSourceId, calendarYear) {
+    $scope.addCalendarYearExpenditureRow = function (projectId, fundingSourceId, calendarYear) {
         var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
             for (var i = 0; i < projectFundingSourceExpenditureRowsForFundingSource.length; ++i) {
@@ -183,13 +183,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         };
     };
 
-    $scope.selectAllYears = function (isChecked) {
-        _.each($scope.AngularModel.ProjectExemptReportingYears,
-            function (f) {
-                f.IsExempt = isChecked;
-            });
-    };
-
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
         var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
@@ -197,6 +190,13 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
                 Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceExpenditures, projectFundingSourceExpenditureRowsForFundingSource[i]);
             }
         }
+    };
+
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function(f) {
+                f.IsExempt = isChecked;
+            });
     };
 
     $scope.resetfundingSourceIDToAdd();

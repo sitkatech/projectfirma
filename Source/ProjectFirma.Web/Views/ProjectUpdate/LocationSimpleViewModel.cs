@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             switch (ProjectLocationSimpleType)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
-
+                case ProjectLocationSimpleTypeEnum.LatLngInput:
                     project.ProjectLocationPoint = ProjectLocationPointX.HasValue && ProjectLocationPointY.HasValue
                         ? DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId)
                         : null;

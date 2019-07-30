@@ -74,6 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             switch (ProjectLocationSimpleType)
             {                
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
+                case ProjectLocationSimpleTypeEnum.LatLngInput:
                     project.ProjectLocationPoint = DbSpatialHelper.MakeDbGeometryFromCoordinates(ProjectLocationPointX.Value, ProjectLocationPointY.Value, MapInitJson.CoordinateSystemId);
                     break;
                 case ProjectLocationSimpleTypeEnum.None:
@@ -97,6 +98,18 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.PointOnMap && (!ProjectLocationPointX.HasValue || !ProjectLocationPointY.HasValue))
             {
                 errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please specify a point on the map", x => x.ProjectLocationPointX));
+            }
+
+            if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.LatLngInput)
+            {
+                if (!ProjectLocationPointY.HasValue || ProjectLocationPointY < -90 || ProjectLocationPointY > 90)
+                {
+                    errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please enter a valid latitude", x => x.ProjectLocationPointY));
+                }
+                if (!ProjectLocationPointX.HasValue || ProjectLocationPointX < -180 || ProjectLocationPointX > 180)
+                {
+                    errors.Add(new SitkaValidationResult<ProjectLocationSimpleViewModel, double?>("Please enter a valid longitude", x => x.ProjectLocationPointX));
+                }
             }
 
             if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.None && string.IsNullOrWhiteSpace(ProjectLocationNotes))
