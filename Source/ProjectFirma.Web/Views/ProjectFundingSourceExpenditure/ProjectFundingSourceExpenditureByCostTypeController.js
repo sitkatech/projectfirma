@@ -23,6 +23,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
+    if ($scope.AngularModel.ProjectFundingSourceExpenditures === null) {
+        $scope.AngularModel.ProjectFundingSourceExpenditures = [];
+    }
+
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
     });
