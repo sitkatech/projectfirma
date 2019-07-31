@@ -127,6 +127,19 @@ namespace ProjectFirmaModels.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
+        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+        public static List<ProjectRelevantCostType> GetExpendituresRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
         {
             var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();

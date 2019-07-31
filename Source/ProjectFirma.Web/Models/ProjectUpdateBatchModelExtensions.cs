@@ -86,6 +86,10 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
+            // project expenditures relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateBudgetsRelevantCostTypesFromProject(projectUpdateBatch);
+
             // project expenditures exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
 

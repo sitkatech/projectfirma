@@ -6,6 +6,29 @@ namespace ProjectFirmaModels.Models
 {
     public static class ProjectRelevantCostTypeUpdateModelExtensions
     {
+        public static void CreateExpendituresRelevantCostTypesFromProject(ProjectUpdateBatch projectUpdateBatch)
+        {
+            var project = projectUpdateBatch.Project;
+            foreach (var projectRelevantCostTypeUpdate in project.GetExpendituresRelevantCostTypes()
+                .Select(projectRelevantCostType => new ProjectRelevantCostTypeUpdate(projectUpdateBatch,
+                    projectRelevantCostType.CostType, projectRelevantCostType.ProjectRelevantCostTypeGroup))
+                .ToList())
+            {
+                projectUpdateBatch.ProjectRelevantCostTypeUpdates.Add(projectRelevantCostTypeUpdate);
+            }
+        }
+
+        public static void CreateBudgetsRelevantCostTypesFromProject(ProjectUpdateBatch projectUpdateBatch)
+        {
+            var project = projectUpdateBatch.Project;
+            foreach (var projectRelevantCostTypeUpdate in project.GetBudgetsRelevantCostTypes()
+                .Select(projectRelevantCostType => new ProjectRelevantCostTypeUpdate(projectUpdateBatch,
+                    projectRelevantCostType.CostType, projectRelevantCostType.ProjectRelevantCostTypeGroup))
+                .ToList())
+            {
+                projectUpdateBatch.ProjectRelevantCostTypeUpdates.Add(projectRelevantCostTypeUpdate);
+            }
+        }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectRelevantCostType> projectRelevantCostTypes)
         {

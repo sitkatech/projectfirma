@@ -662,6 +662,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh the data
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
             ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
