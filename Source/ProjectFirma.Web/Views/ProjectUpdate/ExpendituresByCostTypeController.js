@@ -198,7 +198,10 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
     };
 
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
-        var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
+        var projectFundingSourceExpenditureRowsForFundingSource = _.filter($scope.AngularModel.ProjectFundingSourceExpenditures,
+            function (pfse) {
+                return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId;
+            });
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
             for (var i = 0; i < projectFundingSourceExpenditureRowsForFundingSource.length; ++i) {
                 Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectFundingSourceExpenditures, projectFundingSourceExpenditureRowsForFundingSource[i]);

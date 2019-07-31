@@ -116,7 +116,7 @@ else
             <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel(), and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). If there is no amount to report, enter a zero ($0). </label>
         </div>
         <div>
-            <p class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a funding source to start entering expenditures</p>
+            <p style="margin-left: 20px" class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a funding source to start entering expenditures</p>
             <table class="table-responsive table-condensed" style="display: block; overflow: auto;" ng-show="getAllUsedFundingSourceIds().length > 0">
                 <thead>
                 <tr>
@@ -146,9 +146,9 @@ else
                 @* Sum of expenditures for funding source*@
                 <tr>
                     <td style="width: 30px; min-width: 30px;"></td>
-                    <td style="white-space: nowrap">
+                    <th style="white-space: nowrap">
                         All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
-                    </td>
+                    </th>
                     <th style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
                         <span> {{getExpenditureTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
                     </th>
