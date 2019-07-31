@@ -24,10 +24,10 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostType()
         {
-            this.ProjectBudgetRelevantCostTypes = new HashSet<ProjectBudgetRelevantCostType>();
-            this.ProjectExpenditureRelevantCostTypes = new HashSet<ProjectExpenditureRelevantCostType>();
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
+            this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
         }
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectBudgetRelevantCostTypes.Any() || ProjectExpenditureRelevantCostTypes.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any();
+            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectBudgetRelevantCostType).Name, typeof(ProjectExpenditureRelevantCostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name};
 
 
         /// <summary>
@@ -96,22 +96,22 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ProjectBudgetRelevantCostTypes.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in ProjectExpenditureRelevantCostTypes.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in ProjectFundingSourceExpenditures.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
             foreach(var x in ProjectFundingSourceExpenditureUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectRelevantCostTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectRelevantCostTypeUpdates.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -124,10 +124,10 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostTypeID; } set { CostTypeID = value; } }
 
-        public virtual ICollection<ProjectBudgetRelevantCostType> ProjectBudgetRelevantCostTypes { get; set; }
-        public virtual ICollection<ProjectExpenditureRelevantCostType> ProjectExpenditureRelevantCostTypes { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
+        public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
+        public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

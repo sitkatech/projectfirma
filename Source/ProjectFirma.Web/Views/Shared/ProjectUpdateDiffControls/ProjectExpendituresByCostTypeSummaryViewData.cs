@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -27,15 +26,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
     public class ProjectExpendituresByCostTypeSummaryViewData : FirmaUserControlViewData
     {
-        public readonly List<CalendarYearString> CalendarYears;
-        public readonly List<ProjectExpenditureByCostType> ProjectExpenditureByCostTypes;
-        public readonly List<CostType> CostTypes;
+        public List<CalendarYearString> CalendarYears { get; }
+        public List<ProjectExpenditureByCostType> ProjectExpenditureByCostTypes { get; }
+        public List<CostType> CostTypes { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
+
 
         public ProjectExpendituresByCostTypeSummaryViewData(List<ProjectExpenditureByCostType> projectExpenditureByCostTypes, List<CalendarYearString> calendarYears, List<CostType> costTypes)
         {
             CostTypes = costTypes;
             ProjectExpenditureByCostTypes = projectExpenditureByCostTypes;
             CalendarYears = calendarYears;
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
     }
 }

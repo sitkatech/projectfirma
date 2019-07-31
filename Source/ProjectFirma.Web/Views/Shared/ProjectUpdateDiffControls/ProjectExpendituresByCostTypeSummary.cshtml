@@ -23,7 +23,6 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirmaModels.Models
 @inherits ProjectExpendituresByCostTypeSummary
 
 @if (ViewDataTyped.ProjectExpenditureByCostTypes.Any())
@@ -52,7 +51,7 @@
             <col />
         </colgroup>
         <tr>
-            <th colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+            <th colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
@@ -83,7 +82,7 @@
             }
             <tr class="@projectExpenditureByCostType.DisplayCssClass" style="border-top: 1px solid gray">
                 <td></td>
-                <th>All Cost Types</th>
+                <th>All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear).ToList())
                 {
                     <th class="@calendarYear.DisplayCssClass" style="text-align: right">

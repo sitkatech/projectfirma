@@ -31,6 +31,20 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
+        public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch project)
+        {
+            return project.ProjectRelevantCostTypeUpdates
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+                .OrderBy(x => x.CostType.CostTypeName).ToList();
+        }
+
+        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch project)
+        {
+            return project.ProjectRelevantCostTypeUpdates
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .OrderBy(x => x.CostType.CostTypeName).ToList();
+        }
+
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {
             
@@ -197,6 +211,14 @@ namespace ProjectFirma.Web.Models
                 projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
             projectUpdateBatch.NoExpendituresToReportExplanation = null;
+        }
+
+        public static void DeleteExpendituresProjectRelevantCostTypeUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            foreach (var projectRelevantCostTypeUpdate in projectUpdateBatch.GetExpendituresRelevantCostTypes())
+            {
+                projectRelevantCostTypeUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
         public static void DeleteProjectFundingSourceExpenditureUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -438,6 +460,7 @@ namespace ProjectFirma.Web.Models
         public static void Approve(
             this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
@@ -456,7 +479,7 @@ namespace ProjectFirma.Web.Models
             )
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears,
+            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears, projectRelevantCostTypes,
                 projectFundingSourceExpenditures,
                 performanceMeasureActuals,
                 performanceMeasureActualSubcategoryOptions,
@@ -492,10 +515,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private static void CommitChangesToProject( 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//            IList<ProjectBudget> projectBudgets,
+        private static void CommitChangesToProject(
             this ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
@@ -521,9 +543,12 @@ namespace ProjectFirma.Web.Models
             // expected funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //  project budgets
-            //ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
+            // project exempt reporting years
+            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
+            projectUpdateBatch.Project.NoExpendituresToReportExplanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+
+            // project relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
 
             // only relevant for stages past planning/design
             if (!projectUpdateBatch.NewStageIsPlanningDesign())
@@ -531,9 +556,6 @@ namespace ProjectFirma.Web.Models
                 // reported performance measures
                 PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureActuals,
                     performanceMeasureActualSubcategoryOptions);
-
-                // project exempt reporting years
-                ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
 
                 // project exempt reporting years reason
                 projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
@@ -573,7 +595,7 @@ namespace ProjectFirma.Web.Models
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
 
-            // Techincal Assistance Requests - for Idaho
+            // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 

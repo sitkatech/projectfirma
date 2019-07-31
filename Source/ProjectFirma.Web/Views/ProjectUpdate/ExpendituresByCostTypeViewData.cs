@@ -65,7 +65,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             public List<int> CalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
-            public List<CostTypeSimple> AllCostTypes { get; }
 
             public int ProjectID { get; }
             public int MaxYear { get; }
@@ -74,13 +73,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<CostTypeSimple> allCostTypes,
                 List<int> calendarYearRange, bool showNoExpendituresExplanation)
             {
                 CalendarYearRange = calendarYearRange;
                 ShowNoExpendituresExplanation = showNoExpendituresExplanation;
                 AllFundingSources = allFundingSources;
-                AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;
                 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();

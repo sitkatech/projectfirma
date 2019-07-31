@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
@@ -29,6 +31,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures { get; }
         public List<string> ExemptReportingYears { get; }
         public string ExemptionExplanation { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
         public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYearStrings, List<string> exemptReportingYears, string exemptionExplanation)
         {
@@ -36,6 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             CalendarYearStrings = calendarYearStrings;
             ExemptReportingYears = exemptReportingYears;
             ExemptionExplanation = exemptionExplanation;
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
     }
 }

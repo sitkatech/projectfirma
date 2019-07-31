@@ -53,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, { "class", "form-control" } })
     </div>
     <div class="form-group">
-        <label class="control-label">2. Select the @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized() that are relevant to the  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</label>
+        <label class="control-label">2. Select the @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized() that are relevant to the  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</label>
         <p>TBD</p>
     </div>
     <div class="form-group">
@@ -114,7 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tr>
                     <td style="width: 30px; min-width: 30px;"></td>
                     <td style="white-space: nowrap">
-                        All Cost Types
+                        All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
                     </td>
                     <th style="text-align: right;" ng-repeat="calendarYear in getCalendarYearRange()">
                         <span> {{getExpenditureTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
