@@ -696,9 +696,9 @@ namespace ProjectFirma.Web.Controllers
 
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
             var projectRelevantCostTypes = projectUpdateBatch.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
-            var currentRelevantCostTypes = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
             projectRelevantCostTypes.AddRange(
-                costTypes.Where(x => !currentRelevantCostTypes.Contains(x.CostTypeID))
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
                     .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID, x.CostTypeName)));
 
             var viewModel = new ExpendituresByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectExemptReportingYears, projectRelevantCostTypes);
