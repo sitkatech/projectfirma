@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using System.Collections.Generic;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
@@ -29,11 +30,20 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         public bool ShowNoExpendituresExplanation { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
+
 
         public EditProjectFundingSourceExpendituresByCostTypeViewData(ViewDataForAngularClass viewDataForAngularClass, bool showNoExpendituresExplanation)
         {
             ViewDataForAngular = viewDataForAngularClass;
             ShowNoExpendituresExplanation = showNoExpendituresExplanation;
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
 
         public class ViewDataForAngularClass

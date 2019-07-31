@@ -29,6 +29,11 @@ REFERENCES [dbo].[CostType] ([CostTypeID])
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceExpenditure] CHECK CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID]
 GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID_TenantID] FOREIGN KEY([CostTypeID], [TenantID])
+REFERENCES [dbo].[CostType] ([CostTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure] CHECK CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectFundingSourceExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID] FOREIGN KEY([FundingSourceID])
 REFERENCES [dbo].[FundingSource] ([FundingSourceID])
 GO

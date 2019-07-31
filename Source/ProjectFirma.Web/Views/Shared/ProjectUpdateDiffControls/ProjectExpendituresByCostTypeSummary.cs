@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IFundingSourceExpenditure.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<copyright file="TransportationProjectBudgetDetail.cs" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -18,18 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirmaModels.Models
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
+using LtInfo.Common.Mvc;
+
+namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
-    public interface IFundingSourceExpenditure : ICalendarYearMonetaryAmount
+    public abstract class ProjectExpendituresByCostTypeSummary : TypedWebPartialViewPage<ProjectExpendituresByCostTypeSummaryViewData>
     {
-        FundingSource FundingSource { get; }
-        int FundingSourceID { get; }
+        public static void RenderPartialView(HtmlHelper html, ProjectExpendituresByCostTypeSummaryViewData viewData)
+        {
+            html.RenderRazorSitkaPartial<ProjectExpendituresByCostTypeSummary, ProjectExpendituresByCostTypeSummaryViewData>(viewData);
+        }
     }
-
-    public interface ICostTypeFundingSourceExpenditure : IFundingSourceExpenditure
-    {
-        CostType CostType { get; }
-        int? CostTypeID { get; }
-    }
-
 }

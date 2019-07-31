@@ -92,6 +92,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PersonStewardTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new ProjectConfiguration());
             modelBuilder.Configurations.Add(new ProjectAssessmentQuestionConfiguration());
+            modelBuilder.Configurations.Add(new ProjectBudgetRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectClassificationConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
@@ -103,6 +104,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectDocumentUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectExpenditureRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
@@ -246,6 +248,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get { return AllPersonStewardTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectAssessmentQuestion> AllProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectBudgetRelevantCostType> AllProjectBudgetRelevantCostTypes { get; set; }
+        public virtual IQueryable<ProjectBudgetRelevantCostType> ProjectBudgetRelevantCostTypes { get { return AllProjectBudgetRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
@@ -268,6 +272,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
         public virtual IQueryable<ProjectExemptReportingYearUpdate> ProjectExemptReportingYearUpdates { get { return AllProjectExemptReportingYearUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectExpenditureRelevantCostType> AllProjectExpenditureRelevantCostTypes { get; set; }
+        public virtual IQueryable<ProjectExpenditureRelevantCostType> ProjectExpenditureRelevantCostTypes { get { return AllProjectExpenditureRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExternalLink> AllProjectExternalLinks { get; set; }
         public virtual IQueryable<ProjectExternalLink> ProjectExternalLinks { get { return AllProjectExternalLinks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExternalLinkUpdate> AllProjectExternalLinkUpdates { get; set; }
@@ -590,6 +596,9 @@ namespace ProjectFirmaModels.Models
                 case "ProjectAssessmentQuestion":
                     return ProjectAssessmentQuestions.GetProjectAssessmentQuestion(primaryKey);
 
+                case "ProjectBudgetRelevantCostType":
+                    return ProjectBudgetRelevantCostTypes.GetProjectBudgetRelevantCostType(primaryKey);
+
                 case "ProjectClassification":
                     return ProjectClassifications.GetProjectClassification(primaryKey);
 
@@ -647,6 +656,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectExemptReportingYearUpdate":
                     return ProjectExemptReportingYearUpdates.GetProjectExemptReportingYearUpdate(primaryKey);
+
+                case "ProjectExpenditureRelevantCostType":
+                    return ProjectExpenditureRelevantCostTypes.GetProjectExpenditureRelevantCostType(primaryKey);
 
                 case "ProjectExternalLink":
                     return ProjectExternalLinks.GetProjectExternalLink(primaryKey);

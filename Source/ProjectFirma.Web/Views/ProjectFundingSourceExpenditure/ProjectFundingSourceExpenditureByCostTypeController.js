@@ -23,6 +23,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
+    if ($scope.AngularModel.ProjectFundingSourceExpenditures === null) {
+        $scope.AngularModel.ProjectFundingSourceExpenditures = [];
+    }
+
     $scope.$watch(function () {
         jQuery(".selectpicker").selectpicker("refresh");
     });
@@ -181,6 +185,13 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
             CalendarYear: calendarYear,
             ExpenditureAmount: null
         };
+    };
+
+    $scope.selectAllYears = function (isChecked) {
+        _.each($scope.AngularModel.ProjectExemptReportingYears,
+            function (f) {
+                f.IsExempt = isChecked;
+            });
     };
 
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
