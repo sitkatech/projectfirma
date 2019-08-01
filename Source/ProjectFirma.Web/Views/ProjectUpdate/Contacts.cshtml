@@ -1,0 +1,92 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.ProjectUpdate
+@using ProjectFirma.Web.Views.Shared.ProjectContact
+@inherits Contacts
+
+
+@if (!ViewDataTyped.IsEditable)
+{
+    ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData);
+}
+
+@if (ViewDataTyped.IsEditable)
+{
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectContact/ProjectContactController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap-select/bootstrap-select.min.js")"></script>
+    <script type="text/javascript">
+        // <![CDATA[
+        function saveForm(autoAdvance) {
+            var form = jQuery("form");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid()) {
+                return false;
+            }
+
+            jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />")
+                .appendTo(form);
+
+            var comments = jQuery("#@Html.IdFor(x=>x.Comments)").val();
+            jQuery("<input type='hidden' name='@Html.NameFor(x=>x.Comments)'/>").appendTo(form);
+            jQuery("input[type='hidden'][name='@Html.NameFor(x=>x.Comments)']").val(comments);
+
+            form.submit();
+            return true;
+        }
+        // ]]>
+    </script>
+}
+<div class="row">
+    <div class="col-xs-12">
+        @{ Html.RenderRazorSitkaPartial<EditContacts, EditContactsViewData, EditContactsViewModel>(ViewDataTyped.EditContactsViewData, Model); }
+
+    </div>
+</div>
+
+    if (ViewDataTyped.ShowApproveAndReturnButton)
+    {
+<div id="commentsSection">
+    <hr />
+    <div class="row form-group">
+        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+        <div class="col-sm-8">
+            @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> {{"style", "width: 100%"}, {"class", "form-control"}})
+        </div>
+    </div>
+</div>
+    }
+<hr />
+    SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData);
+<div>
+    <table class="summaryLayout" style="width: 100%">
+        <tr>
+            <td>
+                @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> {"btn btn-xs btn-firma"}, null, null, null, "Undo all changes on this page")
+                @if (ViewDataTyped.ProjectUpdateStatus.IsContactsUpdated)
+                    {
+                        @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Contacts", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> {"btn btn-xs btn-firma"}, null, null, null)
+                    }
+            </td>
+            <td style="text-align: right; white-space: nowrap">
+                <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
+                <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty(undefined, ".submitProject");
+    });
+        // ]]>
+</script>
+}

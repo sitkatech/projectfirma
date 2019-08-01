@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class OrganizationsViewModel : EditOrganizationsViewModel
     {
         [DisplayName("Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
+        [StringLength(ProjectUpdateBatch.FieldLengths.OrganizationsComment)]
         public string Comments { get; set; }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             currentProjectOrganizationUpdates.Merge(projectOrganizationUpdatesUpdated,
                 allProjectOrganizationUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.RelationshipTypeID == y.RelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.OrganizationID == y.OrganizationID && x.OrganizationRelationshipTypeID == y.OrganizationRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

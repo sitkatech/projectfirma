@@ -105,13 +105,15 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+
+
         [HttpGet]
         [UserEditFeature]
         public PartialViewResult EditRoles(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
             var viewModel = new EditRolesViewModel(person);
-            return ViewEdit(viewModel);
+            return ViewEditRoles(viewModel);
         }
 
         [HttpPost]
@@ -122,14 +124,14 @@ namespace ProjectFirma.Web.Controllers
             var person = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEditRoles(viewModel);
             }
 
             viewModel.UpdateModel(person, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
+        private PartialViewResult ViewEditRoles(EditRolesViewModel viewModel)
         {
             var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
             var rolesAsSelectListItems =

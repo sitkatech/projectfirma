@@ -41,27 +41,27 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string>();
 
             // todo: is this the right linq? 90% sure it is.
-            if (projectOrganizationSimples.GroupBy(x => new { x.RelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
+            if (projectOrganizationSimples.GroupBy(x => new { RelationshipTypeID = x.OrganizationRelationshipTypeID, x.OrganizationID }).Any(x => x.Count() > 1))
             {
-                _warningMessages.Add($"Cannot have the same relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times.");
+                _warningMessages.Add($"Cannot have the same organization relationship type listed for the same {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} multiple times.");
             }
 
-            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.RelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
+            var relationshipTypeThatMustBeRelatedOnceToAProject = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.Where(x => x.CanOnlyBeRelatedOnceToAProject).ToList();
 
             // no more than one todo right linq?
-            var projectOrganizationsGroupedByRelationshipTypeID =
-                projectOrganizationSimples.GroupBy(x => x.RelationshipTypeID).ToList();
+            var projectOrganizationsGroupedByOrganizationRelationshipTypeID =
+                projectOrganizationSimples.GroupBy(x => x.OrganizationRelationshipTypeID).ToList();
 
             _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) > 1)
+                .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) > 1)
                 .Select(relationshipType => 
-                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\"."));
+                    $"Cannot have more than one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
 
             // not zero todo right linq?
             _warningMessages.AddRange(relationshipTypeThatMustBeRelatedOnceToAProject
-                .Where(rt => projectOrganizationsGroupedByRelationshipTypeID.Count(po => po.Key == rt.RelationshipTypeID) == 0)
+                .Where(rt => projectOrganizationsGroupedByOrganizationRelationshipTypeID.Count(po => po.Key == rt.OrganizationRelationshipTypeID) == 0)
                 .Select(relationshipType => 
-                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.RelationshipTypeName}\"."));
+                    $"Must have one {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} with a {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} set to \"{relationshipType.OrganizationRelationshipTypeName}\"."));
 
             // todo right linq?
             var allValidRelationshipTypes = projectOrganizationSimples.All(x =>
@@ -71,17 +71,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
                 if (organizationType != null)
                 {
-                    var organizationTypeRelationshipTypeIDs =
-                        organizationType.OrganizationTypeRelationshipTypes.Select(y => y.RelationshipTypeID);
+                    var organizationTypeOrganizationRelationshipTypeIDs =
+                        organizationType.OrganizationTypeOrganizationRelationshipTypes.Select(y => y.OrganizationRelationshipTypeID);
 
-                    return organizationTypeRelationshipTypeIDs.Contains(x.RelationshipTypeID);
+                    return organizationTypeOrganizationRelationshipTypeIDs.Contains(x.OrganizationRelationshipTypeID);
                 }
                 return false;
             });
 
             if (!allValidRelationshipTypes)
             {
-                _warningMessages.Add("One or more relationship types are invalid.");
+                _warningMessages.Add("One or more organization relationship types are invalid.");
             }
             
         }

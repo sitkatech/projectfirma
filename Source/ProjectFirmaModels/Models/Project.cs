@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
 
         public FileResource GetPrimaryContactOrganizationLogo()
@@ -152,7 +152,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.CanStewardProjects)?.Organization;
         }
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()

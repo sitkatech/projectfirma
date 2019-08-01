@@ -1,0 +1,82 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectContact
+@inherits ProjectContactsDetail
+
+@if (ViewDataTyped.AllProjectContacts.Any())
+{
+    <table class="summaryLayout table table-condensed table-striped">
+        <tr>
+            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectContactRelationshipType.ToType())</th>
+            <th class="col-sm-9">Contact</th>
+        </tr>
+        @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
+        {
+            var projectContacts = ViewDataTyped.AllProjectContacts.Where(x => x.ContactRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Contact.LastName).ToList();
+            <tr>
+                @if (projectContacts.Count > 1)
+                {
+                    <td>@(relationshipTypeName + "s")</td>
+                }
+                else
+                {
+                    <td>@relationshipTypeName</td>
+                }
+                <td>
+                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                        @foreach (var x in projectContacts)
+                        {
+                            <li>
+                                <span class="@x.DisplayCssClass">@x.Contact.GetFullNameFirstLastAndOrgAsUrl()</span>
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p class="systemText">No contacts set for this project.</p>
+}
+<hr />
+<div class="row">
+    <div class="col-xs-3">
+        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())
+    </div>
+    <div class="col-xs-9">
+        @if (ViewDataTyped.PrimaryContactPerson != null)
+        {
+            <span>
+                @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLast() (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
+            </span>
+        }
+        else
+        {
+            <span>@ViewUtilities.NoneString</span>
+        }
+    </div>
+</div>

@@ -1,0 +1,146 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditContacts.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
+@using ProjectFirmaModels.Models
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectContact.EditContacts
+    <script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    jQuery(document).ready(function ()
+    {
+        angular.bootstrap(jQuery("#EditContactsAngularApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+    </script>
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+    <style>
+
+        .table > tbody > tr.subRelationships > td {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .col-xs-5.contactIdSelectGroup div.bootstrap-select.btn-group {
+            width: 100%;
+        }
+    </style>
+    <div class="validationError">
+        @Html.ValidationSummary()
+    </div>
+    <div id="EditContactsAngularApp" ng-controller="ProjectContactController">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Select the Contacts that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single contact(e.g. Primary Contact); these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other relationship types can apply to any number of contacts and are not required.</p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">@Html.LabelWithSugarFor(m => m.PrimaryContactPersonID, false)</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="smallExplanationText">@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionDescription()</div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    @*Selectpicker*@
+                    <div class="col-md-12">
+                        <div class="input-group" style="width: 100%;">
+                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
+                                <option value="" disabled ng-selected="isPersonSelected(null)">Select One</option>
+                                <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
+                                        ng-bind="person.FullNameWithOrgShortName"
+                                        ng-value="person.PersonID"
+                                        ng-selected="isPersonSelected(person.PersonID)"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*------------------------------------ All Other Relationship Types ------------------------------------*@
+        <div ng-repeat="relationshipType in AngularViewData.AllContactRelationshipTypes | orderBy:['-ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject','ContactRelationshipTypeName']">
+            <hr />
+            <div class="row">
+                @*Relationship type and description*@
+                <div class="col-md-12"><label ng-bind="relationshipType.ContactRelationshipTypeName"></label><sup ng-show="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="smallExplanationText" ng-bind="relationshipType.ContactRelationshipTypeDescription"></p>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        @*Selectpicker*@
+                        <div class="col-md-12">
+                            <div class="input-group" style="width: 100%;">
+                                <select class="selectpicker" id="todo{{relationshipType.ContactRelationshipTypeID}}" ng-model="selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-change="selectionChanged(selectedContactID[relationshipType.ContactRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
+                                    <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
+                                    <option ng-repeat="contact in getAvailableContactsForRelationshipType(relationshipType)"
+                                            ng-bind="contact.FullNameWithOrgShortName"
+                                            ng-value="contact.PersonID"
+                                            ng-selected="isOptionSelected(contact,relationshipType)"></option>
+                                </select>
+                                <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectContactSimple(selectedContactID[relationshipType.ContactRelationshipTypeID], relationshipType.ContactRelationshipTypeID)" ng-disabled="!selectedContactID[relationshipType.ContactRelationshipTypeID]" ng-show="!relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="contact in chosenContactsForRelationshipType(relationshipType.ContactRelationshipTypeID)" ng-hide="relationshipType.ContactRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                        @*Selections*@
+                        <div class="col-md-12">
+                            <span>
+                                <a href="#" ng-click="removeProjectContactSimple(contact.PersonID, relationshipType.ContactRelationshipTypeID); $event.preventDefault();">
+                                    <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
+                                </a>
+                            </span><span ng-bind="contact.FullNameWithOrgShortName"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            <input type="hidden" name="@Html.NameFor(x => x.PrimaryContactPersonID)" value="{{AngularModel.PrimaryContactPersonID}}" />
+            <div ng-repeat="projectContact in AngularModel.ProjectContactSimples">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactID).ToString().Replace("0", "{{$index}}")" value="{{projectContact.ContactID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectContactSimples[0].ContactRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectContact.ContactRelationshipTypeID}}" />
+            </div>
+        }
+    </div>

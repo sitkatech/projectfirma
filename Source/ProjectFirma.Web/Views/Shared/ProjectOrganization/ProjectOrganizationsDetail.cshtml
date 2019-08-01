@@ -30,12 +30,12 @@
 {
     <table class="summaryLayout table table-condensed table-striped">
         <tr>
-            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectRelationshipType.ToType())</th>
+            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType())</th>
             <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</th>
         </tr>
         @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
         {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.RelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
+            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
             <tr>
                 @if (projectOrganizations.Count > 1)
                 {
@@ -66,22 +66,4 @@ else
     <p class="systemText">No organizations set for this project.</p>
 }
 
-<hr />
-<div class="row">
-    <div class="col-xs-3">
-        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())
-    </div>
 
-    <div class="col-xs-9">
-        @if (ViewDataTyped.PrimaryContactPerson != null)
-        {
-            <span>
-                @ViewDataTyped.PrimaryContactPerson.GetFullNameFirstLast() (<a href="mailto:@ViewDataTyped.PrimaryContactPerson.Email">@ViewDataTyped.PrimaryContactPerson.Email</a>)
-            </span>
-        }
-        else
-        {
-            <span>@ViewUtilities.NoneString</span>
-        }
-    </div>
-</div>

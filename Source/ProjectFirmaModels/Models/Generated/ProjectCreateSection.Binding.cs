@@ -30,6 +30,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
         public static readonly ProjectCreateSectionNotesAndDocuments NotesAndDocuments = ProjectCreateSectionNotesAndDocuments.Instance;
+        public static readonly ProjectCreateSectionContacts Contacts = ProjectCreateSectionContacts.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -39,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Contacts };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -123,6 +124,8 @@ namespace ProjectFirmaModels.Models
                     return Budget;
                 case ProjectCreateSectionEnum.Classifications:
                     return Classifications;
+                case ProjectCreateSectionEnum.Contacts:
+                    return Contacts;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
                 case ProjectCreateSectionEnum.LocationDetailed:
@@ -158,7 +161,8 @@ namespace ProjectFirmaModels.Models
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
-        NotesAndDocuments = 14
+        NotesAndDocuments = 14,
+        Contacts = 15
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -182,7 +186,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCreateSectionLocationDetailed : ProjectCreateSection
     {
         private ProjectCreateSectionLocationDetailed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 40, false, 2);
+        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 50, false, 2);
     }
 
     public partial class ProjectCreateSectionExpectedAccomplishments : ProjectCreateSection
@@ -231,5 +235,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCreateSectionNotesAndDocuments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Documents and Notes", 140, false, 5);
+    }
+
+    public partial class ProjectCreateSectionContacts : ProjectCreateSection
+    {
+        private ProjectCreateSectionContacts(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionContacts Instance = new ProjectCreateSectionContacts(15, @"Contacts", @"Contacts", 45, true, 1);
     }
 }

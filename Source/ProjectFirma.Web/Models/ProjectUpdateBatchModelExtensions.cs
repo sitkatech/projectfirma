@@ -130,6 +130,9 @@ namespace ProjectFirma.Web.Models
             // organizations
             ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
+            //Contacts
+            ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
             // Documents
             ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
@@ -296,6 +299,14 @@ namespace ProjectFirma.Web.Models
                 projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
+        public static void DeleteProjectContactUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectContactUpdates = projectUpdateBatch.ProjectContactUpdates.ToList();
+            foreach (var projectContactUpdate in projectContactUpdates)
+            {
+                projectContactUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
 
         public static BasicsValidationResult ValidateProjectBasics(this ProjectUpdateBatch projectUpdateBatch)
         {
@@ -421,6 +432,17 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateOrganizations().IsValid;
         }
 
+        public static bool AreContactsValid(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.ValidateContacts().IsValid;
+        }
+
+        public static ContactsValidationResult ValidateContacts(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ContactsValidationResult(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
+                .ToList());
+        }
+
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
             var incomplete = projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null &&
@@ -479,7 +501,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
+            IList<ProjectContact> allProjectContacts
             )
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
@@ -500,7 +523,8 @@ namespace ProjectFirma.Web.Models
                 allProjectDocuments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests);
+                allTechnicalAssistanceRequests,
+                allProjectContacts);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentPerson, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
         }
@@ -536,7 +560,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests)
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
+            IList<ProjectContact> allProjectContacts)
         {
             // basics
             projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
@@ -592,6 +617,9 @@ namespace ProjectFirma.Web.Models
 
             // Organizations
             ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectOrganizations);
+
+            //  Contacts
+            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
 
             // Documents
             ProjectDocumentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectDocuments);

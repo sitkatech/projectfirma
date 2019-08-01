@@ -31,17 +31,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
     {
         public List<OrganizationSimple> AllOrganizations { get; }
         public List<PersonSimple> AllPeople { get; }
-        public List<RelationshipTypeSimple> AllRelationshipTypes { get; }
+        public List<OrganizationRelationshipTypeSimple> AllOrganizationRelationshipTypes { get; }
         public Dictionary<int, OrganizationSimple> OrganizationContainingProjectSimpleLocation { get; }
-        public RelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
+        public OrganizationRelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
 
-        public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<RelationshipType> allRelationshipTypes, Person defaultPrimaryContactPerson)
+        public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes, Person defaultPrimaryContactPerson)
         {            
             AllPeople = allPeople.Select(x => new PersonSimple(x)).ToList();
-            AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
+            AllOrganizations = organizations.Where(x => x.OrganizationType.OrganizationTypeOrganizationRelationshipTypes.Any()).Select(x => new OrganizationSimple(x)).ToList();
 
-            OrganizationContainingProjectSimpleLocation = allRelationshipTypes.ToDictionary(
-                x => x.RelationshipTypeID, x =>
+            OrganizationContainingProjectSimpleLocation = allOrganizationRelationshipTypes.ToDictionary(
+                x => x.OrganizationRelationshipTypeID, x =>
                 {
                     var organization = x.GetOrganizationContainingProjectSimpleLocation(project);
                     return organization == null ? null : new OrganizationSimple(organization);
@@ -49,9 +49,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
 
             var primaryContactRelationshipType = MultiTenantHelpers.GetIsPrimaryContactOrganizationRelationship();
             PrimaryContactRelationshipTypeSimple = primaryContactRelationshipType != null
-                ? new RelationshipTypeSimple(primaryContactRelationshipType)
+                ? new OrganizationRelationshipTypeSimple(primaryContactRelationshipType)
                 : null;
-            AllRelationshipTypes = allRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new RelationshipTypeSimple(x)).ToList();
+            AllOrganizationRelationshipTypes = allOrganizationRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new OrganizationRelationshipTypeSimple(x)).ToList();
         }
     }
 }
