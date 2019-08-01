@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectFundingSourceBudget]
+//  Source Table: [dbo].[ProjectNoFundingSourceIdentified]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectFundingSourceBudget] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[ProjectFundingSourceBudget]")]
-    public partial class ProjectFundingSourceBudget : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[ProjectNoFundingSourceIdentified] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[ProjectNoFundingSourceIdentified]")]
+    public partial class ProjectNoFundingSourceIdentified : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ProjectFundingSourceBudget()
+        protected ProjectNoFundingSourceIdentified()
         {
 
         }
@@ -30,50 +30,47 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceBudget(int projectFundingSourceBudgetID, int projectID, int fundingSourceID, decimal? securedAmount, decimal? targetedAmount, int? calendarYear, int? costTypeID) : this()
+        public ProjectNoFundingSourceIdentified(int projectNoFundingSourceIdentifiedID, int projectID, int calendarYear, decimal noFundingSourceIdentifiedYet) : this()
         {
-            this.ProjectFundingSourceBudgetID = projectFundingSourceBudgetID;
+            this.ProjectNoFundingSourceIdentifiedID = projectNoFundingSourceIdentifiedID;
             this.ProjectID = projectID;
-            this.FundingSourceID = fundingSourceID;
-            this.SecuredAmount = securedAmount;
-            this.TargetedAmount = targetedAmount;
             this.CalendarYear = calendarYear;
-            this.CostTypeID = costTypeID;
+            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceBudget(int projectID, int fundingSourceID) : this()
+        public ProjectNoFundingSourceIdentified(int projectID, int calendarYear, decimal noFundingSourceIdentifiedYet) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectNoFundingSourceIdentifiedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
-            this.FundingSourceID = fundingSourceID;
+            this.CalendarYear = calendarYear;
+            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectFundingSourceBudget(Project project, FundingSource fundingSource) : this()
+        public ProjectNoFundingSourceIdentified(Project project, int calendarYear, decimal noFundingSourceIdentifiedYet) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectNoFundingSourceIdentifiedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectID = project.ProjectID;
             this.Project = project;
-            project.ProjectFundingSourceBudgets.Add(this);
-            this.FundingSourceID = fundingSource.FundingSourceID;
-            this.FundingSource = fundingSource;
-            fundingSource.ProjectFundingSourceBudgets.Add(this);
+            project.ProjectNoFundingSourceIdentifieds.Add(this);
+            this.CalendarYear = calendarYear;
+            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectFundingSourceBudget CreateNewBlank(Project project, FundingSource fundingSource)
+        public static ProjectNoFundingSourceIdentified CreateNewBlank(Project project)
         {
-            return new ProjectFundingSourceBudget(project, fundingSource);
+            return new ProjectNoFundingSourceIdentified(project, default(int), default(decimal));
         }
 
         /// <summary>
@@ -88,7 +85,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectFundingSourceBudget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectNoFundingSourceIdentified).Name};
 
 
         /// <summary>
@@ -96,7 +93,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllProjectFundingSourceBudgets.Remove(this);
+            dbContext.AllProjectNoFundingSourceIdentifieds.Remove(this);
         }
         
         /// <summary>
@@ -109,21 +106,16 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ProjectFundingSourceBudgetID { get; set; }
+        public int ProjectNoFundingSourceIdentifiedID { get; set; }
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
-        public int FundingSourceID { get; set; }
-        public decimal? SecuredAmount { get; set; }
-        public decimal? TargetedAmount { get; set; }
-        public int? CalendarYear { get; set; }
-        public int? CostTypeID { get; set; }
+        public int CalendarYear { get; set; }
+        public decimal NoFundingSourceIdentifiedYet { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectFundingSourceBudgetID; } set { ProjectFundingSourceBudgetID = value; } }
+        public int PrimaryKey { get { return ProjectNoFundingSourceIdentifiedID; } set { ProjectNoFundingSourceIdentifiedID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
-        public virtual FundingSource FundingSource { get; set; }
-        public virtual CostType CostType { get; set; }
 
         public static class FieldLengths
         {

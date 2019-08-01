@@ -120,6 +120,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectLocationStagingConfiguration());
             modelBuilder.Configurations.Add(new ProjectLocationStagingUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectLocationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectNoFundingSourceIdentifiedConfiguration());
+            modelBuilder.Configurations.Add(new ProjectNoFundingSourceIdentifiedUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectNoteConfiguration());
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
@@ -302,6 +304,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectLocationStagingUpdate> ProjectLocationStagingUpdates { get { return AllProjectLocationStagingUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectLocationUpdate> AllProjectLocationUpdates { get; set; }
         public virtual IQueryable<ProjectLocationUpdate> ProjectLocationUpdates { get { return AllProjectLocationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectNoFundingSourceIdentified> AllProjectNoFundingSourceIdentifieds { get; set; }
+        public virtual IQueryable<ProjectNoFundingSourceIdentified> ProjectNoFundingSourceIdentifieds { get { return AllProjectNoFundingSourceIdentifieds.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectNoFundingSourceIdentifiedUpdate> AllProjectNoFundingSourceIdentifiedUpdates { get; set; }
+        public virtual IQueryable<ProjectNoFundingSourceIdentifiedUpdate> ProjectNoFundingSourceIdentifiedUpdates { get { return AllProjectNoFundingSourceIdentifiedUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectNote> AllProjectNotes { get; set; }
         public virtual IQueryable<ProjectNote> ProjectNotes { get { return AllProjectNotes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectNoteUpdate> AllProjectNoteUpdates { get; set; }
@@ -713,6 +719,12 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectLocationUpdate":
                     return ProjectLocationUpdates.GetProjectLocationUpdate(primaryKey);
+
+                case "ProjectNoFundingSourceIdentified":
+                    return ProjectNoFundingSourceIdentifieds.GetProjectNoFundingSourceIdentified(primaryKey);
+
+                case "ProjectNoFundingSourceIdentifiedUpdate":
+                    return ProjectNoFundingSourceIdentifiedUpdates.GetProjectNoFundingSourceIdentifiedUpdate(primaryKey);
 
                 case "ProjectNote":
                     return ProjectNotes.GetProjectNote(primaryKey);
