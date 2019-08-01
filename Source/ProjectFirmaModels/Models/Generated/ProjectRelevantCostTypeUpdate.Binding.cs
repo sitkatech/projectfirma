@@ -65,8 +65,6 @@ namespace ProjectFirmaModels.Models
             this.CostType = costType;
             costType.ProjectRelevantCostTypeUpdates.Add(this);
             this.ProjectRelevantCostTypeGroupID = projectRelevantCostTypeGroup.ProjectRelevantCostTypeGroupID;
-            this.ProjectRelevantCostTypeGroup = projectRelevantCostTypeGroup;
-            projectRelevantCostTypeGroup.ProjectRelevantCostTypeUpdates.Add(this);
         }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual CostType CostType { get; set; }
-        public virtual ProjectRelevantCostTypeGroup ProjectRelevantCostTypeGroup { get; set; }
+        public ProjectRelevantCostTypeGroup ProjectRelevantCostTypeGroup { get { return ProjectRelevantCostTypeGroup.AllLookupDictionary[ProjectRelevantCostTypeGroupID]; } }
 
         public static class FieldLengths
         {

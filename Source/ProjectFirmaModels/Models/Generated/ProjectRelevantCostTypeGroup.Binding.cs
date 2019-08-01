@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[ProjectRelevantCostTypeGroup]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -15,112 +16,114 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectRelevantCostTypeGroup] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ProjectRelevantCostTypeGroup]")]
-    public partial class ProjectRelevantCostTypeGroup : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class ProjectRelevantCostTypeGroup : IHavePrimaryKey
     {
+        public static readonly ProjectRelevantCostTypeGroupExpenditures Expenditures = ProjectRelevantCostTypeGroupExpenditures.Instance;
+        public static readonly ProjectRelevantCostTypeGroupBudgets Budgets = ProjectRelevantCostTypeGroupBudgets.Instance;
+
+        public static readonly List<ProjectRelevantCostTypeGroup> All;
+        public static readonly ReadOnlyDictionary<int, ProjectRelevantCostTypeGroup> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected ProjectRelevantCostTypeGroup()
+        static ProjectRelevantCostTypeGroup()
         {
-            this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
-            this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
+            All = new List<ProjectRelevantCostTypeGroup> { Expenditures, Budgets };
+            AllLookupDictionary = new ReadOnlyDictionary<int, ProjectRelevantCostTypeGroup>(All.ToDictionary(x => x.ProjectRelevantCostTypeGroupID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public ProjectRelevantCostTypeGroup(int projectRelevantCostTypeGroupID, string projectRelevantCostTypeGroupName, string projectRelevantCostTypeGroupDisplayName) : this()
+        protected ProjectRelevantCostTypeGroup(int projectRelevantCostTypeGroupID, string projectRelevantCostTypeGroupName, string projectRelevantCostTypeGroupDisplayName)
         {
-            this.ProjectRelevantCostTypeGroupID = projectRelevantCostTypeGroupID;
-            this.ProjectRelevantCostTypeGroupName = projectRelevantCostTypeGroupName;
-            this.ProjectRelevantCostTypeGroupDisplayName = projectRelevantCostTypeGroupDisplayName;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public ProjectRelevantCostTypeGroup(string projectRelevantCostTypeGroupName, string projectRelevantCostTypeGroupDisplayName) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.ProjectRelevantCostTypeGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.ProjectRelevantCostTypeGroupName = projectRelevantCostTypeGroupName;
-            this.ProjectRelevantCostTypeGroupDisplayName = projectRelevantCostTypeGroupDisplayName;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static ProjectRelevantCostTypeGroup CreateNewBlank()
-        {
-            return new ProjectRelevantCostTypeGroup(default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectRelevantCostTypeGroup).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.ProjectRelevantCostTypeGroups.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in ProjectRelevantCostTypes.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in ProjectRelevantCostTypeUpdates.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            ProjectRelevantCostTypeGroupID = projectRelevantCostTypeGroupID;
+            ProjectRelevantCostTypeGroupName = projectRelevantCostTypeGroupName;
+            ProjectRelevantCostTypeGroupDisplayName = projectRelevantCostTypeGroupDisplayName;
         }
 
         [Key]
-        public int ProjectRelevantCostTypeGroupID { get; set; }
-        public string ProjectRelevantCostTypeGroupName { get; set; }
-        public string ProjectRelevantCostTypeGroupDisplayName { get; set; }
+        public int ProjectRelevantCostTypeGroupID { get; private set; }
+        public string ProjectRelevantCostTypeGroupName { get; private set; }
+        public string ProjectRelevantCostTypeGroupDisplayName { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectRelevantCostTypeGroupID; } set { ProjectRelevantCostTypeGroupID = value; } }
+        public int PrimaryKey { get { return ProjectRelevantCostTypeGroupID; } }
 
-        public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
-        public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(ProjectRelevantCostTypeGroup other)
         {
-            public const int ProjectRelevantCostTypeGroupName = 50;
-            public const int ProjectRelevantCostTypeGroupDisplayName = 50;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.ProjectRelevantCostTypeGroupID == ProjectRelevantCostTypeGroupID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ProjectRelevantCostTypeGroup);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return ProjectRelevantCostTypeGroupID;
+        }
+
+        public static bool operator ==(ProjectRelevantCostTypeGroup left, ProjectRelevantCostTypeGroup right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ProjectRelevantCostTypeGroup left, ProjectRelevantCostTypeGroup right)
+        {
+            return !Equals(left, right);
+        }
+
+        public ProjectRelevantCostTypeGroupEnum ToEnum { get { return (ProjectRelevantCostTypeGroupEnum)GetHashCode(); } }
+
+        public static ProjectRelevantCostTypeGroup ToType(int enumValue)
+        {
+            return ToType((ProjectRelevantCostTypeGroupEnum)enumValue);
+        }
+
+        public static ProjectRelevantCostTypeGroup ToType(ProjectRelevantCostTypeGroupEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case ProjectRelevantCostTypeGroupEnum.Budgets:
+                    return Budgets;
+                case ProjectRelevantCostTypeGroupEnum.Expenditures:
+                    return Expenditures;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum ProjectRelevantCostTypeGroupEnum
+    {
+        Expenditures = 1,
+        Budgets = 2
+    }
+
+    public partial class ProjectRelevantCostTypeGroupExpenditures : ProjectRelevantCostTypeGroup
+    {
+        private ProjectRelevantCostTypeGroupExpenditures(int projectRelevantCostTypeGroupID, string projectRelevantCostTypeGroupName, string projectRelevantCostTypeGroupDisplayName) : base(projectRelevantCostTypeGroupID, projectRelevantCostTypeGroupName, projectRelevantCostTypeGroupDisplayName) {}
+        public static readonly ProjectRelevantCostTypeGroupExpenditures Instance = new ProjectRelevantCostTypeGroupExpenditures(1, @"Expenditures", @"Expenditures");
+    }
+
+    public partial class ProjectRelevantCostTypeGroupBudgets : ProjectRelevantCostTypeGroup
+    {
+        private ProjectRelevantCostTypeGroupBudgets(int projectRelevantCostTypeGroupID, string projectRelevantCostTypeGroupName, string projectRelevantCostTypeGroupDisplayName) : base(projectRelevantCostTypeGroupID, projectRelevantCostTypeGroupName, projectRelevantCostTypeGroupDisplayName) {}
+        public static readonly ProjectRelevantCostTypeGroupBudgets Instance = new ProjectRelevantCostTypeGroupBudgets(2, @"Budgets", @"Budgets");
     }
 }

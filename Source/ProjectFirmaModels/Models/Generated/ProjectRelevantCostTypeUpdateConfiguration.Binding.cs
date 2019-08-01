@@ -24,7 +24,6 @@ namespace ProjectFirmaModels.Models
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectRelevantCostTypeUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectRelevantCostTypeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID
             HasRequired(a => a.CostType).WithMany(b => b.ProjectRelevantCostTypeUpdates).HasForeignKey(c => c.CostTypeID).WillCascadeOnDelete(false); // FK_ProjectRelevantCostTypeUpdate_CostType_CostTypeID
-            HasRequired(a => a.ProjectRelevantCostTypeGroup).WithMany(b => b.ProjectRelevantCostTypeUpdates).HasForeignKey(c => c.ProjectRelevantCostTypeGroupID).WillCascadeOnDelete(false); // FK_ProjectRelevantCostTypeUpdate_ProjectRelevantCostTypeGroup_ProjectRelevantCostTypeGroupID
         }
     }
 }

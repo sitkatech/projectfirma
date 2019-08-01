@@ -438,8 +438,6 @@
     <Compile Include="Models\Generated\ProjectRelevantCostType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectRelevantCostTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectRelevantCostTypeGroup.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectRelevantCostTypeGroup.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectRelevantCostTypeGroupConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectRelevantCostTypeGroupPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectRelevantCostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectRelevantCostTypeUpdate.Binding.cs" />

@@ -193,7 +193,7 @@ namespace ProjectFirmaModels.Models
         ClassificationNarrative = 242,
         TaxonomySystemName = 243,
         TaxonomyLeafDisplayNameForProject = 244,
-        ProjectRelationshipType = 245,
+        ProjectOrganizationRelationshipType = 245,
         ProjectSteward = 246,
         TargetedFunding = 248,
         ProjectStewardOrganizationDisplayName = 249,
@@ -233,6 +233,10 @@ namespace ProjectFirmaModels.Models
         FundingSourceCustomAttributeDataType = 283,
         FundingSourceCustomAttributeTypeEditableBy = 284,
         FundingSourceCustomAttributeTypeViewableBy = 285,
-        CostType = 286
+        ContactType = 286,
+        ContactTypeAbbreviation = 287,
+        IsDefaultContactType = 288,
+        ProjectContactRelationshipType = 289,
+        CostType = 290
     }
 }
