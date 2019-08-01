@@ -15,7 +15,6 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
@@ -28,7 +27,7 @@
         <table class="table table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()) / Cost Type </th>
+                    <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType) </th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x))
                     {
                         <th class="text-right">
@@ -42,9 +41,7 @@
                 @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceExpenditureAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
                 {
                     <tr class="info">
-                        <td style="text-align: left; white-space: nowrap;">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
-                        <td style="text-align:right">@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</td>
-                        <td colspan="@(ViewDataTyped.CalendarYears.Count + 1)"></td>
+                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
                     </tr>
                     foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
                     {
@@ -61,6 +58,18 @@
                             </td>
                         </tr>
                     }
+                    <tr>
+                        <th style="text-align:left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                        {
+                            <th style="text-align:right">
+                                <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </th>
+                        }
+                        <th style="text-align:right">
+                            <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    </tr>
                 }
                 <tr>
                     <th style="text-align:left">Grand Total</th>
@@ -81,7 +90,7 @@
 }
 else
 {
-    <p class="systemText">No Expenditures have been reported for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+    <p class="systemText">No Expenditures have been reported for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()).</p>
 }
 
 

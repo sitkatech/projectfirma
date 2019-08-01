@@ -23,7 +23,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceExpenditureUpdate : IFundingSourceExpenditure
+    public partial class ProjectFundingSourceExpenditureUpdate : ICostTypeFundingSourceExpenditure
     {
         public decimal? GetMonetaryAmount()
         {

@@ -31,7 +31,12 @@ namespace ProjectFirma.Web.Models
     {
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
+
+        // Only used by ExpendituredByCostType pages
+        public bool? IsRelevant { get; set; }
+        // Only used by ExpendituredByCostType pages
         public int? CostTypeID { get; set; }
+
         public List<CalendarYearMonetaryAmount> CalendarYearExpenditures { get; set; }
 
         /// <summary>
@@ -74,6 +79,7 @@ namespace ProjectFirma.Web.Models
             FundingSourceID = fundingSourceID;
             CostTypeID = costTypeID;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
+            IsRelevant = true;
             AddProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
@@ -87,6 +93,7 @@ namespace ProjectFirma.Web.Models
             FundingSourceID = fundingSourceID;
             CostTypeID = costTypeID;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
+            IsRelevant = true;
             AddProjectFundingSourceExpenditureUpdates(projectFundingSourceExpenditureUpdates);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();

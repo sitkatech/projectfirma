@@ -25,4 +25,11 @@ namespace ProjectFirmaModels.Models
         FundingSource FundingSource { get; }
         int FundingSourceID { get; }
     }
+
+    public interface ICostTypeFundingSourceExpenditure : IFundingSourceExpenditure
+    {
+        CostType CostType { get; }
+        int? CostTypeID { get; }
+    }
+
 }

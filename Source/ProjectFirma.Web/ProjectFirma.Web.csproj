@@ -131,6 +131,8 @@
     <Compile Include="Models\ProjectLocationFilterTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
+    <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
@@ -155,6 +157,7 @@
     <Compile Include="Models\TaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -179,6 +182,9 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ContactRelationshipType\EditContactRelationshipType.cs" />
     <Compile Include="Views\ContactRelationshipType\EditContactRelationshipTypeViewData.cs" />
     <Compile Include="Views\ContactRelationshipType\EditContactRelationshipTypeViewModel.cs" />
@@ -221,6 +227,8 @@
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -325,6 +333,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
@@ -340,6 +349,7 @@
     <Content Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\ContactRelationshipType\EditContactRelationshipType.cshtml" />
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1449,6 +1459,7 @@
     <Content Include="Views\Shared\ProjectContact\ProjectContactsDetail.cshtml" />
     <Content Include="Views\ProjectUpdate\Contacts.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1655,7 +1666,6 @@
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\ProjectModelExtensions.cs" />
     <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
-    <Compile Include="Models\ProjectBudgetBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectPerformanceMeasurePermissionsTest.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />

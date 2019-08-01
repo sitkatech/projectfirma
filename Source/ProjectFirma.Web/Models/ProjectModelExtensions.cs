@@ -127,6 +127,19 @@ namespace ProjectFirmaModels.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
+        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+        public static List<ProjectRelevantCostType> GetExpendituresRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
         {
             var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
@@ -708,7 +721,7 @@ namespace ProjectFirmaModels.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if (project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && project.HasProjectLocationPoint())
+            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint())
             {
                 featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
             }

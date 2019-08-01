@@ -37,6 +37,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public decimal? TotalOperatingCostInYearOfExpenditure { get; }
         public int? StartYearForTotalOperatingCostCalculation { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType{ get; }
+
 
         public ExpendituresByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
@@ -44,19 +49,22 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpenditures(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpendituresByCostType(projectUpdateBatch.Project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpendituresComment, projectUpdateBatch.IsReturned());
             TotalOperatingCostInYearOfExpenditure = ProjectUpdateBatch.ProjectUpdate.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = projectUpdateBatch.ProjectUpdate.StartYearForTotalCostCalculations();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
 
         public class ViewDataForAngularClass
         {
             public List<int> CalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
-            public List<CostTypeSimple> AllCostTypes { get; }
 
             public int ProjectID { get; }
             public int MaxYear { get; }
@@ -65,13 +73,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<CostTypeSimple> allCostTypes,
                 List<int> calendarYearRange, bool showNoExpendituresExplanation)
             {
                 CalendarYearRange = calendarYearRange;
                 ShowNoExpendituresExplanation = showNoExpendituresExplanation;
                 AllFundingSources = allFundingSources;
-                AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;
                 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();

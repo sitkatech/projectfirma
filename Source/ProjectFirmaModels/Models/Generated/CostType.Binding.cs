@@ -26,6 +26,8 @@ namespace ProjectFirmaModels.Models
         {
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
+            this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
         }
 
         /// <summary>
@@ -63,13 +65,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any();
+            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name};
 
 
         /// <summary>
@@ -103,6 +105,16 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ProjectRelevantCostTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectRelevantCostTypeUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -114,6 +126,8 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
+        public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
+        public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
