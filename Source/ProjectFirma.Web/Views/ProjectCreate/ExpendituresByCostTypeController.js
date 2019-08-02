@@ -229,10 +229,15 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
             });
     };
 
+    $scope.canDeleteCalendarYear = function (calendarYear) {
+        return $scope.calendarYearRange.length > 1 &&
+            !_.includes($scope.AngularViewData.RequiredCalendarYearRange, calendarYear);
+    };
+
     $scope.onTextFocus = function($event) {
         $event.target.select();
     };
 
-    $scope.calendarYearRange = _.sortBy(_.union($scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().map("CalendarYear").flatten().union().value(), $scope.AngularViewData.CalendarYearRange));
+    $scope.calendarYearRange = _.sortBy(_.union($scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().map("CalendarYear").flatten().union().value(), $scope.AngularViewData.RequiredCalendarYearRange));
     $scope.resetfundingSourceIDToAdd();
 });

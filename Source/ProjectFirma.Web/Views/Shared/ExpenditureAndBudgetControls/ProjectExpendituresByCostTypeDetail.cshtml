@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresByCostTypeDetail
 
-@if (ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Any())
+@if (ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
 {
     <div class="table-responsive tableFixHeader">
         <table class="table table-condensed table-bordered">
@@ -38,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceExpenditureAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
                 {
                     <tr class="info">
                         <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
@@ -76,11 +76,11 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                     {
                         <th style="text-align:right">
-                            <span>@ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                         </th>
                     }
                     <th style="text-align:right">
-                        <span>@ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                     </th>
                 </tr>
             </tbody>

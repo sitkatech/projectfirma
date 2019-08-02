@@ -17,13 +17,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Models;
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
     public class ProjectExpendituresByCostTypeDetailViewData : FirmaUserControlViewData
     {
-        public List<ProjectFundingSourceCostTypeExpenditureAmount> ProjectFundingSourceExpenditureAmounts { get; }
+        public List<ProjectFundingSourceCostTypeExpenditureAmount> ProjectFundingSourceCostTypeExpenditureAmountAmounts { get; }
         public List<int> CalendarYears { get; }
         public List<string> ExemptReportingYears { get; }
         public string ExemptionExplanation { get; }
@@ -31,10 +32,10 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
-        public ProjectExpendituresByCostTypeDetailViewData(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> calendarYears, List<string> exemptReportingYears, string exemptionExplanation)
+        public ProjectExpendituresByCostTypeDetailViewData(List<string> exemptReportingYears, string exemptionExplanation, List<ProjectFundingSourceCostTypeExpenditureAmount> projectFundingSourceCostTypeExpenditureAmounts)
         {
-            ProjectFundingSourceExpenditureAmounts = ProjectFundingSourceCostTypeExpenditureAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
-            CalendarYears = calendarYears;
+            ProjectFundingSourceCostTypeExpenditureAmountAmounts = projectFundingSourceCostTypeExpenditureAmounts;
+            CalendarYears = projectFundingSourceCostTypeExpenditureAmounts.Select(x => x.CalendarYear).Distinct().ToList();
             ExemptReportingYears = exemptReportingYears;
             ExemptionExplanation = exemptionExplanation;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();

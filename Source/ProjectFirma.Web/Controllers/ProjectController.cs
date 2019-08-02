@@ -249,12 +249,9 @@ namespace ProjectFirma.Web.Controllers
         private static ProjectExpendituresByCostTypeDetailViewData BuildProjectExpendituresByCostTypeDetailViewData(Project project)
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearsForFundingSourceExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
-            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(
-                projectFundingSourceExpenditures,
-                calendarYearsForFundingSourceExpenditures,
-                FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear)),
-                project.NoExpendituresToReportExplanation);
+            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeExpenditureAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var exemptReportingYears = FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear));
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(exemptReportingYears, project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
             return projectExpendituresByCostTypeDetailViewData;
         }
 

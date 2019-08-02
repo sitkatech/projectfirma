@@ -28,14 +28,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Views.ProjectUpdate;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpendituresByCostTypeViewModel : FormViewModel, IValidatableObject
     {
-        public int? ProjectID { get; set; }
-
         [DisplayName("Show Validation Warnings?")]
         public bool ShowValidationWarnings { get; set; }
 
@@ -43,7 +40,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public string Explanation { get; set; }
 
-        public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
         public List<ProjectRelevantCostTypeSimple> ProjectRelevantCostTypes { get; set; }
         public bool HasExpenditures { get; set; }
 
@@ -54,10 +50,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpendituresByCostTypeViewModel(ProjectFirmaModels.Models.Project project, List<int> calendarYearsToPopulate,
-            List<ProjectExemptReportingYearSimple> projectExemptReportingYears, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypes)
+        public ExpendituresByCostTypeViewModel(ProjectFirmaModels.Models.Project project, List<int> calendarYearsToPopulate, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypes)
         {
-            ProjectExemptReportingYears = projectExemptReportingYears;
             ProjectRelevantCostTypes = projectRelevantCostTypes;
             Explanation = project.NoExpendituresToReportExplanation;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
@@ -77,28 +71,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectFundingSourceExpenditures != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpendituresSetNullToZero()).ToList();
+                projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant ?? false).SelectMany(x => x.ToProjectFundingSourceExpendituresSetNullToZero()).ToList();
             }
 
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.ExpenditureAmount = y.ExpenditureAmount, databaseEntities);
-
-            var currentProjectExemptYears = project.GetExpendituresExemptReportingYears();
-            var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYears.Local;
-            var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
-            if (ProjectExemptReportingYears != null)
-            {
-                // Completely rebuild the list
-                projectExemptReportingYears =
-                    ProjectExemptReportingYears.Where(x => x.IsExempt)
-                        .Select(x => new ProjectExemptReportingYear(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear, ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID))
-                        .ToList();
-            }
-            currentProjectExemptYears.Merge(projectExemptReportingYears,
-                allProjectExemptYears,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, databaseEntities);
 
             var currentProjectRelevantCostTypes = project.GetExpendituresRelevantCostTypes();
             var allProjectRelevantCostTypes = databaseEntities.AllProjectRelevantCostTypes.Local;
@@ -115,16 +94,26 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 allProjectRelevantCostTypes,
                 (x, y) => x.ProjectID == y.ProjectID && x.CostTypeID == y.CostTypeID && x.ProjectRelevantCostTypeGroupID == y.ProjectRelevantCostTypeGroupID, databaseEntities);
 
-            project.NoExpendituresToReportExplanation = Explanation;
+            project.NoExpendituresToReportExplanation = HasExpenditures ? null : Explanation;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
-            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditures?.Where(x => (x.IsRelevant ?? false)).ToList();
-            var validationErrors = ExpendituresValidationResult.Validate(projectFundingSourceExpenditureBulks, ProjectExemptReportingYears, Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange());
-            errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
+            if (ProjectFundingSourceExpenditures == null)
+            {
+                ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditureBulk>();
+            }
+            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant ?? false).ToList();
+            if (HasExpenditures && !projectFundingSourceExpenditureBulks.Any())
+            {
+                errors.Add(new ValidationResult("Please enter your expenditures"));
+            }
+
+            if (!HasExpenditures && string.IsNullOrWhiteSpace(Explanation))
+            {
+                errors.Add(new ValidationResult("Please enter your an explanation on why you do not have any expenditures"));
+            }
             return errors;
         }
     }

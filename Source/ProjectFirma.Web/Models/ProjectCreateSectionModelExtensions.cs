@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectCreate;
@@ -43,13 +44,31 @@ namespace ProjectFirma.Web.Models
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.ReportedExpenditures:
-                    var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-                    var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                                projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project), project,
-                                project.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
-                            { ProjectID = project.ProjectID }
-                        .GetValidationResults();
-                    return !validationResults.Any();
+                    if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+                    {
+                        var expectedYears =
+                            project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+                        var missingYears = expectedYears.GetMissingYears(project.ProjectFundingSourceExpenditures.Select(x => x.CalendarYear)).ToList();
+
+                        // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
+                        return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&
+                                string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation)) ||
+                               (!project.ProjectFundingSourceExpenditures.Any() &&
+                                !string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation));
+                    }
+                    else
+                    {
+                        var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
+                                    projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project),
+                                    project,
+                                    project.GetExpendituresExemptReportingYears()
+                                        .Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+                                {ProjectID = project.ProjectID}
+                            .GetValidationResults();
+                        return !validationResults.Any();
+                    }
+
                 case ProjectCreateSectionEnum.Classifications:
                     var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
                     var classificationValidationResults = new EditProposalClassificationsViewModel(projectClassificationSimples).GetValidationResults();
@@ -87,7 +106,6 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Budget:
-//                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID)) : null;
                     return ProjectCreateSection.Basics.IsComplete(project)
                         ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
