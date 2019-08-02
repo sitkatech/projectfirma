@@ -1,9 +1,6 @@
 ﻿
 
 Feature ProjectFirma.Web.Security.CustomPageViewFeature is available to the Unassigned role
-Feature ProjectFirma.Web.Security.OrganizationAndRelationshipTypeManageFeature is not available to Administrators
-Feature ProjectFirma.Web.Security.OrganizationAndRelationshipTypeViewFeature is not available to Administrators
-Feature ProjectFirma.Web.Security.SitkaAdminFeature is not available to Administrators
 Feature ProjectFirma.Web.Security.LoggedInUnclassifiedFeature is available to the Unassigned role
 Feature ProjectFirma.Web.Security.WebServiceDocumentationViewFeature is available to the Unassigned role
 Feature ProjectFirma.Web.Security.UserViewFeature is available to the Unassigned role
