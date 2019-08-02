@@ -27,7 +27,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
     public class EditProjectFundingSourceExpendituresByCostTypeViewData : FirmaUserControlViewData
     {
-        public bool ShowNoExpendituresExplanation { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
@@ -39,7 +38,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         public EditProjectFundingSourceExpendituresByCostTypeViewData(ViewDataForAngularClass viewDataForAngularClass, bool showNoExpendituresExplanation)
         {
             ViewDataForAngular = viewDataForAngularClass;
-            ShowNoExpendituresExplanation = showNoExpendituresExplanation;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
@@ -48,7 +46,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
 
@@ -60,9 +58,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange, bool showNoExpendituresExplanation)
             {
-                CalendarYearRange = calendarYearRange;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 ShowNoExpendituresExplanation = showNoExpendituresExplanation;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
