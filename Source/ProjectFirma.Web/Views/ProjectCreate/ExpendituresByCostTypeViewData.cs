@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
             public int ProjectID { get; }
@@ -64,9 +64,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange, bool showNoExpendituresExplanation)
             {
-                CalendarYearRange = calendarYearRange;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;

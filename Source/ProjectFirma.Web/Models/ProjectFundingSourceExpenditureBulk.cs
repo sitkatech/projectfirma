@@ -193,10 +193,15 @@ namespace ProjectFirma.Web.Models
                     .ToList();
             // ReSharper restore PossibleInvalidOperationException
         }
+
+        /// <summary>
+        /// Used by Expenditures by cost type
+        /// </summary>
+        /// <returns></returns>
         public List<ProjectFundingSourceExpenditure> ToProjectFundingSourceExpendituresSetNullToZero()
         {
             return
-                CalendarYearExpenditures
+                CalendarYearExpenditures.Where(x => x.IsRelevant ?? false)
                     .Select(x => new ProjectFundingSourceExpenditure(ProjectID, FundingSourceID, x.CalendarYear, x.MonetaryAmount ?? 0, CostTypeID))
                     .ToList();
         }
@@ -210,10 +215,15 @@ namespace ProjectFirma.Web.Models
                     .ToList();
             // ReSharper restore PossibleInvalidOperationException
         }
+
+        /// <summary>
+        /// Used by Expenditures by cost type
+        /// </summary>
+        /// <returns></returns>
         public List<ProjectFundingSourceExpenditureUpdate> ToProjectFundingSourceExpenditureUpdatesSetNullToZero(ProjectUpdateBatch projectUpdateBatch)
         {
             return
-                CalendarYearExpenditures
+                CalendarYearExpenditures.Where(x => x.IsRelevant ?? false)
                     .Select(x => new ProjectFundingSourceExpenditureUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.MonetaryAmount ?? 0, CostTypeID))
                     .ToList();
         }
