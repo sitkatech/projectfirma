@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
         public List<ProjectRelevantCostTypeSimple> ProjectRelevantCostTypes { get; set; }
+        public bool HasExpenditures { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -60,6 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectRelevantCostTypes = projectRelevantCostTypes;
             Explanation = project.NoExpendituresToReportExplanation;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
+            HasExpenditures = ProjectFundingSourceExpenditures.Any();
             ShowValidationWarnings = true;
         }
 
@@ -75,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectFundingSourceExpenditures != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditures()).ToList();
+                projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpendituresSetNullToZero()).ToList();
             }
 
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,

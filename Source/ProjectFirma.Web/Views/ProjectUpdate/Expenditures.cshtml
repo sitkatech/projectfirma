@@ -59,7 +59,7 @@ To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()
             Other financial information for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() that might be helpful:
         </p>
 
-        if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+        @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
         {
         <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
