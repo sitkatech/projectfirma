@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpendituresByCostTypeViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<copyright file="ExpectedFundingViewData.cs" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -21,34 +21,42 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
+using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ExpendituresByCostTypeViewData : ProjectCreateViewData
+    public class ExpectedFundingByCostTypeViewData : ProjectCreateViewData
     {
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
-
-        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForNoFundingSourceIdentified { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForSecuredFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
 
-        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public ExpectedFundingByCostTypeViewData(Person currentPerson,
+            ProjectFirmaModels.Models.Project project,
+            ProposalSectionsStatus proposalSectionsStatus,
+            ViewDataForAngularClass viewDataForAngularClass
+        ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            ViewDataForAngular = viewDataForAngularClass;
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-
-            TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
-            StartYearForTotalOperatingCostCalculation = project.StartYearForTotalCostCalculations();
+            ViewDataForAngular = viewDataForAngularClass;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
+            FieldDefinitionForNoFundingSourceIdentified = FieldDefinitionEnum.NoFundingSourceIdentified.ToType();
+            FieldDefinitionForSecuredFunding = FieldDefinitionEnum.SecuredFunding.ToType();
+            FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
+            FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
+            FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
         }
 
         public class ViewDataForAngularClass
@@ -56,24 +64,29 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public List<int> CalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
+            // Actually a ProjectID
             public int ProjectID { get; }
             public int MaxYear { get; }
-            public bool UseFiscalYears { get; }
-            public bool ShowNoExpendituresExplanation { get; }
+            public bool UseFiscalYears { get; } // TODO see if we need this in the .js controller
+
+
+            public IEnumerable<SelectListItem> FundingTypes { get; }
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> calendarYearRange,
+                IEnumerable<SelectListItem> fundingTypes)
             {
                 CalendarYearRange = calendarYearRange;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;
+                FundingTypes = fundingTypes;
 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+                // TODO do we need this? expenditures by cost type has it but doesn't seem to be using it
                 UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
-                ShowNoExpendituresExplanation = showNoExpendituresExplanation;
             }
         }
     }

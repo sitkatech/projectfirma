@@ -31,7 +31,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class ExpectedFundingViewData : ProjectCreateViewData
     {
         public string RequestFundingSourceUrl { get; }
-        public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
 
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
@@ -42,7 +41,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
             ViewDataForAngular = viewDataForAngularClass;
         }
 

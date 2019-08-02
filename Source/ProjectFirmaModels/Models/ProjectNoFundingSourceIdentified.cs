@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceBudgetUpdate.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectNoFundingSourceIdentified.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,26 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceBudgetUpdate : IFundingSourceBudgetAmount, IAuditableEntity
+    public partial class ProjectNoFundingSourceIdentified : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {
-            return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
-        }
-
-        public ProjectFundingSourceBudgetUpdate(int projectUpdateBatchID, int fundingSourceID, int calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
-        {
-            ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            ProjectUpdateBatchID = projectUpdateBatchID;
-            FundingSourceID = fundingSourceID;
-            CalendarYear = calendarYear;
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
-            CostTypeID = costTypeID;
+            return $"Project: {ProjectID}, Calendar Year: {CalendarYear}, No Funding Source Identified Yet Amount: {NoFundingSourceIdentifiedYet.ToStringCurrency()}";
         }
     }
 }
