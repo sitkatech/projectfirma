@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 allProjectRelevantCostTypes,
                 (x, y) => x.ProjectID == y.ProjectID && x.CostTypeID == y.CostTypeID && x.ProjectRelevantCostTypeGroupID == y.ProjectRelevantCostTypeGroupID, databaseEntities);
 
-            project.NoExpendituresToReportExplanation = HasExpenditures ? null : Explanation;
+            project.NoExpendituresToReportExplanation = ProjectFundingSourceExpenditures != null && ProjectFundingSourceExpenditures.Any() ? null : Explanation;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
