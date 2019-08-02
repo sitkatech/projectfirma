@@ -50,5 +50,9 @@ namespace ProjectFirma.Web.Models
         {
             return projectFundingSourceExpenditures.Select(x => new ProjectFundingSourceCostTypeExpenditureAmount(x.FundingSource.FundingSourceID, x.FundingSource.FundingSourceName, x.FundingSource.GetDisplayName(), x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
         }
+        public static List<ProjectFundingSourceCostTypeExpenditureAmount> CreateFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates)
+        {
+            return projectFundingSourceExpenditureUpdates.Select(x => new ProjectFundingSourceCostTypeExpenditureAmount(x.FundingSource.FundingSourceID, x.FundingSource.FundingSourceName, x.FundingSource.GetDisplayName(), x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
+        }
     }
 }

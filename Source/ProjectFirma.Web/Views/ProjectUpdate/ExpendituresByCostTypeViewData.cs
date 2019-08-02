@@ -31,12 +31,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
-        public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
+        public ProjectExpendituresByCostTypeDetailViewData ProjectExpendituresByCostTypeDetailViewData { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
-        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
@@ -44,17 +42,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
 
         public ExpendituresByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
-            ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
+            ProjectExpendituresByCostTypeDetailViewData projectExpendituresByCostTypeDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpendituresByCostType(projectUpdateBatch.Project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
+            ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpendituresComment, projectUpdateBatch.IsReturned());
-            TotalOperatingCostInYearOfExpenditure = ProjectUpdateBatch.ProjectUpdate.CalculateTotalRemainingOperatingCost();
-            StartYearForTotalOperatingCostCalculation = projectUpdateBatch.ProjectUpdate.StartYearForTotalCostCalculations();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
@@ -63,7 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
 
             public int ProjectID { get; }
@@ -73,9 +69,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange, bool showNoExpendituresExplanation)
             {
-                CalendarYearRange = calendarYearRange;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 ShowNoExpendituresExplanation = showNoExpendituresExplanation;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;

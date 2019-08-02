@@ -250,8 +250,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeExpenditureAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
-            var exemptReportingYears = FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear));
-            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(exemptReportingYears, project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
             return projectExpendituresByCostTypeDetailViewData;
         }
 

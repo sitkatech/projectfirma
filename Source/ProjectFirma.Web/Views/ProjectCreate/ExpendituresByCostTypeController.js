@@ -73,6 +73,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
     };
 
     $scope.getRelevantProjectFundingSourceExpenditures = function () {
+        if (!$scope.AngularModel.HasExpenditures) {
+            return [];
+        }
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _.filter($scope.AngularModel.ProjectFundingSourceExpenditures, function (f) { return _.includes(relevantCostTypeIDs, f.CostTypeID); });
     };

@@ -94,16 +94,12 @@ else
 }
 
 
-@if (ViewDataTyped.ExemptReportingYears.Any())
+@if (!ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
 {
     <hr />
     <table class="summaryLayout">
         <tr>
-            <td colspan="2">The project was active for the following years, but no expenditures were reported:</td>
-        </tr>
-        <tr>
-            <th>Year(s):</th>
-            <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
+            <td colspan="2">No expenditures were reported:</td>
         </tr>
         <tr>
             <th>Explanation:</th>

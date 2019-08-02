@@ -26,17 +26,15 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
     {
         public List<ProjectFundingSourceCostTypeExpenditureAmount> ProjectFundingSourceCostTypeExpenditureAmountAmounts { get; }
         public List<int> CalendarYears { get; }
-        public List<string> ExemptReportingYears { get; }
         public string ExemptionExplanation { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
-        public ProjectExpendituresByCostTypeDetailViewData(List<string> exemptReportingYears, string exemptionExplanation, List<ProjectFundingSourceCostTypeExpenditureAmount> projectFundingSourceCostTypeExpenditureAmounts)
+        public ProjectExpendituresByCostTypeDetailViewData(string exemptionExplanation, List<ProjectFundingSourceCostTypeExpenditureAmount> projectFundingSourceCostTypeExpenditureAmounts)
         {
             ProjectFundingSourceCostTypeExpenditureAmountAmounts = projectFundingSourceCostTypeExpenditureAmounts;
             CalendarYears = projectFundingSourceCostTypeExpenditureAmounts.Select(x => x.CalendarYear).Distinct().ToList();
-            ExemptReportingYears = exemptReportingYears;
             ExemptionExplanation = exemptionExplanation;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();

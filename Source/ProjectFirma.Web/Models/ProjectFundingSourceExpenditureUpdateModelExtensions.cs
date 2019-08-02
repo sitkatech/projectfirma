@@ -39,5 +39,13 @@ namespace ProjectFirmaModels.Models
             var existingYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
             return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, projectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting());
         }
+
+        public static List<int> CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears(this ProjectUpdate projectUpdate)
+        {
+            if (projectUpdate.CompletionYear < projectUpdate.ImplementationStartYear) return new List<int>();
+            if (projectUpdate.CompletionYear < projectUpdate.PlanningDesignStartYear) return new List<int>();
+
+            return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(new List<int>(), projectUpdate, FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting());
+        }
     }
 }
