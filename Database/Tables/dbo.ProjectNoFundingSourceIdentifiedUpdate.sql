@@ -25,6 +25,11 @@ REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
 GO
 ALTER TABLE [dbo].[ProjectNoFundingSourceIdentifiedUpdate] CHECK CONSTRAINT [FK_ProjectNoFundingSourceIdentifiedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID]
 GO
+ALTER TABLE [dbo].[ProjectNoFundingSourceIdentifiedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNoFundingSourceIdentifiedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID] FOREIGN KEY([ProjectUpdateBatchID], [TenantID])
+REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectNoFundingSourceIdentifiedUpdate] CHECK CONSTRAINT [FK_ProjectNoFundingSourceIdentifiedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectNoFundingSourceIdentifiedUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNoFundingSourceIdentifiedUpdate_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
