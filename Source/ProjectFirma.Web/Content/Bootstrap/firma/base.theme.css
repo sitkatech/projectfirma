@@ -1205,16 +1205,19 @@ td.stage {
   font-style: italic;
 }
 #EditFundingSourceExpendituresApp table,
-#EditFundingSourceExpendituresByCostTypeApp table {
-  table-layout: fixed;
+#EditFundingSourceExpendituresByCostTypeApp table,
+#EditFundingSourceBudgetsByCostTypeApp table {
+    table-layout: fixed;
 }
 #EditFundingSourceExpendituresApp td,
 #EditFundingSourceExpendituresByCostTypeApp td,
+#EditFundingSourceBudgetsByCostTypeApp td,
 #EditFundingSourceExpendituresApp th,
-#EditFundingSourceExpendituresByCostTypeApp th {
-  min-width: 128px;
-  width: 128px;
-  overflow: hidden;
+#EditFundingSourceExpendituresByCostTypeApp th,
+EditFundingSourceBudgetsByCostTypeApp th {
+    min-width: 128px;
+    width: 128px;
+    overflow: hidden;
 }
 #accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
   font-size: 20px;

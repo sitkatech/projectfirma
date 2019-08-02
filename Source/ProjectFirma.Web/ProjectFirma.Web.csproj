@@ -122,7 +122,9 @@
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceCostTypeExpenditureAmount.cs" />
+    <Compile Include="Models\ProjectFundingSourceBudgetBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
@@ -182,6 +184,9 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
+    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewModel.cs" />
@@ -333,6 +338,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
@@ -350,6 +356,7 @@
     <Content Include="Views\ContactRelationshipType\EditContactRelationshipType.cshtml" />
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
+    <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

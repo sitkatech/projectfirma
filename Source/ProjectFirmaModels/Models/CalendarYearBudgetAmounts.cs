@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingSourceBudgetUpdate.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="CalendarYearMonetaryAmount.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,28 +18,26 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using LtInfo.Common;
-using LtInfo.Common.Models;
-
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceBudgetUpdate : IFundingSourceBudgetAmount, IAuditableEntity
+    public class CalendarYearBudgetAmounts
     {
-        public string GetAuditDescriptionString()
+        /// <summary>
+        /// Needed by ModelBinder
+        /// </summary>
+        public CalendarYearBudgetAmounts()
         {
-            return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
         }
 
-        public ProjectFundingSourceBudgetUpdate(int projectUpdateBatchID, int fundingSourceID, int calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        public CalendarYearBudgetAmounts(int calendarYear, decimal? securedAmount, decimal? targetedAmount)
         {
-            ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            ProjectUpdateBatchID = projectUpdateBatchID;
-            FundingSourceID = fundingSourceID;
             CalendarYear = calendarYear;
             SecuredAmount = securedAmount;
             TargetedAmount = targetedAmount;
-            CostTypeID = costTypeID;
         }
+
+        public int CalendarYear { get; set; }
+        public decimal? SecuredAmount { get; set; }
+        public decimal? TargetedAmount { get; set; }
     }
 }
