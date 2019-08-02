@@ -30,15 +30,15 @@ REFERENCES [dbo].[ContactRelationshipType] ([ContactRelationshipTypeID], [Tenant
 GO
 ALTER TABLE [dbo].[ProjectContact] CHECK CONSTRAINT [FK_ProjectContact_ContactRelationshipType_ContactRelationshipTypeID_TenantID]
 GO
-ALTER TABLE [dbo].[ProjectContact]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContact_Person_ContactID_PersonID_TenantID] FOREIGN KEY([ContactID], [TenantID])
-REFERENCES [dbo].[Person] ([PersonID], [TenantID])
-GO
-ALTER TABLE [dbo].[ProjectContact] CHECK CONSTRAINT [FK_ProjectContact_Person_ContactID_PersonID_TenantID]
-GO
-ALTER TABLE [dbo].[ProjectContact]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContact_PersonID_ContactID_PersonID] FOREIGN KEY([ContactID])
+ALTER TABLE [dbo].[ProjectContact]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContact_Person_ContactID_PersonID] FOREIGN KEY([ContactID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [dbo].[ProjectContact] CHECK CONSTRAINT [FK_ProjectContact_PersonID_ContactID_PersonID]
+ALTER TABLE [dbo].[ProjectContact] CHECK CONSTRAINT [FK_ProjectContact_Person_ContactID_PersonID]
+GO
+ALTER TABLE [dbo].[ProjectContact]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContact_Person_ContactID_TenantID_PersonID_TenantID] FOREIGN KEY([ContactID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectContact] CHECK CONSTRAINT [FK_ProjectContact_Person_ContactID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectContact]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContact_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])

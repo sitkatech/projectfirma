@@ -35,10 +35,10 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProjectContactUpdate] CHECK CONSTRAINT [FK_ProjectContactUpdate_Person_ContactID_PersonID]
 GO
-ALTER TABLE [dbo].[ProjectContactUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContactUpdate_Person_ContactID_PersonID_TenantID] FOREIGN KEY([ContactID], [TenantID])
+ALTER TABLE [dbo].[ProjectContactUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContactUpdate_Person_ContactID_TenantID_PersonID_TenantID] FOREIGN KEY([ContactID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectContactUpdate] CHECK CONSTRAINT [FK_ProjectContactUpdate_Person_ContactID_PersonID_TenantID]
+ALTER TABLE [dbo].[ProjectContactUpdate] CHECK CONSTRAINT [FK_ProjectContactUpdate_Person_ContactID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectContactUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectContactUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])
