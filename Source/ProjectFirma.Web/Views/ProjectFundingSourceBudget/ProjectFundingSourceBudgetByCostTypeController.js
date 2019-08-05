@@ -31,7 +31,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         jQuery(".selectpicker").selectpicker("refresh");
     });
 
-    $scope.resetfundingSourceIDToAdd = function () { $scope.fundingSourceIDToAdd = null; };
+    $scope.resetfundingSourceIDToAdd = function() { $scope.fundingSourceIDToAdd = { Value: null } };
 
     $scope.setSelectedFundingTypeID = function () {
         $scope.selectedFundingTypeID = $scope.AngularModel.FundingTypeID;
@@ -170,10 +170,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     };
 
     $scope.addRow = function () {
-        if ($scope.fundingSourceIDToAdd == null) {
+        if ($scope.fundingSourceIDToAdd.Value == null) {
             return;
         }
-        $scope.addFundingSourceRow(parseInt($scope.fundingSourceIDToAdd));
+        $scope.addFundingSourceRow(parseInt($scope.fundingSourceIDToAdd.Value));
         $scope.resetfundingSourceIDToAdd();
     };
 
