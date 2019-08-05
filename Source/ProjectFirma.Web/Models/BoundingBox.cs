@@ -31,7 +31,6 @@ using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
