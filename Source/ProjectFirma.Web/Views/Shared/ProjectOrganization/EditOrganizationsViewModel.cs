@@ -60,6 +60,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 {
                     ProjectOrganizationSimples.AddRange(primaryContactOrganizationRelationshipTypeIDs.Select(x =>
                         new ProjectOrganizationSimple(currentPerson.OrganizationID, x)));
+                    PrimaryContactPersonID = currentPerson.Organization.PrimaryContactPersonID;
                 }
             }
         }
