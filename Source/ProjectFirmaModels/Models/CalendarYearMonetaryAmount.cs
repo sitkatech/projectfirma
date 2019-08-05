@@ -44,7 +44,7 @@ namespace ProjectFirmaModels.Models
 
         public int CalendarYear { get; set; }
         public decimal? MonetaryAmount { get; set; }
-        // Only used by ExpendituredByCostType pages
+        // Only used by ExpendituresByCostType pages
         public bool? IsRelevant { get; set; }
 
     }

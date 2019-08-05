@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Views.Project
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
-            ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl)
+            ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl, string editExpectedFundingUrl)
             : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
@@ -287,9 +287,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectFundingDetailViewData = projectFundingDetailViewData;
             EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
             TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
-            EditExpectedFundingUrl =
-                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c =>
-                    c.EditProjectFundingSourceBudgetsForProject(project));
+            EditExpectedFundingUrl = editExpectedFundingUrl;
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;

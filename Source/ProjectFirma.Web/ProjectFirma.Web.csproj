@@ -199,6 +199,9 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
@@ -340,6 +343,7 @@
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
+    <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
@@ -489,6 +493,7 @@
     <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
+    <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

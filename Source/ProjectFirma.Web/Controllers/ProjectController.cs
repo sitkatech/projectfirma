@@ -142,6 +142,9 @@ namespace ProjectFirma.Web.Controllers
             var editReportedExpendituresUrl = reportExpendituresByCostType ?
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            var editExpectedFundingUrl = reportExpendituresByCostType ?
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
@@ -242,7 +245,7 @@ namespace ProjectFirma.Web.Controllers
                 geospatialAreaTypes, 
                 projectCustomAttributeTypesViewData,
                 projectContactsDetailViewData,
-                editContactsUrl);
+                editContactsUrl, editExpectedFundingUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
