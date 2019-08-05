@@ -152,15 +152,29 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
             }]);
     };
 
+    $scope.addFundingSourceRow = function (fundingSourceId) {
+        for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {
+            var projectRelevantCostType = $scope.AngularModel.ProjectRelevantCostTypes[i];
+            var existingRow = _.find($scope.AngularModel.ProjectFundingSourceBudgets, function (pfsb) {
+                return pfsb.FundingSourceID == fundingSourceId && pfsb.CostTypeID == projectRelevantCostType.CostTypeID;
+            });
+            if (existingRow == null) {
+                var newProjectFundingSourceBudget = $scope.createNewRow($scope.AngularViewData.ProjectID,
+                    fundingSourceId,
+                    projectRelevantCostType.CostTypeID,
+                    $scope.calendarYearRange,
+                    projectRelevantCostType.IsRelevant);
+                $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
+            }
+        }
+    };
+
     $scope.addRow = function () {
+        console.log($scope.fundingSourceIDToAdd);
         if ($scope.fundingSourceIDToAdd == null) {
             return;
         }
-        for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {
-            var projectRelevantCostTypes = $scope.AngularModel.ProjectRelevantCostTypes[i];
-            var newProjectFundingSourceBudget = $scope.createNewRow($scope.AngularViewData.ProjectID, parseInt($scope.fundingSourceIDToAdd), projectRelevantCostTypes.CostTypeID, $scope.calendarYearRange, projectRelevantCostTypes.IsRelevant);
-            $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
-        }
+        $scope.addFundingSourceRow(parseInt($scope.fundingSourceIDToAdd));
         $scope.resetfundingSourceIDToAdd();
     };
 
@@ -169,7 +183,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
             ProjectID: projectId,
             FundingSourceID: fundingSourceId,
             CostTypeID: costTypeId,
-            IsRelevant: isRelevant,
+             IsRelevant: isRelevant,
             CalendarYearBudgets: _.map(calendarYearsToAdd, $scope.createNewCalendarYearBudgetRow)
         };
         return newProjectFundingSourceBudget;
@@ -223,10 +237,11 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
     };
 
     $scope.addRemoveCostTypeFromBudgets = function () {
-        var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
-        _.each($scope.AngularModel.ProjectFundingSourceBudgets,
-            function (f) {
-                f.IsRelevant = _.includes(relevantCostTypeIDs, f.CostTypeID);
+        var allUsedFundingSourceIds = $scope.getAllUsedFundingSourceIds();
+        // we need to add any cost types that were not in the model in the first place
+        _.each(allUsedFundingSourceIds,
+            function (fundingSourceId) {
+                $scope.addFundingSourceRow(fundingSourceId);
             });
     };
 
@@ -348,26 +363,29 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         return projectFundingSourceBudget.CalendarYearBudgets;
     };
 
-    $scope.populateCalendarYearBudgets = function(projectFundingSourceBudget) {
-        // TODO actually implement this correctly. Trying to do it too quickly and failing :( 
-        var calendarYearsToAdd = _.difference($scope.calendarYearRange,
-            _(projectFundingSourceBudget.CalendarYearBudgets).map("CalendarYear").flatten().union().sortBy().value());
-        if (calendarYearsToAdd.length > 0) {
-            var projectFundingSourceBudgetsToUpdate = _.filter($scope.AngularModel.ProjectFundingSourceBudgets,
-                function(pfsb) {
-                    return pfsb.ProjectID == $scope.AngularViewData.ProjectID &&
-                        pfsb.FundingSourceID == projectFundingSourceBudget.FundingSourceID;
-                });
-            _.each(projectFundingSourceBudgetsToUpdate,
-                function(pfsb) {
-                    if (Sitka.Methods.isUndefinedNullOrEmpty(pfsb.CalendarYearBudgets)) {
-                        pfsb.CalendarYearBudgets = [];
-                    }
-                    _.each(calendarYearsToAdd,
-                        function(calendarYear) {
-                            pfsb.CalendarYearBudgets.push($scope.createNewCalendarYearBudgetRow(calendarYear));
-                        });
-                });
+    $scope.populateCalendarYearBudgets = function () {
+        // when switching from same year to multiyear, we need to populate the CalendarYearBudgets if they don't have one
+        if ($scope.budgetVariesByYear()) {
+            var calendarYearsToAdd = $scope.calendarYearRange;
+            if (calendarYearsToAdd.length > 0) {
+                var projectFundingSourceBudgetsToUpdate = $scope.AngularModel.ProjectFundingSourceBudgets;
+                _.each(projectFundingSourceBudgetsToUpdate,
+                    function(pfsb) {
+                        if (Sitka.Methods.isUndefinedNullOrEmpty(pfsb.CalendarYearBudgets)) {
+                            pfsb.CalendarYearBudgets = [];
+                        }
+                        _.each(calendarYearsToAdd,
+                            function (calendarYear) {
+                                var existingCalendarYearBudget = _.find(pfsb.CalendarYearBudgets,
+                                    function(pfsb) {
+                                        return pfsb.CalendarYear == calendarYear;
+                                    });
+                                if (existingCalendarYearBudget == null) {
+                                    pfsb.CalendarYearBudgets.push($scope.createNewCalendarYearBudgetRow(calendarYear));
+                                }
+                            });
+                    });
+            }
         }
     };
 

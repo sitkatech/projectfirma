@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (ProjectFundingSourceBudgets != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceBudgetsUpdated = ProjectFundingSourceBudgets.SelectMany(x => x.ToProjectFundingSourceBudgets()).ToList();
+                projectFundingSourceBudgetsUpdated = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).SelectMany(x => x.ToProjectFundingSourceBudgets()).ToList();
             }
             currentProjectFundingSourceBudgets.Merge(projectFundingSourceBudgetsUpdated,
                 allProjectFundingSourceBudgets,

@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Models
             ProjectID = projectID;
             FundingSourceID = fundingSourceID;
             CostTypeID = costTypeID;
+            IsRelevant = true;
             SecuredAmount = projectFundingSourceBudget.SecuredAmount;
             TargetedAmount = projectFundingSourceBudget.TargetedAmount;
             CalendarYearBudgets = new List<CalendarYearBudgetAmounts>();
@@ -162,15 +163,15 @@ namespace ProjectFirma.Web.Models
         public static List<ProjectFundingSourceBudgetBulk> MakeFromListByCostType(Project project)
         {
             var projectID = project.ProjectID;
-            var projectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.ToList();
-            var distinctFundingSources = projectFundingSourceBudgetUpdates.Select(x => x.FundingSourceID).Distinct().ToList();
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var distinctFundingSources = projectFundingSourceBudgets.Select(x => x.FundingSourceID).Distinct().ToList();
             var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
             var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetBulk>();
             foreach (var fundingSourceID in distinctFundingSources)
             {
                 foreach (var costTypeID in allCostTypeIDs)
                 {
-                    var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgetUpdates.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
+                    var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgets.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
                     if (budgetsForThisFundingSourceAndCostType.Count > 0)
                     {
                         projectFundingSourceBudgetBulks.Add(new ProjectFundingSourceBudgetBulk(projectID,
@@ -211,12 +212,12 @@ namespace ProjectFirma.Web.Models
             if (CalendarYearBudgets != null)
             {
                 return
-                    CalendarYearBudgets
+                    CalendarYearBudgets.Where(x => x.IsRelevant ?? false)
                         .Select(x => new ProjectFundingSourceBudget(ProjectID, FundingSourceID, x.CalendarYear, x.SecuredAmount ?? 0, x.TargetedAmount ?? 0, CostTypeID))
                         .ToList();
             }
             
-            return new List<ProjectFundingSourceBudget>() {new ProjectFundingSourceBudget(ProjectID, FundingSourceID, null, SecuredAmount.Value, TargetedAmount.Value, CostTypeID) };
+            return new List<ProjectFundingSourceBudget>() {new ProjectFundingSourceBudget(ProjectID, FundingSourceID, null, SecuredAmount?? 0, TargetedAmount?? 0, CostTypeID) };
             
             // ReSharper restore PossibleInvalidOperationException
         }
