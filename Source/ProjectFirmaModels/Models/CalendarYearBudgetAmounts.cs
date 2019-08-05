@@ -36,8 +36,19 @@ namespace ProjectFirmaModels.Models
             TargetedAmount = targetedAmount;
         }
 
+        public CalendarYearBudgetAmounts(int calendarYear, decimal? securedAmount, decimal? targetedAmount, bool isRelevant)
+        {
+            CalendarYear = calendarYear;
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+            IsRelevant = isRelevant;
+        }
+
         public int CalendarYear { get; set; }
         public decimal? SecuredAmount { get; set; }
         public decimal? TargetedAmount { get; set; }
+        // Only used by ExpectedFundingByCostType pages
+        public bool? IsRelevant { get; set; }
+
     }
 }

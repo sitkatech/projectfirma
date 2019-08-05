@@ -36,15 +36,9 @@ namespace ProjectFirma.Web.Models
             return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
         }
 
-        public static List<int> CalculateCalendarYearRangeForBudgets(this IEnumerable<ProjectFundingSourceBudget> projectFundingSourceBudgets, FundingSource fundingSource)
+        public static List<int> CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears(this Project project)
         {
-            var existingYears = projectFundingSourceBudgets.Where(x => x.CalendarYear.HasValue).Select(x => x.CalendarYear ?? 0).ToList();
-            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(existingYears,
-                fundingSource.GetProjectsWhereYouAreTheFundingSourceMinCalendarYear(),
-                fundingSource.GetProjectsWhereYouAreTheFundingSourceMaxCalendarYear(),
-                DateTime.Today.Year,
-                MultiTenantHelpers.GetMinimumYear(),
-                null);
+            return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), project, DateTime.Today.Year);
         }
     }
 }

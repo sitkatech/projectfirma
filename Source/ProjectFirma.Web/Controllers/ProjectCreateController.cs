@@ -523,11 +523,14 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
             }
 
-            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            var calendarYearRange = projectFundingSourceBudgets.CalculateCalendarYearRangeForBudgets(project);
-
-
-            var viewModel = new ExpectedFundingByCostTypeViewModel(project, calendarYearRange) { ProjectID = project.ProjectID };
+            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectRelevantCostTypes = project.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
+            var viewModel = new ExpectedFundingByCostTypeViewModel(project, calendarYearRange, projectRelevantCostTypes);
             return ViewExpectedFundingByCostType(project, calendarYearRange, viewModel);
         }
 
@@ -537,26 +540,17 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-
             if (project == null)
             {
                 return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
             }
 
-            viewModel.ProjectID = project.ProjectID;
-
-            var projectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.ToList();
-            var calendarYearRange = projectFundingSourceBudgetUpdates.CalculateCalendarYearRangeForBudgets(project);
-            var projectNoFundingSourceIdentifiedUpdates = project.ProjectNoFundingSourceIdentifieds.ToList();
+            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             if (!ModelState.IsValid)
             {
                 return ViewExpectedFundingByCostType(project, calendarYearRange, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
-            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
-            viewModel.UpdateModel(project, projectFundingSourceBudgetUpdates, allProjectFundingSourceBudgets, projectNoFundingSourceIdentifiedUpdates, allProjectNoFundingSourceIdentifieds);
+            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities);
 
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }

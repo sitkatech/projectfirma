@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpectedFundingByCostTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectFundingSourceBudgetByCostTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,20 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
-    public class ExpectedFundingByCostTypeViewModel : FormViewModel, IValidatableObject
+    public class EditProjectFundingSourceBudgetByCostTypeViewModel : FormViewModel, IValidatableObject
     {
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         public int? FundingTypeID { get; set; }
@@ -45,14 +45,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public ExpectedFundingByCostTypeViewModel()
+        public EditProjectFundingSourceBudgetByCostTypeViewModel()
         {
         }
 
-        public ExpectedFundingByCostTypeViewModel(ProjectFirmaModels.Models.Project project, List<int> calendarYearsToPopulate, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypes)
+        public EditProjectFundingSourceBudgetByCostTypeViewModel(ProjectFirmaModels.Models.Project project, List<int> calendarYearsToPopulate, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypes)
         {
             FundingTypeID = project.FundingTypeID;
             ProjectRelevantCostTypes = projectRelevantCostTypes;
@@ -62,19 +63,19 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 switch (project.FundingType.ToEnum)
                 {
                     case FundingTypeEnum.BudgetVariesByYear:
-                    {
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
+                        {
+                            ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
 
-                        var projectNoFundingSourceIdentifieds =
-                            project.ProjectNoFundingSourceIdentifieds.ToList();
-                        projectNoFundingSourceIdentifieds.ForEach(x =>
-                            calendarYearMonetaryAmounts.Add(new CalendarYearMonetaryAmount(x.CalendarYear.Value,
-                                x.NoFundingSourceIdentifiedYet)));
-                        var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
-                        calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                            .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
-                        break;
-                    }
+                            var projectNoFundingSourceIdentifieds =
+                                project.ProjectNoFundingSourceIdentifieds.ToList();
+                            projectNoFundingSourceIdentifieds.ForEach(x =>
+                                calendarYearMonetaryAmounts.Add(new CalendarYearMonetaryAmount(x.CalendarYear.Value,
+                                    x.NoFundingSourceIdentifiedYet)));
+                            var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
+                            calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
+                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+                            break;
+                        }
 
                     case FundingTypeEnum.BudgetSameEachYear:
                         ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project);
