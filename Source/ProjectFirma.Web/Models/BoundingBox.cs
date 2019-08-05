@@ -31,6 +31,7 @@ using LtInfo.Common.GdalOgr;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -212,6 +213,20 @@ namespace ProjectFirma.Web.Models
             if (project.GetDefaultBoundingBox() != null)
             {
                 return new BoundingBox(project.GetDefaultBoundingBox());
+            }
+
+            if (project.GetProjectLocationDetails().Any() && project.ProjectLocationPoint != null)
+            {
+                var pointList = new List<Point>();
+                pointList.Add(new Point(project.ProjectLocationPoint));
+
+                foreach (DbGeometry geometry in project.GetProjectLocationDetails()
+                    .Select(x => x.GetProjectLocationGeometry()))
+                {
+                    pointList.AddRange(GetPointsFromDbGeometry(geometry));
+                }
+
+                return new BoundingBox(pointList);
             }
 
             if (project.GetProjectLocationDetails().Any())
