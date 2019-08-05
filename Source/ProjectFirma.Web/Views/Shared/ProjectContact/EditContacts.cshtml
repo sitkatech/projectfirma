@@ -57,6 +57,7 @@
         .col-xs-5.contactIdSelectGroup div.bootstrap-select.btn-group {
             width: 100%;
         }
+        #EditContactsAngularApp{ min-height: 400px;}
     </style>
     <div class="validationError">
         @Html.ValidationSummary()
@@ -80,8 +81,8 @@
                     @*Selectpicker*@
                     <div class="col-md-12">
                         <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
-                                <option value="" disabled ng-selected="isPersonSelected(null)">Select One</option>
+                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="6">
+                                <option value="" ng-selected="isPersonSelected(null)">Select One</option>
                                 <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
                                         ng-bind="person.FullNameWithOrgShortName"
                                         ng-value="person.PersonID"

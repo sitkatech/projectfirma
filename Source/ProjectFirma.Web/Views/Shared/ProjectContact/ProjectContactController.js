@@ -197,19 +197,33 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
     //    return "nobody";
     //}
 
-    $scope.isPersonSelected = function (personID) {
+    $scope.isPersonSelected = function (personID)
+    {
         var primaryContactPersonId = $scope.AngularModel.PrimaryContactPersonID;
-
         return primaryContactPersonId === personID;
     };
 
-    $scope.getContactsForPrimaryContactDropdown = function() {
+    $scope.getContactsForPrimaryContactDropdown = function ()
+    {
         //debugger;
         return $scope.AngularViewData.AllContacts;
     }
 
-    $scope.primaryContactPersonChange = function (personID) {
-        $scope.AngularModel.PrimaryContactPersonID = personID === "null" ? null : parseInt(personID);
+    $scope.primaryContactPersonChange = function (personID)
+    {
+        // Null check done every way we can think of since we've had issues here
+        if (personID === "null" || personID === "" || personID === null || (typeof personID === 'undefined'))
+        {
+            $scope.AngularModel.PrimaryContactPersonID = null;
+        }
+        else
+        {
+            $scope.AngularModel.PrimaryContactPersonID = parseInt(personID);
+            if ($scope.AngularModel.PrimaryContactPersonID === "NaN")
+            {
+                alert('Problem in $scope.primaryContactPersonChange');
+            }
+        }
     }
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
