@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 
         public IndexViewData(Person currentPerson) : base(currentPerson)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Manage Attachment Relationship Types";
 
             var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
 

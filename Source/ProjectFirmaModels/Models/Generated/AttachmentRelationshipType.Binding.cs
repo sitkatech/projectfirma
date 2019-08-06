@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected AttachmentRelationshipType()
         {
+            this.AttachmentRelationshipTypeFileResourceMimeTypes = new HashSet<AttachmentRelationshipTypeFileResourceMimeType>();
             this.ProjectAttachments = new HashSet<ProjectAttachment>();
             this.ProjectAttachmentUpdates = new HashSet<ProjectAttachmentUpdate>();
         }
@@ -66,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
+            return AttachmentRelationshipTypeFileResourceMimeTypes.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipType).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipType).Name, typeof(AttachmentRelationshipTypeFileResourceMimeType).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
 
 
         /// <summary>
@@ -97,6 +98,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in AttachmentRelationshipTypeFileResourceMimeTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectAttachments.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -117,6 +123,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return AttachmentRelationshipTypeID; } set { AttachmentRelationshipTypeID = value; } }
 
+        public virtual ICollection<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

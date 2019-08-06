@@ -56,6 +56,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
@@ -160,11 +162,19 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
+    <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\DetailViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Edit.cs" />
@@ -361,6 +371,8 @@
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
+    <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

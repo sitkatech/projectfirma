@@ -33,7 +33,7 @@
 <br />
 <div>
     <h4>@FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized()</h4>
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasManagePermissions)
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, "Create a new Attachment Relationship Type", ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.AttachmentRelationshipTypeGridSpec, ViewDataTyped.AttachmentRelationshipTypeGridName, ViewDataTyped.AttachmentRelationshipTypeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

@@ -44,6 +44,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
             modelBuilder.Configurations.Add(new AttachmentRelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeFileResourceMimeTypeConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
@@ -162,6 +163,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AssessmentQuestion> AssessmentQuestions { get { return AllAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentSubGoal> AllAssessmentSubGoals { get; set; }
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentRelationshipTypeFileResourceMimeType> AllAttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
+        public virtual IQueryable<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get { return AllAttachmentRelationshipTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AttachmentRelationshipType> AllAttachmentRelationshipTypes { get; set; }
         public virtual IQueryable<AttachmentRelationshipType> AttachmentRelationshipTypes { get { return AllAttachmentRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
@@ -400,6 +403,9 @@ namespace ProjectFirmaModels.Models
 
                 case "AssessmentSubGoal":
                     return AssessmentSubGoals.GetAssessmentSubGoal(primaryKey);
+
+                case "AttachmentRelationshipTypeFileResourceMimeType":
+                    return AttachmentRelationshipTypeFileResourceMimeTypes.GetAttachmentRelationshipTypeFileResourceMimeType(primaryKey);
 
                 case "AttachmentRelationshipType":
                     return AttachmentRelationshipTypes.GetAttachmentRelationshipType(primaryKey);

@@ -37,28 +37,12 @@ Source code is available upon request via <support@sitkatech.com>.
                     @Html.TextBoxFor(m => m.AttachmentRelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanOnlyBeRelatedOnceToAProject)</div>
-                <div class="col-sm-9">
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.CanOnlyBeRelatedOnceToAProject, true) Yes
-                        </label>
-                    </div>
-                    <div class="radio-inline">
-                        <label>
-                            @Html.RadioButtonFor(m => m.CanOnlyBeRelatedOnceToAProject, false) No
-                        </label>
-                    </div>
-                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
-                </div>
-            </div>
 
             <div class="form-group">
                 <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeDescription)</div>
                 <div class="col-sm-9">
                     @Html.TextAreaFor(m=>m.AttachmentRelationshipTypeDescription, new Dictionary<string,object>{{"class","form-control"}})
-                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
+                    @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeDescription)
                 </div>
             </div>
                      

@@ -50,6 +50,10 @@
     <Compile Include="Models\Generated\AttachmentRelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\AttachmentRelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AttachmentRelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AttachmentRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.DatabaseContextExtensions.cs" />
@@ -562,6 +566,7 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\AttachmentRelationshipType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />

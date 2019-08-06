@@ -40,9 +40,6 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         [DisplayName("Name")]
         public string AttachmentRelationshipTypeName { get; set; }
 
-        [Required]
-        [DisplayName("Must be Related to Once?")]
-        public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
         [DisplayName("Relationship Type Description")]
@@ -60,7 +57,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         {
             RelationshipTypeID = contactRelationshipType.AttachmentRelationshipTypeID;
             AttachmentRelationshipTypeName = contactRelationshipType.AttachmentRelationshipTypeName;
-            CanOnlyBeRelatedOnceToAProject = contactRelationshipType.CanOnlyBeRelatedOnceToAProject;
+
             AttachmentRelationshipTypeDescription = contactRelationshipType.AttachmentRelationshipTypeDescription;
         }
 
@@ -68,7 +65,6 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         {
             contactRelationshipType.AttachmentRelationshipTypeName = AttachmentRelationshipTypeName;
 
-            contactRelationshipType.CanOnlyBeRelatedOnceToAProject = CanOnlyBeRelatedOnceToAProject ?? false;
             contactRelationshipType.AttachmentRelationshipTypeDescription = AttachmentRelationshipTypeDescription;
         }
 
