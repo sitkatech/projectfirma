@@ -5,6 +5,6 @@ namespace ProjectFirmaModels.Models
     {
         Organization Organization { get; set; }
 
-        RelationshipType RelationshipType { get; set; }
+        OrganizationRelationshipType OrganizationRelationshipType { get; set; }
     }
 }

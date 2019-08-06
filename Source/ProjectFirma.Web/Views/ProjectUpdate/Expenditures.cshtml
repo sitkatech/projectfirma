@@ -51,20 +51,22 @@ To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()
 @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s Planning / Design Start and
 @ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel()
 (or, if @ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized()).
-<hr />
-<div style="margin: 10px 0">
-    <p>
-        Other financial information for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() that might be helpful:
-    </p>
+@if (ViewDataTyped.Project.FundingTypeID.HasValue)
+{
+    <hr/>
+    <div style="margin: 10px 0">
+        <p>
+            Other financial information for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() that might be helpful:
+        </p>
 
-    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
-    {
+        @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+        {
         <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet.ToStringCurrency()</span></div>
-    }
-    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
-    {
+        }
+        else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+        {
         <table>
             <tr>
                 <td style="width: 200px">
@@ -86,8 +88,9 @@ To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()
                 }
             </tr>
         </table>
-    }
-</div>
+        }
+    </div>
+}
 
 @if (!ViewDataTyped.IsEditable)
 {

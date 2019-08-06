@@ -15,20 +15,19 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using ProjectFirmaModels.Models
 @using LtInfo.Common
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresByCostTypeDetail
 
-@if (ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Any())
+@if (ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
 {
     <div class="table-responsive tableFixHeader">
         <table class="table table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()) / @Html.LabelWithSugarFor(FieldDefinitionEnum.CostType.ToType()) </th>
+                    <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType) </th>
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x))
                     {
                         <th class="text-right">
@@ -39,7 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceExpenditureAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
                 {
                     <tr class="info">
                         <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
@@ -60,7 +59,7 @@
                         </tr>
                     }
                     <tr>
-                        <th style="text-align:left; padding-left: 20px;">All Cost Types</th>
+                        <th style="text-align:left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
                         @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                         {
                             <th style="text-align:right">
@@ -77,11 +76,11 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                     {
                         <th style="text-align:right">
-                            <span>@ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                         </th>
                     }
                     <th style="text-align:right">
-                        <span>@ViewDataTyped.ProjectFundingSourceExpenditureAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                     </th>
                 </tr>
             </tbody>
@@ -91,20 +90,16 @@
 }
 else
 {
-    <p class="systemText">No Expenditures have been reported for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+    <p class="systemText">No Expenditures have been reported for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</p>
 }
 
 
-@if (ViewDataTyped.ExemptReportingYears.Any())
+@if (!ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
 {
     <hr />
     <table class="summaryLayout">
         <tr>
-            <td colspan="2">The project was active for the following years, but no expenditures were reported:</td>
-        </tr>
-        <tr>
-            <th>Year(s):</th>
-            <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
+            <td colspan="2">No expenditures were reported:</td>
         </tr>
         <tr>
             <th>Explanation:</th>

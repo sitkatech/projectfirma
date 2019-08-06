@@ -46,6 +46,8 @@ namespace ProjectFirma.Web.Views.User
         public string ActivateInactivateUrl { get; }
         public bool TenantHasStewardshipAreas { get; }
 
+        public HtmlString EditRolesLink { get; }
+
         public DetailViewData(Person currentPerson,
             Person personToView,
             Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
@@ -86,6 +88,6 @@ namespace ProjectFirma.Web.Views.User
             TenantHasStewardshipAreas = MultiTenantHelpers.GetProjectStewardshipAreaType() != null;
         }
 
-        public readonly HtmlString EditRolesLink;
+        
     }
 }

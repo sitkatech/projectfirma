@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 
@@ -29,7 +28,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpendituresByCostTypeViewData : ProjectCreateViewData
     {
-        public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
@@ -39,12 +37,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
-        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
+        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
 
             TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
             StartYearForTotalOperatingCostCalculation = project.StartYearForTotalCostCalculations();
@@ -55,7 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
             public int ProjectID { get; }
@@ -66,9 +63,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange, bool showNoExpendituresExplanation)
             {
-                CalendarYearRange = calendarYearRange;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
                 ProjectID = project.ProjectID;

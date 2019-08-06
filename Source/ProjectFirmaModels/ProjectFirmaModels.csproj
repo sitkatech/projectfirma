@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -67,6 +67,10 @@
     <Compile Include="Models\Generated\ClassificationSystem.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ClassificationSystemConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ClassificationSystemPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ContactRelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\ContactRelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ContactRelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ContactRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostType.Binding.cs" />
     <Compile Include="Models\Generated\CostType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostTypeConfiguration.Binding.cs" />
@@ -182,14 +186,18 @@
     <Compile Include="Models\Generated\OrganizationBoundaryStagingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationRelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationRelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationRelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationType.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\OrganizationTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeOrganizationRelationshipType.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeOrganizationRelationshipType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeOrganizationRelationshipTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\OrganizationTypeOrganizationRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\OrganizationTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.Binding.cs" />
-    <Compile Include="Models\Generated\OrganizationTypeRelationshipType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\OrganizationTypeRelationshipTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\OrganizationTypeRelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActual.Binding.cs" />
@@ -272,10 +280,6 @@
     <Compile Include="Models\Generated\ProjectAssessmentQuestion.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectAssessmentQuestionConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectAssessmentQuestionPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectBudgetRelevantCostType.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectBudgetRelevantCostType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectBudgetRelevantCostTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectBudgetRelevantCostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectClassification.Binding.cs" />
     <Compile Include="Models\Generated\ProjectClassification.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectClassificationConfiguration.Binding.cs" />
@@ -283,6 +287,14 @@
     <Compile Include="Models\Generated\ProjectColorByType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectColorByTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContact.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContact.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectContactConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContactPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContactUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContactUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectContactUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectContactUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSection.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCreateSectionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttribute.Binding.cs" />
@@ -331,10 +343,6 @@
     <Compile Include="Models\Generated\ProjectExemptReportingYearUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYearUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYearUpdatePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectExpenditureRelevantCostType.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectExpenditureRelevantCostType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectExpenditureRelevantCostTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectExpenditureRelevantCostTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExternalLink.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExternalLink.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectExternalLinkConfiguration.Binding.cs" />
@@ -409,6 +417,14 @@
     <Compile Include="Models\Generated\ProjectLocationUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectLocationUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectLocationUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentified.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentified.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectNoFundingSourceIdentifiedUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectNote.Binding.cs" />
     <Compile Include="Models\Generated\ProjectNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectNoteConfiguration.Binding.cs" />
@@ -426,6 +442,16 @@
     <Compile Include="Models\Generated\ProjectOrganizationUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectOrganizationUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeGroup.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeGroupPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectRelevantCostTypeUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStewardshipAreaType.Binding.cs" />
@@ -456,10 +482,6 @@
     <Compile Include="Models\Generated\ProjectUpdateStatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWorkflowSectionGrouping.Binding.cs" />
     <Compile Include="Models\Generated\ProjectWorkflowSectionGroupingPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
-    <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\RelationshipTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\RelationshipTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReleaseNote.Binding.cs" />
     <Compile Include="Models\Generated\ReleaseNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReleaseNoteConfiguration.Binding.cs" />
@@ -528,8 +550,11 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
+    <Compile Include="Models\ContactRelationshipType.cs" />
+    <Compile Include="Models\ContactRelationshipTypeSimple.cs" />
     <Compile Include="Models\FundingSourceCustomAttribute.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeSimple.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeDataType.cs" />
@@ -567,6 +592,7 @@
     <Compile Include="Models\FundingSource.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
+    <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
@@ -574,10 +600,17 @@
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectContact.cs" />
+    <Compile Include="Models\ProjectContactRelationship.cs" />
+    <Compile Include="Models\ProjectContactSimple.cs" />
+    <Compile Include="Models\ProjectContactUpdate.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
+    <Compile Include="Models\ProjectRelevantCostType.cs" />
+    <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequest.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestSimple.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceIdentified.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeRole.cs" />
     <Compile Include="Models\ReleaseNote.cs" />
     <Compile Include="Models\ProjectUpdateBatch.cs" />
@@ -796,8 +829,8 @@
     <Compile Include="Models\ProjectUpdateSection.cs" />
     <Compile Include="Models\ProjectUpdateStatus.cs" />
     <Compile Include="Models\ProjectUpdateTest.cs" />
-    <Compile Include="Models\RelationshipType.cs" />
-    <Compile Include="Models\RelationshipTypeSimple.cs" />
+    <Compile Include="Models\OrganizationRelationshipType.cs" />
+    <Compile Include="Models\OrganizationRelationshipTypeSimple.cs" />
     <Compile Include="Models\StewardshipAreaSimple.cs" />
     <Compile Include="Models\SupportRequestTypeSimple.cs" />
     <Compile Include="Models\Tag.cs" />

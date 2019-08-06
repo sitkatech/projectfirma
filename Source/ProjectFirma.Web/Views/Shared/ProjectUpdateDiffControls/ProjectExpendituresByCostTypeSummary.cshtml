@@ -23,7 +23,6 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirmaModels.Models
 @inherits ProjectExpendituresByCostTypeSummary
 
 @if (ViewDataTyped.ProjectExpenditureByCostTypes.Any())
@@ -52,7 +51,7 @@
             <col />
         </colgroup>
         <tr>
-            <th colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+            <th colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
             {
                 <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
@@ -66,24 +65,43 @@
             </tr>
             foreach (var costType in ViewDataTyped.CostTypes.OrderBy(x => x.CostTypeName))
             {
-                var current = projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostType == costType);
-                <tr class="@projectExpenditureByCostType.DisplayCssClass">
-                    <td></td>
-                    <td>@costType.CostTypeName</td>
-                    @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
-                    {
-                        <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                            <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
-                        </td>
-                    }
-                    <th style="text-align: right">
-                        <span class="normalDollars">@current.CalendarYearAmount.Sum(x => x.Value).ToIntString()</span>
-                    </th>
-                </tr>
+                var current = projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType == costType);
+                if (current == null)
+                {
+                    <tr class="@projectExpenditureByCostType.DisplayCssClass">
+                        <td></td>
+                        <td>@costType.CostTypeName</td>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+                        {
+                            <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                <span class="normalDollars @calendarYear.DisplayCssClass"></span>
+                            </td>
+                        }
+                        <th style="text-align: right">
+                            <span class="normalDollars"></span>
+                        </th>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="@projectExpenditureByCostType.DisplayCssClass">
+                        <td></td>
+                        <td>@costType.CostTypeName</td>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+                        {
+                            <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
+                            </td>
+                        }
+                        <th style="text-align: right">
+                            <span class="normalDollars">@current.CalendarYearAmount.Sum(x => x.Value).ToIntString()</span>
+                        </th>
+                    </tr>
+                }
             }
             <tr class="@projectExpenditureByCostType.DisplayCssClass" style="border-top: 1px solid gray">
                 <td></td>
-                <th>All Cost Types</th>
+                <th>All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear).ToList())
                 {
                     <th class="@calendarYear.DisplayCssClass" style="text-align: right">

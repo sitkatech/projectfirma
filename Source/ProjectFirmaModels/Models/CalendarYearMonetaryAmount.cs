@@ -35,7 +35,17 @@ namespace ProjectFirmaModels.Models
             MonetaryAmount = monetaryAmount;
         }
 
+        public CalendarYearMonetaryAmount(int calendarYear, decimal? monetaryAmount, bool isRelevant)
+        {
+            CalendarYear = calendarYear;
+            MonetaryAmount = monetaryAmount;
+            IsRelevant = isRelevant;
+        }
+
         public int CalendarYear { get; set; }
         public decimal? MonetaryAmount { get; set; }
+        // Only used by ExpendituresByCostType pages
+        public bool? IsRelevant { get; set; }
+
     }
 }

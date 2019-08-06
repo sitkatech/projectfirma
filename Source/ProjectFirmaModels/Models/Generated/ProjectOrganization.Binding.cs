@@ -30,31 +30,31 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectOrganization(int projectOrganizationID, int projectID, int organizationID, int relationshipTypeID) : this()
+        public ProjectOrganization(int projectOrganizationID, int projectID, int organizationID, int organizationRelationshipTypeID) : this()
         {
             this.ProjectOrganizationID = projectOrganizationID;
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectOrganization(int projectID, int organizationID, int relationshipTypeID) : this()
+        public ProjectOrganization(int projectID, int organizationID, int organizationRelationshipTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.OrganizationID = organizationID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectOrganization(Project project, Organization organization, RelationshipType relationshipType) : this()
+        public ProjectOrganization(Project project, Organization organization, OrganizationRelationshipType organizationRelationshipType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectOrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -64,17 +64,17 @@ namespace ProjectFirmaModels.Models
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.ProjectOrganizations.Add(this);
-            this.RelationshipTypeID = relationshipType.RelationshipTypeID;
-            this.RelationshipType = relationshipType;
-            relationshipType.ProjectOrganizations.Add(this);
+            this.OrganizationRelationshipTypeID = organizationRelationshipType.OrganizationRelationshipTypeID;
+            this.OrganizationRelationshipType = organizationRelationshipType;
+            organizationRelationshipType.ProjectOrganizations.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectOrganization CreateNewBlank(Project project, Organization organization, RelationshipType relationshipType)
+        public static ProjectOrganization CreateNewBlank(Project project, Organization organization, OrganizationRelationshipType organizationRelationshipType)
         {
-            return new ProjectOrganization(project, organization, relationshipType);
+            return new ProjectOrganization(project, organization, organizationRelationshipType);
         }
 
         /// <summary>
@@ -114,14 +114,14 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int OrganizationID { get; set; }
-        public int RelationshipTypeID { get; set; }
+        public int OrganizationRelationshipTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectOrganizationID; } set { ProjectOrganizationID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual RelationshipType RelationshipType { get; set; }
+        public virtual OrganizationRelationshipType OrganizationRelationshipType { get; set; }
 
         public static class FieldLengths
         {

@@ -1,3 +1,3 @@
 ﻿ParentTableSchemaName	ParentTableName	ParentKeyColumnName	ChildTableSchemaName	ChildTableName	ChildKeyColumnName	ChildKeyColumnIsNullable	KeyName	ForeignKeySql
-dbo	Person	PersonID	dbo	ReleaseNote	UpdatePersonID	True		alter table dbo.ReleaseNote add constraint FK_ReleaseNote_Person_UpdatePersonID_TenantID foreign key (UpdatePersonID, TenantID) references dbo.Person(PersonID, TenantID)
 dbo	Person	PersonID	dbo	ReleaseNote	CreatePersonID	False		alter table dbo.ReleaseNote add constraint FK_ReleaseNote_Person_CreatePersonID_TenantID foreign key (CreatePersonID, TenantID) references dbo.Person(PersonID, TenantID)
+dbo	Person	PersonID	dbo	ReleaseNote	UpdatePersonID	True		alter table dbo.ReleaseNote add constraint FK_ReleaseNote_Person_UpdatePersonID_TenantID foreign key (UpdatePersonID, TenantID) references dbo.Person(PersonID, TenantID)

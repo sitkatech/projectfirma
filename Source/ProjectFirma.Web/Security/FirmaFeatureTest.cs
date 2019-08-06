@@ -110,9 +110,12 @@ namespace ProjectFirma.Web.Security
             foreach (var type in types)
             {
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
-                if (!obj.GrantedRoles.Contains(Role.Admin) && obj.GrantedRoles.Count != 0)
+                bool allowsAdmin = obj.GrantedRoles.Contains(Role.Admin);
+                bool allowsSitkaAdmin = obj.GrantedRoles.Contains(Role.SitkaAdmin);
+                bool allowsAdminOrSitkaAdmin = allowsAdmin || allowsSitkaAdmin;
+                if (!allowsAdminOrSitkaAdmin && obj.GrantedRoles.Count != 0)
                 {
-                    var errorMessage = $"Feature {type.FullName} is not available to Administrators";
+                    var errorMessage = $"Feature {type.FullName} is not available to at least one of the following: Administrators, SitkaAdministrators ";
                     listOfErrors.Add(errorMessage);
                 }
 

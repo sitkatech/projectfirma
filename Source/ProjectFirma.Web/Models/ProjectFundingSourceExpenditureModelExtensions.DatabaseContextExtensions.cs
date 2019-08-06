@@ -36,6 +36,11 @@ namespace ProjectFirma.Web.Models
             return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
         }
 
+        public static List<int> CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears(this Project project)
+        {
+            return FirmaDateUtilities.CalculateCalendarYearRangeForExpendituresAccountingForExistingYears(new List<int>(), project, DateTime.Today.Year);
+        }
+
         public static List<int> CalculateCalendarYearRangeForExpenditures(this IEnumerable<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, FundingSource fundingSource)
         {
             var existingYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();

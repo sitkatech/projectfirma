@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
+using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
@@ -28,6 +29,17 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString()
         {
             return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
+        }
+
+        public ProjectFundingSourceBudgetUpdate(int projectUpdateBatchID, int fundingSourceID, int calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        {
+            ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectUpdateBatchID = projectUpdateBatchID;
+            FundingSourceID = fundingSourceID;
+            CalendarYear = calendarYear;
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+            CostTypeID = costTypeID;
         }
     }
 }

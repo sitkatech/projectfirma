@@ -1,0 +1,128 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType.EditOrganizationRelationshipType
+              
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+
+<div>   
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationRelationshipTypeName)</div>
+                <div class="col-xs-12 col-sm-9">
+                    @Html.TextBoxFor(m => m.OrganizationRelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanStewardProjects)</div>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanStewardProjects, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CanStewardProjects)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.IsPrimaryContact)</div>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.IsPrimaryContact, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.IsPrimaryContact, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.IsPrimaryContact)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.CanOnlyBeRelatedOnceToAProject)</div>
+                <div class="col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanOnlyBeRelatedOnceToAProject, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CanOnlyBeRelatedOnceToAProject, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.ShowOnFactSheet)</div>
+                <div class="col-sm-9">
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, true) Yes
+                        </label>
+                    </div>
+                    <div class="radio-inline">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ShowOnFactSheet, false) No
+                        </label>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ShowOnFactSheet)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationRelationshipTypeDescription)</div>
+                <div class="col-sm-9">
+                    @Html.TextAreaFor(m=>m.OrganizationRelationshipTypeDescription, new Dictionary<string,object>{{"class","form-control"}})
+                    @Html.ValidationMessageFor(m => m.CanOnlyBeRelatedOnceToAProject)
+                </div>
+            </div>
+
+            <hr />
+            <p>Select which @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized() can be associated to a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() with this @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()</p>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.OrganizationTypeIDs)</div>
+                <div class="col-xs-12 col-sm-9">
+                    @Html.CheckBoxListFor(x => x.OrganizationTypeIDs, ViewDataTyped.AllOrganizationTypes.ToSelectList(x => x.OrganizationTypeID.ToString(), x => x.OrganizationTypeName), new { style ="display:block"}, CheckboxExtensions.ColNumber.twoCols)
+                </div>
+            </div>                        
+        </div>
+        @Html.HiddenFor(m => m.RelationshipTypeID)
+    }
+    
+</div>

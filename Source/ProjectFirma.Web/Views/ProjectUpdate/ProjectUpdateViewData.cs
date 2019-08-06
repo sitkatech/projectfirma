@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
+            ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
             ValidationWarnings = validationWarnings;

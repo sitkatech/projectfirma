@@ -9,17 +9,31 @@ CREATE TABLE [dbo].[ProjectFundingSourceBudgetUpdate](
 	[FundingSourceID] [int] NOT NULL,
 	[SecuredAmount] [money] NULL,
 	[TargetedAmount] [money] NULL,
+	[CalendarYear] [int] NULL,
+	[CostTypeID] [int] NULL,
  CONSTRAINT [PK_ProjectFundingSourceBudgetUpdate_ProjectFundingSourceBudgetUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectFundingSourceBudgetUpdateID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectFundingSourceBudgetUpdate_ProjectUpdateBatchID_FundingSourceID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectFundingSourceBudgetUpdate_ProjectUpdateBatchID_FundingSourceID_CostTypeID_CalendarYear] UNIQUE NONCLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC,
-	[FundingSourceID] ASC
+	[FundingSourceID] ASC,
+	[CostTypeID] ASC,
+	[CalendarYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceBudgetUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceBudgetUpdate_CostType_CostTypeID] FOREIGN KEY([CostTypeID])
+REFERENCES [dbo].[CostType] ([CostTypeID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceBudgetUpdate] CHECK CONSTRAINT [FK_ProjectFundingSourceBudgetUpdate_CostType_CostTypeID]
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceBudgetUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceBudgetUpdate_CostType_CostTypeID_TenantID] FOREIGN KEY([CostTypeID], [TenantID])
+REFERENCES [dbo].[CostType] ([CostTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceBudgetUpdate] CHECK CONSTRAINT [FK_ProjectFundingSourceBudgetUpdate_CostType_CostTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceBudgetUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceBudgetUpdate_FundingSource_FundingSourceID] FOREIGN KEY([FundingSourceID])
 REFERENCES [dbo].[FundingSource] ([FundingSourceID])
