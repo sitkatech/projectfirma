@@ -40,6 +40,20 @@
         jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
         // ]]>
     </script>
+    <style>
+        .summaryTableHeader {
+            background-color: #666666;
+        }
+
+        .summaryTableHeader label, .summaryTableHeader span {
+            color: #FFFFFF;
+            font-weight: normal;
+        }
+
+        .summaryTableRow {
+            background-color: #ffffff;
+        }
+    </style>
 }
 
     <p>
@@ -186,12 +200,12 @@
                     @* Sum of all budgets and No Funding Source Identified Yet*@
                     <tbody style="border-top: 2px solid #ddd">
                         <tr>
-                            <td colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</td>
+                            <td colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedTotalCost)</td>
                             <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right">
-                                <span ng-show="shouldShowFundingSources()">{{getTotalForCalendarYear(calendarYear, true) | currency:"$"}}</span>
+                                <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear) | currency:"$"}}</span>
                             </th>
-                            <th ng-repeat-end style="text-align: right"> {{getTotalForCalendarYear(calendarYear, false) | currency:"$"}}</th>
-                            <th style="text-align: right"> {{getTotalForCalendarYear() | currency:"$"}}</th>
+                            <th ng-repeat-end style="text-align: right"> {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}</th>
+                            <th style="text-align: right"> {{getTotalVariesByYear() | currency:"$"}}</th>
                         </tr>
                     </tbody>
                 </table>
@@ -267,19 +281,19 @@
                             <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
                             <td></td>
                             <td style="text-align: right">
-                                <input type="text" ng-model="noFundingSourceIdentifiedSameEachYear" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                <input type="text" ng-model="noFundingSourceIdentifiedSameEachYear.Value" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                             </td>
-                            <th style="text-align: right"> {{noFundingSourceIdentifiedSameEachYear | currency:"$"}}</th>
+                            <th style="text-align: right"> {{noFundingSourceIdentifiedSameEachYear.Value | currency:"$"}}</th>
                         </tr>
                     </tbody>
                     @* Sum of all budgets and No Funding Source Identified Yet*@
                     <tbody style="border-top: 2px solid #ddd">
                         <tr>
-                            <td colspan="2">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())</td>
+                            <td colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost)</td>
                             <th style="text-align: right">
-                                <span ng-show="shouldShowFundingSources()">{{getTotalSameEachYear(true) | currency:"$"}}</span>
+                                <span ng-show="shouldShowFundingSources()">{{getTotalSecuredSameEachYear() | currency:"$"}}</span>
                             </th>
-                            <th style="text-align: right"> {{getTotalSameEachYear(false) | currency:"$"}}</th>
+                            <th style="text-align: right"> {{getTotalTargetedSameEachYear(true) | currency:"$"}}</th>
                             <th style="text-align: right"> {{getTotalSameEachYear() | currency:"$"}}</th>
                         </tr>
                     </tbody>
@@ -293,7 +307,7 @@
                     <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].SecuredAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.SecuredAmount}}" />
                     <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].TargetedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.TargetedAmount}}" />
                 </div>
-                <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceIdentifiedYet).ToString()" value="{{noFundingSourceIdentifiedSameEachYear}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceIdentifiedYet).ToString()" value="{{noFundingSourceIdentifiedSameEachYear.Value}}" />
             </div>
             <div ng-repeat="projectRelevantCostType in AngularModel.ProjectRelevantCostTypes">
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.CostTypeID}}" />
@@ -301,6 +315,36 @@
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.ProjectID}}" />
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].ProjectRelevantCostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.ProjectRelevantCostTypeID}}" />
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.IsRelevant}}" />
+            </div>
+            
+            <div style="margin: 10px 0px; padding: 5px 10px;">
+                <p>
+                    <label ng-if="budgetVariesByYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedTotalCost.GetFieldDefinitionLabel()</label>
+                    <label ng-if="budgetSameEachYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost.GetFieldDefinitionLabel()</label>
+                </p>
+                <div>
+                    <table class="table table-bordered table-condensed" style="overflow: scroll;">
+                        <tr class="summaryTableHeader">
+                            <td>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForSecuredFunding)</td>
+                            <td>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTargetedFunding)</td>
+                            <td>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
+                            <td ng-if="budgetVariesByYear()">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedTotalCost, "TOTAL")</td>
+                            <td ng-if="budgetSameEachYear()">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost, "TOTAL")</td>
+                        </tr>
+                        <tr ng-if="budgetVariesByYear()" class="summaryTableRow">
+                            <td>{{ getTotalSecuredForCalendarYear() | currency:"$" }}</td>
+                            <td>{{ getTotalTargetedForCalendarYear() | currency:"$" }}</td>
+                            <td>{{ getNoFundingSourceIdentifiedTotalForCalendarYear() | currency:"$"}}</td>
+                            <td>{{ getTotalVariesByYear() | currency:"$"}}</td>
+                        </tr>
+                        <tr ng-if="budgetSameEachYear()" class="summaryTableRow">
+                            <td>{{ getTotalSecuredSameEachYear() | currency:"$" }}</td>
+                            <td>{{ getTotalTargetedSameEachYear() | currency:"$" }}</td>
+                            <td>{{ getTotalNoFundingIdentifiedSameEachYear() | currency:"$"}}</td>
+                            <td>{{ getTotalSameEachYear() | currency:"$"}}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
