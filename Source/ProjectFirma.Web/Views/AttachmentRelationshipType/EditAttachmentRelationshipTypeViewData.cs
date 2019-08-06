@@ -19,14 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 {
     public class EditAttachmentRelationshipTypeViewData : FirmaUserControlViewData
     {
+        public List<FileResourceMimeType> AllFileResourceMimeTypes { get; }
 
-        public EditAttachmentRelationshipTypeViewData()
+        public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes)
         {
-
+            AllFileResourceMimeTypes = fileResourceMimeTypes;//.ToSelectList(x => x.FileResourceMimeTypeID.ToString(CultureInfo.InvariantCulture), y => y.FileResourceMimeTypeDisplayName);
         }
     }
 }

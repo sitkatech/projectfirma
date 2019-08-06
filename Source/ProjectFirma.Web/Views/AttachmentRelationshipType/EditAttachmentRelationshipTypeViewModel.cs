@@ -26,6 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AttachmentRelationshipType
@@ -45,33 +46,44 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         [DisplayName("Relationship Type Description")]
         public string AttachmentRelationshipTypeDescription { get; set; }
 
+        [Required]
+        [DisplayName("Can Be of the Following File Types")]
+        public List<int> FileResourceMimeTypeIDs { get; set; }
+
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditAttachmentRelationshipTypeViewModel()
         {
+            FileResourceMimeTypeIDs = new List<int>();
         }
 
-        public EditAttachmentRelationshipTypeViewModel(ProjectFirmaModels.Models.AttachmentRelationshipType contactRelationshipType)
+        public EditAttachmentRelationshipTypeViewModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)
         {
-            RelationshipTypeID = contactRelationshipType.AttachmentRelationshipTypeID;
-            AttachmentRelationshipTypeName = contactRelationshipType.AttachmentRelationshipTypeName;
-
-            AttachmentRelationshipTypeDescription = contactRelationshipType.AttachmentRelationshipTypeDescription;
+            RelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
+            AttachmentRelationshipTypeName = attachmentRelationshipType.AttachmentRelationshipTypeName;
+            AttachmentRelationshipTypeDescription = attachmentRelationshipType.AttachmentRelationshipTypeDescription;
+            FileResourceMimeTypeIDs = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.AttachmentRelationshipType contactRelationshipType)
+        public void UpdateModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType, ICollection<AttachmentRelationshipTypeFileResourceMimeType> allAttachmentRelationshipTypeFileResourceMimeTypes)
         {
-            contactRelationshipType.AttachmentRelationshipTypeName = AttachmentRelationshipTypeName;
+            attachmentRelationshipType.AttachmentRelationshipTypeName = AttachmentRelationshipTypeName;
 
-            contactRelationshipType.AttachmentRelationshipTypeDescription = AttachmentRelationshipTypeDescription;
+            attachmentRelationshipType.AttachmentRelationshipTypeDescription = AttachmentRelationshipTypeDescription;
+
+            var fileResourceMimeTypesUpdated = FileResourceMimeTypeIDs.Select(x => new AttachmentRelationshipTypeFileResourceMimeType( attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
+
+            attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Merge(fileResourceMimeTypesUpdated,
+                allAttachmentRelationshipTypeFileResourceMimeTypes,
+                (x, y) => x.AttachmentRelationshipTypeID == y.AttachmentRelationshipTypeID && x.FileResourceMimeTypeID == y.FileResourceMimeTypeID, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var contactRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList();
-            if (!contactRelationshipTypes.IsAttachmentRelationshipTypeNameUnique(AttachmentRelationshipTypeName, RelationshipTypeID))
+            var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList();
+            if (!attachmentRelationshipTypes.IsAttachmentRelationshipTypeNameUnique(AttachmentRelationshipTypeName, RelationshipTypeID))
             {
                 yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, string>("Name already exists.",
                     x => x.AttachmentRelationshipTypeName);

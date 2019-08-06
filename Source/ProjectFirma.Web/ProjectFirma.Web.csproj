@@ -348,6 +348,7 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
+    <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />

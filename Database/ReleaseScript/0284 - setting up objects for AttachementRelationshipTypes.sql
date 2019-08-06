@@ -111,7 +111,6 @@ GO
 
 
 --ProjectAttachmentUpdate table
-
 CREATE TABLE [dbo].[ProjectAttachmentUpdate](
 	[ProjectAttachmentUpdateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,

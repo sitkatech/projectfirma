@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -62,7 +63,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            viewModel.UpdateModel(relationshipType);
+            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeFileResourceMimeTypes.Load();
+            var relationshipTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeFileResourceMimeTypes.Local;
+
+            viewModel.UpdateModel(relationshipType, relationshipTypeFileResourceMimeTypes);
             
             SetMessageForDisplay(
                 $"New {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.AttachmentRelationshipTypeName} successfully created!");
@@ -89,7 +93,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditAttachmentRelationshipType(viewModel);
             }
 
-            viewModel.UpdateModel(relationshipType);
+            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeFileResourceMimeTypes.Load();
+            var relationshipTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeFileResourceMimeTypes.Local;
+
+            viewModel.UpdateModel(relationshipType, relationshipTypeFileResourceMimeTypes);
             return new ModalDialogFormJsonResult();
         }
 
@@ -100,7 +107,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditAttachmentRelationshipType(EditAttachmentRelationshipTypeViewModel viewModel)
         {
-            var viewData = new EditAttachmentRelationshipTypeViewData();
+            
+            var viewData = new EditAttachmentRelationshipTypeViewData(FileResourceMimeType.All);
             return RazorPartialView<EditAttachmentRelationshipType, EditAttachmentRelationshipTypeViewData, EditAttachmentRelationshipTypeViewModel>(viewData, viewModel);
         }
 
