@@ -172,7 +172,7 @@
                             <th style="text-align: right"> {{getBudgetTotalForRow(projectFundingSourceBudget) | currency:"$"}}</th>
                         </tr>
                         @* Sum of budgets for funding source*@
-                        <tr>
+                        <tr ng-show="getRelevantCostTypes().length > 1">
                             <td style="width: 30px; min-width: 30px;"></td>
                             <th style="white-space: nowrap">
                                 All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
@@ -317,12 +317,12 @@
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.IsRelevant}}" />
             </div>
             
-            <div style="margin: 10px 0px; padding: 5px 10px;">
+            <div class="form-group">
                 <p>
                     <label ng-if="budgetVariesByYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedTotalCost.GetFieldDefinitionLabel()</label>
                     <label ng-if="budgetSameEachYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost.GetFieldDefinitionLabel()</label>
                 </p>
-                <div>
+                <div style="margin-left: 20px; margin-right: 20px;">
                     <table class="table table-bordered table-condensed" style="overflow: scroll;">
                         <tr class="summaryTableHeader">
                             <td>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForSecuredFunding)</td>
@@ -352,6 +352,7 @@
         <input type="hidden" name="@Html.NameFor(x => x.FundingTypeID)" value="{{selectedFundingTypeID}}" />
 
         <div class="row">
+            <hr />
             <div style="text-align: right; white-space: nowrap">
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>

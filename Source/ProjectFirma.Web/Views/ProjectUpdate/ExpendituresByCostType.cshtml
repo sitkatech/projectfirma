@@ -81,7 +81,7 @@ else
                     </div>
                 </div>
                 <div ng-show="getRelevantCostTypes().length === 0">
-                    <p class="systemText">You need to select at least one @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel() to enter expenditures.</p>
+                    <p class="systemText">Select at least one @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel() to enter expenditures.</p>
                 </div>
                 <div ng-show="getRelevantCostTypes().length > 0">
                     <div class="form-group">
@@ -145,7 +145,7 @@ else
                                     <th style="text-align: right"> {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}</th>
                                 </tr>
                                 @* Sum of expenditures for funding source*@
-                                <tr>
+                                <tr ng-show="getRelevantCostTypes().length > 1">
                                     <td style="width: 30px; min-width: 30px;"></td>
                                     <th style="white-space: nowrap">
                                         All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
