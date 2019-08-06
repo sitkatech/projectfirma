@@ -417,8 +417,8 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
                         _.each(calendarYearsToAdd,
                             function (calendarYear) {
                                 var existingCalendarYearBudget = _.find(pfsb.CalendarYearBudgets,
-                                    function(pfsb) {
-                                        return pfsb.CalendarYear == calendarYear;
+                                    function(cyb) {
+                                        return cyb.CalendarYear == calendarYear;
                                     });
                                 if (existingCalendarYearBudget == null) {
                                     pfsb.CalendarYearBudgets.push($scope.createNewCalendarYearBudgetRow(calendarYear));
