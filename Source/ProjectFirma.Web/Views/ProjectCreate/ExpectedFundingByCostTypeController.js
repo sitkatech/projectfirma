@@ -68,7 +68,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
     $scope.getFundingSource = function (fundingSourceId) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceId == f.FundingSourceID; }); };
 
     $scope.getRelevantCostTypes = function () {
-        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }), ["CostTypeName"]);
+        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }),
+            function(c) {
+                return c.CostTypeName;
+            });
         return relevantCostTypes;
     };
 
@@ -162,9 +165,9 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
             function (pfse) {
                 return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
-            }), [function (f) {
-                return getFundingSourceName(f);
-            }]);
+            }), function (f) {
+                return $scope.getCostTypeName(f);
+            });
     };
 
     $scope.addFundingSourceRow = function (fundingSourceId) {
@@ -423,6 +426,18 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
                             });
                     });
             }
+        }
+        if ($scope.budgetSameEachYear()) {
+            // make sure secured and targeted funding is pre-populated with zeros
+            _.each($scope.AngularModel.ProjectFundingSourceBudgets,
+                function(pfsb) {
+                    if (pfsb.SecuredAmount == null) {
+                        pfsb.SecuredAmount = 0;
+                    }
+                    if (pfsb.TargetedAmount == null) {
+                        pfsb.TargetedAmount = 0;
+                    }
+                });
         }
     };
 

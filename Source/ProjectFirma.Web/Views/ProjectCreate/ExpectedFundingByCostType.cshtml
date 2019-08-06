@@ -317,7 +317,7 @@
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.IsRelevant}}" />
             </div>
             
-            <div class="form-group">
+            <div class="form-group" ng-show="getRelevantCostTypes().length > 0">
                 <p>
                     <label ng-if="budgetVariesByYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedTotalCost.GetFieldDefinitionLabel()</label>
                     <label ng-if="budgetSameEachYear()" class="control-label">5. Confirm this summary of your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s @ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost.GetFieldDefinitionLabel()</label>
