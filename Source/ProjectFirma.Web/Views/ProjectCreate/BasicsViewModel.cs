@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(ProjectFirmaModels.Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
+        [StringLength(ProjectModelExtensions.MaxLengthForProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 

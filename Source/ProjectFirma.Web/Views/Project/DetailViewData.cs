@@ -23,11 +23,11 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -36,7 +36,6 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
-using ProjectFirma.Web.Views.Shared.ProjectContact;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -70,7 +69,7 @@ namespace ProjectFirma.Web.Views.Project
         public EntityNotesViewData InternalNotesViewData { get; }
         public EntityExternalLinksViewData EntityExternalLinksViewData { get; }
 
-        public bool ReportExpendituresByCostType { get; }
+        public bool ReportFinancialsByCostType { get; }
 
         public ProjectBasicsTagsViewData ProjectBasicsTagsViewData { get; }
 
@@ -93,7 +92,9 @@ namespace ProjectFirma.Web.Views.Project
         public string EditProjectBoundingBoxFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
-        public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
+        public ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData { get; }
+        public ProjectBudgetsAnnualViewData ProjectBudgetsAnnualViewData { get; }
+        public ProjectBudgetsAnnualByCostTypeViewData ProjectBudgetsAnnualByCostTypeViewData { get; }
         public string EditTechnicalAssistanceRequestsUrl { get; }
         public TechnicalAssistanceRequestsDetailViewData TechnicalAssistanceRequestDetailViewData { get; }
 
@@ -114,7 +115,9 @@ namespace ProjectFirma.Web.Views.Project
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
-            ProjectFundingDetailViewData projectFundingDetailViewData,
+            ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
+            ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData,
+            ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
             TechnicalAssistanceRequestsDetailViewData technicalAssistanceRequestDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
@@ -129,7 +132,7 @@ namespace ProjectFirma.Web.Views.Project
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, 
-            bool reportExpendituresByCostType, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            bool reportFinancialsByCostType, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
@@ -284,7 +287,9 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
 
-            ProjectFundingDetailViewData = projectFundingDetailViewData;
+            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            ProjectBudgetsAnnualViewData = projectBudgetsAnnualViewData;
+            ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
             EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
             TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl = editExpectedFundingUrl;
@@ -313,7 +318,7 @@ namespace ProjectFirma.Web.Views.Project
                 SitkaRoute<ProjectController>.BuildUrlFromExpression(x =>
                     x.ProjectUpdateBatchGridJsonData(project.ProjectID));
 
-            ReportExpendituresByCostType = reportExpendituresByCostType;
+            ReportFinancialsByCostType = reportFinancialsByCostType;
 
             AuditLogsGridSpec = auditLogsGridSpec;
             AuditLogsGridName = "projectAuditLogsGrid";

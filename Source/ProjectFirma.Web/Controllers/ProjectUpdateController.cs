@@ -22,6 +22,7 @@ using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -30,11 +31,11 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -52,8 +53,6 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Views.Shared.ProjectContact;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -736,7 +735,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
             var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeExpenditureAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
             var projectExpendituresSummaryViewData = new ProjectExpendituresByCostTypeDetailViewData(projectUpdateBatch.NoExpendituresToReportExplanation,
                 projectFundingSourceCostTypeExpenditureAmounts);
             var viewData = new ExpendituresByCostTypeViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, 
@@ -799,9 +798,11 @@ namespace ProjectFirma.Web.Controllers
                 fundingTypes,
                 projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear,
                 projectUpdateBatch.ProjectUpdate.CompletionYear);
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, projectUpdateBatch.Project, false, new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates));
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, projectUpdateBatch);
+            var projectBudgetsAnnualViewData = new ProjectBudgetsAnnualViewData(CurrentPerson, projectUpdateBatch);
 
-            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
+
+            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
             return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
         }
 

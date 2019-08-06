@@ -1,8 +1,8 @@
-﻿using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Common;
+﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class AssessmentGoalModelExtensions
     {

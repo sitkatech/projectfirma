@@ -22,10 +22,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -33,21 +33,24 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
-        public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; set; }
+        public ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData { get; set; }
+
+        public ProjectBudgetsAnnualViewData ProjectBudgetsAnnualViewData { get; set; }
 
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public string FundingTypeDescriptionString { get; }
 
-        public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectFundingDetailViewData projectFundingDetailViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
+        public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectBudgetSummaryViewData projectBudgetSummaryViewData, ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
             : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFunding(projectUpdateBatch.Project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectFundingDetailViewData = projectFundingDetailViewData;
+            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            ProjectBudgetsAnnualViewData = projectBudgetsAnnualViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
             ValidationWarnings = expectedFundingValidationResult.GetWarningMessages();
             FundingTypeDescriptionString = projectUpdateBatch.ProjectUpdate.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID ? " varies by year or it's a one-year project." : " is the same each year.";
