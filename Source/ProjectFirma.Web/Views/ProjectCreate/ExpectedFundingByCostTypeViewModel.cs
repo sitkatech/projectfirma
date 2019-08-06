@@ -154,10 +154,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             {
                 ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
             }
-            var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
-            if (FundingTypeID.HasValue && !projectFundingSourceBudgetBulks.Any())
+            if (FundingTypeID.HasValue && ProjectFundingSourceBudgets.Any())
             {
-                errors.Add(new ValidationResult("Please enter your budget information"));
+                // need to make sure there is at least one relevant cost type selected
+                var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
+                if (!projectFundingSourceBudgetBulks.Any())
+                {
+                    errors.Add(new ValidationResult($"Select a {FieldDefinitionEnum.CostType.ToType().GetFieldDefinitionLabel()} or remove the {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}"));
+                }
             }
             return errors;
         }

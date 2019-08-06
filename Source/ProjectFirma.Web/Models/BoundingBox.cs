@@ -216,7 +216,21 @@ namespace ProjectFirma.Web.Models
 
             if (project.GetProjectLocationDetails().Any())
             {
-                return new BoundingBox(project.GetProjectLocationDetails().Select(x => x.GetProjectLocationGeometry()));
+                var pointList = new List<Point>();
+                
+                // If there is a Project point (lat/lng), include it
+                if (project.ProjectLocationPoint != null)
+                {
+                    pointList.Add(new Point(project.ProjectLocationPoint));
+                }
+
+                // Always include Project Location details
+                foreach (DbGeometry geometry in project.GetProjectLocationDetails().Select(x => x.GetProjectLocationGeometry()))
+                {
+                    pointList.AddRange(GetPointsFromDbGeometry(geometry));
+                }
+
+                return new BoundingBox(pointList);
             }
 
             if (project.ProjectLocationPoint != null)
