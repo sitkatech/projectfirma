@@ -38,6 +38,12 @@ angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeControll
             $scope.AngularModel.FileResourceMimeTypeIDs.push(Number($scope.FileResourceMimeTypeIDToAdd));
         }
     };
+    $scope.addAllFileResourceMimeTypes = function () {
+        $scope.AngularModel.FileResourceMimeTypeIDs = [];
+        jQuery.each($scope.AngularViewData.AllFileResourceMimeTypes, function (k, v) {
+            $scope.AngularModel.FileResourceMimeTypeIDs.push(Number(v.FileResourceMimeTypeID));
+        });
+    };
 
     $scope.getFileResourceMimeTypeDisplayName = function (fileResourceMimeTypeID) {
         var fileResourceMimeType = _.find($scope.AngularViewData.AllFileResourceMimeTypes, function (x) { return x.FileResourceMimeTypeID == fileResourceMimeTypeID; });
@@ -67,6 +73,13 @@ angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeControll
         }
     };
 
+    $scope.addAllTaxonomyTrunks = function () {
+        $scope.AngularModel.TaxonomyTrunkIDs = [];
+        jQuery.each($scope.AngularViewData.AllTaxonomyTrunks, function (k, v) {
+            $scope.AngularModel.TaxonomyTrunkIDs.push(Number(v.TaxonomyTrunkID));
+        });
+    };
+
     $scope.getTaxonomyTrunkDisplayName = function (TaxonomyTrunkID) {
         var TaxonomyTrunk = _.find($scope.AngularViewData.AllTaxonomyTrunks, function (x) { return x.TaxonomyTrunkID == TaxonomyTrunkID; });
         //debugger;
@@ -76,7 +89,7 @@ angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeControll
     $scope.deleteRowTaxonomyTrunk = function (TaxonomyTrunkID) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTrunkIDs, TaxonomyTrunkID);
     };
-
+    
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 });
