@@ -25,13 +25,20 @@ using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class ExpectedFundingByCostTypeViewData : ProjectUpdateViewData
     {
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
+        public ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData { get; }
+        public ProjectBudgetsAnnualByCostTypeViewData ProjectBudgetsAnnualByCostTypeViewData { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
@@ -44,12 +51,21 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ExpectedFundingByCostTypeViewData(Person currentPerson,
             ProjectUpdateBatch projectUpdateBatch,
             ViewDataForAngularClass viewDataForAngularClass,
+            ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
+            ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
             ProjectUpdateStatus projectUpdateStatus,
             ExpectedFundingValidationResult expectedFundingValidationResult
         ) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFunding(projectUpdateBatch.Project));
             ViewDataForAngular = viewDataForAngularClass;
+            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
+
+
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
@@ -71,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
 
-            public ViewDataForAngularClass(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch,
+            public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
                 List<int> requiredCalendarYearRange,

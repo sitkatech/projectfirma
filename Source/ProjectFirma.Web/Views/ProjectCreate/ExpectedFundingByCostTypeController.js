@@ -188,7 +188,6 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
     };
 
     $scope.addRow = function () {
-        console.log($scope.fundingSourceIDToAdd);
         if ($scope.fundingSourceIDToAdd == null) {
             return;
         }

@@ -65,6 +65,19 @@ namespace ProjectFirma.Web.Models
             }
             return projectFundingSourceCostTypeAmounts;
         }
+        public static List<ProjectFundingSourceCostTypeAmount> CreateFromProjectFundingSourceBudgets(List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates)
+        {
+            var projectFundingSourceCostTypeAmounts = new List<ProjectFundingSourceCostTypeAmount>();
+            // Get Secured and Targeted amounts for each FundingSource/CostType/Year
+            foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
+            {
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
+                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear.Value, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
+                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear.Value, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
+            }
+            return projectFundingSourceCostTypeAmounts;
+        }
         // Expenditures
         public static List<ProjectFundingSourceCostTypeAmount> CreateFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {

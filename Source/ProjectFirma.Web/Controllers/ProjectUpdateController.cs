@@ -31,7 +31,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectUpdate;
+//using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -53,6 +53,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -861,7 +862,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateRelevantCostTypes.AddRange(
                 costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
                     .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
-            var viewModel = new ExpectedFundingByCostTypeViewModel(project, calendarYearRange, projectUpdateRelevantCostTypes);
+            var viewModel = new ExpectedFundingByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectUpdateRelevantCostTypes);
             return ViewExpectedFundingByCostType(projectUpdateBatch, calendarYearRange, viewModel);
         }
 
@@ -872,18 +873,21 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-
             if (projectUpdateBatch == null)
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
 
-            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             if (!ModelState.IsValid)
             {
+                var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
                 return ViewExpectedFundingByCostType(projectUpdateBatch, calendarYearRange, viewModel);
             }
-            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities);
+            viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ExpendituresComment = viewModel.Comments;
+            }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
@@ -900,12 +904,22 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearRange, 
                 fundingTypes);
 
-            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult(); // TODO: Handle this
+            var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, projectUpdateBatch);
+            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, projectUpdateBatch) : null;
 
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult);
+            var viewData = new ExpectedFundingByCostTypeViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult);
             return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
+        }
+
+        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts);
+            return projectBudgetsAnnualByCostTypeViewData;
         }
 
         [ProjectUpdateCreateEditSubmitFeature]

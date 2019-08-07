@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     }
 
                     case FundingTypeEnum.BudgetSameEachYear:
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project);
+                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, new List<int>());
                         NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
                         break;
                     default:
