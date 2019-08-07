@@ -63,6 +63,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             var calendarYears = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             var usedCalendarYears = projectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear.HasValue && !calendarYears.Contains(x.CalendarYear.Value)).Select(x => x.CalendarYear.Value).Distinct().ToList();
             calendarYears.AddRange(usedCalendarYears);
+            calendarYears.Sort();
             CalendarYears = calendarYears;
             var calendarYearMonetaryAmounts = new List<CalendarYearMonetaryAmount>();
             if (project.FundingTypeID.HasValue)

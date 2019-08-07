@@ -37,7 +37,7 @@
                         <th rowspan="2">
                             <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
                         </th>
-                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears.OrderBy(x => x))
+                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
                         {
 
                             <th colspan="2" style="text-align: center">
@@ -194,10 +194,6 @@
                     </tbody>
                 </table>
             </div>
-        }
-        else
-        {
-
         }
     }
     else
