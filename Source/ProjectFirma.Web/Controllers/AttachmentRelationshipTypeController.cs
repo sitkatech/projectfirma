@@ -116,8 +116,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditAttachmentRelationshipType(EditAttachmentRelationshipTypeViewModel viewModel)
         {
+            var allTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
             
-            var viewData = new EditAttachmentRelationshipTypeViewData(FileResourceMimeType.All, TaxonomyTrunk.All);
+            var viewData = new EditAttachmentRelationshipTypeViewData(FileResourceMimeType.All, allTaxonomyTrunks);
             return RazorPartialView<EditAttachmentRelationshipType, EditAttachmentRelationshipTypeViewData, EditAttachmentRelationshipTypeViewModel>(viewData, viewModel);
         }
 

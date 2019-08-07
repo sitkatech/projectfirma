@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Mvc;
 using ProjectFirmaModels.Models;
@@ -30,7 +31,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
     public class EditAttachmentRelationshipTypeViewData : FirmaUserControlViewData
     {
         public List<FileResourceMimeType> AllFileResourceMimeTypes { get; }
-        public List<ProjectFirmaModels.Models.TaxonomyTrunk> AllTaxonomyTrunks { get; }
+        public List<TaxonomyTrunkSimple> AllTaxonomyTrunks { get; }
 
 
         public List<SelectListItem> MaxFileSizes { get; }
@@ -38,7 +39,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes, List<ProjectFirmaModels.Models.TaxonomyTrunk> allTaxonomyTrunks)
         {
             AllFileResourceMimeTypes = fileResourceMimeTypes;
-            AllTaxonomyTrunks = allTaxonomyTrunks;
+            AllTaxonomyTrunks = allTaxonomyTrunks.Select(x => new TaxonomyTrunkSimple(x)).ToList();
             MaxFileSizes = new List<SelectListItem>();
             for (var i = 10; i <= 50; i += 10)
             {
@@ -49,6 +50,20 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
                 };
                 MaxFileSizes.Add(thisSelectListItem);
             }
+        }
+    }
+
+    public class TaxonomyTrunkSimple
+    {
+        public int TaxonomyTrunkID { get; set; }
+        public string TaxonomyTrunkName { get; set; }
+        public string TaxonomyTrunkDescription { get; set; }
+
+        public TaxonomyTrunkSimple(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk)
+        {
+            TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
+            TaxonomyTrunkName = taxonomyTrunk.TaxonomyTrunkName;
+            TaxonomyTrunkDescription = taxonomyTrunk.TaxonomyTrunkDescription;
         }
     }
 }
