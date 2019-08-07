@@ -26,6 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 
 
         [Required]
-        [DisplayName("Relationship Type Description")]
+        [DisplayName("Attachment Relationship Type Description")]
         public string AttachmentRelationshipTypeDescription { get; set; }
 
         [Required]
@@ -51,7 +52,6 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public List<int> FileResourceMimeTypeIDs { get; set; }
 
         [Required]
-        [DisplayName("Applicable to the Following Authority Types")]
         public List<int> TaxonomyTrunkIDs { get; set; }
         
         [Required]
@@ -111,6 +111,18 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             {
                 yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, string>("Name already exists.",
                     x => x.AttachmentRelationshipTypeName);
+            }
+
+            if (!TaxonomyTrunkIDs.Any())
+            {
+                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}",
+                    x => x.TaxonomyTrunkIDs);
+            }
+
+            if (!FileResourceMimeTypeIDs.Any())
+            {
+                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}",
+                    x => x.FileResourceMimeTypeIDs);
             }
 
         }

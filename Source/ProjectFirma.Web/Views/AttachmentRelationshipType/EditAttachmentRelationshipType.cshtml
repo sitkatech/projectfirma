@@ -89,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
         
         <div class="form-group">
             @*Selectpicker for Taxonomy Trunks*@
-            <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkIDs)</div>
+            <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkIDs, string.Format("Applicable to the Following {0}", FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()), true)</div>
             <div class="col-md-9">
                 <div class="input-group" style="width: 100%;">
                     <select class="selectpicker" ng-model="TaxonomyTrunkIDToAdd" data-size="6">
