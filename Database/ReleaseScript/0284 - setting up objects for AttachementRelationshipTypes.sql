@@ -41,6 +41,17 @@ create table dbo.AttachmentRelationshipTypeFileResourceMimeType (
 alter table dbo.AttachmentRelationshipTypeFileResourceMimeType add constraint FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID foreign key (AttachmentRelationshipTypeID, TenantID) references dbo.AttachmentRelationshipType(AttachmentRelationshipTypeID, TenantID)
 --alter table dbo.AttachmentRelationshipTypeFileResourceMimeType add constraint FK_AttachmentRelationshipTypeFileResourceMimeType_FileResourceMimeType_FileResourceMimeTypeID_TenantID foreign key (FileResourceMimeTypeID, TenantID) references dbo.FileResourceMimeType(FileResourceMimeTypeID, TenantID)
 
+-- Create Taxonomy Trunk link table 
+create table dbo.AttachmentRelationshipTypeTaxonomyTrunk (
+	AttachmentRelationshipTypeTaxonomyTrunkID int identity(1, 1) not null constraint PK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipTypeTaxonomyTrunkID primary key,
+	TenantID int not null constraint FK_AttachmentRelationshipTypeTaxonomyTrunk_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	AttachmentRelationshipTypeID int not null constraint FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID foreign key references dbo.AttachmentRelationshipType(AttachmentRelationshipTypeID),
+	TaxonomyTrunkID int not null constraint FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID foreign key references dbo.TaxonomyTrunk(TaxonomyTrunkID)
+)
+
+alter table dbo.AttachmentRelationshipTypeTaxonomyTrunk add constraint FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID foreign key (AttachmentRelationshipTypeID, TenantID) references dbo.AttachmentRelationshipType(AttachmentRelationshipTypeID, TenantID)
+alter table dbo.AttachmentRelationshipTypeTaxonomyTrunk add constraint FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID_TenantID foreign key (TaxonomyTrunkID, TenantID) references dbo.TaxonomyTrunk(TaxonomyTrunkID, TenantID)
+
 --ProjectAttachment table
 CREATE TABLE [dbo].[ProjectAttachment](
 	[ProjectAttachmentID] [int] IDENTITY(1,1) NOT NULL,

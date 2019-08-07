@@ -45,6 +45,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
             modelBuilder.Configurations.Add(new AttachmentRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new AttachmentRelationshipTypeFileResourceMimeTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
@@ -167,6 +168,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get { return AllAttachmentRelationshipTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AttachmentRelationshipType> AllAttachmentRelationshipTypes { get; set; }
         public virtual IQueryable<AttachmentRelationshipType> AttachmentRelationshipTypes { get { return AllAttachmentRelationshipTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentRelationshipTypeTaxonomyTrunk> AllAttachmentRelationshipTypeTaxonomyTrunks { get; set; }
+        public virtual IQueryable<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get { return AllAttachmentRelationshipTypeTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
@@ -409,6 +412,9 @@ namespace ProjectFirmaModels.Models
 
                 case "AttachmentRelationshipType":
                     return AttachmentRelationshipTypes.GetAttachmentRelationshipType(primaryKey);
+
+                case "AttachmentRelationshipTypeTaxonomyTrunk":
+                    return AttachmentRelationshipTypeTaxonomyTrunks.GetAttachmentRelationshipTypeTaxonomyTrunk(primaryKey);
 
                 case "AuditLogEventType":
                     var auditLogEventType = AuditLogEventType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -55,6 +55,10 @@
     <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AttachmentRelationshipTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AuditLogConfiguration.Binding.cs" />

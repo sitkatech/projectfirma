@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected AttachmentRelationshipType()
         {
             this.AttachmentRelationshipTypeFileResourceMimeTypes = new HashSet<AttachmentRelationshipTypeFileResourceMimeType>();
+            this.AttachmentRelationshipTypeTaxonomyTrunks = new HashSet<AttachmentRelationshipTypeTaxonomyTrunk>();
             this.ProjectAttachments = new HashSet<ProjectAttachment>();
             this.ProjectAttachmentUpdates = new HashSet<ProjectAttachmentUpdate>();
         }
@@ -68,13 +69,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AttachmentRelationshipTypeFileResourceMimeTypes.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
+            return AttachmentRelationshipTypeFileResourceMimeTypes.Any() || AttachmentRelationshipTypeTaxonomyTrunks.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipType).Name, typeof(AttachmentRelationshipTypeFileResourceMimeType).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipType).Name, typeof(AttachmentRelationshipTypeFileResourceMimeType).Name, typeof(AttachmentRelationshipTypeTaxonomyTrunk).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
 
 
         /// <summary>
@@ -104,6 +105,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in AttachmentRelationshipTypeTaxonomyTrunks.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectAttachments.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -126,6 +132,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return AttachmentRelationshipTypeID; } set { AttachmentRelationshipTypeID = value; } }
 
         public virtual ICollection<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
+        public virtual ICollection<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
