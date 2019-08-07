@@ -73,6 +73,36 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeDescription)
             </div>
         </div>
+        
+        <div class="form-group">
+            @*Selectpicker*@
+            <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkIDs)</div>
+            <div class="col-md-9">
+                <div class="input-group" style="width: 100%;">
+                    <select class="selectpicker" ng-model="TaxonomyTrunkIDToAdd" data-live-search="true" data-size="6">
+                        <option value="">Select one</option>
+                        <option ng-repeat="taxonomyTrunk in getAvailableTaxonomyTrunks()"
+                                ng-bind="taxonomyTrunk.TaxonomyTrunkName"
+                                ng-value="taxonomyTrunk.TaxonomyTrunkID"></option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addRowTaxonomyTrunk()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
+            </div>
+
+            @*Selections*@
+            <div class="col-md-9 col-md-offset-3" style="margin-top: 5px;">
+                <div class="col-md-4" ng-repeat="selectedTaxonomyTrunkID in AngularModel.TaxonomyTrunkIDs">
+                    <span>
+                        <a href="#" ng-click="deleteRowTaxonomyTrunk(selectedTaxonomyTrunkID); $event.preventDefault();">
+                            <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                        </a>
+                    </span>
+
+                    <span ng-bind="getTaxonomyTrunkDisplayName(selectedTaxonomyTrunkID)"></span>
+                </div>
+            </div>
+        </div>
+        <input ng-repeat="selectedTaxonomyTrunkID in AngularModel.TaxonomyTrunkIDs" type="hidden" name="@Html.NameFor(x => x.TaxonomyTrunkIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedTaxonomyTrunkID}}">
 
         <div class="form-group">
             @*Selectpicker*@

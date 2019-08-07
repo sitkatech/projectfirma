@@ -51,6 +51,10 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public List<int> FileResourceMimeTypeIDs { get; set; }
 
         [Required]
+        [DisplayName("Applicable to the Following Authority Types")]
+        public List<int> TaxonomyTrunkIDs { get; set; }
+        
+        [Required]
         [DisplayName("Max File Size")]
         public int MaxFileSize { get; set; }
 
@@ -63,6 +67,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public EditAttachmentRelationshipTypeViewModel()
         {
             FileResourceMimeTypeIDs = new List<int>();
+            TaxonomyTrunkIDs = new List<int>();
         }
 
         public EditAttachmentRelationshipTypeViewModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)
@@ -73,9 +78,12 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
             MaxFileSize = attachmentRelationshipType.MaxFileSize;
             FileResourceMimeTypeIDs = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
+            TaxonomyTrunkIDs = attachmentRelationshipType.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType, ICollection<AttachmentRelationshipTypeFileResourceMimeType> allAttachmentRelationshipTypeFileResourceMimeTypes)
+        public void UpdateModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType, 
+                                ICollection<AttachmentRelationshipTypeFileResourceMimeType> allAttachmentRelationshipTypeFileResourceMimeTypes,
+                                ICollection<AttachmentRelationshipTypeTaxonomyTrunk> allAttachmentRelationshipTypeTaxonomyTrunks)
         {
             attachmentRelationshipType.AttachmentRelationshipTypeName = AttachmentRelationshipTypeName;
 
@@ -86,10 +94,14 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             attachmentRelationshipType.MaxFileSize = MaxFileSize;
 
             var fileResourceMimeTypesUpdated = FileResourceMimeTypeIDs.Select(x => new AttachmentRelationshipTypeFileResourceMimeType( attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
-
             attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Merge(fileResourceMimeTypesUpdated,
                 allAttachmentRelationshipTypeFileResourceMimeTypes,
                 (x, y) => x.AttachmentRelationshipTypeID == y.AttachmentRelationshipTypeID && x.FileResourceMimeTypeID == y.FileResourceMimeTypeID, HttpRequestStorage.DatabaseEntities);
+
+            var taxonomyTrunksUpdated = TaxonomyTrunkIDs.Select(x => new AttachmentRelationshipTypeTaxonomyTrunk(attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
+            attachmentRelationshipType.AttachmentRelationshipTypeTaxonomyTrunks.Merge(taxonomyTrunksUpdated,
+                allAttachmentRelationshipTypeTaxonomyTrunks,
+                (x, y) => x.AttachmentRelationshipTypeID == y.AttachmentRelationshipTypeID && x.TaxonomyTrunkID == y.TaxonomyTrunkID, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -30,12 +30,15 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
     public class EditAttachmentRelationshipTypeViewData : FirmaUserControlViewData
     {
         public List<FileResourceMimeType> AllFileResourceMimeTypes { get; }
+        public List<ProjectFirmaModels.Models.TaxonomyTrunk> AllTaxonomyTrunks { get; }
+
 
         public List<SelectListItem> MaxFileSizes { get; }
 
-        public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes)
+        public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes, List<ProjectFirmaModels.Models.TaxonomyTrunk> allTaxonomyTrunks)
         {
-            AllFileResourceMimeTypes = fileResourceMimeTypes;//.ToSelectList(x => x.FileResourceMimeTypeID.ToString(CultureInfo.InvariantCulture), y => y.FileResourceMimeTypeDisplayName);
+            AllFileResourceMimeTypes = fileResourceMimeTypes;
+            AllTaxonomyTrunks = allTaxonomyTrunks;
             MaxFileSizes = new List<SelectListItem>();
             for (var i = 10; i <= 50; i += 10)
             {

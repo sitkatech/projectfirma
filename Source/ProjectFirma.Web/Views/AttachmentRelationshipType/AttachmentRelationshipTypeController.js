@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeController", function ($scope, angularModelAndViewData) {
 
 
-
+    // File Types
     $scope.getAvailableFileTypes = function () {
         var usedFileResourceMimeTypeIDs = $scope.AngularModel.FileResourceMimeTypeIDs;
         //debugger;
@@ -47,6 +47,34 @@ angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeControll
 
     $scope.deleteRow = function (fileResourceMimeTypeID) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.FileResourceMimeTypeIDs, fileResourceMimeTypeID);
+    };
+
+    // Taxonomy Trunks
+    $scope.getAvailableTaxonomyTrunks = function () {
+        var usedTaxonomyTrunkIDs = $scope.AngularModel.TaxonomyTrunkIDs;
+        //debugger;
+        var filter = _($scope.AngularViewData.AllTaxonomyTrunks).filter(function (f) { return !_.contains(usedTaxonomyTrunkIDs, f.TaxonomyTrunkID); });
+        var taxonomyTrunksFilteredAndSorted = filter.sortBy(["TaxonomyTrunkName"]).value();
+        //debugger;
+        jQuery(".selectpicker").selectpicker("refresh");
+        return taxonomyTrunksFilteredAndSorted;
+    };
+
+    $scope.addRowTaxonomyTrunk = function () {
+        if ($scope.TaxonomyTrunkIDToAdd != null) {
+            //debugger;
+            $scope.AngularModel.TaxonomyTrunkIDs.push(Number($scope.TaxonomyTrunkIDToAdd));
+        }
+    };
+
+    $scope.getTaxonomyTrunkDisplayName = function (TaxonomyTrunkID) {
+        var TaxonomyTrunk = _.find($scope.AngularViewData.AllTaxonomyTrunks, function (x) { return x.TaxonomyTrunkID == TaxonomyTrunkID; });
+        //debugger;
+        return TaxonomyTrunk.TaxonomyTrunkName;
+    };
+
+    $scope.deleteRowTaxonomyTrunk = function (TaxonomyTrunkID) {
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.TaxonomyTrunkIDs, TaxonomyTrunkID);
     };
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
