@@ -51,10 +51,10 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public List<int> FileResourceMimeTypeIDs { get; set; }
 
         [Required]
-        [DisplayName("Is Limited to the Following Max File Size")]
+        [DisplayName("Max File Size")]
         public int MaxFileSize { get; set; }
 
-        [DisplayName("Number of Allowed Attachments per Project")]
+        [DisplayName("Maximum Number of Allowed Attachments per Project")]
         public int? NumberOfAllowedAttachments { get; set; }
 
         /// <summary>
@@ -71,6 +71,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             AttachmentRelationshipTypeName = attachmentRelationshipType.AttachmentRelationshipTypeName;
             AttachmentRelationshipTypeDescription = attachmentRelationshipType.AttachmentRelationshipTypeDescription;
             NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
+            MaxFileSize = attachmentRelationshipType.MaxFileSize;
             FileResourceMimeTypeIDs = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
         }
 
@@ -81,6 +82,8 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             attachmentRelationshipType.AttachmentRelationshipTypeDescription = AttachmentRelationshipTypeDescription;
 
             attachmentRelationshipType.NumberOfAllowedAttachments = NumberOfAllowedAttachments;
+
+            attachmentRelationshipType.MaxFileSize = MaxFileSize;
 
             var fileResourceMimeTypesUpdated = FileResourceMimeTypeIDs.Select(x => new AttachmentRelationshipTypeFileResourceMimeType( attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
 

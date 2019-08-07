@@ -59,8 +59,9 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewNewAttachmentRelationshipType(viewModel);
             }
-            var relationshipType = new AttachmentRelationshipType(viewModel.AttachmentRelationshipTypeName, FirmaWebConfiguration.MaximumAllowedUploadFileSize);
-            relationshipType.NumberOfAllowedAttachments = viewModel.NumberOfAllowedAttachments;
+
+            var relationshipType = new AttachmentRelationshipType(viewModel.AttachmentRelationshipTypeName, viewModel.MaxFileSize);
+            
             HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypes.Add(relationshipType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 

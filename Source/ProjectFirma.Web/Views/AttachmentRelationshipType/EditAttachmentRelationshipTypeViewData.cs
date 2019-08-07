@@ -31,9 +31,21 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
     {
         public List<FileResourceMimeType> AllFileResourceMimeTypes { get; }
 
+        public List<SelectListItem> MaxFileSizes { get; }
+
         public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes)
         {
             AllFileResourceMimeTypes = fileResourceMimeTypes;//.ToSelectList(x => x.FileResourceMimeTypeID.ToString(CultureInfo.InvariantCulture), y => y.FileResourceMimeTypeDisplayName);
+            MaxFileSizes = new List<SelectListItem>();
+            for (var i = 10; i <= 50; i += 10)
+            {
+                SelectListItem thisSelectListItem = new SelectListItem()
+                {
+                    Text = $"≤ {i}MB",
+                    Value = (i * 1024 * 1000).ToString() // calculate byte value based on displayed MB
+                };
+                MaxFileSizes.Add(thisSelectListItem);
+            }
         }
     }
 }
