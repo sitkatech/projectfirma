@@ -38,6 +38,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
         public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.ViewDataForAngularClass viewDataForAngularClass)
         {
@@ -50,6 +52,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
+            FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
+            FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
         }
 
         public class ViewDataForAngularClass

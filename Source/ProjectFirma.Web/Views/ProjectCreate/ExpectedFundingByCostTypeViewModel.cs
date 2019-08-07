@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                                 x.NoFundingSourceIdentifiedYet)));
                         var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
                         calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                            .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+                            .ToList().Select(x => new CalendarYearMonetaryAmount(x, 0)));
                         break;
                     }
 

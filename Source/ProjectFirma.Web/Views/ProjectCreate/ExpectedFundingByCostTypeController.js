@@ -123,7 +123,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
     $scope.getTotalTargetedForCalendarYear = function (includeNoFundingIdentified, calendarYear) {
         var total = $scope.getBudgetTotalForCalendarYear(calendarYear, false);
         if (includeNoFundingIdentified) {
-            // add no funding source(which is in the target column)
+            // add no funding source (which is in the target column)
             total = total + $scope.getNoFundingSourceIdentifiedTotalForCalendarYear(calendarYear);
         }
         return total;
@@ -416,8 +416,8 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
                         _.each(calendarYearsToAdd,
                             function (calendarYear) {
                                 var existingCalendarYearBudget = _.find(pfsb.CalendarYearBudgets,
-                                    function(pfsb) {
-                                        return pfsb.CalendarYear == calendarYear;
+                                    function(cyb) {
+                                        return cyb.CalendarYear == calendarYear;
                                     });
                                 if (existingCalendarYearBudget == null) {
                                     pfsb.CalendarYearBudgets.push($scope.createNewCalendarYearBudgetRow(calendarYear));
