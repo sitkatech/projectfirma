@@ -4,7 +4,8 @@ CREATE TABLE [dbo].[AttachmentRelationshipType](
 	[TenantID] [int] NOT NULL,
 	[AttachmentRelationshipTypeName] [varchar](200) NOT NULL,
 	[AttachmentRelationshipTypeDescription] [varchar](360) NULL,
-	MaxFileSize int not null
+	MaxFileSize int not null,
+	NumberOfAllowedAttachments int null
  CONSTRAINT [PK_AttachmentRelationshipType_AttachmentRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
 	[AttachmentRelationshipTypeID] ASC

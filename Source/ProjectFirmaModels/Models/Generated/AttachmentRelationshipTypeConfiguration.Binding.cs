@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.AttachmentRelationshipTypeName).HasColumnName(@"AttachmentRelationshipTypeName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.AttachmentRelationshipTypeDescription).HasColumnName(@"AttachmentRelationshipTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(360);
             Property(x => x.MaxFileSize).HasColumnName(@"MaxFileSize").HasColumnType("int").IsRequired();
+            Property(x => x.NumberOfAllowedAttachments).HasColumnName(@"NumberOfAllowedAttachments").HasColumnType("int").IsOptional();
 
             // Foreign keys
 

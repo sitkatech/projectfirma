@@ -46,6 +46,9 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             }
 
             Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentRelationshipTypeName, 240);
+            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentRelationshipTypeDescription, 240);
+            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Number of Allowed Attachments", a => a.NumberOfAllowedAttachments, 240);
+            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Maximum Files Size", a => a.MaxFileSize, 240);
 
 
 

@@ -32,12 +32,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipType(int attachmentRelationshipTypeID, string attachmentRelationshipTypeName, string attachmentRelationshipTypeDescription, int maxFileSize) : this()
+        public AttachmentRelationshipType(int attachmentRelationshipTypeID, string attachmentRelationshipTypeName, string attachmentRelationshipTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
         {
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
             this.AttachmentRelationshipTypeName = attachmentRelationshipTypeName;
             this.AttachmentRelationshipTypeDescription = attachmentRelationshipTypeDescription;
             this.MaxFileSize = maxFileSize;
+            this.NumberOfAllowedAttachments = numberOfAllowedAttachments;
         }
 
         /// <summary>
@@ -120,6 +121,7 @@ namespace ProjectFirmaModels.Models
         public string AttachmentRelationshipTypeName { get; set; }
         public string AttachmentRelationshipTypeDescription { get; set; }
         public int MaxFileSize { get; set; }
+        public int? NumberOfAllowedAttachments { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return AttachmentRelationshipTypeID; } set { AttachmentRelationshipTypeID = value; } }
 

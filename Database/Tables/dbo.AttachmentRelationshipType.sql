@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[AttachmentRelationshipType](
 	[AttachmentRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[AttachmentRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MaxFileSize] [int] NOT NULL,
+	[NumberOfAllowedAttachments] [int] NULL,
  CONSTRAINT [PK_AttachmentRelationshipType_AttachmentRelationshipTypeID] PRIMARY KEY CLUSTERED 
 (
 	[AttachmentRelationshipTypeID] ASC
