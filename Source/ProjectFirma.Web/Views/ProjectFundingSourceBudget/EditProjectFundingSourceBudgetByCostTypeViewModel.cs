@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                                     x.NoFundingSourceIdentifiedYet)));
                             var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
                             calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, 0)));
                             break;
                         }
 
@@ -110,27 +110,22 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.SetSecuredAndTargetedAmounts(y.SecuredAmount, y.TargetedAmount), databaseEntities);
 
-
-            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+            // set if funding type is "Same Each Year", null out otherwise
+            project.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
+            var projectNoFundingSourceAmountsUpdated = new List<ProjectNoFundingSourceIdentified>();
+            if (NoFundingSourceAmounts != null)
             {
-                project.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
+                // Completely rebuild the list
+                projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
+                    .Select(x =>
+                        new ProjectNoFundingSourceIdentified(project.ProjectID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
+                    .ToList();
             }
-            else
-            {
-                var projectNoFundingSourceAmountsUpdated = new List<ProjectNoFundingSourceIdentified>();
-                if (NoFundingSourceAmounts != null)
-                {
-                    // Completely rebuild the list
-                    projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
-                        .Select(x =>
-                            new ProjectNoFundingSourceIdentified(project.ProjectID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
-                        .ToList();
-                }
-                currentProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceAmountsUpdated,
-                    allProjectNoFundingSourceIdentifieds,
-                    (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear,
-                    (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
-            }
+            // set if funding type is "Varies By Year", delete rows otherwise
+            currentProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceAmountsUpdated,
+                allProjectNoFundingSourceIdentifieds,
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
 
             var currentProjectRelevantCostTypes = project.GetBudgetsRelevantCostTypes();
             var allProjectRelevantCostTypes = databaseEntities.AllProjectRelevantCostTypes.Local;
@@ -155,10 +150,14 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             {
                 ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetBulk>();
             }
-            var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
-            if (FundingTypeID.HasValue && !projectFundingSourceBudgetBulks.Any())
+            if (FundingTypeID.HasValue && ProjectFundingSourceBudgets.Any())
             {
-                errors.Add(new ValidationResult("Please enter your budget information"));
+                // need to make sure there is at least one relevant cost type selected
+                var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
+                if (!projectFundingSourceBudgetBulks.Any())
+                {
+                    errors.Add(new ValidationResult($"Select a {FieldDefinitionEnum.CostType.ToType().GetFieldDefinitionLabel()} or remove the {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}"));
+                }
             }
             return errors;
         }

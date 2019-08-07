@@ -123,7 +123,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
     $scope.getTotalTargetedForCalendarYear = function (includeNoFundingIdentified, calendarYear) {
         var total = $scope.getBudgetTotalForCalendarYear(calendarYear, false);
         if (includeNoFundingIdentified) {
-            // add no funding source(which is in the target column)
+            // add no funding source (which is in the target column)
             total = total + $scope.getNoFundingSourceIdentifiedTotalForCalendarYear(calendarYear);
         }
         return total;
