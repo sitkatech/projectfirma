@@ -74,14 +74,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
 
-            @*<div class="form-group">
-                    <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.FileResourceMimeTypeIDs)</div>
-                    <div class="col-sm-9">
-                        @Html.SearchableDropDownListFor(m => m.FileResourceMimeTypeIDs, ViewDataTyped.AllFileResourceMimeTypes, new Dictionary<string, object> { { "class", "form-control selectpicker" } })
-                        @Html.ValidationMessageFor(m => m.FileResourceMimeTypeIDs)
-                    </div>
-                </div>*@
-
             <div class="form-group">
                 @*Selectpicker*@
                 <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.FileResourceMimeTypeIDs)</div>
@@ -91,8 +83,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             <option value="">Select one</option>
                             <option ng-repeat="fileType in getAvailableFileTypes()"
                                     ng-bind="fileType.FileResourceMimeTypeDisplayName"
-                                    ng-value="fileType.FileResourceMimeTypeID"
-                                    ng-selected="isOptionSelected(fileType)"></option>
+                                    ng-value="fileType.FileResourceMimeTypeID"></option>
                         </select>
                         <button type="button" class="btn btn-sm btn-firma" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span>Add</button>
                     </div>
