@@ -30,6 +30,16 @@ namespace ProjectFirmaModels.Models
         {
             return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
         }
+        public decimal? GetMonetaryAmount(bool isSecured)
+        {
+            return isSecured ? SecuredAmount : TargetedAmount;
+        }
+
+        public void SetSecuredAndTargetedAmounts(decimal? securedAmount, decimal? targetedAmount)
+        {
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+        }
 
         public ProjectFundingSourceBudgetUpdate(int projectUpdateBatchID, int fundingSourceID, int calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
         {

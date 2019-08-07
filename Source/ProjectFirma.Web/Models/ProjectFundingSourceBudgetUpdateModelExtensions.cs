@@ -11,15 +11,26 @@ namespace ProjectFirma.Web.Models
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
-                projectFundingSourceBudget =>
-                    new ProjectFundingSourceBudgetUpdate(projectUpdateBatch,
-                        projectFundingSourceBudget.FundingSource)
-                    {
-                        SecuredAmount = projectFundingSourceBudget.SecuredAmount,
-                        TargetedAmount = projectFundingSourceBudget.TargetedAmount
-                    }
-            ).ToList();
+            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            {
+                projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
+                    projectFundingSourceBudget =>
+                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch.ProjectUpdateBatchID,
+                            projectFundingSourceBudget.FundingSource.FundingSourceID, projectFundingSourceBudget.CalendarYear.Value, projectFundingSourceBudget.SecuredAmount.Value, projectFundingSourceBudget.TargetedAmount.Value, projectFundingSourceBudget.CostTypeID)
+                ).ToList();
+            }
+            else
+            {
+                projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
+                    projectFundingSourceBudget =>
+                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch,
+                            projectFundingSourceBudget.FundingSource)
+                        {
+                            SecuredAmount = projectFundingSourceBudget.SecuredAmount,
+                            TargetedAmount = projectFundingSourceBudget.TargetedAmount
+                        }
+                ).ToList();
+            }
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,

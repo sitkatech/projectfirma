@@ -31,6 +31,11 @@ namespace ProjectFirmaModels.Models
             return $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
         }
 
+        public decimal? GetMonetaryAmount(bool isSecured)
+        {
+            return isSecured ? SecuredAmount : TargetedAmount;
+        }
+
         public ProjectFundingSourceBudget(int projectID, int fundingSourceID, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
         {
             this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();

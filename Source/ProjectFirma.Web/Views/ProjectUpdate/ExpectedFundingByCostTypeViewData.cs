@@ -18,19 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpectedFundingByCostTypeViewData : ProjectCreateViewData
+    public class ExpectedFundingByCostTypeViewData : ProjectUpdateViewData
     {
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
+        public ProjectBudgetSummaryViewData ProjectBudgetSummaryViewData { get; }
+        public ProjectBudgetsAnnualByCostTypeViewData ProjectBudgetsAnnualByCostTypeViewData { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
@@ -39,17 +47,25 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
         public ExpectedFundingByCostTypeViewData(Person currentPerson,
-            ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus,
-            ViewDataForAngularClass viewDataForAngularClass
-        ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProjectUpdateBatch projectUpdateBatch,
+            ViewDataForAngularClass viewDataForAngularClass,
+            ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
+            ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
+            ProjectUpdateStatus projectUpdateStatus,
+            ExpectedFundingValidationResult expectedFundingValidationResult
+        ) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFunding(projectUpdateBatch.Project));
             ViewDataForAngular = viewDataForAngularClass;
+            ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
+            ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
+
+
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
@@ -58,8 +74,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
-            FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
-            FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
         }
 
         public class ViewDataForAngularClass
@@ -67,13 +81,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
-            // Actually a ProjectID
-            public int ProjectID { get; }
+            // Actually a ProjectUpdateID
+            public int ProjectUpdateBatchID { get; }
             public int MaxYear { get; }
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
 
-            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
+            public ViewDataForAngularClass(ProjectUpdateBatch projectUpdateBatch,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
                 List<int> requiredCalendarYearRange,
@@ -82,7 +96,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
-                ProjectID = project.ProjectID;
+                ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             }

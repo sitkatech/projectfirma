@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingDetailViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectBudgetSummaryViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,31 +18,34 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Collections.Generic;
 
-namespace ProjectFirma.Web.Views.ProjectFunding
+using ProjectFirmaModels.Models;
+using System.Linq;
+using ProjectFirma.Web.Models;
+
+namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 {
-    public class ProjectFundingDetailViewData : FirmaViewData
+    public class ProjectBudgetSummaryViewData : FirmaViewData
     {
         public ProjectFirmaModels.Models.Project Project { get; }
-        public bool UserHasProjectBudgetManagePermissions { get; }
         public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
-        public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
+        public bool HasFundingSources { get; }
 
-        public ProjectFundingDetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
-            bool userHasProjectBudgetManagePermissions, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts) : base(currentPerson)
+        public ProjectBudgetSummaryViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson)
         {
             Project = project;
-            UserHasProjectBudgetManagePermissions = userHasProjectBudgetManagePermissions;
-            FundingSourceRequestAmounts = fundingSourceRequestAmounts;
-
             ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
+            HasFundingSources = project.ProjectFundingSourceBudgets.Any();
+        }
+
+        public ProjectBudgetSummaryViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch) : base(currentPerson)
+        {
+            Project = projectUpdateBatch.Project;
+            ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(projectUpdateBatch);
+            HasFundingSources = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any();
         }
     }
+
 
     public class ProjectFundingCalculatedCosts
     {
@@ -53,6 +56,12 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         {
             TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
             StartYearForTotalCostCalculation = project.StartYearForTotalCostCalculations();
+        }
+
+        public ProjectFundingCalculatedCosts(ProjectUpdateBatch projectUpdateBatch)
+        {
+            TotalOperatingCostInYearOfExpenditure = projectUpdateBatch.ProjectUpdate.CalculateTotalRemainingOperatingCost();
+            StartYearForTotalCostCalculation = projectUpdateBatch.ProjectUpdate.StartYearForTotalCostCalculations();
         }
     }
 }

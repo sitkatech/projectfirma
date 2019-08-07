@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public string ProjectName { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
-        [StringLength(ProjectFirmaModels.Models.ProjectModelExtensions.MaxLengthForProjectDescription)]
+        [StringLength(ProjectModelExtensions.MaxLengthForProjectDescription)]
         [Required]
         public string ProjectDescription { get; set; }
 
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            if (!ProjectFirmaModels.Models.ProjectModelExtensions.IsProjectNameUnique(projects, ProjectName, ProjectID))
+            if (!ProjectModelExtensions.IsProjectNameUnique(projects, ProjectName, ProjectID))
             {
                 yield return new SitkaValidationResult<EditProjectViewModel, string>(
                     FirmaValidationMessages.ProjectNameUnique, m => m.ProjectName);

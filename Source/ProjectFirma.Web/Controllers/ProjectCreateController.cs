@@ -562,8 +562,6 @@ namespace ProjectFirma.Web.Controllers
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             var viewDataForAngularEditor = new ExpectedFundingByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
-            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-
             var viewData = new ExpectedFundingByCostTypeViewData(CurrentPerson, project, GetProposalSectionsStatus(project), viewDataForAngularEditor);
             return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
         }

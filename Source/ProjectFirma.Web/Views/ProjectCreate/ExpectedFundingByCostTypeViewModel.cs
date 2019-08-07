@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         public int? FundingTypeID { get; set; }
 
-        public List<ProjectFundingSourceBudgetBulk> ProjectFundingSourceBudgets { get; set; }
+        public List<ProjectFundingSourceBudgetsByCostTypeBulk> ProjectFundingSourceBudgets { get; set; }
 
         public List<ProjectRelevantCostTypeSimple> ProjectRelevantCostTypes { get; set; }
 
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 {
                     case FundingTypeEnum.BudgetVariesByYear:
                     {
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
+                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
 
                         var projectNoFundingSourceIdentifieds =
                             project.ProjectNoFundingSourceIdentifieds.ToList();
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     }
 
                     case FundingTypeEnum.BudgetSameEachYear:
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project);
+                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, new List<int>());
                         NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
                         break;
                     default:
@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
             if (ProjectFundingSourceBudgets == null)
             {
-                ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetBulk>();
+                ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
             }
             if (FundingTypeID.HasValue && ProjectFundingSourceBudgets.Any())
             {

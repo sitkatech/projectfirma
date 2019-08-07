@@ -20,11 +20,11 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
-@using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @inherits ExpectedFunding
 
 @section JavascriptAndStylesContent
@@ -91,7 +91,9 @@
 
 @if (!ViewDataTyped.IsEditable)
 {
-    ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
+    ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
+    
+    ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
 }
 else if (ViewDataTyped.AreProjectBasicsValid)
 {
