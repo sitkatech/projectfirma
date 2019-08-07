@@ -40,11 +40,29 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public List<CalendarYearMonetaryAmount> NoFundingSourceAmounts { get; set; }
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForSecuredFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
+
         public ProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts) : base(currentPerson)
         {
             Project = project;
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
+            FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
+            FieldDefinitionForSecuredFunding = FieldDefinitionEnum.SecuredFunding.ToType();
+            FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
+            FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
+            FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
+
             ProjectFundingSourceCostTypeAmounts = projectFundingSourceCostTypeAmounts;
-           var calendarYears = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var calendarYears = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var usedCalendarYears = projectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear.HasValue && !calendarYears.Contains(x.CalendarYear.Value)).Select(x => x.CalendarYear.Value).Distinct().ToList();
+            calendarYears.AddRange(usedCalendarYears);
             CalendarYears = calendarYears;
             var calendarYearMonetaryAmounts = new List<CalendarYearMonetaryAmount>();
             if (project.FundingTypeID.HasValue)
@@ -58,8 +76,8 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
                             projectNoFundingSourceIdentifieds.ForEach(x =>
                                 calendarYearMonetaryAmounts.Add(new CalendarYearMonetaryAmount(x.CalendarYear.Value,
                                     x.NoFundingSourceIdentifiedYet)));
-                            var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
-                            calendarYearMonetaryAmounts.AddRange(calendarYears.Where(x => !usedCalendarYears.Contains(x))
+                            var usedNoFundingCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
+                            calendarYearMonetaryAmounts.AddRange(calendarYears.Where(x => !usedNoFundingCalendarYears.Contains(x))
                                 .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
                             NoFundingSourceAmounts = calendarYearMonetaryAmounts;
                             break;

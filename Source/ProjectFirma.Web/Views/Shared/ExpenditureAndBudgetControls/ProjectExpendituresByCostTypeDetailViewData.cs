@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectExpendituresByCostTypeDetailViewData(string exemptionExplanation, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeExpenditureAmounts)
         {
             ProjectFundingSourceCostTypeExpenditureAmountAmounts = projectFundingSourceCostTypeExpenditureAmounts;
-            CalendarYears = projectFundingSourceCostTypeExpenditureAmounts.Select(x => x.CalendarYear).Distinct().ToList();
+            CalendarYears = projectFundingSourceCostTypeExpenditureAmounts.Select(x => x.CalendarYear.Value).Distinct().ToList();
             ExemptionExplanation = exemptionExplanation;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
