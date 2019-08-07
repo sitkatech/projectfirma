@@ -42,7 +42,6 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         [DisplayName("Name")]
         public string AttachmentRelationshipTypeName { get; set; }
 
-
         [Required]
         [DisplayName("Attachment Relationship Type Description")]
         public string AttachmentRelationshipTypeDescription { get; set; }
@@ -68,6 +67,14 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         {
             FileResourceMimeTypeIDs = new List<int>();
             TaxonomyTrunkIDs = new List<int>();
+            if (!MultiTenantHelpers.IsTaxonomyLevelTrunk())
+            {
+                var defaultTaxonomyTrunk = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.FirstOrDefault();
+                if (defaultTaxonomyTrunk != null)
+                {
+                    TaxonomyTrunkIDs.Add(defaultTaxonomyTrunk.TaxonomyTrunkID);
+                }
+            }
         }
 
         public EditAttachmentRelationshipTypeViewModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)

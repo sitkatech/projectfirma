@@ -32,14 +32,15 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
     {
         public List<FileResourceMimeType> AllFileResourceMimeTypes { get; }
         public List<TaxonomyTrunkSimple> AllTaxonomyTrunks { get; }
-
-
+        public bool HasTaxonomyTrunks { get; }
         public List<SelectListItem> MaxFileSizes { get; }
 
-        public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes, List<ProjectFirmaModels.Models.TaxonomyTrunk> allTaxonomyTrunks)
+        public EditAttachmentRelationshipTypeViewData(List<FileResourceMimeType> fileResourceMimeTypes, List<ProjectFirmaModels.Models.TaxonomyTrunk> allTaxonomyTrunks, bool hasTaxonomyTrunks)
         {
             AllFileResourceMimeTypes = fileResourceMimeTypes;
             AllTaxonomyTrunks = allTaxonomyTrunks.Select(x => new TaxonomyTrunkSimple(x)).ToList();
+            // 8/7/2019 TK - AttachmentRelationshipTypeTaxonomyTrunk is configured to only be FK'ed to the TaxonomyTrunk table. If we want to support clients applying attachment relationship types to branches or leaves, we will need to add FK's to those tables as well. Then update the AttachmentRelationshipTypeTaxonomyTrunk class to return the correct list of taxonomy objects based on the clients set taxonomy level
+            HasTaxonomyTrunks = hasTaxonomyTrunks;
             MaxFileSizes = new List<SelectListItem>();
             for (var i = 10; i <= 50; i += 10)
             {
