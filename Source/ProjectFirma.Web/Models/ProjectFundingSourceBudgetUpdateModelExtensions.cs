@@ -15,8 +15,7 @@ namespace ProjectFirma.Web.Models
             {
                 projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
                     projectFundingSourceBudget =>
-                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch.ProjectUpdateBatchID,
-                            projectFundingSourceBudget.FundingSource.FundingSourceID, projectFundingSourceBudget.CalendarYear.Value, projectFundingSourceBudget.SecuredAmount.Value, projectFundingSourceBudget.TargetedAmount.Value, projectFundingSourceBudget.CostTypeID)
+                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CalendarYear.Value, projectFundingSourceBudget.SecuredAmount.Value, projectFundingSourceBudget.TargetedAmount.Value, projectFundingSourceBudget.CostTypeID)
                 ).ToList();
             }
             else

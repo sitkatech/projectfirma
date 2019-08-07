@@ -164,7 +164,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
             function (pfse) {
-                return pfse.ProjectID == $scope.AngularViewData.ProjectUpdateBatchID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
+                return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
             }), function (f) {
                 return $scope.getCostTypeName(f);
             });

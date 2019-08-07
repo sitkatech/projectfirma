@@ -260,10 +260,11 @@ namespace ProjectFirma.Web.Models
 
         public List<ProjectFundingSourceBudgetUpdate> ToProjectFundingSourceBudgetUpdates(ProjectUpdateBatch projectUpdateBatch)
         {
+            var fundingSource = HttpRequestStorage.DatabaseEntities.FundingSources.Single(x => x.FundingSourceID == FundingSourceID);
             // ReSharper disable PossibleInvalidOperationException
             return
                 CalendarYearBudgets.Where(x => x.SecuredAmount.HasValue || x.TargetedAmount.HasValue)
-                    .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.SecuredAmount.Value, x.TargetedAmount.Value, CostTypeID))
+                    .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, x.CalendarYear, x.SecuredAmount.Value, x.TargetedAmount.Value, CostTypeID))
                     .ToList();
             // ReSharper restore PossibleInvalidOperationException
         }
