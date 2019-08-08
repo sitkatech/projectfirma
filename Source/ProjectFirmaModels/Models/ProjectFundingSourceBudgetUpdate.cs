@@ -41,7 +41,7 @@ namespace ProjectFirmaModels.Models
             TargetedAmount = targetedAmount;
         }
 
-        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
         {
             ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;

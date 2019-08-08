@@ -905,7 +905,7 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearRange, 
                 fundingTypes);
 
-            var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult(); // TODO: Handle this
+            var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult();
             var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
             var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, projectUpdateBatch);
             var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, projectUpdateBatch) : null;

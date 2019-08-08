@@ -115,8 +115,8 @@ namespace ProjectFirma.Web.Models
             FundingSourceID = fundingSourceID;
             CostTypeID = costTypeID;
             IsRelevant = true;
-            SecuredAmount = projectFundingSourceBudgetUpdate.SecuredAmount;
-            TargetedAmount = projectFundingSourceBudgetUpdate.TargetedAmount;
+            SecuredAmount = projectFundingSourceBudgetUpdate?.SecuredAmount;
+            TargetedAmount = projectFundingSourceBudgetUpdate?.TargetedAmount;
             CalendarYearBudgets = new List<CalendarYearBudgetAmounts>();
         }
         private ProjectFundingSourceBudgetsByCostTypeBulk(int projectID, int fundingSourceID, int costTypeID, 
@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Models
                         ? new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID,
                             budgetsForThisFundingSourceAndCostType, calendarYearsToPopulate)
                         : new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID,
-                            budgetsForThisFundingSourceAndCostType[0]));
+                            budgetsForThisFundingSourceAndCostType.Count > 0 ? budgetsForThisFundingSourceAndCostType[0] : null));
                 }
             }
             return projectFundingSourceBudgetBulks;
