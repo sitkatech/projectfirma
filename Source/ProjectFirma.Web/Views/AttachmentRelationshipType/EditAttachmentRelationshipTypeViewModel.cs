@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -73,6 +74,10 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
                 if (defaultTaxonomyTrunk != null)
                 {
                     TaxonomyTrunkIDs.Add(defaultTaxonomyTrunk.TaxonomyTrunkID);
+                }
+                else
+                {
+                    throw new Exception("You do not have a default Taxonomy Trunk configured. Please set one up for Attachment Relationship Types to function completely.");
                 }
             }
         }
