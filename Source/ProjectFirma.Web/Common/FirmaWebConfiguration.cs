@@ -61,6 +61,11 @@ namespace ProjectFirma.Web.Common
 
         public static List<string> CanonicalHostNames => Tenant.All.OrderBy(x => x.TenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).ToList();
 
+
+        // Feature Flag Settings
+        public static readonly bool FeatureAttachmentRelationshipTypes = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureAttachmentRelationshipTypes"));
+
+
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)
         {
             //First search for perfect match
