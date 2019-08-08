@@ -162,6 +162,12 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
 
     $scope.getProjectFundingSourceBudgetRowsForFundingSource = function (fundingSourceId) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
+        var test = _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
+            function (pfse) {
+                return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
+            }), function (f) {
+            return $scope.getCostTypeName(f);
+        });
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
             function (pfse) {
                 return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
@@ -177,7 +183,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
                 return pfsb.FundingSourceID == fundingSourceId && pfsb.CostTypeID == projectRelevantCostType.CostTypeID;
             });
             if (existingRow == null) {
-                var newProjectFundingSourceBudget = $scope.createNewRow($scope.AngularViewData.ProjectUpdateBatchID,
+                var newProjectFundingSourceBudget = $scope.createNewRow($scope.AngularViewData.ProjectID,
                     fundingSourceId,
                     projectRelevantCostType.CostTypeID,
                     $scope.calendarYearRange,
