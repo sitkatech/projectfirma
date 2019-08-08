@@ -11,5 +11,7 @@ namespace ProjectFirmaModels.Models
 
         public string GetAuditDescriptionString() => AttachmentRelationshipTypeName;
 
+        public string MaxFileSizeForDisplay => $"{MaxFileSize / 1024 / 1000}MB";
+
     }
 }

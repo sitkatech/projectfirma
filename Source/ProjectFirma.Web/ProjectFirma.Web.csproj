@@ -67,7 +67,9 @@
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
