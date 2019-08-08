@@ -20,11 +20,11 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
-@using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectUpdate
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @inherits ExpectedFunding
 
 @section JavascriptAndStylesContent
@@ -91,7 +91,9 @@
 
 @if (!ViewDataTyped.IsEditable)
 {
-    ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
+    ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
+    
+    ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
 }
 else if (ViewDataTyped.AreProjectBasicsValid)
 {
@@ -117,10 +119,9 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                 </div>
             </div>
 
-        <hr/>
         <div class="form-group">
             <label class="control-label">2. Identify your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel())'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized().</label>
-            <div class="input-group">
+            <div class="input-group" style="padding-bottom: 5px;">
                 <select ng-model="FundingSourceIDToAdd"
                         class="selectpicker"
                         data-live-search="true"
@@ -135,16 +136,13 @@ else if (ViewDataTyped.AreProjectBasicsValid)
                             data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}}">
                     </option>
                 </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-firma" type="button" ng-click="addRow()">
-                        <span class="glyphicon glyphicon-plus"></span> Add
-                    </button>
+                <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+                <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
+                    Not listed?
+                    @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
                 </span>
+                <br />
             </div>
-            <p style="font-size: 12px;">
-                @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) not listed?
-                @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-            </p>
         </div>
         <div style="overflow-x: auto" class="form-inline">
             <label class="control-label">3. Enter amount provided by each @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>

@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 
             if (!HasExpenditures && string.IsNullOrWhiteSpace(Explanation))
             {
-                errors.Add(new ValidationResult("Please enter your an explanation on why you do not have any expenditures"));
+                errors.Add(new ValidationResult("Please enter an explanation why you do not have any expenditures"));
             }
             return errors;
         }

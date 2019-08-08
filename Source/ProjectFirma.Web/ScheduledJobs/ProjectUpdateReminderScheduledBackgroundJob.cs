@@ -3,6 +3,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {

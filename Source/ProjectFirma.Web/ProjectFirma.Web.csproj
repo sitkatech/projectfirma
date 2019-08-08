@@ -127,8 +127,8 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
-    <Compile Include="Models\ProjectFundingSourceCostTypeExpenditureAmount.cs" />
-    <Compile Include="Models\ProjectFundingSourceBudgetBulk.cs" />
+    <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
+    <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
@@ -217,12 +217,19 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummaryViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Contacts.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostType.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
@@ -249,6 +256,8 @@
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetail.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetailViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -358,6 +367,7 @@
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
+    <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
@@ -503,12 +513,15 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
-    <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1487,6 +1500,7 @@
     <Content Include="Views\ProjectUpdate\Contacts.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetail.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

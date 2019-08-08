@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
 
-        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch project)
+        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return project.ProjectRelevantCostTypeUpdates
+            return projectUpdateBatch.ProjectRelevantCostTypeUpdates
                 .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
