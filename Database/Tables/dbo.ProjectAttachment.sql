@@ -35,10 +35,10 @@ REFERENCES [dbo].[FileResource] ([FileResourceID])
 GO
 ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_FileResourceID]
 GO
-ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_FileResourceID_TenantID] FOREIGN KEY([AttachmentID], [TenantID])
+ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_TenantID_FileResourceID_TenantID] FOREIGN KEY([AttachmentID], [TenantID])
 REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_FileResourceID_TenantID]
+ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_TenantID_FileResourceID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
