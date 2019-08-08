@@ -28,36 +28,37 @@
     @* Annual Budgeting by Cost Type*@
     @if (ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
     {
-        <div class="table-responsive tableFixHeader">
-            <table class="table table-condensed table-bordered">
-                <thead>
-                <tr>
-                    <th rowspan="2">
-                        <span> @Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType()) / @Html.LabelWithSugarFor(FieldDefinitionEnum.CostType.ToType())</span>
-                    </th>
-                    @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
-                    {
-
-                        <th colspan="2" style="text-align: center">
-                            <span>@calendarYear</span>
+        if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+        {
+            <div class="table-responsive tableFixHeader">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">
+                            <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
                         </th>
-                    }
-                    <th rowspan="2" class="text-right">Total</th>
-                </tr>
-                <tr>
-                @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
-                {
-                    <th class="text-right">
-                        <span> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
-                    </th>
-                    <th style="text-align: right; vertical-align: top">
-                        <span> @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
-                    </th>
-                }
-                </tr>
-                </thead>
-                <tbody style="border-top: 2px solid #ddd">
+                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
+                        {
 
+                            <th colspan="2" style="text-align: center">
+                                <span>@calendarYear</span>
+                            </th>
+                        }
+                        <th rowspan="2" class="text-right">Total</th>
+                    </tr>
+                    <tr>
+                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
+                        {
+                            <th class="text-right">
+                                <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                            </th>
+                            <th style="text-align: right; vertical-align: top">
+                                <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                            </th>
+                        }
+                    </tr>
+                    </thead>
+                    <tbody style="border-top: 2px solid #ddd">
                     @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeAmounts.GroupBy(x => x.FundingSourceID))
                     {
                         <tr class="info">
@@ -66,59 +67,137 @@
                         foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
                         {
                             <tr>
-                                <td style="text-align:left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                                <td style="text-align: left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
                                 @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                                 {
-                                    <td style="text-align:right">
+                                    <td style="text-align: right">
                                         <span>@groupedByCostType.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                                     </td>
-                                    <td style="text-align:right">
+                                    <td style="text-align: right">
                                         <span>@groupedByCostType.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                                     </td>
                                 }
-                                <td style="text-align:right">
+                                <td style="text-align: right">
                                     <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                                 </td>
                             </tr>
                         }
-                        <tr>
-                            <th style="text-align:left; padding-left: 20px;">All @FieldDefinitionEnum.CostType.ToType().GetFieldDefinitionLabelPluralized()</th>
-                            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                            {
-                                <th style="text-align:right">
-                                    <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        if (groupedByFundingSource.GroupBy(x => x.CostType).Count() > 1)
+                        {
+                            <tr>
+                                <th style="text-align: left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <th style="text-align: right">
+                                        <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                    </th>
+                                    <th style="text-align: right">
+                                        <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                    </th>
+                                }
+                                <th style="text-align: right">
+                                    <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                                 </th>
-                                <th style="text-align:right">
-                                    <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                                </th>
-                            }
-                            <th style="text-align:right">
-                                <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                            </th>
-                        </tr>
-                    }
-                <tr>
-                    <th style="text-align:left">Grand Total</th>
-                    @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                    {
-                        <th style="text-align:right">
-                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                        </th>
-                        <th style="text-align:right">
-                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                        </th>
-                    }
-                    <th style="text-align:right">
-                        <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                    </th>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                            </tr>
+                        }
 
+                    }
+                    <tr>
+                        <th style="text-align: left">Grand Total</th>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                        {
+                            <th style="text-align: right">
+                                <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </th>
+                            <th style="text-align: right">
+                                <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </th>
+                        }
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+        {
+            <div class="table-responsive tableFixHeader">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">
+                                <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
+                            </th>
+                            <th colspan="2" style="text-align: center">Per Year</th>
+                            <th rowspan="2" class="text-right">Total</th>
+                        </tr>
+                    <tr>
+                        <th class="text-right">
+                            <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                        </th>
+                        <th style="text-align: right; vertical-align: top">
+                            <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody style="border-top: 2px solid #ddd">
+                    @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeAmounts.GroupBy(x => x.FundingSourceID))
+                    {
+                        <tr class="info">
+                            <td style="text-align: left; white-space: nowrap;" colspan="5">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                        </tr>
+                        foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
+                        {
+                            <tr>
+                                <td style="text-align: left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                            </tr>
+                        }
+                        if (groupedByFundingSource.GroupBy(x => x.CostType).Count() > 1)
+                        {
+                            <tr>
+                                <th style="text-align: left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
+                                <th style="text-align: right">
+                                    <span>@groupedByFundingSource.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </th>
+                                <th style="text-align: right">
+                                    <span>@groupedByFundingSource.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </th>
+                                <th style="text-align: right">
+                                    <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </th>
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <th style="text-align: left">Grand Total</th>
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
     }
     else
     {
-        <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+        <p class="systemText">No @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized()) identified for this @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()).</p>
     }
 </div>

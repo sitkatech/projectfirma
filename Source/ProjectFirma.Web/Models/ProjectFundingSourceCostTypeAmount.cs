@@ -31,12 +31,12 @@ namespace ProjectFirma.Web.Models
         public string FundingSourceName { get; }
         public string FundingSourceDisplayName { get; }
         public CostType CostType { get; }
-        public int CalendarYear { get; }
+        public int? CalendarYear { get; }
         public decimal? MonetaryAmount { get; }
         public bool IsRealEntry { get; }
         public bool IsSecured { get; }
 
-        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int calendarYear, decimal? monetaryAmount, bool isRealEntry)
+        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry)
         {
             FundingSourceID = fundingSourceID;
             FundingSourceName = fundingSourceName;
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Models
             IsRealEntry = isRealEntry;
         }
 
-        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int calendarYear, decimal? monetaryAmount, bool isRealEntry, bool isSecured) : this(fundingSourceID, fundingSourceName, fundingSourceDisplayName, costType, calendarYear, monetaryAmount, isRealEntry)
+        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry, bool isSecured) : this(fundingSourceID, fundingSourceName, fundingSourceDisplayName, costType, calendarYear, monetaryAmount, isRealEntry)
         {
             IsSecured = isSecured;
         }
@@ -59,9 +59,9 @@ namespace ProjectFirma.Web.Models
             foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
             {
                 projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource.FundingSourceID, 
-                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear.Value, projectFundingSourceBudget.GetMonetaryAmount(true), true, true));
+                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(true), true, true));
                 projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource.FundingSourceID,
-                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear.Value, projectFundingSourceBudget.GetMonetaryAmount(false), true, false));
+                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(false), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }
@@ -72,9 +72,9 @@ namespace ProjectFirma.Web.Models
             foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
             {
                 projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
-                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear.Value, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
+                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
                 projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
-                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear.Value, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
+                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }

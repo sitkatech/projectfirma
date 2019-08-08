@@ -64,7 +64,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
     $scope.getFundingSource = function (fundingSourceId) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceId == f.FundingSourceID; }); };
 
     $scope.getRelevantCostTypes = function () {
-        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }), ["CostTypeName"]);
+        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }),
+            function (c) {
+                return c.CostTypeName;
+            });
         return relevantCostTypes;
     };
 
@@ -150,9 +153,9 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceExpenditures,
             function (pfse) {
                 return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
-            }), [function (f) {
-                return getFundingSourceName(f);
-            }]);
+            }), function (f) {
+                return $scope.getCostTypeName(f);
+            });
     };
 
     $scope.addRow = function () {
@@ -225,6 +228,27 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureByC
     };
 
     $scope.addRemoveCostTypeFromExpenditures = function () {
+        // when adding cost types, we need to populate CalendarYearExpenditures with any missing years
+        var calendarYearsToAdd = $scope.calendarYearRange;
+        if (calendarYearsToAdd.length > 0) {
+            var projectFundingSourceExpendituresToUpdate = $scope.getRelevantProjectFundingSourceExpenditures();
+            _.each(projectFundingSourceExpendituresToUpdate,
+                function (pfse) {
+                    if (Sitka.Methods.isUndefinedNullOrEmpty(pfse.CalendarYearExpenditures)) {
+                        pfse.CalendarYearExpenditures = [];
+                    }
+                    _.each(calendarYearsToAdd,
+                        function (calendarYear) {
+                            var existingCalendarYearExpenditure = _.find(pfse.CalendarYearExpenditures,
+                                function (cye) {
+                                    return cye.CalendarYear == calendarYear;
+                                });
+                            if (existingCalendarYearExpenditure == null) {
+                                pfse.CalendarYearExpenditures.push($scope.createNewCalendarYearExpenditureRow(calendarYear));
+                            }
+                        });
+                });
+        }
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         _.each($scope.AngularModel.ProjectFundingSourceExpenditures,
             function (f) {
