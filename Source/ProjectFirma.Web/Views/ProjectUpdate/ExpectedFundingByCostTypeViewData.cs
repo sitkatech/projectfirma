@@ -58,8 +58,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         ) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFunding(projectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFundingByCostType(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFundingByCostType(projectUpdateBatch.Project));
             ViewDataForAngular = viewDataForAngularClass;
             ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
             ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
@@ -74,14 +74,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
-        }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
         public class ViewDataForAngularClass
         {
             public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
-            // Actually a ProjectUpdateID
+            public int ProjectID { get; }
             public int ProjectUpdateBatchID { get; }
             public int MaxYear { get; }
 
@@ -96,6 +96,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 AllCostTypes = allCostTypes;
+                ProjectID = projectUpdateBatch.ProjectID;
                 ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
