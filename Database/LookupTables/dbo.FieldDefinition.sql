@@ -112,4 +112,5 @@ VALUES
 (287, N'ContactTypeAbbreviation', N'Contact Type Abbreviation', N'An Abbreviation of the Contact Type. Must be unique.'),
 (288, N'IsDefaultContactType', N'Is Default Contact Type?', 'Contacts that are automatically added to the list when a new user logs in must be given a Contact Type. This field identifies which Contact Type to use as the default. Only one Contact Type can be the default (e.g. IsDefaultContactType=1 for only one).'),
 (289, N'ProjectContactRelationshipType', N'Project Contact Relationship Type', N'<p>A categorization of a relationship between a contact and a project, e.g. Technical Lead, Project Manager, Landowner.</p>'),
-(290, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.')
+(290, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.'),
+(291, N'ProjectAttachmentRelationshipType', N'Project Attachment Relationship Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>')
