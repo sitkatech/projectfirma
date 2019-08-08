@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
-            IEnumerable<ProjectStage> projectStages,            
+            IEnumerable<ProjectStage> projectStages,
             IEnumerable<ProjectFirmaModels.Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
