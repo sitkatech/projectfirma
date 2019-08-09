@@ -127,6 +127,7 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />

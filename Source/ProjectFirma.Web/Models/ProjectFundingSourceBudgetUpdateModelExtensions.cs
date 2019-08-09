@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
@@ -41,15 +42,12 @@ namespace ProjectFirma.Web.Models
             project.FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
                 .ProjectFundingSourceBudgetUpdates
-                .Select(x => new ProjectFundingSourceBudget(project.ProjectID, x.FundingSource.FundingSourceID)
-                    {
-                        SecuredAmount = x.SecuredAmount,
-                        TargetedAmount = x.TargetedAmount
-                    }
+                .Select(x => new ProjectFundingSourceBudget(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), project.ProjectID, x.FundingSource.FundingSourceID, 
+                        x.SecuredAmount, x.TargetedAmount, x.CalendarYear, x.CostTypeID)
                 ).ToList();
             project.ProjectFundingSourceBudgets.Merge(projectFundingSourceExpectedFundingFromProjectUpdate,
                 allProjectFundingSourceBudget,
-                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
+                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) =>
                 {
                     x.SecuredAmount = y.SecuredAmount;
