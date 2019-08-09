@@ -40,7 +40,7 @@ namespace ProjectFirma.Api.Controllers
             var leadEntities = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeName == "Lead Entity").ToList();
             LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
-            EstimatedTotalCost = project.GetEstimatedTotalCost();
+            EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType();
             SecuredFunding = project.GetSecuredFunding();
             NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             if (project.ProjectLocationPoint != null)

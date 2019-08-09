@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
             return null;
         }
 
-        public decimal? GetEstimatedTotalCost()
+        public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();

@@ -61,7 +61,7 @@ To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()
 
         @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
         {
-        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span></div>
+        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet.ToStringCurrency()</span></div>
         }
@@ -73,7 +73,7 @@ To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()
                     @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel():
                 </td>
                 <td>
-                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span>
+                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span>
                 </td>
             </tr>
             <tr>
