@@ -382,14 +382,19 @@ namespace ProjectFirma.Web.Models
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
+            var showFullName = (securedAmountsDictionary.Count + targetedAmountsDictionary.Count) <= 2;
+
             var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice("Secured Funding: " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
 
             }).ToList();
             googlePieChartSlices.AddRange(securedPieChartSlices);
@@ -398,10 +403,13 @@ namespace ProjectFirma.Web.Models
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
             googlePieChartSlices.AddRange(targetedPieChartSlices);
 
