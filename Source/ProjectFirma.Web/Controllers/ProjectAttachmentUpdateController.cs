@@ -4,25 +4,25 @@ using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectDocument;
+using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectDocumentUpdateController : FirmaBaseController
+    public class ProjectAttachmentUpdateController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectDocumentUpdateNewFeature]
+        [ProjectAttachmentUpdateNewFeature]
         public PartialViewResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
         {
-            var viewModel = new NewProjectDocumentUpdateViewModel(projectUpdateBatchPrimaryKey.EntityObject);
+            var viewModel = new NewProjectAttachmentUpdateViewModel(projectUpdateBatchPrimaryKey.EntityObject);
             return ViewNew(viewModel);
         }
 
         [HttpPost]
-        [ProjectDocumentUpdateNewFeature]
+        [ProjectAttachmentUpdateNewFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewProjectDocumentUpdateViewModel viewModel)
+        public ActionResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey, NewProjectAttachmentUpdateViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -35,56 +35,57 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectDocumentUpdateEditFeature]
-        public PartialViewResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey)
+        [ProjectAttachmentUpdateEditFeature]
+        public PartialViewResult Edit(ProjectAttachmentUpdatePrimaryKey projectAttachmentUpdatePrimaryKey)
         {
-            var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
-            var viewModel = new EditProjectDocumentUpdatesViewModel(projectDocumentUpdate);
+            var projectAttachmentUpdate = projectAttachmentUpdatePrimaryKey.EntityObject;
+            var viewModel = new EditProjectAttachmentUpdatesViewModel(projectAttachmentUpdate);
             return ViewEdit(viewModel);
         }
 
         [HttpPost]
-        [ProjectDocumentUpdateEditFeature]
+        [ProjectAttachmentUpdateEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, EditProjectDocumentUpdatesViewModel viewModel)
+        public ActionResult Edit(ProjectAttachmentUpdatePrimaryKey projectAttachmentUpdatePrimaryKey, EditProjectAttachmentUpdatesViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewEdit(viewModel);
             }
-            var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectDocumentUpdate);
-            projectDocumentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            var projectAttachmentUpdate = projectAttachmentUpdatePrimaryKey.EntityObject;
+            viewModel.UpdateModel(projectAttachmentUpdate);
+            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(NewProjectDocumentViewModel viewModel)
+        private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel)
         {
-            var viewData = new NewProjectDocumentViewData();
-            return RazorPartialView<NewProjectDocument, NewProjectDocumentViewData, NewProjectDocumentViewModel>(viewData, viewModel);
+            var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes;
+            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
+            return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 
-        private PartialViewResult ViewEdit(EditProjectDocumentsViewModel viewModel)
+        private PartialViewResult ViewEdit(EditProjectAttachmentsViewModel viewModel)
         {
-            var viewData = new EditProjectDocumentsViewData();
-            return RazorPartialView<EditProjectDocuments, EditProjectDocumentsViewData, EditProjectDocumentsViewModel>(viewData, viewModel);
+            var viewData = new EditProjectAttachmentsViewData();
+            return RazorPartialView<EditProjectAttachments, EditProjectAttachmentsViewData, EditProjectAttachmentsViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProjectDocumentUpdateEditFeature]
-        public PartialViewResult Delete(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey)
+        [ProjectAttachmentUpdateEditFeature]
+        public PartialViewResult Delete(ProjectAttachmentUpdatePrimaryKey projectAttachmentUpdatePrimaryKey)
         {
-            var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(projectDocumentUpdate.ProjectDocumentUpdateID);
-            return ViewDelete(projectDocumentUpdate, viewModel);
+            var projectAttachmentUpdate = projectAttachmentUpdatePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectAttachmentUpdate.ProjectAttachmentUpdateID);
+            return ViewDelete(projectAttachmentUpdate, viewModel);
         }
 
-        private PartialViewResult ViewDelete(ProjectDocumentUpdate projectDocumentUpdate, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDelete(ProjectAttachmentUpdate projectAttachmentUpdate, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !projectDocumentUpdate.HasDependentObjects();
+            var canDelete = !projectAttachmentUpdate.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete \"{projectDocumentUpdate.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Document");
+                ? $"Are you sure you want to delete \"{projectAttachmentUpdate.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Attachment");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
@@ -92,17 +93,17 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectDocumentUpdateEditFeature]
+        [ProjectAttachmentUpdateEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Delete(ProjectDocumentUpdatePrimaryKey projectDocumentUpdatePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Delete(ProjectAttachmentUpdatePrimaryKey projectAttachmentUpdatePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var projectDocumentUpdate = projectDocumentUpdatePrimaryKey.EntityObject;
+            var projectAttachmentUpdate = projectAttachmentUpdatePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDelete(projectDocumentUpdate, viewModel);
+                return ViewDelete(projectAttachmentUpdate, viewModel);
             }
-            projectDocumentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectAttachmentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

@@ -19,6 +19,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public HttpPostedFileBase File { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectAttachmentRelationshipType)]
+        public int AttachmentRelationshipTypeID { get; set; }
+
+        [Required]
         [DisplayName("Display Name")]
         [StringLength(ProjectFirmaModels.Models.ProjectAttachment.FieldLengths.DisplayName, ErrorMessage = "200 character maximum")]
         public string DisplayName { get; set; }
@@ -43,7 +47,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         {
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, DisplayName)
+            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {
                 Description = Description
             };
@@ -54,7 +58,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         {
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectID, fileResource.FileResourceID, DisplayName)
+            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {
                 Description = Description
             };

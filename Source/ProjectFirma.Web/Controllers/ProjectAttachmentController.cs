@@ -39,7 +39,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel)
         {
-            var viewData = new NewProjectAttachmentViewData();
+            var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes;
+            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 
@@ -98,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(projectAttachment, viewModel);
             }
 
-            projectAttachment.FileResource.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            projectAttachment.Attachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Successfully deleted document \"{displayName}\".");
 

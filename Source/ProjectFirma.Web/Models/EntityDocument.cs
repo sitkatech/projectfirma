@@ -4,6 +4,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
+    //TODO: 8/9/2019 TK - may rename this class EntityAttachment once the attachment work is complete and Documents are ripped out
     public class EntityDocument
     {
         private readonly string _deleteUrl;
@@ -54,5 +55,16 @@ namespace ProjectFirma.Web.Models
         {
             return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.FileResource, null, x.DisplayName, x.Description)).ToList();
         }
+
+
+        public static List<EntityDocument> CreateFromEntityDocument(IEnumerable<ProjectAttachment> entityDocuments)
+        {
+            return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, null, x.DisplayName, x.Description)).ToList();
+        }
+        public static List<EntityDocument> CreateFromEntityDocument(IEnumerable<ProjectAttachmentUpdate> entityDocuments)
+        {
+            return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, null, x.DisplayName, x.Description)).ToList();
+        }
+
     }
 }

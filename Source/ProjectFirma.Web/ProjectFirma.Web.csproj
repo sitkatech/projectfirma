@@ -64,6 +64,8 @@
     <Compile Include="Controllers\ContactRelationshipTypeController.cs" />
     <Compile Include="Controllers\ProjectContactController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
@@ -113,6 +115,8 @@
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
     <Compile Include="Models\PersonSimple.cs" />
+    <Compile Include="Models\ProjectAttachmentModelExtensions.cs" />
+    <Compile Include="Models\ProjectAttachmentUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectColorByTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectContactUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
@@ -169,6 +173,9 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />

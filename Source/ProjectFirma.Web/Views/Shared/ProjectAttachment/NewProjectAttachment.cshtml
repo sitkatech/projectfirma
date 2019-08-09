@@ -13,6 +13,15 @@
         @Html.HiddenFor(m => m.ParentID)
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                @Html.DropDownListFor(m => m.AttachmentRelationshipTypeID, ViewDataTyped.AttachmentRelationshipTypes, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.File)
             </div>
             <div class="col-xs-12 col-sm-9">
