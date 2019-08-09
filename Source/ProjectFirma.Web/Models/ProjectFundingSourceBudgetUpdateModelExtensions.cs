@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Models
                         }
                 ).ToList();
             }
+            // this is on project, but setting here since it's related to budget. Maybe move FundingTypeID and NoFundingSourceIdentifiedYet here as well?
+            projectUpdateBatch.ExpectedFundingUpdateNote = project.ExpectedFundingUpdateNote;
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
@@ -46,6 +48,7 @@ namespace ProjectFirma.Web.Models
         {
             var project = projectUpdateBatch.Project;
             project.NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
+            project.ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
             project.FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
                 .ProjectFundingSourceBudgetUpdates

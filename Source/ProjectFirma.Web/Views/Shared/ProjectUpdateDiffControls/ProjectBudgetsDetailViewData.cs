@@ -31,8 +31,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
         public readonly decimal? NoFundingSourceIdentifiedYet;
         public readonly int? PlanningDesignStartYear;
         public readonly int? CompletionYear;
+        public readonly string ExpectedFundingUpdateNote;
 
-        public ProjectBudgetsDetailViewData(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
+        public ProjectBudgetsDetailViewData(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear, string expectedFundingUpdateNote)
         {
             FundingTypeID = fundingTypeID;
             FundingTypeDisplayName = fundingTypeDisplayName;
@@ -40,6 +41,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
             NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
             PlanningDesignStartYear = planningDesignStartYear;
             CompletionYear = completionYear;
+            ExpectedFundingUpdateNote = expectedFundingUpdateNote;
         }
     }
 }
