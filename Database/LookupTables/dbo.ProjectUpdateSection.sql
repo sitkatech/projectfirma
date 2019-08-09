@@ -14,4 +14,5 @@ values
 (11, 'NotesAndDocuments', 'Documents and Notes', 120, 0, 5),
 (12, 'ExpectedAccomplishments', 'Expected Accomplishments', 60, 1, 3),
 (13, 'TechnicalAssistanceRequests', 'Technical Assistance Requests', 90, 0, 5),
-(14, 'Contacts', 'Contacts', 50, 1, 1)
+(14, 'Contacts', 'Contacts', 50, 1, 1),
+(15, 'AttachmentsAndNotes', 'Attachments and Notes', 120, 0, 5)

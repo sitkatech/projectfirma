@@ -196,6 +196,8 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
+    <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
@@ -252,6 +254,16 @@
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachments.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentsViewData.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentUpdatesViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentUpdateViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewData.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -386,6 +398,7 @@
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
+    <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1501,6 +1514,9 @@
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetail.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\EditProjectAttachments.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
