@@ -239,3 +239,11 @@
     }
 
 </table>
+<div class="form-group">
+    <label class="control-label">
+        @Html.Label("Enter any comments about the changes made to this " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + "'s budget")
+    </label>
+    <div class="input-group">
+        <span>@ViewDataTyped.ExpectedFundingUpdateNote</span>
+    </div>
+</div>

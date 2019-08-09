@@ -64,6 +64,19 @@
             </div>
         </div>
 
+        @* Budget Update Note (if any) *@
+        if (ViewDataTyped.Project.ExpectedFundingUpdateNote != null)
+        {
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.Label("Notes")
+                </div>
+                <div class="col-xs-9">
+                    @ViewDataTyped.Project.ExpectedFundingUpdateNote
+                </div>
+            </div>
+        }
+
         if (!ViewDataTyped.HasFundingSources)
         {
             <hr />
@@ -120,6 +133,18 @@
                 @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency() per year
             </div>
         </div>
+        @* Budget Update Note (if any) *@
+        if (ViewDataTyped.Project.ExpectedFundingUpdateNote != null)
+        {
+            <div class="row">
+                <div class="col-xs-3">
+                    @Html.Label("Notes")
+                </div>
+                <div class="col-xs-9">
+                    @ViewDataTyped.Project.ExpectedFundingUpdateNote
+                </div>
+            </div>
+        }
 
         if (!ViewDataTyped.HasFundingSources)
         {
