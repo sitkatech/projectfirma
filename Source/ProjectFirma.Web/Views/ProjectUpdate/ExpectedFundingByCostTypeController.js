@@ -331,7 +331,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         var calendarYearBudgetsAsFlattenedArray = _($scope.AngularModel.ProjectFundingSourceBudgets)
             .filter(function (pfse) {
-                return pfse.ProjectID == $scope.AngularViewData.ProjectUpdateBatchID &&
+                return pfse.ProjectID == $scope.AngularViewData.ProjectID &&
                     pfse.FundingSourceID == fundingSourceId &&
                     _.includes(relevantCostTypeIDs, pfse.CostTypeID);
             }).map("CalendarYearBudgets").flatten().filter(function (cye) {
@@ -349,7 +349,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         var calendarYearBudgetsAsFlattenedArray = _($scope.AngularModel.ProjectFundingSourceBudgets)
             .filter(function (pfse) {
-                return pfse.ProjectID == $scope.AngularViewData.ProjectUpdateBatchID &&
+                return pfse.ProjectID == $scope.AngularViewData.ProjectID &&
                     pfse.FundingSourceID == fundingSourceId &&
                     _.includes(relevantCostTypeIDs, pfse.CostTypeID);
             }).map("CalendarYearBudgets").flatten().value();
@@ -361,7 +361,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         var budgetsForFundingSourceArray =
             $scope.AngularModel.ProjectFundingSourceBudgets.filter(
                 function (pfse) {
-                    return pfse.ProjectID == $scope.AngularViewData.ProjectUpdateBatchID &&
+                    return pfse.ProjectID == $scope.AngularViewData.ProjectID &&
                         pfse.FundingSourceID == fundingSourceId &&
                         _.includes(relevantCostTypeIDs, pfse.CostTypeID);
                 });

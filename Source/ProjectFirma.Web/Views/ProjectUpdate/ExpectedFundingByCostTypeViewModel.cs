@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
         [DisplayName("Review Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingComment)]
         public string Comments { get; set; }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
             NoFundingSourceAmounts = calendarYearMonetaryAmounts;
-            Comments = projectUpdateBatch.ExpendituresComment;
+            Comments = projectUpdateBatch.ExpectedFundingComment;
         }
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)

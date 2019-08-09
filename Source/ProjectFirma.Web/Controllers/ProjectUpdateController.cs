@@ -828,6 +828,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Need to revert project-level budget data too
             projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
@@ -887,7 +888,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
             if (projectUpdateBatch.IsSubmitted())
             {
-                projectUpdateBatch.ExpendituresComment = viewModel.Comments;
+                projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
             }
 
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
@@ -940,6 +941,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
+            projectUpdateBatch.DeleteProjectNoFundingSourceIdentifiedUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Need to revert project-level budget data too
@@ -950,9 +952,7 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates = project.ProjectNoFundingSourceIdentifieds
-                    .Where(x => x.NoFundingSourceIdentifiedYet.HasValue)
-                    .Select(x => new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.NoFundingSourceIdentifiedYet.Value }).ToList();
+                ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -1718,6 +1718,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
+            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
@@ -1768,6 +1770,7 @@ namespace ProjectFirma.Web.Controllers
                 allProjectGeospatialAreas,
                 allProjectGeospatialAreaTypeNotes,
                 allProjectFundingSourceBudgets,
+                allProjectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
@@ -2516,17 +2519,6 @@ namespace ProjectFirma.Web.Controllers
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
             return GeneratePartialViewForExpendituresByCostTypeAsString(projectExpenditureByCostTypesInOriginal, calendarYearStrings);
-        }
-
-        private static void ZeroOutBudget(ProjectExpenditureByCostType projectExpenditureByCostType, List<int> calendarYearsToZeroOut)
-        {
-            foreach (var transportationProjectCostTypeCalendarYearBudget in projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts)
-            {
-                foreach (var calendarYear in calendarYearsToZeroOut)
-                {
-                    transportationProjectCostTypeCalendarYearBudget.CalendarYearAmount[calendarYear] = 0;
-                }
-            }
         }
 
         private string GeneratePartialViewForModifiedExpendituresByCostType(List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpendituresOriginal,
