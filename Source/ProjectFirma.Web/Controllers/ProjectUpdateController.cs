@@ -3075,9 +3075,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
-//            var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
-            // ReSharper disable once ConvertToConstant.Local
-            var isBudgetsUpdated = false;
+//            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;  // TODO: Expenditures and Budgets are not using the correct diff when budgeting by cost type
+            var isBudgetsUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3086,7 +3085,6 @@ namespace ProjectFirma.Web.Controllers
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
-            var isExpectedFundingUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
@@ -3106,7 +3104,6 @@ namespace ProjectFirma.Web.Controllers
                 isLocationDetailUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated,
-                isExpectedFundingUpdated,
                 isOrganizationsUpdated,
                 isExpectedPerformanceMeasuresUpdated,
                 isTechnicalAssistanceRequestsUpdated,

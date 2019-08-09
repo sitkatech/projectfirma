@@ -144,7 +144,7 @@ else
                     <label class="control-label">4. Enter amount by each @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() and for each @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). </label>
                 </div>
                 <p style="margin-left: 20px" class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to enter budget information.</p>
-                <p style="margin-left: 20px" ng-show="isBudgetSameEachYear()">Years displayed are from the {@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()} planning/design year to present or completion year if provided; you can add additional years using the (+) button</p>
+                <p style="margin-left: 20px" ng-show="doesBudgetVaryPerYear()">Years displayed are from the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() planning/design year to present or completion year if provided; you can add additional years using the (+) button</p>
 
             </div>
 
@@ -389,7 +389,7 @@ else
             <tr>
                 <td>
                     @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
-                    @if (ViewDataTyped.ProjectUpdateStatus.IsExpectedFundingUpdated)
+                    @if (ViewDataTyped.ProjectUpdateStatus.IsBudgetsUpdated)
                     {
                         @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Budget", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                     }
