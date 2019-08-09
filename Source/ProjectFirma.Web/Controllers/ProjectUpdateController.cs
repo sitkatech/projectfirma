@@ -83,8 +83,8 @@ namespace ProjectFirma.Web.Controllers
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
-        public const string ProjectExpectedFundingPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectFundingRequestsDetail.cshtml";
-        public const string ProjectExpectedFundingByCostTypePartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectFundingRequestsByCostTypeDetail.cshtml";
+        public const string ProjectBudgetPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsDetail.cshtml";
+        public const string ProjectBudgetByCostTypePartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsByCostTypeSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
@@ -857,7 +857,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
 
-            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var calendarYearRange = projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
             var projectUpdateRelevantCostTypes = projectUpdateBatch.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
             var currentRelevantCostTypeIDs = projectUpdateRelevantCostTypes.Select(x => x.CostTypeID).ToList();
@@ -2601,8 +2601,8 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForExpectedFundingAsString(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
         {
-            var viewData = new ProjectFundingRequestsDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear);
-            var partialViewAsString = RenderPartialViewToString(ProjectExpectedFundingPartialViewPath, viewData);
+            var viewData = new ProjectBudgetsDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear);
+            var partialViewAsString = RenderPartialViewToString(ProjectBudgetPartialViewPath, viewData);
             return partialViewAsString;
         }
 
@@ -2619,44 +2619,89 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-            var projectFundingSourceBudgetsByCostTypeOriginal = new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
-            var projectFundingSourceBudgetsByCostTypeUpdated = new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
-            var originalHtml = GeneratePartialViewForOriginalFundingRequestsByCostType(project.FundingTypeID, project.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsByCostTypeOriginal, projectFundingSourceBudgetsByCostTypeUpdated, project.NoFundingSourceIdentifiedYet, project.PlanningDesignStartYear, project.CompletionYear);
-            var updatedHtml = GeneratePartialViewForModifiedFundingRequestsByCostType(projectUpdateBatch.ProjectUpdate.FundingTypeID, projectUpdateBatch.ProjectUpdate.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsByCostTypeOriginal, projectFundingSourceBudgetsByCostTypeUpdated,
-                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet, projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear, projectUpdateBatch.ProjectUpdate.CompletionYear);
+
+            var fundingTypeOriginal = project.FundingType;
+            var fundingTypeUpdated = projectUpdateBatch.ProjectUpdate.FundingType;
+
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var projectFundingSourceCostTypeAmountsOriginal = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            var projectFundingSourceCostTypeAmountsUpdated = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
+
+            var noFundingSourceIdentifiedOriginal = project.GetNoFundingSourceIdentifiedAmount();
+            var noFundingSourceIdentifiedUpdated = projectUpdateBatch.ProjectUpdate.GetNoFundingSourceIdentifiedAmount();
+
+            var estimatedTotalOriginal = project.GetEstimatedTotalRegardlessOfFundingType();
+            var estimatedTotalUpdated = projectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType();
+
+            var projectFundingSourceBudgetsByCostTypeOriginal = new List<ICostTypeFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
+            var calendarYearsOriginal = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var projectFundingSourceBudgetsByCostTypeUpdated = new List<ICostTypeFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
+            var calendarYearsUpdated = projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+
+            var originalHtml = GeneratePartialViewForOriginalBudgetsByCostType(fundingTypeOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal);
+            var updatedHtml = GeneratePartialViewForModifiedBudgetsByCostType(fundingTypeUpdated, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated);
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalFundingRequestsByCostType(int? fundingTypeIdOriginal, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated, decimal? noFundingSourceIdentifiedYetOriginal, int? planningDesignStartYear, int? completionYear)
+        private string GeneratePartialViewForOriginalBudgetsByCostType(FundingType fundingTypeOriginal, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedOriginal, decimal? estimatedTotalOriginal,
+            List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsOriginal)
         {
-            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
-            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
             var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
-            var fundingSourceRequestAmounts = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => new FundingSourceBudgetAmount(x)).ToList();
-            fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsByCostTypeUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
-                new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
-            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
-            return GeneratePartialViewForExpectedFundingByCostTypeAsString(fundingTypeIdOriginal, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetOriginal, planningDesignStartYear, completionYear);
+
+            var projectBudgetByCostTypesInOriginal = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeOriginal, calendarYearsOriginal);
+            var projectBudgetByCostTypesInModified = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeUpdated, calendarYearsUpdated);
+
+            // find the ones that are only in the modified set and add them and mark them as "added"
+            projectBudgetByCostTypesInOriginal.AddRange(
+                projectBudgetByCostTypesInModified.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+                    .ToList());
+            // find the ones only in original and mark them as "deleted"
+            projectBudgetByCostTypesInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList()
+                .ForEach(x =>
+                {
+                    x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
+                });
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeOriginal, projectBudgetByCostTypesInOriginal, calendarYearStrings, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal);
         }
 
-        private string GeneratePartialViewForModifiedFundingRequestsByCostType(int? fundingTypeIdUpdated, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated, decimal? noFundingSourceIdentifiedYetUpdated, int? planningDesignStartYear, int? completionYear)
+        private string GeneratePartialViewForModifiedBudgetsByCostType(FundingType fundingTypeUpdated, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedUpdated, decimal? estimatedTotalUpdated, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsUpdated)
         {
-            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
-            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
+            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
             var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
-            var fundingSourceRequestAmounts = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => new FundingSourceBudgetAmount(x)).ToList();
-            fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsByCostTypeOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
-                new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
-            fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-            return GeneratePartialViewForExpectedFundingByCostTypeAsString(fundingTypeIdUpdated, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetUpdated, planningDesignStartYear, completionYear);
+
+            var projectBudgetByCostTypesInOriginal = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeOriginal, calendarYearsOriginal);
+            var projectBudgetByCostTypesInModified = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeUpdated, calendarYearsUpdated);
+
+            // find the ones that are only in the original set and add them and mark them as "deleted"
+            projectBudgetByCostTypesInModified.AddRange(
+                projectBudgetByCostTypesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+                    .ToList());
+            // find the ones only in modified and mark them as "added"
+            projectBudgetByCostTypesInModified.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeUpdated, projectBudgetByCostTypesInModified, calendarYearStrings, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated);
         }
 
-        private string GeneratePartialViewForExpectedFundingByCostTypeAsString(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
+        private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts)
         {
-            var viewData = new ProjectFundingRequestsByCostTypeDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear);
-            var partialViewAsString = RenderPartialViewToString(ProjectExpectedFundingByCostTypePartialViewPath, viewData);
+            var costTypes = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
+            var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts);
+            var partialViewAsString = RenderPartialViewToString(ProjectBudgetByCostTypePartialViewPath, viewData);
             return partialViewAsString;
         }
 

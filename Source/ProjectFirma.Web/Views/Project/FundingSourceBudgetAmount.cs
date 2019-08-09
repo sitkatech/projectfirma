@@ -12,6 +12,11 @@ namespace ProjectFirma.Web.Views.Project
         public decimal? TargetedAmount { get; set;  }
         public string DisplayCssClass;
 
+        public decimal? GetMonetaryAmount(bool isSecured)
+        {
+            return isSecured ? SecuredAmount : TargetedAmount;
+        }
+
         public FundingSourceBudgetAmount(ProjectFirmaModels.Models.FundingSource fundingSource, decimal? securedAmount, decimal? targetedAmount, string displayCssClass)
         {
             FundingSource = fundingSource;

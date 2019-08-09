@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {

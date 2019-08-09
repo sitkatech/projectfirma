@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -9,6 +10,12 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectFundingSourceBudgetUpdateModelExtensions
     {
+        public static List<int> CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+            return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), projectUpdate, DateTime.Today.Year);
+        }
+
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
         {
             var project = projectUpdateBatch.Project;
