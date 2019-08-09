@@ -37,6 +37,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         $scope.selectedFundingTypeID = $scope.AngularModel.FundingTypeID;
     };
 
+    $scope.isBudgetSameEachYear = function() {
+        return $scope.selectedFundingTypeID == 2;
+    }
+
     $scope.getAllCalendarYearBudgetsAsFlattenedLoDashArray = function () {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _($scope.AngularModel.ProjectFundingSourceBudgets).filter(function (f) {

@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.Project
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
 
-            EstimatedTotalCost = Project.GetEstimatedTotalCost().HasValue ? Project.GetEstimatedTotalCost().ToStringCurrency() : "";
+            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
             TargetedFunding = Project.GetTargetedFunding() != null ? Project.GetTargetedFunding().ToStringCurrency() : "";

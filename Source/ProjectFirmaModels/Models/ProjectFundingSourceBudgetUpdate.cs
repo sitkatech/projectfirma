@@ -24,7 +24,7 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceBudgetUpdate : IFundingSourceBudgetAmount, IAuditableEntity
+    public partial class ProjectFundingSourceBudgetUpdate : IAuditableEntity, ICostTypeFundingSourceBudgetAmount
     {
         public string GetAuditDescriptionString()
         {

@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-xs-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</div>
             <div class="col-xs-9">
-                @ViewDataTyped.Project.GetEstimatedTotalCost().ToStringCurrency()
+                @ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()
             </div>
         </div>
         @* Secured Funding *@
@@ -78,7 +78,7 @@
                 @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
             </div>
             <div class="col-xs-9">
-                @ViewDataTyped.Project.GetEstimatedTotalCost().ToStringCurrency()
+                @ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()
             </div>
         </div>
         <div class="row">

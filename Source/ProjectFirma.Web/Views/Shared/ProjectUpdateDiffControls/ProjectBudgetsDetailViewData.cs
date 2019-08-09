@@ -23,7 +23,7 @@ using ProjectFirma.Web.Views.Project;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
-    public class ProjectFundingRequestsDetailViewData : FirmaUserControlViewData
+    public class ProjectBudgetsDetailViewData : FirmaUserControlViewData
     {
         public readonly int? FundingTypeID;
         public readonly string FundingTypeDisplayName;
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
         public readonly int? PlanningDesignStartYear;
         public readonly int? CompletionYear;
 
-        public ProjectFundingRequestsDetailViewData(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
+        public ProjectBudgetsDetailViewData(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
         {
             FundingTypeID = fundingTypeID;
             FundingTypeDisplayName = fundingTypeDisplayName;
