@@ -1112,14 +1112,20 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditNotesAndAttachments = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditNotesAndAttachments);
+            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditAttachmentsAndNotes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
+
+            //8/9/2019 TK - this seems sketchy :shrug:
+            var projectTaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;           
+            var attachmentRelationshipTypes = projectTaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType).ToList();//HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.Where(x => x.AttachmentRelationshipTypeTaxonomyTrunks.Contains(projectTaxonomyTrunk.T)).ToList();
+
             var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
-                                                                                        EntityDocument.CreateFromEntityDocument(project.ProjectAttachments),
+                                                                                        EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
-                                                                                        canEditNotesAndAttachments,
+                                                                                        canEditAttachmentsAndNotes,
+                                                                                        attachmentRelationshipTypes,
                                                                                         CurrentPerson);
             var viewData = new AttachmentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
             return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);

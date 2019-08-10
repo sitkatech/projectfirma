@@ -4,13 +4,14 @@
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
-
 @inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.ProjectAttachmentsDetail
 
+
+<div class="row">
 @if (MultiTenantHelpers.HasAttachmentRelationshipTypeConfigured())
 {
     <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> {"btn", "btn-firma", "btn-sm"}, ViewDataTyped.CanEditAttachments)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
     </div>
 }
 else
@@ -27,46 +28,60 @@ else
         }
     </div>
 }
+</div>
 
-@if (!ViewDataTyped.Attachments.Any())
+
+<hr/>
+
+@foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
 {
-    <p class="systemText">No attachments associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-}
-
-@foreach (var projectAttachment in ViewDataTyped.Attachments)
-{
-    <div class="@projectAttachment.GetDisplayCssClass()">
-        @if (ViewDataTyped.CanEditAttachments)
-        {
-        <span style="margin-left: 7px;">
-            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectAttachment.GetEditUrl(), "Edit Attachment", null, true)
-        </span>
-        <span style="margin-left: 8px; margin-right: 8px;">
-            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectAttachment.GetDeleteUrl(), null, true)
-        </span>
-        }
-
-        @if (ViewDataTyped.ShowDownload)
-        {
-        <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
-            @projectAttachment.DisplayName
-            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
-        </a>
-        }
-        else
-        {
-            <span>@projectAttachment.DisplayName</span>
-        }
-
-        <dl class="dl-horizontal">
-            <dt>Uploaded On</dt>
-            <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
-
-            <dt>File Type</dt>
-            <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
-
-            <dt>Description</dt>
-            <dd>@projectAttachment.Description</dd>
-        </dl>
+    <div class="row">
+    <div class="col-md-4">
+        <p>@attachmentRelationshipType.AttachmentRelationshipTypeName</p>
     </div>
+
+        @{
+            var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+        }
+    @foreach (var projectAttachment in thisAttachmentList)
+    {
+        <div class="col-md-8 @projectAttachment.GetDisplayCssClass()">
+            @if (ViewDataTyped.CanEditAttachments)
+            {
+                <span style="margin-left: 7px;">
+                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectAttachment.GetEditUrl(), "Edit Attachment", null, true)
+                </span>
+                <span style="margin-left: 8px; margin-right: 8px;">
+                    @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectAttachment.GetDeleteUrl(), null, true)
+                </span>
+            }
+            @if (ViewDataTyped.ShowDownload)
+            {
+                <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
+                    @projectAttachment.DisplayName
+                    @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+                </a>
+            }
+            else
+            {
+                <span>@projectAttachment.DisplayName</span>
+            }
+            <dl class="dl-horizontal">
+                <dt>Uploaded On</dt>
+                <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
+                <dt>File Type</dt>
+                <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+                <dt>Description</dt>
+                <dd>@projectAttachment.Description</dd>
+            </dl>
+        </div>
+    }
+
+    @if (!thisAttachmentList.Any())
+    {
+        <p class="systemText">No attachments associated with the @(attachmentRelationshipType.AttachmentRelationshipTypeName) @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
+    }
+    
+    </div>
+
 }
