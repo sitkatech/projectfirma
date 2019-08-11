@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingType)]
         public int? FundingTypeID { get; set; }
 
-        public List<ProjectFundingSourceBudgetBulk> ProjectFundingSourceBudgets { get; set; }
+        public List<ProjectFundingSourceBudgetsByCostTypeBulk> ProjectFundingSourceBudgets { get; set; }
 
         public List<ProjectRelevantCostTypeSimple> ProjectRelevantCostTypes { get; set; }
 
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 {
                     case FundingTypeEnum.BudgetVariesByYear:
                     {
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
+                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
 
                         var projectNoFundingSourceIdentifieds =
                             project.ProjectNoFundingSourceIdentifieds.ToList();
@@ -72,12 +72,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                                 x.NoFundingSourceIdentifiedYet)));
                         var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
                         calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                            .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+                            .ToList().Select(x => new CalendarYearMonetaryAmount(x, 0)));
                         break;
                     }
 
                     case FundingTypeEnum.BudgetSameEachYear:
-                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetBulk.MakeFromListByCostType(project);
+                        ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, new List<int>());
                         NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
                         break;
                     default:
@@ -152,12 +152,16 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
             if (ProjectFundingSourceBudgets == null)
             {
-                ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetBulk>();
+                ProjectFundingSourceBudgets = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
             }
-            var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
-            if (FundingTypeID.HasValue && !projectFundingSourceBudgetBulks.Any())
+            if (FundingTypeID.HasValue && ProjectFundingSourceBudgets.Any())
             {
-                errors.Add(new ValidationResult("Please enter your budget information"));
+                // need to make sure there is at least one relevant cost type selected
+                var projectFundingSourceBudgetBulks = ProjectFundingSourceBudgets.Where(x => x.IsRelevant ?? false).ToList();
+                if (!projectFundingSourceBudgetBulks.Any())
+                {
+                    errors.Add(new ValidationResult($"Select a {FieldDefinitionEnum.CostType.ToType().GetFieldDefinitionLabel()} or remove the {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}"));
+                }
             }
             return errors;
         }

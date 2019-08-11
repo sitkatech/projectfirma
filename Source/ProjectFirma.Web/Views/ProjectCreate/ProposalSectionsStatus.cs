@@ -24,6 +24,7 @@ using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {

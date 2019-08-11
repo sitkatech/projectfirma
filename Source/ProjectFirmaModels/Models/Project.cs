@@ -56,15 +56,29 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetNoFundingSourceIdentifiedAmount() => NoFundingSourceIdentifiedYet;
+        public decimal? GetNoFundingSourceIdentifiedAmount()
+        {
+            if (NoFundingSourceIdentifiedYet != null)
+            {
+                return NoFundingSourceIdentifiedYet;
+            }
+            if (ProjectNoFundingSourceIdentifieds.Any())
+            {
+                return ProjectNoFundingSourceIdentifieds.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
+            }
+            return null;
+        }
 
-        public decimal? GetEstimatedTotalCost()
+        public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
-            return NoFundingSourceIdentifiedYet != null
-                ? NoFundingSourceIdentifiedYet + (securedFunding ?? 0) + (targetedFunding ?? 0)
-                : null;
+            var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
+            if (securedFunding == null && targetedFunding == null && noFundingSourceIdentified == null)
+            {
+                return null;
+            }
+            return (noFundingSourceIdentified ?? 0) + (securedFunding ?? 0) + (targetedFunding ?? 0);
         }
 
         public decimal GetNoFundingSourceIdentifiedAmountOrZero()

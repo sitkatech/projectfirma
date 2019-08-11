@@ -31,7 +31,6 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @using ProjectFirma.Web.Views.Shared.ProjectDocument
@@ -300,8 +299,17 @@
                     </div>
                     <div class="panel-body">
                         @{
-                            ProjectFundingDetail.RenderPartialView(Html, ViewDataTyped.ProjectFundingDetailViewData);
+                            ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
                         }
+                        @if (ViewDataTyped.ReportFinancialsByCostType )
+                        {
+                            ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
+                        }
+                        else
+                        {
+                            ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
+                        }
+
                     </div>
                 </div>
 
@@ -317,7 +325,7 @@
                         {
                             <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
                         }
-                        else if (ViewDataTyped.ReportExpendituresByCostType)
+                        else if (ViewDataTyped.ReportFinancialsByCostType)
                         {
                             ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
                         }

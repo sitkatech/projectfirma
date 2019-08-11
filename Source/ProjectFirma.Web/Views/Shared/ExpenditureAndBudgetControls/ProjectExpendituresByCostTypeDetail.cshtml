@@ -58,18 +58,21 @@
                             </td>
                         </tr>
                     }
-                    <tr>
-                        <th style="text-align:left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
-                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                        {
-                            <th style="text-align:right">
-                                <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                            </th>
-                        }
-                        <th style="text-align:right">
-                            <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                        </th>
-                    </tr>
+                    if (groupedByFundingSource.GroupBy(x => x.CostType).Count() > 1)
+                    {
+                         <tr>
+                             <th style="text-align: left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
+                             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                             {
+                                 <th style="text-align: right">
+                                     <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                 </th>
+                             }
+                             <th style="text-align: right">
+                                 <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                             </th>
+                         </tr>
+                    }
                 }
                 <tr>
                     <th style="text-align:left">Grand Total</th>
@@ -99,11 +102,15 @@ else
     <hr />
     <table class="summaryLayout">
         <tr>
-            <td colspan="2">No expenditures were reported:</td>
-        </tr>
-        <tr>
-            <th>Explanation:</th>
-            <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            <th>Comment:</th>
+            @if (ViewDataTyped.ExemptionExplanation == null)
+            {
+                <td style="font-style: italic">None provided</td>
+            }
+            else
+            {
+                <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            }
         </tr>
     </table>
 }

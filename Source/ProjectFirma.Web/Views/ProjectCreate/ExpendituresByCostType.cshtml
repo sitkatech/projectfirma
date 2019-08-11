@@ -65,7 +65,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
                 </div>
             </div>
             <div ng-show="getRelevantCostTypes().length === 0">
-                <p class="systemText">You need to select at least one @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel() to enter expenditures.</p>
+                <p class="systemText">Select at least one @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel() to enter expenditures.</p>
             </div>
             <div ng-show="getRelevantCostTypes().length > 0">
                 <div class="form-group">
@@ -96,7 +96,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel(), and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). If there is no amount to report, enter a zero ($0). </label>
+                    <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel(), and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel().</label>
                 </div>
                 <div style="margin-left: 20px">
                     <p style="margin-left: 20px" class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to start entering expenditures</p>
@@ -129,7 +129,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
                             <th style="text-align: right"> {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}</th>
                         </tr>
                         @* Sum of expenditures for funding source*@
-                        <tr>
+                        <tr ng-show="getRelevantCostTypes().length > 1">
                             <td style="width: 30px; min-width: 30px;"></td>
                             <th style="white-space: nowrap">
                                 All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
@@ -170,6 +170,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
             <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.IsRelevant}}" />
         </div>
         <div class="row" style="margin-top: 20px">
+            <hr/>
             <div style="text-align: right; white-space: nowrap">
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>

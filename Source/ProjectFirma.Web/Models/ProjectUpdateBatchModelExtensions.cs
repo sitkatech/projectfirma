@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
 
-        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch project)
+        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return project.ProjectRelevantCostTypeUpdates
+            return projectUpdateBatch.ProjectRelevantCostTypeUpdates
                 .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
@@ -98,6 +98,11 @@ namespace ProjectFirma.Web.Models
 
             // Expected Funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
+            if (project.FundingType == FundingType.BudgetVariesByYear)
+            {
+                ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            }
 
             // expected performance measures
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -244,6 +249,15 @@ namespace ProjectFirma.Web.Models
                 {
                     projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
+        }
+
+        public static void DeleteProjectNoFundingSourceIdentifiedUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectNoFundingSourceIdentifiedUpdates = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList();
+            foreach (var projectNoFundingSourceIdentifiedUpdate in projectNoFundingSourceIdentifiedUpdates)
+            {
+                projectNoFundingSourceIdentifiedUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
         public static void DeletePerformanceMeasureActualUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -570,6 +584,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectGeospatialArea> projectGeospatialAreas, 
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
+            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -592,6 +607,7 @@ namespace ProjectFirma.Web.Models
                 projectGeospatialAreas,
                 projectGeospatialAreaTypeNotes,
                 projectFundingSourceBudgets,
+                projectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
@@ -629,6 +645,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectGeospatialArea> projectGeospatialAreas,
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
+            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -644,6 +661,8 @@ namespace ProjectFirma.Web.Models
 
             // expected funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
+
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNoFundingSourceIdentifieds);
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);

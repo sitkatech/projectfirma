@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewData(EditProjectType editProjectType,
             string taxonomyLeafDisplayName,
-            IEnumerable<ProjectStage> projectStages,            
+            IEnumerable<ProjectStage> projectStages,
             IEnumerable<ProjectFirmaModels.Models.Organization> organizations,
             IEnumerable<Person> primaryContactPeople,
             Person defaultPrimaryContactPerson,
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             StartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();
-            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() ?? "nobody";
+            DefaultPrimaryContactPersonName = DefaultPrimaryContactPerson != null ? DefaultPrimaryContactPerson.GetFullNameFirstLastAndOrgShortName() : "nobody";
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
         }

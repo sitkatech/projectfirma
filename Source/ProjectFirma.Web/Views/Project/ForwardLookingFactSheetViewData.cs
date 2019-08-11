@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Project
         public GoogleChartJson GoogleChartJson { get; }
         public string EstimatedTotalCost { get; }
 
+        public string EstimatedTotalCostLabel { get; }
         public string NoFundingSourceIdentifiedLabel { get; }
         public string NoFundingSourceIdentified { get; }
         public string SecuredFunding { get; }
@@ -90,10 +91,13 @@ namespace ProjectFirma.Web.Views.Project
             GoogleChartJson = googleChartJson;
             FundingSourceRequestAmountGooglePieChartSlices = fundingSourceRequestAmountGooglePieChartSlices;
 
+            var labelUsesFullDisplayName = FundingSourceRequestAmountGooglePieChartSlices.Count <= 2 || 
+                                           FundingSourceRequestAmountGooglePieChartSlices.Count <=3 && fundingSourceRequestAmountGooglePieChartSlices.Any(x => x.Label.Equals(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()));
             //Dynamically resize chart based on how much space the legend requires
-            CalculatedChartHeight = 350 - (FundingSourceRequestAmountGooglePieChartSlices.Count <= 2
-                                        ? FundingSourceRequestAmountGooglePieChartSlices.Count * 24
-                                        : FundingSourceRequestAmountGooglePieChartSlices.Count * 20);
+
+            CalculatedChartHeight = 400 - (labelUsesFullDisplayName
+                                        ? FundingSourceRequestAmountGooglePieChartSlices.Count * 52
+                                        : FundingSourceRequestAmountGooglePieChartSlices.Count * 18);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
 
             if (project.TaxonomyLeaf == null)
@@ -119,7 +123,12 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.GetDisplayName();
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
-            EstimatedTotalCost = Project.GetEstimatedTotalCost().HasValue ? Project.GetEstimatedTotalCost().ToStringCurrency() : "";
+
+            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";
+            EstimatedTotalCostLabel =
+                Project.FundingTypeID.HasValue && Project.FundingType.ToEnum == FundingTypeEnum.BudgetSameEachYear
+                    ? FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()
+                    : FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentifiedLabel = FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();

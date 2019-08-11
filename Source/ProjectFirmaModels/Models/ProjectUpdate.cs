@@ -44,14 +44,27 @@ namespace ProjectFirmaModels.Models
                 : 0;
         }
 
-        public decimal? GetEstimatedTotalCost()
+        public decimal? GetNoFundingSourceIdentifiedAmount()
+        {
+            if (NoFundingSourceIdentifiedYet != null)
+            {
+                return NoFundingSourceIdentifiedYet;
+            }
+            if (ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Any())
+            {
+                return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
+            }
+            return null;
+        }
+
+        public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
-            return NoFundingSourceIdentifiedYet != null
-                ? NoFundingSourceIdentifiedYet + securedFunding + targetedFunding
-                : null;
+            var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
+            return (noFundingSourceIdentified ?? 0) + securedFunding + targetedFunding;
         }
+
 
         public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
         {

@@ -56,6 +56,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
@@ -66,6 +67,9 @@
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
@@ -120,11 +124,13 @@
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
+    <Compile Include="Models\ProjectBudgetByCostType.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
-    <Compile Include="Models\ProjectFundingSourceCostTypeExpenditureAmount.cs" />
-    <Compile Include="Models\ProjectFundingSourceBudgetBulk.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
+    <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectImageModelExtensions.cs" />
@@ -160,11 +166,19 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
+    <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
+    <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\DetailViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Edit.cs" />
@@ -205,12 +219,19 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetail.cs" />
-    <Compile Include="Views\ProjectFunding\ProjectFundingDetailViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummaryViewData.cs" />
+    <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\Contacts.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostType.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
@@ -237,6 +258,8 @@
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummaryViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -338,6 +361,7 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
+    <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
@@ -345,6 +369,7 @@
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
+    <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
@@ -361,6 +386,8 @@
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
+    <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -488,12 +515,15 @@
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
-    <Content Include="Views\ProjectFunding\ProjectFundingDetail.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\ProjectCreate\Contacts.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cshtml" />
+    <Content Include="Views\ProjectUpdate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
+    <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -541,8 +571,8 @@
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBoxViewModel.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetailViewData.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetailViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasViewData.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasViewModel.cs" />
@@ -1419,7 +1449,7 @@
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
-    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Content Include="Views\Project\ForwardLookingFactSheet.cshtml" />
@@ -1472,6 +1502,7 @@
     <Content Include="Views\ProjectUpdate\Contacts.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>

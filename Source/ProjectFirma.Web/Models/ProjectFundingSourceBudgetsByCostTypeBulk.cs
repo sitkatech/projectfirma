@@ -27,7 +27,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public class ProjectFundingSourceBudgetBulk
+    public class ProjectFundingSourceBudgetsByCostTypeBulk
     {
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
@@ -45,11 +45,11 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public ProjectFundingSourceBudgetBulk()
+        public ProjectFundingSourceBudgetsByCostTypeBulk()
         {
         }
 
-        public ProjectFundingSourceBudgetBulk(ProjectFundingSourceBudget projectFundingSourceBudget,
+        public ProjectFundingSourceBudgetsByCostTypeBulk(ProjectFundingSourceBudget projectFundingSourceBudget,
             List<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IEnumerable<int> calendarYearsToPopulate)
         {
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
             CalendarYearBudgets.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearBudgetAmounts(x, null, null)));
         }
 
-        private ProjectFundingSourceBudgetBulk(ProjectFundingSourceBudgetUpdate projectFundingSourceBudgetUpdate,
+        private ProjectFundingSourceBudgetsByCostTypeBulk(ProjectFundingSourceBudgetUpdate projectFundingSourceBudgetUpdate,
             List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates,
             IEnumerable<int> calendarYearsToPopulate)
         {
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Models
             CalendarYearBudgets.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearBudgetAmounts(x, null, null)));
         }
 
-        private ProjectFundingSourceBudgetBulk(int projectID, int fundingSourceID, int costTypeID,
+        private ProjectFundingSourceBudgetsByCostTypeBulk(int projectID, int fundingSourceID, int costTypeID,
             List<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IEnumerable<int> calendarYearsToPopulate)
         {
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
             CalendarYearBudgets = calendarYearBudgetAmounts;
         }
 
-        private ProjectFundingSourceBudgetBulk(int projectID, int fundingSourceID, int costTypeID,
+        private ProjectFundingSourceBudgetsByCostTypeBulk(int projectID, int fundingSourceID, int costTypeID,
             ProjectFundingSourceBudget projectFundingSourceBudget)
         {
             ProjectID = projectID;
@@ -108,8 +108,18 @@ namespace ProjectFirma.Web.Models
             TargetedAmount = projectFundingSourceBudget.TargetedAmount;
             CalendarYearBudgets = new List<CalendarYearBudgetAmounts>();
         }
-
-        private ProjectFundingSourceBudgetBulk(int projectID, int fundingSourceID, int costTypeID, 
+        private ProjectFundingSourceBudgetsByCostTypeBulk(int projectID, int fundingSourceID, int costTypeID,
+            ProjectFundingSourceBudgetUpdate projectFundingSourceBudgetUpdate)
+        {
+            ProjectID = projectID;
+            FundingSourceID = fundingSourceID;
+            CostTypeID = costTypeID;
+            IsRelevant = true;
+            SecuredAmount = projectFundingSourceBudgetUpdate?.SecuredAmount;
+            TargetedAmount = projectFundingSourceBudgetUpdate?.TargetedAmount;
+            CalendarYearBudgets = new List<CalendarYearBudgetAmounts>();
+        }
+        private ProjectFundingSourceBudgetsByCostTypeBulk(int projectID, int fundingSourceID, int costTypeID, 
             List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates,
             IEnumerable<int> calendarYearsToPopulate)
         {
@@ -130,53 +140,58 @@ namespace ProjectFirma.Web.Models
             CalendarYearBudgets = calendarYearMonetaryAmounts;
         }
 
-        public static List<ProjectFundingSourceBudgetBulk> MakeFromList(List<ProjectFundingSourceBudget> projectFundingSourceBudgets, List<int> calendarYears)
+        public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromList(List<ProjectFundingSourceBudget> projectFundingSourceBudgets, List<int> calendarYears)
         {
             var groupedByProjectFundingSource = projectFundingSourceBudgets.GroupBy(x => new {x.ProjectID, x.FundingSourceID});
-            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceBudgetBulk(grouping.First(), grouping.ToList(), calendarYears)).ToList();
+            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceBudgetsByCostTypeBulk(grouping.First(), grouping.ToList(), calendarYears)).ToList();
         }
 
-        public static List<ProjectFundingSourceBudgetBulk> MakeFromList(List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates, List<int> calendarYearsToPopulate)
+        public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromList(List<ProjectFundingSourceBudgetUpdate> projectFundingSourceBudgetUpdates, List<int> calendarYearsToPopulate)
         {
             var groupedByProjectFundingSource = projectFundingSourceBudgetUpdates.GroupBy(x => new {x.ProjectUpdateBatchID, x.FundingSourceID});
-            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceBudgetBulk(grouping.First(), grouping.ToList(), calendarYearsToPopulate)).ToList();
+            return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceBudgetsByCostTypeBulk(grouping.First(), grouping.ToList(), calendarYearsToPopulate)).ToList();
         }
 
-        public static List<ProjectFundingSourceBudgetBulk> MakeFromListByCostType(Project project, List<int> calendarYearsToPopulate)
+        public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromListByCostType(Project project, List<int> calendarYearsToPopulate)
         {
             var projectID = project.ProjectID;
             var projectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.ToList();
             var distinctFundingSources = projectFundingSourceBudgetUpdates.Select(x => x.FundingSourceID).Distinct().ToList();
             var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
-            var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetBulk>();
+            var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
             foreach (var fundingSourceID in distinctFundingSources)
             {
                 foreach (var costTypeID in allCostTypeIDs)
                 {
                     var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgetUpdates.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
-                    projectFundingSourceBudgetBulks.Add(new ProjectFundingSourceBudgetBulk(projectID, fundingSourceID, costTypeID, budgetsForThisFundingSourceAndCostType, calendarYearsToPopulate));
+                    if (budgetsForThisFundingSourceAndCostType.Count > 0)
+                    {
+                        projectFundingSourceBudgetBulks.Add(calendarYearsToPopulate.Any() 
+                            ? new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID, budgetsForThisFundingSourceAndCostType, calendarYearsToPopulate)
+                            : new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID, budgetsForThisFundingSourceAndCostType[0]));
+                    }
                 }
             }
             return projectFundingSourceBudgetBulks;
         }
 
-        public static List<ProjectFundingSourceBudgetBulk> MakeFromListByCostType(Project project)
+        public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromListByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
         {
-            var projectID = project.ProjectID;
-            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            var distinctFundingSources = projectFundingSourceBudgets.Select(x => x.FundingSourceID).Distinct().ToList();
+            var projectID = projectUpdateBatch.ProjectID;
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            var distinctFundingSources = projectFundingSourceBudgetUpdates.Select(x => x.FundingSourceID).Distinct().ToList();
             var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
-            var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetBulk>();
+            var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
             foreach (var fundingSourceID in distinctFundingSources)
             {
                 foreach (var costTypeID in allCostTypeIDs)
                 {
-                    var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgets.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
-                    if (budgetsForThisFundingSourceAndCostType.Count > 0)
-                    {
-                        projectFundingSourceBudgetBulks.Add(new ProjectFundingSourceBudgetBulk(projectID,
-                            fundingSourceID, costTypeID, budgetsForThisFundingSourceAndCostType[0]));
-                    }
+                    var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgetUpdates.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
+                    projectFundingSourceBudgetBulks.Add(calendarYearsToPopulate.Any()
+                        ? new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID,
+                            budgetsForThisFundingSourceAndCostType, calendarYearsToPopulate)
+                        : new ProjectFundingSourceBudgetsByCostTypeBulk(projectID, fundingSourceID, costTypeID,
+                            budgetsForThisFundingSourceAndCostType.Count > 0 ? budgetsForThisFundingSourceAndCostType[0] : null));
                 }
             }
             return projectFundingSourceBudgetBulks;
@@ -224,12 +239,23 @@ namespace ProjectFirma.Web.Models
 
         public List<ProjectFundingSourceBudgetUpdate> ToProjectFundingSourceBudgetUpdates(ProjectUpdateBatch projectUpdateBatch)
         {
-            // ReSharper disable PossibleInvalidOperationException
-            return
-                CalendarYearBudgets.Where(x => x.SecuredAmount.HasValue || x.TargetedAmount.HasValue)
-                    .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.SecuredAmount.Value, x.TargetedAmount.Value, CostTypeID))
-                    .ToList();
-            // ReSharper restore PossibleInvalidOperationException
+            var fundingSource = HttpRequestStorage.DatabaseEntities.FundingSources.Single(x => x.FundingSourceID == FundingSourceID);
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear)
+            {
+                // ReSharper disable PossibleInvalidOperationException
+                return
+                    CalendarYearBudgets.Where(x => x.SecuredAmount.HasValue || x.TargetedAmount.HasValue)
+                        .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, x.CalendarYear, x.SecuredAmount ?? 0, x.TargetedAmount ?? 0, CostTypeID))
+                        .ToList();
+                // ReSharper restore PossibleInvalidOperationException
+            }
+            else
+            {
+                var projectFundingSourceBudgetUpdate =  new List<ProjectFundingSourceBudgetUpdate>(  );
+                projectFundingSourceBudgetUpdate.Add(new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, null, SecuredAmount ?? 0, TargetedAmount ?? 0, CostTypeID));
+                return projectFundingSourceBudgetUpdate;
+            }
+
         }
     }
 }

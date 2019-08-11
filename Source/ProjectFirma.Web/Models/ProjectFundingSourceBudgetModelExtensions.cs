@@ -19,23 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
     public static class ProjectFundingSourceBudgetModelExtensions
     {
-        public static List<int> CalculateCalendarYearRangeForBudgets(this IList<ProjectFundingSourceBudget> projectFundingSourceBudgets, Project project)
-        {
-            var existingYears = projectFundingSourceBudgets.Where(x => x.CalendarYear.HasValue).Select(x => x.CalendarYear??0).ToList();
-            return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(existingYears, project, DateTime.Today.Year);
-        }
-
         public static List<int> CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears(this Project project)
         {
             return FirmaDateUtilities.CalculateCalendarYearRangeForBudgetsAccountingForExistingYears(new List<int>(), project, DateTime.Today.Year);

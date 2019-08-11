@@ -19,17 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
@@ -37,8 +26,19 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
+using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectModelExtensions
     {
@@ -382,14 +382,19 @@ namespace ProjectFirmaModels.Models
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
+            var showFullName = (securedAmountsDictionary.Count + targetedAmountsDictionary.Count) <= 2;
+
             var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice("Secured Funding: " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
 
             }).ToList();
             googlePieChartSlices.AddRange(securedPieChartSlices);
@@ -398,10 +403,13 @@ namespace ProjectFirmaModels.Models
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
             googlePieChartSlices.AddRange(targetedPieChartSlices);
 
@@ -422,7 +430,7 @@ namespace ProjectFirmaModels.Models
 
         public static decimal GetEstimatedTotalCost(this Project project)
         {
-            return project.GetEstimatedTotalCost() ?? 0;
+            return project.GetEstimatedTotalRegardlessOfFundingType() ?? 0;
         }
 
         public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
@@ -433,13 +441,13 @@ namespace ProjectFirmaModels.Models
             }
 
             var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
-            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalCost().Value;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalRegardlessOfFundingType().Value;
         }
 
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
             return project.FundingType == FundingType.BudgetSameEachYear
-                   && project.GetEstimatedTotalCost().HasValue
+                   && project.GetEstimatedTotalRegardlessOfFundingType().HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue
                    && project.ProjectStage.IsStageIncludedInCostCalculations();

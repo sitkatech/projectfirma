@@ -24,11 +24,16 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceBudget : IAuditableEntity, IFundingSourceBudgetAmount
+    public partial class ProjectFundingSourceBudget : IAuditableEntity, IFundingSourceBudgetAmount, ICostTypeFundingSourceBudgetAmount
     {
         public string GetAuditDescriptionString()
         {
             return $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
+        }
+
+        public decimal? GetMonetaryAmount(bool isSecured)
+        {
+            return isSecured ? SecuredAmount : TargetedAmount;
         }
 
         public ProjectFundingSourceBudget(int projectID, int fundingSourceID, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
