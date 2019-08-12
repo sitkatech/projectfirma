@@ -3077,7 +3077,7 @@ namespace ProjectFirma.Web.Controllers
         private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; // TODO: Expenditures are not using the correct diff when budgeting by cost type
+            var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
             var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
