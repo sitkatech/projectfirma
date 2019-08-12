@@ -2702,7 +2702,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
         {
-            var costTypeIDs = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
+            var costTypeIDs = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
 
             var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts, expectedFundingUpdateNote);

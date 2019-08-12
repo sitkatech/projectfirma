@@ -9,14 +9,14 @@ namespace ProjectFirma.Web.Models
     {
         public int FundingSourceID { get; }
         public string FundingSourceName { get; }
-        public List<ProjectCostTypeCalendarYearAmount> ProjectCostTypeCalendarYearAmounts { get; }
+        public List<ProjectCostTypeCalendarYearBudgetAmount> ProjectCostTypeCalendarYearBudgetAmounts { get; }
         public string DisplayCssClass { get; set; }
 
-        private ProjectBudgetByCostType(int fundingSourceID, string fundingSourceName, List<ProjectCostTypeCalendarYearAmount> projectCostTypeCalendarYearAmounts, string displayCssClass)
+        private ProjectBudgetByCostType(int fundingSourceID, string fundingSourceName, List<ProjectCostTypeCalendarYearBudgetAmount> projectCostTypeCalendarYearBudgetAmounts, string displayCssClass)
         {
             FundingSourceID = fundingSourceID;
             FundingSourceName = fundingSourceName;
-            ProjectCostTypeCalendarYearAmounts = projectCostTypeCalendarYearAmounts;
+            ProjectCostTypeCalendarYearBudgetAmounts = projectCostTypeCalendarYearBudgetAmounts;
             DisplayCssClass = displayCssClass;
         }
 
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
                         new ProjectBudgetByCostType(x.FundingSourceID,
                             x.FundingSourceName,
                             distinctCostTypes.Select(
-                                    y => new ProjectCostTypeCalendarYearAmount(y.CostTypeID, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
+                                    y => new ProjectCostTypeCalendarYearBudgetAmount(y.CostTypeID, calendarYears.Select(calendarYear => new CalendarYearBudgetAmounts(calendarYear, null, null)).ToList()))
                                 .ToList(),
                             null)).ToList();
 
@@ -39,11 +39,14 @@ namespace ProjectFirma.Web.Models
                 var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceBudget.Key);
                 foreach (var budgets in projectFundingSourceBudget.GroupBy(x => x.CostTypeID))
                 {
-                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostTypeID == budgets.Key);
+                    var current = currentFundingSource.ProjectCostTypeCalendarYearBudgetAmounts.Single(x => x.CostTypeID == budgets.Key);
                     foreach (var calendarYear in calendarYears)
                     {
-                        current.CalendarYearAmount[calendarYear] =
-                            budgets.Where(x => x. CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount(true) + x.GetMonetaryAmount(false)).Sum();
+                        var a = current.CalendarYearBudgetAmounts.Single(x => x.CalendarYear == calendarYear);
+                        a.SecuredAmount = budgets.Where(x => x.CalendarYear == calendarYear)
+                            .Sum(x => x.GetMonetaryAmount(true));
+                        a.TargetedAmount= budgets.Where(x => x.CalendarYear == calendarYear)
+                            .Sum(x => x.GetMonetaryAmount(false));
                     }
                 }
             }
@@ -54,9 +57,21 @@ namespace ProjectFirma.Web.Models
         {
             return new ProjectBudgetByCostType(fundingSourceCalendarYearBudgetToDiff.FundingSourceID,
                 fundingSourceCalendarYearBudgetToDiff.FundingSourceName,
-                fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearAmounts.Select(
-                    x => new ProjectCostTypeCalendarYearAmount(x.CostTypeID, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
+                fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearBudgetAmounts.Select(
+                    x => new ProjectCostTypeCalendarYearBudgetAmount(x.CostTypeID, x.CalendarYearBudgetAmounts.Select(y => new CalendarYearBudgetAmounts(y.CalendarYear, y.SecuredAmount, y.TargetedAmount)).ToList())).ToList(),
                 displayCssClass);
+        }
+    }
+    public class ProjectCostTypeCalendarYearBudgetAmount
+    {
+        public int CostTypeID { get; }
+        public List<CalendarYearBudgetAmounts> CalendarYearBudgetAmounts { get; }
+
+
+        public ProjectCostTypeCalendarYearBudgetAmount(int costTypeId, List<CalendarYearBudgetAmounts> calendarYearBudgetAmounts)
+        {
+            CostTypeID = costTypeId;
+            CalendarYearBudgetAmounts = calendarYearBudgetAmounts;
         }
     }
 }
