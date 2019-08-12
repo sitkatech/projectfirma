@@ -21,7 +21,12 @@
 @using ProjectFirma.Web.Views
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Views.Shared
 @inherits ProjectFirma.Web.Views.ProjectAttachment.ProjectAttachmentIndex
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
 <br />
 <div>
     <h4>Attachments</h4>

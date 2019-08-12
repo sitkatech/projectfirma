@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
         }
 
-        [ProjectAttachmentEditAsAdminFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<ProjectAttachment> ProjectAttachmentGridJsonData()
         {
             var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByPerson(CurrentPerson);
