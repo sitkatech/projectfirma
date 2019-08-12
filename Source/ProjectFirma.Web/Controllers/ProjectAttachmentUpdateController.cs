@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     taxonomyTrunk = project.GetTaxonomyTrunk();
                 }
-                else
+                else if (viewModel.ProjectUpdateBatchID.HasValue)
                 {
                     var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
                     if (projectUpdateBatch != null)

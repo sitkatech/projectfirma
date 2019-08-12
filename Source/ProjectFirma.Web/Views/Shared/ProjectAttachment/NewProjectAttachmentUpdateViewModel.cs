@@ -17,15 +17,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         /// </summary>
         public NewProjectAttachmentUpdateViewModel() { }
 
-        public NewProjectAttachmentUpdateViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch)
+        public NewProjectAttachmentUpdateViewModel(ProjectUpdateBatch projectUpdateBatch)
         {
             ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
-            CheckForValidProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectIdOrProjectUpdateId();
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CheckForValidProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectIdOrProjectUpdateId();
             var validationResults = new List<ValidationResult>();
 
             if (HttpRequestStorage.DatabaseEntities.ProjectAttachmentUpdates.Where(x => x.ProjectUpdateBatchID == ProjectUpdateBatchID)
