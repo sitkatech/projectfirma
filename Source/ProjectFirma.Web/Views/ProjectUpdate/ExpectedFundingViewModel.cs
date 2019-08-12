@@ -44,6 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ViewModelForAngularEditor ViewModelForAngular { get; set; }
 
         [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingUpdateNote)]
+        [DisplayName("Comment")]
         public string ExpectedFundingUpdateNote { get; set; }
 
         /// <summary>

@@ -46,6 +46,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingUpdateNote)]
+        [DisplayName("Comment")]
         public string ExpectedFundingUpdateNote { get; set; }
 
         [DisplayName("Review Comments")]
