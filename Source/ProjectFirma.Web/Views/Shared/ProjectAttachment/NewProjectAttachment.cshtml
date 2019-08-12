@@ -10,7 +10,8 @@
         <div>
             You can upload a range of document formats here, including some image formats (for diagrams, plans, illustrations). However, we encourage you to upload photos in the Photos section.
         </div>
-        @Html.HiddenFor(m => m.ParentID)
+        @Html.HiddenFor(m => m.ProjectID)
+        @Html.HiddenFor(m => m.ProjectUpdateBatchID)
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
