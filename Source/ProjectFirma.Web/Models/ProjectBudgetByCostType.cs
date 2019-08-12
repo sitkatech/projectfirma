@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
                         new ProjectBudgetByCostType(x.FundingSourceID,
                             x.FundingSourceName,
                             distinctCostTypes.Select(
-                                    y => new ProjectCostTypeCalendarYearAmount(y, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
+                                    y => new ProjectCostTypeCalendarYearAmount(y.CostTypeID, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
                                 .ToList(),
                             null)).ToList();
 
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
                 var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceBudget.Key);
                 foreach (var budgets in projectFundingSourceBudget.GroupBy(x => x.CostTypeID))
                 {
-                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostType.CostTypeID == budgets.Key);
+                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostTypeID == budgets.Key);
                     foreach (var calendarYear in calendarYears)
                     {
                         current.CalendarYearAmount[calendarYear] =
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Models
             return new ProjectBudgetByCostType(fundingSourceCalendarYearBudgetToDiff.FundingSourceID,
                 fundingSourceCalendarYearBudgetToDiff.FundingSourceName,
                 fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearAmounts.Select(
-                    x => new ProjectCostTypeCalendarYearAmount(x.CostType, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
+                    x => new ProjectCostTypeCalendarYearAmount(x.CostTypeID, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
                 displayCssClass);
         }
     }

@@ -123,8 +123,10 @@
                     {
                         case AddedDeletedOrRealElement.AddedElement:
                             <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                            <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
                             break;
                         case AddedDeletedOrRealElement.DeletedElement:
+                            <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
                             <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
                             break;
                         case AddedDeletedOrRealElement.RealElement:
@@ -140,7 +142,8 @@
                 <th colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                 {
-                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</th>
+                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</th>
                 }
                 <th style="text-align: right">Total</th>
             </tr>
@@ -151,7 +154,7 @@
                 </tr>
                 foreach (var costType in ViewDataTyped.CostTypes.OrderBy(x => x.CostTypeName))
                 {
-                    var current = projectBudgetByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType == costType);
+                    var current = projectBudgetByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostTypeID == costType.CostTypeID);
                     if (current == null)
                     {
                         <tr class="@projectBudgetByCostType.DisplayCssClass">
@@ -159,6 +162,9 @@
                             <td>@costType.CostTypeName</td>
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                             {
+                                <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                    <span class="normalDollars @calendarYear.DisplayCssClass"></span>
+                                </td>
                                 <td class="@calendarYear.DisplayCssClass" style="text-align: right">
                                     <span class="normalDollars @calendarYear.DisplayCssClass"></span>
                                 </td>
@@ -175,6 +181,9 @@
                             <td>@costType.CostTypeName</td>
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                             {
+                                <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                    <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
+                                </td>                                
                                 <td class="@calendarYear.DisplayCssClass" style="text-align: right">
                                     <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
                                 </td>

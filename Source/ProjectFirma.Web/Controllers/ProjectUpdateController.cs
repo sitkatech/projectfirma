@@ -2547,7 +2547,8 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForExpendituresByCostTypeAsString(List<ProjectExpenditureByCostType> projectExpenditureByCostTypes, List<CalendarYearString> calendarYearStrings)
         {
-            var costTypes = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
+            var costTypeIDs = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
             var viewData = new ProjectExpendituresByCostTypeSummaryViewData(projectExpenditureByCostTypes, calendarYearStrings, costTypes);
             var partialViewAsString = RenderPartialViewToString(ProjectExpendituresByCostTypeSummaryPartialViewPath, viewData);
             return partialViewAsString;
@@ -2701,7 +2702,9 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
         {
-            var costTypes = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
+            var costTypeIDs = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
+
             var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts, expectedFundingUpdateNote);
             var partialViewAsString = RenderPartialViewToString(ProjectBudgetByCostTypePartialViewPath, viewData);
             return partialViewAsString;
@@ -3074,9 +3077,8 @@ namespace ProjectFirma.Web.Controllers
         private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
-//            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;  // TODO: Expenditures and Budgets are not using the correct diff when budgeting by cost type
-            var isBudgetsUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; // TODO: Expenditures are not using the correct diff when budgeting by cost type
+            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3097,7 +3099,6 @@ namespace ProjectFirma.Web.Controllers
             return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 isBudgetsUpdated,
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,

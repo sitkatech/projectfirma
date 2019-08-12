@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         private readonly List<string> _warningMessages;
 
-        public BasicsValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
+        public BasicsValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate) // TODO: Need to validate that required Custom Attributes are present
         {
             _warningMessages = new List<string>();
 

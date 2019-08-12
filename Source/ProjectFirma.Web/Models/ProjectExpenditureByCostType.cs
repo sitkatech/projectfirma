@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
                         new ProjectExpenditureByCostType(x.FundingSourceID,
                             x.FundingSourceName,
                             distinctCostTypes.Select(
-                                    y => new ProjectCostTypeCalendarYearAmount(y, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
+                                    y => new ProjectCostTypeCalendarYearAmount(y.CostTypeID, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
                                 .ToList(),
                             null)).ToList();
 
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Models
                 var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceExpenditure.Key);
                 foreach (var expenditures in projectFundingSourceExpenditure.GroupBy(x => x.CostTypeID))
                 {
-                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostType.CostTypeID == expenditures.Key);
+                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostTypeID == expenditures.Key);
                     foreach (var calendarYear in calendarYears)
                     {
                         current.CalendarYearAmount[calendarYear] =
@@ -55,19 +55,19 @@ namespace ProjectFirma.Web.Models
             return new ProjectExpenditureByCostType(fundingSourceCalendarYearExpenditureToDiff.FundingSourceID,
                 fundingSourceCalendarYearExpenditureToDiff.FundingSourceName,
                 fundingSourceCalendarYearExpenditureToDiff.ProjectCostTypeCalendarYearAmounts.Select(
-                    x => new ProjectCostTypeCalendarYearAmount(x.CostType, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
+                    x => new ProjectCostTypeCalendarYearAmount(x.CostTypeID, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
                 displayCssClass);
         }
     }
 
     public class ProjectCostTypeCalendarYearAmount
     {
-        public CostType CostType { get; }
+        public int CostTypeID { get; }
         public Dictionary<int, decimal?> CalendarYearAmount { get; }
 
-        public ProjectCostTypeCalendarYearAmount(CostType costType, Dictionary<int, decimal?> calendarYearAmount)
+        public ProjectCostTypeCalendarYearAmount(int costTypeID, Dictionary<int, decimal?> calendarYearAmount)
         {
-            CostType = costType;
+            CostTypeID = costTypeID;
             CalendarYearAmount = calendarYearAmount;
         }
     }
