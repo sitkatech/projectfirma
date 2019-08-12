@@ -41,6 +41,15 @@ namespace ProjectFirma.Web.Views.Shared
             EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditInDialog(geospatialAreaType));
         }
 
+        public ViewPageContentViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, Person currentPerson)
+        {
+            FirmaPageContentHtmlString = geospatialArea.GetFirmaPageContentHtmlString();
+            FirmaPageDisplayName = geospatialArea.GetFirmaPageDisplayName();
+            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
+            HasPageContent = geospatialArea.HasPageContent();
+            EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditDescriptionInDialog(geospatialArea));
+        }
+
         public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, Person currentPerson)
             : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
         {

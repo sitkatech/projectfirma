@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaName).HasColumnName(@"GeospatialAreaName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.GeospatialAreaFeature).HasColumnName(@"GeospatialAreaFeature").HasColumnType("geometry").IsOptional();
             Property(x => x.GeospatialAreaTypeID).HasColumnName(@"GeospatialAreaTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.GeospatialAreaDescriptionContent).HasColumnName(@"GeospatialAreaDescriptionContent").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.GeospatialAreaType).WithMany(b => b.GeospatialAreas).HasForeignKey(c => c.GeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_GeospatialArea_GeospatialAreaType_GeospatialAreaTypeID
