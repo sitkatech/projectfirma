@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -6,11 +7,33 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectAttachment;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class ProjectAttachmentController : FirmaBaseController
     {
+
+        
+        [FirmaAdminFeature]
+        public ViewResult ProjectAttachmentIndex()
+        {
+            var viewData = new ProjectAttachmentIndexViewData(CurrentPerson);
+            return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
+        }
+
+        [ProjectAttachmentEditAsAdminFeature]
+        public GridJsonNetJObjectResult<ProjectAttachment> ProjectAttachmentGridJsonData()
+        {
+            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new ProjectAttachmentGridSpec(hasManagePermissions);
+            var projectAttachments = HttpRequestStorage.DatabaseEntities.ProjectAttachments.ToList().OrderBy(x => x.DisplayName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectAttachment>(projectAttachments, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+        
+
+
         [HttpGet]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
