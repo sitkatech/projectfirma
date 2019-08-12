@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TransportationProjectBudgetDetailViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectExpendituresByCostTypeSummaryViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>

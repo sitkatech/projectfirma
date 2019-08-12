@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         private readonly List<string> _warningMessages;
 
-        public BasicsValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
+        public BasicsValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate) 
         {
             _warningMessages = new List<string>();
 
@@ -88,6 +88,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (projectUpdate.CompletionYear < projectUpdate.PlanningDesignStartYear)
             {
                 _warningMessages.Add(FirmaValidationMessages.CompletionYearGreaterThanEqualToPlanningDesignStartYear);
+            }
+            // Validate that required Custom Attributes are present
+            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            var projectrequiredCustomAttributeTypeIDs = projectUpdate.GetProjectCustomAttributes().Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            if (requiredCustomAttributeTypeIDs.Any(x => !projectrequiredCustomAttributeTypeIDs.Contains(x)))
+            {
+                _warningMessages.Add(FirmaValidationMessages.RequiredCustomAttribute);
             }
         }
 

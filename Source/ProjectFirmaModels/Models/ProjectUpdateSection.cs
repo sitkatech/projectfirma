@@ -97,7 +97,7 @@
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateStatus.IsExpectedFundingUpdated;
+            return projectUpdateStatus.IsBudgetsUpdated;
         }
     }
 

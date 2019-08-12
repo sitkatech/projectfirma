@@ -175,27 +175,6 @@ namespace ProjectFirma.Web.Models
             return projectFundingSourceBudgetBulks;
         }
 
-//        public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromListByCostType(Project project) // TODO: merge into other function as for ProjectUpdates
-//        {
-//            var projectID = project.ProjectID;
-//            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-//            var distinctFundingSources = projectFundingSourceBudgets.Select(x => x.FundingSourceID).Distinct().ToList();
-//            var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
-//            var projectFundingSourceBudgetBulks = new List<ProjectFundingSourceBudgetsByCostTypeBulk>();
-//            foreach (var fundingSourceID in distinctFundingSources)
-//            {
-//                foreach (var costTypeID in allCostTypeIDs)
-//                {
-//                    var budgetsForThisFundingSourceAndCostType = projectFundingSourceBudgets.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
-//                    if (budgetsForThisFundingSourceAndCostType.Count > 0)
-//                    {
-//                        projectFundingSourceBudgetBulks.Add(new ProjectFundingSourceBudgetsByCostTypeBulk(projectID,
-//                            fundingSourceID, costTypeID, budgetsForThisFundingSourceAndCostType[0]));
-//                    }
-//                }
-//            }
-//            return projectFundingSourceBudgetBulks;
-//        }
         public static List<ProjectFundingSourceBudgetsByCostTypeBulk> MakeFromListByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
         {
             var projectID = projectUpdateBatch.ProjectID;
@@ -261,12 +240,22 @@ namespace ProjectFirma.Web.Models
         public List<ProjectFundingSourceBudgetUpdate> ToProjectFundingSourceBudgetUpdates(ProjectUpdateBatch projectUpdateBatch)
         {
             var fundingSource = HttpRequestStorage.DatabaseEntities.FundingSources.Single(x => x.FundingSourceID == FundingSourceID);
-            // ReSharper disable PossibleInvalidOperationException
-            return
-                CalendarYearBudgets.Where(x => x.SecuredAmount.HasValue || x.TargetedAmount.HasValue)
-                    .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, x.CalendarYear, x.SecuredAmount.Value, x.TargetedAmount.Value, CostTypeID))
-                    .ToList();
-            // ReSharper restore PossibleInvalidOperationException
+            if (projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear)
+            {
+                // ReSharper disable PossibleInvalidOperationException
+                return
+                    CalendarYearBudgets.Where(x => x.SecuredAmount.HasValue || x.TargetedAmount.HasValue)
+                        .Select(x => new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, x.CalendarYear, x.SecuredAmount ?? 0, x.TargetedAmount ?? 0, CostTypeID))
+                        .ToList();
+                // ReSharper restore PossibleInvalidOperationException
+            }
+            else
+            {
+                var projectFundingSourceBudgetUpdate =  new List<ProjectFundingSourceBudgetUpdate>(  );
+                projectFundingSourceBudgetUpdate.Add(new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, fundingSource, null, SecuredAmount ?? 0, TargetedAmount ?? 0, CostTypeID));
+                return projectFundingSourceBudgetUpdate;
+            }
+
         }
     }
 }

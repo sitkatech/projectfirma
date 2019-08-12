@@ -37,12 +37,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [FieldDefinitionDisplay(FieldDefinitionEnum.NoFundingSourceIdentified)]
         public Money? NoFundingSourceIdentifiedYet { get; set; }
 
-        [DisplayName("Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
+        [DisplayName("Review Comments")]
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingComment)]
         public string Comments { get; set; }
 
         public ViewModelForAngularEditor ViewModelForAngular { get; set; }
 
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingUpdateNote)]
+        [DisplayName("Comment")]
+        public string ExpectedFundingUpdateNote { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -56,6 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
             Comments = comments;
+            ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
             ViewModelForAngular = new ViewModelForAngularEditor(projectUpdateBatch.ProjectUpdate.FundingTypeID ?? 0, projectFundingSourceBudgetUpdates, NoFundingSourceIdentifiedYet);
         }
 
@@ -89,6 +93,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectUpdateBatch.ProjectUpdate.FundingTypeID = ViewModelForAngular.FundingTypeID;
             }
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = ViewModelForAngular.NoFundingSourceIdentifiedYet;
+            projectUpdateBatch.ExpectedFundingUpdateNote = ExpectedFundingUpdateNote;
             var projectFundingSourceBudgetUpdatesUpdated = new List<ProjectFundingSourceBudgetUpdate>();
             if (ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples != null)
             {

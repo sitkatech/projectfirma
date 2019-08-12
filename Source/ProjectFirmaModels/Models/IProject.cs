@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         ProjectStage ProjectStage { get; }
         FundingType FundingType { get; }
 
-        decimal? GetEstimatedTotalCost();
+        decimal? GetEstimatedTotalRegardlessOfFundingType();
         IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes();
 
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();

@@ -46,8 +46,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingUpdateNote)]
+        [DisplayName("Comment")]
+        public string ExpectedFundingUpdateNote { get; set; }
+
         [DisplayName("Review Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingComment)]
         public string Comments { get; set; }
 
         /// <summary>
@@ -77,7 +81,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                     x.NoFundingSourceIdentifiedYet)));
                             var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
                             calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, 0)));
                             break;
                         }
 
@@ -90,7 +94,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
             NoFundingSourceAmounts = calendarYearMonetaryAmounts;
-            Comments = projectUpdateBatch.ExpendituresComment;
+            ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
+            Comments = projectUpdateBatch.ExpectedFundingComment;
         }
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
@@ -103,6 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var allProjectNoFundingSourceIdentifiedUpdates = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifiedUpdates.Local;
 
             projectUpdateBatch.ProjectUpdate.FundingTypeID = FundingTypeID;
+            projectUpdateBatch.ExpectedFundingUpdateNote = ExpectedFundingUpdateNote;
 
             var projectFundingSourceBudgetUpdatesUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudgetUpdate>();
             if (ProjectFundingSourceBudgets != null)
