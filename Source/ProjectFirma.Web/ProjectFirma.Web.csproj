@@ -185,6 +185,9 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachment.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachmentViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachmentViewModel.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />

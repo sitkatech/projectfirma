@@ -20,11 +20,12 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @inherits ProjectFirma.Web.Views.ProjectAttachment.ProjectAttachmentIndex
 <br />
 <div>
     <h4>Attachments</h4>
-    @*@ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewProjectAssociationUrl, "Create a new Attachment Relationship Type", ViewDataTyped.HasManagePermissions)*@
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewAttachmentUrl, "Create a new Attachment Relationship Type", ViewDataTyped.HasManagePermissions)
 </div>
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.ProjectAttachmentGridSpec, ViewDataTyped.ProjectAttachmentGridName, ViewDataTyped.ProjectAttachmentGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)

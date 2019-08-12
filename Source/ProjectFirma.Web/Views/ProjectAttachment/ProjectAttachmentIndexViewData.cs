@@ -47,6 +47,8 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
             ProjectAttachmentGridName = "projectAttachmentGrid";
             ProjectAttachmentGridDataUrl = SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.ProjectAttachmentGridJsonData());
             HasManagePermissions = hasManagePermissions;
+
+            //NewAttachmentUrl = SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.n)
             
         }
     }

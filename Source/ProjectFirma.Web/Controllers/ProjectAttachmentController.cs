@@ -31,7 +31,20 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectAttachment>(projectAttachments, gridSpec);
             return gridJsonNetJObjectResult;
         }
-        
+
+        [HttpGet]
+        [ProjectAttachmentEditAsAdminFeature]
+        public PartialViewResult NewProjectAgnosticAttachment()
+        {
+            var viewModel = new NewProjectAgnosticAttachmentViewModel();
+            return ViewNewProjectAgnosticAttachmentViewModel(viewModel);
+        }
+
+        private PartialViewResult ViewNewProjectAgnosticAttachmentViewModel(NewProjectAgnosticAttachmentViewModel viewModel)
+        {
+            var viewData = new NewProjectAgnosticAttachmentViewData();
+            return RazorPartialView<NewProjectAgnosticAttachment, NewProjectAgnosticAttachmentViewData, NewProjectAgnosticAttachmentViewModel>(viewData, viewModel);
+        }
 
 
         [HttpGet]
@@ -42,6 +55,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewNew(viewModel);
         }
 
+        
         [HttpPost]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
