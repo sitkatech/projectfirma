@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using LtInfo.Common
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetsAnnualByCostType
@@ -201,3 +202,20 @@
         <p class="systemText">No @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized()) identified for this @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()).</p>
     }
 </div>
+@if (!ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
+{
+    <hr />
+}
+<table class="summaryLayout">
+    <tr>
+        <th>Comment:</th>
+        @if (ViewDataTyped.Project.ExpectedFundingUpdateNote == null)
+        {
+            <td style="font-style: italic">None provided</td>
+        }
+        else
+        {
+            <td>@Html.Raw(ViewDataTyped.Project.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
+        }
+    </tr>
+</table>
