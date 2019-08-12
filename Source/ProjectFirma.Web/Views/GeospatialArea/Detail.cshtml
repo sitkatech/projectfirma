@@ -68,6 +68,10 @@ Source code is available upon request via <support@sitkatech.com>.
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.GeospatialAreaTypeNamePluralized </a>
 </div>
 
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.GeospatialAreaDescriptionViewPageContentViewData); }
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <ul class="nav nav-tabs" id="geospatialAreaDetailsTabs" style="border-bottom: none;">
