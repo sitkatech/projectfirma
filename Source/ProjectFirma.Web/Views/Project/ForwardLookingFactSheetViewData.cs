@@ -94,6 +94,7 @@ namespace ProjectFirma.Web.Views.Project
             var labelUsesFullDisplayName = FundingSourceRequestAmountGooglePieChartSlices.Count <= 2 || 
                                            FundingSourceRequestAmountGooglePieChartSlices.Count <=3 && fundingSourceRequestAmountGooglePieChartSlices.Any(x => x.Label.Equals(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()));
             //Dynamically resize chart based on how much space the legend requires
+
             CalculatedChartHeight = 400 - (labelUsesFullDisplayName
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 52
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 18);
@@ -122,7 +123,8 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.GetDisplayName();
             TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
-            EstimatedTotalCost = Project.GetEstimatedTotalCost().HasValue ? Project.GetEstimatedTotalCost().ToStringCurrency() : "";
+
+            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";
             EstimatedTotalCostLabel =
                 Project.FundingTypeID.HasValue && Project.FundingType.ToEnum == FundingTypeEnum.BudgetSameEachYear
                     ? FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel()

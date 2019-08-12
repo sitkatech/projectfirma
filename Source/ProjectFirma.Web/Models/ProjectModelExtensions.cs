@@ -430,7 +430,7 @@ namespace ProjectFirma.Web.Models
 
         public static decimal GetEstimatedTotalCost(this Project project)
         {
-            return project.GetEstimatedTotalCost() ?? 0;
+            return project.GetEstimatedTotalRegardlessOfFundingType() ?? 0;
         }
 
         public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
@@ -441,13 +441,13 @@ namespace ProjectFirma.Web.Models
             }
 
             var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
-            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalCost().Value;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalRegardlessOfFundingType().Value;
         }
 
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
             return project.FundingType == FundingType.BudgetSameEachYear
-                   && project.GetEstimatedTotalCost().HasValue
+                   && project.GetEstimatedTotalRegardlessOfFundingType().HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue
                    && project.ProjectStage.IsStageIncludedInCostCalculations();
@@ -741,5 +741,13 @@ namespace ProjectFirma.Web.Models
             var projectStewards = project.GetProjectStewards() ?? new List<Person>();
             return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(projectStewards, new HavePrimaryKeyComparer<Person>()).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
+
+        public static TaxonomyTrunk GetTaxonomyTrunk(this Project project)
+        {
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+        }
+
+
+
     }
 }

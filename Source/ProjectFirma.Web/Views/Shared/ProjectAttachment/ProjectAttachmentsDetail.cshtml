@@ -37,7 +37,7 @@ else
 {
     <div class="row">
     <div class="col-md-4">
-        <p>@attachmentRelationshipType.AttachmentRelationshipTypeName</p>
+        <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
     </div>
 
         @{
@@ -79,7 +79,7 @@ else
 
     @if (!thisAttachmentList.Any())
     {
-        <p class="systemText">No attachments associated with the @(attachmentRelationshipType.AttachmentRelationshipTypeName) @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
+        <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
     }
     
     </div>

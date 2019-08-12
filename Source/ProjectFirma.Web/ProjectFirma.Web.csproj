@@ -129,9 +129,11 @@
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
+    <Compile Include="Models\ProjectBudgetByCostType.cs" />
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureUpdateModelExtensions.cs" />
@@ -282,8 +284,8 @@
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetail.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetailViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummaryViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -597,8 +599,8 @@
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBoxViewModel.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetail.cs" />
     <Compile Include="Views\Shared\ProjectOrganization\ProjectOrganizationsDetailViewData.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cs" />
-    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetailViewData.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasViewData.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasViewModel.cs" />
@@ -1475,7 +1477,7 @@
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
-    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsDetail.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Content Include="Views\Project\ForwardLookingFactSheet.cshtml" />
@@ -1528,7 +1530,7 @@
     <Content Include="Views\ProjectUpdate\Contacts.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
-    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectFundingRequestsByCostTypeDetail.cshtml" />
+    <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cshtml" />
     <Content Include="Views\Shared\ProjectAttachment\EditProjectAttachments.cshtml" />
     <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cshtml" />
     <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />

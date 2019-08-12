@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,8 +36,6 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 
         public List<int> CalendarYears { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; set; }
-        public List<CalendarYearMonetaryAmount> NoFundingSourceAmounts { get; set; }
-        public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
@@ -65,32 +62,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             calendarYears.AddRange(usedCalendarYears);
             calendarYears.Sort();
             CalendarYears = calendarYears;
-            var calendarYearMonetaryAmounts = new List<CalendarYearMonetaryAmount>();
-            if (project.FundingTypeID.HasValue)
-            {
-                switch (project.FundingType.ToEnum)
-                {
-                    case FundingTypeEnum.BudgetVariesByYear:
-                        {
-                            var projectNoFundingSourceIdentifieds =
-                                project.ProjectNoFundingSourceIdentifieds.ToList();
-                            projectNoFundingSourceIdentifieds.ForEach(x =>
-                                calendarYearMonetaryAmounts.Add(new CalendarYearMonetaryAmount(x.CalendarYear.Value,
-                                    x.NoFundingSourceIdentifiedYet)));
-                            var usedNoFundingCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
-                            calendarYearMonetaryAmounts.AddRange(calendarYears.Where(x => !usedNoFundingCalendarYears.Contains(x))
-                                .ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
-                            NoFundingSourceAmounts = calendarYearMonetaryAmounts;
-                            break;
-                        }
 
-                    case FundingTypeEnum.BudgetSameEachYear:
-                        NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectFundingRequestsByCostTypeDetail.cs" company="Tahoe Regional Planning Agency">
+<copyright file="ProjectBudgetsByCostTypeSummary.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -24,11 +24,11 @@ using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
-    public abstract class ProjectFundingRequestsByCostTypeDetail : TypedWebPartialViewPage<ProjectFundingRequestsByCostTypeDetailViewData>
+    public abstract class ProjectBudgetsByCostTypeSummary : TypedWebPartialViewPage<ProjectBudgetsByCostTypeSummaryViewData>
     {
-        public static void RenderPartialView(HtmlHelper html, ProjectFundingRequestsByCostTypeDetailViewData viewData)
+        public static void RenderPartialView(HtmlHelper html, ProjectBudgetsByCostTypeSummaryViewData viewData)
         {
-            html.RenderRazorSitkaPartial<ProjectFundingRequestsByCostTypeDetail, ProjectFundingRequestsByCostTypeDetailViewData>(viewData);
+            html.RenderRazorSitkaPartial<ProjectBudgetsByCostTypeSummary, ProjectBudgetsByCostTypeSummaryViewData>(viewData);
         }
     }
 }
