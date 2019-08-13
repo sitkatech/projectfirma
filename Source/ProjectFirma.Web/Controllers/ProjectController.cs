@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
-            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, project, projectFundingSourceCostTypeAmounts);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, project, projectFundingSourceCostTypeAmounts, project.ExpectedFundingUpdateNote);
             return projectBudgetsAnnualByCostTypeViewData;
         }
 

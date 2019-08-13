@@ -67,13 +67,13 @@
 <table class="summaryLayout">
     <tr>
         <th>Comment:</th>
-        @if (ViewDataTyped.Project.ExpectedFundingUpdateNote == null)
+        @if (ViewDataTyped.ExpectedFundingUpdateNote == null)
         {
             <td style="font-style: italic">None provided</td>
         }
         else
         {
-            <td>@Html.Raw(ViewDataTyped.Project.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
+            <td>@Html.Raw(ViewDataTyped.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
         }
     </tr>
 </table>
