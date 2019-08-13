@@ -4,13 +4,12 @@
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.NewProjectAttachment
 
-@section JavascriptAndStylesContent
-{
+
     
     <script type="text/javascript">
         // <![CDATA[
-        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
-        {
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function() {
+
             return {
                 AngularModel: @Html.Raw(JObject.FromObject(Model)),
                 AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
@@ -19,12 +18,10 @@
         jQuery(document).ready(function ()
         {
             angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp"]);
-
-
         });
         // ]]>
     </script>
-}
+
 
 
 @using (Html.BeginForm())
@@ -40,7 +37,12 @@
                 @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.DropDownListFor(m => m.AttachmentRelationshipTypeID, ViewDataTyped.AttachmentRelationshipTypes, new { @class = "form-control" })
+                <select class="form-control" ng-model="AttachmentRelationshipTypeID" ng-change="attachmentRelationshipTypeChange(AttachmentRelationshipTypeID)" data-width="100%">
+                    <option ng-repeat="attachmentRelationshipType in getAttachmentRelationshipTypesForDropdown()"
+                            ng-bind="attachmentRelationshipType.AttachmentRelationshipTypeName"
+                            ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
+                            ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
+                </select>
                 @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)
             </div>
         </div>
@@ -51,7 +53,7 @@
             <div class="col-xs-12 col-sm-9">
                 @Html.EditorFor(m => m.File)
                 @Html.ValidationMessageFor(m => m.File)
-                <p class="help-block">Allowed Extensions: @Model.GetFileExtensions(x => x.File)</p>
+                <p class="help-block">Allowed Extensions: <span>{{ AllowedExtensions }}</span></p>
             </div>
         </div>
         <div class="form-group">

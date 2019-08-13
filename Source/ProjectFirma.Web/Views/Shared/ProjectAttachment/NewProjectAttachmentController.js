@@ -20,9 +20,31 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", function ($scope, angularModelAndViewData) {
 
-    debugger;
-    alert('hellow world!');
+    $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
+        var initialSelectedAttachmentRelationshipTypeID = $scope.AngularViewData.InitialSelectedAttachmentRelationshipTypeID;
+        return initialSelectedAttachmentRelationshipTypeID === attachmentRelationshipTypeID;
+    };
+
+
+    $scope.getAttachmentRelationshipTypesForDropdown = function () {
+        //debugger;
+        return $scope.AngularViewData.AllAttachmentRelationshipTypes;
+    }
+
+
+    $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
+        $scope.populateAllowedExtensions(attachmentRelationshipTypeID);
+    }
+
+    $scope.populateAllowedExtensions = function (attachmentRelationshipTypeID) {
+        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+        //debugger;
+        $scope.AllowedExtensions = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
+    }
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+
+    $scope.populateAllowedExtensions($scope.AngularViewData.InitialSelectedAttachmentRelationshipTypeID);
+    
 });
