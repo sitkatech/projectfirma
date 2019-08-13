@@ -1795,6 +1795,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void WriteHtmlDiffLogs(ProjectPrimaryKey projectPrimaryKey, ProjectUpdateBatch projectUpdateBatch)
         {
+            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var basicsDiffContainer = DiffBasicsImpl(projectPrimaryKey);
             if (basicsDiffContainer.HasChanged)
             {
@@ -1809,20 +1810,21 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.PerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
             }
 
-            var expendituresDiffContainer = DiffExpendituresImpl(projectPrimaryKey);
+            // Call the correct diff format based on BudgetType
+            var expendituresDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectPrimaryKey) : DiffExpendituresImpl(projectPrimaryKey);
             if (expendituresDiffContainer.HasChanged)
             {
                 var expendituresDiffHelper = new HtmlDiff.HtmlDiff(expendituresDiffContainer.OriginalHtml, expendituresDiffContainer.UpdatedHtml);
                 projectUpdateBatch.ExpendituresDiffLogHtmlString = new HtmlString(expendituresDiffHelper.Build());
             }
 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //var budgetsDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
-            //if (budgetsDiffContainer.HasChanged)
-            //{
-            //    var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
-            //    projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
-            //}
+            // Call the correct diff format based on BudgetType
+            var budgetsDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectPrimaryKey) : DiffExpectedFundingImpl(projectPrimaryKey);
+            if (budgetsDiffContainer.HasChanged)
+            {
+                var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
+            }
 
             var externalLinksDiffContainer = DiffExternalLinksImpl(projectPrimaryKey);
             if (externalLinksDiffContainer.HasChanged)
