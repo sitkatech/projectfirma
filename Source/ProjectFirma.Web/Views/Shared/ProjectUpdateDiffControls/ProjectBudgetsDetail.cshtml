@@ -96,12 +96,6 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <tr>
             <th>Total</th>
-            <td style="text-align: right">
-                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount).ToStringCurrency()</span>
-            </td>
-            <td style="text-align: right">
-                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.TargetedAmount).ToStringCurrency()</span>
-            </td>
             <th style="text-align: right">
                 <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount).ToStringCurrency()</span>
             </th>
