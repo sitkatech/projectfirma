@@ -207,7 +207,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditDescriptionInDialog(EditGeospatialAreaDescriptionViewModel viewModel, GeospatialArea geospatialArea)
         {
-            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.MinimalWithImages;
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
             var viewData = new EditGeospatialAreaDescriptionViewData(ckEditorToolbar,
                 SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForGeospatialAreaDescription(geospatialArea)));
             return RazorPartialView<EditGeospatialAreaDescription, EditGeospatialAreaDescriptionViewData, EditGeospatialAreaDescriptionViewModel>(viewData, viewModel);
