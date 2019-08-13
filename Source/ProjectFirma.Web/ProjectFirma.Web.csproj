@@ -916,6 +916,7 @@
     <Content Include="Views\CustomPage\Index.cshtml" />
     <Content Include="Views\CustomPage\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
+    <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachmentController.js" />
     <Content Include="Views\Shared\ProjectContact\ProjectContactController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <Content Include="Views\Home\TrainingVideo.cshtml" />

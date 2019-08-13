@@ -1,12 +1,35 @@
 ﻿@using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.Mvc
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
-
 @inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.NewProjectAttachment
+
+@section JavascriptAndStylesContent
+{
     
+    <script type="text/javascript">
+        // <![CDATA[
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+        {
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+            };
+        });
+        jQuery(document).ready(function ()
+        {
+            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp"]);
+
+
+        });
+        // ]]>
+    </script>
+}
+
+
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    <div class="form-horizontal" id="NewProjectAttachmentAngularApp" ng-controller="NewProjectAttachmentController">
         <div>
             You can upload a range of document formats here, including some image formats (for diagrams, plans, illustrations). However, we encourage you to upload photos in the Photos section.
         </div>
@@ -17,7 +40,7 @@
                 @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.DropDownListFor(m => m.AttachmentRelationshipTypeID, ViewDataTyped.AttachmentRelationshipTypes, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.AttachmentRelationshipTypeID, ViewDataTyped.AttachmentRelationshipTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)
             </div>
         </div>
@@ -36,7 +59,7 @@
                 @Html.LabelWithSugarFor(m => m.DisplayName)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextBoxFor(m => m.DisplayName, new {@class = "form-control"})
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.DisplayName)
             </div>
         </div>
@@ -45,7 +68,7 @@
                 @Html.LabelWithSugarFor(m => m.Description)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextAreaWithMaxLengthFor(m => m.Description, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> {"form-control"})
+                @Html.TextAreaWithMaxLengthFor(m => m.Description, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.Description)
             </div>
         </div>
