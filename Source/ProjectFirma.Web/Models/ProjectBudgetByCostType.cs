@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Services.Protocols;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -9,54 +11,78 @@ namespace ProjectFirma.Web.Models
     {
         public int FundingSourceID { get; }
         public string FundingSourceName { get; }
-        public List<ProjectCostTypeCalendarYearAmount> ProjectCostTypeCalendarYearAmounts { get; }
+        public List<ProjectCostTypeCalendarYearBudgetAmount> ProjectCostTypeCalendarYearBudgetAmounts { get; }
         public string DisplayCssClass { get; set; }
 
-        private ProjectBudgetByCostType(int fundingSourceID, string fundingSourceName, List<ProjectCostTypeCalendarYearAmount> projectCostTypeCalendarYearAmounts, string displayCssClass)
+        private ProjectBudgetByCostType(int fundingSourceID, string fundingSourceName, List<ProjectCostTypeCalendarYearBudgetAmount> projectCostTypeCalendarYearBudgetAmounts, string displayCssClass)
         {
             FundingSourceID = fundingSourceID;
             FundingSourceName = fundingSourceName;
-            ProjectCostTypeCalendarYearAmounts = projectCostTypeCalendarYearAmounts;
+            ProjectCostTypeCalendarYearBudgetAmounts = projectCostTypeCalendarYearBudgetAmounts;
             DisplayCssClass = displayCssClass;
         }
 
         public static List<ProjectBudgetByCostType> CreateFromProjectBudgets(List<ICostTypeFundingSourceBudgetAmount> costTypeFundingSourceBudgets, List<int> calendarYears)
         {
             var distinctFundingSources = costTypeFundingSourceBudgets.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<FundingSource>());
-            var distinctCostTypes = costTypeFundingSourceBudgets.Select(x => x.CostType).Distinct(new HavePrimaryKeyComparer<CostType>());
-            var fundingSourcesCrossJoinCalendarYears =
-                distinctFundingSources.Select(
-                    x =>
-                        new ProjectBudgetByCostType(x.FundingSourceID,
-                            x.FundingSourceName,
-                            distinctCostTypes.Select(
-                                    y => new ProjectCostTypeCalendarYearAmount(y, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null)))
-                                .ToList(),
-                            null)).ToList();
+            var distinctCostTypeIDs = costTypeFundingSourceBudgets.Select(x => x.CostTypeID).Distinct();
+            var distinctCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => distinctCostTypeIDs.Contains(x.CostTypeID)).ToList();
 
-            foreach (var projectFundingSourceBudget in costTypeFundingSourceBudgets.GroupBy(x => x.FundingSource.FundingSourceID))
+            // Only using ProjectBudgetByCost type when Budget varies by Year
+            if (calendarYears.Any())
             {
-                var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceBudget.Key);
-                foreach (var budgets in projectFundingSourceBudget.GroupBy(x => x.CostTypeID))
+                var fundingSourcesCrossJoinCalendarYears =
+                    distinctFundingSources.Select(
+                        x =>
+                            new ProjectBudgetByCostType(x.FundingSourceID,
+                                x.FundingSourceName,
+                                distinctCostTypes.Select(
+                                    y => new ProjectCostTypeCalendarYearBudgetAmount(y, calendarYears.Select(calendarYear => new CalendarYearBudgetAmounts(calendarYear, null, null)).ToList())).ToList(),
+                                null)).ToList();
+
+                foreach (var projectFundingSourceBudget in costTypeFundingSourceBudgets.GroupBy(x => x.FundingSource.FundingSourceID))
                 {
-                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostType.CostTypeID == budgets.Key);
-                    foreach (var calendarYear in calendarYears)
+                    var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceBudget.Key);
+                    foreach (var budgets in projectFundingSourceBudget.GroupBy(x => x.CostTypeID))
                     {
-                        current.CalendarYearAmount[calendarYear] =
-                            budgets.Where(x => x. CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount(true) + x.GetMonetaryAmount(false)).Sum();
+                        var current = currentFundingSource.ProjectCostTypeCalendarYearBudgetAmounts.Single(x => x.CostType.CostTypeID == budgets.Key);
+                        foreach (var calendarYear in calendarYears)
+                        {
+                            var a = current.CalendarYearBudgetAmounts.Single(x => x.CalendarYear == calendarYear);
+                            a.SecuredAmount = budgets.Where(x => x.CalendarYear == calendarYear)
+                                .Sum(x => x.GetMonetaryAmount(true));
+                            a.TargetedAmount = budgets.Where(x => x.CalendarYear == calendarYear)
+                                .Sum(x => x.GetMonetaryAmount(false));
+                        }
                     }
                 }
+                return fundingSourcesCrossJoinCalendarYears;
+
             }
-            return fundingSourcesCrossJoinCalendarYears;
+
+            return new List<ProjectBudgetByCostType>();
+
         }
 
         public static ProjectBudgetByCostType Clone(ProjectBudgetByCostType fundingSourceCalendarYearBudgetToDiff, string displayCssClass)
         {
             return new ProjectBudgetByCostType(fundingSourceCalendarYearBudgetToDiff.FundingSourceID,
                 fundingSourceCalendarYearBudgetToDiff.FundingSourceName,
-                fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearAmounts.Select(
-                    x => new ProjectCostTypeCalendarYearAmount(x.CostType, x.CalendarYearAmount.ToDictionary(y => y.Key, y => y.Value))).ToList(),
+                fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearBudgetAmounts.Select(
+                    x => new ProjectCostTypeCalendarYearBudgetAmount(x.CostType, x.CalendarYearBudgetAmounts.Select(y => new CalendarYearBudgetAmounts(y.CalendarYear, y.SecuredAmount, y.TargetedAmount)).ToList())).ToList(),
                 displayCssClass);
+        }
+    }
+    public class ProjectCostTypeCalendarYearBudgetAmount
+    {
+        public CostType CostType { get; }
+        public List<CalendarYearBudgetAmounts> CalendarYearBudgetAmounts { get; }
+
+
+        public ProjectCostTypeCalendarYearBudgetAmount(CostType costType, List<CalendarYearBudgetAmounts> calendarYearBudgetAmounts)
+        {
+            CostType = costType;
+            CalendarYearBudgetAmounts = calendarYearBudgetAmounts;
         }
     }
 }

@@ -48,6 +48,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public readonly MapInitJson MapInitJson;
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
+        public ViewPageContentViewData GeospatialAreaDescriptionViewPageContentViewData { get; }
 
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.GeospatialArea geospatialArea, MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures) : base(currentPerson)
         {
@@ -72,6 +73,8 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             BasicProjectInfoGridDataUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(geospatialArea));
 
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>geospatialArea.GetPerformanceMeasureChartViewData(x, CurrentPerson)).ToList();
+
+            GeospatialAreaDescriptionViewPageContentViewData = new ViewPageContentViewData(geospatialArea, currentPerson);
         }
 
         

@@ -32,6 +32,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
         public List<CostType> CostTypes { get; }
         public decimal? NoFundingSourceIdentified { get; }
         public decimal? EstimatedTotal { get; }
+        public string ExpectedFundingUpdateNote { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
@@ -42,7 +43,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 
 
         public ProjectBudgetsByCostTypeSummaryViewData(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetByCostTypes, List<CalendarYearString> calendarYears, List<CostType> costTypes, 
-            decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts)
+            decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
         {
             FundingType = fundingType;
             CostTypes = costTypes;
@@ -51,6 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
             NoFundingSourceIdentified = noFundingSourceIdentified;
             EstimatedTotal = estimatedTotal;
             ProjectFundingSourceCostTypeAmounts = projectFundingSourceCostTypeAmounts;
+            ExpectedFundingUpdateNote = expectedFundingUpdateNote;
 
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();

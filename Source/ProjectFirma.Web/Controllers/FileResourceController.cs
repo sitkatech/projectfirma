@@ -267,5 +267,30 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllCustomPageImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
+
+        /// <summary>
+        /// Dummy fake HTTP "GET" for <see cref="CkEditorUploadFileResourceForGeospatialAreaDescription(GeospatialAreaPrimaryKey, CkEditorImageUploadViewModel)"/>
+        /// </summary>
+        /// <returns></returns>
+        [CrossAreaRoute]
+        [HttpGet]
+        [GeospatialAreaManageFeature]
+        public ContentResult CkEditorUploadFileResourceForGeospatialAreaDescription(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
+        {
+            return Content(String.Empty);
+        }
+
+        [CrossAreaRoute]
+        [HttpPost]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        [GeospatialAreaManageFeature]
+        public ContentResult CkEditorUploadFileResourceForGeospatialAreaDescription(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, CkEditorImageUploadViewModel viewModel)
+        {
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var ppImage = new GeospatialAreaImage(geospatialArea, fileResource);
+            HttpRequestStorage.DatabaseEntities.AllGeospatialAreaImages.Add(ppImage);
+            return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
+        }
     }
 }

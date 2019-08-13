@@ -26,7 +26,6 @@
 @using ProjectFirma.Web.Views.Shared
 @inherits ProjectBudgetsByCostTypeSummary
 
-
 <div class="form-group">
     <label class="control-label">
         1. @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
@@ -35,7 +34,7 @@
         <span>@ViewDataTyped.FundingType.FundingTypeDisplayName</span>
     </div>
 </div>
-@if (ViewDataTyped.ProjectBudgetByCostTypes.Any())
+@if (ViewDataTyped.ProjectBudgetByCostTypes.Any() || ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
 {
     if (ViewDataTyped.FundingType == FundingType.BudgetSameEachYear)
     {
@@ -82,6 +81,7 @@
                         if (groupedByFundingSource.GroupBy(x => x.CostType).Count() > 1)
                         {
                             <tr>
+                                <th></th>
                                 <th style="text-align: left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
                                 <th style="text-align: right">
                                     <span>@groupedByFundingSource.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
@@ -123,8 +123,10 @@
                     {
                         case AddedDeletedOrRealElement.AddedElement:
                             <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                            <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
                             break;
                         case AddedDeletedOrRealElement.DeletedElement:
+                            <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
                             <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
                             break;
                         case AddedDeletedOrRealElement.RealElement:
@@ -140,19 +142,20 @@
                 <th colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                 {
-                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</th>
+                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</th>
                 }
                 <th style="text-align: right">Total</th>
             </tr>
             @foreach (var projectBudgetByCostType in ViewDataTyped.ProjectBudgetByCostTypes.OrderBy(x => x.FundingSourceName))
             {
                 <tr class="@projectBudgetByCostType.DisplayCssClass" style="border-top: 2px solid black;">
-                    <td colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@projectBudgetByCostType.FundingSourceName</td>
+                    <td colspan="@(ViewDataTyped.CalendarYears.Count * 2 + 3)">@projectBudgetByCostType.FundingSourceName</td>
                 </tr>
                 foreach (var costType in ViewDataTyped.CostTypes.OrderBy(x => x.CostTypeName))
                 {
-                    var current = projectBudgetByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType == costType);
-                    if (current == null)
+                    var currentCostType = projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SingleOrDefault(x => x.CostType == costType);
+                    if (currentCostType == null)
                     {
                         <tr class="@projectBudgetByCostType.DisplayCssClass">
                             <td></td>
@@ -160,11 +163,14 @@
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                             {
                                 <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                    <span class="normalDollars @calendarYear.DisplayCssClass"></span>
+                                    <span class="@calendarYear.DisplayCssClass"></span>
+                                </td>
+                                <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                    <span class="@calendarYear.DisplayCssClass"></span>
                                 </td>
                             }
                             <th style="text-align: right">
-                                <span class="normalDollars"></span>
+                                <span></span>
                             </th>
                         </tr>
                     }
@@ -176,11 +182,14 @@
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                             {
                                 <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                    <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
+                                    <span class="normalDollars @calendarYear.DisplayCssClass">@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).SecuredAmount.ToIntString() : string.Empty)</span>
+                                </td>
+                                <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                    <span class="normalDollars @calendarYear.DisplayCssClass">@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).TargetedAmount.ToIntString() : string.Empty)</span>
                                 </td>
                             }
                             <th style="text-align: right">
-                                <span class="normalDollars">@current.CalendarYearAmount.Sum(x => x.Value).ToIntString()</span>
+                                <span class="normalDollars">@currentCostType.CalendarYearBudgetAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount).ToIntString()</span>
                             </th>
                         </tr>
                     }
@@ -191,11 +200,14 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear).ToList())
                     {
                         <th class="@calendarYear.DisplayCssClass" style="text-align: right">
-                            <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString()</span>
+                            <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString()</span>
+                        </th>
+                        <th class="@calendarYear.DisplayCssClass" style="text-align: right">
+                            <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.TargetedAmount).ToIntString()</span>
                         </th>
                     }
                     <th colspan="@(ViewDataTyped.CalendarYears.Count + 1)" style="text-align: right">
-                        <span class="normalDollars">@projectBudgetByCostType.ProjectCostTypeCalendarYearAmounts.Sum(x => x.CalendarYearAmount.Values.Sum()).ToIntString()</span>
+                        <span class="normalDollars">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.Sum(x => x.CalendarYearBudgetAmounts.Sum(y => y.SecuredAmount + y.TargetedAmount)).ToIntString()</span>
                     </th>
                 </tr>
             }
@@ -204,20 +216,24 @@
                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                 {
                     <th style="text-align: right">
-                        <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount)).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString())</span>
+                        <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString())</span>
+                    </th>
+                    <th style="text-align: right">
+                        <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.TargetedAmount).ToIntString())</span>
                     </th>
                 }
                 <th style="text-align: right">
-                    <span class="normalDollars">@ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount)).Sum(x => x.Value).ToIntString()</span>
+                    <span class="normalDollars">@ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Sum(x => x.SecuredAmount + x.TargetedAmount).ToIntString()</span>
                 </th>
             </tr>
         </table>
     }
 }
-@if (!ViewDataTyped.ProjectBudgetByCostTypes.Any())
+else
 {
-    <p class="systemText">No {@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()} identified for this {@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.</p>
+    <p class="systemText">No @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() identified for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
 }
+
 <table class="summaryLayout">
     <tr>
         <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
@@ -237,5 +253,12 @@
             <td>@ViewDataTyped.EstimatedTotal.ToStringCurrency()</td>
         </tr>
     }
-
 </table>
+<div class="form-group">
+    <label class="control-label">
+        @Html.Label("Enter any comments about the changes made to this " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + "'s budget")
+    </label>
+    <div class="input-group">
+        <span>@ViewDataTyped.ExpectedFundingUpdateNote</span>
+    </div>
+</div>

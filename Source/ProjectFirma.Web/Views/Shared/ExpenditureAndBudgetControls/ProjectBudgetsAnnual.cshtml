@@ -20,10 +20,11 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using LtInfo.Common
+@using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetsAnnual
-<div class="table-responsive" style="overflow-x: hidden">
+<div class="table-responsive" style="margin-top: 25px; overflow-x: hidden">
     @* Funding Sources *@
     @* Annual Budgeting*@
     @if (ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
@@ -59,3 +60,20 @@
         <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
 </div>
+@if (!ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
+{
+    <hr />
+}
+<table class="summaryLayout">
+    <tr>
+        <th>Comment:</th>
+        @if (ViewDataTyped.Project.ExpectedFundingUpdateNote == null)
+        {
+            <td style="font-style: italic">None provided</td>
+        }
+        else
+        {
+            <td>@Html.Raw(ViewDataTyped.Project.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
+        }
+    </tr>
+</table>

@@ -46,6 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+        [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingUpdateNote)]
+        [DisplayName("Comment")]
+        public string ExpectedFundingUpdateNote { get; set; }
+
         [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.ExpectedFundingComment)]
         public string Comments { get; set; }
@@ -90,6 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 }
             }
             NoFundingSourceAmounts = calendarYearMonetaryAmounts;
+            ExpectedFundingUpdateNote = projectUpdateBatch.ExpectedFundingUpdateNote;
             Comments = projectUpdateBatch.ExpectedFundingComment;
         }
 
@@ -103,6 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var allProjectNoFundingSourceIdentifiedUpdates = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifiedUpdates.Local;
 
             projectUpdateBatch.ProjectUpdate.FundingTypeID = FundingTypeID;
+            projectUpdateBatch.ExpectedFundingUpdateNote = ExpectedFundingUpdateNote;
 
             var projectFundingSourceBudgetUpdatesUpdated = new List<ProjectFirmaModels.Models.ProjectFundingSourceBudgetUpdate>();
             if (ProjectFundingSourceBudgets != null)

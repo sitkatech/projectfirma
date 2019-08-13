@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="GeospatialArea.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditGeospatialAreaDescription.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,20 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web;
+using LtInfo.Common.Mvc;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Views.GeospatialArea
 {
-    public partial class GeospatialArea : IFirmaPage, IAuditableEntity
+    public abstract class EditGeospatialAreaDescription : TypedWebPartialViewPage<EditGeospatialAreaDescriptionViewData, EditGeospatialAreaDescriptionViewModel>
     {
-        public string GetDisplayName() => GeospatialAreaName;
-
-        public string GetAuditDescriptionString() => GeospatialAreaName;
-
-        public HtmlString GetFirmaPageContentHtmlString() => GeospatialAreaDescriptionContentHtmlString;
-
-        public string GetFirmaPageDisplayName() => GeospatialAreaName;
-
-        public bool HasPageContent() => !string.IsNullOrWhiteSpace(GeospatialAreaDescriptionContent);
     }
 }

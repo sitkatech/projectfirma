@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -23,7 +24,8 @@ namespace ProjectFirma.Web.Models
         public static List<ProjectExpenditureByCostType> CreateFromProjectFundingSourceExpenditures(List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpenditures, List<int> calendarYears)
         {
             var distinctFundingSources = costTypeFundingSourceExpenditures.Select(x => x.FundingSource).Distinct(new HavePrimaryKeyComparer<FundingSource>());
-            var distinctCostTypes = costTypeFundingSourceExpenditures.Select(x => x.CostType).Distinct(new HavePrimaryKeyComparer<CostType>());
+            var distinctCostTypeIDs = costTypeFundingSourceExpenditures.Select(x => x.CostTypeID).Distinct();
+            var distinctCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => distinctCostTypeIDs.Contains(x.CostTypeID)).ToList();
             var fundingSourcesCrossJoinCalendarYears =
                 distinctFundingSources.Select(
                     x =>
