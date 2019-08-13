@@ -2549,8 +2549,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForExpendituresByCostTypeAsString(List<ProjectExpenditureByCostType> projectExpenditureByCostTypes, List<CalendarYearString> calendarYearStrings)
         {
-            var costTypeIDs = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
+            var costTypes = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
             var viewData = new ProjectExpendituresByCostTypeSummaryViewData(projectExpenditureByCostTypes, calendarYearStrings, costTypes);
             var partialViewAsString = RenderPartialViewToString(ProjectExpendituresByCostTypeSummaryPartialViewPath, viewData);
             return partialViewAsString;
@@ -2707,8 +2706,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
         {
-            var costTypeIDs = projectBudgetsByCostTypes.Any(x => x.ProjectCostTypeCalendarYearBudgetAmounts != null) ? projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostTypeID)).Distinct().ToList() : projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeBudgetAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
+            var costTypes = projectBudgetsByCostTypes.Any(x => x.ProjectCostTypeCalendarYearBudgetAmounts != null) ? projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList() : projectFundingSourceCostTypeAmounts.Select(x => x.CostType).Distinct().ToList();
 
             var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts, expectedFundingUpdateNote);
             var partialViewAsString = RenderPartialViewToString(ProjectBudgetByCostTypePartialViewPath, viewData);
