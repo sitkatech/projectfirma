@@ -20,14 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", function ($scope, angularModelAndViewData) {
 
-    $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
-        var initialSelectedAttachmentRelationshipTypeID = $scope.AngularViewData.InitialSelectedAttachmentRelationshipTypeID;
-        if (initialSelectedAttachmentRelationshipTypeID === attachmentRelationshipTypeID) {
-            $scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
-            return true;
-        }
+    $scope.AngularModel = angularModelAndViewData.AngularModel;
+    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.AngularModel.AttachmentRelationshipTypeID = _.head($scope.AngularViewData.AllAttachmentRelationshipTypes).AttachmentRelationshipTypeID;
+    debugger;
 
-        return false;
+
+    $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
+        return $scope.AngularModel.AttachmentRelationshipTypeID === attachmentRelationshipTypeID;
     };
 
 
@@ -39,6 +39,7 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
         $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
+        $scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
     }
 
     $scope.populateAllowedMimeTypes = function (attachmentRelationshipTypeID) {
@@ -47,9 +48,8 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
     }
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-    $scope.populateAllowedMimeTypes($scope.AngularViewData.InitialSelectedAttachmentRelationshipTypeID);
+
+    $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentRelationshipTypeID);
     
 });

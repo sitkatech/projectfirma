@@ -10,12 +10,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
     public class NewProjectAttachmentViewData
     {
         public List<AttachmentRelationshipTypeSimple> AllAttachmentRelationshipTypes { get; }
-        public int InitialSelectedAttachmentRelationshipTypeID { get; }
 
         public NewProjectAttachmentViewData(IEnumerable<ProjectFirmaModels.Models.AttachmentRelationshipType> attachmentRelationshipTypes)
         {
             AllAttachmentRelationshipTypes = attachmentRelationshipTypes.Select(x => new AttachmentRelationshipTypeSimple(x)).ToList();
-            InitialSelectedAttachmentRelationshipTypeID = AllAttachmentRelationshipTypes.First().AttachmentRelationshipTypeID;
         }
     }
 
