@@ -44,16 +44,19 @@
                             ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
                 </select>
                 @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)
+                <input type="hidden" name="@Html.NameFor(x => x.AttachmentRelationshipTypeID)" value="{{AngularModel.AttachmentRelationshipTypeID}}" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.File)
+                @Html.LabelWithSugarFor(m => m.UploadedFile)
             </div>
             <div class="col-xs-12 col-sm-9">
-                @Html.EditorFor(m => m.File)
-                @Html.ValidationMessageFor(m => m.File)
-                <p class="help-block">Allowed Extensions: <span>{{ AllowedExtensions }}</span></p>
+                @*@Html.EditorFor(m => m.UploadedFile)*@
+                <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="100000" />
+                @Html.ValidationMessageFor(m => m.UploadedFile)
+                <p class="help-block">Allowed Extensions: <span>{{ AllowedMimeTypes }}</span></p>
+                
             </div>
         </div>
         <div class="form-group">

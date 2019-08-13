@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
     {
         [Required]
         [DisplayName("File")]
-        public HttpPostedFileBase File { get; set; }
+        public HttpPostedFileBase UploadedFile { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectAttachmentRelationshipType)]
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             CheckForNotNullProjectIdOrProjectUpdateId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
         {
             CheckForNotNullProjectIdOrProjectUpdateId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(File, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         {
             CheckForNotNullProjectIdOrProjectUpdateId();
             var validationResults = new List<ValidationResult>();
-            FileResourceModelExtensions.ValidateFileSize(File, validationResults, "File");
+            FileResourceModelExtensions.ValidateFileSize(UploadedFile, validationResults, "File");
 
             if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ProjectID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))

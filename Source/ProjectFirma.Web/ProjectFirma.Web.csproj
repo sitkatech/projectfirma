@@ -301,6 +301,7 @@
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="Content\angular\directives\input-type-file.js" />
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.css">
       <DependentUpon>actionagenda.theme.less</DependentUpon>
     </Content>

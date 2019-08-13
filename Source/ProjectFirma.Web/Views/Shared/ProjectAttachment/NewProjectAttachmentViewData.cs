@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             MaxFileSize = attachmentRelationshipType.MaxFileSize;
             NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
             AllowedFileResourceMimeTypes =
-                attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
+                attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeContentTypeName).ToList();
         }
     }
 
