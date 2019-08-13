@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected GeospatialArea()
         {
+            this.GeospatialAreaImages = new HashSet<GeospatialAreaImage>();
             this.PersonStewardGeospatialAreas = new HashSet<PersonStewardGeospatialArea>();
             this.ProjectGeospatialAreas = new HashSet<ProjectGeospatialArea>();
             this.ProjectGeospatialAreaUpdates = new HashSet<ProjectGeospatialAreaUpdate>();
@@ -32,12 +33,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID) : this()
+        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID, string geospatialAreaDescriptionContent) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.GeospatialAreaName = geospatialAreaName;
             this.GeospatialAreaFeature = geospatialAreaFeature;
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
+            this.GeospatialAreaDescriptionContent = geospatialAreaDescriptionContent;
         }
 
         /// <summary>
@@ -79,13 +81,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any();
+            return GeospatialAreaImages.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
 
 
         /// <summary>
@@ -110,6 +112,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in GeospatialAreaImages.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in PersonStewardGeospatialAreas.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -132,9 +139,17 @@ namespace ProjectFirmaModels.Models
         public string GeospatialAreaName { get; set; }
         public DbGeometry GeospatialAreaFeature { get; set; }
         public int GeospatialAreaTypeID { get; set; }
+        public string GeospatialAreaDescriptionContent { get; set; }
+        [NotMapped]
+        public HtmlString GeospatialAreaDescriptionContentHtmlString
+        { 
+            get { return GeospatialAreaDescriptionContent == null ? null : new HtmlString(GeospatialAreaDescriptionContent); }
+            set { GeospatialAreaDescriptionContent = value?.ToString(); }
+        }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaID; } set { GeospatialAreaID = value; } }
 
+        public virtual ICollection<GeospatialAreaImage> GeospatialAreaImages { get; set; }
         public virtual ICollection<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialArea> ProjectGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get; set; }
