@@ -187,7 +187,7 @@ else
                     <tbody ng-show="shouldShowFundingSources()" ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
                         <tr class="fundingSourceHeaderRow">
                             <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
-                            <td colspan="{{calendarYearRange.length + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
+                            <td colspan="{{(calendarYearRange.length *2) + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                         </tr>
                         @* Budget Entry Rows *@
                         <tr ng-repeat="projectFundingSourceBudget in getProjectFundingSourceBudgetRowsForFundingSource(fundingSourceID) | orderBy:[getFundingSourceName]">
@@ -258,7 +258,7 @@ else
             </div>
 
             <div style="margin-left: 20px; margin-bottom: 20px" ng-if="budgetSameEachYear()">
-                <table class="table-responsive table-condensed table-bordered" style="display: block; overflow: auto">
+                <table class="table-responsive table-condensed table-bordered" style="overflow: auto">
                     <thead>
                         <tr>
                             <th style="white-space: nowrap" colspan="2">
