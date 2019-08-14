@@ -23,7 +23,7 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     $scope.AngularModel.AttachmentRelationshipTypeID = _.head($scope.AngularViewData.AllAttachmentRelationshipTypes).AttachmentRelationshipTypeID;
-    debugger;
+    //debugger;
 
 
     $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
@@ -47,6 +47,8 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         //debugger;
         $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
     }
+
+
 
 
 

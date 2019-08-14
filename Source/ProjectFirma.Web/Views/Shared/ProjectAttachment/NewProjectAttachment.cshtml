@@ -5,7 +5,7 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.NewProjectAttachment
 
 
-    
+    <script src="@Url.Content("~/Content/angular/directives/input-type-file.js")"></script>
     <script type="text/javascript">
         // <![CDATA[
         angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function() {
@@ -17,7 +17,7 @@
         });
         jQuery(document).ready(function ()
         {
-            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp"]);
+            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile"]);
         });
         // ]]>
     </script>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-xs-12 col-sm-9">
                 @*@Html.EditorFor(m => m.UploadedFile)*@
-                <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="100000" />
+                <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-model="UploadedFile" accept="image/jpeg" maxsize="100000" />
                 @Html.ValidationMessageFor(m => m.UploadedFile)
                 <p class="help-block">Allowed Extensions: <span>{{ AllowedMimeTypes }}</span></p>
                 

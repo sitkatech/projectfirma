@@ -1,4 +1,5 @@
 ﻿(function () {
+    console.log('Very top level function');
     'use strict';
 
     angular.module('app.Components.InputTypeFile', [])
@@ -18,66 +19,77 @@
         //   for files' mime type
         // - `maxsize` (optional) if specified, an angular `maxsize` validator will be added to check
         //   for files' size
-        .directive('input', inputTypeFileDirective);
+        //.directive('input', inputTypeFileDirective);
+        .directive('input',
+            function() {
+                console.log('(inside function)');
+                return {
+                    restrict: 'E',
+                    require: '?ngModel',
+                    link: function(scope, element, attrs, ngModel) {
 
-    function inputTypeFileDirective() {
-        return {
-            restrict: 'E',
-            require: '?ngModel',
-            link: function (scope, element, attrs, ngModel) {
-                if (attrs.type !== 'file' || !angular.isDefined(ngModel)) {
-                    return;
-                }
+                        console.log('link function');
+                        //debugger;
 
-                element.on('change', updateModelWithFile);
-                scope.$on('$destroy', function () {
-                    element.off('change', updateModelWithFile);
-                });
-
-                if (attrs.maxsize) {
-                    var maxsize = parseInt(attrs.maxsize);
-                    ngModel.$validators.maxsize = function (modelValue, viewValue) {
-                        var value = modelValue || viewValue;
-                        if (!angular.isArray(value)) {
-                            value = [value];
+                        if (attrs.type !== 'file' || !angular.isDefined(ngModel)) {
+                            return;
                         }
-                        for (var i = value.length - 1; i >= 0; i--) {
-                            if (value[i] && value[i].size && value[i].size > maxsize) {
-                                return false;
+
+                        element.on('change', updateModelWithFile);
+                        scope.$on('$destroy',
+                            function() {
+                                element.off('change', updateModelWithFile);
+                            });
+
+
+                        if (attrs.maxsize) {
+                            console.log('maxsize function');
+                            var maxsize = parseInt(attrs.maxsize);
+                            ngModel.$validators.maxsize = function(modelValue, viewValue) {
+                                var value = modelValue || viewValue;
+                                if (!angular.isArray(value)) {
+                                    value = [value];
+                                }
+                                for (var i = value.length - 1; i >= 0; i--) {
+                                    if (value[i] && value[i].size && value[i].size > maxsize) {
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            };
+                        }
+
+                        if (attrs.accept) {
+                            console.log('Accept function');
+                            var accept = attrs.accept.split(',');
+                            ngModel.$validators.accept = function (modelValue, viewValue) {
+                                //debugger;
+                                var value = modelValue || viewValue;
+                                if (!angular.isArray(value)) {
+                                    value = [value];
+                                }
+                                for (var i = value.length - 1; i >= 0; i--) {
+                                    if (value[i] && accept.indexOf(value[i].type) === -1) {
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            };
+                        }
+
+                        function updateModelWithFile(event) {
+                            console.log('updateModelWithFile function');
+                            var files = event.target.files;
+                            if (!angular.isDefined(attrs.multiple)) {
+                                files = files[0];
+                            } else {
+                                files = Array.prototype.slice.apply(files);
                             }
+                            ngModel.$setViewValue(files, event);
+                            ngModel.$render();
                         }
-                        return true;
-                    };
-                }
-
-                if (attrs.accept) {
-                    var accept = attrs.accept.split(',');
-                    ngModel.$validators.accept = function (modelValue, viewValue) {
-                        var value = modelValue || viewValue;
-                        if (!angular.isArray(value)) {
-                            value = [value];
-                        }
-                        for (var i = value.length - 1; i >= 0; i--) {
-                            if (value[i] && accept.indexOf(value[i].type) === -1) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    };
-                }
-
-                function updateModelWithFile(event) {
-                    var files = event.target.files;
-                    if (!angular.isDefined(attrs.multiple)) {
-                        files = files[0];
-                    } else {
-                        files = Array.prototype.slice.apply(files);
                     }
-                    ngModel.$setViewValue(files, event);
-                    ngModel.$render();
-                }
-            }
-        };
-    }
+                };
+            });
 
 })();
