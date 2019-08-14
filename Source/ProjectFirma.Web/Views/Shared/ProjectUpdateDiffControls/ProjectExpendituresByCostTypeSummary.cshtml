@@ -65,7 +65,7 @@
             </tr>
             foreach (var costType in ViewDataTyped.CostTypes.OrderBy(x => x.CostTypeName))
             {
-                var current = projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostTypeID == costType.CostTypeID);
+                var current = projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType == costType);
                 if (current == null)
                 {
                     <tr class="@projectExpenditureByCostType.DisplayCssClass">
