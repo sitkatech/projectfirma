@@ -52,9 +52,11 @@
                                 }
                                 for (var i = value.length - 1; i >= 0; i--) {
                                     if (value[i] && value[i].size && value[i].size > maxsize) {
+                                        console.log("maxsize function returning false");
                                         return false;
                                     }
                                 }
+                                console.log("maxsize function returning true");
                                 return true;
                             };
                         }
@@ -70,9 +72,11 @@
                                 }
                                 for (var i = value.length - 1; i >= 0; i--) {
                                     if (value[i] && accept.indexOf(value[i].type) === -1) {
+                                        console.log("accept function returning false");
                                         return false;
                                     }
                                 }
+                                console.log("accept function returning true");
                                 return true;
                             };
                         }
@@ -85,6 +89,7 @@
                             } else {
                                 files = Array.prototype.slice.apply(files);
                             }
+                            console.log("updateModelWithFile valid check: " + scope.attachmentForm.$valid);
                             ngModel.$setViewValue(files, event);
                             ngModel.$render();
                         }

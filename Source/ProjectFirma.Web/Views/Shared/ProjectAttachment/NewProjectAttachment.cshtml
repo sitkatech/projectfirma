@@ -18,6 +18,8 @@
         jQuery(document).ready(function ()
         {
             angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile"]);
+
+            jQuery("form").attr("novalidate", "");
         });
         // ]]>
     </script>
@@ -26,7 +28,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal" id="NewProjectAttachmentAngularApp" ng-controller="NewProjectAttachmentController">
+    <div class="form-horizontal" id="NewProjectAttachmentAngularApp" ng-controller="NewProjectAttachmentController" ng-form="attachmentForm">
         <div>
             You can upload a range of document formats here, including some image formats (for diagrams, plans, illustrations). However, we encourage you to upload photos in the Photos section.
         </div>
@@ -43,7 +45,7 @@
                             ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
                             ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
                 </select>
-                @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)
+                @*@Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeID)*@
                 <input type="hidden" name="@Html.NameFor(x => x.AttachmentRelationshipTypeID)" value="{{AngularModel.AttachmentRelationshipTypeID}}" />
             </div>
         </div>
@@ -53,10 +55,10 @@
             </div>
             <div class="col-xs-12 col-sm-9">
                 @*@Html.EditorFor(m => m.UploadedFile)*@
-                <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-model="UploadedFile" accept="image/jpeg" maxsize="100000" />
-                @Html.ValidationMessageFor(m => m.UploadedFile)
+                <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="image/jpeg" maxsize="100000000" />
+                @*@Html.ValidationMessageFor(m => m.UploadedFile)*@
                 <p class="help-block">Allowed Extensions: <span>{{ AllowedMimeTypes }}</span></p>
-                
+                <p>{{ attachmentForm.$valid }}</p>
             </div>
         </div>
         <div class="form-group">
@@ -65,7 +67,7 @@
             </div>
             <div class="col-xs-12 col-sm-9">
                 @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.DisplayName)
+                @*@Html.ValidationMessageFor(m => m.DisplayName)*@
             </div>
         </div>
         <div class="form-group">
@@ -74,7 +76,7 @@
             </div>
             <div class="col-xs-12 col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.Description, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
-                @Html.ValidationMessageFor(m => m.Description)
+                @*@Html.ValidationMessageFor(m => m.Description)*@
             </div>
         </div>
     </div>

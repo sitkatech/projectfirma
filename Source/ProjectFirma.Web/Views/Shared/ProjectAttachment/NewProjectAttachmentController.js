@@ -30,16 +30,17 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         return $scope.AngularModel.AttachmentRelationshipTypeID === attachmentRelationshipTypeID;
     };
 
-
     $scope.getAttachmentRelationshipTypesForDropdown = function () {
         //debugger;
         return $scope.AngularViewData.AllAttachmentRelationshipTypes;
     }
 
-
     $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
         $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
         $scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+        
+        console.log("relationship type change form valid:" + $scope.attachmentForm.$valid);
+        //$scope.attachmentForm.$validate();
     }
 
     $scope.populateAllowedMimeTypes = function (attachmentRelationshipTypeID) {
@@ -48,10 +49,34 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
     }
 
+    $scope.fileUploadedChange = function () {
+
+        console.log("file uploaded change form valid:" + $scope.attachmentForm.$valid);
+    }
 
 
+    //jQuery("#ltinfo-modal-dialog-save-button-id").on("click",
+    //    function () {
+    //        return  $scope.attachmentForm.$valid;
+    //    });
 
+    //$scope.$watch("AngularModel",
+    //    function () {
+    //        console.log("inside watch function");
+    //        var submitButton = jQuery("form")
+    //            .parents(".modal-dialog")
+    //            .find("#ltinfo-modal-dialog-save-button-id");
+
+
+    //        if ($scope.attachmentForm.$valid) {
+    //            submitButton.prop("disabled", false);
+    //        }
+    //        else {
+    //            submitButton.prop("disabled", true);
+    //        }
+    //    },
+    //    true);
 
     $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentRelationshipTypeID);
-    
+
 });
