@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectOrganization.EditOrganizations
 
@@ -67,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="row">
         <div class="col-md-12">
             <p>Select the @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() and @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single organization; these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other assocation types apply to any number of organizations and are not required.</p>
-            <p class="systemText">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Expected Funding and Reported Expenditures.</p>
+            <p class="systemText">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Funders are not set in this editor. Funders are automatically identified by the @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() in the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Budget and Reported Expenditures.</p>
         </div>
     </div>
 
@@ -104,6 +105,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <p class="help-block alert alert-info">
                     <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null">The default @FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel() is the person set as the @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() for the <span ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeName"></span>, if there is one. </span>
                     <span>Currently, this means <span style="font-weight: bold" ng-bind="primaryContactOrganizationPersonDisplayName(AngularViewData.PrimaryContactRelationshipTypeSimple)"></span> will be the @(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()).</span>
+                    <span>@Html.Raw(ViewDataTyped.RequestSupportLink) to ask an administrator to set a @(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()) for <span ng-bind="AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeName"></span>.</span>
                     <span ng-show="AngularViewData.PrimaryContactRelationshipTypeSimple != null && primaryContactOrganizationHasNoPrimaryContact(AngularViewData.PrimaryContactRelationshipTypeSimple)">
                         Consider setting a @FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel() for <a href="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).DetailUrl}}" alt="{{primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName}}" ng-bind="primaryContactOrganization(AngularViewData.PrimaryContactRelationshipTypeSimple).OrganizationName"></a>.
                     </span>

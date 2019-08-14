@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
                 case SupportRequestTypeEnum.HelpWithProjectUpdate:
                     return $"Can't figure out how to update my {a.GetFieldDefinitionLabel()}";
                 case SupportRequestTypeEnum.RequestProjectPrimaryContactChange:
-                    return $"Request a change to a {a.GetFieldDefinitionLabel()}'s primary contact";
+                    return $"Request a change to a {a.GetFieldDefinitionLabel()}'s {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()}";
                 case SupportRequestTypeEnum.RequestPermissionToAddProjects:
                     return $"Request permission to add { a.GetFieldDefinitionLabelPluralized()}";
                 default:
