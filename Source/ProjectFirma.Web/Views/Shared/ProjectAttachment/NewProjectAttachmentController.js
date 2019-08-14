@@ -60,22 +60,19 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
     //        return  $scope.attachmentForm.$valid;
     //    });
 
-    //$scope.$watch("AngularModel",
-    //    function () {
-    //        console.log("inside watch function");
-    //        var submitButton = jQuery("form")
-    //            .parents(".modal-dialog")
-    //            .find("#ltinfo-modal-dialog-save-button-id");
+    $scope.$watch("attachmentForm.$valid", function (newVal, oldVal) {
+        console.log("watching things new:" + newVal);
+        console.log("watching things old:" + oldVal);
+        var submitButton = jQuery("form")
+            .parents(".modal-dialog")
+            .find("#ltinfo-modal-dialog-save-button-id");
 
-
-    //        if ($scope.attachmentForm.$valid) {
-    //            submitButton.prop("disabled", false);
-    //        }
-    //        else {
-    //            submitButton.prop("disabled", true);
-    //        }
-    //    },
-    //    true);
+        if (newVal) {
+            submitButton.prop("disabled", false);
+        } else {
+            submitButton.prop("disabled", true);
+        }
+    });
 
     $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentRelationshipTypeID);
 

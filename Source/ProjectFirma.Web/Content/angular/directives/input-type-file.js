@@ -89,7 +89,7 @@
                             } else {
                                 files = Array.prototype.slice.apply(files);
                             }
-                            console.log("updateModelWithFile valid check: " + scope.attachmentForm.$valid);
+                            scope.attachmentForm.$valid;
                             ngModel.$setViewValue(files, event);
                             ngModel.$render();
                         }
