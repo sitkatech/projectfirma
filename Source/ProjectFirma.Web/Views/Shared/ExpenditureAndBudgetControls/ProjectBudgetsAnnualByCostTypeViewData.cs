@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 
         public List<int> CalendarYears { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; set; }
+        public string ExpectedFundingUpdateNote { get; }
 
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
@@ -45,7 +46,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
-        public ProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts) : base(currentPerson)
+        public ProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentPerson)
         {
             Project = project;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
@@ -63,6 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             calendarYears.Sort();
             CalendarYears = calendarYears;
 
+            ExpectedFundingUpdateNote = expectedFundingUpdateNote;
         }
     }
 }
