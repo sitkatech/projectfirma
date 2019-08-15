@@ -21,7 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -34,6 +36,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public List<OrganizationRelationshipTypeSimple> AllOrganizationRelationshipTypes { get; }
         public Dictionary<int, OrganizationSimple> OrganizationContainingProjectSimpleLocation { get; }
         public OrganizationRelationshipTypeSimple PrimaryContactRelationshipTypeSimple { get; }
+        public string RequestSupportUrl { get;  }
+        public string RequestSupportLink { get; }
+
 
         public EditOrganizationsViewData(IProject project, IEnumerable<ProjectFirmaModels.Models.Organization> organizations, IEnumerable<Person> allPeople, List<OrganizationRelationshipType> allOrganizationRelationshipTypes, Person defaultPrimaryContactPerson)
         {            
@@ -52,6 +57,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
                 ? new OrganizationRelationshipTypeSimple(primaryContactRelationshipType)
                 : null;
             AllOrganizationRelationshipTypes = allOrganizationRelationshipTypes.Except(new[] {primaryContactRelationshipType}).Select(x => new OrganizationRelationshipTypeSimple(x)).ToList();
+
+            RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
+            RequestSupportLink = ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl,
+                "Request Support", 800,
+                "Submit Request", "Cancel", new List<string>(), null, null).ToString();
         }
     }
 }
