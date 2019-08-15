@@ -747,6 +747,11 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
         }
 
+        public static IEnumerable<AttachmentRelationshipType> GetAttachmentRelationshipTypesForThisProject(this Project project)
+        {
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+        }
+
 
 
     }

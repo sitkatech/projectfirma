@@ -22,13 +22,20 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.AngularModel.AttachmentRelationshipTypeID = _.head($scope.AngularViewData.AllAttachmentRelationshipTypes).AttachmentRelationshipTypeID;
+    //$scope.form = {type : $scope.typeOptions[0].value};
+    //$scope.attachmentForm = { AttachmentRelationshipTypeID: $scope.AngularViewData.AllAttachmentRelationshipTypes[0].AttachmentRelationshipTypeID };
+    $scope.AngularModel.AttachmentRelationshipTypeID = $scope.AngularViewData.AllAttachmentRelationshipTypes[0].AttachmentRelationshipTypeID;
+    //$scope.$apply();
     //debugger;
 
 
     $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
-        return $scope.AngularModel.AttachmentRelationshipTypeID === attachmentRelationshipTypeID;
-    };
+        if ($scope.AngularModel.AttachmentRelationshipTypeID === attachmentRelationshipTypeID) {
+            //$scope.$apply();
+            return true;
+        }
+        return false;
+    }
 
     $scope.getAttachmentRelationshipTypesForDropdown = function () {
         //debugger;
@@ -37,28 +44,24 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
         $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
-        $scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+        //$scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
         
         console.log("relationship type change form valid:" + $scope.attachmentForm.$valid);
         //$scope.attachmentForm.$validate();
     }
 
     $scope.populateAllowedMimeTypes = function (attachmentRelationshipTypeID) {
+        console.log("populateAllowedMimeTypes artID:" + attachmentRelationshipTypeID);
         var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
         //debugger;
         $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
     }
 
     $scope.fileUploadedChange = function () {
-
+        //debugger;
         console.log("file uploaded change form valid:" + $scope.attachmentForm.$valid);
     }
 
-
-    //jQuery("#ltinfo-modal-dialog-save-button-id").on("click",
-    //    function () {
-    //        return  $scope.attachmentForm.$valid;
-    //    });
 
     $scope.$watch("attachmentForm.$valid", function (newVal, oldVal) {
         console.log("watching things new:" + newVal);

@@ -1225,6 +1225,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectCreateFeature]
         public PartialViewResult NewAttachment(ProjectPrimaryKey projectPrimaryKey)
         {
+
             var viewModel = new NewProjectAttachmentViewModel(projectPrimaryKey.EntityObject);
             return ViewNewAttachment(viewModel);
         }
@@ -1274,30 +1275,26 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel)
         {
-            TaxonomyTrunk taxonomyTrunk = null;
+            Project project = null;
             if (viewModel.ProjectID.HasValue)
             {
                 //attempt to get the project
-                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
+                project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
 
                 //if no project check for project update batch.
-                if (project != null)
-                {
-                    taxonomyTrunk = project.GetTaxonomyTrunk();
-                }
-                else if (viewModel.ProjectUpdateBatchID.HasValue)
+                if (project == null && viewModel.ProjectUpdateBatchID.HasValue)
                 {
                     var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
                     if (projectUpdateBatch != null)
                     {
-                        taxonomyTrunk = projectUpdateBatch.Project.GetTaxonomyTrunk();
+                        project = projectUpdateBatch.Project;
                     }
                 }
             }
 
             //get attachment relationship types for the project/project update batch
-            Check.Assert(taxonomyTrunk != null, "Cannot find a valid taxonomy trunk.");
-            var attachmentRelationshipTypes = taxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            Check.Assert(project != null, "Cannot find a valid project.");
+            var attachmentRelationshipTypes = project.GetAttachmentRelationshipTypesForThisProject();
 
             var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
