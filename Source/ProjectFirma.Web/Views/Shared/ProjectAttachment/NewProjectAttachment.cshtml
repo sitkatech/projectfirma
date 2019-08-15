@@ -61,7 +61,7 @@
                     @Html.LabelWithSugarFor(m => m.UploadedFile)
                 </div>
                 <div class="col-xs-12 col-sm-9">
-                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="image/jpeg" maxsize="100000000" />
+                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="100000000" />
 
                     <p class="help-block">Allowed Extensions: <span>{{ AllowedMimeTypes }}</span></p>
                     <p>{{ attachmentForm.$valid }}</p>

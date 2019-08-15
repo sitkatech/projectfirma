@@ -43,6 +43,7 @@
 
 
                         if (attrs.maxsize) {
+                            
                             console.log('maxsize function');
                             var maxsize = parseInt(attrs.maxsize);
                             ngModel.$validators.maxsize = function(modelValue, viewValue) {
@@ -63,22 +64,24 @@
 
                         if (attrs.accept) {
                             console.log('Accept function');
-                            var accept = attrs.accept.split(',');
-                            ngModel.$validators.accept = function (modelValue, viewValue) {
-                                //debugger;
-                                var value = modelValue || viewValue;
-                                if (!angular.isArray(value)) {
-                                    value = [value];
-                                }
-                                for (var i = value.length - 1; i >= 0; i--) {
-                                    if (value[i] && accept.indexOf(value[i].type) === -1) {
-                                        console.log("accept function returning false");
-                                        return false;
+                            attrs.$observe('accept', function(val) {
+                                var accept = val.split(',');
+                                ngModel.$validators.accept = function (modelValue, viewValue) {
+                                    //debugger;
+                                    var value = modelValue || viewValue;
+                                    if (!angular.isArray(value)) {
+                                        value = [value];
                                     }
-                                }
-                                console.log("accept function returning true");
-                                return true;
-                            };
+                                    for (var i = value.length - 1; i >= 0; i--) {
+                                        if (value[i] && accept.indexOf(value[i].type) === -1) {
+                                            console.log("accept function returning false");
+                                            return false;
+                                        }
+                                    }
+                                    console.log("accept function returning true");
+                                    return true;
+                                };
+                            });                
                         }
 
                         function updateModelWithFile(event) {

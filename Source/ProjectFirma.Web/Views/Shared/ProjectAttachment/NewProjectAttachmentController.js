@@ -44,6 +44,9 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
         $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
+        //clear the model value and the input value to reset the form after a relationship type change
+        $scope.UploadedFile = null;
+        angular.element("input[type='file']").val(null);
         //$scope.AngularModel.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
         
         console.log("relationship type change form valid:" + $scope.attachmentForm.$valid);
@@ -54,7 +57,7 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         console.log("populateAllowedMimeTypes artID:" + attachmentRelationshipTypeID);
         var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
         //debugger;
-        $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(", ");
+        $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(",");
     }
 
     $scope.fileUploadedChange = function () {
