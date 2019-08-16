@@ -44,6 +44,9 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
         $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
+        $scope.populateAllowedExtensions(attachmentRelationshipTypeID);
+        $scope.populateMaxFileSize(attachmentRelationshipTypeID);
+
         //clear the model value and the input value to reset the form after a relationship type change
         $scope.UploadedFile = null;
         angular.element("input[type='file']").val(null);
@@ -58,6 +61,21 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
         //debugger;
         $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(",");
+    }
+
+    $scope.populateAllowedExtensions = function (attachmentRelationshipTypeID) {
+        console.log("populateAllowedExtensions artID:" + attachmentRelationshipTypeID);
+        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+        //debugger;
+        $scope.AllowedExtensions = attachmentRelationshipType.AllowedFileResourceExtensions.join(", ");
+    }
+
+    $scope.populateMaxFileSize = function (attachmentRelationshipTypeID) {
+        console.log("populateMaxFileSize artID:" + attachmentRelationshipTypeID);
+        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+        //debugger;
+        $scope.MaxFileSize = attachmentRelationshipType.MaxFileSize;
+        $scope.MaxFileSizeForDisplay = (attachmentRelationshipType.MaxFileSize / 1024 / 1000) + "MB";
     }
 
     $scope.fileUploadedChange = function () {
@@ -81,5 +99,7 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
     });
 
     $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentRelationshipTypeID);
+    $scope.populateAllowedExtensions($scope.AngularModel.AttachmentRelationshipTypeID);
+    $scope.populateMaxFileSize($scope.AngularModel.AttachmentRelationshipTypeID);
 
 });

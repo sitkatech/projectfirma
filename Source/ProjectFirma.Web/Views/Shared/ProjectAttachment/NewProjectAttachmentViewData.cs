@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public int MaxFileSize { get; set; }
         public int? NumberOfAllowedAttachments { get; set; }
         public List<string> AllowedFileResourceMimeTypes { get; set; }
+        public List<string> AllowedFileResourceExtensions { get; set; }
 
         public AttachmentRelationshipTypeSimple(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)
         {
@@ -36,6 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
             AllowedFileResourceMimeTypes =
                 attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeContentTypeName).ToList();
+            AllowedFileResourceExtensions = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
         }
     }
 

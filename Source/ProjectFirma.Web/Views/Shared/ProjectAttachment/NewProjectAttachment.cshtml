@@ -17,7 +17,7 @@
         });
         jQuery(document).ready(function ()
         {
-            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile"]);
+            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile", "ngMessages"]);
 
             jQuery("form").attr("novalidate", "");
 
@@ -52,8 +52,9 @@
                                 ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
                                 ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
                     </select>
-
-                    @*<input type="hidden"  value="{{AngularModel.AttachmentRelationshipTypeID}}" />*@
+                    <div ng-messages="attachmentForm.AttachmentRelationshipTypeID.$error" ng-show="attachmentForm.AttachmentRelationshipTypeID.$touched" role="alert">
+                        <div class="alert alert-danger" ng-message="required">Attachment Relationship Type is a required field</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -61,10 +62,16 @@
                     @Html.LabelWithSugarFor(m => m.UploadedFile)
                 </div>
                 <div class="col-xs-12 col-sm-9">
-                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="100000000" />
+                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="{{ MaxFileSize }}" />
 
-                    <p class="help-block">Allowed Extensions: <span>{{ AllowedMimeTypes }}</span></p>
+                    <p class="help-block">Allowed Extensions: <span>{{ AllowedExtensions }}</span></p>
+                    <p class="help-block">Maximum file size: <span>{{ MaxFileSizeForDisplay }}</span></p>
                     <p>{{ attachmentForm.$valid }}</p>
+                    <div ng-messages="attachmentForm.UploadedFile.$error" ng-show="attachmentForm.UploadedFile.$touched" role="alert">
+                            <div class="alert alert-danger" ng-message="required">File is a required field</div>
+                            <div class="alert alert-danger" ng-message="accept">Your file is the wrong type</div>
+                            <div class="alert alert-danger" ng-message="maxsize">Your file is too large</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -73,6 +80,9 @@
                 </div>
                 <div class="col-xs-12 col-sm-9">
                     <input type="text" id="@Html.IdFor(m => m.DisplayName)" name="@Html.NameFor(m => m.DisplayName)" class="form-control" ng-required="true" ng-model="DisplayName" />
+                    <div ng-messages="attachmentForm.DisplayName.$error" ng-show="attachmentForm.DisplayName.$touched" role="alert">
+                        <div class="alert alert-danger" ng-message="required">Display Name is a required field</div>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

@@ -45,21 +45,24 @@
                         if (attrs.maxsize) {
                             
                             console.log('maxsize function');
-                            var maxsize = parseInt(attrs.maxsize);
-                            ngModel.$validators.maxsize = function(modelValue, viewValue) {
-                                var value = modelValue || viewValue;
-                                if (!angular.isArray(value)) {
-                                    value = [value];
-                                }
-                                for (var i = value.length - 1; i >= 0; i--) {
-                                    if (value[i] && value[i].size && value[i].size > maxsize) {
-                                        console.log("maxsize function returning false");
-                                        return false;
-                                    }
-                                }
-                                console.log("maxsize function returning true");
-                                return true;
-                            };
+                            attrs.$observe('maxsize',
+                                function(val) {
+                                    var maxsize = parseInt(val);
+                                    ngModel.$validators.maxsize = function(modelValue, viewValue) {
+                                        var value = modelValue || viewValue;
+                                        if (!angular.isArray(value)) {
+                                            value = [value];
+                                        }
+                                        for (var i = value.length - 1; i >= 0; i--) {
+                                            if (value[i] && value[i].size && value[i].size > maxsize) {
+                                                console.log("maxsize function returning false");
+                                                return false;
+                                            }
+                                        }
+                                        console.log("maxsize function returning true");
+                                        return true;
+                                    };
+                                });
                         }
 
                         if (attrs.accept) {
@@ -92,7 +95,7 @@
                             } else {
                                 files = Array.prototype.slice.apply(files);
                             }
-                            scope.attachmentForm.$valid;
+                            //scope.attachmentForm.$valid;
                             ngModel.$setViewValue(files, event);
                             ngModel.$render();
                         }
