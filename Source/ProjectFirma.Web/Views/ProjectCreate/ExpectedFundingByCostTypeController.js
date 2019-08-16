@@ -171,6 +171,8 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         $scope.calendarYearRange.splice(_.sortedIndex($scope.calendarYearRange, calendarYear), 0, calendarYear);
     };
 
+    // This determines which rows to show on form but looks at the relevance of the cost type, not the ProjectFundingSourceBudget
+    // Only ProjectFundingSourceBudgets that are relevant are posted
     $scope.getProjectFundingSourceBudgetRowsForFundingSource = function (fundingSourceId) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
@@ -181,12 +183,14 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
             });
     };
 
-    $scope.addFundingSourceRow = function (fundingSourceId) {
+    // Hide or show ProjectFundingSourceBudgets based on selected Cost Types; create a new row if needed
+    $scope.addHideOrShowFundingSourceRow  = function (fundingSourceId) {
         for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {
             var projectRelevantCostType = $scope.AngularModel.ProjectRelevantCostTypes[i];
             var existingRow = _.find($scope.AngularModel.ProjectFundingSourceBudgets, function (pfsb) {
                 return pfsb.FundingSourceID == fundingSourceId && pfsb.CostTypeID == projectRelevantCostType.CostTypeID;
             });
+            // if no row exists, add it
             if (existingRow == null) {
                 var newProjectFundingSourceBudget = $scope.createNewRow($scope.AngularViewData.ProjectID,
                     fundingSourceId,
@@ -195,6 +199,10 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
                     projectRelevantCostType.IsRelevant);
                 $scope.AngularModel.ProjectFundingSourceBudgets.push(newProjectFundingSourceBudget);
             }
+            // otherwise, update IsRelevant based on new state of it's cost type
+            else {
+                existingRow.IsRelevant = projectRelevantCostType.IsRelevant;
+            }
         }
     };
 
@@ -202,7 +210,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         if ($scope.fundingSourceIDToAdd == null) {
             return;
         }
-        $scope.addFundingSourceRow(parseInt($scope.fundingSourceIDToAdd));
+        $scope.addHideOrShowFundingSourceRow (parseInt($scope.fundingSourceIDToAdd));
         $scope.resetfundingSourceIDToAdd();
     };
 
@@ -274,7 +282,7 @@ angular.module("ProjectFirmaApp").controller("ExpectedFundingByCostTypeControlle
         // we need to add any cost types that were not in the model in the first place
         _.each(allUsedFundingSourceIds,
             function (fundingSourceId) {
-                $scope.addFundingSourceRow(fundingSourceId);
+                $scope.addHideOrShowFundingSourceRow (fundingSourceId);
             });
     };
 

@@ -164,8 +164,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         $scope.calendarYearRange.splice(_.sortedIndex($scope.calendarYearRange, calendarYear), 0, calendarYear);
     };
 
-    // This determines which rows to show on form but looks at the relevance of the cost type, not the PFSB
-    // Only PFSB that are relevant are posted
+    // This determines which rows to show on form but looks at the relevance of the cost type, not the ProjectFundingSourceBudget
+    // Only ProjectFundingSourceBudgets that are relevant are posted
     $scope.getProjectFundingSourceBudgetRowsForFundingSource = function (fundingSourceId) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceBudgets,
@@ -176,6 +176,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             });
     };
 
+    // Hide or show ProjectFundingSourceBudgets based on selected Cost Types; create a new row if needed
     $scope.addHideOrShowFundingSourceRow = function (fundingSourceId) {
         for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {
             var projectRelevantCostType = $scope.AngularModel.ProjectRelevantCostTypes[i];
