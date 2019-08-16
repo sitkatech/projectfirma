@@ -43,6 +43,10 @@
                 {
                     @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
                 }
+                else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                {
+                    @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                }
                 else
                 {
                     @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
