@@ -21,7 +21,7 @@
 
             jQuery("form").attr("novalidate", "");
 
-            // 8/14/2019 TK - HACK - this forces angular to rip out the undefined select option allowing the user to submit the form with the default selected option without having to touch the dropdown
+            // 8/14/2019 TK - this forces angular to rip out the undefined select option allowing the user to submit the form with the default selected option without having to touch the dropdown
             var firstElementText = jQuery("select.attachmentDropdown option:first").text();
             if (firstElementText == null || firstElementText == "") {
                 jQuery("select.attachmentDropdown").change();
@@ -46,7 +46,7 @@
                     @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
                 </div>
                 <div class="col-xs-12 col-sm-9">
-                    <select class="attachmentDropdown" id="@Html.IdFor(m => m.AttachmentRelationshipTypeID)" name="@Html.NameFor(m => m.AttachmentRelationshipTypeID)" ng-model="AttachmentRelationshipTypeID" ng-change="attachmentRelationshipTypeChange(AttachmentRelationshipTypeID)" ng-required="true" data-width="100%">
+                    <select class="attachmentDropdown form-control" id="@Html.IdFor(m => m.AttachmentRelationshipTypeID)" name="@Html.NameFor(m => m.AttachmentRelationshipTypeID)" ng-model="AttachmentRelationshipTypeID" ng-change="attachmentRelationshipTypeChange(AttachmentRelationshipTypeID)" ng-required="true" data-width="100%">
                         <option ng-repeat="attachmentRelationshipType in getAttachmentRelationshipTypesForDropdown()"
                                 ng-bind="attachmentRelationshipType.AttachmentRelationshipTypeName"
                                 ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
@@ -62,11 +62,11 @@
                     @Html.LabelWithSugarFor(m => m.UploadedFile)
                 </div>
                 <div class="col-xs-12 col-sm-9">
-                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-change="fileUploadedChange()" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="{{ MaxFileSize }}" />
-
-                    <p class="help-block">Allowed Extensions: <span>{{ AllowedExtensions }}</span></p>
-                    <p class="help-block">Maximum file size: <span>{{ MaxFileSizeForDisplay }}</span></p>
-                    <p>{{ attachmentForm.$valid }}</p>
+                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="{{ MaxFileSize }}" />
+                    <div class="help-block">
+                        <p><strong>Allowed Extensions:</strong> <span>{{ AllowedExtensions }}</span><br/>
+                            <strong>Maximum file size:</strong> <span>{{ MaxFileSizeForDisplay }}</span></p>
+                    </div>
                     <div ng-messages="attachmentForm.UploadedFile.$error" ng-show="attachmentForm.UploadedFile.$touched" role="alert">
                             <div class="alert alert-danger" ng-message="required">File is a required field</div>
                             <div class="alert alert-danger" ng-message="accept">Your file is the wrong type</div>

@@ -1,5 +1,4 @@
 ﻿(function () {
-    console.log('Very top level function');
     'use strict';
 
     angular.module('app.Components.InputTypeFile', [])
@@ -22,14 +21,10 @@
         //.directive('input', inputTypeFileDirective);
         .directive('input',
             function() {
-                console.log('(inside function)');
                 return {
                     restrict: 'E',
                     require: '?ngModel',
                     link: function(scope, element, attrs, ngModel) {
-
-                        console.log('link function');
-                        //debugger;
 
                         if (attrs.type !== 'file' || !angular.isDefined(ngModel)) {
                             return;
@@ -43,8 +38,7 @@
 
 
                         if (attrs.maxsize) {
-                            
-                            console.log('maxsize function');
+                            //console.log('maxsize function');
                             attrs.$observe('maxsize',
                                 function(val) {
                                     var maxsize = parseInt(val);
@@ -55,40 +49,39 @@
                                         }
                                         for (var i = value.length - 1; i >= 0; i--) {
                                             if (value[i] && value[i].size && value[i].size > maxsize) {
-                                                console.log("maxsize function returning false");
+                                                //console.log("maxsize function returning false");
                                                 return false;
                                             }
                                         }
-                                        console.log("maxsize function returning true");
+                                        //console.log("maxsize function returning true");
                                         return true;
                                     };
                                 });
                         }
 
                         if (attrs.accept) {
-                            console.log('Accept function');
+                            //console.log('Accept function');
                             attrs.$observe('accept', function(val) {
                                 var accept = val.split(',');
                                 ngModel.$validators.accept = function (modelValue, viewValue) {
-                                    //debugger;
                                     var value = modelValue || viewValue;
                                     if (!angular.isArray(value)) {
                                         value = [value];
                                     }
                                     for (var i = value.length - 1; i >= 0; i--) {
                                         if (value[i] && accept.indexOf(value[i].type) === -1) {
-                                            console.log("accept function returning false");
+                                            //console.log("accept function returning false");
                                             return false;
                                         }
                                     }
-                                    console.log("accept function returning true");
+                                    //console.log("accept function returning true");
                                     return true;
                                 };
                             });                
                         }
 
                         function updateModelWithFile(event) {
-                            console.log('updateModelWithFile function');
+                            //console.log('updateModelWithFile function');
                             var files = event.target.files;
                             if (!angular.isDefined(attrs.multiple)) {
                                 files = files[0];
