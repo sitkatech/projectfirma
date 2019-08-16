@@ -207,6 +207,15 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static void DeleteProjectAttachmentUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectAttachmentUpdates = projectUpdateBatch.ProjectAttachmentUpdates.ToList();
+            foreach (var projectAttachmentUpdate in projectAttachmentUpdates)
+            {
+                projectAttachmentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static void DeletePerformanceMeasuresProjectExemptReportingYearUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             foreach (var projectExemptReportingYearUpdate in projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears())
