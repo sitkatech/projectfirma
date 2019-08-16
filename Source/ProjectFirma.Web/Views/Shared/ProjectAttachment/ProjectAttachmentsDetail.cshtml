@@ -36,52 +36,52 @@ else
 @foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
 {
     <div class="row">
-    <div class="col-md-4">
-        <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
-    </div>
-
-        @{
-            var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
-        }
-    @foreach (var projectAttachment in thisAttachmentList)
-    {
-        <div class="col-md-8 @projectAttachment.GetDisplayCssClass()">
-            @if (ViewDataTyped.CanEditAttachments)
-            {
-                <span style="margin-left: 7px;">
-                    @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectAttachment.GetEditUrl(), "Edit Attachment", null, true)
-                </span>
-                <span style="margin-left: 8px; margin-right: 8px;">
-                    @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectAttachment.GetDeleteUrl(), null, true)
-                </span>
-            }
-            @if (ViewDataTyped.ShowDownload)
-            {
-                <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
-                    @projectAttachment.DisplayName
-                    @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
-                </a>
-            }
-            else
-            {
-                <span>@projectAttachment.DisplayName</span>
-            }
-            <dl class="dl-horizontal">
-                <dt>Uploaded On</dt>
-                <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
-                <dt>File Type</dt>
-                <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
-                <dt>Description</dt>
-                <dd>@projectAttachment.Description</dd>
-            </dl>
+        <div class="col-sm-3">
+            <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
         </div>
-    }
+        <div class="col-sm-9">
+            @{
+                var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+            }
+            @foreach (var projectAttachment in thisAttachmentList)
+            {
+                <div class="@projectAttachment.GetDisplayCssClass()">
+                    @if (ViewDataTyped.CanEditAttachments)
+                    {
+                        <span style="margin-left: 7px;">
+                            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectAttachment.GetEditUrl(), "Edit Attachment", null, true)
+                        </span>
+                        <span style="margin-left: 8px; margin-right: 8px;">
+                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectAttachment.GetDeleteUrl(), null, true)
+                        </span>
+                    }
+                    @if (ViewDataTyped.ShowDownload)
+                    {
+                        <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
+                            @projectAttachment.DisplayName
+                            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+                        </a>
+                    }
+                    else
+                    {
+                        <span>@projectAttachment.DisplayName</span>
+                    }
+                    <dl class="dl-horizontal">
+                        <dt>Uploaded On</dt>
+                        <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
+                        <dt>File Type</dt>
+                        <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+                        <dt>Description</dt>
+                        <dd>@projectAttachment.Description</dd>
+                    </dl>
+                </div>
+            }
 
-    @if (!thisAttachmentList.Any())
-    {
-        <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
-    }
-    
+            @if (!thisAttachmentList.Any())
+            {
+                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
+            }
+        </div>
     </div>
 
 }

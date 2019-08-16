@@ -15,12 +15,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public bool ShowDownload { get; }
 
         public ProjectFirmaModels.Models.Project Project { get; set; }
-        //public string NewProjectAttachmentUrl { get; set; }
-        //public UrlTemplate<int> EditProjectAttachmentUrlTemplate { get; set; }
-        //public UrlTemplate<int> DeleteProjectAttachmentUrlTemplate { get; set; }
+
         public Person CurrentPerson { get; set; }
-        //public bool UserHasProjectManagePermissions { get; set; }
-        //public ProjectAttachmentEditAsAdminFeature ProjectAttachmentEditAsAdminFeature { get; set; }
 
 
         public List<EntityAttachment> Attachments { get; }
@@ -42,41 +38,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             AttachmentRelationshipTypesIndexUrl = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson) ? SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
             AttachmentRelationshipTypes = attachmentRelationshipTypes;
         }
-
-
-        //public ProjectAttachmentsDetailViewData(ProjectFirmaModels.Models.Project project, Person currentPerson)
-        //{
-        //    Project = project;
-        //    CurrentPerson = currentPerson;
-
-        //    NewProjectAttachmentUrl = SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.New(project));
-        //    EditProjectAttachmentUrlTemplate = new UrlTemplate<int>(
-        //        SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.Edit(UrlTemplate.Parameter1Int)));
-        //    DeleteProjectAttachmentUrlTemplate = new UrlTemplate<int>(
-        //        SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.Delete(UrlTemplate.Parameter1Int)));
-
-        //    UserHasProjectManagePermissions =
-        //        Project.IsProposal() ?
-        //        new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission
-        //         : new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
-        //    ProjectAttachmentEditAsAdminFeature = new ProjectAttachmentEditAsAdminFeature();
-        //}
-
-        //public ProjectAttachmentsDetailViewData(ProjectFirmaModels.Models.Project project, Person currentPerson, bool showNewButton) : this(project, currentPerson)
-        //{
-        //    UserHasProjectManagePermissions = UserHasProjectManagePermissions && showNewButton;
-        //}
-
-
-
-
-
-        //public ProjectAttachmentsDetailViewData(List<EntityDocument> documents, string addAttachmentUrl, string projectName,
-        //    bool canEditAttachments, bool showDownload) : this(documents,addAttachmentUrl,projectName,canEditAttachments)
-        //{
-        //    ShowDownload = showDownload;
-        //}
-
 
     }
 }
