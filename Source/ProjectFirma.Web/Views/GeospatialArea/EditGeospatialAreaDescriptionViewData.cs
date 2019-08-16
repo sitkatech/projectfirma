@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="GeospatialArea.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditGeospatialAreaDescriptionViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,20 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web;
+using ProjectFirma.Web.Common;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Views.GeospatialArea
 {
-    public partial class GeospatialArea : IFirmaPage, IAuditableEntity
+    public class EditGeospatialAreaDescriptionViewData : FirmaUserControlViewData
     {
-        public string GetDisplayName() => GeospatialAreaName;
+        public CkEditorExtension.CkEditorToolbar CkEditorToolbar { get; }
+        public readonly string FileBrowserImageUploadUrl;
 
-        public string GetAuditDescriptionString() => GeospatialAreaName;
-
-        public HtmlString GetFirmaPageContentHtmlString() => GeospatialAreaDescriptionContentHtmlString;
-
-        public string GetFirmaPageDisplayName() => GeospatialAreaName;
-
-        public bool HasPageContent() => !string.IsNullOrWhiteSpace(GeospatialAreaDescriptionContent);
+        public EditGeospatialAreaDescriptionViewData(CkEditorExtension.CkEditorToolbar ckEditorToolbar, string fileBrowserImageUploadUrl)
+        {
+            CkEditorToolbar = ckEditorToolbar;
+            FileBrowserImageUploadUrl = fileBrowserImageUploadUrl;
+        }
     }
 }

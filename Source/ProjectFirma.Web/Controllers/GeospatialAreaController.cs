@@ -182,5 +182,35 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditGeospatialAreaTypeIntroText, EditGeospatialAreaTypeIntroTextViewData, EditGeospatialAreaTypeIntroTextViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [GeospatialAreaManageFeature]
+        public PartialViewResult EditDescriptionInDialog(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
+        {
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var viewModel = new EditGeospatialAreaDescriptionViewModel(geospatialArea);
+            return ViewEditDescriptionInDialog(viewModel, geospatialArea);
+        }
+
+        [HttpPost]
+        [GeospatialAreaManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditDescriptionInDialog(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, EditGeospatialAreaDescriptionViewModel viewModel)
+        {
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditDescriptionInDialog(viewModel, geospatialArea);
+            }
+            viewModel.UpdateModel(geospatialArea);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditDescriptionInDialog(EditGeospatialAreaDescriptionViewModel viewModel, GeospatialArea geospatialArea)
+        {
+            var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.All;
+            var viewData = new EditGeospatialAreaDescriptionViewData(ckEditorToolbar,
+                SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForGeospatialAreaDescription(geospatialArea)));
+            return RazorPartialView<EditGeospatialAreaDescription, EditGeospatialAreaDescriptionViewData, EditGeospatialAreaDescriptionViewModel>(viewData, viewModel);
+        }
     }
 }

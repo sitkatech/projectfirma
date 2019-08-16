@@ -39,6 +39,12 @@
         jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
         // ]]>
     </script>
+    
+    <style>
+        .fundingSourceHeaderRow {
+            background-color: #d9edf7;
+        }
+    </style>
 }
 
 To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel())'s annual expenditures by @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel()) and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel(). If the @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()) has no expenditures to report in any year provide and explanation.
@@ -100,7 +106,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
                 </div>
                 <div style="margin-left: 20px">
                     <p style="margin-left: 20px" class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to start entering expenditures</p>
-                    <table class="table-responsive table-condensed" style="display: block; overflow: auto;" ng-show="getAllUsedFundingSourceIds().length > 0">
+                    <table class="table-responsive table-condensed table-bordered" style="display: block; overflow: auto;" ng-show="getAllUsedFundingSourceIds().length > 0">
                         <thead>
                         <tr>
                             <th style="white-space: nowrap" colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
@@ -115,7 +121,7 @@ To enter your @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel(
                         </tr>
                         </thead>
                         <tbody ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
-                        <tr>
+                        <tr class="fundingSourceHeaderRow">
                             <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
                             <td colspan="{{calendarYearRange.length + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                         </tr>

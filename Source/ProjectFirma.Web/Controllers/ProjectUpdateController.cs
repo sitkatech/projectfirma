@@ -920,7 +920,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
-            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts, projectUpdateBatch.ExpectedFundingUpdateNote);
             return projectBudgetsAnnualByCostTypeViewData;
         }
         [HttpGet]
@@ -1795,6 +1795,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void WriteHtmlDiffLogs(ProjectPrimaryKey projectPrimaryKey, ProjectUpdateBatch projectUpdateBatch)
         {
+            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var basicsDiffContainer = DiffBasicsImpl(projectPrimaryKey);
             if (basicsDiffContainer.HasChanged)
             {
@@ -1809,20 +1810,21 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.PerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
             }
 
-            var expendituresDiffContainer = DiffExpendituresImpl(projectPrimaryKey);
+            // Call the correct diff format based on BudgetType
+            var expendituresDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectPrimaryKey) : DiffExpendituresImpl(projectPrimaryKey);
             if (expendituresDiffContainer.HasChanged)
             {
                 var expendituresDiffHelper = new HtmlDiff.HtmlDiff(expendituresDiffContainer.OriginalHtml, expendituresDiffContainer.UpdatedHtml);
                 projectUpdateBatch.ExpendituresDiffLogHtmlString = new HtmlString(expendituresDiffHelper.Build());
             }
 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //var budgetsDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
-            //if (budgetsDiffContainer.HasChanged)
-            //{
-            //    var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
-            //    projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
-            //}
+            // Call the correct diff format based on BudgetType
+            var budgetsDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectPrimaryKey) : DiffExpectedFundingImpl(projectPrimaryKey);
+            if (budgetsDiffContainer.HasChanged)
+            {
+                var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
+            }
 
             var externalLinksDiffContainer = DiffExternalLinksImpl(projectPrimaryKey);
             if (externalLinksDiffContainer.HasChanged)
@@ -2547,8 +2549,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForExpendituresByCostTypeAsString(List<ProjectExpenditureByCostType> projectExpenditureByCostTypes, List<CalendarYearString> calendarYearStrings)
         {
-            var costTypeIDs = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
+            var costTypes = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
             var viewData = new ProjectExpendituresByCostTypeSummaryViewData(projectExpenditureByCostTypes, calendarYearStrings, costTypes);
             var partialViewAsString = RenderPartialViewToString(ProjectExpendituresByCostTypeSummaryPartialViewPath, viewData);
             return partialViewAsString;
@@ -2637,12 +2638,14 @@ namespace ProjectFirma.Web.Controllers
             var estimatedTotalUpdated = projectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType();
 
             var projectFundingSourceBudgetsByCostTypeOriginal = new List<ICostTypeFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
-            var calendarYearsOriginal = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var calendarYearsOriginal = project.FundingType == FundingType.BudgetVariesByYear ? project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears() : new List<int>();
             var projectFundingSourceBudgetsByCostTypeUpdated = new List<ICostTypeFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
-            var calendarYearsUpdated = projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var calendarYearsUpdated = projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear ? projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears() : new List<int>();
 
-            var originalHtml = GeneratePartialViewForOriginalBudgetsByCostType(fundingTypeOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, project.ExpectedFundingUpdateNote);
-            var updatedHtml = GeneratePartialViewForModifiedBudgetsByCostType(fundingTypeUpdated, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated, projectUpdateBatch.ExpectedFundingUpdateNote);
+            var originalHtml = GeneratePartialViewForOriginalBudgetsByCostType(fundingTypeOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), 
+                calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, project.ExpectedFundingUpdateNote);
+            var updatedHtml = GeneratePartialViewForModifiedBudgetsByCostType(fundingTypeUpdated, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), 
+                calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated, projectUpdateBatch.ExpectedFundingUpdateNote);
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
@@ -2671,6 +2674,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
                 });
+
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
             return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeOriginal, projectBudgetByCostTypesInOriginal, calendarYearStrings, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, expectedFundingUpdateNote);
@@ -2702,8 +2706,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
         {
-            var costTypeIDs = projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostTypeID)).Distinct().ToList();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Where(x => costTypeIDs.Contains(x.CostTypeID)).OrderBy(x => x.CostTypeName).ToList();
+            var costTypes = projectBudgetsByCostTypes.Any(x => x.ProjectCostTypeCalendarYearBudgetAmounts != null) ? projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList() : projectFundingSourceCostTypeAmounts.Select(x => x.CostType).Distinct().ToList();
 
             var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts, expectedFundingUpdateNote);
             var partialViewAsString = RenderPartialViewToString(ProjectBudgetByCostTypePartialViewPath, viewData);
@@ -3076,6 +3079,10 @@ namespace ProjectFirma.Web.Controllers
 
         private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
+            {
+                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
+            }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
             var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;

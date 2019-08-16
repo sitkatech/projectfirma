@@ -200,8 +200,11 @@
     <Compile Include="Views\FundingSourceCustomAttributes\EditFundingSourceCustomAttributesViewModel.cs" />
     <Compile Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributes.cs" />
     <Compile Include="Views\FundingSourceCustomAttributes\DisplayFundingSourceCustomAttributesViewData.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaDescription.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaDescriptionViewData.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewData.cs" />
+    <Compile Include="Views\GeospatialArea\EditGeospatialAreaDescriptionViewModel.cs" />
     <Compile Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroTextViewModel.cs" />
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
@@ -410,6 +413,7 @@
     <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
+    <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

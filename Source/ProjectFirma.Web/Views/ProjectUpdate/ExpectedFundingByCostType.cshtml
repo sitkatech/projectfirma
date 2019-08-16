@@ -55,6 +55,14 @@
         .summaryTableRow {
             background-color: #ffffff;
         }
+
+        .targetedFunding {
+            font-style: italic;
+            color: #6e6e6e;
+        }
+        .fundingSourceHeaderRow {
+            background-color: #d9edf7;
+        }
     </style>
 }
 
@@ -150,32 +158,36 @@ else
             </div>
 
             <div style="margin-left: 20px; margin-bottom: 20px" ng-if="budgetVariesByYear()">
-                <table class="table-responsive table-condensed" style="display: block; overflow: auto; margin-bottom: 20px">
+                <table class="table-responsive table-condensed table-bordered" style="display: block; overflow: auto; margin-bottom: 20px">
                     <thead>
                         <tr>
-                            <th style="white-space: nowrap" colspan="2">
-                                <span ng-show="shouldShowFundingSources()"> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
-                            </th>
-                            <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right; vertical-align: top">
-                                <span ng-show="$first && shouldShowFundingSources()" class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <th colspan="2"></th>
+                            <th ng-repeat="calendarYear in calendarYearRange" colspan="2" style="text-align: center;">
+                                <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                                 <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$first && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
-                                <span ng-show="shouldShowFundingSources()" ng-bind="calendarYear"></span>
-                                <span ng-show="shouldShowFundingSources()"> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
-                            </th>
-                            <th ng-repeat-end style="text-align: right; vertical-align: top">
-                                <span ng-show="$first && !shouldShowFundingSources()" class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                                 <span ng-bind="calendarYear"></span>
-                                <span ng-show="shouldShowFundingSources()"> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
                                 <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$last" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
                                 <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$last && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                             </th>
-                            <th style="text-align: right">Total</th>
+                            <th></th>
                         </tr>
+                    <tr ng-show="shouldShowFundingSources()">
+                        <th style="white-space: nowrap" colspan="2">
+                            <span > @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
+                        </th>
+                        <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right; vertical-align: top">                            
+                            <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                        </th>
+                        <th ng-repeat-end class="targetedFunding" style="text-align: right; vertical-align: top;">
+                            <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>                            
+                        </th>
+                        <th style="text-align: right">Total</th>
+                    </tr>
                     </thead>
                     <tbody ng-show="shouldShowFundingSources()" ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
-                        <tr>
+                        <tr class="fundingSourceHeaderRow">
                             <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
-                            <td colspan="{{calendarYearRange.length + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
+                            <td colspan="{{(calendarYearRange.length *2) + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                         </tr>
                         @* Budget Entry Rows *@
                         <tr ng-repeat="projectFundingSourceBudget in getProjectFundingSourceBudgetRowsForFundingSource(fundingSourceID) | orderBy:[getFundingSourceName]">
@@ -198,7 +210,7 @@ else
                             <th style="text-align: right;" ng-repeat-start="calendarYear in calendarYearRange">
                                 <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>
                             </th>
-                            <th style="text-align: right;" ng-repeat-end>
+                            <th class="targetedFunding" style="text-align: right;" ng-repeat-end>
                                 <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
                             </th>
                             <th style="text-align: right"> {{getBudgetTotalForFundingSource(fundingSourceID) | currency:"$"}}</th>
@@ -206,7 +218,7 @@ else
                     </tbody>
                     @* No Funding Source Identified Yet entry row*@
                     <tbody style="border-top: 2px solid #ddd">
-                        <tr>
+                        <tr class="fundingSourceHeaderRow">
                             <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
                             <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'"></td>
                             <td ng-repeat-end style="text-align: right">
@@ -222,7 +234,7 @@ else
                             <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right">
                                 <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear) | currency:"$"}}</span>
                             </th>
-                            <th ng-repeat-end style="text-align: right"> {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}</th>
+                            <th ng-repeat-end class="targetedFunding" style="text-align: right;"> {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}</th>
                             <th style="text-align: right"> {{getTotalVariesByYear() | currency:"$"}}</th>
                         </tr>
                     </tbody>
@@ -246,7 +258,7 @@ else
             </div>
 
             <div style="margin-left: 20px; margin-bottom: 20px" ng-if="budgetSameEachYear()">
-                <table class="table-responsive table-condensed" style="display: block; overflow: auto">
+                <table class="table-responsive table-condensed table-bordered" style="overflow: auto">
                     <thead>
                         <tr>
                             <th style="white-space: nowrap" colspan="2">
@@ -255,14 +267,14 @@ else
                             <th>
                                 <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
                             </th>
-                            <th>
+                            <th class="targetedFunding">
                                 <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
                             </th>
                             <th style="text-align: right">Total</th>
                         </tr>
                     </thead>
                     <tbody ng-show="shouldShowFundingSources()" ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
-                        <tr>
+                        <tr class="fundingSourceHeaderRow">
                             <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
                             <td colspan="4"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                         </tr>
@@ -287,7 +299,7 @@ else
                             <th style="text-align: right;">
                                 <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, true) | currency:"$"}}</span>
                             </th>
-                            <th style="text-align: right;">
+                            <th class="targetedFunding" style="text-align: right;">
                                 <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, false) | currency:"$"}}</span>
                             </th>
                             <th style="text-align: right"> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID) | currency:"$"}}</th>
@@ -295,7 +307,7 @@ else
                     </tbody>
                     @* No Funding Source Identified Yet entry*@
                     <tbody style="border-top: 2px solid #ddd">
-                        <tr>
+                        <tr class="fundingSourceHeaderRow">
                             <td colspan="2">@Html.LabelWithSugarFor(@FieldDefinitionEnum.NoFundingSourceIdentified.ToType())</td>
                             <td></td>
                             <td style="text-align: right">
@@ -311,7 +323,7 @@ else
                             <th style="text-align: right">
                                 <span ng-show="shouldShowFundingSources()">{{getTotalSecuredSameEachYear() | currency:"$"}}</span>
                             </th>
-                            <th style="text-align: right"> {{getTotalTargetedSameEachYear(true) | currency:"$"}}</th>
+                            <th class="targetedFunding" style="text-align: right"> {{getTotalTargetedSameEachYear(true) | currency:"$"}}</th>
                             <th style="text-align: right"> {{getTotalSameEachYear() | currency:"$"}}</th>
                         </tr>
                     </tbody>

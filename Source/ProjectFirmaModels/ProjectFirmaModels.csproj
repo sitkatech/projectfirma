@@ -167,6 +167,10 @@
     <Compile Include="Models\Generated\GeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialArea.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaImage.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaImage.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaImageConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.DatabaseContextExtensions.cs" />

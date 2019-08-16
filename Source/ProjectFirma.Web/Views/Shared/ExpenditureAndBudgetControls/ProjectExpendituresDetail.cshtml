@@ -80,8 +80,15 @@ else
             <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
         </tr>
         <tr>
-            <th>Explanation:</th>
-            <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            <th>Comment:</th>
+            @if (ViewDataTyped.ExemptionExplanation == null)
+            {
+                <td style="font-style: italic">None provided</td>
+            }
+            else
+            {
+                <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            }
         </tr>
     </table>
 }
