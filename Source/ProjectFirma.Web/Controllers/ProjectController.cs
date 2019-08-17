@@ -28,11 +28,11 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -135,7 +135,16 @@ namespace ProjectFirma.Web.Controllers
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
-            var editReportedExpendituresUrl = SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            // Use a different editor for Budget and Reported Expenditures if the Tenant's selected BudgetType is Budget by Year and Cost Type
+            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
+            var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
+            var editReportedExpendituresUrl = reportFinancialsByCostType ?
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            var editExpectedFundingUrl = reportFinancialsByCostType ?
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
+
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
@@ -151,8 +160,15 @@ namespace ProjectFirma.Web.Controllers
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
-            var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, project, false, new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets));
+            // Budget - conditional based on BudgetType
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, project);
+            var projectBudgetsAnnualViewData = !reportFinancialsByCostType ? new ProjectBudgetsAnnualViewData(CurrentPerson, project) : null;
+            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, project) : null;
+
+            // Expenditures - conditional based on BudgetType
+            var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
+            var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
+
 
             var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
@@ -180,6 +196,9 @@ namespace ProjectFirma.Web.Controllers
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
+
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
@@ -192,11 +211,14 @@ namespace ProjectFirma.Web.Controllers
                 activeProjectStages,
                 projectBasicsViewData,
                 projectLocationSummaryViewData,
-                projectFundingDetailViewData,
+                projectBudgetSummaryViewData,
+                projectBudgetsAnnualViewData,
+                projectBudgetsAnnualByCostTypeViewData,
                 technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
                 projectExpendituresSummaryViewData,
+                projectExpendituresByCostTypeSummaryViewData,
                 imageGalleryViewData,
                 projectNotesViewData,
                 internalNotesViewData,
@@ -214,6 +236,7 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureExpectedsUrl,
                 editPerformanceMeasureActualsUrl,
                 editReportedExpendituresUrl,
+                reportFinancialsByCostType,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
                 editExternalLinksUrl,
@@ -223,8 +246,28 @@ namespace ProjectFirma.Web.Controllers
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
                 classificationSystems,
-                ProjectLocationController.EditProjectBoundingBoxFormID, geospatialAreaTypes, projectCustomAttributeTypesViewData);
+                ProjectLocationController.EditProjectBoundingBoxFormID, 
+                geospatialAreaTypes, 
+                projectCustomAttributeTypesViewData,
+                projectContactsDetailViewData,
+                editContactsUrl, editExpectedFundingUrl);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, Project project)
+        {
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, project, projectFundingSourceCostTypeAmounts, project.ExpectedFundingUpdateNote);
+            return projectBudgetsAnnualByCostTypeViewData;
+        }
+
+        private static ProjectExpendituresByCostTypeDetailViewData BuildProjectExpendituresByCostTypeDetailViewData(Project project)
+        {
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
+            return projectExpendituresByCostTypeDetailViewData;
         }
 
         private static ProjectExpendituresDetailViewData BuildProjectExpendituresDetailViewData(Project project)
@@ -482,6 +525,11 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
+
+            var contactsSpec = new ProjectImplementingContactsExcelSpec();
+            var projectContacts = projects.SelectMany(p => p.GetAssociatedContactRelationships()).ToList();
+            var wsContacts = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Contacts", contactsSpec, projectContacts);
+            workSheets.Add(wsContacts);
 
             var projectNoteSpec = new ProjectNoteExcelSpec();
             var projectNotes = (projects.SelectMany(p => p.ProjectNotes)).ToList();
@@ -818,7 +866,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var projectStewardLabel = FieldDefinitionEnum.ProjectSteward.ToType().GetFieldDefinitionLabel();
             var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
-            var projectRelationshipTypeLabel = FieldDefinitionEnum.ProjectRelationshipType.ToType().GetFieldDefinitionLabel();
+            var projectRelationshipTypeLabel = FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel();
 
             var confirmMessage = CurrentPerson.RoleID == Role.ProjectSteward.RoleID
                 ? $"Although you are a {projectStewardLabel}, you do not have the ability to create a {projectLabel} because your {organizationLabel} does not have a \"Can Steward {projectLabel}\" {projectRelationshipTypeLabel}."

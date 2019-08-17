@@ -27,11 +27,11 @@
 
 @if (ViewDataTyped.FundingSourceExpenditures.Any())
 {
-    <div style="overflow-x: auto">
-        <table class="table table-striped table-condensed table-hover">
+    <div class="table-responsive tableFixHeader" style="max-height: 450px;">
+        <table class="table table-condensed table-bordered">
             <tr>
                 <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
-                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderByDescending(x => x.CalendarYear))
+                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))
                 {
                     <th class="text-right">
                         @calendarYear.CalendarYearDisplay
@@ -41,18 +41,18 @@
             </tr>
             @foreach (var fundingSourceExpenditure in ViewDataTyped.FundingSourceExpenditures.OrderBy(x => x.FundingSourceName))
             {
-                <tr>
-                    <td>@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
-                    @foreach (var calendarYear in fundingSourceExpenditure.CalendarYearExpenditure.Keys.OrderByDescending(x => x))
+            <tr>
+                <td style="text-align: left; white-space: nowrap;">@Html.Raw(fundingSourceExpenditure.FundingSourceNameAsUrl)</td>
+                @foreach (var calendarYear in fundingSourceExpenditure.CalendarYearExpenditure.Keys.OrderBy(x => x))
                     {
                         <td class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure[calendarYear].ToStringCurrency()</td>
                     }
-                    <th class="text-right">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</th>
-                </tr>
+                <td class="text-right" style="font-weight: bold;">@fundingSourceExpenditure.CalendarYearExpenditure.Sum(x => x.Value).ToStringCurrency()</td>
+            </tr>
             }
             <tr>
-                <th>Total:</th>
-                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderByDescending(x => x.CalendarYear))
+                <th style="text-align:left">Grand Total</th>
+                @foreach (var calendarYear in ViewDataTyped.CalendarYearStrings.OrderBy(x => x.CalendarYear))
                 {
                     <th class="text-right">@ViewDataTyped.FundingSourceExpenditures.SelectMany(x => x.CalendarYearExpenditure).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToStringCurrency()</th>
                 }
@@ -62,7 +62,7 @@
     </div>
 
 }
-else 
+else
 {
     <p class="systemText">No Expenditures have been reported for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }
@@ -80,8 +80,15 @@ else
             <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
         </tr>
         <tr>
-            <th>Explanation:</th>
-            <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            <th>Comment:</th>
+            @if (ViewDataTyped.ExemptionExplanation == null)
+            {
+                <td style="font-style: italic">None provided</td>
+            }
+            else
+            {
+                <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            }
         </tr>
     </table>
 }

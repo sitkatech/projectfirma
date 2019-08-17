@@ -80,7 +80,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div ng-app="ProjectFirmaApp" ng-controller="ExpectedFundingController">
     <div class="form-group">
         <label class="control-label">
-            1. @Html.Label("Does the " + @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() + " budget vary by year or is it the same?")
+            1. Does the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() budget vary by year or is it the same?
         </label>
         <div class="input-group">
             <select ng-model="selectedFundingTypeID"
@@ -96,11 +96,9 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    <hr />
-
     <div class="form-group">
         <label class="control-label">2. Identify your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel())'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized().</label>
-        <div class="input-group">
+        <div class="input-group" style="padding-bottom: 5px;">
             <select ng-model="FundingSourceIDToAdd"
                     class="selectpicker"
                     data-live-search="true"
@@ -114,16 +112,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         ng-bind="fundingSource.DisplayName"
                         data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}}"></option>
             </select>
-            <span class="input-group-btn">
-                <button class="btn btn-firma" type="button" ng-click="addRow()">
-                    <span class="glyphicon glyphicon-plus"></span> Add
-                </button>
+            <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+            <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
+                Not listed?
+                @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
             </span>
+            <br />
         </div>
-        <p style="font-size: 12px;">
-            @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()) not listed?
-            @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-        </p>
     </div>
     <div style="overflow-x: auto" class="form-inline">
         <label class="control-label">3. Enter amount provided by each @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>

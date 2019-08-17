@@ -1,0 +1,129 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectExpendituresByCostTypeSummary.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectExpendituresByCostTypeSummary
+
+@if (ViewDataTyped.ProjectExpenditureByCostTypes.Any())
+{
+    <table class="summaryLayout" style="width: 100%">
+        <colgroup>
+            <col />
+            <col />
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                switch (calendarYear.AddedDeletedOrRealElement)
+                {
+                    case AddedDeletedOrRealElement.AddedElement:
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
+                        break;
+                    case AddedDeletedOrRealElement.DeletedElement:
+                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
+                        break;
+                    case AddedDeletedOrRealElement.RealElement:
+                        <col>
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            <col />
+        </colgroup>
+        <tr>
+            <th colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                <th class="@calendarYear.DisplayCssClass" style="text-align: right">@calendarYear.CalendarYear</th>
+            }
+            <th style="text-align: right">Total</th>
+        </tr>
+        @foreach (var projectExpenditureByCostType in ViewDataTyped.ProjectExpenditureByCostTypes.OrderBy(x => x.FundingSourceName))
+        {
+            <tr class="@projectExpenditureByCostType.DisplayCssClass" style="border-top: 2px solid black;">
+                <td colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@projectExpenditureByCostType.FundingSourceName</td>
+            </tr>
+            foreach (var costType in ViewDataTyped.CostTypes.OrderBy(x => x.CostTypeName))
+            {
+                var current = projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType == costType);
+                if (current == null)
+                {
+                    <tr class="@projectExpenditureByCostType.DisplayCssClass">
+                        <td></td>
+                        <td>@costType.CostTypeName</td>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+                        {
+                            <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                <span class="normalDollars @calendarYear.DisplayCssClass"></span>
+                            </td>
+                        }
+                        <th style="text-align: right">
+                            <span class="normalDollars"></span>
+                        </th>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="@projectExpenditureByCostType.DisplayCssClass">
+                        <td></td>
+                        <td>@costType.CostTypeName</td>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+                        {
+                            <td class="@calendarYear.DisplayCssClass" style="text-align: right">
+                                <span class="normalDollars @calendarYear.DisplayCssClass">@(current.CalendarYearAmount.ContainsKey(calendarYear.CalendarYear) ? current.CalendarYearAmount[calendarYear.CalendarYear].ToIntString() : string.Empty)</span>
+                            </td>
+                        }
+                        <th style="text-align: right">
+                            <span class="normalDollars">@current.CalendarYearAmount.Sum(x => x.Value).ToIntString()</span>
+                        </th>
+                    </tr>
+                }
+            }
+            <tr class="@projectExpenditureByCostType.DisplayCssClass" style="border-top: 1px solid gray">
+                <td></td>
+                <th>All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
+                @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear).ToList())
+                {
+                    <th class="@calendarYear.DisplayCssClass" style="text-align: right">
+                        <span class="normalDollars @calendarYear.DisplayCssClass">@projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString()</span>
+                    </th>
+                }
+                <th colspan="@(ViewDataTyped.CalendarYears.Count + 1)" style="text-align: right">
+                    <span class="normalDollars">@projectExpenditureByCostType.ProjectCostTypeCalendarYearAmounts.Sum(x => x.CalendarYearAmount.Values.Sum()).ToIntString()</span>
+                </th>
+            </tr>
+        }
+        <tr>
+            <th colspan="2">Grand Total</th>
+            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
+            {
+                <th style="text-align: right">
+                    <span class="normalDollars">@(ViewDataTyped.ProjectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount)).Where(x => x.Key == calendarYear.CalendarYear).Sum(x => x.Value).ToIntString())</span>
+                </th>
+            }
+            <th style="text-align: right">
+                <span class="normalDollars">@ViewDataTyped.ProjectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.SelectMany(y => y.CalendarYearAmount)).Sum(x => x.Value).ToIntString()</span>
+            </th>
+        </tr>
+    </table>
+}

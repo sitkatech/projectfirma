@@ -157,7 +157,7 @@
             }
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
-                    <strong>Primary Contact</strong>
+                    <strong>@FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()</strong>
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9">
                     @if (ViewDataTyped.Project.GetPrimaryContact() != null)
@@ -188,7 +188,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-3">
-                    <strong>@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel()</strong>
+                    <strong>@ViewDataTyped.EstimatedTotalCostLabel</strong>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3">
                     @ViewDataTyped.EstimatedTotalCost

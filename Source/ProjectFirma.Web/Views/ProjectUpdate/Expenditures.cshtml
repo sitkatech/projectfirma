@@ -47,29 +47,33 @@
     }
 }
 
-To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()
-(or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the current year). If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()).
-<hr />
-<div style="margin: 10px 0">
-    <p>
-        Other financial information for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that might be helpful:
-    </p>
+To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s annual expenditures, add the appropriate
+@ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s Planning / Design Start and
+@ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel()
+(or, if @ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel() isn't set, through the current year). If your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized()).
+@if (ViewDataTyped.Project.FundingTypeID.HasValue)
+{
+    <hr/>
+    <div style="margin: 10px 0">
+        <p>
+            Other financial information for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() that might be helpful:
+        </p>
 
-    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
-    {
-        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span></div>
+        @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+        {
+        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetSecuredFunding().ToStringCurrency()</span></div>
         <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet.ToStringCurrency()</span></div>
-    }
-    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
-    {
+        }
+        else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+        {
         <table>
             <tr>
                 <td style="width: 200px">
                     @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel():
                 </td>
                 <td>
-                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalCost().ToStringCurrency()</span>
+                    <span style="font-weight: bold">@ViewDataTyped.ProjectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span>
                 </td>
             </tr>
             <tr>
@@ -84,8 +88,9 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
                 }
             </tr>
         </table>
-    }
-</div>
+        }
+    </div>
+}
 
 @if (!ViewDataTyped.IsEditable)
 {
@@ -106,7 +111,7 @@ else
         <div style="margin-top: 5px">
             <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
                 <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i>
-                What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report?
+                What if the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() has no expenditures to report?
             </a>
             <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
                 Select the years for which you have no expenditures to report and provide a brief explanation.
@@ -123,7 +128,7 @@ else
         </div>
         <hr />
         <div style="display: inline-block; margin-right: 5px; vertical-align: top">
-            @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:
+            @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add:
         </div>
         <br />
         <div class="input-group">
@@ -131,9 +136,9 @@ else
                     class="selectpicker"
                     data-live-search="true"
                     data-container="body"
-                    title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
+                    title="Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add"
                     data-width="70%">
-                <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
+                <option value="null" disabled selected>Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add</option>
                 <option ng-repeat="fundingSource in filteredFundingSources()"
                         value="{{fundingSource.FundingSourceID}}"
                         ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
@@ -194,7 +199,7 @@ else
                 </thead>
                 <tbody>
                     <tr style="font-weight: bold;">
-                        <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
+                        <td>All @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel())s:</td>
                         <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
                             {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
                         </td>
@@ -239,7 +244,7 @@ else
                 @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
                 @if (ViewDataTyped.ProjectUpdateStatus.IsExpendituresUpdated)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                 }
             </div>
             <div style="text-align: right; white-space: nowrap">

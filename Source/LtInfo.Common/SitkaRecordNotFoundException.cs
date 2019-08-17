@@ -25,13 +25,13 @@ namespace LtInfo.Common
     public class SitkaRecordNotFoundException : SitkaDisplayErrorException
     {
         public SitkaRecordNotFoundException(string objectName, int id)
-            : base(string.Format("Could not find {0} with ID# {1}", objectName, id)) {}
+            : base($"Could not find {objectName} with ID# {id}") {}
 
         public SitkaRecordNotFoundException(string objectName, Guid guid)
-            : base(string.Format("Could not find {0} with GUID {1}", objectName, guid)) { }
+            : base($"Could not find {objectName} with GUID {guid}") { }
 
         public SitkaRecordNotFoundException(string objectName, string matchingCriteria)
-            : base(string.Format("Could not find {0} with criteria \"{1}\"", objectName, matchingCriteria)) { }
+            : base($"Could not find {objectName} with criteria \"{matchingCriteria}\"") { }
 
         public SitkaRecordNotFoundException(string errorMessage) : base(errorMessage) { }
     }

@@ -9,10 +9,10 @@
             return $"Project: {ProjectID}, Organization: {OrganizationID}";
         }
 
-        public ProjectOrganization(Organization organization, RelationshipType relationshipType, string displayCssClass)
+        public ProjectOrganization(Organization organization, OrganizationRelationshipType organizationRelationshipType, string displayCssClass)
         {
             Organization = organization;
-            RelationshipType = relationshipType;
+            OrganizationRelationshipType = organizationRelationshipType;
             SetDisplayCssClass(displayCssClass);
         }
 
@@ -29,7 +29,7 @@
         public ProjectOrganization(IProjectOrganization projectOrganization)
         {
             Organization = projectOrganization.Organization;
-            RelationshipType = projectOrganization.RelationshipType;
+            OrganizationRelationshipType = projectOrganization.OrganizationRelationshipType;
         }
     }
 }

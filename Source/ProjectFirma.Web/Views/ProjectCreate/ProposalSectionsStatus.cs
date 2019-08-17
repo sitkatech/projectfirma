@@ -24,6 +24,7 @@ using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -44,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         }
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }
+        public bool IsProjectContactsSectionComplete { get; set; }
 
         public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes)
         {

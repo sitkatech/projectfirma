@@ -19,17 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
-using LtInfo.Common.Models;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectUpdate;
-using ProjectFirma.Web.Views.Shared;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
@@ -37,8 +26,19 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
+using LtInfo.Common.GeoJson;
+using LtInfo.Common.Models;
+using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectModelExtensions
     {
@@ -127,6 +127,19 @@ namespace ProjectFirmaModels.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
+        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+        public static List<ProjectRelevantCostType> GetExpendituresRelevantCostTypes(this Project project)
+        {
+            return project.ProjectRelevantCostTypes
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+                .OrderBy(x => x.CostTypeID).ToList();
+        }
+
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
         {
             var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
@@ -166,22 +179,28 @@ namespace ProjectFirmaModels.Models
         {
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
                 .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
-                .Select(x => new ProjectOrganizationRelationship(project, x, RelationshipTypeModelExtensions.RelationshipTypeNameFunder));
+                .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
 
         public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
-            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
             return explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList();
         }
 
         public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project)
         {
-            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.RelationshipType)).ToList();
+            var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
             explicitOrganizations.AddRange(project.GetFundingOrganizations());
             return explicitOrganizations;
+        }
+
+        public static List<ProjectContactRelationship> GetAssociatedContactRelationships(this Project project)
+        {
+            var contacts = project.ProjectContacts.Select(x => new ProjectContactRelationship(project, x.Contact, x.ContactRelationshipType)).ToList();
+            return contacts;
         }
 
         public static bool IsProjectNameUnique(IEnumerable<Project> projects, string projectName, int? currentProjectID)
@@ -232,7 +251,7 @@ namespace ProjectFirmaModels.Models
 
         public static IEnumerable<Organization> GetOrganizationsToReportInAccomplishments(this Project project)
         {
-            if (MultiTenantHelpers.GetRelationshipTypeToReportInAccomplishmentsDashboard() == null)
+            if (MultiTenantHelpers.GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard() == null)
             {
                 // Default is Funding Organizations
                 var organizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
@@ -241,7 +260,7 @@ namespace ProjectFirmaModels.Models
                 return organizations;
             }
 
-            return project.ProjectOrganizations.Where(x => x.RelationshipType.ReportInAccomplishmentsDashboard)
+            return project.ProjectOrganizations.Where(x => x.OrganizationRelationshipType.ReportInAccomplishmentsDashboard)
                 .Select(x => x.Organization).ToList();
         }
 
@@ -363,14 +382,19 @@ namespace ProjectFirmaModels.Models
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
+            var showFullName = (securedAmountsDictionary.Count + targetedAmountsDictionary.Count) <= 2;
+
             var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice("Secured Funding: " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
 
             }).ToList();
             googlePieChartSlices.AddRange(securedPieChartSlices);
@@ -379,10 +403,13 @@ namespace ProjectFirmaModels.Models
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
+                var displayName = showFullName
+                    ? fundingSource.GetDisplayName()
+                    : fundingSource.GetFixedLengthDisplayName();
 
                 var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + fundingSource.GetFixedLengthDisplayName(), Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
             googlePieChartSlices.AddRange(targetedPieChartSlices);
 
@@ -403,7 +430,7 @@ namespace ProjectFirmaModels.Models
 
         public static decimal GetEstimatedTotalCost(this Project project)
         {
-            return project.GetEstimatedTotalCost() ?? 0;
+            return project.GetEstimatedTotalRegardlessOfFundingType() ?? 0;
         }
 
         public static decimal? CalculateTotalRemainingOperatingCost(this IProject project)
@@ -414,13 +441,13 @@ namespace ProjectFirmaModels.Models
             }
 
             var startYearForRemaining = project.ImplementationStartYear.Value >= DateTime.Now.Year ? project.ImplementationStartYear.Value : DateTime.Now.Year;
-            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalCost().Value;
+            return (project.CompletionYear.Value - startYearForRemaining + 1) * project.GetEstimatedTotalRegardlessOfFundingType().Value;
         }
 
         public static bool CanCalculateTotalRemainingOperatingCostInYearOfExpenditure(this IProject project)
         {
             return project.FundingType == FundingType.BudgetSameEachYear
-                   && project.GetEstimatedTotalCost().HasValue
+                   && project.GetEstimatedTotalRegardlessOfFundingType().HasValue
                    && project.CompletionYear.HasValue
                    && project.ImplementationStartYear.HasValue
                    && project.ProjectStage.IsStageIncludedInCostCalculations();
@@ -615,10 +642,10 @@ namespace ProjectFirmaModels.Models
             var fundingOrganizations = project.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
-                .Where(x => x.RelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
+                .Where(x => x.OrganizationRelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
             associatedOrganizations.RemoveAll(x => x.OrganizationID == project.GetPrimaryContactOrganization()?.OrganizationID);
-            var organizationNames = associatedOrganizations.OrderByDescending(x => x.RelationshipType.IsPrimaryContact)
-                .ThenByDescending(x => x.RelationshipType.CanStewardProjects)
+            var organizationNames = associatedOrganizations.OrderByDescending(x => x.OrganizationRelationshipType.IsPrimaryContact)
+                .ThenByDescending(x => x.OrganizationRelationshipType.CanStewardProjects)
                 .ThenBy(x => x.Organization.OrganizationName).Select(x => x.Organization.OrganizationName)
                 .Distinct().ToList();
             return organizationNames.Any() ? String.Join(", ", organizationNames) : String.Empty;
@@ -702,7 +729,7 @@ namespace ProjectFirmaModels.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if (project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap && project.HasProjectLocationPoint())
+            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint())
             {
                 featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
             }

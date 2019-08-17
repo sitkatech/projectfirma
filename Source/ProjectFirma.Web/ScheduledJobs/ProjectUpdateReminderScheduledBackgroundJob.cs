@@ -3,6 +3,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.ScheduledJobs
 {
@@ -115,7 +116,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 .SelectMany(x => projectUpdateNotificationHelper.SendProjectUpdateReminderMessage(x)).ToList();
 
             var message =
-                $"Reminder emails sent to {projectsGroupedByPrimaryContact.Count} primary contacts for {projectsGroupedByPrimaryContact.Count} projects requiring an update.";
+                $"Reminder emails sent to {projectsGroupedByPrimaryContact.Count} {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabelPluralized()} for {projectsGroupedByPrimaryContact.Count} projects requiring an update.";
             Logger.Info(message);
 
             return notifications;

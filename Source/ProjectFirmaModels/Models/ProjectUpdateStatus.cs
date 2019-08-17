@@ -24,7 +24,6 @@ namespace ProjectFirmaModels.Models
     {
         public bool IsBasicsUpdated { get; }
         public bool IsReportedPerformanceMeasuresUpdated { get; }
-        public bool IsExpectedFundingUpdated { get; }
         public bool IsExpendituresUpdated { get; }
         public bool IsBudgetsUpdated { get; }
         public bool IsPhotosUpdated { get; }
@@ -33,6 +32,7 @@ namespace ProjectFirmaModels.Models
         public bool IsExternalLinksUpdated { get; }
         public bool IsNotesUpdated { get; }
         public bool IsOrganizationsUpdated { get; }
+        public bool IsContactsUpdated { get; }
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
         public bool IsTechnicalAssistanceRequestsUpdated { get;  }
 
@@ -45,10 +45,10 @@ namespace ProjectFirmaModels.Models
             bool isLocationDetailUpdated,
             bool isExternalLinksUpdated,
             bool isNotesUpdated,
-            bool isExpectedFundingUpdated,
             bool isOrganizationsUpdated, 
             bool isExpectedPerformanceMeasuresUpdated,
-            bool isTechnicalAssistanceRequestsUpdated)
+            bool isTechnicalAssistanceRequestsUpdated,
+            bool isContactsUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
             IsReportedPerformanceMeasuresUpdated = isReportedPerformanceMeasuresUpdated;
@@ -59,10 +59,10 @@ namespace ProjectFirmaModels.Models
             IsLocationDetailUpdated = isLocationDetailUpdated;
             IsExternalLinksUpdated = isExternalLinksUpdated;
             IsNotesUpdated = isNotesUpdated;
-            IsExpectedFundingUpdated = isExpectedFundingUpdated;
             IsOrganizationsUpdated = isOrganizationsUpdated;
             IsExpectedPerformanceMeasuresUpdated = isExpectedPerformanceMeasuresUpdated;
             IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
+            IsContactsUpdated = isContactsUpdated;
         }
     }
 }

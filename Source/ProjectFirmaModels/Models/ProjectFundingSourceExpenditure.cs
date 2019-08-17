@@ -19,10 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using LtInfo.Common;
+using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceExpenditure : IAuditableEntity, IFundingSourceExpenditure
+    public partial class ProjectFundingSourceExpenditure : IAuditableEntity, ICostTypeFundingSourceExpenditure
     {
         public decimal? GetMonetaryAmount()
         {
@@ -34,6 +35,16 @@ namespace ProjectFirmaModels.Models
             var expenditureAmount = ExpenditureAmount.ToStringCurrency();
             return
                 $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Year: {CalendarYear},  Expenditure: {expenditureAmount}";
+        }
+
+        public ProjectFundingSourceExpenditure(int projectID, int fundingSourceID, int calendarYear, decimal expenditureAmount, int? costTypeID) : this()
+        {
+            this.ProjectFundingSourceExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectID = projectID;
+            this.FundingSourceID = fundingSourceID;
+            this.CalendarYear = calendarYear;
+            this.ExpenditureAmount = expenditureAmount;
+            this.CostTypeID = costTypeID;
         }
     }
 }

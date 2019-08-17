@@ -1,0 +1,102 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectExpendituresByCostTypeDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectExpendituresByCostTypeDetail
+
+@if (ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
+{
+    <div class="table-responsive tableFixHeader">
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType) </th>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x))
+                    {
+                        <th class="text-right">
+                            @calendarYear
+                        </th>
+                    }
+                    <th class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+                {
+                    <tr class="info">
+                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                    </tr>
+                    foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
+                    {
+                        <tr>
+                            <td style="text-align:left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                            @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                            {
+                                <td style="text-align:right">
+                                    <span>@groupedByCostType.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                            }
+                            <td style="text-align:right">
+                                <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </td>
+                        </tr>
+                    }                    
+                }
+                <tr>
+                    <th style="text-align:left">Grand Total</th>
+                    @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                    {
+                        <th style="text-align:right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    }
+                    <th style="text-align:right">
+                        <span>@ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+}
+else
+{
+    <p class="systemText">No Expenditures have been reported for this @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</p>
+}
+
+
+@if (!ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.Any())
+{
+    <hr />
+    <table class="summaryLayout">
+        <tr>
+            <th>Comment:</th>
+            @if (ViewDataTyped.ExemptionExplanation == null)
+            {
+                <td style="font-style: italic">None provided</td>
+            }
+            else
+            {
+                <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
+            }
+        </tr>
+    </table>
+}
+

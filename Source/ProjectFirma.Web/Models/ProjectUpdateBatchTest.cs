@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Models
                         projectUpdateBatch.Approve(person,
                             DateTime.Now.AddDays(4),
                             new List<ProjectExemptReportingYear>(),
+                            new List<ProjectRelevantCostType>(),
                             new List<ProjectFundingSourceExpenditure>(),
                             new List<PerformanceMeasureActual>(),
                             new List<PerformanceMeasureActualSubcategoryOption>(),
@@ -115,11 +116,13 @@ namespace ProjectFirma.Web.Models
                             new List<ProjectGeospatialArea>(),
                             new List<ProjectGeospatialAreaTypeNote>(),
                             new List<ProjectFundingSourceBudget>(),
+                            new List<ProjectNoFundingSourceIdentified>(), 
                             new List<ProjectOrganization>(),
                             new List<ProjectDocument>(),
                             new List<ProjectCustomAttribute>(),
                             new List<ProjectCustomAttributeValue>(),
-                            new List<TechnicalAssistanceRequest>()),
+                            new List<TechnicalAssistanceRequest>(),
+                            new List<ProjectContact>()),
                     "Should not be allowed to approve yet");
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
 
@@ -134,6 +137,7 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.Approve(person,
                 DateTime.Now.AddDays(4),
                 new List<ProjectExemptReportingYear>(),
+                new List<ProjectRelevantCostType>(),
                 new List<ProjectFundingSourceExpenditure>(),
                 new List<PerformanceMeasureActual>(),
                 new List<PerformanceMeasureActualSubcategoryOption>(),
@@ -146,11 +150,13 @@ namespace ProjectFirma.Web.Models
                 new List<ProjectGeospatialArea>(),
                 new List<ProjectGeospatialAreaTypeNote>(),
                 new List<ProjectFundingSourceBudget>(),
+                new List<ProjectNoFundingSourceIdentified>(), 
                 new List<ProjectOrganization>(),
                 new List<ProjectDocument>(),
                 new List<ProjectCustomAttribute>(),
                 new List<ProjectCustomAttributeValue>(),
-                new List<TechnicalAssistanceRequest>());
+                new List<TechnicalAssistanceRequest>(),
+                new List<ProjectContact>());
             Assert.That(projectUpdateBatch.IsApproved(), Is.True);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);

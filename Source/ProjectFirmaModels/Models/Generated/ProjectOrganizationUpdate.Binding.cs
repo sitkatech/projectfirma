@@ -30,31 +30,31 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectOrganizationUpdate(int projectOrganizationUpdateID, int projectUpdateBatchID, int organizationID, int relationshipTypeID) : this()
+        public ProjectOrganizationUpdate(int projectOrganizationUpdateID, int projectUpdateBatchID, int organizationID, int organizationRelationshipTypeID) : this()
         {
             this.ProjectOrganizationUpdateID = projectOrganizationUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.OrganizationID = organizationID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectOrganizationUpdate(int projectUpdateBatchID, int organizationID, int relationshipTypeID) : this()
+        public ProjectOrganizationUpdate(int projectUpdateBatchID, int organizationID, int organizationRelationshipTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectOrganizationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.OrganizationID = organizationID;
-            this.RelationshipTypeID = relationshipTypeID;
+            this.OrganizationRelationshipTypeID = organizationRelationshipTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectOrganizationUpdate(ProjectUpdateBatch projectUpdateBatch, Organization organization, RelationshipType relationshipType) : this()
+        public ProjectOrganizationUpdate(ProjectUpdateBatch projectUpdateBatch, Organization organization, OrganizationRelationshipType organizationRelationshipType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectOrganizationUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -64,17 +64,17 @@ namespace ProjectFirmaModels.Models
             this.OrganizationID = organization.OrganizationID;
             this.Organization = organization;
             organization.ProjectOrganizationUpdates.Add(this);
-            this.RelationshipTypeID = relationshipType.RelationshipTypeID;
-            this.RelationshipType = relationshipType;
-            relationshipType.ProjectOrganizationUpdates.Add(this);
+            this.OrganizationRelationshipTypeID = organizationRelationshipType.OrganizationRelationshipTypeID;
+            this.OrganizationRelationshipType = organizationRelationshipType;
+            organizationRelationshipType.ProjectOrganizationUpdates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectOrganizationUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, Organization organization, RelationshipType relationshipType)
+        public static ProjectOrganizationUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, Organization organization, OrganizationRelationshipType organizationRelationshipType)
         {
-            return new ProjectOrganizationUpdate(projectUpdateBatch, organization, relationshipType);
+            return new ProjectOrganizationUpdate(projectUpdateBatch, organization, organizationRelationshipType);
         }
 
         /// <summary>
@@ -114,14 +114,14 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int OrganizationID { get; set; }
-        public int RelationshipTypeID { get; set; }
+        public int OrganizationRelationshipTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectOrganizationUpdateID; } set { ProjectOrganizationUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual RelationshipType RelationshipType { get; set; }
+        public virtual OrganizationRelationshipType OrganizationRelationshipType { get; set; }
 
         public static class FieldLengths
         {

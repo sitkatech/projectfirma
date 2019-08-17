@@ -24,7 +24,12 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostType()
         {
-
+            this.ProjectFundingSourceBudgets = new HashSet<ProjectFundingSourceBudget>();
+            this.ProjectFundingSourceBudgetUpdates = new HashSet<ProjectFundingSourceBudgetUpdate>();
+            this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
+            this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
+            this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
         }
 
         /// <summary>
@@ -62,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name};
 
 
         /// <summary>
@@ -84,8 +89,44 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in ProjectFundingSourceBudgets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectFundingSourceBudgetUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectFundingSourceExpenditures.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectFundingSourceExpenditureUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectRelevantCostTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectRelevantCostTypeUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -95,6 +136,12 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostTypeID; } set { CostTypeID = value; } }
 
+        public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get; set; }
+        public virtual ICollection<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get; set; }
+        public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
+        public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
+        public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
+        public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

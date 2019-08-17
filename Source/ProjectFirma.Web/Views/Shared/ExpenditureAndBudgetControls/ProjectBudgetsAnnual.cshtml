@@ -1,0 +1,79 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectBudgetsAnnual.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using LtInfo.Common
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetsAnnual
+<div class="table-responsive" style="margin-top: 25px; overflow-x: hidden">
+    @* Funding Sources *@
+    @* Annual Budgeting*@
+    @if (ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
+    {
+        <div class="table-responsive tableFixHeader">
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <th style="width: 390px;">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingSource.ToType())</th>
+                    <th class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th class="text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType()) @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th class="text-right">Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                </tr>
+                @foreach (var projectFundingSourceBudget in ViewDataTyped.ProjectFundingSourceBudgetsAnnual.OrderBy(x => x.FundingSource.GetDisplayName()))
+                {
+                    <tr>
+                        <td>@Html.Raw(projectFundingSourceBudget.FundingSource.GetDisplayNameAsUrl())</td>
+                        <th class="text-right">@projectFundingSourceBudget.SecuredAmount.ToStringCurrency()</th>
+                        <th class="text-right">@projectFundingSourceBudget.TargetedAmount.ToStringCurrency()</th>
+                        <th class="text-right">@(((projectFundingSourceBudget.TargetedAmount ?? 0) + (projectFundingSourceBudget.SecuredAmount ?? 0)).ToStringCurrency())</th>
+                    </tr>
+                }
+                <tr>
+                    <th>Total @(ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID ? " per year" : "")</th>
+                    <th class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount).ToStringCurrency()</th>
+                    <th class="text-right">@ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount).ToStringCurrency()</th>
+                    <th class="text-right">@((ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.SecuredAmount) + ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Sum(x => x.TargetedAmount)).ToStringCurrency())</th>
+                </tr>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p class="systemText">No @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()) identified for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+    }
+</div>
+@if (!ViewDataTyped.ProjectFundingSourceBudgetsAnnual.Any())
+{
+    <hr />
+}
+<table class="summaryLayout">
+    <tr>
+        <th>Comment:</th>
+        @if (ViewDataTyped.ExpectedFundingUpdateNote == null)
+        {
+            <td style="font-style: italic">None provided</td>
+        }
+        else
+        {
+            <td>@Html.Raw(ViewDataTyped.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
+        }
+    </tr>
+</table>

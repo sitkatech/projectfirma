@@ -66,8 +66,8 @@ namespace ProjectFirma.Web.Views.Project
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));
             }
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
-            AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType.FundingTypeName);
-            AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.GetEstimatedTotalCost());
+            AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType?.FundingTypeName);
+            AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.GetEstimatedTotalRegardlessOfFundingType());
             AddColumn(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
             AddColumn(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetTargetedFunding());
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
@@ -96,7 +96,22 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Name", x => x.Organization.OrganizationName);
             AddColumn($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.Organization.GetPrimaryContactPersonWithOrgAsString());
             AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
-            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Relationship To {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x => x.RelationshipTypeName);
+            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Relationship To {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x => x.OrganizationRelationshipTypeName);
+        }
+    }
+
+    public class ProjectImplementingContactsExcelSpec : ExcelWorksheetSpec<ProjectContactRelationship>
+    {
+        public ProjectImplementingContactsExcelSpec()
+        {
+            AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
+            AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"Person ID", x => x.Contact.PersonID);
+            AddColumn($"Contact First Name", x => x.Contact.FirstName);
+            AddColumn($"Contact Last Name", x => x.Contact.LastName);
+            AddColumn($"Contact Email", x => x.Contact.Email);
+            AddColumn($"Contact Organization", x => x.Contact.Organization.OrganizationName);
+            AddColumn($"Contact Relationship Type", x => x.ContactRelationshipTypeName);
         }
     }
 

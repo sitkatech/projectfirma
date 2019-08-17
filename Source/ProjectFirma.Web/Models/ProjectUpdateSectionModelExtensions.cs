@@ -22,6 +22,8 @@ namespace ProjectFirma.Web.Models
                     return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:
                     return projectUpdateBatch.AreOrganizationsValid();
+                case ProjectUpdateSectionEnum.Contacts:
+                    return projectUpdateBatch.AreContactsValid();
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
@@ -60,14 +62,20 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
                 case ProjectUpdateSectionEnum.Organizations:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Organizations(project));
+                case ProjectUpdateSectionEnum.Contacts:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Contacts(project));
                 case ProjectUpdateSectionEnum.LocationDetailed:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project));
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ReportedPerformanceMeasures(project));
                 case ProjectUpdateSectionEnum.Budget:
-                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project));
+                    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                            ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
+                            : SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID));
                 case ProjectUpdateSectionEnum.Expenditures:
-                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
+                    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
+                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
+                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
                 case ProjectUpdateSectionEnum.Photos:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(project));
                 case ProjectUpdateSectionEnum.ExternalLinks:

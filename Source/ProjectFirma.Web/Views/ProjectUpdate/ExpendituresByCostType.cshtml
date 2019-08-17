@@ -1,0 +1,229 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ExpendituresByCostType.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.ProjectUpdate
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
+@inherits ExpendituresByCostType
+
+@section JavascriptAndStylesContent
+{
+    @if (ViewDataTyped.IsEditable && ViewDataTyped.AreProjectBasicsValid)
+    {
+        <script src="@Url.Content("~/Views/ProjectUpdate/ExpendituresByCostTypeController.js")" type="text/javascript"></script>
+        <script type="text/javascript">
+            // <![CDATA[
+            angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+            {
+                return {
+                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                };
+            });
+            // ]]>
+        </script>
+
+        <style>
+            .fundingSourceHeaderRow {
+                background-color: #d9edf7;
+            }
+        </style>
+    }
+}
+
+Enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s annual expenditures by @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel().
+If the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() has no expenditures to report in any year provide an explanation.
+<hr />
+@if (!ViewDataTyped.IsEditable)
+{
+    ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
+}
+else if (!ViewDataTyped.AreProjectBasicsValid)
+{
+    <div class="alert alert-danger">
+        @FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection
+    </div>
+}
+else
+{
+    using (Html.BeginForm())
+    {
+        <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresByCostTypeController" style="overflow-x: auto">
+            <div class="form-group">
+                <label>1. Are there expenditures to enter?</label>
+                <label><input type="radio" name="@Html.NameFor(x => x.HasExpenditures)" ng-value="true" ng-model="AngularModel.HasExpenditures" /> Yes</label>
+                <label><input type="radio" name="@Html.NameFor(x => x.HasExpenditures)" ng-value="false" ng-model="AngularModel.HasExpenditures" /> No</label>
+                <div style="margin-left: 20px" ng-show="!AngularModel.HasExpenditures">
+                    <textarea name="@Html.NameFor(x => x.Explanation)" placeholder="If no, please enter explanation here" ng-model="AngularModel.Explanation" class="form-control"></textarea>
+                </div>
+            </div>
+            <div ng-show="AngularModel.HasExpenditures">
+                <div class="form-group">
+                    <label class="control-label">2. Select the @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized() that are relevant to the  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</label>
+                    <div style="margin-left: 20px">
+                        <label ng-repeat="costType in AngularModel.ProjectRelevantCostTypes | orderBy:'CostTypeName'" style="padding-right: 10px">
+                            <input type="checkbox" ng-model="costType.IsRelevant" ng-click="addRemoveCostTypeFromExpenditures()" /> <span ng-bind="costType.CostTypeName"></span>
+                        </label>
+                    </div>
+                </div>
+                <div ng-show="getRelevantCostTypes().length === 0">
+                    <p class="systemText">Select at least one @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel() to enter expenditures.</p>
+                </div>
+                <div ng-show="getRelevantCostTypes().length > 0">
+                    <div class="form-group">
+                        <div style="display: inline-block; vertical-align: top">
+                            <label>3. Identify the @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s  @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized(). You can add more than one.</label>
+                        </div>
+                        <br />
+                        <div class="input-group" style="padding-bottom: 5px; margin-left: 20px">
+                            <select ng-model="fundingSourceIDToAdd"
+                                    class="selectpicker"
+                                    data-live-search="true"
+                                    data-container="body"
+                                    title="Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add"
+                                    data-width="70%">
+                                <option value="null" disabled selected>Select a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to Add</option>
+                                <option ng-repeat="fundingSource in filteredFundingSources()"
+                                        value="{{fundingSource.FundingSourceID}}"
+                                        ng-selected="fundingSourceIDToAdd == fundingSource.FundingSourceID"
+                                        ng-bind="fundingSource.DisplayName"
+                                        data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}} "></option>
+                            </select>
+                            <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
+                            <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
+                                Not listed?
+                                @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
+                            </span>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">4. Enter expenditures for each year, @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel(), and @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabel().</label>
+                    </div>
+                    <div style="margin-left: 20px">
+                        <p style="margin-left: 20px" class="systemText" ng-show="getAllUsedFundingSourceIds().length === 0">Add a @ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabel() to start entering expenditures</p>
+                        <table class="table-responsive table-condensed table-bordered" style="display: block; overflow: auto;" ng-show="getAllUsedFundingSourceIds().length > 0">
+                            <thead>
+                                <tr>
+                                    <th style="white-space: nowrap" colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</th>
+                                    <th ng-repeat="calendarYear in calendarYearRange" style="text-align: right; vertical-align: top">
+                                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                                        <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$first && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
+                                        <span ng-bind="calendarYear"></span>
+                                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$last" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                                        <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$last && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
+                                    </th>
+                                    <th style="text-align: right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
+                                <tr class="fundingSourceHeaderRow">
+                                    <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
+                                    <td colspan="{{calendarYearRange.length + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
+                                </tr>
+                                @* Expenditure Entry Rows *@
+                                <tr ng-repeat="projectFundingSourceExpenditure in getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceID)">
+                                    <td style="width: 30px; min-width: 30px;"></td>
+                                    <td ng-bind="getCostTypeName(projectFundingSourceExpenditure)" />
+                                    <td style="text-align: right;" ng-repeat="calendarYearExpenditure in getRelevantCalendarYearExpenditures(projectFundingSourceExpenditure) | orderBy:'CalendarYear'">
+                                        <input type="text" ng-model="calendarYearExpenditure.MonetaryAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                    </td>
+                                    <th style="text-align: right"> {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}</th>
+                                </tr>
+                                @* Sum of expenditures for funding source*@
+                                <tr ng-show="getRelevantCostTypes().length > 1">
+                                    <td style="width: 30px; min-width: 30px;"></td>
+                                    <th style="white-space: nowrap">
+                                        All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
+                                    </th>
+                                    <th style="text-align: right;" ng-repeat="calendarYear in calendarYearRange">
+                                        <span> {{getExpenditureTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
+                                    </th>
+                                    <th style="text-align: right"> {{getExpenditureTotalForFundingSource(fundingSourceID) | currency:"$"}}</th>
+                                </tr>
+                            </tbody>
+                            <tbody style="border-top: 2px solid #ddd">
+                                <tr>
+                                    <td colspan="2"><label class="control-label">Total Expenditures</label></td>
+                                    <th ng-repeat="calendarYear in calendarYearRange" style="text-align: right"> {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}</th>
+                                    <th style="text-align: right"> {{getExpenditureTotalForCalendarYear() | currency:"$"}}</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="projectFundingSourceExpenditure in getRelevantProjectFundingSourceExpenditures()">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.ProjectID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.FundingSourceID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.CostTypeID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.IsRelevant}}" />
+                <div ng-repeat="calendarYearExpenditure in getRelevantCalendarYearExpenditures(projectFundingSourceExpenditure) | orderBy:'CalendarYear'">
+                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].CalendarYear).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.CalendarYear}}" />
+                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}" />
+                    <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].IsRelevant).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.IsRelevant}}" />
+                </div>
+            </div>
+            <div ng-repeat="projectRelevantCostType in AngularModel.ProjectRelevantCostTypes">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.CostTypeID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].CostTypeName).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.CostTypeName}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.ProjectID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].ProjectRelevantCostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.ProjectRelevantCostTypeID}}" />
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.IsRelevant}}" />
+            </div>
+
+
+            @if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <hr />
+                <div class="row form-group">
+                    <div class="col-md-3">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
+                    </div>
+                </div>
+            }
+            <hr />
+            @{ SectionComments.RenderPartialView(Html, ViewDataTyped.SectionCommentsViewData); }
+            <div class="row">
+                <div class="col-xs-6">
+                    @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
+                    @if (ViewDataTyped.ProjectUpdateStatus.IsExpendituresUpdated)
+                    {
+                        @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Expenditures", ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                    }
+                </div>
+                <div style="text-align: right; white-space: nowrap">
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
+                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
+    // ]]>
+</script>

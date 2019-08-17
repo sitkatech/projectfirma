@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -31,7 +30,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     public class ExpectedFundingViewData : ProjectCreateViewData
     {
         public string RequestFundingSourceUrl { get; }
-        public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
 
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
@@ -42,7 +40,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
             ViewDataForAngular = viewDataForAngularClass;
         }
 

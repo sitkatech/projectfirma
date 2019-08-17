@@ -9,18 +9,30 @@ CREATE TABLE [dbo].[ProjectFundingSourceExpenditure](
 	[FundingSourceID] [int] NOT NULL,
 	[CalendarYear] [int] NOT NULL,
 	[ExpenditureAmount] [money] NOT NULL,
+	[CostTypeID] [int] NULL,
  CONSTRAINT [PK_ProjectFundingSourceExpenditure_ProjectFundingSourceExpenditureID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectFundingSourceExpenditureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectFundingSourceExpenditure_ProjectID_FundingSourceID_CalendarYear] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectFundingSourceExpenditure_ProjectID_FundingSourceID_CostTypeID_CalendarYear] UNIQUE NONCLUSTERED 
 (
 	[ProjectID] ASC,
 	[FundingSourceID] ASC,
+	[CostTypeID] ASC,
 	[CalendarYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID] FOREIGN KEY([CostTypeID])
+REFERENCES [dbo].[CostType] ([CostTypeID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure] CHECK CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID]
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID_TenantID] FOREIGN KEY([CostTypeID], [TenantID])
+REFERENCES [dbo].[CostType] ([CostTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectFundingSourceExpenditure] CHECK CONSTRAINT [FK_ProjectFundingSourceExpenditure_CostType_CostTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectFundingSourceExpenditure]  WITH CHECK ADD  CONSTRAINT [FK_ProjectFundingSourceExpenditure_FundingSource_FundingSourceID] FOREIGN KEY([FundingSourceID])
 REFERENCES [dbo].[FundingSource] ([FundingSourceID])

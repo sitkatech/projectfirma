@@ -18,16 +18,25 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public class ProjectFundingSourceExpenditureBulk
     {
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
+
+        // Only used by ExpendituredByCostType pages
+        public bool? IsRelevant { get; set; }
+        // Only used by ExpendituredByCostType pages
+        public int? CostTypeID { get; set; }
+
         public List<CalendarYearMonetaryAmount> CalendarYearExpenditures { get; set; }
 
         /// <summary>
@@ -44,7 +53,7 @@ namespace ProjectFirmaModels.Models
             ProjectID = projectFundingSourceExpenditure.ProjectID;
             FundingSourceID = projectFundingSourceExpenditure.FundingSourceID;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
-            Add(projectFundingSourceExpenditures);
+            AddProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
             CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
@@ -57,10 +66,50 @@ namespace ProjectFirmaModels.Models
             ProjectID = projectFundingSourceExpenditureUpdate.ProjectUpdateBatch.ProjectID;
             FundingSourceID = projectFundingSourceExpenditureUpdate.FundingSourceID;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
-            Add(projectFundingSourceExpenditureUpdates);
+            AddProjectFundingSourceExpenditureUpdates(projectFundingSourceExpenditureUpdates);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
             CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+        }
+
+        private ProjectFundingSourceExpenditureBulk(int projectID, int fundingSourceID, int costTypeID,
+            List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, IEnumerable<int> calendarYearsToPopulate)
+        {
+            ProjectID = projectID;
+            FundingSourceID = fundingSourceID;
+            CostTypeID = costTypeID;
+            IsRelevant = true;
+            var calendarYearMonetaryAmounts = projectFundingSourceExpenditures.Select(x =>
+            {
+                Check.Require(x.ProjectID == ProjectID && x.FundingSourceID == FundingSourceID,
+                    "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
+                return new CalendarYearMonetaryAmount(x.CalendarYear, x.ExpenditureAmount, true);
+            }).ToList();
+            // we need to fill in the other calendar years with blanks
+            var usedCalendarYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
+            calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, 0, true)));
+            CalendarYearExpenditures = calendarYearMonetaryAmounts;
+        }
+
+        private ProjectFundingSourceExpenditureBulk(int projectID, int fundingSourceID, int costTypeID,
+            List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates,
+            IEnumerable<int> calendarYearsToPopulate)
+        {
+            ProjectID = projectID;
+            FundingSourceID = fundingSourceID;
+            CostTypeID = costTypeID;
+            IsRelevant = true;
+            var calendarYearMonetaryAmounts =
+                projectFundingSourceExpenditureUpdates.Select(projectFundingSourceExpenditureUpdate =>
+                {
+                    Check.Require(projectFundingSourceExpenditureUpdate.ProjectUpdateBatch.ProjectID == ProjectID && projectFundingSourceExpenditureUpdate.FundingSourceID == FundingSourceID,
+                        "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
+                    return new CalendarYearMonetaryAmount(projectFundingSourceExpenditureUpdate.CalendarYear, projectFundingSourceExpenditureUpdate.ExpenditureAmount, true);
+                }).ToList();
+            // we need to fill in the other calendar years with blanks
+            var usedCalendarYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
+            calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, 0, true)));
+            CalendarYearExpenditures = calendarYearMonetaryAmounts;
         }
 
         public static List<ProjectFundingSourceExpenditureBulk> MakeFromList(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures, List<int> calendarYears)
@@ -75,24 +124,60 @@ namespace ProjectFirmaModels.Models
             return groupedByProjectFundingSource.Select(grouping => new ProjectFundingSourceExpenditureBulk(grouping.First(), grouping.ToList(), calendarYearsToPopulate)).ToList();
         }
 
-        public void Add(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        public static List<ProjectFundingSourceExpenditureBulk> MakeFromListByCostType(Project project, List<int> calendarYearsToPopulate)
         {
-            projectFundingSourceExpenditures.ForEach(Add);
+            var projectID = project.ProjectID;
+            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+            var distinctFundingSources = projectFundingSourceExpenditures.Select(x => x.FundingSourceID).Distinct().ToList();
+            var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
+            var projectFundingSourceExpenditureBulks = new List<ProjectFundingSourceExpenditureBulk>();
+            foreach (var fundingSourceID in distinctFundingSources)
+            {
+                foreach (var costTypeID in allCostTypeIDs)
+                {
+                    var expendituresForThisFundingSourceAndCostType = projectFundingSourceExpenditures.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
+                    projectFundingSourceExpenditureBulks.Add(new ProjectFundingSourceExpenditureBulk(projectID, fundingSourceID, costTypeID, expendituresForThisFundingSourceAndCostType, calendarYearsToPopulate));
+                }
+            }
+            return projectFundingSourceExpenditureBulks;
         }
 
-        public void Add(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates)
+        public static List<ProjectFundingSourceExpenditureBulk> MakeFromListByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
         {
-            projectFundingSourceExpenditureUpdates.ForEach(Add);
+            var projectID = projectUpdateBatch.ProjectID;
+            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            var distinctFundingSources = projectFundingSourceExpenditureUpdates.Select(x => x.FundingSourceID).Distinct().ToList();
+            var allCostTypeIDs = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeID).ToList();
+            var projectFundingSourceExpenditureBulks = new List<ProjectFundingSourceExpenditureBulk>();
+            foreach (var fundingSourceID in distinctFundingSources)
+            {
+                foreach (var costTypeID in allCostTypeIDs)
+                {
+                    var expendituresForThisFundingSourceAndCostType = projectFundingSourceExpenditureUpdates.Where(x => x.FundingSourceID == fundingSourceID && x.CostTypeID == costTypeID).ToList();
+                    projectFundingSourceExpenditureBulks.Add(new ProjectFundingSourceExpenditureBulk(projectID, fundingSourceID, costTypeID, expendituresForThisFundingSourceAndCostType, calendarYearsToPopulate));
+                }
+            }
+            return projectFundingSourceExpenditureBulks;
         }
 
-        public void Add(ProjectFundingSourceExpenditure projectFundingSourceExpenditure)
+        public void AddProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
+        {
+            projectFundingSourceExpenditures.ForEach(AddProjectFundingSourceExpenditure);
+        }
+
+        public void AddProjectFundingSourceExpenditureUpdates(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates)
+        {
+            projectFundingSourceExpenditureUpdates.ForEach(AddProjectFundingSourceExpenditureUpdate);
+        }
+
+        public void AddProjectFundingSourceExpenditure(ProjectFundingSourceExpenditure projectFundingSourceExpenditure)
         {
             Check.Require(projectFundingSourceExpenditure.ProjectID == ProjectID && projectFundingSourceExpenditure.FundingSourceID == FundingSourceID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
             CalendarYearExpenditures.Add(new CalendarYearMonetaryAmount(projectFundingSourceExpenditure.CalendarYear, projectFundingSourceExpenditure.ExpenditureAmount));
         }
 
-        public void Add(ProjectFundingSourceExpenditureUpdate projectFundingSourceExpenditureUpdate)
+        public void AddProjectFundingSourceExpenditureUpdate(ProjectFundingSourceExpenditureUpdate projectFundingSourceExpenditureUpdate)
         {
             Check.Require(projectFundingSourceExpenditureUpdate.ProjectUpdateBatch.ProjectID == ProjectID && projectFundingSourceExpenditureUpdate.FundingSourceID == FundingSourceID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
@@ -104,9 +189,21 @@ namespace ProjectFirmaModels.Models
             // ReSharper disable PossibleInvalidOperationException
             return
                 CalendarYearExpenditures.Where(x => x.MonetaryAmount.HasValue)
-                    .Select(x => new ProjectFundingSourceExpenditure(ProjectID, FundingSourceID, x.CalendarYear, x.MonetaryAmount.Value))
+                    .Select(x => new ProjectFundingSourceExpenditure(ProjectID, FundingSourceID, x.CalendarYear, x.MonetaryAmount.Value, CostTypeID))
                     .ToList();
             // ReSharper restore PossibleInvalidOperationException
+        }
+
+        /// <summary>
+        /// Used by Expenditures by cost type
+        /// </summary>
+        /// <returns></returns>
+        public List<ProjectFundingSourceExpenditure> ToProjectFundingSourceExpendituresSetNullToZero()
+        {
+            return
+                CalendarYearExpenditures.Where(x => x.IsRelevant ?? false)
+                    .Select(x => new ProjectFundingSourceExpenditure(ProjectID, FundingSourceID, x.CalendarYear, x.MonetaryAmount ?? 0, CostTypeID))
+                    .ToList();
         }
 
         public List<ProjectFundingSourceExpenditureUpdate> ToProjectFundingSourceExpenditureUpdates(ProjectUpdateBatch projectUpdateBatch)
@@ -114,9 +211,21 @@ namespace ProjectFirmaModels.Models
             // ReSharper disable PossibleInvalidOperationException
             return
                 CalendarYearExpenditures.Where(x => x.MonetaryAmount.HasValue)
-                    .Select(x => new ProjectFundingSourceExpenditureUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.MonetaryAmount.Value))
+                    .Select(x => new ProjectFundingSourceExpenditureUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.MonetaryAmount.Value, CostTypeID))
                     .ToList();
             // ReSharper restore PossibleInvalidOperationException
+        }
+
+        /// <summary>
+        /// Used by Expenditures by cost type
+        /// </summary>
+        /// <returns></returns>
+        public List<ProjectFundingSourceExpenditureUpdate> ToProjectFundingSourceExpenditureUpdatesSetNullToZero(ProjectUpdateBatch projectUpdateBatch)
+        {
+            return
+                CalendarYearExpenditures.Where(x => x.IsRelevant ?? false)
+                    .Select(x => new ProjectFundingSourceExpenditureUpdate(projectUpdateBatch.ProjectUpdateBatchID, FundingSourceID, x.CalendarYear, x.MonetaryAmount ?? 0, CostTypeID))
+                    .ToList();
         }
     }
 }

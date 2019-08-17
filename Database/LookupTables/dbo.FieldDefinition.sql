@@ -68,7 +68,7 @@ VALUES
 (242, N'ClassificationNarrative', N'Classification Narrative', N'<p>Descriptive text describing the criteria for including a project in this classification system.</p>'),
 (243, N'TaxonomySystemName', N'Taxonomy System Name', N'<p>The customized name for the hierarchical project taxonomy system.<p>'),
 (244, N'TaxonomyLeafDisplayNameForProject', N'Taxonomy Tier One Display Name For Project', N'<p>A custom label describing how a Project relates to it''s highest Taxonomy tier..</p>'),
-(245, N'ProjectRelationshipType', N'Project Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>'),
+(245, N'ProjectOrganizationRelationshipType', N'Project Organization Relationship Type', N'<p>A categorization of a relationship between an organization and a project, e.g. Funder, Implementer.</p>'),
 (246, N'ProjectSteward', N'Project Steward', N'<p>A person who can approve Project Proposals, create new Projects, approve Project Updates, and create Funding Sources for their Organization.</p>'),
 (248, N'TargetedFunding', N'Targeted Funding', N'<p>Funding that has been identified for a project but has not been acquired such as planned grant applications.</p>'),
 (249, N'ProjectStewardOrganizationDisplayName', N'Project Steward Organization Display Name', N'<p>Label for Organization types that can steward projects.</p>'),
@@ -107,4 +107,10 @@ VALUES
 (282, N'FundingSourceCustomAttribute', N'Funding Source Custom Attribute', N''),
 (283, N'FundingSourceCustomAttributeDataType', N'Funding Source Custom Attribute Data Type', N''),
 (284, N'FundingSourceCustomAttributeTypeEditableBy', 'Funding Source Custom Attribute Editable By' , N'This field definition is in reference to who can edit a specific custom attribute, Admins and Sitka Admins can edit any custom attribute'),
-(285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute')
+(285, N'FundingSourceCustomAttributeTypeViewableBy', 'Funding Source Custom Attribute Viewable By', N'This field definition is in reference to who can view a specific custom attribute, Admins and Sitka Admins can view any custom attribute'),
+(286, N'ContactType', N'Contact Type', N'<p>A categorization of a contact.</p>'),
+(287, N'ContactTypeAbbreviation', N'Contact Type Abbreviation', N'An Abbreviation of the Contact Type. Must be unique.'),
+(288, N'IsDefaultContactType', N'Is Default Contact Type?', 'Contacts that are automatically added to the list when a new user logs in must be given a Contact Type. This field identifies which Contact Type to use as the default. Only one Contact Type can be the default (e.g. IsDefaultContactType=1 for only one).'),
+(289, N'ProjectContactRelationshipType', N'Project Contact Relationship Type', N'<p>A categorization of a relationship between a contact and a project, e.g. Technical Lead, Project Manager, Landowner.</p>'),
+(290, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.'),
+(291, N'ProjectAttachmentRelationshipType', N'Project Attachment Relationship Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>')

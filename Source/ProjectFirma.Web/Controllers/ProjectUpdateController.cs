@@ -22,6 +22,7 @@ using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -30,11 +31,11 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-using ProjectFirma.Web.Views.ProjectFunding;
-using ProjectFirma.Web.Views.ProjectUpdate;
+//using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
@@ -52,7 +53,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -82,13 +83,15 @@ namespace ProjectFirma.Web.Controllers
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
-        public const string ProjectExpectedFundingPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectFundingRequestsDetail.cshtml";
+        public const string ProjectBudgetPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsDetail.cshtml";
+        public const string ProjectBudgetByCostTypePartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsByCostTypeSummary.cshtml";
         public const string ImageGalleryPartialViewPath = "~/Views/Shared/ImageGallery.cshtml";
         public const string ExternalLinksPartialViewPath = "~/Views/Shared/TextControls/EntityExternalLinks.cshtml";
         public const string EntityNotesPartialViewPath = "~/Views/Shared/TextControls/EntityNotes.cshtml";
         public const string ProjectOrganizationsPartialViewPath = "~/Views/Shared/ProjectOrganization/ProjectOrganizationsDetail.cshtml";
+        public const string ProjectContactsPartialViewPath = "~/Views/Shared/ProjectContact/ProjectContactsDetail.cshtml";
         public const string PerformanceMeasureExpectedSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/PerformanceMeasureExpectedValuesSummary.cshtml";
-        public const string TechnicalAssistanceRequestPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/TechnicalAssistanceRequestsSummary.cshtml";
+        public const string ProjectExpendituresByCostTypeSummaryPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresByCostTypeSummary.cshtml";
 
         //public const string ProjectDocumentsPartialViewPath = "~/Views/Shared/ProjectDocument/ProjectDocumentsDetail.cshtml";
 
@@ -656,11 +659,13 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
             projectUpdateBatch.DeleteExpendituresProjectExemptReportingYearUpdates();
+            projectUpdateBatch.DeleteExpendituresProjectRelevantCostTypeUpdates();
             projectUpdateBatch.DeleteProjectFundingSourceExpenditureUpdates();
 
             // refresh the data
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
             ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
@@ -672,6 +677,72 @@ namespace ProjectFirma.Web.Controllers
                 new ConfirmDialogFormViewData(
                     $"Are you sure you want to refresh the expenditures for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} and use the updated start and completion years from the Basics section. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectRelevantCostTypes = projectUpdateBatch.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID, x.CostTypeName)));
+
+            var viewModel = new ExpendituresByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectRelevantCostTypes);
+            return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            if (!ModelState.IsValid)
+            {
+                var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+                return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+            }
+            viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ExpendituresComment = viewModel.Comments;
+            }
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
+        }
+
+        private ViewResult ViewExpendituresByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
+        {
+            var project = projectUpdateBatch.Project;
+            var projectExemptReportingYearUpdates = projectUpdateBatch.GetExpendituresExemptReportingYears();
+            var showNoExpendituresExplanation = projectExemptReportingYearUpdates.Any();
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var expendituresValidationResult = projectUpdateBatch.ValidateExpendituresByCostType();
+
+            var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
+            var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var projectExpendituresSummaryViewData = new ProjectExpendituresByCostTypeDetailViewData(projectUpdateBatch.NoExpendituresToReportExplanation,
+                projectFundingSourceCostTypeExpenditureAmounts);
+            var viewData = new ExpendituresByCostTypeViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, 
+                GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
+            return RazorView<ExpendituresByCostType, ExpendituresByCostTypeViewData, ExpendituresByCostTypeViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -729,9 +800,11 @@ namespace ProjectFirma.Web.Controllers
                 fundingTypes,
                 projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear,
                 projectUpdateBatch.ProjectUpdate.CompletionYear);
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, projectUpdateBatch.Project, false, new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates));
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, projectUpdateBatch);
+            var projectBudgetsAnnualViewData = new ProjectBudgetsAnnualViewData(CurrentPerson, projectUpdateBatch);
 
-            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectFundingDetailViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
+
+            var viewData = new ExpectedFundingViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
             return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
         }
 
@@ -755,6 +828,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
             // refresh data
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Need to revert project-level budget data too
             projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
@@ -770,6 +844,128 @@ namespace ProjectFirma.Web.Controllers
                     $"Are you sure you want to refresh the budget for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var calendarYearRange = projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectUpdateRelevantCostTypes = projectUpdateBatch.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectUpdateRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectUpdateRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
+            var viewModel = new ExpectedFundingByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectUpdateRelevantCostTypes);
+            return ViewExpectedFundingByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingByCostTypeViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+                return ViewExpectedFundingByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+            }
+            viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
+            }
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
+        }
+
+        private ViewResult ViewExpectedFundingByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpectedFundingByCostTypeViewModel viewModel)
+        {
+            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+            var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
+            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
+            var viewDataForAngularEditor = new ExpectedFundingByCostTypeViewData.ViewDataForAngularClass(projectUpdateBatch, 
+                allFundingSources, 
+                allCostTypes, 
+                calendarYearRange, 
+                fundingTypes);
+
+            var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult();
+            var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, projectUpdateBatch);
+            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, projectUpdateBatch) : null;
+
+
+            var viewData = new ExpectedFundingByCostTypeViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult);
+            return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
+        }
+
+        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts, projectUpdateBatch.ExpectedFundingUpdateNote);
+            return projectBudgetsAnnualByCostTypeViewData;
+        }
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult RefreshExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshExpectedFundingByCostType(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
+            projectUpdateBatch.DeleteProjectNoFundingSourceIdentifiedUpdates();
+            // refresh data
+            ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            // Need to revert project-level budget data too
+            projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
+            if (project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+            {
+                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
+            }
+            else
+            {
+                ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            }
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshExpectedFundingByCostType(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the budget for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
 
         [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult Photos(ProjectPrimaryKey projectPrimaryKey)
@@ -1516,10 +1712,14 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectRelevantCostTypes.Load();
+            var allProjectRelevantCostTypes = HttpRequestStorage.DatabaseEntities.AllProjectRelevantCostTypes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
             var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
+            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
@@ -1551,10 +1751,13 @@ namespace ProjectFirma.Web.Controllers
             // Technical Assistance Requests for Idaho
             HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Load();
             var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
+            var allProjectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
 
             projectUpdateBatch.Approve(CurrentPerson,
                 DateTime.Now,
                 allProjectExemptReportingYears,
+                allProjectRelevantCostTypes,
                 allProjectFundingSourceExpenditures,
                 allPerformanceMeasureActuals,
                 allPerformanceMeasureActualSubcategoryOptions,
@@ -1567,11 +1770,13 @@ namespace ProjectFirma.Web.Controllers
                 allProjectGeospatialAreas,
                 allProjectGeospatialAreaTypeNotes,
                 allProjectFundingSourceBudgets,
+                allProjectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests);
+                allTechnicalAssistanceRequests,
+                allProjectContacts);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -1590,6 +1795,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void WriteHtmlDiffLogs(ProjectPrimaryKey projectPrimaryKey, ProjectUpdateBatch projectUpdateBatch)
         {
+            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var basicsDiffContainer = DiffBasicsImpl(projectPrimaryKey);
             if (basicsDiffContainer.HasChanged)
             {
@@ -1604,20 +1810,21 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.PerformanceMeasureDiffLogHtmlString = new HtmlString(performanceMeasureDiffHelper.Build());
             }
 
-            var expendituresDiffContainer = DiffExpendituresImpl(projectPrimaryKey);
+            // Call the correct diff format based on BudgetType
+            var expendituresDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectPrimaryKey) : DiffExpendituresImpl(projectPrimaryKey);
             if (expendituresDiffContainer.HasChanged)
             {
                 var expendituresDiffHelper = new HtmlDiff.HtmlDiff(expendituresDiffContainer.OriginalHtml, expendituresDiffContainer.UpdatedHtml);
                 projectUpdateBatch.ExpendituresDiffLogHtmlString = new HtmlString(expendituresDiffHelper.Build());
             }
 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //var budgetsDiffContainer = DiffBudgetsImpl(projectPrimaryKey);
-            //if (budgetsDiffContainer.HasChanged)
-            //{
-            //    var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
-            //    projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
-            //}
+            // Call the correct diff format based on BudgetType
+            var budgetsDiffContainer = budgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectPrimaryKey) : DiffExpectedFundingImpl(projectPrimaryKey);
+            if (budgetsDiffContainer.HasChanged)
+            {
+                var budgetsDiffHelper = new HtmlDiff.HtmlDiff(budgetsDiffContainer.OriginalHtml, budgetsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.BudgetsDiffLogHtmlString = new HtmlString(budgetsDiffHelper.Build());
+            }
 
             var externalLinksDiffContainer = DiffExternalLinksImpl(projectPrimaryKey);
             if (externalLinksDiffContainer.HasChanged)
@@ -2155,12 +2362,12 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
-            var projectExemptReportingYearsOriginal = project.ProjectExemptReportingYears.Select(x => x.CalendarYear).ToList();
+            var projectExemptReportingYearsOriginal = project.ProjectExemptReportingYears.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).Select(x => x.CalendarYear).ToList();
             var projectHasNoExpendituresToReportOriginal = project.NoExpendituresToReportExplanation;
             var projectFundingSourceExpendituresOriginal = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearsOriginal = projectFundingSourceExpendituresOriginal.CalculateCalendarYearRangeForExpenditures(project);
 
-            var projectExemptReportingYearsUpdated = projectUpdateBatch.ProjectExemptReportingYearUpdates.Select(x => x.CalendarYear).ToList();
+            var projectExemptReportingYearsUpdated = projectUpdateBatch.ProjectExemptReportingYearUpdates.Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures).Select(x => x.CalendarYear).ToList();
             var projectHasNoExpendituresToReportUpdated = projectUpdateBatch.NoExpendituresToReportExplanation;
             var projectFundingSourceExpendituresUpdated = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearsUpdated = projectFundingSourceExpendituresUpdated.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
@@ -2257,6 +2464,99 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffExpendituresByCostTypeImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffExpendituresByCostTypeImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current Project Update for Project {project.GetDisplayName()}");
+
+            var projectFundingSourceExpendituresOriginal = project.ProjectFundingSourceExpenditures.ToList();
+            var calendarYearsOriginal = projectFundingSourceExpendituresOriginal.CalculateCalendarYearRangeForExpenditures(project);
+            var projectFundingSourceExpendituresModified = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            var calendarYearsUpdated = projectFundingSourceExpendituresModified.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
+
+            var originalHtml = GeneratePartialViewForOriginalExpendituresByCostType(new List<ICostTypeFundingSourceExpenditure>(projectFundingSourceExpendituresOriginal),
+                calendarYearsOriginal,
+                new List<ICostTypeFundingSourceExpenditure>(projectFundingSourceExpendituresModified),
+                calendarYearsUpdated);
+
+            var updatedHtml = GeneratePartialViewForModifiedExpendituresByCostType(new List<ICostTypeFundingSourceExpenditure>(projectFundingSourceExpendituresOriginal),
+                calendarYearsOriginal,
+                new List<ICostTypeFundingSourceExpenditure>(projectFundingSourceExpendituresModified),
+                calendarYearsUpdated);
+            var htmlDiffContainer = new HtmlDiffContainer(originalHtml, updatedHtml);
+            return htmlDiffContainer;
+        }
+
+        private string GeneratePartialViewForOriginalExpendituresByCostType(List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpendituresOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpendituresModified,
+            List<int> calendarYearsUpdated)
+        {
+            var fundingSourcesInOriginal = costTypeFundingSourceExpendituresOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = costTypeFundingSourceExpendituresModified.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
+
+            var projectExpenditureByCostTypesInOriginal = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresOriginal,
+                calendarYearsOriginal);
+            var projectExpenditureByCostTypesInModified = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresModified, calendarYearsUpdated);
+
+            // find the ones that are only in the modified set and add them and mark them as "added"
+            projectExpenditureByCostTypesInOriginal.AddRange(
+                projectExpenditureByCostTypesInModified.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
+                    .Select(x => ProjectExpenditureByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+                    .ToList());
+            // find the ones only in original and mark them as "deleted"
+            projectExpenditureByCostTypesInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList()
+                .ForEach(x =>
+                {
+                    x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
+                });
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForExpendituresByCostTypeAsString(projectExpenditureByCostTypesInOriginal, calendarYearStrings);
+        }
+
+        private string GeneratePartialViewForModifiedExpendituresByCostType(List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpendituresOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceExpenditure> costTypeFundingSourceExpendituresModified,
+            List<int> calendarYearsUpdated)
+        {
+            var fundingSourcesInOriginal = costTypeFundingSourceExpendituresOriginal.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = costTypeFundingSourceExpendituresModified.Select(x => x.FundingSourceID).Distinct().ToList();
+            var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
+
+            var projectExpenditureByCostTypesInOriginal = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresOriginal, calendarYearsOriginal);
+            var projectExpenditureByCostTypesInUpdated = ProjectExpenditureByCostType.CreateFromProjectFundingSourceExpenditures(costTypeFundingSourceExpendituresModified, calendarYearsUpdated);
+
+            // find the ones that are only in the original set and add them and mark them as "deleted"
+            projectExpenditureByCostTypesInUpdated.AddRange(
+                projectExpenditureByCostTypesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
+                    .Select(x => ProjectExpenditureByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+                    .ToList());
+            // find the ones only in modified and mark them as "added"
+            projectExpenditureByCostTypesInUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForExpendituresByCostTypeAsString(projectExpenditureByCostTypesInUpdated, calendarYearStrings);
+        }
+
+        private string GeneratePartialViewForExpendituresByCostTypeAsString(List<ProjectExpenditureByCostType> projectExpenditureByCostTypes, List<CalendarYearString> calendarYearStrings)
+        {
+            var costTypes = projectExpenditureByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList();
+            var viewData = new ProjectExpendituresByCostTypeSummaryViewData(projectExpenditureByCostTypes, calendarYearStrings, costTypes);
+            var partialViewAsString = RenderPartialViewToString(ProjectExpendituresByCostTypeSummaryPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult DiffExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
         {
             var htmlDiffContainer = DiffExpectedFundingImpl(projectPrimaryKey);
@@ -2270,14 +2570,14 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             var projectFundingSourceBudgetsOriginal = new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
             var projectFundingSourceBudgetsUpdated = new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
-            var originalHtml = GeneratePartialViewForOriginalFundingRequests(project.FundingTypeID, project.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated, project.NoFundingSourceIdentifiedYet, project.PlanningDesignStartYear, project.CompletionYear);
+            var originalHtml = GeneratePartialViewForOriginalFundingRequests(project.FundingTypeID, project.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated, project.NoFundingSourceIdentifiedYet, project.PlanningDesignStartYear, project.CompletionYear, project.ExpectedFundingUpdateNote);
             var updatedHtml = GeneratePartialViewForModifiedFundingRequests(projectUpdateBatch.ProjectUpdate.FundingTypeID, projectUpdateBatch.ProjectUpdate.FundingType?.FundingTypeDisplayName, projectFundingSourceBudgetsOriginal, projectFundingSourceBudgetsUpdated, 
-                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet, projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear, projectUpdateBatch.ProjectUpdate.CompletionYear);
+                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet, projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear, projectUpdateBatch.ProjectUpdate.CompletionYear, projectUpdateBatch.ExpectedFundingUpdateNote);
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
         private string GeneratePartialViewForOriginalFundingRequests(int? fundingTypeIdOriginal, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetOriginal, int? planningDesignStartYear, int? completionYear)
+    List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetOriginal, int? planningDesignStartYear, int? completionYear, string expectedFundingUpdateNote)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
@@ -2286,11 +2586,11 @@ namespace ProjectFirma.Web.Controllers
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
-            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdOriginal, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetOriginal, planningDesignStartYear, completionYear);
+            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdOriginal, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetOriginal, planningDesignStartYear, completionYear, expectedFundingUpdateNote);
         }
 
         private string GeneratePartialViewForModifiedFundingRequests(int? fundingTypeIdUpdated, string fundingTypeDisplayName, List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsOriginal,
-            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetUpdated, int? planningDesignStartYear, int? completionYear)
+            List<IFundingSourceBudgetAmount> projectFundingSourceBudgetsUpdated, decimal? noFundingSourceIdentifiedYetUpdated, int? planningDesignStartYear, int? completionYear, string expectedFundingUpdateNote)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsOriginal.Select(x => x.FundingSource.FundingSourceID).ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsUpdated.Select(x => x.FundingSource.FundingSourceID).ToList();
@@ -2299,13 +2599,117 @@ namespace ProjectFirma.Web.Controllers
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
                 new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
-            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdUpdated, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetUpdated, planningDesignStartYear, completionYear);
+            return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdUpdated, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetUpdated, planningDesignStartYear, completionYear, expectedFundingUpdateNote);
         }
 
-        private string GeneratePartialViewForExpectedFundingAsString(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear)
+        private string GeneratePartialViewForExpectedFundingAsString(int? fundingTypeID, string fundingTypeDisplayName, List<FundingSourceBudgetAmount> fundingSourceRequestAmounts, decimal? noFundingSourceIdentifiedYet, int? planningDesignStartYear, int? completionYear, string expectedFundingUpdateNote)
         {
-            var viewData = new ProjectFundingRequestsDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear);
-            var partialViewAsString = RenderPartialViewToString(ProjectExpectedFundingPartialViewPath, viewData);
+            var viewData = new ProjectBudgetsDetailViewData(fundingTypeID, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYet, planningDesignStartYear, completionYear, expectedFundingUpdateNote);
+            var partialViewAsString = RenderPartialViewToString(ProjectBudgetPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffExpectedFundingByCostTypeImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffExpectedFundingByCostTypeImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+
+            var fundingTypeOriginal = project.FundingType;
+            var fundingTypeUpdated = projectUpdateBatch.ProjectUpdate.FundingType;
+
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var projectFundingSourceCostTypeAmountsOriginal = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
+            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
+            var projectFundingSourceCostTypeAmountsUpdated = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
+
+            var noFundingSourceIdentifiedOriginal = project.GetNoFundingSourceIdentifiedAmount();
+            var noFundingSourceIdentifiedUpdated = projectUpdateBatch.ProjectUpdate.GetNoFundingSourceIdentifiedAmount();
+
+            var estimatedTotalOriginal = project.GetEstimatedTotalRegardlessOfFundingType();
+            var estimatedTotalUpdated = projectUpdateBatch.ProjectUpdate.GetEstimatedTotalRegardlessOfFundingType();
+
+            var projectFundingSourceBudgetsByCostTypeOriginal = new List<ICostTypeFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets.ToList());
+            var calendarYearsOriginal = project.FundingType == FundingType.BudgetVariesByYear ? project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears() : new List<int>();
+            var projectFundingSourceBudgetsByCostTypeUpdated = new List<ICostTypeFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList());
+            var calendarYearsUpdated = projectUpdateBatch.ProjectUpdate.FundingType == FundingType.BudgetVariesByYear ? projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears() : new List<int>();
+
+            var originalHtml = GeneratePartialViewForOriginalBudgetsByCostType(fundingTypeOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), 
+                calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, project.ExpectedFundingUpdateNote);
+            var updatedHtml = GeneratePartialViewForModifiedBudgetsByCostType(fundingTypeUpdated, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeOriginal), 
+                calendarYearsOriginal, new List<ICostTypeFundingSourceBudgetAmount>(projectFundingSourceBudgetsByCostTypeUpdated), calendarYearsUpdated, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated, projectUpdateBatch.ExpectedFundingUpdateNote);
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForOriginalBudgetsByCostType(FundingType fundingTypeOriginal, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedOriginal, decimal? estimatedTotalOriginal,
+            List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsOriginal,
+            string expectedFundingUpdateNote)
+        {
+            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
+
+            var projectBudgetByCostTypesInOriginal = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeOriginal, calendarYearsOriginal);
+            var projectBudgetByCostTypesInModified = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeUpdated, calendarYearsUpdated);
+
+            // find the ones that are only in the modified set and add them and mark them as "added"
+            projectBudgetByCostTypesInOriginal.AddRange(
+                projectBudgetByCostTypesInModified.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassAddedElement))
+                    .ToList());
+            // find the ones only in original and mark them as "deleted"
+            projectBudgetByCostTypesInOriginal.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList()
+                .ForEach(x =>
+                {
+                    x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement;
+                });
+
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeOriginal, projectBudgetByCostTypesInOriginal, calendarYearStrings, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, expectedFundingUpdateNote);
+        }
+
+        private string GeneratePartialViewForModifiedBudgetsByCostType(FundingType fundingTypeUpdated, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+            List<int> calendarYearsOriginal,
+            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedUpdated, decimal? estimatedTotalUpdated, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsUpdated, string expectedFundingUpdateNote)
+        {
+            var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
+            var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
+
+            var projectBudgetByCostTypesInOriginal = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeOriginal, calendarYearsOriginal);
+            var projectBudgetByCostTypesInModified = ProjectBudgetByCostType.CreateFromProjectBudgets(projectFundingSourceBudgetsByCostTypeUpdated, calendarYearsUpdated);
+
+            // find the ones that are only in the original set and add them and mark them as "deleted"
+            projectBudgetByCostTypesInModified.AddRange(
+                projectBudgetByCostTypesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSourceID))
+                    .Select(x => ProjectBudgetByCostType.Clone(x, HtmlDiffContainer.DisplayCssClassDeletedElement))
+                    .ToList());
+            // find the ones only in modified and mark them as "added"
+            projectBudgetByCostTypesInModified.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
+
+            var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
+            return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeUpdated, projectBudgetByCostTypesInModified, calendarYearStrings, noFundingSourceIdentifiedUpdated, estimatedTotalUpdated, projectFundingSourceCostTypeAmountsUpdated, expectedFundingUpdateNote);
+        }
+
+        private string GeneratePartialViewForBudgetsByCostTypeAsString(FundingType fundingType, List<ProjectBudgetByCostType> projectBudgetsByCostTypes, List<CalendarYearString> calendarYearStrings, decimal? noFundingSourceIdentified, decimal? estimatedTotal, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote)
+        {
+            var costTypes = projectBudgetsByCostTypes.Any(x => x.ProjectCostTypeCalendarYearBudgetAmounts != null) ? projectBudgetsByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.Select(y => y.CostType)).Distinct(new HavePrimaryKeyComparer<CostType>()).ToList() : projectFundingSourceCostTypeAmounts.Select(x => x.CostType).Distinct().ToList();
+
+            var viewData = new ProjectBudgetsByCostTypeSummaryViewData(fundingType, projectBudgetsByCostTypes, calendarYearStrings, costTypes, noFundingSourceIdentified, estimatedTotal, projectFundingSourceCostTypeAmounts, expectedFundingUpdateNote);
+            var partialViewAsString = RenderPartialViewToString(ProjectBudgetByCostTypePartialViewPath, viewData);
             return partialViewAsString;
         }
 
@@ -2380,6 +2784,7 @@ namespace ProjectFirma.Web.Controllers
             switch (project.ProjectLocationSimpleType.ToEnum)
             {
                 case ProjectLocationSimpleTypeEnum.PointOnMap:
+                case ProjectLocationSimpleTypeEnum.LatLngInput:
                     if (project.ProjectLocationPoint == null || projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null)
                     {
                         SitkaLogger.Instance.LogDetailedErrorMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectID} appears to have inconsistent simple location configuration.");
@@ -2661,12 +3066,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 allPeople.Add(CurrentPerson);
             }
-            var allRelationshipTypes = HttpRequestStorage.DatabaseEntities.RelationshipTypes.ToList();
+            var allOrganizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList();
             var defaultPrimaryContact = projectUpdateBatch.Project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             
-            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allRelationshipTypes, defaultPrimaryContact);
+            var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, allOrganizations, allPeople, allOrganizationRelationshipTypes, defaultPrimaryContact);
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.RelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
             var viewData = new OrganizationsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
@@ -2674,11 +3079,13 @@ namespace ProjectFirma.Web.Controllers
 
         private ProjectUpdateStatus GetUpdateStatus(ProjectUpdateBatch projectUpdateBatch)
         {
+            if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
+            {
+                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
+            }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isExpendituresUpdated = DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged;
-//            var isBudgetsUpdated = DiffBudgetsImpl(projectUpdateBatch.ProjectID).HasChanged;
-            // ReSharper disable once ConvertToConstant.Local
-            var isBudgetsUpdated = false;
+            var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
+            var isBudgetsUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpectedFundingByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -2687,9 +3094,10 @@ namespace ProjectFirma.Web.Controllers
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
-            var isExpectedFundingUpdated = DiffExpectedFundingImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
+
+            var isContactsUpdated = DiffContactsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             var isExpectedPerformanceMeasuresUpdated = DiffExpectedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
 
@@ -2698,17 +3106,16 @@ namespace ProjectFirma.Web.Controllers
             return new ProjectUpdateStatus(isBasicsUpdated,
                 isPerformanceMeasuresUpdated,
                 isExpendituresUpdated,
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 isBudgetsUpdated,
                 projectUpdateBatch.IsPhotosUpdated,
                 isLocationSimpleUpdated,
                 isLocationDetailUpdated,
                 isExternalLinksUpdated,
                 isNotesUpdated,
-                isExpectedFundingUpdated,
                 isOrganizationsUpdated,
                 isExpectedPerformanceMeasuresUpdated,
-                isTechnicalAssistanceRequestsUpdated);
+                isTechnicalAssistanceRequestsUpdated,
+                isContactsUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -2815,7 +3222,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             projectOrganizations.AddRange(projectOrganizationsUpdated.Where(x => !organizationsInOriginal.Contains(x, comparer)).Select(x =>
-                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+                new ProjectOrganization(x.Organization, x.OrganizationRelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
@@ -2835,7 +3242,7 @@ namespace ProjectFirma.Web.Controllers
             var projectOrganizations = projectOrganizationsUpdated.Select(x => new ProjectOrganization(x)).ToList();
 
             projectOrganizations.AddRange(projectOrganizationsOriginal.Where(x => !organizationsInUpdated.Contains(x, comparer)).Select(x =>
-                new ProjectOrganization(x.Organization, x.RelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+                new ProjectOrganization(x.Organization, x.OrganizationRelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             projectOrganizations
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
@@ -2845,17 +3252,202 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.RelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }
 
         public class ProjectOrganizationEqualityComparer : EqualityComparerByProperty<IProjectOrganization>
         {
-            public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.RelationshipType.RelationshipTypeID})
+            public ProjectOrganizationEqualityComparer() : base(x => new {x.Organization.OrganizationID, x.OrganizationRelationshipType.OrganizationRelationshipTypeID })
             {
             }
         }
+
+
+        #region 'Contacts'
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult Contacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            var viewModel = new ContactsViewModel(projectUpdateBatch);
+
+            return ViewContacts(projectUpdateBatch, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Contacts(ProjectPrimaryKey projectPrimaryKey, ContactsViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewContacts(projectUpdateBatch, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectContactUpdates.Load();
+            var projectContactUpdates = projectUpdateBatch.ProjectContactUpdates.ToList();
+            var allProjectContactUpdates = HttpRequestStorage.DatabaseEntities.AllProjectContactUpdates.Local;
+
+            viewModel.UpdateModel(projectUpdateBatch, projectContactUpdates, allProjectContactUpdates);
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.ContactsComment = viewModel.Comments;
+            }
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Contact successfully saved.");
+
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
+                ProjectUpdateSection.Contacts.ProjectUpdateSectionDisplayName);
+        }
+
+        private ActionResult ViewContacts(ProjectUpdateBatch projectUpdateBatch, ContactsViewModel viewModel)
+        {
+            var updateStatus = GetUpdateStatus(projectUpdateBatch);
+            var contactsValidationResult = projectUpdateBatch.ValidateContacts();
+
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
+            if (!allPeople.Contains(CurrentPerson))
+            {
+                allPeople.Add(CurrentPerson);
+            }
+            var allContactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList();
+
+            var editContactsViewData = new EditContactsViewData(allPeople, allContactRelationshipTypes);
+
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var viewData = new ContactsViewData(CurrentPerson, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);
+
+            return RazorView<Contacts, ContactsViewData, ContactsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult RefreshContacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshContacts(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshContacts(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectContactUpdates();
+            // refresh data
+            ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshContacts(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the Contacts for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffContacts(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffContactsImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        private HtmlDiffContainer DiffContactsImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+
+            var projectContactsOriginal = new List<IProjectContact>(project.ProjectContacts.ToList());
+            var projectContactsUpdated = new List<IProjectContact>(projectUpdateBatch.ProjectContactUpdates.ToList());
+
+            var updatedHtml = GeneratePartialViewForModifiedContacts(projectContactsOriginal, projectContactsUpdated, projectUpdateBatch.ProjectUpdate);
+            var originalHtml = GeneratePartialViewForOriginalContacts(projectContactsOriginal, projectContactsUpdated, projectUpdateBatch.Project);
+
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForModifiedContacts(
+            List<IProjectContact> projectContactsOriginal,
+            List<IProjectContact> projectContactsUpdated, ProjectUpdate projectUpdate)
+        {
+            var contactsInOriginal = projectContactsOriginal;
+            var contactsInUpdated = projectContactsUpdated;
+            var comparer = new ProjectContactEqualityComparer();
+
+            var contactsOnlyInOriginal = contactsInOriginal.Where(x => !contactsInUpdated.Contains(x, comparer)).ToList();
+            var projectContacts = projectContactsOriginal.Select(x => new ProjectContact(x)).ToList();
+
+
+            projectContacts.AddRange(projectContactsUpdated.Where(x => !contactsInOriginal.Contains(x, comparer)).Select(x =>
+                new ProjectContact(x.Contact, x.ContactRelationshipType, HtmlDiffContainer.DisplayCssClassAddedElement)));
+            projectContacts
+                .Where(x => contactsOnlyInOriginal.Contains(x, comparer)).ToList()
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
+
+            return GeneratePartialViewForContactsAsString(projectContacts, projectUpdate.GetPrimaryContact());
+        }
+
+        private string GeneratePartialViewForOriginalContacts(
+            List<IProjectContact> projectContactsOriginal,
+            List<IProjectContact> projectContactsUpdated, Project project)
+        {
+            var contactsInOriginal = projectContactsOriginal;
+            var contactsInUpdated = projectContactsUpdated;
+            var comparer = new ProjectContactEqualityComparer();
+
+            var contactsOnlyInUpdated = contactsInUpdated.Where(x => !contactsInOriginal.Contains(x, comparer)).ToList();
+            var projectContacts = projectContactsUpdated.Select(x => new ProjectContact(x)).ToList();
+
+            projectContacts.AddRange(projectContactsOriginal.Where(x => !contactsInUpdated.Contains(x, comparer)).Select(x =>
+                new ProjectContact(x.Contact, x.ContactRelationshipType, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+            projectContacts
+                .Where(x => contactsOnlyInUpdated.Contains(x, comparer)).ToList()
+                .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
+
+            return GeneratePartialViewForContactsAsString(projectContacts, project.GetPrimaryContact());
+        }
+
+        private string GeneratePartialViewForContactsAsString(IEnumerable<ProjectContact> projectContacts, Person primaryContactPerson)
+        {
+            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var partialViewAsString = RenderPartialViewToString(ProjectContactsPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+
+        public class ProjectContactEqualityComparer : EqualityComparerByProperty<IProjectContact>
+        {
+            public ProjectContactEqualityComparer() : base(x => new { x.Contact.PersonID, x.ContactRelationshipType.ContactRelationshipTypeID })
+            {
+            }
+        }
+        #endregion 'Contacts'
+
+
+
 
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 

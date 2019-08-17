@@ -1,0 +1,133 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectBudgetSummary.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetSummary
+<div class="table-responsive" style="overflow-x: hidden">
+    @* Funding Basics *@
+
+    @* If the Budget Changes per year *@
+    @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+    {
+        @* Estimated Total Cost *@
+        <div class="row">
+            <div class="col-xs-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()
+            </div>
+        </div>
+        @* Secured Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
+            </div>
+        </div>
+        @* Targeted Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency()
+            </div>
+        </div>
+        @* No Funding Source Identified *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency()
+            </div>
+        </div>
+
+        if (!ViewDataTyped.HasFundingSources)
+        {
+            <hr />
+        }
+    }
+    @* If the Budget is the Same Each Year *@
+    else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+    {
+        @* Estimated Annual Cost *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.CalculatedTotalRemainingOperatingCost.ToType())
+            </div>
+            @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
+            {
+                <div class="col-xs-9">
+                    <span>@ViewDataTyped.ProjectFundingCalculatedCosts.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span>
+                    <span>(For years @ViewDataTyped.ProjectFundingCalculatedCosts.StartYearForTotalCostCalculation-@ViewDataTyped.Project.CompletionYear)</span>
+                </div>
+            }
+        </div>
+        @* Secured Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency() per year
+            </div>
+        </div>
+        @* Targeted Funding *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() per year
+            </div>
+        </div>
+        @* No Funding Source Identified *@
+        <div class="row">
+            <div class="col-xs-3">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.NoFundingSourceIdentified.ToType())
+            </div>
+            <div class="col-xs-9">
+                @ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmountOrZero().ToStringCurrency() per year
+            </div>
+        </div>
+
+        if (!ViewDataTyped.HasFundingSources)
+        {
+            <hr />
+        }
+    }
+    else
+    {
+        <p class="systemText">No Budget has been reported for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</p>
+    }
+</div>

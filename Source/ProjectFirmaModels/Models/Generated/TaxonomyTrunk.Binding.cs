@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected TaxonomyTrunk()
         {
+            this.AttachmentRelationshipTypeTaxonomyTrunks = new HashSet<AttachmentRelationshipTypeTaxonomyTrunk>();
             this.TaxonomyBranches = new HashSet<TaxonomyBranch>();
         }
 
@@ -66,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return TaxonomyBranches.Any();
+            return AttachmentRelationshipTypeTaxonomyTrunks.Any() || TaxonomyBranches.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(TaxonomyBranch).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyTrunk).Name, typeof(AttachmentRelationshipTypeTaxonomyTrunk).Name, typeof(TaxonomyBranch).Name};
 
 
         /// <summary>
@@ -97,6 +98,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in AttachmentRelationshipTypeTaxonomyTrunks.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in TaxonomyBranches.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -120,6 +126,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyTrunkID; } set { TaxonomyTrunkID = value; } }
 
+        public virtual ICollection<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get; set; }
         public virtual ICollection<TaxonomyBranch> TaxonomyBranches { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

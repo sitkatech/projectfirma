@@ -51,10 +51,10 @@ namespace ProjectFirma.Web.Views.Results
                 tenantAttribute.AccomplishmentsDashboardFundingDisplayTypeID;
             IncludeReportingOrganizationType = tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType;
             RelationshipTypetoIncludeID = MultiTenantHelpers
-                .GetRelationshipTypeToReportInAccomplishmentsDashboard()?.RelationshipTypeID;
+                .GetOrganizationRelationshipTypeToReportInAccomplishmentsDashboard()?.OrganizationRelationshipTypeID;
         }
 
-        public void UpdateModel(IQueryable<RelationshipType> relationshipTypes)
+        public void UpdateModel(IQueryable<OrganizationRelationshipType> organizationRelationshipTypes)
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             tenantAttribute.AccomplishmentsDashboardAccomplishmentsButtonTextHtmlString =
@@ -69,10 +69,10 @@ namespace ProjectFirma.Web.Views.Results
             tenantAttribute.AccomplishmentsDashboardIncludeReportingOrganizationType =
                 IncludeReportingOrganizationType ?? false; // Should never be null due to Required validation
 
-            foreach (var relationshipType in relationshipTypes)
+            foreach (var organizationRelationshipType in organizationRelationshipTypes)
             {
-                relationshipType.ReportInAccomplishmentsDashboard =
-                    relationshipType.RelationshipTypeID == RelationshipTypetoIncludeID;
+                organizationRelationshipType.ReportInAccomplishmentsDashboard =
+                    organizationRelationshipType.OrganizationRelationshipTypeID == RelationshipTypetoIncludeID;
             }
         }
 

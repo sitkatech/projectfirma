@@ -38,29 +38,29 @@ namespace ProjectFirmaModels.Models
         {
             OrganizationID = projectOrganization.OrganizationID;
             OrganizationName = projectOrganization.Organization.OrganizationName;
-            RelationshipTypeID = projectOrganization.RelationshipTypeID;
+            OrganizationRelationshipTypeID = projectOrganization.OrganizationRelationshipTypeID;
         }
 
         public ProjectOrganizationSimple(ProjectOrganizationUpdate projectOrganization)
         {
             OrganizationID = projectOrganization.OrganizationID;
             OrganizationName = projectOrganization.Organization.OrganizationName;
-            RelationshipTypeID = projectOrganization.RelationshipTypeID;
+            OrganizationRelationshipTypeID = projectOrganization.OrganizationRelationshipTypeID;
         }
 
-        public ProjectOrganizationSimple(int organizationID, int relationshipTypeID)
+        public ProjectOrganizationSimple(int organizationID, int organizationRelationshipTypeId)
         {
             OrganizationID = organizationID;
-            RelationshipTypeID = relationshipTypeID;
+            OrganizationRelationshipTypeID = organizationRelationshipTypeId;
         }
 
         public int OrganizationID { get; set; }
-        public int RelationshipTypeID { get; set; }
+        public int OrganizationRelationshipTypeID { get; set; }
         public string OrganizationName { get; private set; }
 
         public ProjectOrganizationUpdate ToProjectOrganizationUpdate(ProjectUpdateBatch projectUpdateBatch)
         {
-            return new ProjectOrganizationUpdate(projectUpdateBatch.ProjectUpdateBatchID, OrganizationID, RelationshipTypeID);
+            return new ProjectOrganizationUpdate(projectUpdateBatch.ProjectUpdateBatchID, OrganizationID, OrganizationRelationshipTypeID);
         }
     }
 }

@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Models
             {
                 return Role.ProjectSteward.RoleID == person.RoleID &&
                        canStewardProjectsOrganizationRelationship != null &&
-                       canStewardProjectsOrganizationRelationship.OrganizationTypeRelationshipTypes.Any(
+                       canStewardProjectsOrganizationRelationship.OrganizationTypeOrganizationRelationshipTypes.Any(
                            x => x.OrganizationTypeID == person.Organization.OrganizationTypeID);
             }
 

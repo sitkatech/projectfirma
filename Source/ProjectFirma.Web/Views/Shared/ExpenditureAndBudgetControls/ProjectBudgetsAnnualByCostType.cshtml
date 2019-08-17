@@ -1,0 +1,195 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectBudgetsAnnualByCostType.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirmaModels.Models
+@using LtInfo.Common
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls.ProjectBudgetsAnnualByCostType
+
+<style>
+    .targetedFunding {
+        font-style: italic;
+        color: #6e6e6e;
+    }
+</style>
+<div class="table-responsive" style="margin-top: 25px; overflow-x: hidden">
+    @* Funding Sources *@
+    @* Annual Budgeting by Cost Type*@
+    @if (ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
+    {
+        if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
+        {
+            <div class="table-responsive tableFixHeader">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">
+                            <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
+                        </th>
+                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
+                        {
+
+                            <th colspan="2" style="text-align: center">
+                                <span>@calendarYear</span>
+                            </th>
+                        }
+                        <th rowspan="2" class="text-right">Total</th>
+                    </tr>
+                    <tr>
+                        @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
+                        {
+                            <th class="text-right">
+                                <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                            </th>
+                            <th class="targetedFunding" style="text-align: right; vertical-align: top">
+                                <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                            </th>
+                        }
+                    </tr>
+                    </thead>
+                    <tbody style="border-top: 2px solid #ddd">
+                    @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeAmounts.GroupBy(x => x.FundingSourceID))
+                    {
+                        <tr class="info">
+                            <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count * 2 + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                        </tr>
+                        foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
+                        {
+                            <tr>
+                                <td style="text-align: left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                                @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                                {
+                                    <td style="text-align: right">
+                                        <span>@groupedByCostType.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                    </td>
+                                    <td class="targetedFunding" style="text-align: right">
+                                        <span>@groupedByCostType.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                    </td>
+                                }
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                            </tr>
+                        }                        
+
+                    }
+                    <tr>
+                        <th style="text-align: left">Grand Total</th>
+                        @foreach (var calendarYear in ViewDataTyped.CalendarYears)
+                        {
+                            <th style="text-align: right">
+                                <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </th>
+                            <th class="targetedFunding" style="text-align: right">
+                                <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.CalendarYear == calendarYear && x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                            </th>
+                        }
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+        {
+            <div class="table-responsive tableFixHeader">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">
+                                <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
+                            </th>
+                            <th colspan="3" style="text-align: center">Per Year</th>
+                        </tr>
+                    <tr>
+                        <th class="text-right">
+                            <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                        </th>
+                        <th class="targetedFunding" style="text-align: right; vertical-align: top">
+                            <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                        </th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody style="border-top: 2px solid #ddd">
+                    @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeAmounts.GroupBy(x => x.FundingSourceID))
+                    {
+                        <tr class="info">
+                            <td style="text-align: left; white-space: nowrap;" colspan="5">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                        </tr>
+                        foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
+                        {
+                            <tr>
+                                <td style="text-align: left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                                <td class="targetedFunding"  style="text-align: right">
+                                    <span>@groupedByCostType.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                                <td style="text-align: right">
+                                    <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                                </td>
+                            </tr>
+                        }                       
+                    }
+                    <tr>
+                        <th style="text-align: left">Grand Total</th>
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.IsSecured == true).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                        <th class="targetedFunding" style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                        <th style="text-align: right">
+                            <span>@ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="systemText">No @(ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized()) identified for this @(ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()).</p>
+    }
+</div>
+@if (!ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
+{
+    <hr />
+}
+<table class="summaryLayout">
+    <tr>
+        <th>Comment:</th>
+        @if (ViewDataTyped.ExpectedFundingUpdateNote == null)
+        {
+            <td style="font-style: italic">None provided</td>
+        }
+        else
+        {
+            <td>@Html.Raw(ViewDataTyped.ExpectedFundingUpdateNote.HtmlEncodeWithBreaks())</td>
+        }
+    </tr>
+</table>

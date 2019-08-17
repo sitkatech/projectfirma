@@ -20,14 +20,38 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
+using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectFundingSourceBudgetUpdate : IFundingSourceBudgetAmount, IAuditableEntity
+    public partial class ProjectFundingSourceBudgetUpdate : IAuditableEntity, ICostTypeFundingSourceBudgetAmount
     {
         public string GetAuditDescriptionString()
         {
             return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
+        }
+        public decimal? GetMonetaryAmount(bool isSecured)
+        {
+            return isSecured ? SecuredAmount : TargetedAmount;
+        }
+
+        public void SetSecuredAndTargetedAmounts(decimal? securedAmount, decimal? targetedAmount)
+        {
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+        }
+
+        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        {
+            ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
+            ProjectUpdateBatch = projectUpdateBatch;
+            FundingSourceID = fundingSource.FundingSourceID;
+            FundingSource = fundingSource;
+            CalendarYear = calendarYear;
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+            CostTypeID = costTypeID;
         }
     }
 }

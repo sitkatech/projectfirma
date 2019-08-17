@@ -19,12 +19,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.OrganizationID).HasColumnName(@"OrganizationID").HasColumnType("int").IsRequired();
-            Property(x => x.RelationshipTypeID).HasColumnName(@"RelationshipTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.OrganizationRelationshipTypeID).HasColumnName(@"OrganizationRelationshipTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectOrganizations).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectOrganization_Project_ProjectID
             HasRequired(a => a.Organization).WithMany(b => b.ProjectOrganizations).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_ProjectOrganization_Organization_OrganizationID
-            HasRequired(a => a.RelationshipType).WithMany(b => b.ProjectOrganizations).HasForeignKey(c => c.RelationshipTypeID).WillCascadeOnDelete(false); // FK_ProjectOrganization_RelationshipType_RelationshipTypeID
+            HasRequired(a => a.OrganizationRelationshipType).WithMany(b => b.ProjectOrganizations).HasForeignKey(c => c.OrganizationRelationshipTypeID).WillCascadeOnDelete(false); // FK_ProjectOrganization_OrganizationRelationshipType_OrganizationRelationshipTypeID
         }
     }
 }

@@ -19,12 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Web;
+
 namespace ProjectFirmaModels.Models
 {
-    public partial class GeospatialArea : IAuditableEntity
+    public partial class GeospatialArea : IFirmaPage, IAuditableEntity
     {
         public string GetDisplayName() => GeospatialAreaName;
 
         public string GetAuditDescriptionString() => GeospatialAreaName;
+
+        public HtmlString GetFirmaPageContentHtmlString() => GeospatialAreaDescriptionContentHtmlString;
+
+        public string GetFirmaPageDisplayName() => GeospatialAreaName;
+
+        public bool HasPageContent() => !string.IsNullOrWhiteSpace(GeospatialAreaDescriptionContent);
     }
 }
