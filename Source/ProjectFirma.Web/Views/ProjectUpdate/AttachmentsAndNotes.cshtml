@@ -24,7 +24,16 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
 @inherits ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes
-<p>Add document and notes to the @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). When approved, the attachments and notes will be publicly visible.</p>
+
+@section JavascriptAndStylesContent
+{
+    <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
+    <script src="@Url.Content("~/Views/Shared/ProjectAttachment/NewProjectAttachmentController.js")" type="text/javascript"></script>
+
+}
+
+
+<p>Add attachments and notes to the @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). When approved, the attachments and notes will be publicly visible.</p>
 <hr />
 <div style="min-height: 200px;">
     <div>

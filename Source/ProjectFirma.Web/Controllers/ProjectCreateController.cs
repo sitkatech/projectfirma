@@ -1282,13 +1282,12 @@ namespace ProjectFirma.Web.Controllers
                 project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
 
                 //if no project check for project update batch.
-                if (project == null && viewModel.ProjectUpdateBatchID.HasValue)
+            }else if (viewModel.ProjectUpdateBatchID.HasValue)
+            {
+                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
+                if (projectUpdateBatch != null)
                 {
-                    var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                    if (projectUpdateBatch != null)
-                    {
-                        project = projectUpdateBatch.Project;
-                    }
+                    project = projectUpdateBatch.Project;
                 }
             }
 

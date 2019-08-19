@@ -66,20 +66,18 @@ namespace ProjectFirma.Web.Controllers
             if (viewModel.ProjectID.HasValue)
             {
                 //attempt to get the project
-                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
-
-                //if no project check for project update batch.
+                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);             
                 if (project != null)
                 {
                     taxonomyTrunk = project.GetTaxonomyTrunk();
                 }
-                else if (viewModel.ProjectUpdateBatchID.HasValue)
+                
+            }else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
+            {
+                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
+                if (projectUpdateBatch != null)
                 {
-                    var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                    if (projectUpdateBatch != null)
-                    {
-                        taxonomyTrunk = projectUpdateBatch.Project.GetTaxonomyTrunk();
-                    }
+                    taxonomyTrunk = projectUpdateBatch.Project.GetTaxonomyTrunk();
                 }
             }
 
