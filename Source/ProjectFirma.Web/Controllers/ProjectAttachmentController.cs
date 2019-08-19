@@ -8,11 +8,46 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectAttachment;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class ProjectAttachmentController : FirmaBaseController
     {
+
+        
+        [FirmaAdminFeature]
+        public ViewResult ProjectAttachmentIndex()
+        {
+            var viewData = new ProjectAttachmentIndexViewData(CurrentPerson);
+            return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
+        }
+
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<ProjectAttachment> ProjectAttachmentGridJsonData()
+        {
+            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var gridSpec = new ProjectAttachmentGridSpec(hasManagePermissions);
+            var projectAttachments = HttpRequestStorage.DatabaseEntities.ProjectAttachments.ToList().OrderBy(x => x.DisplayName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectAttachment>(projectAttachments, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [HttpGet]
+        [ProjectAttachmentEditAsAdminFeature]
+        public PartialViewResult NewProjectAgnosticAttachment()
+        {
+            var viewModel = new NewProjectAgnosticAttachmentViewModel();
+            return ViewNewProjectAgnosticAttachmentViewModel(viewModel);
+        }
+
+        private PartialViewResult ViewNewProjectAgnosticAttachmentViewModel(NewProjectAgnosticAttachmentViewModel viewModel)
+        {
+            var viewData = new NewProjectAgnosticAttachmentViewData();
+            return RazorPartialView<NewProjectAgnosticAttachment, NewProjectAgnosticAttachmentViewData, NewProjectAgnosticAttachmentViewModel>(viewData, viewModel);
+        }
+
+
         [HttpGet]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
@@ -21,6 +56,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewNew(viewModel);
         }
 
+        
         [HttpPost]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]

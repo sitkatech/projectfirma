@@ -187,6 +187,12 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachment.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachmentViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\NewProjectAgnosticAttachmentViewModel.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\DetailViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Edit.cs" />
@@ -415,6 +421,7 @@
     <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
+    <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />

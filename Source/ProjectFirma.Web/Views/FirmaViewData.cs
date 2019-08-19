@@ -195,6 +195,13 @@ namespace ProjectFirma.Web.Views
             });
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
 
+            if (FirmaWebConfiguration.FeatureAttachmentRelationshipTypes)
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
+                    new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentPerson,
+                    "Full Attachments List", "Group1"));
+            }
+
             MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentPerson, "Group1");
 
             // Group 2 - System Config stuff
