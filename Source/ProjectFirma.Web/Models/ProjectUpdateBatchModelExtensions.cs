@@ -769,7 +769,7 @@ namespace ProjectFirma.Web.Models
 
         public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Count < x.NumberOfAllowedAttachments));
+            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
         public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this ProjectUpdateBatch projectUpdateBatch)
