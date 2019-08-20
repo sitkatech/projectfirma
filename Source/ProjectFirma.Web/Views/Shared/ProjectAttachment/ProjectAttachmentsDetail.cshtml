@@ -31,7 +31,6 @@ else
 </div>
 
 
-<hr/>
 
 @foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
 {
@@ -40,16 +39,18 @@ else
     <div class="row">
         <div class="col-sm-3">
             <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
-            @if (attachmentRelationshipType.NumberOfAllowedAttachments != null)
-            {
-                <div class="help-block">
-                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentRelationshipType.NumberOfAllowedAttachments </span></p>
-                </div>
-                if (thisAttachmentList.Count >= attachmentRelationshipType.NumberOfAllowedAttachments)
+            <div class="help-block">
+                <p class="smallExplanationText">@attachmentRelationshipType.AttachmentRelationshipTypeDescription</p>
+                @if (attachmentRelationshipType.NumberOfAllowedAttachments != null)
                 {
-                    <div class="alert alert-warning smallExplanationText">You have reached the maximum number of files for this type. To upload another of this type, you will need to delete an existing file.</div>
+                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentRelationshipType.NumberOfAllowedAttachments </span></p>
+
+                    if (thisAttachmentList.Count >= attachmentRelationshipType.NumberOfAllowedAttachments)
+                    {
+                        <div class="alert alert-warning smallExplanationText">You have reached the maximum number of files for this type. To upload another of this type, you will need to delete an existing file.</div>
+                    }
                 }
-            }
+            </div>
         </div>
         <div class="col-sm-9">
             
