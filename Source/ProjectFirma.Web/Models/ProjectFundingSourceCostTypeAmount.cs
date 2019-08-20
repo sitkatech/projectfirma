@@ -27,27 +27,23 @@ namespace ProjectFirma.Web.Models
 {
     public class ProjectFundingSourceCostTypeAmount
     {
-        public int FundingSourceID { get; }
-        public string FundingSourceName { get; }
-        public string FundingSourceDisplayName { get; }
+        public FundingSource FundingSource { get; }
         public CostType CostType { get; }
         public int? CalendarYear { get; }
         public decimal? MonetaryAmount { get; }
         public bool IsRealEntry { get; }
         public bool IsSecured { get; }
 
-        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry)
+        private ProjectFundingSourceCostTypeAmount(FundingSource fundingSource, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry)
         {
-            FundingSourceID = fundingSourceID;
-            FundingSourceName = fundingSourceName;
-            FundingSourceDisplayName = fundingSourceDisplayName;
+            FundingSource = fundingSource;
             CostType = costType;
             CalendarYear = calendarYear;
             MonetaryAmount = monetaryAmount;
             IsRealEntry = isRealEntry;
         }
 
-        private ProjectFundingSourceCostTypeAmount(int fundingSourceID, string fundingSourceName, string fundingSourceDisplayName, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry, bool isSecured) : this(fundingSourceID, fundingSourceName, fundingSourceDisplayName, costType, calendarYear, monetaryAmount, isRealEntry)
+        private ProjectFundingSourceCostTypeAmount(FundingSource fundingSource, CostType costType, int? calendarYear, decimal? monetaryAmount, bool isRealEntry, bool isSecured) : this(fundingSource, costType, calendarYear, monetaryAmount, isRealEntry)
         {
             IsSecured = isSecured;
         }
@@ -58,10 +54,8 @@ namespace ProjectFirma.Web.Models
             // Get Secured and Targeted amounts for each FundingSource/CostType/Year
             foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
             {
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource.FundingSourceID, 
-                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(true), true, true));
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource.FundingSourceID,
-                    projectFundingSourceBudget.FundingSource.FundingSourceName, projectFundingSourceBudget.FundingSource.GetDisplayName(), projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(false), true, false));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(true), true, true));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(false), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }
@@ -71,21 +65,19 @@ namespace ProjectFirma.Web.Models
             // Get Secured and Targeted amounts for each FundingSource/CostType/Year
             foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
             {
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
-                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource.FundingSourceID,
-                    projectFundingSourceBudgetUpdate.FundingSource.FundingSourceName, projectFundingSourceBudgetUpdate.FundingSource.GetDisplayName(), projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }
         // Expenditures
         public static List<ProjectFundingSourceCostTypeAmount> CreateFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures)
         {
-            return projectFundingSourceExpenditures.Select(x => new ProjectFundingSourceCostTypeAmount(x.FundingSource.FundingSourceID, x.FundingSource.FundingSourceName, x.FundingSource.GetDisplayName(), x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
+            return projectFundingSourceExpenditures.Select(x => new ProjectFundingSourceCostTypeAmount(x.FundingSource, x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
         }
         public static List<ProjectFundingSourceCostTypeAmount> CreateFromProjectFundingSourceExpenditures(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates)
         {
-            return projectFundingSourceExpenditureUpdates.Select(x => new ProjectFundingSourceCostTypeAmount(x.FundingSource.FundingSourceID, x.FundingSource.FundingSourceName, x.FundingSource.GetDisplayName(), x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
+            return projectFundingSourceExpenditureUpdates.Select(x => new ProjectFundingSourceCostTypeAmount(x.FundingSource, x.CostType, x.CalendarYear, x.GetMonetaryAmount(), true)).ToList();
         }
     }
 }

@@ -38,10 +38,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSource).OrderBy(x => x.Key))
                 {
                     <tr class="info">
-                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSource.GetDisplayNameAsUrl())</td>
                     </tr>
                     foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
                     {
