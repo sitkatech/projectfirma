@@ -18,12 +18,27 @@ namespace ProjectFirma.Web.Models
 
         public static FirmaPage GetFirmaPage(this FirmaPageType firmaPageType)
         {
-            return firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            var firmaPage = firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID) ??
+                            MakePlaceholderFirmaPageForDisplay(firmaPageType);
+            return firmaPage;
+        }
+
+        /// <summary>
+        /// If there is no FirmaPage defined where we expect one, we return a placeholder that indicates one needs to be created, instead of just crashing.
+        /// </summary>
+        /// <param name="firmaPageType"></param>
+        /// <returns></returns>
+        private static FirmaPage MakePlaceholderFirmaPageForDisplay(FirmaPageType firmaPageType)
+        {
+            var firmaPage = new FirmaPage(firmaPageType.FirmaPageTypeID);
+            firmaPage.FirmaPageType = HttpRequestStorage.DatabaseEntities.FirmaPageTypes.GetFirmaPageType(firmaPageType.FirmaPageTypeID);
+            firmaPage.FirmaPageContent = $"[No FirmaPage defined yet for FirmaPageType {firmaPageType.FirmaPageTypeDisplayName} for Tenant {HttpRequestStorage.Tenant.TenantName} (TenantID: {HttpRequestStorage.Tenant.TenantID})]";
+            return firmaPage;
         }
 
         public static FirmaPage GetFirmaPage(this FirmaPageTypeEnum firmaPageTypeEnum)
         {
-            return  GetFirmaPage(firmaPageTypeEnum.ToType());
+            return GetFirmaPage(firmaPageTypeEnum.ToType());
         }
     }
 }
