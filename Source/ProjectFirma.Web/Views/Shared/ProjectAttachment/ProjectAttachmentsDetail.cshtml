@@ -7,7 +7,7 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.ProjectAttachmentsDetail
 
 
-<div class="row">
+
 @if (MultiTenantHelpers.HasAttachmentRelationshipTypeConfigured())
 {
     <div class="pull-right">
@@ -16,19 +16,21 @@
 }
 else
 {
-    <div class="alert alert-danger" role="alert">
-        There are no @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured.
-        @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentRelationshipTypesIndexUrl))
-        {
-            <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
-        }
-        else
-        {
-            <span>Please contact your admin to have @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured for your instance.</span>
-        }
+    <div class="row">
+        <div class="alert alert-danger" role="alert">
+            There are no @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured.
+            @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentRelationshipTypesIndexUrl))
+            {
+                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
+            }
+            else
+            {
+                <span>Please contact your admin to have @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured for your instance.</span>
+            }
+        </div>
     </div>
 }
-</div>
+
 
 
 
