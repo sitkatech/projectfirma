@@ -35,21 +35,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectAttachmentEditAsAdminFeature]
-        public PartialViewResult NewProjectAgnosticAttachment()
-        {
-            var viewModel = new NewProjectAgnosticAttachmentViewModel();
-            return ViewNewProjectAgnosticAttachmentViewModel(viewModel);
-        }
-
-        private PartialViewResult ViewNewProjectAgnosticAttachmentViewModel(NewProjectAgnosticAttachmentViewModel viewModel)
-        {
-            var viewData = new NewProjectAgnosticAttachmentViewData();
-            return RazorPartialView<NewProjectAgnosticAttachment, NewProjectAgnosticAttachmentViewData, NewProjectAgnosticAttachmentViewModel>(viewData, viewModel);
-        }
-
-
-        [HttpGet]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -57,7 +42,6 @@ namespace ProjectFirma.Web.Controllers
             return ViewNew(viewModel);
         }
 
-        
         [HttpPost]
         [ProjectEditAsAdminRegardlessOfStageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]

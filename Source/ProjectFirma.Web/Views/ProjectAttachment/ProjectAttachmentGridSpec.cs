@@ -47,9 +47,9 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
 
             Add($"Attachment Name", a => a.DisplayName, 240);
             Add($"Attachment Description", a => a.Description, 240);
-            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Name", a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.ProjectName), 240);
-            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentRelationshipType.AttachmentRelationshipTypeName, 240);
-            Add($"File Type", a => a.Attachment.FileResourceMimeType.FileResourceMimeTypeName, 240);
+            Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Name", a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
+            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentRelationshipType.AttachmentRelationshipTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"File Type", a => a.Attachment.FileResourceMimeType.FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
             
         }
     }

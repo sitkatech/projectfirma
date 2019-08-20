@@ -33,8 +33,6 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
         public string ProjectAttachmentGridName { get; }
         public string ProjectAttachmentGridDataUrl { get; }
         public bool HasManagePermissions { get; }
-        public string NewProjectAttachmentUrl { get; }
-
 
         public ProjectAttachmentIndexViewData(Person currentPerson) : base(currentPerson)
         {
@@ -47,9 +45,6 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
             ProjectAttachmentGridName = "projectAttachmentGrid";
             ProjectAttachmentGridDataUrl = SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.ProjectAttachmentGridJsonData());
             HasManagePermissions = hasManagePermissions;
-
-            NewProjectAttachmentUrl = SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(c => c.NewProjectAgnosticAttachment());
-
         }
     }
 }
