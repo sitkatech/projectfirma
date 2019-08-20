@@ -747,9 +747,9 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAttachmentRelationshipTypesForThisProject(this Project project)
+        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType).Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Count < x.NumberOfAllowedAttachments));
         }
 
 

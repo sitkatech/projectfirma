@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                                                 SitkaRoute<ProjectAttachmentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
                                                                 projectUpdateBatch.Project.GetDisplayName(),
                                                                 IsEditable,
-                                                                projectUpdateBatch.Project.GetAttachmentRelationshipTypesForThisProject().ToList(),
+                                                                projectUpdateBatch.GetAllAttachmentRelationshipTypes().ToList(),
                                                                 currentPerson
                                                                 );
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndAttachments(projectUpdateBatch.Project));

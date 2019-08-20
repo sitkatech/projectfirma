@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
@@ -77,26 +78,28 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel)
         {
-            Project project = null;
+            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = null;
             if (viewModel.ProjectID.HasValue)
             {
                 //attempt to get the project
-                project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
-
-                //if no project check for project update batch.
-                if (project == null && viewModel.ProjectUpdateBatchID.HasValue)
+                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
+                if (project != null)
                 {
-                    var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                    if (projectUpdateBatch != null)
-                    {
-                        project = projectUpdateBatch.Project;
-                    }
+                    attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+                }
+
+
+            }
+            else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
+            {
+                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
+                if (projectUpdateBatch != null)
+                {
+                    attachmentRelationshipTypes = projectUpdateBatch.GetValidAttachmentRelationshipTypesForForms();
                 }
             }
 
-            //get attachment relationship types for the project/project update batch
-            Check.Assert(project != null, "Cannot find a valid project.");
-            var attachmentRelationshipTypes = project.GetAttachmentRelationshipTypesForThisProject();
+            Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
             var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }

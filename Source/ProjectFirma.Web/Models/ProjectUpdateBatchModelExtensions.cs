@@ -766,5 +766,15 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
                    areAllProjectGeospatialAreasValid;
         }
+
+        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Count < x.NumberOfAllowedAttachments));
+        }
+
+        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+        }
     }
 }
