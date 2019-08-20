@@ -388,14 +388,18 @@
                         @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
                     </div>
                 </div>
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h3>Attachments</h3>
+            
+                @if (FirmaWebConfiguration.FeatureAttachmentRelationshipTypes)
+                {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>Attachments</h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
-                    </div>
-                </div>
+                }
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Notes</h3>
