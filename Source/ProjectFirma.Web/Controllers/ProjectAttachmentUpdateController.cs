@@ -61,21 +61,10 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel)
+        private PartialViewResult ViewNew(NewProjectAttachmentUpdateViewModel viewModel)
         {
             IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = null;
-            if (viewModel.ProjectID.HasValue)
-            {
-                //attempt to get the project
-                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
-                if (project != null)
-                {
-                    attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
-                }
-
-
-            }
-            else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
+            if (viewModel.ProjectUpdateBatchID.HasValue)
             {
                 var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
                 if (projectUpdateBatch != null)

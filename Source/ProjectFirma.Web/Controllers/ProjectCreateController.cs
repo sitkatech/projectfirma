@@ -1117,10 +1117,7 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
 
-            //8/9/2019 TK - this seems sketchy :shrug:
-            var projectTaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;           
-            var attachmentRelationshipTypes = projectTaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType).ToList();//HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.Where(x => x.AttachmentRelationshipTypeTaxonomyTrunks.Contains(projectTaxonomyTrunk.T)).ToList();
-
+            var attachmentRelationshipTypes = project.GetAllAttachmentRelationshipTypes().ToList();
             var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
                                                                                         EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
@@ -1283,16 +1280,7 @@ namespace ProjectFirma.Web.Controllers
                 if (project != null)
                 {
                     attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
-                }
-
-                
-            }else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
-            {
-                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                if (projectUpdateBatch != null)
-                {
-                    attachmentRelationshipTypes = projectUpdateBatch.GetValidAttachmentRelationshipTypesForForms();
-                }
+                }     
             }
 
             Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");

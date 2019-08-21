@@ -34,7 +34,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 
 
         public int? ProjectID { get; set; }
-        public int? ProjectUpdateBatchID { get; set; }
+        //8/21/2019 TK - this property is here(instead of in NewProjectAttachmentUpdateViewModel) so we can have a shared view for New Project Attachments in the Create and Update Project workflows
+        public int? ProjectUpdateBatchID { get; set; } 
 
         /// <summary>
         /// Needed by ModelBinder
@@ -43,12 +44,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public NewProjectAttachmentViewModel(ProjectFirmaModels.Models.Project project)
         {
             ProjectID = project.ProjectID;
-            CheckForNotNullProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectId();
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
-            CheckForNotNullProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectId();
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
@@ -58,21 +59,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             project.ProjectAttachments.Add(projectAttachment);
         }
 
-        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
-        {
-            CheckForNotNullProjectIdOrProjectUpdateId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
-            HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
-            {
-                Description = Description
-            };
-            projectUpdateBatch.ProjectAttachmentUpdates.Add(projectAttachment);
-        }
+        
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CheckForNotNullProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectId();
             var validationResults = new List<ValidationResult>();
             FileResourceModelExtensions.ValidateFileSize(UploadedFile, validationResults, "File");
 
@@ -86,9 +77,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         }
 
 
-        protected void CheckForNotNullProjectIdOrProjectUpdateId()
+        protected void CheckForNotNullProjectId()
         {
-            Check.Invariant(this.ProjectID.HasValue || this.ProjectUpdateBatchID.HasValue, "One of ProjectID or ProjectBatchID must have a value");
+            Check.Invariant(this.ProjectID.HasValue, "ProjectID must have a value");
         }
     }
 }

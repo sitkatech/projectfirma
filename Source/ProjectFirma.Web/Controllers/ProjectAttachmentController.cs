@@ -71,16 +71,6 @@ namespace ProjectFirma.Web.Controllers
                 {
                     attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
                 }
-
-
-            }
-            else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
-            {
-                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                if (projectUpdateBatch != null)
-                {
-                    attachmentRelationshipTypes = projectUpdateBatch.GetValidAttachmentRelationshipTypesForForms();
-                }
             }
 
             Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
