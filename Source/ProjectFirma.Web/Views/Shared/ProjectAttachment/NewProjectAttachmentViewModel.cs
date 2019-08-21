@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 
 
         public int? ProjectID { get; set; }
-        //8/21/2019 TK - this property is here(instead of in NewProjectAttachmentUpdateViewModel) so we can have a shared view for New Project Attachments in the Create and Update Project workflows
-        public int? ProjectUpdateBatchID { get; set; } 
+        //8/21/2019 TK - this is here so we can post this ID and use it to validate the display names
+        public int? ProjectUpdateBatchID { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -67,8 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             var validationResults = new List<ValidationResult>();
             FileResourceModelExtensions.ValidateFileSize(UploadedFile, validationResults, "File");
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ProjectID)
-                .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Any(x => x.ProjectID == ProjectID && x.DisplayName == DisplayName))
             {
                 validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"The Display Name must be unique for each Attachment attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", m=>m.DisplayName));
             }

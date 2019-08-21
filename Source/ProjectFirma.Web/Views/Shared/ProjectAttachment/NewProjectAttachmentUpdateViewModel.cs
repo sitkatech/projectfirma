@@ -13,7 +13,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
     public class NewProjectAttachmentUpdateViewModel : NewProjectAttachmentViewModel
     {
 
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -30,8 +29,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             CheckForNotNullProjectUpdateBatchId();
             var validationResults = new List<ValidationResult>();
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachmentUpdates.Where(x => x.ProjectUpdateBatchID == ProjectUpdateBatchID)
-                .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachmentUpdates.Any(x => x.ProjectUpdateBatchID == ProjectUpdateBatchID && x.DisplayName == DisplayName))
             {
                 validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"The Display Name must be unique for each Attachment attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update", m => m.DisplayName));
             }
