@@ -413,7 +413,7 @@ namespace ProjectFirma.Web.Controllers
                 SiteName = toolDisplayName,
                 Subject = $"Invitation to {toolDisplayName}",
                 WelcomeText =
-                    $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName}, to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
+                    $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
                 RedirectURL = homeUrl,
                 SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.GetFullNameFirstLast()} at {MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.Organization.OrganizationName} ({MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.Email})",
                 OrganizationGuid = viewModel.OrganizationGuid,
