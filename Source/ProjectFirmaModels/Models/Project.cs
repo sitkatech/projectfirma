@@ -58,15 +58,11 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
-            if (NoFundingSourceIdentifiedYet != null)
-            {
-                return NoFundingSourceIdentifiedYet;
-            }
-            if (ProjectNoFundingSourceIdentifieds.Any())
+            if (FundingType == FundingType.BudgetVariesByYear)
             {
                 return ProjectNoFundingSourceIdentifieds.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
             }
-            return null;
+            return NoFundingSourceIdentifiedYet;
         }
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()

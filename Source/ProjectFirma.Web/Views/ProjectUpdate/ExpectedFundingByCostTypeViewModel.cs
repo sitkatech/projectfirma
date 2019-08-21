@@ -121,27 +121,25 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.SetSecuredAndTargetedAmounts(y.SecuredAmount, y.TargetedAmount), databaseEntities);
 
+            // Set NoNoFundingSourceIdentifiedYet on ProjectUpdate, will be null if budget varies by year
+            projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
 
-            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
+            var projectNoFundingSourceIdentifiedUpdatesUpdated = new List<ProjectNoFundingSourceIdentifiedUpdate>();
+            if (NoFundingSourceAmounts != null)
             {
-                projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
+                // Completely rebuild the list
+                projectNoFundingSourceIdentifiedUpdatesUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
+                    .Select(x =>
+                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
+                    .ToList();
             }
-            else
-            {
-                var projectNoFundingSourceIdentifiedUpdatesUpdated = new List<ProjectNoFundingSourceIdentifiedUpdate>();
-                if (NoFundingSourceAmounts != null)
-                {
-                    // Completely rebuild the list
-                    projectNoFundingSourceIdentifiedUpdatesUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
-                        .Select(x =>
-                            new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
-                        .ToList();
-                }
-                currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectNoFundingSourceIdentifiedUpdatesUpdated,
-                    allProjectNoFundingSourceIdentifiedUpdates,
-                    (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear,
-                    (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
-            }
+
+            // set if funding type is "Varies By Year", rows will be deleted otherwise
+            currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectNoFundingSourceIdentifiedUpdatesUpdated,
+                allProjectNoFundingSourceIdentifiedUpdates,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
+            
 
             var currentProjectUpdateRelevantCostTypes = projectUpdateBatch.GetBudgetsRelevantCostTypes();
             var allProjectRelevantCostTypeUpdates = databaseEntities.AllProjectRelevantCostTypeUpdates.Local;
