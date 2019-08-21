@@ -1088,7 +1088,7 @@ namespace ProjectFirma.Web.Controllers
             return $"editMapForProject{project.ProjectID}";
         }
 
-        #region "Attachments and Notes (Previously Documents and Notes)"
+        #region "Attachments and Notes"
 
         [ProjectCreateFeature]
         public ViewResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
@@ -1319,104 +1319,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-
-
-
-        //Start Document methods:
-
-        [HttpGet]
-        [ProjectCreateFeature]
-        public PartialViewResult NewDocument(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var viewModel = new NewProjectDocumentViewModel();
-            return ViewNewDocument(viewModel);
-        }
-
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewDocument(ProjectPrimaryKey projectPrimaryKey, NewProjectDocumentViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewNewDocument(viewModel);
-            }
-            var project = projectPrimaryKey.EntityObject;
-            viewModel.UpdateModel(project, CurrentPerson);
-            return new ModalDialogFormJsonResult();
-        }
-
-        [HttpGet]
-        [ProjectDocumentEditAsAdminFeature]
-        public PartialViewResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
-        {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var viewModel = new EditProjectDocumentsViewModel(projectDocument);
-            return ViewEditDocument(viewModel);
-        }
-
-        [HttpPost]
-        [ProjectDocumentEditAsAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, EditProjectDocumentsViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewEditDocument(viewModel);
-            }
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectDocument);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditDocument(EditProjectDocumentsViewModel viewModel)
-        {
-            var viewData = new EditProjectDocumentsViewData();
-            return RazorPartialView<EditProjectDocuments, EditProjectDocumentsViewData, EditProjectDocumentsViewModel>(viewData, viewModel);
-        }
-
-        private PartialViewResult ViewNewDocument(NewProjectDocumentViewModel viewModel)
-        {
-            var viewData = new NewProjectDocumentViewData();
-            return RazorPartialView<NewProjectDocument, NewProjectDocumentViewData, NewProjectDocumentViewModel>(viewData, viewModel);
-        }
-
-        [HttpGet]
-        [ProjectDocumentEditAsAdminFeature]
-        public PartialViewResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
-        {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(projectDocument.ProjectDocumentID);
-            return ViewDeleteDocument(projectDocument, viewModel);
-        }
-
-        private PartialViewResult ViewDeleteDocument(ProjectDocument projectDocument, ConfirmDialogFormViewModel viewModel)
-        {
-            var canDelete = !projectDocument.HasDependentObjects();
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Document");
-
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
-
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectDocumentEditAsAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            if (!ModelState.IsValid)
-            {
-                return ViewDeleteDocument(projectDocument, viewModel);
-            }
-            projectDocument.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            return new ModalDialogFormJsonResult();
-        }
-
-        #endregion "Attachments and Notes (Previously Documents and Notes)"
+        #endregion "Attachments and Notes"
 
         [ProjectCreateFeature]
         public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)

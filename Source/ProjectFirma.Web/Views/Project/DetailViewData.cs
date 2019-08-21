@@ -29,7 +29,6 @@ using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -111,7 +110,6 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectContactsDetailViewData ProjectContactsDetailViewData { get; }
         public string EditProjectContactsUrl { get; }
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
-        public ProjectDocumentsDetailViewData ProjectDocumentsDetailViewData { get; }
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
 
@@ -344,11 +342,6 @@ namespace ProjectFirma.Web.Views.Project
                     c.ProjectStewardCannotEditPendingApproval(project));
 
             ClassificationSystems = classificationSystems;
-
-            ProjectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
-                EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
-                SitkaRoute<ProjectDocumentController>.BuildUrlFromExpression(x => x.New(project)), project.ProjectName,
-                new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission);
 
             ProjectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
                 EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),

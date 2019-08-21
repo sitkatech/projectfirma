@@ -123,8 +123,6 @@
     <Compile Include="Models\ProjectCustomAttributes.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
-    <Compile Include="Models\ProjectDocumentModelExtensions.cs" />
-    <Compile Include="Models\ProjectDocumentUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
@@ -446,14 +444,11 @@
     <Compile Include="Views\ProjectCreate\ImportExternal.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiersViewData.cs" />
-    <Compile Include="Security\ProjectDocumentUpdateEditFeature.cs" />
-    <Compile Include="Security\ProjectDocumentUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewData.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewModel.cs" />
-    <Compile Include="Security\ProjectDocumentEditAsAdminFeature.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewModel.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrder.cs" />
