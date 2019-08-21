@@ -419,7 +419,7 @@ namespace ProjectFirma.Web.Models
         public static List<GooglePieChartSlice> GetRequestAmountGooglePieChartSlices(this Project project)
         {
             var requestAmountsDictionary = project.GetFundingSourceRequestGooglePieChartSlices();
-            var noFundingSourceIdentifiedAmount = Convert.ToDouble(project.NoFundingSourceIdentifiedYet ?? 0);
+            var noFundingSourceIdentifiedAmount = Convert.ToDouble(project.GetNoFundingSourceIdentifiedAmount() ?? 0);
             if (noFundingSourceIdentifiedAmount > 0)
             {
                 var sortOrder = requestAmountsDictionary.Any() ? requestAmountsDictionary.Max(x => x.SortOrder) + 1 : 0;
