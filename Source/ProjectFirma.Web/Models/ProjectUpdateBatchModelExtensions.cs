@@ -140,6 +140,8 @@ namespace ProjectFirma.Web.Models
 
             // Documents
             ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Custom attributes
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
