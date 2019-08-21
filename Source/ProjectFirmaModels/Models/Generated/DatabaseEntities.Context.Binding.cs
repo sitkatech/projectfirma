@@ -109,8 +109,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
-            modelBuilder.Configurations.Add(new ProjectDocumentConfiguration());
-            modelBuilder.Configurations.Add(new ProjectDocumentUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
@@ -293,10 +291,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
-        public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectDocumentUpdate> AllProjectDocumentUpdates { get; set; }
-        public virtual IQueryable<ProjectDocumentUpdate> ProjectDocumentUpdates { get { return AllProjectDocumentUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -699,12 +693,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectCustomAttributeValue":
                     return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
-
-                case "ProjectDocument":
-                    return ProjectDocuments.GetProjectDocument(primaryKey);
-
-                case "ProjectDocumentUpdate":
-                    return ProjectDocumentUpdates.GetProjectDocumentUpdate(primaryKey);
 
                 case "ProjectExemptReportingType":
                     var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

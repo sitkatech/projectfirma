@@ -49,7 +49,6 @@ using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
-using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -1090,22 +1089,6 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #region "Attachments and Notes (Previously Documents and Notes)"
-        [ProjectCreateFeature]
-        public ViewResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditNotesAndDocuments = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditNotesAndDocuments);
-
-            var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var projectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
-                EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
-                SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewDocument(project)), project.ProjectName,
-                canEditNotesAndDocuments);
-            var viewData = new DocumentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
-            return RazorView<DocumentsAndNotes, DocumentsAndNotesViewData>(viewData);
-        }
 
         [ProjectCreateFeature]
         public ViewResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
