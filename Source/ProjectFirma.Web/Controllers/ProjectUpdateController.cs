@@ -2649,12 +2649,15 @@ namespace ProjectFirma.Web.Controllers
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalBudgetsByCostType(FundingType fundingTypeOriginal, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
-            List<int> calendarYearsOriginal,
-            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
-            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedOriginal, decimal? estimatedTotalOriginal,
-            List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsOriginal,
-            string expectedFundingUpdateNote)
+        private string GeneratePartialViewForOriginalBudgetsByCostType(FundingType fundingTypeOriginal, 
+                                                                       List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+                                                                       List<int> calendarYearsOriginal,
+                                                                       List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+                                                                       List<int> calendarYearsUpdated, 
+                                                                       decimal? noFundingSourceIdentifiedOriginal, 
+                                                                       decimal? estimatedTotalOriginal,
+                                                                       List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsOriginal,
+                                                                       string expectedFundingUpdateNote)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
@@ -2680,10 +2683,15 @@ namespace ProjectFirma.Web.Controllers
             return GeneratePartialViewForBudgetsByCostTypeAsString(fundingTypeOriginal, projectBudgetByCostTypesInOriginal, calendarYearStrings, noFundingSourceIdentifiedOriginal, estimatedTotalOriginal, projectFundingSourceCostTypeAmountsOriginal, expectedFundingUpdateNote);
         }
 
-        private string GeneratePartialViewForModifiedBudgetsByCostType(FundingType fundingTypeUpdated, List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
-            List<int> calendarYearsOriginal,
-            List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
-            List<int> calendarYearsUpdated, decimal? noFundingSourceIdentifiedUpdated, decimal? estimatedTotalUpdated, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsUpdated, string expectedFundingUpdateNote)
+        private string GeneratePartialViewForModifiedBudgetsByCostType(FundingType fundingTypeUpdated,
+                                                                       List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeOriginal,
+                                                                       List<int> calendarYearsOriginal,
+                                                                       List<ICostTypeFundingSourceBudgetAmount> projectFundingSourceBudgetsByCostTypeUpdated,
+                                                                       List<int> calendarYearsUpdated, 
+                                                                       decimal? noFundingSourceIdentifiedUpdated, 
+                                                                       decimal? estimatedTotalUpdated, 
+                                                                       List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmountsUpdated, 
+                                                                       string expectedFundingUpdateNote)
         {
             var fundingSourcesInOriginal = projectFundingSourceBudgetsByCostTypeOriginal.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
             var fundingSourcesInUpdated = projectFundingSourceBudgetsByCostTypeUpdated.Select(x => x.FundingSource.FundingSourceID).Distinct().ToList();
