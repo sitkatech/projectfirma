@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Services.Protocols;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -45,23 +44,23 @@ namespace ProjectFirma.Web.Models
                     var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceBudget.Key);
                     foreach (var budgets in projectFundingSourceBudget.GroupBy(x => x.CostTypeID))
                     {
-                        var current = currentFundingSource.ProjectCostTypeCalendarYearBudgetAmounts.Single(x => x.CostType.CostTypeID == budgets.Key);
-                        foreach (var calendarYear in calendarYears)
+                        var current = currentFundingSource.ProjectCostTypeCalendarYearBudgetAmounts.SingleOrDefault(x => x.CostType.CostTypeID == budgets.Key);
+                        if (current != null)
                         {
-                            var a = current.CalendarYearBudgetAmounts.Single(x => x.CalendarYear == calendarYear);
-                            a.SecuredAmount = budgets.Where(x => x.CalendarYear == calendarYear)
-                                .Sum(x => x.GetMonetaryAmount(true));
-                            a.TargetedAmount = budgets.Where(x => x.CalendarYear == calendarYear)
-                                .Sum(x => x.GetMonetaryAmount(false));
+                            foreach (var calendarYear in calendarYears)
+                            {
+                                var budgetAmounts = current.CalendarYearBudgetAmounts.Single(x => x.CalendarYear == calendarYear);
+                                budgetAmounts.SecuredAmount = budgets.Where(x => x.CalendarYear == calendarYear).Sum(x => x.GetMonetaryAmount(true));
+                                budgetAmounts.TargetedAmount = budgets.Where(x => x.CalendarYear == calendarYear).Sum(x => x.GetMonetaryAmount(false));
+                            }
                         }
                     }
                 }
                 return fundingSourcesCrossJoinCalendarYears;
-
             }
 
+            // No Calendar Years - empty results
             return new List<ProjectBudgetByCostType>();
-
         }
 
         public static ProjectBudgetByCostType Clone(ProjectBudgetByCostType fundingSourceCalendarYearBudgetToDiff, string displayCssClass)
