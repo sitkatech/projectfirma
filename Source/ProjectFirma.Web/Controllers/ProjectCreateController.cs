@@ -1224,7 +1224,7 @@ namespace ProjectFirma.Web.Controllers
         {
 
             var viewModel = new NewProjectAttachmentViewModel(projectPrimaryKey.EntityObject);
-            return ViewNewAttachment(viewModel);
+            return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
         }
 
         [HttpPost]
@@ -1234,7 +1234,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewNewAttachment(viewModel);
+                return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
             }
             var project = projectPrimaryKey.EntityObject;
             viewModel.UpdateModel(project, CurrentPerson);
@@ -1270,21 +1270,11 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditProjectAttachments, EditProjectAttachmentsViewData, EditProjectAttachmentsViewModel>(viewData, viewModel);
         }
 
-        private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel)
+        private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = null;
-            if (viewModel.ProjectID.HasValue)
-            {
-                //attempt to get the project
-                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
-                if (project != null)
-                {
-                    attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
-                }     
-            }
+            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
 
             Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
-
             var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
