@@ -27,11 +27,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
-                    var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment, ProjectCreateSection.AttachmentsAndNotes }).ToList();
-                    if (FirmaWebConfiguration.FeatureAttachmentRelationshipTypes)
-                    {
-                        projectCreateSectionsForAdditionalData.Add(ProjectCreateSection.AttachmentsAndNotes);
-                    }
+                    var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment }).ToList();
 
                     if (HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any())
                     {
@@ -134,11 +130,8 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
-                    var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.AttachmentsAndNotes }).ToList();
-                    if (FirmaWebConfiguration.FeatureAttachmentRelationshipTypes)
-                    {
-                        additionalDataProjectUpdateSections.Add(ProjectUpdateSection.AttachmentsAndNotes);
-                    }  
+                    var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.ToList();
+
                     var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, additionalDataProjectUpdateSections, projectUpdateStatus, ignoreStatus);
                     // Remove Technical Assistance Requests for all tenants except Idaho
                     if (!MultiTenantHelpers.UsesTechnicalAssistanceParameters())
