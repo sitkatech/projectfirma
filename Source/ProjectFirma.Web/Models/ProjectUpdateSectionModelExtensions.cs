@@ -38,6 +38,8 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.NotesAndDocuments:
                     return true;
+                case ProjectUpdateSectionEnum.AttachmentsAndNotes:
+                    return true;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return true;
                 case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
@@ -82,6 +84,8 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExternalLinks(project));
                 case ProjectUpdateSectionEnum.NotesAndDocuments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project));
+                case ProjectUpdateSectionEnum.AttachmentsAndNotes:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project));
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project));
                 case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:

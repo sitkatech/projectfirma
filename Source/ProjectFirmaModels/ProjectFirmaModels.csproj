@@ -574,6 +574,7 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
     <Compile Include="Models\AttachmentRelationshipType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
@@ -626,6 +627,8 @@
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectAttachment.cs" />
+    <Compile Include="Models\ProjectAttachmentUpdate.cs" />
     <Compile Include="Models\ProjectContact.cs" />
     <Compile Include="Models\ProjectContactRelationship.cs" />
     <Compile Include="Models\ProjectContactSimple.cs" />

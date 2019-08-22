@@ -20,8 +20,6 @@ namespace ProjectFirma.Web.Models
             return _editUrl;
         }
 
-        public FileResource FileResource { get; set; }
-
         public void SetDisplayCssClass(string value)
         {
             _displayCssClass = value;
@@ -34,6 +32,7 @@ namespace ProjectFirma.Web.Models
 
         public string DisplayName { get; set; }
         public string Description { get; set; }
+        public FileResource FileResource { get; set; }
 
         public EntityDocument(string deleteUrl, string editUrl, FileResource fileResource, string displayCssClass,
             string displayName, string description)
@@ -54,5 +53,6 @@ namespace ProjectFirma.Web.Models
         {
             return entityDocuments.Select(x => new EntityDocument(x.GetDeleteUrl(), x.GetEditUrl(), x.FileResource, null, x.DisplayName, x.Description)).ToList();
         }
+
     }
 }

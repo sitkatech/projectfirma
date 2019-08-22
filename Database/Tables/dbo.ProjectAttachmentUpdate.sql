@@ -8,6 +8,8 @@ CREATE TABLE [dbo].[ProjectAttachmentUpdate](
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[AttachmentID] [int] NOT NULL,
 	[AttachmentRelationshipTypeID] [int] NOT NULL,
+	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Description] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectAttachmentUpdate_ProjectAttachmentUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectAttachmentUpdateID] ASC
