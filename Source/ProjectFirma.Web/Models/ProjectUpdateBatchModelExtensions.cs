@@ -138,8 +138,6 @@ namespace ProjectFirma.Web.Models
             //Contacts
             ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
-            // Documents
-            ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             // Attachments
             ProjectAttachmentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
@@ -197,15 +195,6 @@ namespace ProjectFirma.Web.Models
             foreach (var projectNoteUpdate in projectNoteUpdates)
             {
                 projectNoteUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            }
-        }
-
-        public static void DeleteProjectDocumentUpdates(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            var projectDocumentUpdates = projectUpdateBatch.ProjectDocumentUpdates.ToList();
-            foreach (var projectDocumentUpdate in projectDocumentUpdates)
-            {
-                projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -597,7 +586,6 @@ namespace ProjectFirma.Web.Models
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectDocument> allProjectDocuments,
             IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
@@ -621,7 +609,6 @@ namespace ProjectFirma.Web.Models
                 projectFundingSourceBudgets,
                 projectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
-                allProjectDocuments,
                 allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
@@ -660,7 +647,6 @@ namespace ProjectFirma.Web.Models
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectDocument> allProjectDocuments,
             IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
@@ -726,9 +712,6 @@ namespace ProjectFirma.Web.Models
 
             //  Contacts
             ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
-
-            // Documents
-            ProjectDocumentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectDocuments);
 
             // Attachments
             ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectAttachments);

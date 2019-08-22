@@ -61,14 +61,6 @@
         }
     }
 
-    public partial class ProjectUpdateSectionNotesAndDocuments
-    {
-        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
-        {
-            return projectUpdateStatus.IsNotesUpdated;
-        }
-    }
-
     public partial class ProjectUpdateSectionAttachmentsAndNotes
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
