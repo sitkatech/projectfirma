@@ -1463,88 +1463,7 @@ namespace ProjectFirma.Web.Controllers
 
 
 
-        #region "Attachments And Notes -- previously known as Documents and Notes"
-        
-        [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var diffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffNotesAndDocuments(projectPrimaryKey));
-            var viewData = new DocumentsAndNotesViewData(CurrentPerson, projectUpdateBatch, updateStatus, diffUrl);
-            return RazorView<DocumentsAndNotes, DocumentsAndNotesViewData>(viewData);
-        }
-
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshNotesAndDocuments(viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            projectUpdateBatch.DeleteProjectNoteUpdates();
-            projectUpdateBatch.DeleteProjectDocumentUpdates();
-            // finally create a new project update record, refreshing with the current project data at this point in time
-            ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewRefreshNotesAndDocuments(ConfirmDialogFormViewModel viewModel)
-        {
-            var viewData =
-                new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the notes for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        }
-
-
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult DiffNotesAndDocuments(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var htmlDiffContainer = DiffNotesAndDocumentsImpl(projectPrimaryKey);
-            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
-            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
-        }
-
-        private HtmlDiffContainer DiffNotesAndDocumentsImpl(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-            var entityNotesOriginal = project.ProjectNotes.ToList();
-            var entityNotesUpdated = projectUpdateBatch.ProjectNoteUpdates.ToList();
-
-            var originalHtmlNotes = GeneratePartialViewForOriginalNotes(entityNotesOriginal, entityNotesUpdated);
-            var updatedHtmlNotes = GeneratePartialViewForModifiedNotes(entityNotesOriginal, entityNotesUpdated);
-            // TODO: Commented out until such time as it is appropriate to take this feature live
-            //var entityDocumentsOriginal = new List<IEntityDocument>(project.ProjectDocuments);
-            //var entityDocumentsUpdated = new List<IEntityDocument>(projectUpdateBatch.ProjectDocumentUpdates);
-            //var originalHtmlDocuments = GeneratePartialViewForOriginalDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
-            //var updatedHtmlDocuments = GeneratePartialViewForModifiedDocuments(entityDocumentsOriginal, entityDocumentsUpdated);
-
-            var originalHtml = originalHtmlNotes;//+ originalHtmlDocuments;
-            var updatedHtml = updatedHtmlNotes; //updatedHtmlDocuments;
-
-            return new HtmlDiffContainer(originalHtml, updatedHtml);
-        }
-
+        #region "Attachments And Notes"
         [ProjectUpdateCreateEditSubmitFeature]
         public ActionResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
@@ -1713,7 +1632,7 @@ namespace ProjectFirma.Web.Controllers
         //}
 
 
-        #endregion "Attachments And Notes -- previously known as Documents and Notes"
+        #endregion "Attachments And Notes"
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
@@ -1946,8 +1865,6 @@ namespace ProjectFirma.Web.Controllers
             var allProjectGeospatialAreaTypeNotes = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNotes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
-            var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
             HttpRequestStorage.DatabaseEntities.ProjectAttachments.Load();
             var allProjectAttachments = HttpRequestStorage.DatabaseEntities.AllProjectAttachments.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
@@ -1978,7 +1895,6 @@ namespace ProjectFirma.Web.Controllers
                 allProjectFundingSourceBudgets,
                 allProjectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
-                allProjectDocuments,
                 allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
@@ -2040,7 +1956,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ExternalLinksDiffLogHtmlString = new HtmlString(externalLinksDiffHelper.Build());
             }
 
-            var notesDiffContainer = DiffNotesAndDocumentsImpl(projectPrimaryKey);
+            var notesDiffContainer = DiffNotesAndAttachmentsImpl(projectPrimaryKey);
             if (notesDiffContainer.HasChanged)
             {
                 var notesDiffHelper = new HtmlDiff.HtmlDiff(notesDiffContainer.OriginalHtml, notesDiffContainer.UpdatedHtml);
@@ -3189,7 +3105,7 @@ namespace ProjectFirma.Web.Controllers
             var isLocationSimpleUpdated = IsLocationSimpleUpdated(projectUpdateBatch.ProjectID);
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
-            var isNotesUpdated = DiffNotesAndDocumentsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isNotesUpdated = DiffNotesAndAttachmentsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
