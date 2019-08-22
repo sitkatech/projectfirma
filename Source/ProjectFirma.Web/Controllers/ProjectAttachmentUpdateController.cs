@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -19,7 +18,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New(ProjectUpdateBatchPrimaryKey projectUpdateBatchPrimaryKey)
         {
             var viewModel = new NewProjectAttachmentUpdateViewModel(projectUpdateBatchPrimaryKey.EntityObject);
-            return ViewNew(viewModel);
+            return ViewNew(viewModel, projectUpdateBatchPrimaryKey.EntityObject);
         }
 
         [HttpPost]
@@ -29,7 +28,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewNew(viewModel);
+                return ViewNew(viewModel, projectUpdateBatchPrimaryKey.EntityObject);
             }
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
             viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
@@ -61,31 +60,11 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel)
+        private PartialViewResult ViewNew(NewProjectAttachmentUpdateViewModel viewModel, ProjectUpdateBatch projectUpdateBatch)
         {
-            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = null;
-            if (viewModel.ProjectID.HasValue)
-            {
-                //attempt to get the project
-                var project = HttpRequestStorage.DatabaseEntities.Projects.FirstOrDefault(x => x.ProjectID == viewModel.ProjectID.Value);
-                if (project != null)
-                {
-                    attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
-                }
-
-
-            }
-            else if (viewModel.ProjectUpdateBatchID.HasValue)//if no project check for project update batch.
-            {
-                var projectUpdateBatch = HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.FirstOrDefault(x => x.ProjectUpdateBatchID == viewModel.ProjectUpdateBatchID.Value);
-                if (projectUpdateBatch != null)
-                {
-                    attachmentRelationshipTypes = projectUpdateBatch.GetValidAttachmentRelationshipTypesForForms();
-                }
-            }
+            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = projectUpdateBatch.GetValidAttachmentRelationshipTypesForForms();
 
             Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
-
             var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }

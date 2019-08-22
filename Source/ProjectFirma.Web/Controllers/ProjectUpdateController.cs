@@ -18,6 +18,15 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Spatial;
+using System.Globalization;
+using System.Linq;
+using System.Net.Mail;
+using System.Web;
+using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.DbSpatial;
 using LtInfo.Common.DesignByContract;
@@ -31,7 +40,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
-//using ProjectFirma.Web.Views.ProjectUpdate;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
@@ -44,16 +53,6 @@ using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Spatial;
-using System.Globalization;
-using System.Linq;
-using System.Net.Mail;
-using System.Web;
-using System.Web.Mvc;
-using ProjectFirma.Web.Views.ProjectUpdate;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
@@ -1949,6 +1948,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
             var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectAttachments.Load();
+            var allProjectAttachments = HttpRequestStorage.DatabaseEntities.AllProjectAttachments.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
             var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
@@ -1978,6 +1979,7 @@ namespace ProjectFirma.Web.Controllers
                 allProjectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
+                allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,

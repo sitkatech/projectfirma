@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -20,21 +21,37 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public NewProjectAttachmentUpdateViewModel(ProjectUpdateBatch projectUpdateBatch)
         {
             ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
-            CheckForNotNullProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectUpdateBatchId();
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            CheckForNotNullProjectIdOrProjectUpdateId();
+            CheckForNotNullProjectUpdateBatchId();
             var validationResults = new List<ValidationResult>();
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachmentUpdates.Where(x => x.ProjectUpdateBatchID == ProjectUpdateBatchID)
-                .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachmentUpdates.Any(x => x.ProjectUpdateBatchID == ProjectUpdateBatchID && x.DisplayName == DisplayName))
             {
                 validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"The Display Name must be unique for each Attachment attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update", m => m.DisplayName));
             }
 
             return validationResults;
+        }
+
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
+        {
+            CheckForNotNullProjectUpdateBatchId();
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
+            HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
+            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
+            {
+                Description = Description
+            };
+            projectUpdateBatch.ProjectAttachmentUpdates.Add(projectAttachment);
+        }
+
+        protected void CheckForNotNullProjectUpdateBatchId()
+        {
+            Check.Invariant(this.ProjectUpdateBatchID.HasValue, "ProjectUpdateBatchID must have a value");
         }
     }
 }
