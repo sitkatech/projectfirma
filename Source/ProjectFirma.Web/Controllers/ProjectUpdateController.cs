@@ -1948,6 +1948,8 @@ namespace ProjectFirma.Web.Controllers
             var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
             HttpRequestStorage.DatabaseEntities.ProjectDocuments.Load();
             var allProjectDocuments = HttpRequestStorage.DatabaseEntities.AllProjectDocuments.Local;
+            HttpRequestStorage.DatabaseEntities.ProjectAttachments.Load();
+            var allProjectAttachments = HttpRequestStorage.DatabaseEntities.AllProjectAttachments.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
             var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
@@ -1977,6 +1979,7 @@ namespace ProjectFirma.Web.Controllers
                 allProjectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
+                allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,

@@ -598,6 +598,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
+            IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
             IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
@@ -621,6 +622,7 @@ namespace ProjectFirma.Web.Models
                 projectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
+                allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,
@@ -659,6 +661,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
+            IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
             IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
@@ -726,6 +729,9 @@ namespace ProjectFirma.Web.Models
 
             // Documents
             ProjectDocumentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectDocuments);
+
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectAttachments);
 
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
