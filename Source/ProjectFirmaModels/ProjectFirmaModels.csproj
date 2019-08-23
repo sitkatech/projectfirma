@@ -349,6 +349,14 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeValue.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValueConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeValuePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridColumn.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridColumnPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridConfiguration.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridConfigurationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridConfigurationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomGridTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectDocument.Binding.cs" />
     <Compile Include="Models\Generated\ProjectDocument.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectDocumentConfiguration.Binding.cs" />
@@ -625,6 +633,7 @@
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectContact.cs" />
     <Compile Include="Models\ProjectContactRelationship.cs" />
@@ -634,6 +643,7 @@
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostType.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
+    <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequest.cs" />

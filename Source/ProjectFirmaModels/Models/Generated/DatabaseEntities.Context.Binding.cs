@@ -109,6 +109,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomGridConfigurationConfiguration());
             modelBuilder.Configurations.Add(new ProjectDocumentConfiguration());
             modelBuilder.Configurations.Add(new ProjectDocumentUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
@@ -293,6 +294,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomGridConfiguration> AllProjectCustomGridConfigurations { get; set; }
+        public virtual IQueryable<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get { return AllProjectCustomGridConfigurations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
         public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectDocumentUpdate> AllProjectDocumentUpdates { get; set; }
@@ -699,6 +702,19 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectCustomAttributeValue":
                     return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
+
+                case "ProjectCustomGridColumn":
+                    var projectCustomGridColumn = ProjectCustomGridColumn.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridColumn, "ProjectCustomGridColumn", primaryKey);
+                    return projectCustomGridColumn;
+
+                case "ProjectCustomGridConfiguration":
+                    return ProjectCustomGridConfigurations.GetProjectCustomGridConfiguration(primaryKey);
+
+                case "ProjectCustomGridType":
+                    var projectCustomGridType = ProjectCustomGridType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridType, "ProjectCustomGridType", primaryKey);
+                    return projectCustomGridType;
 
                 case "ProjectDocument":
                     return ProjectDocuments.GetProjectDocument(primaryKey);

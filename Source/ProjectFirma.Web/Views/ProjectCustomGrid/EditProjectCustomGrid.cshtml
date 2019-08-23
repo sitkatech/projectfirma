@@ -1,0 +1,77 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditProjectCustomGrid.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.ProjectCustomGrid.EditProjectCustomGrid
+
+<style>.radio-inline {
+     padding-top: 0 !important;
+ }</style>
+
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"EditProjectCustomGridController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomGridController">
+    <div>
+        <div style="margin-bottom: 25px;">
+            1. Select the columns
+        </div>
+        @* Enable/disable columns *@
+        <div ng-repeat="projectCustomGridConfigurationSimple in AngularModel.ProjectCustomGridConfigurationSimples">
+            <label>
+                <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled">
+                <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span>
+            </label>
+
+        </div>
+    </div>
+    <div>
+        <div style="margin-top: 50px; margin-bottom: 25px">
+            2. Order the selected columns
+        </div>
+        <div style="margin-left: 25px;">
+            @* Order enabled fields *@
+            <div ng-repeat="projectCustomGridConfigurationSimple in getEnabledProjectCustomGridConfigurationSimples()">
+                <div style="font-size: 11pt; margin-bottom: 4px;"><span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span><span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span></div>
+            </div>
+        </div>
+    </div>
+    
+    @* Form to post  - want to post all available configurations*@
+    @using (Html.BeginForm())
+    {
+    }
+</div>
+
+
+
+

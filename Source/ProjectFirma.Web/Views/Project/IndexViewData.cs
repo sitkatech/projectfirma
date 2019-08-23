@@ -26,17 +26,20 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.UI.WebControls;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly string ProposeNewProjectUrl;
-        public readonly string ProjectUpdatesUrl;
-        public readonly bool DisplayActionButtons;
+        public IndexGridSpec GridSpec { get; }
+        public string GridName { get; }
+        public string GridDataUrl { get; }
+        public string ProposeNewProjectUrl { get; }
+        public string ProjectUpdatesUrl { get; }
+        public bool DisplayActionButtons { get; }
 
         public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes) : base(currentPerson, firmaPage)
         {
@@ -53,7 +56,6 @@ namespace ProjectFirma.Web.Views.Project
             {
                 GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
-
             GridName = "projectsGrid";
             GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
 

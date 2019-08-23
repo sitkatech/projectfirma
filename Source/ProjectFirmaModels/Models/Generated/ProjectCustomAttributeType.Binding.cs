@@ -27,6 +27,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectCustomAttributes = new HashSet<ProjectCustomAttribute>();
             this.ProjectCustomAttributeTypeRoles = new HashSet<ProjectCustomAttributeTypeRole>();
             this.ProjectCustomAttributeUpdates = new HashSet<ProjectCustomAttributeUpdate>();
+            this.ProjectCustomGridConfigurations = new HashSet<ProjectCustomGridConfiguration>();
         }
 
         /// <summary>
@@ -85,13 +86,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectCustomAttributes.Any() || ProjectCustomAttributeTypeRoles.Any() || ProjectCustomAttributeUpdates.Any();
+            return ProjectCustomAttributes.Any() || ProjectCustomAttributeTypeRoles.Any() || ProjectCustomAttributeUpdates.Any() || ProjectCustomGridConfigurations.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectCustomAttributeTypeRole).Name, typeof(ProjectCustomAttributeUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeType).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectCustomAttributeTypeRole).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectCustomGridConfiguration).Name};
 
 
         /// <summary>
@@ -130,6 +131,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ProjectCustomGridConfigurations.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -148,6 +154,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectCustomAttribute> ProjectCustomAttributes { get; set; }
         public virtual ICollection<ProjectCustomAttributeTypeRole> ProjectCustomAttributeTypeRoles { get; set; }
         public virtual ICollection<ProjectCustomAttributeUpdate> ProjectCustomAttributeUpdates { get; set; }
+        public virtual ICollection<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ProjectCustomAttributeDataType ProjectCustomAttributeDataType { get { return ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID]; } }
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitTypeID.HasValue ? MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID.Value] : null; } }

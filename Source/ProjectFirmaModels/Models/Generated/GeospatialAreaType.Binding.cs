@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected GeospatialAreaType()
         {
             this.GeospatialAreas = new HashSet<GeospatialArea>();
+            this.ProjectCustomGridConfigurations = new HashSet<ProjectCustomGridConfiguration>();
             this.ProjectGeospatialAreaTypeNotes = new HashSet<ProjectGeospatialAreaTypeNote>();
             this.ProjectGeospatialAreaTypeNoteUpdates = new HashSet<ProjectGeospatialAreaTypeNoteUpdate>();
         }
@@ -72,13 +73,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any();
+            return GeospatialAreas.Any() || ProjectCustomGridConfigurations.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name, typeof(ProjectCustomGridConfiguration).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name};
 
 
         /// <summary>
@@ -104,6 +105,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in GeospatialAreas.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectCustomGridConfigurations.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -144,6 +150,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
 
         public virtual ICollection<GeospatialArea> GeospatialAreas { get; set; }
+        public virtual ICollection<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get; set; }
         public virtual ICollection<ProjectGeospatialAreaTypeNote> ProjectGeospatialAreaTypeNotes { get; set; }
         public virtual ICollection<ProjectGeospatialAreaTypeNoteUpdate> ProjectGeospatialAreaTypeNoteUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
