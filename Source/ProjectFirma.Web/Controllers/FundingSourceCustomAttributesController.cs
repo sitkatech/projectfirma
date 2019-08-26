@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var viewModel = new EditFundingSourceCustomAttributesViewModel(fundingSource);
-            return ViewEditFundingSourceCustomAttibutes(fundingSource, viewModel);
+            return ViewEditFundingSourceCustomAttributes(fundingSource, viewModel);
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditFundingSourceCustomAttibutes(fundingSource, viewModel);
+                return ViewEditFundingSourceCustomAttributes(fundingSource, viewModel);
             }
 
             return UpdateFundingSourceCustomAttributes(viewModel, fundingSource);
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditFundingSourceCustomAttibutes(FundingSource fundingSource, EditFundingSourceCustomAttributesViewModel viewModel)
+        private PartialViewResult ViewEditFundingSourceCustomAttributes(FundingSource fundingSource, EditFundingSourceCustomAttributesViewModel viewModel)
         {
 
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
