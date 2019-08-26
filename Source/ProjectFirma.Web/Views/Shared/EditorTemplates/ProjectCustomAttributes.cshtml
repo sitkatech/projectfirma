@@ -1,12 +1,37 @@
 ﻿@using System.ComponentModel
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 
 @model ProjectCustomAttributes
+
+@functions 
+{
+    private string MakeAttributeNameForProjectCustomAttributeValues(int indexOfAttribute)
+    {
+        return Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString());
+    }
+
+    private string MakeAttributeValueForProjectCustomAttributeValues(ProjectCustomAttributeSimple attributeSimple)
+    {
+        return attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null;
+    }
+
+    private string GetCheckedValueForBooleanCheckbox(ProjectCustomAttributeSimple attributeSimple)
+    {
+        // If true, Checked
+        if (attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues[0].ToLower() == "true")
+        {
+            return "checked=\"checked\"";
+        }
+
+        // Otherwise, unchecked
+        return string.Empty;
+    }
+
+}
 
 @{
     var projectCustomAttributeTypes = ViewData.ContainsKey("ProjectCustomAttributes") && ViewData["ProjectCustomAttributes"] is IEnumerable<ProjectCustomAttributeType>
@@ -37,15 +62,15 @@
         </label>
         <div class="col-sm-@colRight">
             <input type="hidden" name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeTypeID).ToString().Replace("0", indexOfAttribute.ToString()))"
-                   value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)" />
+                                 value="@(attribute != null ? attribute.ProjectCustomAttributeTypeID : (int?) null)" />
             @if (attribute != null)
             {
                 switch (attribute.ProjectCustomAttributeDataType.ToEnum)
                 {
                     case ProjectCustomAttributeDataTypeEnum.DateTime:
                         <input type="text" class="form-control sitkaDatePicker" style="width: auto;"
-                               name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
-                               value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
+                               name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                               value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                         if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
@@ -54,22 +79,23 @@
                             }
                         }
                         break;
+
                     case ProjectCustomAttributeDataTypeEnum.Integer:
                     case ProjectCustomAttributeDataTypeEnum.Decimal:
                         if (attribute.MeasurementUnitType != null && !string.IsNullOrWhiteSpace(attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName))
                         {
                             <div class="input-group col-xs-5 col-sm-8 col-md-6 col-lg-5">
                                 <input class="form-control" type="number" aria-describedby="attributeUnit" style="z-index: 1;"
-                                       name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
-                                       value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
+                                       name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                                       value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                                 <span class="input-group-addon" id="attributeUnit">@attribute.MeasurementUnitType.MeasurementUnitTypeDisplayName</span>
                             </div>
                         }
                         else
                         {
                             <input class="form-control" type="number" aria-describedby="attributeUnit" style="width: auto;"
-                                   name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
-                                   value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
+                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                                   value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                         }
                         if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
@@ -79,9 +105,10 @@
                             }
                         }
                         break;
+
                     case ProjectCustomAttributeDataTypeEnum.PickFromList:
                         <select class="form-control" style="width: auto;"
-                                name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))">
+                                name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))">
                             <option value=""></option>
                             @foreach (var option in attribute.GetOptionsSchemaAsListOfString())
                             {
@@ -99,6 +126,7 @@
                             }
                         }
                         break;
+
                     case ProjectCustomAttributeDataTypeEnum.MultiSelect:
                         for (var j = 0; j < attribute.GetOptionsSchemaAsListOfString().Count; j++)
                         {
@@ -106,7 +134,7 @@
                             <input type="checkbox"
                                    id="@string.Format("multiselect_{0}", option)"
                                    value="@option"
-                                   name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))[]"
+                                   name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))[]"
                                    checked="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null && attributeSimple.ProjectCustomAttributeValues.Any(value => value == option))">
                             <label for="@string.Format("multiselect_{0}", option)">@option</label>
                             <br />
@@ -119,10 +147,11 @@
                             }
                         }
                         break;
+
                     case ProjectCustomAttributeDataTypeEnum.String:
                         <input class="form-control" type="text" style="width: auto;"
-                               name="@(Html.NameFor(m => m.Attributes[0].ProjectCustomAttributeValues).ToString().Replace("0", indexOfAttribute.ToString()))"
-                               value="@(attributeSimple != null && attributeSimple.ProjectCustomAttributeValues != null ? attributeSimple.ProjectCustomAttributeValues[0] : null)" />
+                               name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                               value="@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))" />
                         if (indexOfAttributeSimple != null && indexOfAttributeSimple >= 0 && Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues != null)
                         {
                             for (var valueIndex = 0; valueIndex < Model.Attributes[indexOfAttributeSimple.Value].ProjectCustomAttributeValues.Count; valueIndex++)
@@ -131,6 +160,18 @@
                             }
                         }
                         break;
+
+
+                    case ProjectCustomAttributeDataTypeEnum.Boolean:
+                        <input type="checkbox"
+                               id="@string.Format("checkbox_{0}", MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                               @*Always true if submitted. (If unchecked, won't be submitted).*@
+                               value="True"
+                               name="@(MakeAttributeNameForProjectCustomAttributeValues(indexOfAttribute))"
+                               @GetCheckedValueForBooleanCheckbox(attributeSimple)>
+
+                        break;
+
                     default:
                         throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.ProjectCustomAttributeDataType.ToEnum.ToString()));
                 }

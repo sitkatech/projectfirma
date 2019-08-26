@@ -26,6 +26,8 @@ namespace ProjectFirmaModels.Models
 
         public void UpdateModel(Project project, Person currentPerson)
         {
+            FixUpMissingBooleansToBeFalse();
+
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var existingProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
@@ -69,6 +71,8 @@ namespace ProjectFirmaModels.Models
 
         public void UpdateModel(ProjectUpdate projectUpdate, Person currentPerson)
         {
+            FixUpMissingBooleansToBeFalse();
+
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
@@ -107,6 +111,25 @@ namespace ProjectFirmaModels.Models
             UpdateProjectCustomAttributeValuesImpl(existingProjectCustomAttributeValues,
                 customAttributeValuesToUpdate,
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeUpdateValues.Local);
+        }
+
+        /// <summary>
+        /// Fix up booleans that aren't checked. Since they don't get submitted in the form post (as per standard form behavior
+        /// in checkboxes), we adjust these manually to be "False" rather than null.
+        /// </summary>
+        private void FixUpMissingBooleansToBeFalse()
+        {
+            // ReSharper disable once IdentifierTypo
+            foreach (var attrib in this.Attributes)
+            {
+                var currentCustomAttributeType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Single(at =>
+                    at.ProjectCustomAttributeTypeID == attrib.ProjectCustomAttributeTypeID);
+                if (currentCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.Boolean &&
+                    attrib.ProjectCustomAttributeValues == null)
+                {
+                    attrib.ProjectCustomAttributeValues = new List<string> { "False" };
+                }
+            }
         }
 
         private static void UpdateProjectCustomAttributesImpl<TProjectCustomAttribute>(
@@ -149,7 +172,7 @@ namespace ProjectFirmaModels.Models
                 {
                     if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
                     {
-                        yield return new ValidationResult($"Entered value for {type.ProjectCustomAttributeTypeName} does not match expected type " +
+                        yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
                                                           $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
                     }
                 }
