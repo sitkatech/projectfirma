@@ -13,14 +13,37 @@ values
 create table dbo.ProjectCustomGridColumn (
 	ProjectCustomGridColumnID int not null constraint PK_ProjectCustomGridColumn_ProjectCustomGridColumnID primary key,
 	ProjectCustomGridColumnName varchar(100) not null constraint AK_ProjectCustomGridColumn_ProjectCustomGridColumnName unique,
-	ProjectCustomGridColumnDisplayName varchar(100) not null constraint AK_ProjectCustomGridColumn_ProjectCustomGridColumnDisplayName unique
+	ProjectCustomGridColumnDisplayName varchar(100) not null constraint AK_ProjectCustomGridColumn_ProjectCustomGridColumnDisplayName unique,
+	IsOptional bit not null,
+
 );
 
-insert into dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID, ProjectCustomGridColumnName, ProjectCustomGridColumnDisplayName)
+insert into dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID, ProjectCustomGridColumnName, ProjectCustomGridColumnDisplayName, IsOptional)
 values
-(1, 'PerformanceMeasureCount', 'Performance Measure Count'),
-(2, 'GeospatialAreaName', 'Geospatial Area Name'),
-(3, 'CustomAttribute', 'Custom Attribute')
+(1, 'ProjectName', 'Project Name', 0),
+(2, 'PrimaryContactOrganization', 'Primary Contact Organization', 0),
+(3, 'ProjectStage', 'Project Stage', 0),
+(4, 'NumberOfReportedPerformanceMeasures', 'Number of Reported Performance Measures', 1),
+(5, 'ProjectsStewardOrganizationRelationshipToProject', 'Projects Steward Organization Relationship To Project', 1),
+(6, 'ProjectPrimaryContact', 'Project Primary Contact', 1),
+(7, 'ProjectPrimaryContactEmail', 'Project Primary Contact Email', 1),
+(8, 'PlanningDesignStartYear', 'Planning Design Start Year', 1),
+(9, 'ImplementationStartYear', 'Implementation Start Year', 1),
+(10, 'CompletionYear', 'Completion Year', 1),
+(11, 'PrimaryTaxonomyLeaf', 'Primary Taxonomy Leaf', 1),
+(12, 'SecondaryTaxonomyLeaf', 'Secondary Taxonomy Leaf', 1),
+(13, 'NumberOfReportedExpenditures', 'Number of Reported Expenditures', 1),
+(14, 'FundingType', 'Funding Type', 1),
+(15, 'EstimatedTotalCost', 'Estimated Total Cost', 1),
+(16, 'SecuredFunding', 'Secured Funding', 1),
+(17, 'TargetedFunding', 'Targeted Funding', 1),
+(18, 'NoFundingSourceIdentified', 'No Funding Source Identified', 1),
+(19, 'ProjectDescription', 'Project Description', 1),
+(20, 'NumberOfPhotos', 'Number of Photos', 1),
+(21, 'GeospatialAreaName', 'Geospatial Area Name', 1),
+(22, 'CustomAttribute', 'Custom Attribute', 1)
+
+
 
 create table dbo.ProjectCustomGridConfiguration (
 	ProjectCustomGridConfigurationID int not null identity(1,1) constraint PK_ProjectCustomGridConfiguration_ProjectCustomGridConfigurationID primary key,
@@ -32,10 +55,17 @@ create table dbo.ProjectCustomGridConfiguration (
 	IsEnabled bit not null,
 	SortOrder int null
 );
-
+-- SortOrder must be not null if enabled, otherwise null
 alter table dbo.ProjectCustomGridConfiguration
 add constraint CK_ProjectCustomGridConfiguration_SortOrder_OnlyIf_IsEnabled check ((IsEnabled = 1 and SortOrder is not null) or (IsEnabled = 0 and SortOrder is null))
 go
+
+-- SortOrder must be unique per tenant except for null
+/*
+CREATE UNIQUE NONCLUSTERED INDEX AK_ProjectCustomGridConfiguration_SortOrder_IsUniquePerTypeAndTenant
+ON ProjectCustomGridConfiguration(TenantID, ProjectCustomGridTypeID, SortOrder)
+WHERE SortOrder IS NOT NULL;
+*/
 
 insert into dbo.ProjectCustomGridConfiguration(TenantID, ProjectCustomGridTypeID, ProjectCustomGridColumnID, ProjectCustomAttributeTypeID, GeospatialAreaTypeID, IsEnabled, SortOrder)
 values

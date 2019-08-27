@@ -19,10 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using LtInfo.Common;
-
 namespace ProjectFirmaModels.Models
 {
     public class ProjectCustomGridConfigurationSimple
@@ -38,7 +34,12 @@ namespace ProjectFirmaModels.Models
         public string GeospatialAreaTypeName { get; set; }
 
         public bool IsEnabled { get; set; }
+        public bool IsOptional { get; }
         public int? SortOrder { get; set; }
+
+        public ProjectCustomGridConfigurationSimple()
+        {
+        }
 
         public ProjectCustomGridConfigurationSimple(int projectCustomGridTypeID, ProjectCustomGridColumn projectCustomGridColumn, ProjectCustomAttributeType projectCustomAttributeType, GeospatialAreaType geospatialAreaType, bool isEnabled, int? sortOrder)
         {
@@ -49,7 +50,8 @@ namespace ProjectFirmaModels.Models
             ProjectCustomAttributeTypeName = projectCustomAttributeType?.ProjectCustomAttributeTypeName;
             GeospatialAreaTypeID = geospatialAreaType?.GeospatialAreaTypeID;
             GeospatialAreaTypeName = geospatialAreaType?.GeospatialAreaTypeName;
-            IsEnabled = isEnabled;
+            IsEnabled = !projectCustomGridColumn.IsOptional || isEnabled;
+            IsOptional = projectCustomGridColumn.IsOptional;
             SortOrder = sortOrder;
         }
     }

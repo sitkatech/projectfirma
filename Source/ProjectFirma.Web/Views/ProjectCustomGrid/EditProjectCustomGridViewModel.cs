@@ -19,18 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.ProjectCustomGrid
 {
     public class EditProjectCustomGridViewModel : FormViewModel, IValidatableObject
     {
+        [DisplayName("Project Custom Grid Configurations")]
         public List<ProjectCustomGridConfigurationSimple> ProjectCustomGridConfigurationSimples { get; set; }
 
         /// <summary>
@@ -75,13 +78,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             ProjectCustomGridConfigurationSimples = projectCustomGridConfigurationSimples;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson)
+        public void UpdateModel(List<ProjectCustomGridConfiguration> existingProjectCustomGridConfiguration, IList<ProjectCustomGridConfiguration> allProjectCustomGridConfigurations)
         {
-//            performanceMeasure.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
-//            performanceMeasure.PerformanceMeasureTypeID = PerformanceMeasureTypeID.Value;
-//            performanceMeasure.MeasurementUnitTypeID = MeasurementUnitTypeID;
-//            performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
-//            performanceMeasure.IsSummable = IsSummable.GetValueOrDefault(); // will never be null due to RequiredAttribute
+            var databaseEntities = HttpRequestStorage.DatabaseEntities;
+            var incomingProjectCustomGridConfigurations = ProjectCustomGridConfigurationSimples.Select(x =>
+                new ProjectCustomGridConfiguration(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), x.ProjectCustomGridTypeID, x.ProjectCustomGridColumnID, x.ProjectCustomAttributeTypeID, x.GeospatialAreaTypeID, x.IsEnabled, x.SortOrder)).ToList();
+            existingProjectCustomGridConfiguration.Merge(incomingProjectCustomGridConfigurations,
+                allProjectCustomGridConfigurations,
+                (x, y) => x.ProjectCustomGridTypeID == y.ProjectCustomGridTypeID && x.ProjectCustomGridColumnID == y.ProjectCustomGridColumnID && x.ProjectCustomAttributeTypeID == y.ProjectCustomAttributeTypeID && x.GeospatialAreaTypeID == y.GeospatialAreaTypeID,
+                (x, y) => x.SetEnabledAndSortOrder(y.IsEnabled, y.SortOrder),
+                databaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

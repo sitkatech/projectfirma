@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -29,7 +28,6 @@ using ProjectFirmaModels.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -52,10 +50,10 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [ProjectsViewFullListFeature]  //TODO: Is this right?
+        [ProjectsViewFullListFeature]
         public GridJsonNetJObjectResult<Project> ProjectCustomGridDefaultJsonData()
         {
-            var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
@@ -79,12 +77,17 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditProjectCustomGrid(ProjectCustomGridTypePrimaryKey projectCustomGridTypePrimaryKey, EditProjectCustomGridViewModel viewModel)
         {
+
             if (!ModelState.IsValid)
             {
                 return ViewEditProjectCustomGrid(viewModel);
             }
-
-            return ViewEditProjectCustomGrid(viewModel);
+            var gridTypeID = viewModel.ProjectCustomGridConfigurationSimples.First().ProjectCustomGridTypeID;
+            var existingProjectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.ProjectCustomGridTypeID == gridTypeID).ToList();
+            var allProjectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.AllProjectCustomGridConfigurations.Local;
+            viewModel.UpdateModel(existingProjectCustomGridConfigurations, allProjectCustomGridConfigurations);
+            SetMessageForDisplay("Successfully Updated Custom Grid");
+            return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewEditProjectCustomGrid(EditProjectCustomGridViewModel viewModel)

@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[ProjectCustomGridColumn](
 	[ProjectCustomGridColumnID] [int] NOT NULL,
 	[ProjectCustomGridColumnName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ProjectCustomGridColumnDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[IsOptional] [bit] NOT NULL,
  CONSTRAINT [PK_ProjectCustomGridColumn_ProjectCustomGridColumnID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomGridColumnID] ASC

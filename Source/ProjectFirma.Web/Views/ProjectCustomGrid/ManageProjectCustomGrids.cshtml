@@ -31,7 +31,7 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/ProjectCustomGrid/EditProjectCustomGridController.js")"></script>
-
+    <script src="~/Content/Sortable.js"></script>
 }
 
 <p>
@@ -48,11 +48,11 @@
     @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
-<br/><br/><br/>
+<br /><br /><br />
 
 @* Default Grid *@
 <div class="pull-right">
-  @ModalDialogFormHelper.ModalDialogFormLink("Customize Grid", ViewDataTyped.CustomizeDefaultGridUrl, "Customize Grid", new List<string> { "btn", "btn-firma", "btn-sm" }, true)
+    @ModalDialogFormHelper.ModalDialogFormLink("Customize Grid", ViewDataTyped.CustomizeDefaultGridUrl, "Customize Grid", new List<string> { "btn", "btn-firma", "btn-sm" }, true)
 </div>
 <h4> Default @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
 <div style="margin-top: 10px">

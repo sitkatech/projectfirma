@@ -25,5 +25,11 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCustomGridConfiguration : IAuditableEntity
     {
         public string GetAuditDescriptionString() => $"Project Custom Grid Configuration for grid type {ProjectCustomGridType.ProjectCustomGridTypeDisplayName} for column {ProjectCustomGridColumn.ProjectCustomGridColumnDisplayName}.";
+
+        public void SetEnabledAndSortOrder(bool isEnabled, int? sortOrder)
+        {
+            IsEnabled = isEnabled;
+            SortOrder = sortOrder;
+        }
     }
 }
