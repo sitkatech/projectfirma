@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using LtInfo.Common;
+using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
@@ -34,23 +36,19 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
     {
         public ProjectAttachmentGridSpec(bool hasManagePermissions)
         {
-            var basicsColumnGroupCount = 5;
-
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(t => t.Edit(a)),
                         $"Edit Attachment \"{a.DisplayName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
-                basicsColumnGroupCount += 2;
             }
 
-            Add($"Attachment Name", a => a.DisplayName, 240);
+            Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.Attachment.GetFileResourceUrl(), a.DisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
             Add($"Attachment Description", a => a.Description, 240);
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Name", a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentRelationshipType.AttachmentRelationshipTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"File Type", a => a.Attachment.FileResourceMimeType.FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            
         }
     }
 }
