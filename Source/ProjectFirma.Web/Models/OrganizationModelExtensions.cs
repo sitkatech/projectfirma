@@ -224,16 +224,21 @@ namespace ProjectFirma.Web.Models
                     x => x.OrganizationID != currentOrganizationID && String.Equals(x.OrganizationShortName, organizationShortName, StringComparison.InvariantCultureIgnoreCase));
             return existingOrganization == null;
         }
-
-        public static List<OrganizationBoundaryStaging> CreateOrganizationBoundaryStagingStagingListFromGdb(
-            FileInfo gisFile, Organization organization)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gisFile"></param>
+        /// <param name="originalFilename">This is the original name of the file as it appeared on the users file system. It is provided just for error messaging purposes.</param>
+        /// <param name="organization"></param>
+        /// <returns></returns>
+        public static List<OrganizationBoundaryStaging> CreateOrganizationBoundaryStagingStagingListFromGdb(FileInfo gisFile, string originalFilename, Organization organization)
         {
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
                 Ogr2OgrCommandLineRunner.DefaultCoordinateSystemId,
                 FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             var geoJsons =
-                OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gisFile, Ogr2OgrCommandLineRunner.DefaultTimeOut)
+                OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable), gisFile, originalFilename, Ogr2OgrCommandLineRunner.DefaultTimeOut)
                     .ToDictionary(x => x, x => ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gisFile, x, false))
                     .Where(x => OrganizationBoundaryStaging.IsUsableFeatureCollectionGeoJson(JsonTools.DeserializeObject<FeatureCollection>(x.Value)))
                     .ToDictionary(x => x.Key, x => new FeatureCollection(JsonTools.DeserializeObject<FeatureCollection>(x.Value).Features.Where(OrganizationBoundaryStaging.IsUsableFeatureGeoJson).ToList()).ToGeoJsonString());
