@@ -51,7 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 });
         });
         jQuery("#overviewTab").on("shown.bs.tab", function () {
-            var gridName = @(ViewDataTyped.BasicProjectInfoGridName.ToJS().ToHTMLFormattedString());
+            var gridName = @(ViewDataTyped.ProjectCustomDefaultGridName.ToJS().ToHTMLFormattedString());
             Sitka[gridName].resizeGridWidths();
             _.forOwn(window.GoogleCharts.chartWrappers,
                 function (chartWrapper) {
@@ -134,7 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
                             </div>
                             <div class="panel-body">
-                                @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoGridName, ViewDataTyped.BasicProjectInfoGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                             </div>
                         </div>
                     </div>

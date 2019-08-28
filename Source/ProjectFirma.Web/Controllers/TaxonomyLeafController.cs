@@ -139,12 +139,15 @@ namespace ProjectFirma.Web.Controllers
                 x => x.PerformanceMeasureID,
                 x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
 
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+
             var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, primaryProjectLocationsMapInitJson,
                 secondaryProjectLocationsMapInitJson, primaryProjectLocationsMapViewData,
                 secondaryProjectLocationsMapViewData, canHaveAssociatedPerformanceMeasures,
                 relatedPerformanceMeasuresViewData, taxonomyLevel, tenantAttribute, performanceMeasures,
                 primaryPerformanceMeasureChartViewDataByPerformanceMeasure,
-                secondaryPerformanceMeasureChartViewDataByPerformanceMeasure);
+                secondaryPerformanceMeasureChartViewDataByPerformanceMeasure,
+                projectCustomDefaultGridConfigurations);
 
             return RazorView<Summary, DetailViewData>(viewData);
         }
@@ -275,15 +278,6 @@ namespace ProjectFirma.Web.Controllers
 
             taxonomyLeaf.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
-        }
-
-        [TaxonomyLeafViewFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
-        {
-            var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
-            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
-            return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 
         [TaxonomyLeafViewFeature]

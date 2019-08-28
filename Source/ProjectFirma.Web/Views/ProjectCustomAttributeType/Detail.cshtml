@@ -72,10 +72,6 @@
                     <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType())</label>
                     <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.GetViewableRoles()</div>
                 </div>
-                <div class="row">
-                    <label class="col-sm-3 control-label text-right">@Html.Label(string.Format("Include In {0} Grid?", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()))</label>
-                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.IncludeInProjectGrid.ToYesNo()</div>
-                </div>
             </div>
         </div>
     </div>

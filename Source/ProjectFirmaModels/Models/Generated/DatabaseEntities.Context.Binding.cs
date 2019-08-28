@@ -109,6 +109,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomGridConfigurationConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
@@ -291,6 +292,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomGridConfiguration> AllProjectCustomGridConfigurations { get; set; }
+        public virtual IQueryable<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get { return AllProjectCustomGridConfigurations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -693,6 +696,19 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectCustomAttributeValue":
                     return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
+
+                case "ProjectCustomGridColumn":
+                    var projectCustomGridColumn = ProjectCustomGridColumn.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridColumn, "ProjectCustomGridColumn", primaryKey);
+                    return projectCustomGridColumn;
+
+                case "ProjectCustomGridConfiguration":
+                    return ProjectCustomGridConfigurations.GetProjectCustomGridConfiguration(primaryKey);
+
+                case "ProjectCustomGridType":
+                    var projectCustomGridType = ProjectCustomGridType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridType, "ProjectCustomGridType", primaryKey);
+                    return projectCustomGridType;
 
                 case "ProjectExemptReportingType":
                     var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
