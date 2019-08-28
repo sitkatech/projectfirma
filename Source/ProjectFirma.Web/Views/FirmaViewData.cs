@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
-            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages())
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
             }
@@ -139,9 +139,12 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
+            }
             MultiTenantHelpers.AddTechnicalAssistanceReportMenuItem(resultsMenu, currentPerson);
+            MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, currentPerson);
 
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));

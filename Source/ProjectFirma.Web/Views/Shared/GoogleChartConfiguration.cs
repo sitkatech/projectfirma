@@ -178,5 +178,16 @@ namespace ProjectFirma.Web.Views.Shared
         {
             ChartArea = null;
         }
+
+        public void SetSeriesIgnoringNullGoogleChartSeries(GoogleChartDataTable googleChartDataTable)
+        {
+            var dictionary = new Dictionary<string, GoogleChartSeries>();
+            var googleChartSeries = googleChartDataTable.GoogleChartColumns.Where(x => x.GoogleChartSeries != null).Select(x => x.GoogleChartSeries).ToList();
+            for (var i = 0; i < googleChartSeries.Count; i++)
+            {
+                dictionary.Add(i.ToString(), googleChartSeries[i]);
+            }
+            Series = dictionary;
+        }
     }
 }
