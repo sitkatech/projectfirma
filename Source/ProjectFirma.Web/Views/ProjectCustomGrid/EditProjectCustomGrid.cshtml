@@ -57,7 +57,7 @@
             1. Select the columns
         </div>
         @* Enable/disable columns *@
-        <div ng-repeat="projectCustomGridConfigurationSimple in AngularModel.ProjectCustomGridConfigurationSimples | orderBy: 'ProjectCustomGridColumnName'" class="col-md-6">
+        <div ng-repeat="projectCustomGridConfigurationSimple in AngularModel.ProjectCustomGridConfigurationSimples | orderBy: getColumnName" class="col-md-6">
             @* Optional columns *@
             <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
                 <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">

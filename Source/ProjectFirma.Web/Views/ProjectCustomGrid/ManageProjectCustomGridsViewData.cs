@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -34,6 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
         public string ProjectCustomDefaultGridName { get; }
         public string ProjectCustomDefaultGridDataUrl { get; }
+
         public string CustomizeDefaultGridUrl { get; }
 
 
@@ -42,23 +44,23 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         public string ProjectCustomFullGridDataUrl { get; }
         public string CustomizeFullGridUrl { get; }
 
-        public ManageProjectCustomGridsViewData(Person currentPerson) : base(currentPerson)
+        public ManageProjectCustomGridsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, 
+                                                List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations, 
+                                                List<ProjectCustomGridConfiguration>  projectCustomFullGridConfigurations) 
+                                                : base(currentPerson, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids";
 
-            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
-
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
                 ProjectCustomDefaultGridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload()); // TODO:
             }
-
             ProjectCustomDefaultGridName = "projectsCustomDefaultGrid";
-            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ProjectCustomGridDefaultJsonData());
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridDefaultJsonData());
+
             CustomizeDefaultGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(1));
 
-            var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomFullGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
@@ -70,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 ProjectCustomFullGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
             ProjectCustomFullGridName = "projectsCustomFullGrid";
-            ProjectCustomFullGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ProjectCustomGridFullJsonData());
+            ProjectCustomFullGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridFullJsonData());
             CustomizeFullGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(2));
         }
     }

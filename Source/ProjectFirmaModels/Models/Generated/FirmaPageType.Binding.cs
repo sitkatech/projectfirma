@@ -174,6 +174,7 @@ namespace ProjectFirmaModels.Models
         TechnicalAssistanceReport = 58,
         InviteUser = 59,
         ManageFundingSourceCustomAttributeTypeInstructions = 60,
-        ManageFundingSourceCustomAttributeTypesList = 61
+        ManageFundingSourceCustomAttributeTypesList = 61,
+        ManageProjectCustomGrids = 62
     }
 }

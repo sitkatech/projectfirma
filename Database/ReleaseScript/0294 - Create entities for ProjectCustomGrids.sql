@@ -60,14 +60,17 @@ alter table dbo.ProjectCustomGridConfiguration
 add constraint CK_ProjectCustomGridConfiguration_SortOrder_OnlyIf_IsEnabled check ((IsEnabled = 1 and SortOrder is not null) or (IsEnabled = 0 and SortOrder is null))
 go
 
--- SortOrder must be unique per tenant except for null
-/*
-CREATE UNIQUE NONCLUSTERED INDEX AK_ProjectCustomGridConfiguration_SortOrder_IsUniquePerTypeAndTenant
-ON ProjectCustomGridConfiguration(TenantID, ProjectCustomGridTypeID, SortOrder)
-WHERE SortOrder IS NOT NULL;
-*/
-
 insert into dbo.ProjectCustomGridConfiguration(TenantID, ProjectCustomGridTypeID, ProjectCustomGridColumnID, ProjectCustomAttributeTypeID, GeospatialAreaTypeID, IsEnabled, SortOrder)
 values
 (11, 2, 1, null, null, 1, 10),
 (11, 2, 2, null, 19, 1, 20)
+
+-- Create FirmaPage to Manage page
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values
+(62, 'ManageProjectCustomGrids', 'Manage Project Custom Grids', 1)
+go
+
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+values
+(11, 62, '<p>Manage Project Custom Grids introductory text.</p>')

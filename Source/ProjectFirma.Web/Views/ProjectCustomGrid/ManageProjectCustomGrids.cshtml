@@ -34,9 +34,9 @@
     <script src="~/Content/Sortable.js"></script>
 }
 
-<p>
-    TODO: add FirmaPage here
-</p>
+<div style="padding-top: 10px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
 
 @* Full Grid *@
 <div class="pull-right">

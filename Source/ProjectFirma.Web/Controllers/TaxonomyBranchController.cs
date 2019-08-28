@@ -97,7 +97,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel);
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel, projectCustomDefaultGridConfigurations);
             return RazorView<Summary, DetailViewData>(viewData);
         }
 
@@ -197,15 +198,6 @@ namespace ProjectFirma.Web.Controllers
             }
             taxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
-        }
-
-        [TaxonomyBranchViewFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyBranches, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
         [TaxonomyBranchManageFeature]
