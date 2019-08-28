@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema, bool includeInProjectGrid) : this()
+        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema) : this()
         {
             this.ProjectCustomAttributeTypeID = projectCustomAttributeTypeID;
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
@@ -42,13 +42,12 @@ namespace ProjectFirmaModels.Models
             this.IsRequired = isRequired;
             this.ProjectCustomAttributeTypeDescription = projectCustomAttributeTypeDescription;
             this.ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeTypeOptionsSchema;
-            this.IncludeInProjectGrid = includeInProjectGrid;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired, bool includeInProjectGrid) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -56,20 +55,18 @@ namespace ProjectFirmaModels.Models
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
-            this.IncludeInProjectGrid = includeInProjectGrid;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired, bool includeInProjectGrid) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataType.ProjectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
-            this.IncludeInProjectGrid = includeInProjectGrid;
         }
 
         /// <summary>
@@ -77,7 +74,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectCustomAttributeType CreateNewBlank(ProjectCustomAttributeDataType projectCustomAttributeDataType)
         {
-            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool), default(bool));
+            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool));
         }
 
         /// <summary>
@@ -147,7 +144,6 @@ namespace ProjectFirmaModels.Models
         public bool IsRequired { get; set; }
         public string ProjectCustomAttributeTypeDescription { get; set; }
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
-        public bool IncludeInProjectGrid { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 

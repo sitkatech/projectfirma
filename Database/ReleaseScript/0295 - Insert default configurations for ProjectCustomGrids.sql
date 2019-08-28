@@ -9,7 +9,7 @@ pcgc.ProjectCustomGridColumnID,
 null,
 null,
 1,
-0 -- I think these can all be zero to start...
+0
 from dbo.Tenant t
 cross join dbo.ProjectCustomGridColumn pcgc
 cross join dbo.ProjectCustomGridType pcgt
@@ -24,7 +24,7 @@ pcgc.ProjectCustomGridColumnID,
 null,
 gat.GeospatialAreaTypeID,
 1,
-0 -- I think these can all be zero to start...
+0
 from dbo.Tenant t
 cross join dbo.ProjectCustomGridColumn pcgc
 cross join dbo.ProjectCustomGridType pcgt
@@ -40,12 +40,12 @@ pcgc.ProjectCustomGridColumnID,
 pcat.ProjectCustomAttributeTypeID,
 null,
 1,
-0 -- I think these can all be zero to start...
+0
 from dbo.Tenant t
 cross join dbo.ProjectCustomGridColumn pcgc
 cross join dbo.ProjectCustomGridType pcgt
 inner join dbo.ProjectCustomAttributeType pcat on pcat.TenantID = t.TenantID
-where ProjectCustomGridColumnID = 21
+where ProjectCustomGridColumnID = 22
 
 -- Disable ProjectID for everyone except PSP
 update dbo.ProjectCustomGridConfiguration

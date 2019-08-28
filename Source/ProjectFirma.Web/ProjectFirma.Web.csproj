@@ -1253,7 +1253,6 @@
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditure.cs" />
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditureTest.cs" />
     <Compile Include="Views\Project\Index.cs" />
-    <Compile Include="Views\Project\IndexGridSpec.cs" />
     <Compile Include="Views\Project\IndexViewData.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjects.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjectsViewData.cs" />
