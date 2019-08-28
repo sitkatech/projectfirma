@@ -116,16 +116,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = CurrentPerson.Organization;
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals)  // TODO: does this query really need to look like this?
-                .Include(x => x.ProjectFundingSourceBudgets)
-                .Include(x => x.ProjectFundingSourceExpenditures)
-                .Include(x => x.ProjectImages)
-                .Include(x => x.ProjectGeospatialAreas)
-                .Include(x => x.ProjectOrganizations)
-                .Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues))
-                .Include(x => x.SecondaryProjectTaxonomyLeafs)
-                .Include(x => x.ProjectTags.Select(y => y.Tag))
-                .Include(x => x.PrimaryContactPerson)
+            var projects = HttpRequestStorage.DatabaseEntities.Projects
                 .ToList().GetActiveProjects()
                 .Where(p => organization.IsLeadImplementingOrganizationForProject(p) || organization.IsProjectStewardOrganizationForProject(p))
                 .OrderBy(x => x.GetDisplayName()).ToList();

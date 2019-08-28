@@ -108,10 +108,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf, taxonomyLevel);
 
             ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
-            if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
-            {
-                ProjectCustomDefaultGridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload()); // TODO:
-            }
+
             ProjectCustomDefaultGridName = "taxonomyLeafProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyLeafProjectsGridJsonData(taxonomyLeaf));
 

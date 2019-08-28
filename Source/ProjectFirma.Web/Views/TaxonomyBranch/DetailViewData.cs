@@ -91,12 +91,9 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
             ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
-            if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
-            {
-                ProjectCustomDefaultGridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload()); // TODO:
-            }
+
             ProjectCustomDefaultGridName = "taxonomyBranchProjectListGrid";
-            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridDefaultJsonData());
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyBranchProjectsGridJsonData(taxonomyBranch));
 
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyBranch, taxonomyLevel);
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -169,7 +170,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         private void AddProjectCustomGridCustomAttributeField(ProjectCustomGridConfiguration projectCustomGridConfiguration)
         {
             var projectCustomAttributeType = projectCustomGridConfiguration.ProjectCustomAttributeType;
-            Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+            var isCurrency = projectCustomGridConfiguration.ProjectCustomAttributeType.MeasurementUnitTypeID == MeasurementUnitType.Dollars.MeasurementUnitTypeID;
+            if (isCurrency)
+            {
+                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => Decimal.Parse(a.GetProjectCustomAttributesValue(projectCustomAttributeType)), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            }
+            else
+            {
+                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+            }
         }
 
         private void AddProjectCustomGridGeospatialAreaField(ProjectCustomGridConfiguration projectCustomGridConfiguration)
