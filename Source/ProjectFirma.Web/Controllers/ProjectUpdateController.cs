@@ -1263,7 +1263,7 @@ namespace ProjectFirma.Web.Controllers
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
                 projectUpdateBatch.DeleteProjectLocationStagingUpdates();
-                ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, projectUpdateBatch, CurrentPerson);
+                ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, httpPostedFileBase.FileName, projectUpdateBatch, CurrentPerson);
             }
             return ApproveGisUpload(project);
         }
