@@ -41,7 +41,8 @@ values
 (19, 'ProjectDescription', 'Project Description', 1),
 (20, 'NumberOfPhotos', 'Number of Photos', 1),
 (21, 'GeospatialAreaName', 'Geospatial Area Name', 1),
-(22, 'CustomAttribute', 'Custom Attribute', 1)
+(22, 'CustomAttribute', 'Custom Attribute', 1),
+(23, 'ProjectID', 'ProjectID', 1)
 
 
 
@@ -59,11 +60,6 @@ create table dbo.ProjectCustomGridConfiguration (
 alter table dbo.ProjectCustomGridConfiguration
 add constraint CK_ProjectCustomGridConfiguration_SortOrder_OnlyIf_IsEnabled check ((IsEnabled = 1 and SortOrder is not null) or (IsEnabled = 0 and SortOrder is null))
 go
-
-insert into dbo.ProjectCustomGridConfiguration(TenantID, ProjectCustomGridTypeID, ProjectCustomGridColumnID, ProjectCustomAttributeTypeID, GeospatialAreaTypeID, IsEnabled, SortOrder)
-values
-(11, 2, 1, null, null, 1, 10),
-(11, 2, 2, null, 19, 1, 20)
 
 -- Create FirmaPage to Manage page
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)

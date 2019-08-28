@@ -159,6 +159,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 Add("# of Photos", x => x.ProjectImages.Count, 60);
             }
+            // ProjectID - PSP really wants this
+            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectID.ProjectCustomGridColumnID)
+            {
+                Add("ProjectID", x => x.ProjectID.ToString(), 70);
+            }
         }
 
         private void AddProjectCustomGridCustomAttributeField(ProjectCustomGridConfiguration projectCustomGridConfiguration)

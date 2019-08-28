@@ -24,4 +24,5 @@ values
 (19, 'ProjectDescription', 'Project Description', 1),
 (20, 'NumberOfPhotos', 'Number of Photos', 1),
 (21, 'GeospatialAreaName', 'Geospatial Area Name', 1),
-(22, 'CustomAttribute', 'Custom Attribute', 1)
+(22, 'CustomAttribute', 'Custom Attribute', 1),
+(23, 'ProjectID', 'ProjectID', 1)

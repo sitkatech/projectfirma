@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnNumberOfPhotos NumberOfPhotos = ProjectCustomGridColumnNumberOfPhotos.Instance;
         public static readonly ProjectCustomGridColumnGeospatialAreaName GeospatialAreaName = ProjectCustomGridColumnGeospatialAreaName.Instance;
         public static readonly ProjectCustomGridColumnCustomAttribute CustomAttribute = ProjectCustomGridColumnCustomAttribute.Instance;
+        public static readonly ProjectCustomGridColumnProjectID ProjectID = ProjectCustomGridColumnProjectID.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -49,7 +50,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -149,6 +150,8 @@ namespace ProjectFirmaModels.Models
                     return PrimaryTaxonomyLeaf;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
                     return ProjectDescription;
+                case ProjectCustomGridColumnEnum.ProjectID:
+                    return ProjectID;
                 case ProjectCustomGridColumnEnum.ProjectName:
                     return ProjectName;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
@@ -194,7 +197,8 @@ namespace ProjectFirmaModels.Models
         ProjectDescription = 19,
         NumberOfPhotos = 20,
         GeospatialAreaName = 21,
-        CustomAttribute = 22
+        CustomAttribute = 22,
+        ProjectID = 23
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -327,5 +331,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomGridColumnCustomAttribute(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
         public static readonly ProjectCustomGridColumnCustomAttribute Instance = new ProjectCustomGridColumnCustomAttribute(22, @"CustomAttribute", @"Custom Attribute", true);
+    }
+
+    public partial class ProjectCustomGridColumnProjectID : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnProjectID(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnProjectID Instance = new ProjectCustomGridColumnProjectID(23, @"ProjectID", @"ProjectID", true);
     }
 }
