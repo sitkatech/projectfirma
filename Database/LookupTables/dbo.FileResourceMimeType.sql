@@ -33,3 +33,9 @@ values
 (19, 'application/x-gzip', 'X-GZIP', 'X-GZIP', null, null),
 (20, 'application/x-compressed', 'TGZ', 'TGZ', null, null),
 (21, 'application/x-tar', 'TAR', 'TAR', null, null)
+
+insert into dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTypeContentTypeName, FileResourceMimeTypeName, FileResourceMimeTypeDisplayName, FileResourceMimeTypeIconSmallFilename,  FileResourceMimeTypeIconNormalFilename) 
+	values (23, 'application/vnd.google-earth.kmz', 'KMZ', 'KMZ', null, null)
+
+insert into dbo.FileResourceMimeType (FileResourceMimeTypeID, FileResourceMimeTypeContentTypeName, FileResourceMimeTypeName, FileResourceMimeTypeDisplayName, FileResourceMimeTypeIconSmallFilename,  FileResourceMimeTypeIconNormalFilename) 
+	values (24, 'application/vnd.google-earth.kml+xml', 'KML', 'KML', null, null)
