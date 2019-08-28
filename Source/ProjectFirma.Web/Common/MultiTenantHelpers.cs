@@ -297,6 +297,21 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        // TODO make this into a check to see if the tenant uses custom results pages. For now, it's just PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
+        public static bool UsesCustomResultsPages()
+        {
+            return FirmaPageTypeEnum.FundingStatusHeader.GetFirmaPage() != null && FirmaPageTypeEnum.FundingStatusFooter.GetFirmaPage() != null;
+        }
+
+        public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
+        {
+            if (UsesCustomResultsPages())
+            {
+                
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentPerson, "Funding Status"));
+            }
+        }
+
         public static ProjectStewardshipAreaType GetProjectStewardshipAreaType()
         {
             return GetTenantAttribute().ProjectStewardshipAreaType;

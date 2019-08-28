@@ -85,6 +85,30 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData, GoogleChartPopupViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        public ContentResult GooglePieChartPopup()
+        {
+            return new ContentResult();
+        }
+
+        [HttpPost]
+        [AnonymousUnclassifiedFeature]
+        [CrossAreaRoute]
+        public ActionResult GooglePieChartPopup(GooglePieChartPopupViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new Exception("Invalid POST data.");
+            }
+
+            var googleChartJson = viewModel.DeserializeGooglePieChartJson();
+            EnlargeGoogleChart(googleChartJson);
+            var viewData = new GoogleChartPopupViewData(googleChartJson);
+            return RazorPartialView<GoogleChartPopup, GoogleChartPopupViewData, GoogleChartPopupViewModel>(viewData, viewModel);
+        }
+
         private static void EnlargeGoogleChart(GoogleChartJson googleChartJson)
         {
             var googleChartConfiguration = googleChartJson.GoogleChartConfiguration;

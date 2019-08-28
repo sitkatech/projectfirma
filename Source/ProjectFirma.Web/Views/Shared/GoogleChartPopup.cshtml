@@ -35,10 +35,13 @@ Source code is available upon request via <support@sitkatech.com>.
 <div id="ChartPopupContainer" style="height: 670px;">
     <div style="height: 30px">&nbsp;</div>
     <div class="firmaChartControls">
-        <a onclick="GoogleCharts.configureChart('@ViewDataTyped.GoogleChartJson.ChartContainerID')" href="#">
-            <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>
-            Customize
-        </a>
+        @if (ViewDataTyped.GoogleChartJson.CanConfigureChart)
+        {
+            <a onclick="GoogleCharts.configureChart('@ViewDataTyped.GoogleChartJson.ChartContainerID')" href="#">
+                <span class="glyphicon glyphicon-wrench" style="margin-right: 5px"></span>
+                Customize
+            </a>
+        }
         <a onclick="GoogleCharts.downloadChartPNG('@ViewDataTyped.GoogleChartJson.ChartContainerID');" href="#">
             <span class="glyphicon glyphicon-save" style="margin-right: 5px"></span>
             Save

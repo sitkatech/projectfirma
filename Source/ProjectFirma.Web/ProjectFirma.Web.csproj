@@ -234,6 +234,8 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\Results\FundingStatus.cs" />
+    <Compile Include="Views\Results\FundingStatusViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
@@ -257,6 +259,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
+    <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewModel.cs" />
@@ -1516,6 +1519,7 @@
     <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cshtml" />
     <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FundingSourceCustomAttributes.cshtml" />
+    <Content Include="Views\Results\FundingStatus.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
