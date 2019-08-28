@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
                     return !new EditAssessmentViewModel(project.ProjectAssessmentQuestions.Select(x => new ProjectAssessmentQuestionSimple(x)).ToList()).GetValidationResults().Any();
                 case ProjectCreateSectionEnum.Photos:
                     return ProjectCreateSection.Basics.IsComplete(project);
-                case ProjectCreateSectionEnum.NotesAndDocuments:
+                case ProjectCreateSectionEnum.AttachmentsAndNotes:
                     return ProjectCreateSection.Basics.IsComplete(project);
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -124,8 +124,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAssessment(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Photos:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID)) : null;
-                case ProjectCreateSectionEnum.NotesAndDocuments:
-                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project.ProjectID)) : null;
+                case ProjectCreateSectionEnum.AttachmentsAndNotes:
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project.ProjectID)) : null;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -357,14 +357,7 @@
     <Compile Include="Models\Generated\ProjectCustomGridConfigurationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocument.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocument.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentUpdate.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentUpdate.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentUpdateConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectDocumentUpdatePrimaryKey.Binding.cs" />
+
     <Compile Include="Models\Generated\ProjectExemptReportingType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
@@ -582,6 +575,7 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
     <Compile Include="Models\AttachmentRelationshipType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
@@ -635,6 +629,8 @@
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectAttachment.cs" />
+    <Compile Include="Models\ProjectAttachmentUpdate.cs" />
     <Compile Include="Models\ProjectContact.cs" />
     <Compile Include="Models\ProjectContactRelationship.cs" />
     <Compile Include="Models\ProjectContactSimple.cs" />
@@ -825,8 +821,6 @@
     <Compile Include="Models\ProjectCustomAttributeUpdate.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateValue.cs" />
     <Compile Include="Models\ProjectCustomAttributeValue.cs" />
-    <Compile Include="Models\ProjectDocument.cs" />
-    <Compile Include="Models\ProjectDocumentUpdate.cs" />
     <Compile Include="Models\ProjectExemptReportingYear.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdate.cs" />
     <Compile Include="Models\ProjectExternalLink.cs" />

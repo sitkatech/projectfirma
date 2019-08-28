@@ -47,8 +47,8 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
-using ProjectFirma.Web.Views.Shared.ProjectDocument;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -940,7 +940,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, project, CurrentPerson);
+                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentPerson);
             }
             return ApproveGisUpload(project);
         }
@@ -1088,21 +1088,27 @@ namespace ProjectFirma.Web.Controllers
             return $"editMapForProject{project.ProjectID}";
         }
 
+        #region "Attachments and Notes"
+
         [ProjectCreateFeature]
-        public ViewResult DocumentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult AttachmentsAndNotes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditNotesAndDocuments = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditNotesAndDocuments);
+            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditAttachmentsAndNotes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var projectDocumentsDetailViewData = new ProjectDocumentsDetailViewData(
-                EntityDocument.CreateFromEntityDocument(project.ProjectDocuments),
-                SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewDocument(project)), project.ProjectName,
-                canEditNotesAndDocuments);
-            var viewData = new DocumentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectDocumentsDetailViewData);
-            return RazorView<DocumentsAndNotes, DocumentsAndNotesViewData>(viewData);
+
+            var attachmentRelationshipTypes = project.GetAllAttachmentRelationshipTypes().ToList();
+            var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
+                                                                                        EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
+                                                                                        SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
+                                                                                        canEditAttachmentsAndNotes,
+                                                                                        attachmentRelationshipTypes,
+                                                                                        CurrentPerson);
+            var viewData = new AttachmentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
+            return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);
         }
 
         [HttpGet]
@@ -1193,22 +1199,25 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+
+
         [HttpGet]
         [ProjectCreateFeature]
-        public PartialViewResult NewDocument(ProjectPrimaryKey projectPrimaryKey)
+        public PartialViewResult NewAttachment(ProjectPrimaryKey projectPrimaryKey)
         {
-            var viewModel = new NewProjectDocumentViewModel();
-            return ViewNewDocument(viewModel);
+
+            var viewModel = new NewProjectAttachmentViewModel(projectPrimaryKey.EntityObject);
+            return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
         }
 
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewDocument(ProjectPrimaryKey projectPrimaryKey, NewProjectDocumentViewModel viewModel)
+        public ActionResult NewAttachment(ProjectPrimaryKey projectPrimaryKey, NewProjectAttachmentViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewNewDocument(viewModel);
+                return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
             }
             var project = projectPrimaryKey.EntityObject;
             viewModel.UpdateModel(project, CurrentPerson);
@@ -1216,55 +1225,58 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectDocumentEditAsAdminFeature]
-        public PartialViewResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
+        [ProjectAttachmentEditAsAdminFeature]
+        public PartialViewResult EditAttachment(ProjectAttachmentPrimaryKey projectAttachmentPrimaryKey)
         {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var viewModel = new EditProjectDocumentsViewModel(projectDocument);
-            return ViewEditDocument(viewModel);
+            var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
+            var viewModel = new EditProjectAttachmentsViewModel(projectAttachment);
+            return ViewEditAttachment(viewModel);
         }
 
         [HttpPost]
-        [ProjectDocumentEditAsAdminFeature]
+        [ProjectAttachmentEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, EditProjectDocumentsViewModel viewModel)
+        public ActionResult EditAttachment(ProjectAttachmentPrimaryKey projectAttachmentPrimaryKey, EditProjectAttachmentsViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEditDocument(viewModel);
+                return ViewEditAttachment(viewModel);
             }
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectDocument);
+            var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
+            viewModel.UpdateModel(projectAttachment);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditDocument(EditProjectDocumentsViewModel viewModel)
+        private PartialViewResult ViewEditAttachment(EditProjectAttachmentsViewModel viewModel)
         {
-            var viewData = new EditProjectDocumentsViewData();
-            return RazorPartialView<EditProjectDocuments, EditProjectDocumentsViewData, EditProjectDocumentsViewModel>(viewData, viewModel);
+            var viewData = new EditProjectAttachmentsViewData();
+            return RazorPartialView<EditProjectAttachments, EditProjectAttachmentsViewData, EditProjectAttachmentsViewModel>(viewData, viewModel);
         }
 
-        private PartialViewResult ViewNewDocument(NewProjectDocumentViewModel viewModel)
+        private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            var viewData = new NewProjectDocumentViewData();
-            return RazorPartialView<NewProjectDocument, NewProjectDocumentViewData, NewProjectDocumentViewModel>(viewData, viewModel);
+            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+
+            Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
+            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
+            return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProjectDocumentEditAsAdminFeature]
-        public PartialViewResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey)
+        [ProjectAttachmentEditAsAdminFeature]
+        public PartialViewResult DeleteAttachment(ProjectAttachmentPrimaryKey projectAttachmentPrimaryKey)
         {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(projectDocument.ProjectDocumentID);
-            return ViewDeleteDocument(projectDocument, viewModel);
+            var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectAttachment.ProjectAttachmentID);
+            return ViewDeleteAttachment(projectAttachment, viewModel);
         }
 
-        private PartialViewResult ViewDeleteDocument(ProjectDocument projectDocument, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteAttachment(ProjectAttachment projectAttachment, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !projectDocument.HasDependentObjects();
+            var canDelete = !projectAttachment.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete \"{projectDocument.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Document");
+                ? $"Are you sure you want to delete \"{projectAttachment.DisplayName}\" from this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Proposed {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachment");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
 
@@ -1272,18 +1284,20 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectDocumentEditAsAdminFeature]
+        [ProjectAttachmentEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteDocument(ProjectDocumentPrimaryKey projectDocumentPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteAttachment(ProjectAttachmentPrimaryKey projectAttachmentPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var projectDocument = projectDocumentPrimaryKey.EntityObject;
+            var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteDocument(projectDocument, viewModel);
+                return ViewDeleteAttachment(projectAttachment, viewModel);
             }
-            projectDocument.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            projectAttachment.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
+
+        #endregion "Attachments and Notes"
 
         [ProjectCreateFeature]
         public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)

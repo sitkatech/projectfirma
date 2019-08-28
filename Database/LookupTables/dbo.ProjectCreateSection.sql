@@ -13,5 +13,5 @@ values
 (11, 'Classifications', 'Classifications', 110, 1, 5),
 (12, 'Assessment', 'Asssessment', 120, 1, 5),
 (13, 'Photos', 'Photos', 130, 0, 5),
-(14, 'NotesAndDocuments', 'Documents and Notes', 140, 0, 5),
-(15, 'Contacts', 'Contacts', 45, 1, 1)
+(15, 'Contacts', 'Contacts', 45, 1, 1),
+(16, 'AttachmentsAndNotes', 'Attachments and Notes', 140, 0, 5)

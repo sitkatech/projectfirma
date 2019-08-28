@@ -28,6 +28,7 @@ namespace ProjectFirma.Web.Models
                     return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment }).ToList();
+
                     if (HttpRequestStorage.DatabaseEntities.AssessmentQuestions.Any())
                     {
                         projectCreateSectionsForAdditionalData.Add(ProjectCreateSection.Assessment);
@@ -129,8 +130,10 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionsForExpenditures, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
-                    var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    // Remove Technical Assistance Requests for all tenants except Idah
+                    var additionalDataProjectUpdateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.ToList();
+
+                    var sections = GetProjectUpdateSectionsImpl(projectUpdateBatch, additionalDataProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                    // Remove Technical Assistance Requests for all tenants except Idaho
                     if (!MultiTenantHelpers.UsesTechnicalAssistanceParameters())
                     {
                         sections = sections.Where(x => x.SectionDisplayName != ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName).ToList();

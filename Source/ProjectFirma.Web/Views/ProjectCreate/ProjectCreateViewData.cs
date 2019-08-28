@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ProposalInstructionsUrl { get; }
         public string ProposalBasicsUrl { get; }
         public string HistoricProjectBasicsUrl { get; }
-        public string ProposalNotesUrl { get; }
+        public string ProposalAttachmentsAndNotesUrl { get; }
         public string ProposalPhotosUrl { get; }
         public string SubmitUrl { get; }
         public string ApproveUrl { get; }
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProposalDetailUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project));
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
            
-            ProposalNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.DocumentsAndNotes(project.ProjectID));
+            ProposalAttachmentsAndNotesUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project.ProjectID));
             ProposalPhotosUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID));
             
             SubmitUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Submit(project));

@@ -1,0 +1,45 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="AttachmentsAndNotes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.TextControls
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared.ProjectAttachment
+@inherits ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes
+
+@section JavascriptAndStylesContent
+{
+    <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
+    <script src="@Url.Content("~/Views/Shared/ProjectAttachment/NewProjectAttachmentController.js")" type="text/javascript"></script>
+
+}
+
+
+<p>Add attachments and notes to the @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). When approved, the attachments and notes will be publicly visible.</p>
+<div style="min-height: 300px">
+    <div>
+        @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
+    </div>
+    <hr />
+    <div>
+        @{ Html.RenderRazorSitkaPartial<EntityNotes, EntityNotesViewData>(ViewDataTyped.EntityNotesViewData); }
+    </div>
+</div>

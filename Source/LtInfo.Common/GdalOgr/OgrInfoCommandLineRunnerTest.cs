@@ -74,8 +74,8 @@ namespace LtInfo.Common.GdalOgr
             // ---
             const int totalMilliseconds = 110000;
             const string pathToOgrInfoExecutable = @"C:\Program Files\GDAL\ogrinfo.exe";
-            var result = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(pathToOgrInfoExecutable), gdbFileInfo, totalMilliseconds);
-            var result2 = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(pathToOgrInfoExecutable), gdbFileInfoWith2FeatureClasses, totalMilliseconds);
+            var result = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(pathToOgrInfoExecutable), gdbFileInfo, gdbFileInfo.Name, totalMilliseconds);
+            var result2 = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(pathToOgrInfoExecutable), gdbFileInfoWith2FeatureClasses, gdbFileInfoWith2FeatureClasses.Name, totalMilliseconds);
 
             // Assert
             // ------

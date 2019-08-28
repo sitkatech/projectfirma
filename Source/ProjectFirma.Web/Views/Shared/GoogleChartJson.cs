@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public string SaveConfigurationUrl { get; set; }
         public string OptionalResetConfigurationUrl { get; set; }
+        public bool CanConfigureChart { get; set; }
 
         public List<string> ChartColumns { get; set; }
 
@@ -70,6 +71,8 @@ namespace ProjectFirma.Web.Views.Shared
             ChartContainerID = chartContainerID;
             GoogleChartConfiguration = googleChartConfiguration;
             ChartColumns = chartColumns;
+
+            CanConfigureChart = true;
 
             ChartType = googleChartType.GoogleChartTypeDisplayName;
             GoogleChartDataTable = googleChartDataTable;

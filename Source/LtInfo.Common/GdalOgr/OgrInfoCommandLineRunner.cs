@@ -27,12 +27,24 @@ namespace LtInfo.Common.GdalOgr
 {
     public static class OgrInfoCommandLineRunner
     {
-        public static List<string> GetFeatureClassNamesFromFileGdb(FileInfo ogrInfoFileInfo, FileInfo gdbFileInfo, double totalMilliseconds)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ogrInfoFileInfo"></param>
+        /// <param name="gdbFileInfo"></param>
+        /// <param name="originalFilename">This is the original name of the file as it appeared on the users file system. It is provided just for error messaging purposes.</param>
+        /// <param name="totalMilliseconds"></param>
+        /// <returns></returns>
+        public static List<string> GetFeatureClassNamesFromFileGdb(FileInfo ogrInfoFileInfo, FileInfo gdbFileInfo, string originalFilename, double totalMilliseconds)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var gdalDataDirectory = new DirectoryInfo(Path.Combine(ogrInfoFileInfo.DirectoryName, "gdal-data"));
             var commandLineArguments = BuildOgrInfoCommandLineArgumentsToListFeatureClasses(gdbFileInfo, gdalDataDirectory);
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoFileInfo.DirectoryName, ogrInfoFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
+            if (processUtilityResult.ReturnCode != 0)
+            {
+                throw new SitkaDisplayErrorException($"{ogrInfoFileInfo.FullName} unable to open GDB file {gdbFileInfo.FullName} - original filename {originalFilename}.");
+            }
 
             var featureClassesFromFileGdb = processUtilityResult.StdOut.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
             return featureClassesFromFileGdb.Select(x => x.Split(' ').Skip(1).First()).ToList();

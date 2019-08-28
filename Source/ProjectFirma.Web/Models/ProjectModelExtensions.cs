@@ -31,6 +31,8 @@ using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
+using Microsoft.Owin.Security;
+using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -740,6 +742,191 @@ namespace ProjectFirma.Web.Models
         {
             var projectStewards = project.GetProjectStewards() ?? new List<Person>();
             return HttpRequestStorage.DatabaseEntities.People.GetPeopleWhoReceiveNotifications().Union(projectStewards, new HavePrimaryKeyComparer<Person>()).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
+        }
+
+        public static TaxonomyTrunk GetTaxonomyTrunk(this Project project)
+        {
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+        }
+
+        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this Project project)
+        {
+            return project.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
+        }
+
+        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this Project project)
+        {
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+        }
+
+        public static decimal GetSecuredFundingForAllProjects()
+        {
+            decimal securedAmount = 0;
+            foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
+            {
+                securedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount) ?? 0);
+            }
+            return securedAmount;
+        }
+
+        public static decimal GetTargetedFundingForAllProjects()
+        {
+            decimal targetedAmount = 0;
+            foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
+            {
+                targetedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount) ?? 0);
+            }
+            return targetedAmount;
+        }
+
+        public static decimal GetNoFundingSourceIdentifiedYetForAllProjects()
+        {
+            decimal noFundingSourceAmount = 0;
+            foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
+            {
+                noFundingSourceAmount += project.GetNoFundingSourceIdentifiedAmountOrZero();
+            }
+            return noFundingSourceAmount;
+        }
+
+        public static Dictionary<OrganizationType, List<decimal>> GetFundingForAllProjectsByOwnerOrgType(Person currentPerson)
+        {
+            var ownerOrgRelationshipType =
+                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x =>
+                    "Owner Organization".Equals(x.OrganizationRelationshipTypeName) && x.TenantID == currentPerson.TenantID);
+            var projectOwnerOrganizationsOld =
+                HttpRequestStorage.DatabaseEntities.ProjectOrganizations
+                    .Where(x => x.OrganizationRelationshipTypeID ==
+                                ownerOrgRelationshipType.OrganizationRelationshipTypeID).GroupBy(x => x.Organization.OrganizationType).OrderBy(x => x.Key.OrganizationTypeName).ToList();
+            var orgTypeToAmounts = new Dictionary<OrganizationType, List<decimal>>();
+            OrganizationType otherOrgType = null;
+            List<decimal> otherOrgTypeAmounts = null;
+            foreach (var typeToProjectOrg in projectOwnerOrganizationsOld)
+            {
+                decimal securedAmount = 0;
+                decimal targetedAmount = 0;
+                decimal noFundingSourceAmount = 0;
+                int projectCount = 0;
+                typeToProjectOrg.ForEach(x =>
+                {
+                    securedAmount += x.Project.GetSecuredFunding() ?? 0;
+                    targetedAmount += x.Project.GetTargetedFunding() ?? 0;
+                    noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
+                    projectCount++;
+                });
+
+                var amounts = new List<decimal> {securedAmount, targetedAmount, noFundingSourceAmount, projectCount};
+                if ("Other".Equals(typeToProjectOrg.Key.OrganizationTypeName))
+                {
+                    // save to add to the end of the dictionary because Other should be displayed last
+                    otherOrgType = typeToProjectOrg.Key;
+                    otherOrgTypeAmounts = amounts;
+                }
+                else
+                {
+                    orgTypeToAmounts.Add(typeToProjectOrg.Key, amounts);
+                }
+            }
+
+            if (otherOrgType != null)
+            {
+                orgTypeToAmounts.Add(otherOrgType, otherOrgTypeAmounts);
+            }
+
+            return orgTypeToAmounts;
+        }
+
+        public static GoogleChartDataTable GetFundingStatusByOwnerOrgTypeGoogleChartDataTable(Dictionary<OrganizationType, List<decimal>> orgTypeToAmounts)
+        {
+            var securedSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#C6B42F", null, null);
+            var targetedSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#007C8A", null, null);
+            var noFundingSourceSeries = new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, "#D34727", null, null);
+            var securedLabel = $"{FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()}";
+            var targetedLabel = $"{FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()}";
+            var noFundingSourceLabel = $"{FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()}";
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn("Owner Org Type", GoogleChartColumnDataType.String),
+                new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()),
+                new GoogleChartColumn(securedLabel, securedLabel, GoogleChartColumnDataType.Number.ToString(), securedSeries),
+                new GoogleChartColumn(targetedLabel, targetedLabel, GoogleChartColumnDataType.Number.ToString(), targetedSeries),
+                new GoogleChartColumn(noFundingSourceLabel, noFundingSourceLabel, GoogleChartColumnDataType.Number.ToString(), noFundingSourceSeries)
+            };
+
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            var labels = new List<string> { noFundingSourceLabel, targetedLabel, securedLabel };
+
+            foreach (var orgToAmount in orgTypeToAmounts)
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeName) };
+                var amounts = orgTypeToAmounts[orgToAmount.Key];
+                // add custom tool tip hover
+                googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key, labels)));
+                // add data
+                googleChartRowVs.Add(new GoogleChartRowV(amounts[0], GoogleChartJson.GetFormattedValue(Convert.ToDouble(amounts[0]), MeasurementUnitType.Dollars)));
+                googleChartRowVs.Add(new GoogleChartRowV(amounts[1], GoogleChartJson.GetFormattedValue(Convert.ToDouble(amounts[1]), MeasurementUnitType.Dollars)));
+                googleChartRowVs.Add(new GoogleChartRowV(amounts[2], GoogleChartJson.GetFormattedValue(Convert.ToDouble(amounts[2]), MeasurementUnitType.Dollars)));
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static List<GooglePieChartSlice> GetFundingStatusPieChartSlices()
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetSecuredFundingForAllProjects()), sortOrder++, "#C6B42F"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetTargetedFundingForAllProjects()), sortOrder++, "#007C8A"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetNoFundingSourceIdentifiedYetForAllProjects()), sortOrder, "#D34727"));
+            return googlePieChartSlices;
+        }
+
+        public static GoogleChartDataTable GetFundingStatusSummaryGoogleChartDataTable(List<GooglePieChartSlice> fundingStatusTotals)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Funding Type", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Amount", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+            
+            var chartRowCs = fundingStatusTotals.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = GoogleChartJson.GetFormattedValue(x.Value, MeasurementUnitType.Dollars);
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static string FormattedDataTooltip(List<decimal> amounts, OrganizationType organizationType, List<string> labels)
+        {
+            // build html for tooltip
+            var html = "<div class='googleTooltipDiv'>";
+            html += $"<p><b>{organizationType.OrganizationTypeName}</b></p>";
+            html += "<table class='table table-striped googleTooltipTable'>";
+
+            var stringPrecision = new String('0', MeasurementUnitType.Count.NumberOfSignificantDigits);
+            var formattedTotal = amounts[3].ToString($"#,###,###,##0.{stringPrecision}");
+            html += $"<tr class='googleTooltipTableTotalRow'><td>Total # of NTAs</td><td style='text-align: right'><b>{formattedTotal}</b></td></tr>";
+
+            stringPrecision = new String('0', MeasurementUnitType.Dollars.NumberOfSignificantDigits);
+            var prefix = "$";
+
+            for (int i = 0; i < labels.Count; i++)
+            {
+                var formattedValue = amounts[i].ToString($"#,###,###,##0.{stringPrecision}");
+                html += $"<tr><td>{labels[i]}</td><td style='text-align: right'><b>{prefix}{formattedValue}</b></td></tr>";
+            }
+            html += "</table></div>";
+            return html;
         }
     }
 }

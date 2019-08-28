@@ -30,18 +30,20 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectAttachmentUpdate(int projectAttachmentUpdateID, int projectUpdateBatchID, int attachmentID, int attachmentRelationshipTypeID) : this()
+        public ProjectAttachmentUpdate(int projectAttachmentUpdateID, int projectUpdateBatchID, int attachmentID, int attachmentRelationshipTypeID, string displayName, string description) : this()
         {
             this.ProjectAttachmentUpdateID = projectAttachmentUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.AttachmentID = attachmentID;
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.DisplayName = displayName;
+            this.Description = description;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectAttachmentUpdate(int projectUpdateBatchID, int attachmentID, int attachmentRelationshipTypeID) : this()
+        public ProjectAttachmentUpdate(int projectUpdateBatchID, int attachmentID, int attachmentRelationshipTypeID, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -49,12 +51,13 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.AttachmentID = attachmentID;
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.DisplayName = displayName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectAttachmentUpdate(ProjectUpdateBatch projectUpdateBatch, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType) : this()
+        public ProjectAttachmentUpdate(ProjectUpdateBatch projectUpdateBatch, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,6 +70,7 @@ namespace ProjectFirmaModels.Models
             this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
             this.AttachmentRelationshipType = attachmentRelationshipType;
             attachmentRelationshipType.ProjectAttachmentUpdates.Add(this);
+            this.DisplayName = displayName;
         }
 
         /// <summary>
@@ -74,7 +78,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectAttachmentUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType)
         {
-            return new ProjectAttachmentUpdate(projectUpdateBatch, attachment, attachmentRelationshipType);
+            return new ProjectAttachmentUpdate(projectUpdateBatch, attachment, attachmentRelationshipType, default(string));
         }
 
         /// <summary>
@@ -115,6 +119,8 @@ namespace ProjectFirmaModels.Models
         public int ProjectUpdateBatchID { get; set; }
         public int AttachmentID { get; set; }
         public int AttachmentRelationshipTypeID { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectAttachmentUpdateID; } set { ProjectAttachmentUpdateID = value; } }
 
@@ -125,7 +131,8 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-
+            public const int DisplayName = 200;
+            public const int Description = 1000;
         }
     }
 }
