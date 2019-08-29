@@ -19,10 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
@@ -42,6 +45,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
                 .SingleOrDefault(x => x.CustomPageVanityUrl == vanityUrl);
+            if (vanityUrl.IsEmpty() || customPage == null)
+            {
+                throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
+            }
             new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
