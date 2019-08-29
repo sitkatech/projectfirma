@@ -79,6 +79,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-9">
                     <input type="text" id="@Html.IdFor(m => m.DisplayName)" name="@Html.NameFor(m => m.DisplayName)" class="form-control" ng-required="true" ng-model="DisplayName" />
+                    @Html.ValidationMessageFor(m => m.DisplayName)
                     <div ng-messages="attachmentForm.DisplayName.$error" ng-show="attachmentForm.DisplayName.$touched" role="alert">
                         <div class="alert alert-danger" ng-message="required">Display Name is a required field</div>
                     </div>

@@ -26,36 +26,37 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.UI.WebControls;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class IndexViewData : FirmaViewData
     {
-        public readonly IndexGridSpec GridSpec;
-        public readonly string GridName;
-        public readonly string GridDataUrl;
-        public readonly string ProposeNewProjectUrl;
-        public readonly string ProjectUpdatesUrl;
-        public readonly bool DisplayActionButtons;
+        public ProjectCustomGridSpec ProjectCustomFullGridSpec { get; }
+        public string ProjectCustomFullGridName { get; }
+        public string ProjectCustomFullGridDataUrl { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes) : base(currentPerson, firmaPage)
+        public string ProposeNewProjectUrl { get; }
+        public string ProjectUpdatesUrl { get; }
+        public bool DisplayActionButtons { get; }
+
+        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomFullGridConfigurations) : base(currentPerson, firmaPage)
         {
             PageTitle = $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List";
-
-            GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingType>(), geospatialAreaTypes, projectCustomAttributeTypes) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
-
+            ProjectCustomFullGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomFullGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
             {
-                GridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
+                ProjectCustomFullGridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload()); // TODO:
             }
             else if (currentPerson.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {
-                GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+                ProjectCustomFullGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
-
-            GridName = "projectsGrid";
-            GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            ProjectCustomFullGridName = "projectsGrid";
+            ProjectCustomFullGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridFullJsonData());
 
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());

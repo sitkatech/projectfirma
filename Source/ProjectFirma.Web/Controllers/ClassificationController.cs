@@ -19,21 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Classification;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Classification;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.SortOrder;
-using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Index = ProjectFirma.Web.Views.Classification.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Classification.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Classification.IndexViewData;
@@ -159,17 +158,9 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
-            var viewData = new DetailViewData(CurrentPerson, classification);
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new DetailViewData(CurrentPerson, classification, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
-        }
-
-        [AnonymousUnclassifiedFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(ClassificationPrimaryKey classificationPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectClassifications, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
         [FirmaAdminFeature]

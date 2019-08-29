@@ -65,9 +65,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             var validationResults = new List<ValidationResult>();
             FileResourceModelExtensions.ValidateFileSize(UploadedFile, validationResults, "File");
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Any(x => x.ProjectID == ProjectID && x.DisplayName == DisplayName))
+            // Attachments must have unique display names at the project and attachment type level
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Any(x => x.ProjectID == ProjectID && x.DisplayName == DisplayName && x.AttachmentRelationshipTypeID == AttachmentRelationshipTypeID))
             {
-                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"The Display Name must be unique for each Attachment attached to a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", m=>m.DisplayName));
+                AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey = AttachmentRelationshipTypeID;
+                var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+
+                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentRelationshipType.AttachmentRelationshipTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m=>m.DisplayName));
             }
 
             return validationResults;

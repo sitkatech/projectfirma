@@ -22,7 +22,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             Add("Required?", a => a.IsRequired.ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeEditableBy.ToType().ToGridHeaderString(), x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
-            Add($"Include In {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Grid?", a => a.IncludeInProjectGrid.ToYesNo() ?? ViewUtilities.NoAnswerProvided, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

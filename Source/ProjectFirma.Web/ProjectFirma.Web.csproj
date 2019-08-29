@@ -58,6 +58,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
@@ -226,6 +227,12 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ManageProjectCustomGridsViewData.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ProjectCustomGridSpec.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewModel.cs" />
@@ -396,6 +403,7 @@
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
+    <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
@@ -542,6 +550,8 @@
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cshtml" />
     <Content Include="Views\ProjectUpdate\AttachmentsAndNotes.cshtml" />
+    <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
+    <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1256,7 +1266,6 @@
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditure.cs" />
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditureTest.cs" />
     <Compile Include="Views\Project\Index.cs" />
-    <Compile Include="Views\Project\IndexGridSpec.cs" />
     <Compile Include="Views\Project\IndexViewData.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjects.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjectsViewData.cs" />

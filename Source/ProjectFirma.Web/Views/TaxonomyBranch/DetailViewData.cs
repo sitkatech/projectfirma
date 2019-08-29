@@ -30,6 +30,7 @@ using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
@@ -41,9 +42,10 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public string EditTaxonomyBranchUrl { get; }
 
         public string IndexUrl { get; }
-        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
-        public string BasicProjectInfoProjectGridName { get; }
-        public string BasicProjectInfoProjectGridDataUrl { get; }
+
+        public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
+        public string ProjectCustomDefaultGridName { get; }
+        public string ProjectCustomDefaultGridDataUrl { get; }
 
         public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
 
@@ -64,7 +66,12 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public DetailViewData(Person currentPerson,
             ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures, RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
+            ProjectLocationsMapViewData projectLocationsMapViewData, 
+            bool canHaveAssociatedPerformanceMeasures, 
+            RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, 
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, 
+            TaxonomyLevel taxonomyLevel,
+            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson)
         {
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -83,14 +90,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
-            BasicProjectInfoProjectGridName = "taxonomyBranchProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
-            {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyBranchDisplayName}",
-                SaveFiltersInCookie = true
-            };
-            BasicProjectInfoProjectGridDataUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyBranch));
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+
+            ProjectCustomDefaultGridName = "taxonomyBranchProjectListGrid";
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyBranchProjectsGridJsonData(taxonomyBranch));
+
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyBranch, taxonomyLevel);
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;

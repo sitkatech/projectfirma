@@ -19,18 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
@@ -43,9 +43,10 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         public string TaxonomyBranchIndexUrl { get; }
 
         public string IndexUrl { get; }
-        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
-        public string BasicProjectInfoGridName { get; }
-        public string BasicProjectInfoGridDataUrl { get; }
+
+        public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
+        public string ProjectCustomDefaultGridName { get; }
+        public string ProjectCustomDefaultGridDataUrl { get; }
 
         public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
@@ -69,7 +70,8 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, bool canHaveAssociatedPerformanceMeasures,
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData,
-            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel) : base(currentPerson)
+            List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, TaxonomyLevel taxonomyLevel,
+            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson)
         {
             TaxonomyTrunk = taxonomyTrunk;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
@@ -91,15 +93,11 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             EditTaxonomyTrunkUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(c => c.Edit(taxonomyTrunk.TaxonomyTrunkID));
             TaxonomyBranchIndexUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.Index());
 
-            BasicProjectInfoGridName = "taxonomyTrunkProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
-            {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {TaxonomyTrunkDisplayName}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {TaxonomyTrunkDisplayName}",
-                SaveFiltersInCookie = true
-            };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-            BasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(taxonomyTrunk));
+            ProjectCustomDefaultGridName = "taxonomyTrunkProjectListGrid";
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyTrunkProjectsGridJsonData(taxonomyTrunk));
+
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyTrunk, taxonomyLevel);
 
             CanHaveAssociatedPerformanceMeasures = canHaveAssociatedPerformanceMeasures;

@@ -18,20 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 using Detail = ProjectFirma.Web.Views.TaxonomyTrunk.Detail;
 using DetailViewData = ProjectFirma.Web.Views.TaxonomyTrunk.DetailViewData;
 using Edit = ProjectFirma.Web.Views.TaxonomyTrunk.Edit;
@@ -107,9 +106,10 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var viewData = new DetailViewData(CurrentPerson, taxonomyTrunk, projectLocationsMapInitJson,
                 projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData,
-                performanceMeasureChartViewDatas, taxonomyLevel);
+                performanceMeasureChartViewDatas, taxonomyLevel, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -212,15 +212,6 @@ namespace ProjectFirma.Web.Controllers
 
             taxonomyTrunk.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
-        }
-
-        [TaxonomyTrunkViewFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyTrunkPrimaryKey taxonomyTrunkPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectTaxonomyTrunks = taxonomyTrunkPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTrunks, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
         [TaxonomyTrunkManageFeature]

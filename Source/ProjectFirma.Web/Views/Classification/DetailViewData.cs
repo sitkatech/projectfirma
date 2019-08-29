@@ -19,12 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
 {
@@ -35,15 +36,17 @@ namespace ProjectFirma.Web.Views.Classification
         public string IndexUrl { get; }
         public bool UserHasClassificationManagePermissions { get; }
 
-        public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
-        public string BasicProjectInfoGridName { get; }
-        public string BasicProjectInfoGridDataUrl { get; }
+        public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
+        public string ProjectCustomDefaultGridName { get; }
+        public string ProjectCustomDefaultGridDataUrl { get; }
 
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Classification classification)
-            : base(currentPerson)
+        public DetailViewData(Person currentPerson, 
+                            ProjectFirmaModels.Models.Classification classification,
+                            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations)
+                            : base(currentPerson)
         {
             Classification = classification;
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
@@ -54,15 +57,10 @@ namespace ProjectFirma.Web.Views.Classification
             ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
-            BasicProjectInfoGridName = "geospatialAreaProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false)
-            {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with the {ClassificationDisplayName} {classification.GetDisplayName()}",
-                SaveFiltersInCookie = true
-            };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-            BasicProjectInfoGridDataUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(classification));
+            ProjectCustomDefaultGridName = "classificationProjectListGrid";
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));
         }
     }
 }

@@ -19,18 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class MyOrganizationsProjectsViewData : FirmaViewData
     {
-        public BasicProjectInfoGridSpec ProjectsGridSpec { get; }
-        public string ProjectsGridName { get; }
-        public string ProjectsGridDataUrl { get; }
+        public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
+        public string ProjectCustomDefaultGridName { get; }
+        public string ProjectCustomDefaultGridDataUrl { get; }
 
         public ProposalsGridSpec ProposalsGridSpec { get; }
         public string ProposalsGridName { get; }
@@ -38,21 +41,16 @@ namespace ProjectFirma.Web.Views.Project
         public string ProposeNewProjectUrl { get; }
 
 
-        public MyOrganizationsProjectsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public MyOrganizationsProjectsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson, firmaPage)
         {
             //TODO: It shouldn't be possible to reach this if Person.Organization is null...
             var organizationNamePossessive = currentPerson.Organization.GetOrganizationNamePossessive();
             PageTitle = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            ProjectsGridName = "myOrganizationsProjectListGrid";
-            ProjectsGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
-            {
-                
-                ObjectNameSingular = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{organizationNamePossessive} {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                SaveFiltersInCookie = true
-            };
-            ProjectsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.MyOrganizationsProjectsGridJsonData());
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+
+            ProjectCustomDefaultGridName = "myOrganizationsProjectListGrid";
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.MyOrganizationProjectsCustomGridDefaultJsonData());
 
             ProposalsGridName = "myOrganizationsProposalsGrid";
             ProposalsGridSpec = new ProposalsGridSpec(currentPerson)
