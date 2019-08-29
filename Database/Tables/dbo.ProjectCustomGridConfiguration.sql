@@ -18,25 +18,35 @@ CREATE TABLE [dbo].[ProjectCustomGridConfiguration](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaTypeID] FOREIGN KEY([GeospatialAreaTypeID])
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID] FOREIGN KEY([GeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaTypeID]
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID]
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] FOREIGN KEY([ProjectCustomAttributeTypeID])
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID_TenantID] FOREIGN KEY([GeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID_TenantID]
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] FOREIGN KEY([ProjectCustomAttributeTypeID])
 REFERENCES [dbo].[ProjectCustomAttributeType] ([ProjectCustomAttributeTypeID])
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID]
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID]
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridColumn_ProjectCustomGridColumnID] FOREIGN KEY([ProjectCustomGridColumnID])
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID] FOREIGN KEY([ProjectCustomAttributeTypeID], [TenantID])
+REFERENCES [dbo].[ProjectCustomAttributeType] ([ProjectCustomAttributeTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID]
+GO
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomGridColumn_ProjectCustomGridColumnID] FOREIGN KEY([ProjectCustomGridColumnID])
 REFERENCES [dbo].[ProjectCustomGridColumn] ([ProjectCustomGridColumnID])
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridColumn_ProjectCustomGridColumnID]
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomGridColumn_ProjectCustomGridColumnID]
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridType_ProjectCustomGridTypeID] FOREIGN KEY([ProjectCustomGridTypeID])
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomGridType_ProjectCustomGridTypeID] FOREIGN KEY([ProjectCustomGridTypeID])
 REFERENCES [dbo].[ProjectCustomGridType] ([ProjectCustomGridTypeID])
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridType_ProjectCustomGridTypeID]
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomGridType_ProjectCustomGridTypeID]
 GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

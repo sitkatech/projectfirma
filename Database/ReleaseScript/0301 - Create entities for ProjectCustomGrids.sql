@@ -49,13 +49,19 @@ values
 create table dbo.ProjectCustomGridConfiguration (
 	ProjectCustomGridConfigurationID int not null identity(1,1) constraint PK_ProjectCustomGridConfiguration_ProjectCustomGridConfigurationID primary key,
 	TenantID int not null constraint FK_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
-	ProjectCustomGridTypeID int not null constraint FK_ProjectCustomGridType_ProjectCustomGridTypeID foreign key references dbo.ProjectCustomGridType(ProjectCustomGridTypeID),
-	ProjectCustomGridColumnID int not null constraint FK_ProjectCustomGridColumn_ProjectCustomGridColumnID foreign key references dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID),
-	ProjectCustomAttributeTypeID int null constraint FK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID foreign key references dbo.ProjectCustomAttributeType(ProjectCustomAttributeTypeID),
-	GeospatialAreaTypeID int null constraint FK_GeospatialAreaType_GeospatialAreaTypeID foreign key references dbo.GeospatialAreaType(GeospatialAreaTypeID),
+	ProjectCustomGridTypeID int not null constraint FK_ProjectCustomGridConfiguration_ProjectCustomGridType_ProjectCustomGridTypeID foreign key references dbo.ProjectCustomGridType(ProjectCustomGridTypeID),
+	ProjectCustomGridColumnID int not null constraint FK_ProjectCustomGridConfiguration_ProjectCustomGridColumn_ProjectCustomGridColumnID foreign key references dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID),
+	ProjectCustomAttributeTypeID int null constraint FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID foreign key references dbo.ProjectCustomAttributeType(ProjectCustomAttributeTypeID),
+	GeospatialAreaTypeID int null constraint FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID foreign key references dbo.GeospatialAreaType(GeospatialAreaTypeID),
 	IsEnabled bit not null,
 	SortOrder int null
 );
+alter table dbo.ProjectCustomGridConfiguration 
+add constraint FK_ProjectCustomGridConfiguration_GeospatialAreaType_GeospatialAreaTypeID_TenantID foreign key (GeospatialAreaTypeID, TenantID) references dbo.GeospatialAreaType(GeospatialAreaTypeID, TenantID)
+
+alter table dbo.ProjectCustomGridConfiguration 
+add constraint FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID_TenantID foreign key (ProjectCustomAttributeTypeID, TenantID) references dbo.ProjectCustomAttributeType(ProjectCustomAttributeTypeID, TenantID)
+
 -- SortOrder must be not null if enabled, otherwise null
 alter table dbo.ProjectCustomGridConfiguration
 add constraint CK_ProjectCustomGridConfiguration_SortOrder_OnlyIf_IsEnabled check ((IsEnabled = 1 and SortOrder is not null) or (IsEnabled = 0 and SortOrder is null))
