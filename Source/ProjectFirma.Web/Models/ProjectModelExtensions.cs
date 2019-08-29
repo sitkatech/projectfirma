@@ -855,11 +855,11 @@ namespace ProjectFirma.Web.Models
 
             var googleChartRowCs = new List<GoogleChartRowC>();
 
-            var labels = new List<string> { noFundingSourceLabel, targetedLabel, securedLabel };
+            var labels = new List<string> { securedLabel, targetedLabel, noFundingSourceLabel };
 
             foreach (var orgToAmount in orgTypeToAmounts)
             {
-                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeName) };
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(orgToAmount.Key.OrganizationTypeAbbreviation) };
                 var amounts = orgTypeToAmounts[orgToAmount.Key];
                 // add custom tool tip hover
                 googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(amounts, orgToAmount.Key, labels)));
@@ -910,7 +910,7 @@ namespace ProjectFirma.Web.Models
         {
             // build html for tooltip
             var html = "<div class='googleTooltipDiv'>";
-            html += $"<p><b>{organizationType.OrganizationTypeName}</b></p>";
+            html += $"<p><b>{organizationType.OrganizationTypeAbbreviation}</b></p>";
             html += "<table class='table table-striped googleTooltipTable'>";
 
             var stringPrecision = new String('0', MeasurementUnitType.Count.NumberOfSignificantDigits);
@@ -920,7 +920,7 @@ namespace ProjectFirma.Web.Models
             stringPrecision = new String('0', MeasurementUnitType.Dollars.NumberOfSignificantDigits);
             var prefix = "$";
 
-            for (int i = 0; i < labels.Count; i++)
+            for (int i = labels.Count - 1; i >= 0; i--)
             {
                 var formattedValue = amounts[i].ToString($"#,###,###,##0.{stringPrecision}");
                 html += $"<tr><td>{labels[i]}</td><td style='text-align: right'><b>{prefix}{formattedValue}</b></td></tr>";

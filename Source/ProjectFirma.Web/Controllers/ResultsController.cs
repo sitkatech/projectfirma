@@ -521,7 +521,6 @@ namespace ProjectFirma.Web.Controllers
             var googlePieChartSlices = ProjectModelExtensions.GetFundingStatusPieChartSlices();
             var googleChartDataTable = ProjectModelExtensions.GetFundingStatusSummaryGoogleChartDataTable(googlePieChartSlices);
             var summaryConfiguration = new GooglePieChartConfiguration(summaryChartTitle, MeasurementUnitTypeEnum.Dollars, googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable) { PieSliceText = "value-and-percentage" };
-            summaryConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
             summaryConfiguration.ChartArea.Top = 60;
             var summaryGoogleChart = new GoogleChartJson(summaryChartTitle, summaryChartContainerID, summaryConfiguration,
                 GoogleChartType.PieChart, googleChartDataTable, null);
@@ -530,7 +529,7 @@ namespace ProjectFirma.Web.Controllers
             // set up Funding by Owner Org Type column chart
             var statusByOrgTypeChartTitle = "NTA Funding Status by NTA Owner Org Type";
             var orgTypeChartContainerID = statusByOrgTypeChartTitle.Replace(" ", "");
-            var googleChartAxisHorizontal = new GoogleChartAxis(null, null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisHorizontal = new GoogleChartAxis("NTA Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxis = new GoogleChartAxis(null, MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
             var orgTypeToAmounts = ProjectModelExtensions.GetFundingForAllProjectsByOwnerOrgType(CurrentPerson);
@@ -539,6 +538,7 @@ namespace ProjectFirma.Web.Controllers
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             orgTypeChartConfig.Tooltip = new GoogleChartTooltip(true);
+            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
             var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
 

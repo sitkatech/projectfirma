@@ -300,7 +300,7 @@ namespace ProjectFirma.Web.Common
         // TODO make this into a check to see if the tenant uses custom results pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
         public static bool UsesCustomResultsPages(Person currentPerson)
         {
-            return FirmaPageTypeEnum.FundingStatusHeader.GetFirmaPage().TenantID == currentPerson.TenantID && FirmaPageTypeEnum.FundingStatusFooter.GetFirmaPage().TenantID == currentPerson.TenantID;
+            return currentPerson.Tenant == Tenant.ActionAgendaForPugetSound;
         }
 
         public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
