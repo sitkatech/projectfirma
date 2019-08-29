@@ -530,7 +530,7 @@ namespace ProjectFirma.Web.Controllers
             var statusByOrgTypeChartTitle = "NTA Funding Status by NTA Owner Org Type";
             var orgTypeChartContainerID = statusByOrgTypeChartTitle.Replace(" ", "");
             var googleChartAxisHorizontal = new GoogleChartAxis("NTA Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
-            var googleChartAxis = new GoogleChartAxis(null, MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxis = new GoogleChartAxis("Total Budget", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
             var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
             var orgTypeToAmounts = ProjectModelExtensions.GetFundingForAllProjectsByOwnerOrgType(CurrentPerson);
             var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetFundingStatusByOwnerOrgTypeGoogleChartDataTable(orgTypeToAmounts);
