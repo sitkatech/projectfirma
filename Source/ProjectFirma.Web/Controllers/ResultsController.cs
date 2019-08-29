@@ -522,7 +522,7 @@ namespace ProjectFirma.Web.Controllers
             var googleChartDataTable = ProjectModelExtensions.GetFundingStatusSummaryGoogleChartDataTable(googlePieChartSlices);
             var summaryConfiguration = new GooglePieChartConfiguration(summaryChartTitle, MeasurementUnitTypeEnum.Dollars, googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable) { PieSliceText = "value-and-percentage" };
             summaryConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.Top);
-            summaryConfiguration.ChartArea.Top = 40;
+            summaryConfiguration.ChartArea.Top = 60;
             var summaryGoogleChart = new GoogleChartJson(summaryChartTitle, summaryChartContainerID, summaryConfiguration,
                 GoogleChartType.PieChart, googleChartDataTable, null);
             summaryGoogleChart.CanConfigureChart = false;
@@ -536,7 +536,7 @@ namespace ProjectFirma.Web.Controllers
             var orgTypeToAmounts = ProjectModelExtensions.GetFundingForAllProjectsByOwnerOrgType(CurrentPerson);
             var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetFundingStatusByOwnerOrgTypeGoogleChartDataTable(orgTypeToAmounts);
             var orgTypeChartConfig = new GoogleChartConfiguration(statusByOrgTypeChartTitle, true, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
-            // need to ignore null GoogleChartSeries to the custom colors match up to the column chart correctly
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             orgTypeChartConfig.Tooltip = new GoogleChartTooltip(true);
             var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
