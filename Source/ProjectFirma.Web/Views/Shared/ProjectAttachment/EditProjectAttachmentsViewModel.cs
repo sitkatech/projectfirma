@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 {
@@ -58,10 +60,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         {
             var validationResults = new List<ValidationResult>();
 
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ParentID && x.ProjectAttachmentID != AttachmentID)
+            ProjectAttachmentPrimaryKey projectAttachmentPrimaryKey = AttachmentID;
+            var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
+
+            // We want to validate that the DisplayName is unique per project & attachment type. A project can have duplicate display names as long as they are different attachment types
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ParentID && x.ProjectAttachmentID != AttachmentID && x.AttachmentRelationshipTypeID == projectAttachment.AttachmentRelationshipTypeID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>("The Display Name must be unique for each Attachment attached to a Project", m => m.DisplayName));
+                AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey = projectAttachment.AttachmentRelationshipTypeID;
+                var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+
+                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentRelationshipType.AttachmentRelationshipTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m => m.DisplayName));
             }
 
             return validationResults;

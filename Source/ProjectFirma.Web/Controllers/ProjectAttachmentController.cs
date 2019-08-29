@@ -49,6 +49,8 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
+                // remove the uploaded file because we can't really return the file back to the browser -- SMG
+                viewModel.UploadedFile = null;
                 return ViewNew(viewModel, project);
             }
             
