@@ -24,9 +24,26 @@ angular.module("ProjectFirmaApp")
                         return simple.IsEnabled == true;
                     });
                 return _.sortBy(enabled,
-                    function(el) {
-                        return el.SortOrder;
+                    function (el) {
+                        // Need to sort by new order stored in sortIndexes
+                        return $scope.getSortOrder(el);
                     });
+            }
+
+            $scope.getOrderedSimples = function (whichHalf) {
+                var orderedList = _.sortBy($scope.AngularModel.ProjectCustomGridConfigurationSimples,
+                    function(simple) {
+                        return $scope.getColumnName(simple);
+                    });
+                var midpoint = Math.floor(orderedList.length / 2) + 1;
+                // Get first half of list
+                if (whichHalf == "first") {
+                    return orderedList.slice(0, midpoint);
+                }
+                // Get second half of list
+                else if (whichHalf == "last") {
+                    return orderedList.slice(midpoint);
+                }
             }
 
             $scope.getUniqueIdentifier = function (projectCustomGridConfigurationSimple) {
@@ -78,7 +95,7 @@ angular.module("ProjectFirmaApp")
                 for (i = 0; i < sortedKeys.length; i++) {
                     $scope.sortIndexes[sortedKeys[i]] = i * 10;
                     if (sortedKeys[i] == id) {
-                        projectCustomGridConfigurationSimple.SortOrder = i * 10;  // Set SortOrder of object also so it will go to bottom of list
+                        projectCustomGridConfigurationSimple.SortOrder = i * 10; 
                     }
                 }
             }
