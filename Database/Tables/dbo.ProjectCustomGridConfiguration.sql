@@ -48,10 +48,10 @@ REFERENCES [dbo].[ProjectCustomGridType] ([ProjectCustomGridTypeID])
 GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_ProjectCustomGridType_ProjectCustomGridTypeID]
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomGridConfiguration_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_Tenant_TenantID]
+ALTER TABLE [dbo].[ProjectCustomGridConfiguration] CHECK CONSTRAINT [FK_ProjectCustomGridConfiguration_Tenant_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectCustomGridConfiguration]  WITH CHECK ADD  CONSTRAINT [CK_ProjectCustomGridConfiguration_SortOrder_OnlyIf_IsEnabled] CHECK  (([IsEnabled]=(1) AND [SortOrder] IS NOT NULL OR [IsEnabled]=(0) AND [SortOrder] IS NULL))
 GO

@@ -48,7 +48,7 @@ values
 
 create table dbo.ProjectCustomGridConfiguration (
 	ProjectCustomGridConfigurationID int not null identity(1,1) constraint PK_ProjectCustomGridConfiguration_ProjectCustomGridConfigurationID primary key,
-	TenantID int not null constraint FK_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	TenantID int not null constraint FK_ProjectCustomGridConfiguration_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	ProjectCustomGridTypeID int not null constraint FK_ProjectCustomGridConfiguration_ProjectCustomGridType_ProjectCustomGridTypeID foreign key references dbo.ProjectCustomGridType(ProjectCustomGridTypeID),
 	ProjectCustomGridColumnID int not null constraint FK_ProjectCustomGridConfiguration_ProjectCustomGridColumn_ProjectCustomGridColumnID foreign key references dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID),
 	ProjectCustomAttributeTypeID int null constraint FK_ProjectCustomGridConfiguration_ProjectCustomAttributeType_ProjectCustomAttributeTypeID foreign key references dbo.ProjectCustomAttributeType(ProjectCustomAttributeTypeID),
