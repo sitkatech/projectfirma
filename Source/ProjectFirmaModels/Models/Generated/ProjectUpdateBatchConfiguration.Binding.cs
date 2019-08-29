@@ -39,12 +39,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ExpectedFundingComment).HasColumnName(@"ExpectedFundingComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ExpectedFundingDiffLog).HasColumnName(@"ExpectedFundingDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.OrganizationsComment).HasColumnName(@"OrganizationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
-            Property(x => x.OrganizationsDiffLog).HasColumnName(@"OrganizationsDiffLog").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1);
+            Property(x => x.OrganizationsDiffLog).HasColumnName(@"OrganizationsDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.NoExpendituresToReportExplanation).HasColumnName(@"NoExpendituresToReportExplanation").HasColumnType("varchar").IsOptional();
             Property(x => x.ExpectedPerformanceMeasuresComment).HasColumnName(@"ExpectedPerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.TechnicalAssistanceRequestsComment).HasColumnName(@"TechnicalAssistanceRequestsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ContactsComment).HasColumnName(@"ContactsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ExpectedFundingUpdateNote).HasColumnName(@"ExpectedFundingUpdateNote").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.ContactsDiffLog).HasColumnName(@"ContactsDiffLog").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

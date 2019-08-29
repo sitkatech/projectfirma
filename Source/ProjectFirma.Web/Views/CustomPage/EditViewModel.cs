@@ -67,14 +67,14 @@ namespace ProjectFirma.Web.Views.CustomPage
             CustomPageID = customPage.CustomPageID;
             CustomPageDisplayName = customPage.CustomPageDisplayName;
             CustomPageVanityUrl = customPage.CustomPageVanityUrl;
-            CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;            
+            CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, Person currentPerson)
         {
             customPage.CustomPageDisplayName = CustomPageDisplayName;
             customPage.CustomPageVanityUrl = CustomPageVanityUrl;
-            customPage.CustomPageDisplayTypeID = CustomPageDisplayTypeID.Value;           
+            customPage.CustomPageDisplayTypeID = CustomPageDisplayTypeID.Value;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

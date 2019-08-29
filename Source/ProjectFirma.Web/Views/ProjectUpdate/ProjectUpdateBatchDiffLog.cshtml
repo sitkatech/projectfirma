@@ -114,4 +114,33 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">No changes to Notes section</div>
         }
     </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</h2>
+        </div>
+        @if (ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString != null)
+        {
+            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString)
+        }
+        else
+        {
+            <div class="panel-body">No changes to @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() section</div>
+        }
+    </div>
+    
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h2>Contacts</h2>
+        </div>
+        @if (ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString != null)
+        {
+            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString)
+        }
+        else
+        {
+            <div class="panel-body">No changes to contacts section</div>
+        }
+    </div>
+
 </div>

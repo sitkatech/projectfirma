@@ -28,12 +28,13 @@ namespace ProjectFirma.Web.Views.Shared
 
         public DisplayPageContentViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton) : base(currentPerson)
         {
-            PageTitle = firmaPage.GetFirmaPageDisplayName();            
+            PageTitle = firmaPage.GetFirmaPageDisplayName();
             ViewWholePageContentViewData = new ViewPageContentViewData(firmaPage, showEditButton);
         }
+
         public DisplayPageContentViewData(Person currentPerson, ProjectFirmaModels.Models.CustomPage customPage, bool showEditButton) : base(currentPerson)
         {
-            PageTitle = customPage.GetFirmaPageDisplayName();            
+            PageTitle = customPage.GetFirmaPageDisplayName();
             ViewWholePageContentViewData = new ViewPageContentViewData(customPage, showEditButton);
         }
     }

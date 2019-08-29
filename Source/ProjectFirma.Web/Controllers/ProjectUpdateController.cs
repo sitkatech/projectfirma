@@ -1962,6 +1962,23 @@ namespace ProjectFirma.Web.Controllers
                 var notesDiffHelper = new HtmlDiff.HtmlDiff(notesDiffContainer.OriginalHtml, notesDiffContainer.UpdatedHtml);
                 projectUpdateBatch.NotesDiffLogHtmlString = new HtmlString(notesDiffHelper.Build());
             }
+
+            // add organizations to the diff log
+            var organizationsDiffContainer = DiffOrganizationsImpl(projectPrimaryKey);
+            if (organizationsDiffContainer.HasChanged)
+            {
+                var organizationsDiffHelper = new HtmlDiff.HtmlDiff(organizationsDiffContainer.OriginalHtml, organizationsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.OrganizationsDiffLogHtmlString = new HtmlString(organizationsDiffHelper.Build());
+            }
+
+            // add contacts to the diff log
+            var contactsDiffContainer = DiffContactsImpl(projectPrimaryKey);
+            if (contactsDiffContainer.HasChanged)
+            {
+                var contactsDiffHelper = new HtmlDiff.HtmlDiff(contactsDiffContainer.OriginalHtml, contactsDiffContainer.UpdatedHtml);
+                projectUpdateBatch.ContactsDiffLogHtmlString = new HtmlString(contactsDiffHelper.Build());
+            }
+
         }
 
 

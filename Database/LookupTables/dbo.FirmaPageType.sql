@@ -44,6 +44,6 @@ values
 (59, 'InviteUser', 'Invite User', 1),
 (60, 'ManageFundingSourceCustomAttributeTypeInstructions', 'Manage Funding Source Custom Attribute Type Instructions', 2),
 (61, 'ManageFundingSourceCustomAttributeTypesList', 'Manage Funding Source Custom Attribute Types List', 2),
-(62, 'FundingStatusHeader', 'Funding Status Header', 2),
-(63, 'FundingStatusFooter', 'Funding Status Footer', 2),
+(62, 'FundingStatusHeader', 'Funding Status Header', 1),
+(63, 'FundingStatusFooter', 'Funding Status Footer', 1),
 (64, 'ManageProjectCustomGrids', 'Manage Project Custom Grids', 1)
