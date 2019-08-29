@@ -61,6 +61,7 @@ namespace ProjectFirma.Web.Controllers
                 throw new HttpException(404, message);
             }
 
+            // If you're adding new mime types to the system, you need to add them below -- 08/29/2019 SMG
             switch (fileResource.FileResourceMimeType.ToEnum)
             {
                 case FileResourceMimeTypeEnum.ExcelXLS:
@@ -74,6 +75,8 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.PowerpointPPTX:
                 case FileResourceMimeTypeEnum.PowerpointPPT:
                 case FileResourceMimeTypeEnum.CSS:
+                case FileResourceMimeTypeEnum.KMZ:
+                case FileResourceMimeTypeEnum.KML:
                     return new FileResourceResult(fileResource.GetOriginalCompleteFileName(), fileResource.FileResourceData, fileResource.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:
@@ -84,7 +87,8 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.PJPEG:
                     return File(fileResource.FileResourceData, fileResource.FileResourceMimeType.FileResourceMimeTypeName);
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    // throw a more specific error that can hint to developers and assure users what needs to be done when adding a new mime type
+                    throw new SitkaDisplayErrorException($"The file type \"{fileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName}\" has not been explicitly whitelisted to download. The development team has been notified, if you continue to receive errors, please contact support.");
             }
         }
 
