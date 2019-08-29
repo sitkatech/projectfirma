@@ -238,6 +238,7 @@ namespace ProjectFirmaModels.Models
         IsDefaultContactType = 288,
         ProjectContactRelationshipType = 289,
         CostType = 290,
-        ProjectAttachmentRelationshipType = 291
+        ProjectAttachmentRelationshipType = 291,
+        ProjectID = 292
     }
 }

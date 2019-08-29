@@ -46,7 +46,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         public EditProjectCustomGridViewModel(int projectCustomGridTypeID, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes)
         {
             var projectCustomGridConfigurationSimples = new List<ProjectCustomGridConfigurationSimple>();
-            foreach (var projectCustomGridColumn in GeneralUtility.EnumGetValues<ProjectCustomGridColumnEnum>())
+            var projectCustomGridColumns = GeneralUtility.EnumGetValues<ProjectCustomGridColumnEnum>();
+            // Remove the Secondary Taxonomy Leaf Column if Tenant doesn't use them
+            if (!MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf).ToList();
+            }
+            foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {
                 if (projectCustomGridColumn == ProjectCustomGridColumnEnum.CustomAttribute)
                 {

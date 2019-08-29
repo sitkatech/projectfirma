@@ -54,33 +54,50 @@
 <div id="editProjectCustomGridController" ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomGridController">
     <div class="col-md-12">
         <div style="margin-bottom: 25px;">
-            1. Select the columns
+            <strong>1. Select the columns</strong>
         </div>
         @* Enable/disable columns *@
-        <div ng-repeat="projectCustomGridConfigurationSimple in AngularModel.ProjectCustomGridConfigurationSimples | orderBy: getColumnName" class="col-md-6">
-            @* Optional columns *@
-            <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
-                <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">
-                <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span>
-            </label>
-            @* Mandatory columns *@
-            <label ng-if="!projectCustomGridConfigurationSimple.IsOptional">
-                <input type="checkbox" checked="checked" disabled>
-                <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span>
-            </label>
-
+        @* Left column *@
+        <div class="col-md-6">
+            <div ng-repeat="projectCustomGridConfigurationSimple in getOrderedSimples('first')" class="col-md-12">
+                @* Optional columns *@
+                <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+                @* Mandatory columns *@
+                <label ng-if="!projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" checked="checked" disabled>
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+            </div>
+        </div>
+        @* Right column *@
+        <div class="col-md-6">
+            <div ng-repeat="projectCustomGridConfigurationSimple in getOrderedSimples('last')" class="col-md-12">
+                @* Optional columns *@
+                <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+                @* Mandatory columns *@
+                <label ng-if="!projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" checked="checked" disabled>
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+            </div>
         </div>
     </div>
     <div class="col-md-12">
         <div style="margin-top: 50px; margin-bottom: 25px">
-            2. Order the selected columns
+            <strong>2. Order the selected columns</strong>
         </div>
         <div style="margin-left: 25px;">
             @* Order enabled fields *@
             <div id="sortables-list">
                 <div ng-repeat="projectCustomGridConfigurationSimple in getEnabledProjectCustomGridConfigurationSimples()" 
                      id="{{getUniqueIdentifier(projectCustomGridConfigurationSimple)}}" data-index="{{$index}}" 
-                     style="font-size: 11pt; margin-bottom: 4px;">
+                     style="margin-bottom: 4px;">
                     <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span><span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span>
                 </div>
             </div>

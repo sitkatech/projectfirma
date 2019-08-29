@@ -39,131 +39,94 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
         private void AddProjectCustomGridField(Person currentPerson, ProjectCustomGridConfiguration projectCustomGridConfiguration)
         {
-            // Non-optional fields
-            // Project Name
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectName.ProjectCustomGridColumnID)
+            switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
             {
-                Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
-                return;
-            }
-            // Primary Contact Organization
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.PrimaryContactOrganization.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
-                return;
-            }
-            // Project Stage
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectStage.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-                return;
-            }
-            // Optional fields
-            // Performance Measure Count
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.NumberOfReportedPerformanceMeasures.ProjectCustomGridColumnID)
-            {
-                Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
-                return;
-            }
-            // Projects Steward Organization Relationship To Project
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectsStewardOrganizationRelationshipToProject.ProjectCustomGridColumnID)
-            {
-                if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
-                {
-                    Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization()?.GetShortNameAsUrl() ?? new HtmlString(""), 150, DhtmlxGridColumnFilterType.Html);
-                }
-            }
-            // Project Primary Contact
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectPrimaryContact.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
-                    x => x.GetPrimaryContact() != null ? UrlTemplate.MakeHrefString(x.GetPrimaryContact().GetDetailUrl(), x.GetPrimaryContact().GetFullNameLastFirst()) : new HtmlString(""),
-                    150, DhtmlxGridColumnFilterType.Html);
-            }
-            // Project Primary Contact Email
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectPrimaryContactEmail.ProjectCustomGridColumnID)
-            {
-                var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
-                if (userHasEmailViewingPermissions)
-                {
-                    Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
-                        x => x.GetPrimaryContact() != null ? new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>") : new HtmlString(""),
-                        200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-                }
-            }
-            // Planning Design Start Year
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.PlanningDesignStartYear.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            }
-            // Implementation Start Year
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ImplementationStartYear.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            }
-            // Completion Year
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.CompletionYear.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            }
-            // Primary Taxonomy Leaf
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.PrimaryTaxonomyLeaf.ProjectCustomGridColumnID)
-            {
-                Add($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString()}", x => x.TaxonomyLeaf.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
-            }
-            // Secondary Taxonomy Leaf
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.SecondaryTaxonomyLeaf.ProjectCustomGridColumnID)
-            {
-                var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf;
-                if (enableSecondaryProjectTaxonomyLeaf)
-                {
-                    Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
-                }
-            }
-            // Number of Reported Expenditures
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.NumberOfReportedExpenditures.ProjectCustomGridColumnID)
-            {
-                Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
-            }
-            // Funding Type
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.FundingType.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            }
-            // Estimated Total Cost
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.EstimatedTotalCost.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            // Secured Funding
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.SecuredFunding.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            // Targeted Funding
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.TargetedFunding.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            // No Funding Source Identified
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.NoFundingSourceIdentified.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            }
-            // Project Description
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectDescription.ProjectCustomGridColumnID)
-            {
-                Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
-            }
-            // Number of Photos
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.NumberOfPhotos.ProjectCustomGridColumnID)
-            {
-                Add("# of Photos", x => x.ProjectImages.Count, 60);
-            }
-            // ProjectID - PSP really wants this
-            if (projectCustomGridConfiguration.ProjectCustomGridColumnID == ProjectCustomGridColumn.ProjectID.ProjectCustomGridColumnID)
-            {
-                Add("ProjectID", x => x.ProjectID.ToString(), 70);
+                // Non-optional fields
+                // Project Name
+                case ProjectCustomGridColumnEnum.ProjectName:
+                    Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+                    break;
+                case ProjectCustomGridColumnEnum.PrimaryContactOrganization:
+                    Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectStage:
+                    Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
+                case ProjectCustomGridColumnEnum.NumberOfReportedPerformanceMeasures:
+                    Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectsStewardOrganizationRelationshipToProject:
+                    if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
+                    {
+                        Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization()?.GetShortNameAsUrl() ?? new HtmlString(""), 150, DhtmlxGridColumnFilterType.Html);
+                    }
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
+                    Add(FieldDefinitionEnum.ProjectPrimaryContact.ToType().ToGridHeaderString(),
+                        x => x.GetPrimaryContact() != null ? UrlTemplate.MakeHrefString(x.GetPrimaryContact().GetDetailUrl(), x.GetPrimaryContact().GetFullNameLastFirst()) : new HtmlString(""),
+                        150, DhtmlxGridColumnFilterType.Html);
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
+                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
+                    if (userHasEmailViewingPermissions)
+                    {
+                        Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
+                            x => x.GetPrimaryContact() != null ? new HtmlString($"<a href='mailto:{x.GetPrimaryContact().Email}'> {x.GetPrimaryContact().Email}</a>") : new HtmlString(""),
+                            200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+                    }
+                    break;
+                case ProjectCustomGridColumnEnum.PlanningDesignStartYear:
+                    Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
+                case ProjectCustomGridColumnEnum.ImplementationStartYear:
+                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
+                case ProjectCustomGridColumnEnum.CompletionYear:
+                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
+                case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
+                    if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+                    Add($"{FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()}", x => x.TaxonomyLeaf.GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
+                    break;
+                case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
+                    if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+                    {
+                        Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
+                    }
+                    break;
+                case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
+                    Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
+                    break;
+                case ProjectCustomGridColumnEnum.FundingType:
+                    Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
+                case ProjectCustomGridColumnEnum.EstimatedTotalCost:
+                    Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    break;
+                case ProjectCustomGridColumnEnum.SecuredFunding:
+                    Add(FieldDefinitionEnum.SecuredFunding.ToType().ToGridHeaderString(), x => x.GetSecuredFunding(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    break;
+                case ProjectCustomGridColumnEnum.TargetedFunding:
+                    Add(FieldDefinitionEnum.TargetedFunding.ToType().ToGridHeaderString(), x => x.GetTargetedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    break;
+                case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
+                    Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectDescription:
+                    Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
+                    break;
+                case ProjectCustomGridColumnEnum.NumberOfPhotos:
+                    Add("# of Photos", x => x.ProjectImages.Count, 60);
+                    break;
+                case ProjectCustomGridColumnEnum.ProjectID:
+                    Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.ProjectID.ToString(), 140);
+                    break;
+                case ProjectCustomGridColumnEnum.GeospatialAreaName:
+                    break;
+                case ProjectCustomGridColumnEnum.CustomAttribute:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -191,14 +154,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
-            var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
             {
                 BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
                 AddCheckBoxColumn();
-                Add("ProjectID", x => x.ProjectID, 0);
             }
         
             if (userHasDeletePermissions)

@@ -58,3 +58,35 @@ set dbo.ProjectCustomGridConfiguration.IsEnabled = 0, dbo.ProjectCustomGridConfi
 from dbo.ProjectCustomGridConfiguration pcgc
 inner join dbo.ProjectCustomAttributeType pcat on pcgc.ProjectCustomAttributeTypeID = pcat.ProjectCustomAttributeTypeID and pcgc.TenantID = pcat.TenantID
 where pcat.IncludeInProjectGrid = 0
+
+-- Disable some stuff for Default grids
+
+-- Number of Reported Performance Measures
+update dbo.ProjectCustomGridConfiguration
+set IsEnabled = 0, SortOrder = null
+where ProjectCustomGridColumnID = 4 and ProjectCustomGridTypeID = 1
+
+-- Taxonomy Leaf
+update dbo.ProjectCustomGridConfiguration
+set IsEnabled = 0, SortOrder = null
+where ProjectCustomGridColumnID = 11 and ProjectCustomGridTypeID = 1
+
+-- Number of Reported Expenditures
+update dbo.ProjectCustomGridConfiguration
+set IsEnabled = 0, SortOrder = null
+where ProjectCustomGridColumnID = 13 and ProjectCustomGridTypeID = 1
+
+-- Number of Photos
+update dbo.ProjectCustomGridConfiguration
+set IsEnabled = 0, SortOrder = null
+where ProjectCustomGridColumnID = 20 and ProjectCustomGridTypeID = 1
+
+-- GeospatialAreas
+update dbo.ProjectCustomGridConfiguration
+set IsEnabled = 0, SortOrder = null
+where ProjectCustomGridColumnID = 21 and ProjectCustomGridTypeID = 1
+
+-- Delete configs for SecondaryTaxonomyLeaf for tenants that don't use it
+delete from dbo.ProjectCustomGridConfiguration
+where ProjectCustomGridColumnID = 12 and TenantID <> 2 and TenantID <> 11 
+

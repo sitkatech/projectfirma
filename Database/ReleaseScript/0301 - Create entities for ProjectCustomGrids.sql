@@ -75,4 +75,25 @@ go
 
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 values
-(11, 64, '<p>Manage Project Custom Grids introductory text.</p>')
+(1, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(2, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(3, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(4, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(5, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(6, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(7, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(8, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(9, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(11, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(12, 64, '<p>Manage Project Custom Grids introductory text.</p>')
+
+insert into dbo.FieldDefinition (FieldDefinitionID, FieldDefinitionName, FieldDefinitionDisplayName, DefaultDefinition) 
+values
+(292, N'ProjectID', N'ProjectID', N'<p>The unique identifier for a project.</p>')
+go
+
+insert into dbo.FieldDefinitionData (TenantID, FieldDefinitionID, FieldDefinitionDataValue, FieldDefinitionLabel)
+values
+(11, 292, N'<p>The unique identifier for a Near Term Action.</p>', 'Near Term Action ID')
+
+
