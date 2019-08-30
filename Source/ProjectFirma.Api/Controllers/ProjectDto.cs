@@ -42,6 +42,7 @@ namespace ProjectFirma.Api.Controllers
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType();
             SecuredFunding = project.GetSecuredFunding();
+            TargetedFunding = project.GetTargetedFunding();
             NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             if (project.ProjectLocationPoint != null)
             {
@@ -75,6 +76,7 @@ namespace ProjectFirma.Api.Controllers
         public decimal? NoFundingSourceIdentifiedFunding { get; set; }
 
         public decimal? SecuredFunding { get; set; }
+        public decimal? TargetedFunding { get; set; }
 
         public decimal? EstimatedTotalCost { get; set; }
         public Feature LocationPointAsGeoJsonFeature { get; set; }
