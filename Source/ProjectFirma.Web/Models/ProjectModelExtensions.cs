@@ -798,8 +798,7 @@ namespace ProjectFirma.Web.Models
         public static Dictionary<OrganizationType, List<decimal>> GetFundingForAllProjectsByOwnerOrgType(Person currentPerson)
         {
             var ownerOrgRelationshipType =
-                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x =>
-                    "Owner Organization".Equals(x.OrganizationRelationshipTypeName) && x.TenantID == currentPerson.TenantID);
+                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact && x.TenantID == currentPerson.TenantID);
             var projectOwnerOrganizationsOld =
                 HttpRequestStorage.DatabaseEntities.ProjectOrganizations
                     .Where(x => x.OrganizationRelationshipTypeID ==
