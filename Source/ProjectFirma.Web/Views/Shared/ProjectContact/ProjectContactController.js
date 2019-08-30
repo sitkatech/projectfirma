@@ -107,7 +107,7 @@ angular.module("ProjectFirmaApp").controller("ProjectContactController", functio
             // if there's already a projectContactSimple for this relationship type, just change the ContactID
             var projectContactSimple =
                 Sitka.Methods.findElementInJsonArray($scope.AngularModel.ProjectContactSimples,
-                    "RelationshipTypeID",
+                    "ContactRelationshipTypeID",
                     relationshipType.ContactRelationshipTypeID);
 
             if (projectContactSimple != null) {
