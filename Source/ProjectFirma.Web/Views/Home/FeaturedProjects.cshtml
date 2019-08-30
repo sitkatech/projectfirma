@@ -45,7 +45,7 @@ Source code is available upon request via <support@sitkatech.com>.
     @* ReSharper disable once UnknownCssClass *@
     <div id="featuredProjectsCarousel" class="carousel slide" data-ride="carousel" data-interval="8000">
         <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox" style="height: 400px">
+        <div class="carousel-inner" role="listbox" style="height: 440px">
             @for (var index = 0; index < ViewDataTyped.FeaturedProjects.Count; ++index)
             {
                 var featuredProject = ViewDataTyped.FeaturedProjects[index];
@@ -72,7 +72,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <td>@featuredProject.TaxonomyLeaf.TaxonomyLeafName</td>
                                     </tr>
                                     <tr>
-                                        <th>@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</th>
+                                        <th>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</th>
+                                        <td>@featuredProject.GetPrimaryContactOrganization().OrganizationName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</th>
                                         <td>@featuredProject.GetProjectOrganizationNamesForFactSheet()</td>
                                     </tr>
                                     <tr>
