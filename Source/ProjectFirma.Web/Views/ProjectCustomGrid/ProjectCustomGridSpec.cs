@@ -85,8 +85,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
-                    if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
-                    Add($"{FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()}", x => x.TaxonomyLeaf.GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
+                    var gridHeaderString = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf
+                        ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
+                        : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
+                    Add(gridHeaderString, x => x.TaxonomyLeaf.GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)

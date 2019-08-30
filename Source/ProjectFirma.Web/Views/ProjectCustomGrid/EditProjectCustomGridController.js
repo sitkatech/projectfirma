@@ -26,7 +26,7 @@ angular.module("ProjectFirmaApp")
                 return _.sortBy(enabled,
                     function (el) {
                         // Need to sort by new order stored in sortIndexes
-                        return $scope.getSortOrder(el);
+                        return el.SortOrder;
                     });
             }
 
@@ -94,11 +94,16 @@ angular.module("ProjectFirmaApp")
                 $scope.sortIndexes = {};
                 for (i = 0; i < sortedKeys.length; i++) {
                     $scope.sortIndexes[sortedKeys[i]] = i * 10;
-                    if (sortedKeys[i] == id) {
-                        projectCustomGridConfigurationSimple.SortOrder = i * 10; 
-                    }
                 }
+                $scope.applyNewSortOrderToSimples();
             }
+
+            $scope.applyNewSortOrderToSimples = function() {
+                $scope.AngularModel.ProjectCustomGridConfigurationSimples.forEach(function(simple) {
+                    simple.SortOrder = $scope.getSortOrder(simple);
+                });
+            }
+
 
             $scope.initializeSortables = function () {
                 // capture original sort order
