@@ -1,0 +1,51 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="CustomAttributes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.Shared.ProjectContact
+@inherits ProjectFirma.Web.Views.ProjectCreate.CustomAttributes
+
+@section JavascriptAndStylesContent
+{
+    
+}
+<div class="row">
+    <div class="col-xs-12">
+        @{ Html.RenderRazorSitkaPartial<EditCustomAttributes, EditCustomAttributesViewData, EditCustomAttributesViewModel>(ViewDataTyped.EditCustomAttributesViewData, Model); }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <div class="pull-right">
+            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // <![CDATA[
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty("form");
+    });
+    // ]]>
+</script>
+

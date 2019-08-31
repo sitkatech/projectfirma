@@ -93,6 +93,8 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectCreateSectionEnum.Basics:
                     return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
+                case ProjectCreateSectionEnum.AdditionalAttributes:
+                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditAdditionalAttributes(project.ProjectID));
                 case ProjectCreateSectionEnum.LocationSimple:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Organizations:

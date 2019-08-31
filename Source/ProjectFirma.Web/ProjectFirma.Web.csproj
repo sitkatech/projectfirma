@@ -212,6 +212,9 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\CustomAttributes.cs" />
+    <Compile Include="Views\ProjectCreate\CustomAttributesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\CustomAttributesViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
@@ -428,6 +431,7 @@
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
+    <Content Include="Views\ProjectCreate\CustomAttributes.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

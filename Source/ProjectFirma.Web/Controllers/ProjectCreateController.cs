@@ -1721,5 +1721,54 @@ namespace ProjectFirma.Web.Controllers
             
             return Content(JsonConvert.SerializeObject(simple, Formatting.Indented));
         }
+
+        #region "CustomAttributes"
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new CustomAttributesViewModel(project, CurrentPerson);
+            return ViewCustomAttributes(project, viewModel);
+        }
+
+        private ViewResult ViewCustomAttributes(Project project, CustomAttributesViewModel viewModel)
+        {
+            
+            var editCustomAttributesViewData = new EditCustomAttributesViewData();
+
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            proposalSectionsStatus.IsProjectCustomAttributesSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectCustomAttributesSectionComplete;
+            var viewData = new CustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData);
+
+            return RazorView<CustomAttributes, CustomAttributesViewData, CustomAttributesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey, CustomAttributesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewCustomAttributes(project, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
+            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
+
+            viewModel.UpdateModel(project, allProjectCustomAttributes);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Additional Attributes successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
+        }
+
+
+
+        #endregion "CustomAttributes"
+
     }
 }

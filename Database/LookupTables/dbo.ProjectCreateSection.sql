@@ -14,4 +14,5 @@ values
 (12, 'Assessment', 'Asssessment', 120, 1, 5),
 (13, 'Photos', 'Photos', 130, 0, 5),
 (15, 'Contacts', 'Contacts', 45, 1, 1),
-(16, 'AttachmentsAndNotes', 'Attachments and Notes', 140, 0, 5)
+(16, 'AttachmentsAndNotes', 'Attachments and Notes', 140, 0, 5),
+(17, 'CustomAttributes', 'Custom Attributes', 25, 1, 1)
