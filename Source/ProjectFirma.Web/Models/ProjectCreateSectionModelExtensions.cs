@@ -21,7 +21,8 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Basics:
                     return !new BasicsViewModel(project).GetValidationResults().Any();
                 case ProjectCreateSectionEnum.CustomAttributes:
-                    return true; // todo: correct iscomplete section
+                    var customAttributesValidationResults = new CustomAttributesViewModel(project).GetValidationResults();
+                    return !customAttributesValidationResults.Any();
                 case ProjectCreateSectionEnum.LocationSimple:
                     var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
                     return !locationSimpleValidationResults.Any();

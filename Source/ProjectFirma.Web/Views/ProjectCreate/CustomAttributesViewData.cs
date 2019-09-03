@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public CustomAttributesViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, CustomAttributesValidationResult customAttributesValidationResult) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
         }

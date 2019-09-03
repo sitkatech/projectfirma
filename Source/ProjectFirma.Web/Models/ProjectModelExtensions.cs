@@ -31,11 +31,11 @@ using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
-using Microsoft.Owin.Security;
 using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -596,7 +596,7 @@ namespace ProjectFirma.Web.Models
             {
                 return "None";
             }
-}
+        }
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
@@ -932,6 +932,11 @@ namespace ProjectFirma.Web.Models
             }
             html += "</table></div>";
             return html;
+        }
+
+        public static CustomAttributesValidationResult ValidateCustomAttributes(this Project project)
+        {
+            return new CustomAttributesValidationResult(project);
         }
     }
 }

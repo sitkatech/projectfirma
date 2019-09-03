@@ -162,18 +162,20 @@ namespace ProjectFirmaModels.Models
                 .Where(x => customAttributeTypeIDs.Contains(x.ProjectCustomAttributeTypeID))
                 .ToList();
 
-            var projectCustomAttributeSimples = Attributes
-                .Where(x => x.ProjectCustomAttributeValues != null && x.ProjectCustomAttributeValues.Any());
+            var projectCustomAttributeSimples = Attributes;
 
             foreach (var attributeSimple in projectCustomAttributeSimples)
             {
                 var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == attributeSimple.ProjectCustomAttributeTypeID);
-                foreach (var value in attributeSimple.ProjectCustomAttributeValues)
+                if (attributeSimple.ProjectCustomAttributeValues.Any())
                 {
-                    if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
+                    foreach (var value in attributeSimple.ProjectCustomAttributeValues)
                     {
-                        yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
-                                                          $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
+                        if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
+                        {
+                            yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
+                                                              $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
+                        }
                     }
                 }
 

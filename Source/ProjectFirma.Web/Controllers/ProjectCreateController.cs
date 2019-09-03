@@ -1728,20 +1728,20 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new CustomAttributesViewModel(project, CurrentPerson);
+            var viewModel = new CustomAttributesViewModel(project);
             return ViewCustomAttributes(project, viewModel);
         }
 
         private ViewResult ViewCustomAttributes(Project project, CustomAttributesViewModel viewModel)
         {
-
+            var customAttributesValidationResult = project.ValidateCustomAttributes();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectCustomAttributesSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectCustomAttributesSectionComplete;
-            var viewData = new CustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData);
+            var viewData = new CustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
 
             return RazorView<CustomAttributes, CustomAttributesViewData, CustomAttributesViewModel>(viewData, viewModel);
         }
@@ -1758,7 +1758,6 @@ namespace ProjectFirma.Web.Controllers
             }
 
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
-            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
 
             viewModel.UpdateModel(project, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.SaveChanges();

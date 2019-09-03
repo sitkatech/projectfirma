@@ -230,6 +230,7 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\CustomAttributesValidationResult.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />

@@ -61,9 +61,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IsBasicsSectionComplete = !basicsResults.Any();
 
             // Custom Attributes section
-            // todo: check whether tenant has custom attributes, similarly to the geospatial area types above
-            IsProjectCustomAttributesSectionComplete = true;
-
+            var customAttributesValidationResults = new CustomAttributesViewModel(project).GetValidationResults();
+            IsProjectCustomAttributesSectionComplete = !customAttributesValidationResults.Any();
 
             // Project Location simple section
             var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();

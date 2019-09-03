@@ -19,9 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -29,6 +34,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
 
+        public ProjectFirmaModels.Models.Project Project { get; set; }
+        
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -39,11 +46,30 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project)
         {
             ProjectCustomAttributes = new ProjectCustomAttributes(project);
+            Project = project;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
+            var errors = new List<ValidationResult>();
+            errors.AddRange(ValidateAllCustomAttributes().GetWarningMessages().Select(m => new ValidationResult(m)));
+            return errors;
+        }
+
+        public CustomAttributesValidationResult ValidateAllCustomAttributes()
+        {
+            var customAttributesValidationResult = new CustomAttributesValidationResult(Project);
+            return customAttributesValidationResult;
         }
     }
 }
