@@ -13,7 +13,7 @@
         }
     }
 
-    public partial class ProjectUpdateSectionAdditionalAttributes
+    public partial class ProjectUpdateSectionCustomAttributes
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {

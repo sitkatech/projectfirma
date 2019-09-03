@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Views.Shared.ProjectContact
+@using ProjectFirma.Web.Views.Shared.ProjectControls
 @inherits ProjectFirma.Web.Views.ProjectCreate.CustomAttributes
 
 @section JavascriptAndStylesContent
@@ -28,7 +28,7 @@
 }
 <div class="row">
     <div class="col-xs-12">
-        @{ Html.RenderRazorSitkaPartial<EditCustomAttributes, EditCustomAttributesViewData, EditCustomAttributesViewModel>(ViewDataTyped.EditCustomAttributesViewData, Model); }
+        @{ Html.RenderRazorSitkaPartial<EditProjectCustomAttributes, EditProjectCustomAttributesViewData, EditProjectCustomAttributesViewModel>(ViewDataTyped.EditCustomAttributesViewData, Model); }
     </div>
 </div>
 <div class="row">

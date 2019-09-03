@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
         public static readonly ProjectCreateSectionContacts Contacts = ProjectCreateSectionContacts.Instance;
         public static readonly ProjectCreateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectCreateSectionAttachmentsAndNotes.Instance;
-        public static readonly ProjectCreateSectionAdditionalAttributes AdditionalAttributes = ProjectCreateSectionAdditionalAttributes.Instance;
+        public static readonly ProjectCreateSectionCustomAttributes CustomAttributes = ProjectCreateSectionCustomAttributes.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -41,7 +41,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, AdditionalAttributes };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -117,8 +117,6 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
-                case ProjectCreateSectionEnum.AdditionalAttributes:
-                    return AdditionalAttributes;
                 case ProjectCreateSectionEnum.Assessment:
                     return Assessment;
                 case ProjectCreateSectionEnum.AttachmentsAndNotes:
@@ -131,6 +129,8 @@ namespace ProjectFirmaModels.Models
                     return Classifications;
                 case ProjectCreateSectionEnum.Contacts:
                     return Contacts;
+                case ProjectCreateSectionEnum.CustomAttributes:
+                    return CustomAttributes;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
                 case ProjectCreateSectionEnum.LocationDetailed:
@@ -166,7 +166,7 @@ namespace ProjectFirmaModels.Models
         Photos = 13,
         Contacts = 15,
         AttachmentsAndNotes = 16,
-        AdditionalAttributes = 17
+        CustomAttributes = 17
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -247,9 +247,9 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionAttachmentsAndNotes Instance = new ProjectCreateSectionAttachmentsAndNotes(16, @"AttachmentsAndNotes", @"Attachments and Notes", 140, false, 5);
     }
 
-    public partial class ProjectCreateSectionAdditionalAttributes : ProjectCreateSection
+    public partial class ProjectCreateSectionCustomAttributes : ProjectCreateSection
     {
-        private ProjectCreateSectionAdditionalAttributes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionAdditionalAttributes Instance = new ProjectCreateSectionAdditionalAttributes(17, @"AdditionalAttributes", @"Additional Attributes", 25, true, 1);
+        private ProjectCreateSectionCustomAttributes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionCustomAttributes Instance = new ProjectCreateSectionCustomAttributes(17, @"CustomAttributes", @"Custom Attributes", 25, true, 1);
     }
 }

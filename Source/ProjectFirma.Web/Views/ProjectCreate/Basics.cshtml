@@ -221,12 +221,6 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>
-    @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
-    {
-        <hr />
-        <h4>Additional Attributes</h4>
-        @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8 })
-    }
 
 </div>
 

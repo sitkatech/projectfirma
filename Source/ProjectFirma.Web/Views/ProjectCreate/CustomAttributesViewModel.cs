@@ -21,10 +21,12 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using ProjectFirmaModels.Models;
 using System.Linq;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class CustomAttributesViewModel : EditCustomAttributesViewModel
+    public class CustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
@@ -33,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public CustomAttributesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson) : base(project, project.ProjectCustomAttributes.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentPerson)
+        public CustomAttributesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson) : base(project)
         {
             
         }

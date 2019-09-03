@@ -20,19 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.ProjectContact;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class CustomAttributesViewData : ProjectCreateViewData
     {
-        public readonly EditCustomAttributesViewData EditAdditionalAttributesViewData;
+        public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
 
         public CustomAttributesViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditCustomAttributesViewData editAdditionalAttributesViewData) : base(currentPerson, project, ProjectCreateSection.AdditionalAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            EditAdditionalAttributesViewData = editAdditionalAttributesViewData;
+            EditCustomAttributesViewData = editCustomAttributesViewData;
         }
     }
 }
