@@ -1,1 +1,0 @@
-Update dbo.GeoSpatialAreaType set GeospatialAreaTypeName = 'Lead Entity', GeospatialAreaTypeNamePluralized = 'Lead Entities', GeospatialAreaLayerName = 'PSPActionAgenda:LeadEntity' Where GeospatialAreaTypeID = 18

@@ -1,7 +1,0 @@
-
-exec sp_rename 'FK_PersonStewardGeospatialArea_GeospatialAreaID_TenantID', 'FK_PersonStewardGeospatialArea_GeospatialArea_GeospatialAreaID_TenantID', 'OBJECT'
-exec sp_rename 'FK_PersonStewardOrganization_OrganizationID_TenantID', 'FK_PersonStewardOrganization_Organization_OrganizationID_TenantID', 'OBJECT'
-exec sp_rename 'FK_ImportExternalProjectStaging_Person_PersonID_TenantID', 'FK_ImportExternalProjectStaging_Person_CreatePersonID_TenantID_PersonID_TenantID', 'OBJECT'
-exec sp_rename 'FK_ProjectCustomAttributeUpdate_ProjectUpdate_ProjectUpdateID_TenantID', 'FK_ProjectCustomAttributeUpdate_ProjectUpdateBatch_ProjectUpdateBatchID_TenantID', 'OBJECT'
-exec sp_rename 'FK_PersonStewardTaxonomyBranch_TaxonomyBranchID_TenantID', 'FK_PersonStewardTaxonomyBranch_TaxonomyBranch_TaxonomyBranchID_TenantID', 'OBJECT'
-

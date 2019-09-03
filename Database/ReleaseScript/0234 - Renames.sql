@@ -1,2 +1,0 @@
-exec sp_rename 'FK_Project_Person_ProposingPersonID_TenantID', 'FK_Project_Person_ProposingPersonID_TenantID_PersonID_TenantID', 'OBJECT'
-exec sp_rename 'FK_Project_Person_ReviewedByPersonID_TenantID', 'FK_Project_Person_ReviewedByPersonID_TenantID_PersonID_TenantID', 'OBJECT'

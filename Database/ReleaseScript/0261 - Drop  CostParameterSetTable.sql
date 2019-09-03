@@ -1,3 +1,0 @@
-
-drop table dbo.CostParameterSet
-
