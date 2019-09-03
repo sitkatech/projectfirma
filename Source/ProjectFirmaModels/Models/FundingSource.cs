@@ -19,10 +19,29 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+
 namespace ProjectFirmaModels.Models
 {
-    public partial class FundingSource : IAuditableEntity
+    public partial class FundingSource : IAuditableEntity, IComparable<FundingSource>
     {
         public string GetAuditDescriptionString() => FundingSourceName;
+        public int CompareTo(FundingSource other)
+        {
+            if (this.FundingSourceID < other.FundingSourceID)
+            {
+                return -1;
+            }
+            else if (this.FundingSourceID == other.FundingSourceID)
+            {
+                return 0;
+            }
+            else if (this.FundingSourceID > other.FundingSourceID)
+            {
+                return 1;
+            }
+
+            throw new Exception("Coding error; should not happen.");
+        }
     }
 }
