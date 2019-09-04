@@ -39,6 +39,7 @@ using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
+using CustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.CustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models
 {

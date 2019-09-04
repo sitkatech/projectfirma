@@ -35,6 +35,7 @@ namespace ProjectFirmaModels.Models
         public bool IsContactsUpdated { get; }
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
         public bool IsTechnicalAssistanceRequestsUpdated { get;  }
+        public bool IsCustomAttributesUpdated { get; }
 
         public ProjectUpdateStatus(bool isBasicsUpdated,
             bool isReportedPerformanceMeasuresUpdated,
@@ -48,7 +49,8 @@ namespace ProjectFirmaModels.Models
             bool isOrganizationsUpdated, 
             bool isExpectedPerformanceMeasuresUpdated,
             bool isTechnicalAssistanceRequestsUpdated,
-            bool isContactsUpdated)
+            bool isContactsUpdated,
+            bool isCustomAttributesUpdated)
         {
             IsBasicsUpdated = isBasicsUpdated;
             IsReportedPerformanceMeasuresUpdated = isReportedPerformanceMeasuresUpdated;
@@ -63,6 +65,7 @@ namespace ProjectFirmaModels.Models
             IsExpectedPerformanceMeasuresUpdated = isExpectedPerformanceMeasuresUpdated;
             IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
             IsContactsUpdated = isContactsUpdated;
+            IsCustomAttributesUpdated = isCustomAttributesUpdated;
         }
     }
 }

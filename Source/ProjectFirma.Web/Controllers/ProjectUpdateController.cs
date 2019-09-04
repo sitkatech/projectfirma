@@ -53,13 +53,24 @@ using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
+using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes;
+using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
+using Contacts = ProjectFirma.Web.Views.ProjectUpdate.Contacts;
+using ContactsViewData = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewData;
+using ContactsViewModel = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewModel;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
+using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostType;
+using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewData;
+using ExpectedFundingByCostTypeViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewModel;
 using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
 using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
+using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostType;
+using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewData;
+using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewModel;
 using GeospatialArea = ProjectFirmaModels.Models.GeospatialArea;
@@ -71,6 +82,12 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
+using CustomAttributes = ProjectFirma.Web.Views.ProjectUpdate.CustomAttributes;
+using CustomAttributesViewData = ProjectFirma.Web.Views.ProjectUpdate.CustomAttributesViewData;
+using CustomAttributesViewModel = ProjectFirma.Web.Views.ProjectUpdate.CustomAttributesViewModel;
+using Organizations = ProjectFirma.Web.Views.ProjectUpdate.Organizations;
+using OrganizationsViewData = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewData;
+using OrganizationsViewModel = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
 using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 
@@ -3114,7 +3131,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
+                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
@@ -3123,6 +3140,7 @@ namespace ProjectFirma.Web.Controllers
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isNotesUpdated = DiffNotesAndAttachmentsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isCustomAttributesUpdated = DiffCustomAttributesImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3148,7 +3166,8 @@ namespace ProjectFirma.Web.Controllers
                 isOrganizationsUpdated,
                 isExpectedPerformanceMeasuresUpdated,
                 isTechnicalAssistanceRequestsUpdated,
-                isContactsUpdated);
+                isContactsUpdated,
+                isCustomAttributesUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -3522,5 +3541,100 @@ namespace ProjectFirma.Web.Controllers
 
             return emailContentPreview;
         }
+
+        #region "CustomAttributes"
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ViewResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var viewModel = new CustomAttributesViewModel(project);
+            return ViewCustomAttributes(project, projectUpdateBatch, viewModel);
+        }
+
+        private ViewResult ViewCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, CustomAttributesViewModel viewModel)
+        {
+            var customAttributesValidationResult = project.ValidateCustomAttributes();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+
+            var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
+
+            var proposalSectionsStatus = GetUpdateStatus(projectUpdateBatch);
+            var viewData = new CustomAttributesViewData(CurrentPerson, project, editCustomAttributesViewData);
+
+            return RazorView<CustomAttributes, CustomAttributesViewData, CustomAttributesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey, CustomAttributesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (!ModelState.IsValid)
+            {
+                return ViewCustomAttributes(project, projectUpdateBatch, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
+
+            viewModel.UpdateModel(project, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
+        }
+
+        public HtmlDiffContainer DiffCustomAttributesImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+
+            // get the original custom attributes
+            var customAttributesOriginal = new List<ProjectCustomAttributeSimple>(new ProjectCustomAttributes(project).Attributes);
+            // get the updated custom attributes
+            var customAttributesUpdated = new List<ProjectCustomAttributeSimple>(new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate).Attributes);
+
+
+            // get the html for the original custom attributes
+            var originalHtml = GeneratePartialViewForOriginalCustomAttributes(customAttributesOriginal, customAttributesUpdated);
+            // get the html for the updated custom attributes
+            var updatedHtml = GeneratePartialViewForModifiedCustomAttributes(customAttributesOriginal, customAttributesUpdated);
+
+
+            // return a diff container for the original and updated html for the custom attributesl
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForOriginalCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributesOriginal, List<ProjectCustomAttributeSimple> projectCustomAttributesUpdated)
+        {
+            
+
+
+            return GeneratePartialViewForCustomAttributes(projectCustomAttributesOriginal);
+        }
+
+        private string GeneratePartialViewForModifiedCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributesOriginal, List<ProjectCustomAttributeSimple> projectCustomAttributesUpdated)
+        {
+            
+            return GeneratePartialViewForCustomAttributes(projectCustomAttributesUpdated);
+        }
+
+        private string GeneratePartialViewForCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributes)
+        {
+            //var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+
+
+            //var viewData = new CustomAttributesViewData(projectCustomAttributes);
+            //var partialViewToString = RenderPartialViewToString(ExternalLinksPartialViewPath, viewData);
+            //return partialViewToString;
+            return "test";
+        }
+
+
+        #endregion "CustomAttributes"
+
     }
 }

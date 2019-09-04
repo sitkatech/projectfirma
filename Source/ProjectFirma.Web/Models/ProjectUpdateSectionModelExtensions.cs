@@ -60,7 +60,8 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Basics(project));
-                // todo: case for custom attributes
+                case ProjectUpdateSectionEnum.CustomAttributes:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CustomAttributes(project));
                 case ProjectUpdateSectionEnum.LocationSimple:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
                 case ProjectUpdateSectionEnum.Organizations:

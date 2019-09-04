@@ -23,15 +23,15 @@ using System.Collections.Generic;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomAttributesViewData : ProjectCreateViewData
+    public class CustomAttributesViewData 
     {
         public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
 
         public CustomAttributesViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, CustomAttributesValidationResult customAttributesValidationResult) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            EditProjectCustomAttributesViewData editCustomAttributesViewData)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
         }

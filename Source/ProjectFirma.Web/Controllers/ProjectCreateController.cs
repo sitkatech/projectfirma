@@ -1766,8 +1766,6 @@ namespace ProjectFirma.Web.Controllers
             return GoToNextSection(viewModel, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
         }
 
-
-
         #endregion "CustomAttributes"
 
     }
