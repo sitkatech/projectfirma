@@ -25,7 +25,14 @@ namespace ProjectFirma.Web.Models
             switch (projectWorkflowSectionGrouping.ToEnum)
             {
                 case ProjectWorkflowSectionGroupingEnum.Overview:
-                    return GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
+                    // remove the custom attributes section from the overview section to begin with
+                    var projectCreateSectionForCustomAttributes = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> {ProjectCreateSection.CustomAttributes}).ToList();
+                    // If there are custom attribute types for this tenant, we can add the section back
+                    if (HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Any())
+                    {
+                        projectCreateSectionForCustomAttributes.Add(ProjectCreateSection.CustomAttributes);
+                    }
+                    return GetProjectCreateSectionsImpl(project, projectCreateSectionForCustomAttributes, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment }).ToList();
 
@@ -99,7 +106,14 @@ namespace ProjectFirma.Web.Models
             switch (projectWorkflowSectionGrouping.ToEnum)
             {
                 case ProjectWorkflowSectionGroupingEnum.Overview:
-                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                    // remove the custom attributes section from the overview section to begin with
+                    var projectUpdateSectionForCustomAttributes = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.CustomAttributes }).ToList();
+                    // If there are custom attribute types for this tenant, we can add the section back
+                    if (HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Any())
+                    {
+                        projectUpdateSectionForCustomAttributes.Add(ProjectUpdateSection.CustomAttributes);
+                    }
+                    return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionForCustomAttributes, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
                     var maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);

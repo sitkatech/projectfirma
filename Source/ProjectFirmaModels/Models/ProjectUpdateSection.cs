@@ -17,7 +17,7 @@
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {
-            return projectUpdateStatus.IsLocationSimpleUpdated;
+            return projectUpdateStatus.IsCustomAttributesUpdated;
         }
     }
 
