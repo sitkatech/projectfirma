@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
 
-        public ProjectFirmaModels.Models.Project Project { get; set; }
+        public IProject Project { get; set; }
         
         /// <summary>
         /// Needed by the ModelBinder
@@ -47,9 +47,20 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             Project = project;
         }
 
+        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
+        {
+            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
+            Project = projectUpdate;
+        }
+
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
+        }
+
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, Person currentPerson)
+        {
+            ProjectCustomAttributes?.UpdateModel(projectUpdate, currentPerson);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

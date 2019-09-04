@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public CustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
+        public CustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate) : base(projectUpdate)
         {
-            Project = project;
+            Project = projectUpdate;
         }
     }    
 }

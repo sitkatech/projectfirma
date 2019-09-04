@@ -31,12 +31,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         
         private readonly List<string> _warningMessages;
 
-        public CustomAttributesValidationResult(ProjectFirmaModels.Models.Project project)
+        public CustomAttributesValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
             var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
-            var projectrequiredCustomAttributeTypeIDs = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            var projectrequiredCustomAttributeTypeIDs = projectUpdate.GetProjectCustomAttributes().Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             if (requiredCustomAttributeTypeIDs.Any(x => !projectrequiredCustomAttributeTypeIDs.Contains(x)))
             {
                 _warningMessages.Add(FirmaValidationMessages.RequiredCustomAttribute);

@@ -25,13 +25,16 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomAttributesViewData 
+    public class CustomAttributesViewData : ProjectUpdateViewData
     {
         public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
 
         public CustomAttributesViewData(Person currentPerson,
-            ProjectFirmaModels.Models.Project project,
-            EditProjectCustomAttributesViewData editCustomAttributesViewData)
+            ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch,
+            ProjectUpdateStatus projectUpdateStatus,
+            List<string> validationWarnings,
+            string sectionDisplayName,
+            EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
         }

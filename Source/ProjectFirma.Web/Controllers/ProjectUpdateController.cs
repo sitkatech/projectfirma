@@ -3543,13 +3543,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #region "CustomAttributes"
+
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
         public ViewResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            var viewModel = new CustomAttributesViewModel(project);
+            var viewModel = new CustomAttributesViewModel(projectUpdateBatch.ProjectUpdate);
             return ViewCustomAttributes(project, projectUpdateBatch, viewModel);
         }
 
@@ -3561,7 +3562,7 @@ namespace ProjectFirma.Web.Controllers
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
 
             var proposalSectionsStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new CustomAttributesViewData(CurrentPerson, project, editCustomAttributesViewData);
+            var viewData = new CustomAttributesViewData(CurrentPerson, projectUpdateBatch, proposalSectionsStatus, customAttributesValidationResult.GetWarningMessages(), ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName, editCustomAttributesViewData);
 
             return RazorView<CustomAttributes, CustomAttributesViewData, CustomAttributesViewModel>(viewData, viewModel);
         }
@@ -3573,6 +3574,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            
             if (!ModelState.IsValid)
             {
                 return ViewCustomAttributes(project, projectUpdateBatch, viewModel);
@@ -3580,11 +3582,11 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
 
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(projectUpdateBatch.ProjectUpdate, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName);
         }
 
         public HtmlDiffContainer DiffCustomAttributesImpl(ProjectPrimaryKey projectPrimaryKey)

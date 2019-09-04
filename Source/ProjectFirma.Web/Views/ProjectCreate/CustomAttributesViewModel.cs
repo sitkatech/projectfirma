@@ -19,11 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ProjectFirmaModels.Models;
-using System.Linq;
-
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
