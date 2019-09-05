@@ -63,6 +63,16 @@ body {
   color: #193D5B;
   overflow-x: hidden;
 }
+span.screen-reader-only {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
 input[disabled] {
   background-color: LightGray;
 }
@@ -1207,17 +1217,17 @@ td.stage {
 #EditFundingSourceExpendituresApp table,
 #EditFundingSourceExpendituresByCostTypeApp table,
 #EditFundingSourceBudgetsByCostTypeApp table {
-    table-layout: fixed;
+  table-layout: fixed;
 }
 #EditFundingSourceExpendituresApp td,
 #EditFundingSourceExpendituresByCostTypeApp td,
 #EditFundingSourceBudgetsByCostTypeApp td,
 #EditFundingSourceExpendituresApp th,
 #EditFundingSourceExpendituresByCostTypeApp th,
-EditFundingSourceBudgetsByCostTypeApp th {
-    min-width: 128px;
-    width: 128px;
-    overflow: hidden;
+#EditFundingSourceBudgetsByCostTypeApp th {
+  min-width: 128px;
+  width: 128px;
+  overflow: hidden;
 }
 #accomplishmentsDashboard .bootstrap-select .dropdown-toggle {
   font-size: 20px;
