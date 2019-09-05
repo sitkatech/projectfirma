@@ -29,9 +29,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @inherits NavAndHeaderLayout
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 
     <title>@ViewDataTyped.TenantShortDisplayName  @(!string.IsNullOrWhiteSpace(ViewDataTyped.HtmlPageTitle) ? string.Format(" | {0}", ViewDataTyped.HtmlPageTitle) : string.Empty)@ViewDataTyped.GetBreadCrumbTitle()</title>
 
