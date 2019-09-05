@@ -84,7 +84,22 @@ values
 (7, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
 (8, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
 (9, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
-(11, 64, '<p>Manage Project Custom Grids introductory text.</p>'),
+(11, 64, '<ul>
+	<li>The <strong>Full Project Grid </strong>below controls the display for&nbsp;the Full Project List</li>
+	<li>The <strong>Default Project Grid </strong>below controls the display on the following pages:
+	<ul>
+		<li>All taxonomy detail&nbsp;pages (trunk, branch, and leaf). - (E.g Regional Priority Approaches, Limiting Factors)
+		<ul>
+			<li>Note: If your instance of Project Firma is using the tenant configuration for multiple taxonomy leafs the default grid will only appear if the leaf detail page is set to &ldquo;primary association only&rdquo;. The grid that includes both&nbsp;&ldquo;primary and secondary&rdquo; is a separate custom grid specification.&nbsp;</li>
+		</ul>
+		</li>
+		<li>Classification detail pages (E.g Activity Types, Project Themes)</li>
+		<li>Geospatial area detail pages (E.g Legislative Districts)</li>
+		<li>My Organizations Projects List</li>
+		<li>Featured Project List (under the manage menu)&nbsp;</li>
+	</ul>
+	</li>
+</ul>'),
 (12, 64, '<p>Manage Project Custom Grids introductory text.</p>')
 
 insert into dbo.FieldDefinition (FieldDefinitionID, FieldDefinitionName, FieldDefinitionDisplayName, DefaultDefinition) 
