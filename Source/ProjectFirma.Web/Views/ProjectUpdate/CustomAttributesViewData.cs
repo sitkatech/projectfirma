@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 
@@ -28,15 +30,23 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class CustomAttributesViewData : ProjectUpdateViewData
     {
         public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
+        public readonly SectionCommentsViewData SectionCommentsViewData;
+        public readonly string RefreshUrl;
+        public readonly string DiffUrl;
 
         public CustomAttributesViewData(Person currentPerson,
-            ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch,
+            ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus,
             List<string> validationWarnings,
             string sectionDisplayName,
             EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.CustomAttributesComment, projectUpdateBatch.IsReturned());
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshCustomAttributes(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffContacts(projectUpdateBatch.Project));
         }
+
+        
     }
 }

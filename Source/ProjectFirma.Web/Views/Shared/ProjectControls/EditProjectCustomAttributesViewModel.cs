@@ -47,22 +47,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             Project = project;
         }
 
-        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
+        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch)
         {
-            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
-            Project = projectUpdate;
+            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate);
+            Project = projectUpdateBatch.ProjectUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
         }
-
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, Person currentPerson)
-        {
-            ProjectCustomAttributes?.UpdateModel(projectUpdate, currentPerson);
-        }
-
+        
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             return GetValidationResults();

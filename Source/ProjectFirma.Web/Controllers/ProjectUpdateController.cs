@@ -3550,7 +3550,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            var viewModel = new CustomAttributesViewModel(projectUpdateBatch.ProjectUpdate);
+            var viewModel = new CustomAttributesViewModel(projectUpdateBatch);
             return ViewCustomAttributes(project, projectUpdateBatch, viewModel);
         }
 
@@ -3582,11 +3582,57 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
 
-            viewModel.UpdateModel(projectUpdateBatch.ProjectUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
+
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.CustomAttributesComment = viewModel.Comments;
+            }
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult RefreshCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshCustomAttributes(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshCustomAttributes(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectCustomAttributeUpdates();
+            // refresh data
+            ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewRefreshCustomAttributes(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} custom attributes data? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffCustomAttributesImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
         }
 
         public HtmlDiffContainer DiffCustomAttributesImpl(ProjectPrimaryKey projectPrimaryKey)

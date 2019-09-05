@@ -19,12 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class CustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectUpdateBatch.FieldLengths.CustomAttributesComment)]
+        public string Comments { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -32,9 +40,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public CustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate) : base(projectUpdate)
+        public CustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch) : base(projectUpdateBatch)
         {
-            Project = projectUpdate;
+            Project = projectUpdateBatch.ProjectUpdate;
+            Comments = projectUpdateBatch.CustomAttributesComment;
+        }
+
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
+        {
+            ProjectCustomAttributes?.UpdateModel(projectUpdateBatch.ProjectUpdate, currentPerson);
         }
     }    
 }

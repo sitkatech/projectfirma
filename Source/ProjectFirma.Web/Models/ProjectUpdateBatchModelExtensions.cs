@@ -321,6 +321,15 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static void DeleteProjectCustomAttributeUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectCustomAttributeUpdates = projectUpdateBatch.ProjectCustomAttributeUpdates.ToList();
+            foreach (var projectCustomAttributeUpdate in projectCustomAttributeUpdates)
+            {
+                projectCustomAttributeUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static BasicsValidationResult ValidateProjectBasics(this ProjectUpdateBatch projectUpdateBatch)
         {
             return new BasicsValidationResult(projectUpdateBatch.ProjectUpdate);
