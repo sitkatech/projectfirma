@@ -57,19 +57,15 @@
     <div class="col-xs-12" style="margin-bottom: 20px;">
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
-    <div class="row section">
-        <div class="col-sm-12 col-md-5">
-            <div style="margin-left: auto; margin-right: auto;">
-                <div class="chartPanel">
-                    @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.SummaryViewGoogleChartViewData); }
-                </div>
+    <div class="col-xs-12">
+        <div class="col-md-5" style="margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <div class="chartPanel">
+                @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.SummaryViewGoogleChartViewData); }
             </div>
-        </div>
-        <div class="col-sm-12 col-md-7">
-            <div style="margin-left: auto; margin-right: auto; page-break-inside: avoid">
-                <div class="chartPanel" style="width: 800px;">
-                    @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.StatusByOwnerOrgTypeViewGoogleChartViewData); }
-                </div>
+            </div>
+        <div class="col-md-7" style="margin-left: auto; margin-right: auto; page-break-inside: avoid; padding-left: 0; padding-right: 0;">
+            <div class="chartPanel" style="width: 800px;">
+                @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.StatusByOwnerOrgTypeViewGoogleChartViewData); }
             </div>
         </div>
     </div>
