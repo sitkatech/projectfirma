@@ -527,7 +527,7 @@ namespace ProjectFirma.Web.Controllers
             summaryGoogleChart.CanConfigureChart = false;
 
             // set up Funding by Owner Org Type column chart
-            var statusByOrgTypeChartTitle = "NTA Funding Status by NTA Owner Org Type";
+            var statusByOrgTypeChartTitle = "NTA Funding Status by NTA Owner Organization Type";
             var orgTypeChartContainerID = statusByOrgTypeChartTitle.Replace(" ", "");
             var googleChartAxisHorizontal = new GoogleChartAxis("NTA Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxis = new GoogleChartAxis("Total Budget", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
@@ -538,7 +538,7 @@ namespace ProjectFirma.Web.Controllers
             // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
             orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             orgTypeChartConfig.Tooltip = new GoogleChartTooltip(true);
-            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.Right);
+            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
             var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
 
