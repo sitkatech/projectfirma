@@ -155,9 +155,16 @@ namespace LtInfo.Common.Mvc
 
         public override void CreateUninitializedItem(HttpContext context, string sessionID, int timeout)
         {
-            if (!_sessionItemsBySessionIdDict.ContainsKey(sessionID))
+            // SLG & TK - We found this as the only function in this file not using the lock, and saw a likely threading crash because of this.
+            // But we did find it suspicious that this was the ONLY function without a lock. So, we're adding it, but if there's some good reason 
+            // for it NOT to have a lock, clue us in. -- 9/5/2019
+            lock (_sessionItemsBySessionIdDict)
             {
-                _sessionItemsBySessionIdDict.Add(sessionID, new SessionItemsWithExpiration(new SessionStateItemCollection(), timeout));
+                if (!_sessionItemsBySessionIdDict.ContainsKey(sessionID))
+                {
+                    _sessionItemsBySessionIdDict.Add(sessionID,
+                        new SessionItemsWithExpiration(new SessionStateItemCollection(), timeout));
+                }
             }
         }
 
