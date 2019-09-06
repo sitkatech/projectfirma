@@ -1,0 +1,75 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="FundingStatus.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.Results.FundingStatus
+
+<style>
+    .google-visualization-tooltip {
+        z-index: 10000;
+    }
+
+    .googleTooltipDiv {
+        padding-top: 5px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
+    }
+
+        .googleTooltipDiv p {
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+
+    table.googleTooltipTable {
+        margin-bottom: 5px;
+    }
+
+        table.googleTooltipTable tr td {
+            margin: 0;
+            padding: 2px 4px;
+            white-space: nowrap;
+        }
+
+    .googleTooltipTableTotalRow {
+        border-top: solid 2px #666;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+    <div class="col-xs-12">
+        <div class="col-md-5" style="margin-left: auto; margin-right: auto; padding-left: 0; padding-right: 0;">
+            <div class="chartPanel">
+                @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.SummaryViewGoogleChartViewData); }
+            </div>
+            </div>
+        <div class="col-md-7" style="margin-left: auto; margin-right: auto; page-break-inside: avoid; padding-left: 0; padding-right: 0;">
+            <div class="chartPanel" style="width: 800px;">
+                @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.StatusByOwnerOrgTypeViewGoogleChartViewData); }
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12" style="margin-top: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.FundingStatusFooterViewPageContentViewData); }
+    </div>
+</div>

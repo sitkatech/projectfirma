@@ -37,7 +37,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -507,6 +507,43 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ConfigureAccomplishmentsDashboardViewData(organizationRelationshipTypes);
             return RazorPartialView<ConfigureAccomplishmentsDashboard, ConfigureAccomplishmentsDashboardViewData,
                 ConfigureAccomplishmentsDashboardViewModel>(viewData, viewModel);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult FundingStatus()
+        {
+            var firmaPage = FirmaPageTypeEnum.FundingStatusHeader.GetFirmaPage();
+            var firmaPageFooter = FirmaPageTypeEnum.FundingStatusFooter.GetFirmaPage();
+            
+            // set up Funding Summary pie chart
+            var summaryChartTitle = "NTA Funding Summary";
+            var summaryChartContainerID = summaryChartTitle.Replace(" ", "");
+            var googlePieChartSlices = ProjectModelExtensions.GetFundingStatusPieChartSlices();
+            var googleChartDataTable = ProjectModelExtensions.GetFundingStatusSummaryGoogleChartDataTable(googlePieChartSlices);
+            var summaryConfiguration = new GooglePieChartConfiguration(summaryChartTitle, MeasurementUnitTypeEnum.Dollars, googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable) { PieSliceText = "value-and-percentage" };
+            summaryConfiguration.ChartArea.Top = 60;
+            var summaryGoogleChart = new GoogleChartJson(summaryChartTitle, summaryChartContainerID, summaryConfiguration,
+                GoogleChartType.PieChart, googleChartDataTable, null);
+            summaryGoogleChart.CanConfigureChart = false;
+
+            // set up Funding by Owner Org Type column chart
+            var statusByOrgTypeChartTitle = "NTA Funding Status by NTA Owner Organization Type";
+            var orgTypeChartContainerID = statusByOrgTypeChartTitle.Replace(" ", "");
+            var googleChartAxisHorizontal = new GoogleChartAxis("NTA Organization Type", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxis = new GoogleChartAxis("Total Budget", MeasurementUnitTypeEnum.Dollars, GoogleChartAxisLabelFormat.Decimal);
+            var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+            var orgTypeToAmounts = ProjectModelExtensions.GetFundingForAllProjectsByOwnerOrgType(CurrentPerson);
+            var orgTypeGoogleChartDataTable = ProjectModelExtensions.GetFundingStatusByOwnerOrgTypeGoogleChartDataTable(orgTypeToAmounts);
+            var orgTypeChartConfig = new GoogleChartConfiguration(statusByOrgTypeChartTitle, true, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+            // need to ignore null GoogleChartSeries so the custom colors match up to the column chart correctly
+            orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
+            orgTypeChartConfig.Tooltip = new GoogleChartTooltip(true);
+            orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
+            orgTypeGoogleChart.CanConfigureChart = false;
+
+            var viewData = new FundingStatusViewData(CurrentPerson, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
+            return RazorView<FundingStatus, FundingStatusViewData>(viewData);
         }
     }
 }

@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using MoreLinq;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -232,7 +233,24 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ProjectFundingSourceBudget> ProjectFundingSourceBudgetGridJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var projectFundingSourceBudgets = fundingSource.ProjectFundingSourceBudgets.ToList();
+            var projectFundingSourceBudgets = new List<ProjectFundingSourceBudget>();
+            fundingSource.ProjectFundingSourceBudgets.GroupBy(x => x.ProjectID).ForEach(grouping =>
+            {
+                ProjectFundingSourceBudget aggregateProjectFundingSourceBudget = null;
+                grouping.ForEach(x =>
+                {
+                    if (aggregateProjectFundingSourceBudget == null)
+                    {
+                        aggregateProjectFundingSourceBudget = x;
+                    }
+                    else
+                    {
+                        aggregateProjectFundingSourceBudget.SecuredAmount += x.SecuredAmount;
+                        aggregateProjectFundingSourceBudget.TargetedAmount += x.TargetedAmount;
+                    }
+                });
+                projectFundingSourceBudgets.Add(aggregateProjectFundingSourceBudget);
+            });
             var gridSpec = new ProjectFundingSourceBudgetGridSpec();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceBudget>(projectFundingSourceBudgets, gridSpec);
             return gridJsonNetJObjectResult;

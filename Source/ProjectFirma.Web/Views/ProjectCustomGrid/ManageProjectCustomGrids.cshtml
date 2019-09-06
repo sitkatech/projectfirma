@@ -1,0 +1,60 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Index.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectCustomGrid.ManageProjectCustomGrids
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    <script type="text/javascript" src="@Url.Content("~/Views/ProjectCustomGrid/EditProjectCustomGridController.js")"></script>
+    <script src="~/Content/Sortable.js"></script>
+}
+
+<div style="padding-top: 10px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
+
+@* Full Grid *@
+<div class="pull-right">
+    @ModalDialogFormHelper.ModalDialogFormLink("Customize Grid", ViewDataTyped.CustomizeFullGridUrl, "Customize Full Project Grid", new List<string> { "btn", "btn-firma", "btn-sm" }, true)
+</div>
+<h4> Full @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
+
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomFullGridSpec, ViewDataTyped.ProjectCustomFullGridName, ViewDataTyped.ProjectCustomFullGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>
+
+<br /><br /><br />
+
+@* Default Grid *@
+<div class="pull-right">
+    @ModalDialogFormHelper.ModalDialogFormLink("Customize Grid", ViewDataTyped.CustomizeDefaultGridUrl, "Customize Default Project Grid", new List<string> { "btn", "btn-firma", "btn-sm" }, true)
+</div>
+<h4> Default @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>

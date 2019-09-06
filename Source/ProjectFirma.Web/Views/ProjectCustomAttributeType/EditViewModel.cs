@@ -49,8 +49,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public bool ViewableByNormal { get; set; }
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool ViewableByProjectSteward { get; set; }
-        [Required]
-        public bool ProjectCustomAttributeIncludeInGridSpec { get; set; }
 
 
 
@@ -70,7 +68,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeType.ProjectCustomAttributeTypeOptionsSchema;
             IsRequired = projectCustomAttributeType.IsRequired;
             ProjectCustomAttributeTypeDesription = projectCustomAttributeType.ProjectCustomAttributeTypeDescription;
-            ProjectCustomAttributeIncludeInGridSpec = projectCustomAttributeType.IncludeInProjectGrid;
             EditableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             EditableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
@@ -87,7 +84,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
-            projectCustomAttributeType.IncludeInProjectGrid = ProjectCustomAttributeIncludeInGridSpec;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]

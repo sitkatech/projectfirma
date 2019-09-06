@@ -1,0 +1,131 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProjectCustomGrid.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@inherits ProjectFirma.Web.Views.ProjectCustomGrid.EditProjectCustomGrid
+
+<style>
+    sortable-ghost {
+        background-color: #E0E0E0;
+    }
+
+    #sortables-list:hover {
+        cursor: move;
+        cursor: grab;
+    }
+
+    #sortables-list div:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"EditProjectCustomGridController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<div id="editProjectCustomGridController" ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomGridController">
+    <div class="col-md-12">
+        <div style="margin-bottom: 25px;">
+            <strong>1. Select the columns</strong>
+        </div>
+        @* Enable/disable columns *@
+        @* Left column *@
+        <div class="col-md-6">
+            <div ng-repeat="projectCustomGridConfigurationSimple in getOrderedSimples('first')" class="col-md-12">
+                @* Optional columns *@
+                <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+                @* Mandatory columns *@
+                <label ng-if="!projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" checked="checked" disabled>
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+            </div>
+        </div>
+        @* Right column *@
+        <div class="col-md-6">
+            <div ng-repeat="projectCustomGridConfigurationSimple in getOrderedSimples('last')" class="col-md-12">
+                @* Optional columns *@
+                <label ng-if="projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" ng-model="projectCustomGridConfigurationSimple.IsEnabled" ng-change="rebuildSortOrder(projectCustomGridConfigurationSimple)">
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+                @* Mandatory columns *@
+                <label ng-if="!projectCustomGridConfigurationSimple.IsOptional">
+                    <input type="checkbox" checked="checked" disabled>
+                    <span ng-bind="getColumnName(projectCustomGridConfigurationSimple)" style="font-weight: normal;"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div style="margin-top: 50px; margin-bottom: 25px">
+            <strong>2. Order the selected columns</strong>
+        </div>
+        <div style="margin-left: 25px;">
+            @* Order enabled fields *@
+            <div id="sortables-list">
+                <div ng-repeat="projectCustomGridConfigurationSimple in getEnabledProjectCustomGridConfigurationSimples()" 
+                     id="{{getUniqueIdentifier(projectCustomGridConfigurationSimple)}}" data-index="{{$index}}" 
+                     style="margin-bottom: 4px;">
+                    <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span><span ng-bind="getColumnName(projectCustomGridConfigurationSimple)"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @* Form to post  - want to post all available configurations*@
+    @using (Html.BeginForm())
+    {
+        <div ng-repeat="projectCustomGridConfigurationSimple in AngularModel.ProjectCustomGridConfigurationSimples">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ProjectCustomGridTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ProjectCustomGridTypeID}}">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ProjectCustomGridColumnID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ProjectCustomGridColumnID}}">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].ProjectCustomAttributeTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.ProjectCustomAttributeTypeID}}">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].GeospatialAreaTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.GeospatialAreaTypeID}}">
+            <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].IsEnabled).ToString().Replace("0", "{{$index}}")" value="{{projectCustomGridConfigurationSimple.IsEnabled}}">
+            <input ng-if="projectCustomGridConfigurationSimple.IsEnabled" type="hidden" name="@Html.NameFor(m => m.ProjectCustomGridConfigurationSimples[0].SortOrder).ToString().Replace("0", "{{$index}}")" value="{{getSortOrder(projectCustomGridConfigurationSimple)}}">
+        </div>
+    }
+</div>
+<script>
+
+    jQuery(document).ready(function () {
+        angular.element(document.getElementById('editProjectCustomGridController')).scope().initializeSortables();
+    });
+</script>
+
+
+
+
+

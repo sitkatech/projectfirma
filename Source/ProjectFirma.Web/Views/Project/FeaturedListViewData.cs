@@ -18,32 +18,36 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectCustomGrid;
 
 namespace ProjectFirma.Web.Views.Project
 {
     public class FeaturedListViewData : FirmaViewData
     {
-        public FeaturesListProjectGridSpec GridSpec { get; }
-        public string GridName { get; }
-        public string GridDataUrl { get; }
+        public ProjectCustomGridSpec ProjectCustomDefaultGridSpec { get; }
+        public string ProjectCustomDefaultGridName { get; }
+        public string ProjectCustomDefaultGridDataUrl { get; }
+
         public string EditUrl { get; }
 
-        public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) 
+                                    : base(currentPerson, firmaPage)
         {
             PageTitle = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
-            GridName = "featuredListGrid";
-            GridSpec = new FeaturesListProjectGridSpec(currentPerson)
-            {
-                ObjectNameSingular = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                SaveFiltersInCookie = true,
-            };
-            GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.FeaturedListGridJsonData());
+
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+
+            ProjectCustomDefaultGridName = "featuredListGrid";
+            ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.FeaturedProjectsGridJsonData());
+
             EditUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.EditFeaturedProjects());
         }
     }

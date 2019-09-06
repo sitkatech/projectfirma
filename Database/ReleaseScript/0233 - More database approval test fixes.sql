@@ -1,2 +1,0 @@
-alter table dbo.Project add constraint FK_Project_Person_ReviewedByPersonID_TenantID foreign key (ReviewedByPersonID, TenantID) references dbo.Person(PersonID, TenantID)
-alter table dbo.Project add constraint FK_Project_Person_ProposingPersonID_TenantID foreign key (ProposingPersonID, TenantID) references dbo.Person(PersonID, TenantID)

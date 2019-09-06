@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Common
 
 
         // Feature Flag Settings
-        public static readonly bool FeatureAttachmentRelationshipTypes = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureAttachmentRelationshipTypes"));
+
 
 
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)

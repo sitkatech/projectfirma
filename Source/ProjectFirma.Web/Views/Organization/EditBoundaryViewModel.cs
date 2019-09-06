@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Organization
                 FileResourceData.SaveAs(gdbFile.FullName);
                 HttpRequestStorage.DatabaseEntities.AllOrganizationBoundaryStagings.RemoveRange(organization.OrganizationBoundaryStagings.ToList());
                 organization.OrganizationBoundaryStagings.Clear();
-                OrganizationModelExtensions.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, organization);
+                OrganizationModelExtensions.CreateOrganizationBoundaryStagingStagingListFromGdb(gdbFile, FileResourceData.FileName, organization);
             }
         }
 
@@ -51,9 +51,8 @@ namespace ProjectFirma.Web.Views.Organization
                 List<string> featureClassNames = null;
                 try
                 {
-                    featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable),
-                        gdbFile,
-                        Ogr2OgrCommandLineRunner.DefaultTimeOut);
+                    var ogrInfoFileInfo = new FileInfo(FirmaWebConfiguration.OgrInfoExecutable);
+                    featureClassNames = OgrInfoCommandLineRunner.GetFeatureClassNamesFromFileGdb(ogrInfoFileInfo, gdbFile, gdbFile.Name, Ogr2OgrCommandLineRunner.DefaultTimeOut);
                 }
                 catch (Exception e)
                 {

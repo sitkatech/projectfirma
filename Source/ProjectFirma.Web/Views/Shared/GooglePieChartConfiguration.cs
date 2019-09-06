@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -29,6 +29,18 @@ namespace ProjectFirma.Web.Views.Shared
             PieSliceTextStyle = new GoogleChartTextStyle("black");
             ChartArea = new GoogleChartConfigurationArea(10, 10);
             Slices = googlePieChartSlices;
+        }
+
+        public GooglePieChartConfiguration()
+        {
+        }
+
+        public class ConfigurationConverter : CustomCreationConverter<GoogleChartConfiguration>
+        {
+            public override GoogleChartConfiguration Create(Type objectType)
+            {
+                return new GooglePieChartConfiguration();
+            }
         }
     }
 }

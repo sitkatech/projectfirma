@@ -61,6 +61,7 @@ namespace ProjectFirma.Web
                 "~/Views/Shared/ProjectContact/{0}.cshtml",
                 "~/Views/Shared/SortOrder/{0}.cshtml",
                 "~/Views/Shared/ProjectDocument/{0}.cshtml",
+                "~/Views/Shared/ProjectAttachment/{0}.cshtml",
                 "~/Views/Shared/UserStewardshipAreas/{0}.cshtml",
                 
             } };

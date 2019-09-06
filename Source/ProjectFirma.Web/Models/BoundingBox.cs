@@ -191,9 +191,10 @@ namespace ProjectFirma.Web.Models
 
         public static BoundingBox MakeBoundingBoxFromGeoJson(string geoJson)
         {
-            var result = OgrInfoCommandLineRunner.GetExtentFromGeoJson(new FileInfo(FirmaWebConfiguration.OgrInfoExecutable),
-                geoJson,
-                FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
+            var ogrExecutableFileInfo = new FileInfo(FirmaWebConfiguration.OgrInfoExecutable);
+            var result = OgrInfoCommandLineRunner.GetExtentFromGeoJson(ogrExecutableFileInfo,
+                                                                       geoJson,
+                                                                       FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
             if (result == null)
             {

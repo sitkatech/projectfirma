@@ -100,8 +100,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                     ng-bind="taxonomyTrunk.TaxonomyTrunkName"
                                     ng-value="taxonomyTrunk.TaxonomyTrunkID"></option>
                         </select>
-                        <button type="button" class="btn btn-sm btn-firma" ng-click="addRowTaxonomyTrunk()"><span class="glyphicon glyphicon-plus"></span>Add</button>
-                        <button type="button" class="btn btn-sm btn-firma" ng-click="addAllTaxonomyTrunks()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                        <div class="btn-group input-group-btn">
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="addRowTaxonomyTrunk()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                            <button type="button" class="btn btn-sm btn-firma" style="margin-left: 5px;" ng-click="addAllTaxonomyTrunks()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                        </div>
                     </div>
                 </div>
 
@@ -132,11 +134,12 @@ Source code is available upon request via <support@sitkatech.com>.
                                 ng-bind="fileType.FileResourceMimeTypeDisplayName"
                                 ng-value="fileType.FileResourceMimeTypeID"></option>
                     </select>
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span>Add</button>
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addAllFileResourceMimeTypes()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                    <div class="btn-group input-group-btn">
+                        <button type="button" class="btn btn-sm btn-firma" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                        <button type="button" class="btn btn-sm btn-firma" style="margin-left:5px" ng-click="addAllFileResourceMimeTypes()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                    </div>
                 </div>
             </div>
-
             @*Selections for FileTypes*@
             <div class="col-md-9 col-md-offset-3" style="margin-top: 5px;">
                 <div class="col-md-4" ng-repeat="selectedFileTypeID in AngularModel.FileResourceMimeTypeIDs">

@@ -1,0 +1,98 @@
+﻿@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.NewProjectAttachment
+
+
+    <script src="@Url.Content("~/Content/angular/directives/input-type-file.js")"></script>
+    <script type="text/javascript">
+        // <![CDATA[
+        angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function() {
+
+            return {
+                AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+            };
+        });
+        jQuery(document).ready(function ()
+        {
+            angular.bootstrap(jQuery("#NewProjectAttachmentAngularApp"), ["ProjectFirmaApp", "app.Components.InputTypeFile", "ngMessages"]);
+
+            jQuery("form").attr("novalidate", "");
+
+            // 8/14/2019 TK - this forces angular to rip out the undefined select option allowing the user to submit the form with the default selected option without having to touch the dropdown
+            var firstElementText = jQuery("select.attachmentDropdown option:first").text();
+            if (firstElementText == null || firstElementText == "") {
+                jQuery("select.attachmentDropdown").change();
+            }
+        });
+        // ]]>
+    </script>
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal" id="NewProjectAttachmentAngularApp" ng-controller="NewProjectAttachmentController">
+        <div ng-form="attachmentForm">
+            <div>
+                You can upload a range of document formats here, including some image formats (for diagrams, plans, illustrations). However, we encourage you to upload photos in the Photos section.
+            </div>
+            @Html.HiddenFor(m => m.ProjectID)
+            @Html.HiddenFor(m => m.ProjectUpdateBatchID)
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    <select class="attachmentDropdown form-control" id="@Html.IdFor(m => m.AttachmentRelationshipTypeID)" name="@Html.NameFor(m => m.AttachmentRelationshipTypeID)" ng-model="AttachmentRelationshipTypeID" ng-change="attachmentRelationshipTypeChange(AttachmentRelationshipTypeID)" ng-required="true" data-width="100%">
+                        <option ng-repeat="attachmentRelationshipType in getAttachmentRelationshipTypesForDropdown()"
+                                ng-bind="attachmentRelationshipType.AttachmentRelationshipTypeName"
+                                ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
+                                ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
+                    </select>
+                    <div ng-messages="attachmentForm.AttachmentRelationshipTypeID.$error" ng-show="attachmentForm.AttachmentRelationshipTypeID.$touched" role="alert">
+                        <div class="alert alert-danger" ng-message="required">Attachment Relationship Type is a required field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.UploadedFile)
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    <input type="file" id="@Html.IdFor(m => m.UploadedFile)" name="@Html.NameFor(m => m.UploadedFile)" ng-required="true" ng-model="UploadedFile" accept="{{ AllowedMimeTypes }}" maxsize="{{ MaxFileSize }}" />
+                    <div class="help-block">
+                        <p><strong>Allowed Extensions:</strong> <span>{{ AllowedExtensions }}</span><br/>
+                            <strong>Maximum file size:</strong> <span>{{ MaxFileSizeForDisplay }}</span></p>
+                    </div>
+                    <div ng-messages="attachmentForm.UploadedFile.$error" ng-show="attachmentForm.UploadedFile.$touched" role="alert">
+                            <div class="alert alert-danger" ng-message="required">File is a required field</div>
+                            <div class="alert alert-danger" ng-message="accept">Your file is the wrong type</div>
+                            <div class="alert alert-danger" ng-message="maxsize">Your file is too large</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.DisplayName)
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    <input type="text" id="@Html.IdFor(m => m.DisplayName)" name="@Html.NameFor(m => m.DisplayName)" class="form-control" ng-required="true" ng-model="DisplayName" />
+                    @Html.ValidationMessageFor(m => m.DisplayName)
+                    <div ng-messages="attachmentForm.DisplayName.$error" ng-show="attachmentForm.DisplayName.$touched" role="alert">
+                        <div class="alert alert-danger" ng-message="required">Display Name is a required field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.Description)
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    @Html.TextAreaWithMaxLengthFor(m => m.Description, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+}

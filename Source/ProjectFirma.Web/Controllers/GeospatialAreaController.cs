@@ -18,21 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common.Models;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.GeospatialArea;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.GeospatialArea;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.CustomPage;
 using Detail = ProjectFirma.Web.Views.GeospatialArea.Detail;
 using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
 using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
@@ -98,7 +95,9 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, geospatialArea, mapInitJson, viewGoogleChartViewData, performanceMeasures);
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+
+            var viewData = new DetailViewData(CurrentPerson, geospatialArea, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -135,16 +134,7 @@ namespace ProjectFirma.Web.Controllers
             geospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
-
-        [GeospatialAreaViewFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, false);
-            var projectGeospatialAreas = geospatialAreaPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectGeospatialAreas, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        
+      
         [AnonymousUnclassifiedFeature]
         public PartialViewResult MapTooltip(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
         {

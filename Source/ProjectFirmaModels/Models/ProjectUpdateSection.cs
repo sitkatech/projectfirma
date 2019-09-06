@@ -61,7 +61,7 @@
         }
     }
 
-    public partial class ProjectUpdateSectionNotesAndDocuments
+    public partial class ProjectUpdateSectionAttachmentsAndNotes
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
         {

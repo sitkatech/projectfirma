@@ -45,7 +45,6 @@
     <add key="KeystoneOpenIDUrl" value="https://${keystone-base-url}/core" />
 
     <!-- Feature Flag Settings -->
-    <add key="FeatureAttachmentRelationshipTypes" value="${feature-attachment-relationship-types}"/>
 
   </appSettings>
   <system.net>

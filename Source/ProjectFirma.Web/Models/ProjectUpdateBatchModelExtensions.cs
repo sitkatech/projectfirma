@@ -73,7 +73,6 @@ namespace ProjectFirma.Web.Models
 
         public static DateTime? GetLatestSubmittalDate(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted()?.TransitionDate;
 
-
         public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, Person currentPerson)
         {
             Check.Require(project.ProjectUpdateBatches.All(x => x.ProjectUpdateState == ProjectUpdateState.Approved), "Cannot create a new Project Update Batch, there is already an active update for this project.");
@@ -138,8 +137,8 @@ namespace ProjectFirma.Web.Models
             //Contacts
             ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
-            // Documents
-            ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Custom attributes
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -198,12 +197,12 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void DeleteProjectDocumentUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectAttachmentUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
-            var projectDocumentUpdates = projectUpdateBatch.ProjectDocumentUpdates.ToList();
-            foreach (var projectDocumentUpdate in projectDocumentUpdates)
+            var projectAttachmentUpdates = projectUpdateBatch.ProjectAttachmentUpdates.ToList();
+            foreach (var projectAttachmentUpdate in projectAttachmentUpdates)
             {
-                projectDocumentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                projectAttachmentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -586,7 +585,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectDocument> allProjectDocuments,
+            IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
             IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
@@ -609,7 +608,7 @@ namespace ProjectFirma.Web.Models
                 projectFundingSourceBudgets,
                 projectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
-                allProjectDocuments,
+                allProjectAttachments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,
@@ -647,7 +646,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
             IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectDocument> allProjectDocuments,
+            IList<ProjectAttachment> allProjectAttachments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
             IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
@@ -713,8 +712,8 @@ namespace ProjectFirma.Web.Models
             //  Contacts
             ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
 
-            // Documents
-            ProjectDocumentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectDocuments);
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectAttachments);
 
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
@@ -756,6 +755,16 @@ namespace ProjectFirma.Web.Models
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
             return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
                    areAllProjectGeospatialAreasValid;
+        }
+
+        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
+        }
+
+        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
         }
     }
 }

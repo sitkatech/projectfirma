@@ -29,8 +29,8 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionClassifications Classifications = ProjectCreateSectionClassifications.Instance;
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
-        public static readonly ProjectCreateSectionNotesAndDocuments NotesAndDocuments = ProjectCreateSectionNotesAndDocuments.Instance;
         public static readonly ProjectCreateSectionContacts Contacts = ProjectCreateSectionContacts.Instance;
+        public static readonly ProjectCreateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectCreateSectionAttachmentsAndNotes.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, NotesAndDocuments, Contacts };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -118,6 +118,8 @@ namespace ProjectFirmaModels.Models
             {
                 case ProjectCreateSectionEnum.Assessment:
                     return Assessment;
+                case ProjectCreateSectionEnum.AttachmentsAndNotes:
+                    return AttachmentsAndNotes;
                 case ProjectCreateSectionEnum.Basics:
                     return Basics;
                 case ProjectCreateSectionEnum.Budget:
@@ -132,8 +134,6 @@ namespace ProjectFirmaModels.Models
                     return LocationDetailed;
                 case ProjectCreateSectionEnum.LocationSimple:
                     return LocationSimple;
-                case ProjectCreateSectionEnum.NotesAndDocuments:
-                    return NotesAndDocuments;
                 case ProjectCreateSectionEnum.Organizations:
                     return Organizations;
                 case ProjectCreateSectionEnum.Photos:
@@ -161,8 +161,8 @@ namespace ProjectFirmaModels.Models
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
-        NotesAndDocuments = 14,
-        Contacts = 15
+        Contacts = 15,
+        AttachmentsAndNotes = 16
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -231,15 +231,15 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionPhotos Instance = new ProjectCreateSectionPhotos(13, @"Photos", @"Photos", 130, false, 5);
     }
 
-    public partial class ProjectCreateSectionNotesAndDocuments : ProjectCreateSection
-    {
-        private ProjectCreateSectionNotesAndDocuments(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionNotesAndDocuments Instance = new ProjectCreateSectionNotesAndDocuments(14, @"NotesAndDocuments", @"Documents and Notes", 140, false, 5);
-    }
-
     public partial class ProjectCreateSectionContacts : ProjectCreateSection
     {
         private ProjectCreateSectionContacts(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionContacts Instance = new ProjectCreateSectionContacts(15, @"Contacts", @"Contacts", 45, true, 1);
+    }
+
+    public partial class ProjectCreateSectionAttachmentsAndNotes : ProjectCreateSection
+    {
+        private ProjectCreateSectionAttachmentsAndNotes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionAttachmentsAndNotes Instance = new ProjectCreateSectionAttachmentsAndNotes(16, @"AttachmentsAndNotes", @"Attachments and Notes", 140, false, 5);
     }
 }

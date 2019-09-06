@@ -58,12 +58,15 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
     <Compile Include="Controllers\OpenIDFirmaAuthorizeAttribute.cs" />
     <Compile Include="Controllers\ContactRelationshipTypeController.cs" />
     <Compile Include="Controllers\ProjectContactController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentController.cs" />
+    <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
@@ -75,7 +78,7 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
-    <Compile Include="Models\EntityDocument.cs" />
+    <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
     <Compile Include="Models\FileResourceModelExtensions.cs" />
@@ -113,14 +116,14 @@
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
     <Compile Include="Models\PersonSimple.cs" />
+    <Compile Include="Models\ProjectAttachmentModelExtensions.cs" />
+    <Compile Include="Models\ProjectAttachmentUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectColorByTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectContactUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributes.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
-    <Compile Include="Models\ProjectDocumentModelExtensions.cs" />
-    <Compile Include="Models\ProjectDocumentUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
@@ -171,6 +174,9 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
+    <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
@@ -179,6 +185,9 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
+    <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Detail.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\DetailViewData.cs" />
     <Compile Include="Views\FundingSourceCustomAttributeType\Edit.cs" />
@@ -201,6 +210,8 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
+    <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
@@ -216,12 +227,22 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
+    <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ManageProjectCustomGridsViewData.cs" />
+    <Compile Include="Views\ProjectCustomGrid\ProjectCustomGridSpec.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
+    <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\Results\FundingStatus.cs" />
+    <Compile Include="Views\Results\FundingStatusViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
@@ -245,6 +266,7 @@
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
+    <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewModel.cs" />
@@ -257,6 +279,16 @@
     <Compile Include="Views\Shared\ProjectControls\DisplayProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cs" />
     <Compile Include="Views\Shared\ProjectControls\EditProjectCustomAttributesViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachments.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentsViewData.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentsViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\EditProjectAttachmentUpdatesViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentUpdateViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewData.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cs" />
+    <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -284,6 +316,7 @@
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionForHelpIconOnlyTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
+    <Content Include="Content\angular\directives\input-type-file.js" />
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.css">
       <DependentUpon>actionagenda.theme.less</DependentUpon>
     </Content>
@@ -370,6 +403,7 @@
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
+    <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
@@ -391,6 +425,8 @@
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
+    <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
+    <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
@@ -417,28 +453,13 @@
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboard.cs" />
     <Compile Include="Views\ProjectCreate\ValidateImportExternalProjectDataViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternal.cs" />
-    <Compile Include="Controllers\ProjectDocumentUpdateController.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cs" />
     <Compile Include="Views\PerformanceMeasure\RelatedTaxonomyTiersViewData.cs" />
-    <Compile Include="Security\ProjectDocumentUpdateEditFeature.cs" />
-    <Compile Include="Security\ProjectDocumentUpdateNewFeature.cs" />
     <Compile Include="Security\ProjectEditAsAdminRegardlessOfStageFeature.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewData.cs" />
     <Compile Include="Views\ProjectCreate\ImportExternalViewModel.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewData.cs" />
     <Compile Include="Views\Results\ConfigureAccomplishmentsDashboardViewModel.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\EditProjectDocuments.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewData.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentsViewModel.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\EditProjectDocumentUpdatesViewModel.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\NewProjectDocument.cs" />
-    <Compile Include="Controllers\ProjectDocumentController.cs" />
-    <Compile Include="Security\ProjectDocumentEditAsAdminFeature.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentUpdateViewModel.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentViewData.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\NewProjectDocumentViewModel.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\ProjectDocumentsDetail.cs" />
-    <Compile Include="Views\Shared\ProjectDocument\ProjectDocumentsDetailViewData.cs" />
     <Compile Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderViewModel.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrder.cs" />
@@ -528,6 +549,9 @@
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostType.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cshtml" />
+    <Content Include="Views\ProjectUpdate\AttachmentsAndNotes.cshtml" />
+    <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
+    <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -899,6 +923,7 @@
     <Content Include="Views\CustomPage\Index.cshtml" />
     <Content Include="Views\CustomPage\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
+    <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachmentController.js" />
     <Content Include="Views\Shared\ProjectContact\ProjectContactController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <Content Include="Views\Home\TrainingVideo.cshtml" />
@@ -1213,8 +1238,6 @@
     <Compile Include="Views\ProjectUpdate\ManageViewData.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjects.cs" />
     <Compile Include="Views\ProjectUpdate\MyProjectsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\DocumentsAndNotes.cs" />
-    <Compile Include="Views\ProjectUpdate\DocumentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PeopleReceivingReminderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\Photos.cs" />
     <Compile Include="Views\ProjectUpdate\PhotosViewData.cs" />
@@ -1243,7 +1266,6 @@
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditure.cs" />
     <Compile Include="Views\Project\FundingSourceCalendarYearExpenditureTest.cs" />
     <Compile Include="Views\Project\Index.cs" />
-    <Compile Include="Views\Project\IndexGridSpec.cs" />
     <Compile Include="Views\Project\IndexViewData.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjects.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjectsViewData.cs" />
@@ -1279,8 +1301,6 @@
     <Compile Include="Views\ProjectCreate\LocationSimple.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewData.cs" />
     <Compile Include="Views\ProjectCreate\LocationSimpleViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\DocumentsAndNotes.cs" />
-    <Compile Include="Views\ProjectCreate\DocumentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectCreate\Photos.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProposalSectionsStatus.cs" />
@@ -1474,9 +1494,6 @@
     <Content Include="Views\Shared\ProjectLocationControls\EditProjectBoundingBox.cshtml" />
     <Content Include="Views\TaxonomyTierPerformanceMeasure\Edit.cshtml" />
     <Content Include="Views\PerformanceMeasure\RelatedTaxonomyTiers.cshtml" />
-    <Content Include="Views\Shared\ProjectDocument\NewProjectDocument.cshtml" />
-    <Content Include="Views\Shared\ProjectDocument\EditProjectDocuments.cshtml" />
-    <Content Include="Views\Shared\ProjectDocument\ProjectDocumentsDetail.cshtml" />
     <Content Include="Views\Shared\RelatedPerformanceMeasures.cshtml" />
     <Content Include="Views\ProjectCreate\ImportExternal.cshtml" />
     <Content Include="Views\Results\ConfigureAccomplishmentsDashboard.cshtml" />
@@ -1507,7 +1524,11 @@
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectExpendituresByCostTypeDetail.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\EditProjectAttachments.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachment.cshtml" />
+    <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FundingSourceCustomAttributes.cshtml" />
+    <Content Include="Views\Results\FundingStatus.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -3125,7 +3146,6 @@
     <Content Include="Views\ProjectUpdate\LocationSimple.cshtml" />
     <Content Include="Views\ProjectUpdate\Manage.cshtml" />
     <Content Include="Views\ProjectUpdate\MyProjects.cshtml" />
-    <Content Include="Views\ProjectUpdate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectUpdate\Photos.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectUpdateBatchDiffLog.cshtml" />
     <Content Include="Views\ProjectUpdate\ReturnDialogForm.cshtml" />
@@ -3139,7 +3159,6 @@
     <Content Include="Views\ProjectCreate\InstructionsProposal.cshtml" />
     <Content Include="Views\ProjectCreate\LocationDetailed.cshtml" />
     <Content Include="Views\ProjectCreate\LocationSimple.cshtml" />
-    <Content Include="Views\ProjectCreate\DocumentsAndNotes.cshtml" />
     <Content Include="Views\ProjectCreate\Photos.cshtml" />
     <Content Include="Views\ProjectCreate\SiteLayout.cshtml" />
     <Content Include="Views\ProjectCreate\_ViewStart.cshtml" />

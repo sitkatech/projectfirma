@@ -189,6 +189,11 @@ namespace ProjectFirma.Web.Common
             return GetCanStewardProjectsOrganizationRelationship() != null;
         }
 
+        public static bool HasAttachmentRelationshipTypeConfigured()
+        {
+            return HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.Any();
+        }
+
         public static OrganizationRelationshipType GetCanStewardProjectsOrganizationRelationship()
         {
             return HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.CanStewardProjects);
@@ -289,6 +294,21 @@ namespace ProjectFirma.Web.Common
             if (UsesTechnicalAssistanceParameters() && new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(currentPerson))
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TechnicalAssistanceRequestController>(c => c.TechnicalAssistanceReport()), currentPerson, "Technical Assistance Report"));
+            }
+        }
+
+        // TODO make this into a check to see if the tenant uses custom results pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
+        public static bool UsesCustomResultsPages(Person currentPerson)
+        {
+            return currentPerson.Tenant == Tenant.ActionAgendaForPugetSound;
+        }
+
+        public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
+        {
+            if (UsesCustomResultsPages(currentPerson))
+            {
+                
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentPerson, "Funding Status"));
             }
         }
 

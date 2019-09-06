@@ -324,7 +324,7 @@ join sys.foreign_key_columns fkc	on fkc.constraint_object_id = fk.object_id
 join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
 join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id--
 join
-(	
+(
     -- Only do this for single-column foreign keys
     select constraint_object_id
     from sys.foreign_key_columns
@@ -371,7 +371,7 @@ left join
 ) ttdk on pts.name = ttdk.ChildTableSchemaName and pt.name = ttdk.ChildTableName and pc.name = ttdk.ChildKeyColumnName
 
 where rt.name != 'Tenant' and ttdk.KeyName is null
-order by pt.Name, rt.name";
+order by pt.Name, rt.name, rc.name, pc.Name";
             Approvals.Verify(ExecAdHocSql(sql).TableToHumanReadableString());
         }
 

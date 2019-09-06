@@ -40,6 +40,8 @@ namespace ProjectFirmaModels.Models
         public static readonly FileResourceMimeTypeTGZ TGZ = FileResourceMimeTypeTGZ.Instance;
         public static readonly FileResourceMimeTypeTAR TAR = FileResourceMimeTypeTAR.Instance;
         public static readonly FileResourceMimeTypeZIP ZIP = FileResourceMimeTypeZIP.Instance;
+        public static readonly FileResourceMimeTypeKMZ KMZ = FileResourceMimeTypeKMZ.Instance;
+        public static readonly FileResourceMimeTypeKML KML = FileResourceMimeTypeKML.Instance;
 
         public static readonly List<FileResourceMimeType> All;
         public static readonly ReadOnlyDictionary<int, FileResourceMimeType> AllLookupDictionary;
@@ -49,7 +51,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static FileResourceMimeType()
         {
-            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX, CSS, XZIP, GZIP, XGZIP, TGZ, TAR, ZIP };
+            All = new List<FileResourceMimeType> { PDF, WordDOCX, ExcelXLSX, XPNG, PNG, TIFF, BMP, GIF, JPEG, PJPEG, PowerpointPPTX, PowerpointPPT, ExcelXLS, WordDOC, xExcelXLSX, CSS, XZIP, GZIP, XGZIP, TGZ, TAR, ZIP, KMZ, KML };
             AllLookupDictionary = new ReadOnlyDictionary<int, FileResourceMimeType>(All.ToDictionary(x => x.FileResourceMimeTypeID));
         }
 
@@ -139,6 +141,10 @@ namespace ProjectFirmaModels.Models
                     return GZIP;
                 case FileResourceMimeTypeEnum.JPEG:
                     return JPEG;
+                case FileResourceMimeTypeEnum.KML:
+                    return KML;
+                case FileResourceMimeTypeEnum.KMZ:
+                    return KMZ;
                 case FileResourceMimeTypeEnum.PDF:
                     return PDF;
                 case FileResourceMimeTypeEnum.PJPEG:
@@ -198,7 +204,9 @@ namespace ProjectFirmaModels.Models
         XGZIP = 19,
         TGZ = 20,
         TAR = 21,
-        ZIP = 22
+        ZIP = 22,
+        KMZ = 23,
+        KML = 24
     }
 
     public partial class FileResourceMimeTypePDF : FileResourceMimeType
@@ -331,5 +339,17 @@ namespace ProjectFirmaModels.Models
     {
         private FileResourceMimeTypeZIP(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
         public static readonly FileResourceMimeTypeZIP Instance = new FileResourceMimeTypeZIP(22, @"ZIP", @"ZIP", @"application/zip", null, null);
+    }
+
+    public partial class FileResourceMimeTypeKMZ : FileResourceMimeType
+    {
+        private FileResourceMimeTypeKMZ(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeKMZ Instance = new FileResourceMimeTypeKMZ(23, @"KMZ", @"KMZ", @"application/vnd.google-earth.kmz", null, null);
+    }
+
+    public partial class FileResourceMimeTypeKML : FileResourceMimeType
+    {
+        private FileResourceMimeTypeKML(int fileResourceMimeTypeID, string fileResourceMimeTypeName, string fileResourceMimeTypeDisplayName, string fileResourceMimeTypeContentTypeName, string fileResourceMimeTypeIconSmallFilename, string fileResourceMimeTypeIconNormalFilename) : base(fileResourceMimeTypeID, fileResourceMimeTypeName, fileResourceMimeTypeDisplayName, fileResourceMimeTypeContentTypeName, fileResourceMimeTypeIconSmallFilename, fileResourceMimeTypeIconNormalFilename) {}
+        public static readonly FileResourceMimeTypeKML Instance = new FileResourceMimeTypeKML(24, @"KML", @"KML", @"application/vnd.google-earth.kml+xml", null, null);
     }
 }

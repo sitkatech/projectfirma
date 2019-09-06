@@ -32,8 +32,8 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.Shared.ProjectAttachment
 @using ProjectFirma.Web.Views.Shared.ProjectContact
-@using ProjectFirma.Web.Views.Shared.ProjectDocument
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @using ProjectFirma.Web.Views.TechnicalAssistanceRequest
 @using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
@@ -58,6 +58,8 @@
     <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
     <script src="@Url.Content("~/Content/bootstrap-toc/bootstrap-toc.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
+    <script src="@Url.Content("~/Views/Shared/ProjectAttachment/NewProjectAttachmentController.js")" type="text/javascript"></script>
 }
 
 <style type="text/css">
@@ -65,13 +67,16 @@
     footer {
         height: 600px;
     }
+
     #editLocationDropdownButton:focus {
         text-decoration: none;
     }
+
     dt.projectCustomAttributes {
         white-space: normal;
         text-align: left;
     }
+
     .projectCustomAttributes {
         margin-bottom: 5px;
     }
@@ -154,26 +159,26 @@
                                 @{ ProjectBasics.RenderPartialView(Html, ViewDataTyped.ProjectBasicsViewData); }
                             </div>
                         </div>
-                    @if (ViewDataTyped.DisplayProjectCustomAttributeTypesViewData.ProjectCustomAttributeTypes.Any())
-                    {
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h3>
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
-                                    @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
-                                </h3>
+                        @if (ViewDataTyped.DisplayProjectCustomAttributeTypesViewData.ProjectCustomAttributeTypes.Any())
+                        {
+                            <div class="panel panelFirma">
+                                <div class="panel-heading panelTitle">
+                                    <h3>
+                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                        @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    @{ProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);}
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                @{ProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);}
-                            </div>
-                        </div>
-                    }
+                        }
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
                                 @if (ViewDataTyped.UserHasEditProjectPermissions)
-                                                {
+                                {
                                     <a id="editLocationDropdownButton" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">
                                         <h3>
                                             @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")
@@ -184,26 +189,26 @@
                                     <ul class="dropdown-menu" aria-labelledby="editLocationDropdownButton" style="top: 36px; left: auto;">
                                         <li>@ModalDialogFormHelper.ModalDialogFormLink("Simple", ViewDataTyped.EditSimpleProjectLocationUrl, string.Format("Edit {0} - Simple", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
                                         <li>@ModalDialogFormHelper.ModalDialogFormLink("Detailed", ViewDataTyped.EditDetailedProjectLocationUrl, string.Format("Edit {0} - Detail", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.MapFormID)</li>
-                                        
+
                                         @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypes)
                                         {
                                             <li>@ModalDialogFormHelper.ModalDialogFormLink(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.GetEditGeospatialAreasUrl(ViewDataTyped.Project), string.Format("Edit {0}", geospatialAreaType.GeospatialAreaTypeNamePluralized), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectGeospatialAreaFormID)</li>
                                         }
-                                        
+
                                         <li>@ModalDialogFormHelper.ModalDialogFormLink("Map Extent", ViewDataTyped.EditProjectBoundingBoxUrl, string.Format("Edit {0} - Map Extent", FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEditProjectPermissions, ViewDataTyped.EditProjectBoundingBoxFormID)</li>
                                     </ul>
                                 }
                                 else
                                 {
                                     <h3>Location</h3>
-                                        }
+                                }
                             </div>
                             <div class="panel-body">
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
                             </div>
                         </div>
                         @if (ViewDataTyped.UserHasProjectAdminPermissions)
-                            {
+                        {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
                                     <h3>Tags</h3>
@@ -215,31 +220,31 @@
                         }
                     </div>
                 </div>
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h3>
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
-                        @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
-                    </h3>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
+                            @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
+                    </div>
                 </div>
-                <div class="panel-body">
-                    @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
-                </div>
-            </div>
-            
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h3>
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
-                        Contacts
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
-                </div>
-            </div>
 
-            <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
+                            Contacts
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ ProjectContactsDetail.RenderPartialView(Html, ViewDataTyped.ProjectContactsDetailViewData); }
+                    </div>
+                </div>
+
+                <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>
@@ -301,7 +306,7 @@
                         @{
                             ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
                         }
-                        @if (ViewDataTyped.ReportFinancialsByCostType )
+                        @if (ViewDataTyped.ReportFinancialsByCostType)
                         {
                             ProjectBudgetsAnnualByCostType.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualByCostTypeViewData);
                         }
@@ -337,7 +342,7 @@
                 </div>
 
                 @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-                                        {
+                {
                     <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
@@ -349,9 +354,9 @@
                         <div class="panel-body">
                             @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
                             @if (projectClassifications.Count > 0)
-                                        {
-                                            foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x=>x.Classification.GetDisplayName()).Batch(3))
-                                            {
+                            {
+                                foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
+                                {
                                     <div class="row" style="padding-top: 10px;">
                                         @foreach (var projectClassification in projectClassificationBatch)
                                         {
@@ -366,7 +371,7 @@
                             }
                             else
                             {
-                                    <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                                <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                             }
                         </div>
                     </div>
@@ -374,14 +379,16 @@
                 }
 
                 <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
+
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>Documents</h3>
+                        <h3>Attachments</h3>
                     </div>
                     <div class="panel-body">
-                        @{ ProjectDocumentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectDocumentsDetailViewData); }
+                        @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
                     </div>
                 </div>
+                
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Notes</h3>
@@ -394,7 +401,7 @@
                         @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.ProjectNotesViewData); }
                         @if (ViewDataTyped.UserHasEditProjectPermissions)
                         {
-                            <hr/>
+                            <hr />
                             <strong>Internal Notes</strong>
                             EntityNotes.RenderPartialView(Html, ViewDataTyped.InternalNotesViewData);
                         }

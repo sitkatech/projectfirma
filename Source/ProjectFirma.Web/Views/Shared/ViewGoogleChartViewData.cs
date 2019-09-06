@@ -58,6 +58,24 @@ namespace ProjectFirma.Web.Views.Shared
         {
         }
 
+        public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle, bool isPieChart) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> { googleChartJson },
+            chartTitle,
+            chartHeight,
+            null,
+            chartTitle.Replace(" ", ""),
+            false,
+            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
+            showChartTitle,
+            true,
+            null,
+            false)
+        {
+            if (isPieChart)
+            {
+                ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
+            }
+        }
+
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,
             string chartTitle,
             int chartHeight,

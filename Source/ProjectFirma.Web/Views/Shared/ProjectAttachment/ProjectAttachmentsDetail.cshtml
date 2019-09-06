@@ -1,0 +1,100 @@
+﻿@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views
+@inherits ProjectFirma.Web.Views.Shared.ProjectAttachment.ProjectAttachmentsDetail
+
+
+
+@if (MultiTenantHelpers.HasAttachmentRelationshipTypeConfigured())
+{
+    <div class="pull-right">
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-danger" role="alert">
+            There are no @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured.
+            @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentRelationshipTypesIndexUrl))
+            {
+                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
+            }
+            else
+            {
+                <span>Please contact your admin to have @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured for your instance.</span>
+            }
+        </div>
+    </div>
+}
+
+
+
+
+@foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
+{
+    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+     
+    <div class="row">
+        <div class="col-sm-3">
+            <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
+            <div class="help-block">
+                <p class="smallExplanationText">@attachmentRelationshipType.AttachmentRelationshipTypeDescription</p>
+                @if (attachmentRelationshipType.NumberOfAllowedAttachments != null)
+                {
+                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentRelationshipType.NumberOfAllowedAttachments </span></p>
+
+                    if (thisAttachmentList.Count >= attachmentRelationshipType.NumberOfAllowedAttachments)
+                    {
+                        <div class="alert alert-warning smallExplanationText">You have reached the maximum number of files for this type. To upload another of this type, you will need to delete an existing file.</div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-sm-9">
+            
+            @foreach (var projectAttachment in thisAttachmentList)
+            {
+                <div class="@projectAttachment.GetDisplayCssClass()">
+                    @if (ViewDataTyped.CanEditAttachments)
+                    {
+                        <span style="margin-left: 7px;">
+                            @ModalDialogFormHelper.ModalDialogFormLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), projectAttachment.GetEditUrl(), "Edit Attachment", null, true)
+                        </span>
+                        <span style="margin-left: 8px; margin-right: 8px;">
+                            @ModalDialogFormHelper.MakeDeleteLink(BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash").ToString(), projectAttachment.GetDeleteUrl(), null, true)
+                        </span>
+                    }
+                    @if (ViewDataTyped.ShowDownload)
+                    {
+                        <a href="@projectAttachment.FileResource.GetFileResourceUrl()">
+                            @projectAttachment.DisplayName
+                            @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download")
+                        </a>
+                    }
+                    else
+                    {
+                        <span>@projectAttachment.DisplayName</span>
+                    }
+                    <dl class="dl-horizontal">
+                        <dt>Uploaded On</dt>
+                        <dd title="@projectAttachment.FileResource.CreateDate.ToLongDateString() @projectAttachment.FileResource.CreateDate.ToLongTimeString()">@projectAttachment.FileResource.CreateDate.ToShortDateString()</dd>
+                        <dt>File Type</dt>
+                        <dd>@projectAttachment.FileResource.FileResourceMimeType.FileResourceMimeTypeDisplayName</dd>
+                        <dt>Description</dt>
+                        <dd>@projectAttachment.Description</dd>
+                    </dl>
+                </div>
+            }
+
+            @if (!thisAttachmentList.Any())
+            {
+                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
+            }
+        </div>
+    </div>
+
+}
