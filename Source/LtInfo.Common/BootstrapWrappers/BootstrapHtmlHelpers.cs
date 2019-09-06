@@ -37,7 +37,7 @@ namespace LtInfo.Common.BootstrapWrappers
 
         public static HtmlString MakeGlyphIconWithScreenReaderOnlyText(string glyphIconName, string screenReaderOnlyText)
         {
-            return new HtmlString(string.Format("<span class=\"glyphicon {0}\"></span><span class=\"screen-reader-only\">{1}</span>", glyphIconName, screenReaderOnlyText));
+            return new HtmlString(string.Format("<span class=\"glyphicon {0}\"></span><span class=\"sr-only\">{1}</span>", glyphIconName, screenReaderOnlyText));
         }
 
         public static HtmlString MakeGlyphIcon(string glyphIconName, string title)
