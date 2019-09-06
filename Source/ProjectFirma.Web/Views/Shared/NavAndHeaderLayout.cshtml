@@ -99,15 +99,16 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                     </div>
                     <div class="col-sm-12 col-md-4">
-                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex;margin-top: 17px;">
+                        <form id="searchForm" data-action="@Html.Raw(ViewDataTyped.ProjectSearchUrl.ToJS())" role="search" style="display: flex; margin-top: 17px;">
+                            <label for="@SearchResults.ProjectSearchInputTextboxID" class="sr-only">Search</label>
                             <input id="@SearchResults.ProjectSearchInputTextboxID" type="text" class="form-control"
                                    name="@SearchResults.ProjectSearchInputTextboxID" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
                                    placeholder="@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Name or Description"
                                    style="margin-right: -5px; max-width: 300px; margin-left: auto;"/>
-                                <button id="searchButton" type="button" class="btn btn-default">
-                                    <span class="sr-only">Search</span>
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
+                            <button id="searchButton" type="button" class="btn btn-default">
+                                <span class="sr-only">Search</span>
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
                         </form>
                     </div>
                 </div>
