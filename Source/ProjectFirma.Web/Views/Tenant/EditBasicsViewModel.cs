@@ -105,6 +105,9 @@ namespace ProjectFirma.Web.Views.Tenant
 
         [DisplayName("Can Manage Custom Attributes")]
         public bool CanManageCustomAttributes { get; set; }
+
+        [DisplayName("Exclude Targeted Funding Organizations from List of Funders")]
+        public bool ExcludeTargetedFundingOrganizations { get; set; }
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -128,6 +131,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
+            ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -139,6 +143,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
             attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
             attribute.CanManageCustomAttributes = CanManageCustomAttributes;
+            attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
