@@ -177,10 +177,10 @@ namespace ProjectFirma.Web.Models
         /// Returns as ProjectOrganization with a dummy "Funder" RelationshipType, which lives as a static property of the RelationshipType class
         /// </summary>
         /// <returns></returns>
-        public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project)
+        public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project, bool excludeTargetedFunders)
         {
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(project.ProjectFundingSourceBudgets.Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
                 .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
@@ -188,14 +188,19 @@ namespace ProjectFirma.Web.Models
         public static List<Organization> GetAssociatedOrganizations(this Project project)
         {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
-            explicitOrganizations.AddRange(project.GetFundingOrganizations());
+            explicitOrganizations.AddRange(project.GetFundingOrganizations(false));
             return explicitOrganizations.Select(x => x.Organization).Distinct(new HavePrimaryKeyComparer<Organization>()).ToList();
         }
 
         public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project)
         {
+            return project.GetAssociatedOrganizationRelationships(false);
+        }
+
+        public static List<ProjectOrganizationRelationship> GetAssociatedOrganizationRelationships(this Project project, bool excludeTargetedFunders)
+        {
             var explicitOrganizations = project.ProjectOrganizations.Select(x => new ProjectOrganizationRelationship(project, x.Organization, x.OrganizationRelationshipType)).ToList();
-            explicitOrganizations.AddRange(project.GetFundingOrganizations());
+            explicitOrganizations.AddRange(project.GetFundingOrganizations(excludeTargetedFunders));
             return explicitOrganizations;
         }
 
@@ -647,7 +652,8 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectOrganizationNamesForFactSheet(this Project project)
         {
             // get the list of funders so we can exclude any that have other project associations
-            var fundingOrganizations = project.GetFundingOrganizations().Select(x => x.Organization.OrganizationID);
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var fundingOrganizations = project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
                 .Where(x => x.OrganizationRelationshipType.ShowOnFactSheet && !fundingOrganizations.Contains(x.OrganizationID)).ToList();
@@ -661,8 +667,9 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFundingOrganizationNamesForFactSheet(this Project project)
         {
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             return String.Join(", ",
-                project.GetFundingOrganizations().OrderBy(x => x.Organization.OrganizationName)
+                project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).OrderBy(x => x.Organization.OrganizationName)
                     .Select(x => x.Organization.OrganizationName));
         }
 
