@@ -3499,9 +3499,6 @@ namespace ProjectFirma.Web.Controllers
         }
         #endregion 'Contacts'
 
-
-
-
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
         [ProjectUpdateAdminFeature]
@@ -3616,7 +3613,9 @@ namespace ProjectFirma.Web.Controllers
             // refresh data
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
-            return new ModalDialogFormJsonResult();
+
+            // the redirect here in the ModalDialogFormJsonResult below was required because select options were not being displayed accurately after submitting the refresh even though the data behind it was accurate
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CustomAttributes(project)));
         }
 
         private PartialViewResult ViewRefreshCustomAttributes(ConfirmDialogFormViewModel viewModel)
@@ -3640,16 +3639,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-
 
             // get the original custom attributes
             var customAttributesOriginal = new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList());
-            projectUpdate.CommitCustomAttributesChangesToProject(project);
             // get the updated custom attributes
-            var customAttributesUpdated = new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList());
-
+            var customAttributesUpdated = new List<IProjectCustomAttribute>(projectUpdate.GetProjectCustomAttributes());
 
             // get the html for the original custom attributes
             var originalHtml = GeneratePartialViewForCustomAttributes(customAttributesOriginal);
@@ -3660,15 +3655,14 @@ namespace ProjectFirma.Web.Controllers
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributesOriginal)
+        private string GeneratePartialViewForCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes)
         {
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).ToList();
-            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributesOriginal);
+            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes);
             var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
             return partialViewAsString;
         }
         
-
         #endregion "CustomAttributes"
 
     }

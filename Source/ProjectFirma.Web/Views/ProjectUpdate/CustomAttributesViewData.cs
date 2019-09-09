@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             EditCustomAttributesViewData = editCustomAttributesViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.CustomAttributesComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshCustomAttributes(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffContacts(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffCustomAttributes(projectUpdateBatch.Project));
         }
 
         

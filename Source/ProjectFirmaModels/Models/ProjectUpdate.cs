@@ -97,17 +97,7 @@ namespace ProjectFirmaModels.Models
             project.CompletionYear = CompletionYear;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
         }
-
-        public void CommitCustomAttributesChangesToProject(Project project)
-        {
-            ICollection<ProjectCustomAttribute> customAttributes = new List<ProjectCustomAttribute>();
-            var projectCustomAttributes = GetProjectCustomAttributes();
-            foreach(ProjectCustomAttribute projectCustomAttribute in projectCustomAttributes) {
-                customAttributes.Add(projectCustomAttribute);
-            }
-            project.ProjectCustomAttributes = customAttributes;
-        }
-
+        
         public void CommitSimpleLocationToProject(Project project)
         {
             project.ProjectLocationPoint = ProjectLocationPoint;
