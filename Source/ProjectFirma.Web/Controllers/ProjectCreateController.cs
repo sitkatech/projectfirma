@@ -80,6 +80,7 @@ using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.Perfor
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
+using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -1721,18 +1722,18 @@ namespace ProjectFirma.Web.Controllers
             return Content(JsonConvert.SerializeObject(simple, Formatting.Indented));
         }
 
-        #region "CustomAttributes"
+        #region "ProjectCustomAttributes"
 
         [HttpGet]
         [ProjectCreateFeature]
-        public ViewResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new CustomAttributesViewModel(project);
-            return ViewCustomAttributes(project, viewModel);
+            var viewModel = new ProjectCustomAttributesViewModel(project);
+            return ViewProjectCustomAttributes(project, viewModel);
         }
 
-        private ViewResult ViewCustomAttributes(Project project, CustomAttributesViewModel viewModel)
+        private ViewResult ViewProjectCustomAttributes(Project project, ProjectCustomAttributesViewModel viewModel)
         {
             var customAttributesValidationResult = project.ValidateCustomAttributes();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
@@ -1741,20 +1742,20 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectCustomAttributesSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectCustomAttributesSectionComplete;
-            var viewData = new CustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
+            var viewData = new ProjectCustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
 
-            return RazorView<CustomAttributes, CustomAttributesViewData, CustomAttributesViewModel>(viewData, viewModel);
+            return RazorView<ProjectCustomAttributes, ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult CustomAttributes(ProjectPrimaryKey projectPrimaryKey, CustomAttributesViewModel viewModel)
+        public ActionResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey, ProjectCustomAttributesViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewCustomAttributes(project, viewModel);
+                return ViewProjectCustomAttributes(project, viewModel);
             }
 
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
@@ -1766,7 +1767,7 @@ namespace ProjectFirma.Web.Controllers
             return GoToNextSection(viewModel, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
         }
 
-        #endregion "CustomAttributes"
+        #endregion "ProjectCustomAttributes"
 
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasuresValidationResult.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectCustomAttributesValidationResult.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -25,12 +25,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class CustomAttributesValidationResult
+    public class ProjectCustomAttributesValidationResult
     {
         
         private readonly List<string> _warningMessages;
 
-        public CustomAttributesValidationResult(IProject project)
+        public ProjectCustomAttributesValidationResult(IProject project)
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
         }
 
-        public CustomAttributesValidationResult(string customErrorMessage)
+        public ProjectCustomAttributesValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> {customErrorMessage};
         }

@@ -39,7 +39,7 @@ using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
-using CustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.CustomAttributesValidationResult;
+using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models
 {
@@ -935,9 +935,9 @@ namespace ProjectFirma.Web.Models
             return html;
         }
 
-        public static CustomAttributesValidationResult ValidateCustomAttributes(this Project project)
+        public static ProjectCustomAttributesValidationResult ValidateCustomAttributes(this Project project)
         {
-            return new CustomAttributesValidationResult(project);
+            return new ProjectCustomAttributesValidationResult(project);
         }
     }
 }

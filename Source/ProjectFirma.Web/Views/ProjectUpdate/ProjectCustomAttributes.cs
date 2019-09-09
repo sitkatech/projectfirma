@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="CustomAttributes.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,23 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using ProjectFirma.Web.Views.Shared.ProjectControls;
-
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomAttributesViewModel : EditProjectCustomAttributesViewModel
+    public abstract class ProjectCustomAttributes : LtInfo.Common.Mvc.TypedWebViewPage<ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>
     {
-        /// <summary>
-        /// Needed by the ModelBinder
-        /// </summary>
-        public CustomAttributesViewModel()
-        {
-        }
-
-        public CustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
-        {
-            Project = project;
-        }
-    }    
+    }
 }

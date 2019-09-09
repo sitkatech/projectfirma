@@ -26,12 +26,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomAttributesValidationResult
+    public class ProjectCustomAttributesValidationResult
     {
         
         private readonly List<string> _warningMessages;
 
-        public CustomAttributesValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
+        public ProjectCustomAttributesValidationResult(ProjectFirmaModels.Models.ProjectUpdate projectUpdate)
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
         }
 
-        public CustomAttributesValidationResult(string customErrorMessage)
+        public ProjectCustomAttributesValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> {customErrorMessage};
         }

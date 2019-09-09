@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CustomAttributes.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectCustomAttributes.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.ProjectUpdate
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class CustomAttributes : LtInfo.Common.Mvc.TypedWebViewPage<CustomAttributesViewData, CustomAttributesViewModel>
+    public abstract class ProjectCustomAttributes : LtInfo.Common.Mvc.TypedWebViewPage<ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>
     {
     }
 }

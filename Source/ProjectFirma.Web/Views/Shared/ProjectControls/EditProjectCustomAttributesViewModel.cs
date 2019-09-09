@@ -25,6 +25,7 @@ using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirmaModels.Models;
+using ProjectCustomAttributes = ProjectFirmaModels.Models.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
@@ -70,9 +71,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             return errors;
         }
 
-        public CustomAttributesValidationResult ValidateAllCustomAttributes()
+        public ProjectCustomAttributesValidationResult ValidateAllCustomAttributes()
         {
-            var customAttributesValidationResult = new CustomAttributesValidationResult(Project);
+            var customAttributesValidationResult = new ProjectCustomAttributesValidationResult(Project);
             return customAttributesValidationResult;
         }
     }

@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             IsBasicsSectionComplete = !basicsResults.Any();
 
             // Custom Attributes section
-            var customAttributesValidationResults = new CustomAttributesViewModel(project).GetValidationResults();
+            var customAttributesValidationResults = new ProjectCustomAttributesViewModel(project).GetValidationResults();
             IsProjectCustomAttributesSectionComplete = !customAttributesValidationResults.Any();
 
             // Project Location simple section

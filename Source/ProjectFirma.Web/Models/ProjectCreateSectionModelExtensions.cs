@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Basics:
                     return !new BasicsViewModel(project).GetValidationResults().Any();
                 case ProjectCreateSectionEnum.CustomAttributes:
-                    var customAttributesValidationResults = new CustomAttributesViewModel(project).GetValidationResults();
+                    var customAttributesValidationResults = new ProjectCustomAttributesViewModel(project).GetValidationResults();
                     return !customAttributesValidationResults.Any();
                 case ProjectCreateSectionEnum.LocationSimple:
                     var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Basics:
                     return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 case ProjectCreateSectionEnum.CustomAttributes:
-                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CustomAttributes(project.ProjectID));
+                    return SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project.ProjectID));
                 case ProjectCreateSectionEnum.LocationSimple:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Organizations:

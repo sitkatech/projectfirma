@@ -27,14 +27,14 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class CustomAttributesViewData : ProjectUpdateViewData
+    public class ProjectCustomAttributesViewData : ProjectUpdateViewData
     {
         public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
         public readonly SectionCommentsViewData SectionCommentsViewData;
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
 
-        public CustomAttributesViewData(Person currentPerson,
+        public ProjectCustomAttributesViewData(Person currentPerson,
             ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus,
             List<string> validationWarnings,
@@ -43,8 +43,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.CustomAttributesComment, projectUpdateBatch.IsReturned());
-            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshCustomAttributes(projectUpdateBatch.Project));
-            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffCustomAttributes(projectUpdateBatch.Project));
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshProjectCustomAttributes(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffProjectCustomAttributes(projectUpdateBatch.Project));
         }
 
         

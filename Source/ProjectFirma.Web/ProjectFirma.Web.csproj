@@ -212,9 +212,9 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
-    <Compile Include="Views\ProjectCreate\CustomAttributes.cs" />
-    <Compile Include="Views\ProjectCreate\CustomAttributesViewData.cs" />
-    <Compile Include="Views\ProjectCreate\CustomAttributesViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
@@ -230,7 +230,7 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\CustomAttributesValidationResult.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesValidationResult.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
@@ -245,10 +245,10 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\CustomAttributes.cs" />
-    <Compile Include="Views\ProjectUpdate\CustomAttributesValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\CustomAttributesViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\CustomAttributesViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributes.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Results\FundingStatus.cs" />
     <Compile Include="Views\Results\FundingStatusViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
@@ -436,7 +436,7 @@
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
-    <Content Include="Views\ProjectCreate\CustomAttributes.cshtml" />
+    <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -561,7 +561,7 @@
     <Content Include="Views\ProjectUpdate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
-    <Content Include="Views\ProjectUpdate\CustomAttributes.cshtml" />
+    <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

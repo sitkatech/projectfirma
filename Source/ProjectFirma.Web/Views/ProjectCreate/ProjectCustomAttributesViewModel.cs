@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectCustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,36 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ProjectUpdate
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class CustomAttributesViewModel : EditProjectCustomAttributesViewModel
+    public class ProjectCustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
-        [DisplayName("Reviewer Comments")]
-        [StringLength(ProjectUpdateBatch.FieldLengths.CustomAttributesComment)]
-        public string Comments { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public CustomAttributesViewModel()
+        public ProjectCustomAttributesViewModel()
         {
         }
 
-        public CustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch) : base(projectUpdateBatch)
+        public ProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
         {
-            Project = projectUpdateBatch.ProjectUpdate;
-            Comments = projectUpdateBatch.CustomAttributesComment;
-        }
-
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
-        {
-            ProjectCustomAttributes?.UpdateModel(projectUpdateBatch.ProjectUpdate, currentPerson);
+            Project = project;
         }
     }    
 }

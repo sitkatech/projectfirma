@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CustomAttributes.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectCustomAttributesViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
+
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public abstract class CustomAttributes : LtInfo.Common.Mvc.TypedWebViewPage<CustomAttributesViewData, CustomAttributesViewModel>
+    public class ProjectCustomAttributesViewData : ProjectCreateViewData
     {
+        public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
+
+        public ProjectCustomAttributesViewData(Person currentPerson,
+            ProjectFirmaModels.Models.Project project,
+            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, ProjectCustomAttributesValidationResult projectCustomAttributesValidationResult) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        {
+            EditCustomAttributesViewData = editCustomAttributesViewData;
+        }
     }
 }
