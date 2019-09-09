@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Controllers
     {
         public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
+        public const string ProjectCustomAttributesPartialViewPath = "~/Views/Shared/ProjectControls/DisplayProjectCustomAttributes.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
         public const string ProjectBudgetPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsDetail.cshtml";
@@ -3640,47 +3641,33 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+
+
             // get the original custom attributes
-            var customAttributesOriginal = new List<ProjectCustomAttributeSimple>(new ProjectCustomAttributes(project).Attributes);
+            var customAttributesOriginal = new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList());
+            projectUpdate.CommitCustomAttributesChangesToProject(project);
             // get the updated custom attributes
-            var customAttributesUpdated = new List<ProjectCustomAttributeSimple>(new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate).Attributes);
+            var customAttributesUpdated = new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList());
 
 
             // get the html for the original custom attributes
-            var originalHtml = GeneratePartialViewForOriginalCustomAttributes(customAttributesOriginal, customAttributesUpdated);
+            var originalHtml = GeneratePartialViewForCustomAttributes(customAttributesOriginal);
             // get the html for the updated custom attributes
-            var updatedHtml = GeneratePartialViewForModifiedCustomAttributes(customAttributesOriginal, customAttributesUpdated);
+            var updatedHtml = GeneratePartialViewForCustomAttributes(customAttributesUpdated);
 
-
-            // return a diff container for the original and updated html for the custom attributesl
+            // return a diff container for the original and updated html for the custom attributes
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributesOriginal, List<ProjectCustomAttributeSimple> projectCustomAttributesUpdated)
+        private string GeneratePartialViewForCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributesOriginal)
         {
-            
-
-
-            return GeneratePartialViewForCustomAttributes(projectCustomAttributesOriginal);
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).ToList();
+            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributesOriginal);
+            var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
+            return partialViewAsString;
         }
-
-        private string GeneratePartialViewForModifiedCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributesOriginal, List<ProjectCustomAttributeSimple> projectCustomAttributesUpdated)
-        {
-            
-            return GeneratePartialViewForCustomAttributes(projectCustomAttributesUpdated);
-        }
-
-        private string GeneratePartialViewForCustomAttributes(List<ProjectCustomAttributeSimple> projectCustomAttributes)
-        {
-            //var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
-
-
-            //var viewData = new CustomAttributesViewData(projectCustomAttributes);
-            //var partialViewToString = RenderPartialViewToString(ExternalLinksPartialViewPath, viewData);
-            //return partialViewToString;
-            return "test";
-        }
-
+        
 
         #endregion "CustomAttributes"
 

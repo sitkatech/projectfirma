@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -95,6 +96,16 @@ namespace ProjectFirmaModels.Models
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
+        }
+
+        public void CommitCustomAttributesChangesToProject(Project project)
+        {
+            ICollection<ProjectCustomAttribute> customAttributes = new List<ProjectCustomAttribute>();
+            var projectCustomAttributes = GetProjectCustomAttributes();
+            foreach(ProjectCustomAttribute projectCustomAttribute in projectCustomAttributes) {
+                customAttributes.Add(projectCustomAttribute);
+            }
+            project.ProjectCustomAttributes = customAttributes;
         }
 
         public void CommitSimpleLocationToProject(Project project)
