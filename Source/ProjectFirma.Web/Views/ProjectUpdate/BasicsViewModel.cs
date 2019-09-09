@@ -53,8 +53,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
 
-        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -70,7 +68,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ImplementationStartYear = projectUpdate.ImplementationStartYear;
             CompletionYear = projectUpdate.CompletionYear;
             Comments = comments;
-            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdate);
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, Person currentPerson)
@@ -80,7 +77,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.PlanningDesignStartYear = PlanningDesignStartYear;
             projectUpdate.ImplementationStartYear = ImplementationStartYear;
             projectUpdate.CompletionYear = CompletionYear;
-            ProjectCustomAttributes?.UpdateModel(projectUpdate, currentPerson);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
