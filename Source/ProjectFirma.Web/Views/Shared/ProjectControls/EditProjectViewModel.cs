@@ -68,10 +68,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool HasExistingProjectUpdate { get; set; }
 
         public int? OldProjectStageID { get; set; }
-
-        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
-
-
+        
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -92,7 +89,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             CompletionYear = project.CompletionYear;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
-            ProjectCustomAttributes = new ProjectCustomAttributes(project);
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
@@ -104,10 +100,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
-
-
-
-            ProjectCustomAttributes?.UpdateModel(project, currentPerson);
 
             var secondaryProjectTaxonomyLeavesToUpdate = (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>())
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) {TenantID = HttpRequestStorage.Tenant.TenantID})
