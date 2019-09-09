@@ -1997,6 +1997,14 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ContactsDiffLogHtmlString = new HtmlString(contactsDiffHelper.Build());
             }
 
+            // add custom attributes to the diff log
+            var customAttributesDiffContainer = DiffCustomAttributesImpl(projectPrimaryKey);
+            if (customAttributesDiffContainer.HasChanged)
+            {
+                var customAttributesDiffHelper = new HtmlDiff.HtmlDiff(customAttributesDiffContainer.OriginalHtml, customAttributesDiffContainer.UpdatedHtml);
+                projectUpdateBatch.CustomAttributesDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
+            }
+
         }
 
 
