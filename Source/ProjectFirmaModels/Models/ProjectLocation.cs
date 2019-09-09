@@ -20,11 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Data.Entity.Spatial;
 using LtInfo.Common.DbSpatial;
-using Microsoft.SqlServer.Types;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectLocation : IAuditableEntity, IProjectLocation, IHaveSqlGeometry
+    public partial class ProjectLocation : IAuditableEntity, IProjectLocation, IHaveDbGeometry
     {
         public ProjectLocation(Project project, DbGeometry projectLocationGeometry, string annotation) : this(project, projectLocationGeometry)
         {
@@ -46,11 +45,6 @@ namespace ProjectFirmaModels.Models
         public DbGeometry GetDbGeometry()
         {
             return ProjectLocationGeometry;
-        }
-
-        public SqlGeometry GetSqlGeometry()
-        {
-            return ProjectLocationGeometry.ToSqlGeometry();
         }
     }
 }
