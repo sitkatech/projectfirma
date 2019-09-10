@@ -182,7 +182,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Exclude Targeted Funding Organizations from List of Funders?
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType())
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
