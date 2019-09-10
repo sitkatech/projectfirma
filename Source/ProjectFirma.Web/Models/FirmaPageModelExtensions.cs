@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Models
         {
             var firmaPage = new FirmaPage(firmaPageType.FirmaPageTypeID);
             firmaPage.FirmaPageType = HttpRequestStorage.DatabaseEntities.FirmaPageTypes.GetFirmaPageType(firmaPageType.FirmaPageTypeID);
-            firmaPage.FirmaPageContent = $"[No FirmaPage defined yet for FirmaPageType {firmaPageType.FirmaPageTypeDisplayName} for Tenant {HttpRequestStorage.Tenant.TenantName} (TenantID: {HttpRequestStorage.Tenant.TenantID})]";
+            firmaPage.FirmaPageContent = $"[No FirmaPage defined yet for FirmaPageTypeID: {firmaPageType.FirmaPageTypeID} \"{firmaPageType.FirmaPageTypeDisplayName}\" for Tenant {HttpRequestStorage.Tenant.TenantName} (TenantID: {HttpRequestStorage.Tenant.TenantID})]";
             return firmaPage;
         }
 
