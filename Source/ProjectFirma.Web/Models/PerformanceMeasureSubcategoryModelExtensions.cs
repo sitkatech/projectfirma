@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LtInfo.Common.DesignByContract;
+﻿using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using MoreLinq;
 using Newtonsoft.Json;
@@ -9,6 +6,9 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Models
 {
@@ -26,9 +26,11 @@ namespace ProjectFirma.Web.Models
                 var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
                 var chartColumns = performanceMeasure.HasRealSubcategories() ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.GetDisplayName() };
                 var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
+                var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
+
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
-                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable);
+                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder);
                 var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
@@ -57,7 +59,8 @@ namespace ProjectFirma.Web.Models
             bool hasTargets,
             IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption,
             IEnumerable<string> subcategoryOptions,
-            bool hasToolTipWithTotal)
+            bool hasToolTipWithTotal,
+            bool reverseTooltipOrder)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
             foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate))
@@ -69,7 +72,7 @@ namespace ProjectFirma.Web.Models
                 }
                 if (hasToolTipWithTotal)
                 {
-                    googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType)));
+                    googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder)));
                 }
                 googleChartRowVs.AddRange(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x =>
                 {
@@ -158,16 +161,30 @@ namespace ProjectFirma.Web.Models
             return PerformanceMeasureTargetValueType.TargetPerReportingPeriod;
         }
 
-        public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, MeasurementUnitType performanceMeasureMeasurementUnitType)
+        public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, 
+                                                  PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, MeasurementUnitType performanceMeasureMeasurementUnitType, bool reverseTooltipOrder)
         {
             // shape data
             var calendarReportedYearValuesDictionary = new Dictionary<string, double>();
-            groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).ForEach(x =>
+            if (reverseTooltipOrder)
             {
-                var calendarYearReportedValue = Enumerable.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(x, isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
-                                                    .Sum(isorv => isorv.ReportedValue) ?? 0;
-                calendarReportedYearValuesDictionary.Add(x.Key.Item1, calendarYearReportedValue);
-            });
+                MoreEnumerable.ForEach(groupedBySubcategoryOption.OrderByDescending(x => x.Key.Item2), x =>
+                {
+                    var calendarYearReportedValue = Enumerable.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(x, isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
+                                                        .Sum(isorv => isorv.ReportedValue) ?? 0;
+                    calendarReportedYearValuesDictionary.Add(x.Key.Item1, calendarYearReportedValue);
+                });
+            }
+            else
+            {
+                MoreEnumerable.ForEach(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2), x =>
+                {
+                    var calendarYearReportedValue = Enumerable.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(x, isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
+                                                        .Sum(isorv => isorv.ReportedValue) ?? 0;
+                    calendarReportedYearValuesDictionary.Add(x.Key.Item1, calendarYearReportedValue);
+                });
+            }
+
             var stringPrecision = new String('0', performanceMeasureMeasurementUnitType.NumberOfSignificantDigits);
             var prefix = performanceMeasureMeasurementUnitType == MeasurementUnitType.Dollars ? "$" : null;
 
