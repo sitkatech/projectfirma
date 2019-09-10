@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Can Manage Custom Attributes")]
         public bool CanManageCustomAttributes { get; set; }
 
-        [DisplayName("Exclude Targeted Funding Organizations from List of Funders")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations)]
         public bool ExcludeTargetedFundingOrganizations { get; set; }
         /// <summary>
         /// Needed by ModelBinder
