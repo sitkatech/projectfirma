@@ -10,14 +10,14 @@
 -- Looks like the equivalent AK already exists for ProjectCustomAttribute. -- SLG 9/10/2019
 IF OBJECT_ID('dbo.[AK_ProjectCustomAttributeUpdate_TenantID_ProjectUpdateBatchID_ProjectCustomAttributeTypeID]', 'UQ') IS NULL 
 begin
-	-- Delete the dupe record first
+    -- Delete the dupe record first
     delete from ProjectCustomAttributeUpdateValue
     where ProjectCustomAttributeUpdateID = 5257
 
     delete from ProjectCustomAttributeUpdate
     where ProjectCustomAttributeUpdateID = 5257
 
-	-- Now we can add the AK to prevent recurrence - or, at least, trigger a crash when the user hits the condition to try again.
+    -- Now we can add the AK to prevent recurrence - or, at least, trigger a crash when the user hits the condition to try again.
     ALTER TABLE [dbo].ProjectCustomAttributeUpdate ADD  CONSTRAINT [AK_ProjectCustomAttributeUpdate_TenantID_ProjectUpdateBatchID_ProjectCustomAttributeTypeID] UNIQUE NONCLUSTERED 
     (
             [TenantID] ASC,
