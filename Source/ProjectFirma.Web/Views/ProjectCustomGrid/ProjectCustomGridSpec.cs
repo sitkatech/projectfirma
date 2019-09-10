@@ -136,13 +136,17 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             var projectCustomAttributeType = projectCustomGridConfiguration.ProjectCustomAttributeType;
             var isCurrency = projectCustomGridConfiguration.ProjectCustomAttributeType.MeasurementUnitTypeID == MeasurementUnitType.Dollars.MeasurementUnitTypeID;
+            var gridHeaderHtmlString = ("<div>" 
+                                    + LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) 
+                                    + projectCustomAttributeType.ProjectCustomAttributeTypeName 
+                                    + "</div>").ToHTMLFormattedString();
             if (isCurrency)
             {
-                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => Decimal.Parse(a.GetProjectCustomAttributesValue(projectCustomAttributeType)), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                Add($"{gridHeaderHtmlString}", a => Decimal.Parse(a.GetProjectCustomAttributesValue(projectCustomAttributeType)), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             }
             else
             {
-                Add($"{projectCustomAttributeType.ProjectCustomAttributeTypeName}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
+                Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
             }
         }
 
