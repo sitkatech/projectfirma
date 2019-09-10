@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Views
         public ViewPageContentViewData CustomFooterViewData { get; }
         public string TenantName { get; private set; }
         public string TenantShortDisplayName { get; private set; }
+        public string TenantToolDisplayName { get; }
         public string TenantBannerLogoUrl { get; private set; }
 
         /// <summary>
@@ -88,6 +89,7 @@ namespace ProjectFirma.Web.Views
             TenantName = MultiTenantHelpers.GetTenantName();
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
+            TenantToolDisplayName = MultiTenantHelpers.GetToolDisplayName();
         }
 
 

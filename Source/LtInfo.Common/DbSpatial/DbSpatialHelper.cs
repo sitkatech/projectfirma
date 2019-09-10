@@ -21,10 +21,9 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
-using System.Data.SqlTypes;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using LtInfo.Common.GdalOgr;
-using Microsoft.SqlServer.Types;
 
 namespace LtInfo.Common.DbSpatial
 {
@@ -90,28 +89,13 @@ namespace LtInfo.Common.DbSpatial
             return geography;
         }
 
-        public static DbGeography GeographyFromGeometry(DbGeometry ogrGeometry)
-        {
-            return DbGeography.FromBinary(ogrGeometry.AsBinary());
-        }
-
-        public static DbGeometry ToDbGeometry(this SqlGeometry sqlGeometry)
-        {
-            return DbGeometry.FromBinary(sqlGeometry.STAsBinary().Buffer);
-        }
-
-        public static SqlGeometry ToSqlGeometry(this DbGeometry dbGeometry)
-        {
-            return SqlGeometry.STGeomFromWKB(new SqlBytes(dbGeometry.AsBinary()), dbGeometry.CoordinateSystemId);
-        }
-
-        public static void Reduce(List<IHaveSqlGeometry> geometries)
+        public static void Reduce(List<IHaveDbGeometry> geometries)
         {
             const int thresholdInFeet = 1;
             var thresholdInDegrees = FeetToAverageLatLonDegree(geometries.First().GetDbGeometry(), thresholdInFeet);
             geometries.ForEach(x =>
             {
-                x.SetDbGeometry(x.GetSqlGeometry().MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
+                x.SetDbGeometry(SqlSpatialFunctions.Reduce(SqlSpatialFunctions.MakeValid(x.GetDbGeometry()), thresholdInDegrees));
             });
         }
     }
