@@ -150,8 +150,8 @@
                     <div class="col-md-12 col-lg-7">
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
-                                <h3>
-                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Project.GetDisplayName()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                <h3 class="project-detail-heading">
                                     Basics
                                 </h3>
                             </div>
@@ -163,8 +163,8 @@
                         {
                             <div class="panel panelFirma">
                                 <div class="panel-heading panelTitle">
-                                    <h3>
-                                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectCustomAttributesUrl, string.Format("Edit {0} Attributes", @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 950, ViewDataTyped.UserHasEditProjectPermissions)
+                                    <h3 class="project-detail-heading">
                                         @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Attributes
                                     </h3>
                                 </div>
@@ -222,8 +222,9 @@
                 </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectOrganizationsUrl, "Edit Organizations", ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
+
                             @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()
                         </h3>
                     </div>
@@ -234,8 +235,8 @@
 
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectContactsUrl, "Edit Contacts", ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
                             Contacts
                         </h3>
                     </div>
@@ -247,8 +248,8 @@
                 <h2 class="sectionHeader">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
                             Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                         </h3>
                     </div>
@@ -258,8 +259,8 @@
                 </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureActualsUrl, "Edit Reported " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasPerformanceMeasureActualManagePermissions)
+                        <h3 class="project-detail-heading">
                             Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
                         </h3>
                     </div>
@@ -283,8 +284,8 @@
                 {
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
-                            <h3>
-                                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                            <h3 class="project-detail-heading">
                                 Engineering and Technical Assistance
                             </h3>
                         </div>
@@ -297,8 +298,8 @@
                 <h2 class="sectionHeader">Financials</h2>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
                             Budget
                         </h3>
                     </div>
@@ -320,8 +321,8 @@
 
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
                             @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
                         </h3>
                     </div>
@@ -346,8 +347,8 @@
                     <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
-                            <h2>
-                                @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
+                            @ModalDialogFormHelper.MakeEditIconLink(classificationSystem.GetEditProjectClassificationsUrl(ViewDataTyped.Project), string.Format("Edit {0}", ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)), ViewDataTyped.UserHasEditProjectPermissions && classificationSystem.HasClassifications)
+                            <h2 class="project-detail-heading">
                                 @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
                             </h2>
                         </div>
@@ -409,8 +410,8 @@
                 </div>
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        <h3>
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExternalLinksUrl, string.Format("Edit {0}", FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()), ViewDataTyped.UserHasEditProjectPermissions)
+                        <h3 class="project-detail-heading">
                             @Html.LabelWithSugarFor(FieldDefinitionEnum.ExternalLinks.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabel()
                         </h3>
                     </div>

@@ -22,11 +22,10 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using LtInfo.Common.DbSpatial;
-using Microsoft.SqlServer.Types;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectLocationUpdate : IAuditableEntity, IProjectLocation, IHaveSqlGeometry
+    public partial class ProjectLocationUpdate : IAuditableEntity, IProjectLocation, IHaveDbGeometry
     {
         public ProjectLocationUpdate(ProjectUpdateBatch projectUpdateBatch, DbGeometry projectLocationGeometry, string annotation) : this(projectUpdateBatch, projectLocationGeometry)
         {
@@ -48,11 +47,6 @@ namespace ProjectFirmaModels.Models
         public DbGeometry GetDbGeometry()
         {
             return ProjectLocationUpdateGeometry;
-        }
-
-        public SqlGeometry GetSqlGeometry()
-        {
-            return ProjectLocationUpdateGeometry.ToSqlGeometry();
         }
 
         public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)

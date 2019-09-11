@@ -6,6 +6,13 @@ namespace ProjectFirmaModels.Models
 {
     public class ProjectCustomAttributeSimple
     {
+        public int ProjectCustomAttributeTypeID { get; set; }
+        public IList<string> ProjectCustomAttributeValues { get; set; }
+
+        /// <summary>
+        /// Full Constructor
+        /// </summary>
+        /// <param name="projectCustomAttribute"></param>
         public ProjectCustomAttributeSimple(IProjectCustomAttribute projectCustomAttribute)
         {
             ProjectCustomAttributeTypeID = projectCustomAttribute.ProjectCustomAttributeTypeID;
@@ -18,11 +25,11 @@ namespace ProjectFirmaModels.Models
                 .ToList();
         }
 
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
         public ProjectCustomAttributeSimple()
         {
         }
-
-        public int ProjectCustomAttributeTypeID { get; set; }
-        public IList<string> ProjectCustomAttributeValues { get; set; }
     }
 }
