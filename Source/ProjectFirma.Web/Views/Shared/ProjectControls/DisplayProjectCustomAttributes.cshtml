@@ -24,6 +24,18 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 
+@functions 
+{
+    /// <summary>
+    /// Mostly just here for debugging
+    /// </summary>
+    private static string GetSingleProjectCustomAttributeValue(IProjectCustomAttribute projectCustomAttribute)
+    {
+        var projectCustomAttributeValues = projectCustomAttribute.GetCustomAttributeValues().ToList();
+        return projectCustomAttributeValues.Single().AttributeValue;
+    }
+}
+
 <dl class="dl-horizontal">
 
     @foreach (var projectCustomAttributeType in ViewDataTyped.ProjectCustomAttributeTypes)
@@ -45,7 +57,7 @@
                 }
                 else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
                 {
-                    @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                    @StringFormats.ParseNullableDecimalFromCurrencyString(GetSingleProjectCustomAttributeValue(projectCustomAttribute)).ToStringCurrency()
                 }
                 else
                 {
