@@ -13,6 +13,14 @@
         }
     }
 
+    public partial class ProjectUpdateSectionCustomAttributes
+    {
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        {
+            return projectUpdateStatus.IsCustomAttributesUpdated;
+        }
+    }
+
     public partial class ProjectUpdateSectionLocationSimple
     {
         public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)

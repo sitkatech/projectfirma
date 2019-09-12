@@ -23,7 +23,6 @@ using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Globalization;
@@ -45,14 +44,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.ProjectUpdate ProjectUpdate { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public int? StartYearForTotalCostCalculation { get; }
-        public IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
-        public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; }
 
 
         public BasicsViewData(Person currentPerson, ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             IEnumerable<ProjectStage> projectStages, ProjectUpdateStatus projectUpdateStatus,
-            BasicsValidationResult basicsValidationResult,
-            IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
+            BasicsValidationResult basicsValidationResult)
             : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
         {
             ProjectUpdate = projectUpdate;
@@ -65,8 +61,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffBasics(Project));
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdate.ProjectUpdateBatch.BasicsComment, projectUpdate.ProjectUpdateBatch.IsReturned());
             StartYearForTotalCostCalculation = projectUpdate.StartYearForTotalCostCalculations();
-            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
-            DisplayProjectCustomAttributeTypesViewData = displayProjectCustomAttributeTypesViewData;
         }
     }
 }

@@ -27,17 +27,6 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @inherits Basics
 
-<style>
-    dt.projectCustomAttributes {
-        white-space: normal;
-        width: 265px;
-    }
-
-    dd.projectCustomAttributes {
-        margin-left: 295px;
-    }
-</style>
-
 @section JavascriptAndStylesContent
 {
     @if (ViewDataTyped.IsEditable)
@@ -152,19 +141,6 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    @if (ViewDataTyped.ProjectCustomAttributeTypes.Any())
-    {
-        <hr />
-        <h4>Additional Attributes</h4>
-        if (ViewDataTyped.IsEditable)
-        {
-            @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, currentPerson = ViewDataTyped.CurrentPerson })
-        }
-        else
-        {
-            ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes.RenderPartialView(Html, ViewDataTyped.DisplayProjectCustomAttributeTypesViewData);
-        }
-    }
 </div>
 
     if (ViewDataTyped.IsEditable)

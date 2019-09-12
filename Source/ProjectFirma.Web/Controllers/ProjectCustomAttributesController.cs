@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new EditProjectCustomAttributesViewModel(project);
-            return ViewEditProjectCustomAttibutes(project, viewModel);
+            return ViewEditProjectCustomAttributes(project, viewModel);
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditProjectCustomAttibutes(project, viewModel);
+                return ViewEditProjectCustomAttributes(project, viewModel);
             }
 
             return UpdateProjectCustomAttributes(viewModel, project);
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditProjectCustomAttibutes(Project project, EditProjectCustomAttributesViewModel viewModel)
+        private PartialViewResult ViewEditProjectCustomAttributes(Project project, EditProjectCustomAttributesViewModel viewModel)
         {
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));

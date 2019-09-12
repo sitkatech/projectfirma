@@ -18,6 +18,8 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return projectUpdateBatch.AreProjectBasicsValid();
+                case ProjectUpdateSectionEnum.CustomAttributes:
+                    return true;
                 case ProjectUpdateSectionEnum.LocationSimple:
                     return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:
@@ -58,6 +60,8 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectUpdateSectionEnum.Basics:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Basics(project));
+                case ProjectUpdateSectionEnum.CustomAttributes:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project));
                 case ProjectUpdateSectionEnum.LocationSimple:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
                 case ProjectUpdateSectionEnum.Organizations:

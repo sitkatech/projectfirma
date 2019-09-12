@@ -47,6 +47,20 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
+            <h2>Custom Attributes</h2>
+        </div>
+        @if (ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString != null)
+        {
+            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString)
+        }
+        else
+        {
+            <div class="panel-body">No changes to Custom Attributes section</div>
+        }
+    </div>
+
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
             <h2>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
         </div>
         @if (ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString != null)
@@ -114,7 +128,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">No changes to Notes section</div>
         }
     </div>
-    
+
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</h2>
@@ -128,7 +142,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel-body">No changes to @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() section</div>
         }
     </div>
-    
+
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>Contacts</h2>
@@ -139,7 +153,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
         else
         {
-            <div class="panel-body">No changes to contacts section</div>
+            <div class="panel-body">No changes to Contacts section</div>
         }
     </div>
 

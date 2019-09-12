@@ -46,17 +46,32 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool IsExpectedFundingSectionComplete { get; set; }
         public bool IsProjectOrganizationsSectionComplete { get; set; }
         public bool IsProjectContactsSectionComplete { get; set; }
+        public bool IsProjectCustomAttributesSectionComplete { get; set; }
 
+        /// <summary>
+        /// Method to check whether each section in a proposal is complete
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="geospatialAreaTypes">Geospatial areas are defined per tenant, this is passed to check if the tenant has any and are complete</param>
         public ProposalSectionsStatus(ProjectFirmaModels.Models.Project project, List<GeospatialAreaType> geospatialAreaTypes)
         {
+            // Basics section
             var basicsResults = new BasicsViewModel(project).GetValidationResults();
             IsBasicsSectionComplete = !basicsResults.Any();
 
+            // Custom Attributes section
+            var customAttributesValidationResults = new ProjectCustomAttributesViewModel(project).GetValidationResults();
+            IsProjectCustomAttributesSectionComplete = !customAttributesValidationResults.Any();
+
+            // Project Location simple section
             var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
             IsProjectLocationSimpleSectionComplete = !locationSimpleValidationResults.Any();
 
+            // Project location detailed section
             IsProjectLocationDetailedSectionComplete = IsBasicsSectionComplete;
 
+            // Geospatial Area section
             if (geospatialAreaTypes.Any())
             {
                 var isGeospatialAreaSectionComplete = true;
@@ -78,18 +93,23 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 IsGeospatialAreaSectionComplete = true;
             }
 
+            // Performance Measure section
             IsPerformanceMeasureSectionComplete = IsBasicsSectionComplete;
 
+            // Expected Funding section
             var expectedFundingValidationResults = new ExpectedFundingViewModel(project)
                 .GetValidationResults();
             IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
 
+            // Classifications section
             var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
             var classificationValidationResults = new EditProposalClassificationsViewModel(proposalClassificationSimples).GetValidationResults();
             IsClassificationsComplete = !classificationValidationResults.Any();
 
+            // Assessment section
             IsAssessmentComplete = ProjectCreateController.GetProjectAssessmentQuestionSimples(project).All(simple => simple.Answer.HasValue);
 
+            // Notes section
             IsNotesSectionComplete = IsBasicsSectionComplete; //there is no validation required on Notes
         }
 

@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionTechnicalAssistanceRequests TechnicalAssistanceRequests = ProjectUpdateSectionTechnicalAssistanceRequests.Instance;
         public static readonly ProjectUpdateSectionContacts Contacts = ProjectUpdateSectionContacts.Instance;
         public static readonly ProjectUpdateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectUpdateSectionAttachmentsAndNotes.Instance;
+        public static readonly ProjectUpdateSectionCustomAttributes CustomAttributes = ProjectUpdateSectionCustomAttributes.Instance;
 
         public static readonly List<ProjectUpdateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectUpdateSection> AllLookupDictionary;
@@ -40,7 +41,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes, CustomAttributes };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -124,6 +125,8 @@ namespace ProjectFirmaModels.Models
                     return Budget;
                 case ProjectUpdateSectionEnum.Contacts:
                     return Contacts;
+                case ProjectUpdateSectionEnum.CustomAttributes:
+                    return CustomAttributes;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
                 case ProjectUpdateSectionEnum.Expenditures:
@@ -162,7 +165,8 @@ namespace ProjectFirmaModels.Models
         ExpectedAccomplishments = 12,
         TechnicalAssistanceRequests = 13,
         Contacts = 14,
-        AttachmentsAndNotes = 15
+        AttachmentsAndNotes = 15,
+        CustomAttributes = 16
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -241,5 +245,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectUpdateSectionAttachmentsAndNotes(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionAttachmentsAndNotes Instance = new ProjectUpdateSectionAttachmentsAndNotes(15, @"AttachmentsAndNotes", @"Attachments and Notes", 120, false, 5);
+    }
+
+    public partial class ProjectUpdateSectionCustomAttributes : ProjectUpdateSection
+    {
+        private ProjectUpdateSectionCustomAttributes(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionCustomAttributes Instance = new ProjectUpdateSectionCustomAttributes(16, @"CustomAttributes", @"Custom Attributes", 25, true, 1);
     }
 }

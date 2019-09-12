@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -96,7 +97,7 @@ namespace ProjectFirmaModels.Models
             project.CompletionYear = CompletionYear;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
         }
-
+        
         public void CommitSimpleLocationToProject(Project project)
         {
             project.ProjectLocationPoint = ProjectLocationPoint;

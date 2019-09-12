@@ -34,6 +34,8 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[ContactsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpectedFundingUpdateNote] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ContactsDiffLog] [dbo].[html] NULL,
+	[CustomAttributesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[CustomAttributesDiffLog] [dbo].[html] NULL,
  CONSTRAINT [PK_ProjectUpdateBatch_ProjectUpdateBatchID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateBatchID] ASC

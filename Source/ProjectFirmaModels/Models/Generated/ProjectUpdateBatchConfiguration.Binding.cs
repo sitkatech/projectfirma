@@ -46,6 +46,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ContactsComment).HasColumnName(@"ContactsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ExpectedFundingUpdateNote).HasColumnName(@"ExpectedFundingUpdateNote").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.ContactsDiffLog).HasColumnName(@"ContactsDiffLog").HasColumnType("varchar").IsOptional();
+            Property(x => x.CustomAttributesComment).HasColumnName(@"CustomAttributesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.CustomAttributesDiffLog).HasColumnName(@"CustomAttributesDiffLog").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectUpdateBatches).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectUpdateBatch_Project_ProjectID

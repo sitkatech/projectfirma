@@ -18,15 +18,23 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using ProjectFirmaModels.Models;
 
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirmaModels.Models;
+using ProjectCustomAttributes = ProjectFirmaModels.Models.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
-    public class EditProjectCustomAttributesViewModel
+    public class EditProjectCustomAttributesViewModel : FormViewModel
     {
         public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
 
+        public IProject Project { get; set; }
+        
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -37,11 +45,36 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project)
         {
             ProjectCustomAttributes = new ProjectCustomAttributes(project);
+            Project = project;
+        }
+
+        public EditProjectCustomAttributesViewModel(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch)
+        {
+            ProjectCustomAttributes = new ProjectCustomAttributes(projectUpdateBatch.ProjectUpdate);
+            Project = projectUpdateBatch.ProjectUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             ProjectCustomAttributes?.UpdateModel(project, currentPerson);
+        }
+        
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
+            var errors = new List<ValidationResult>();
+            errors.AddRange(ValidateAllCustomAttributes().GetWarningMessages().Select(m => new ValidationResult(m)));
+            return errors;
+        }
+
+        public ProjectCustomAttributesValidationResult ValidateAllCustomAttributes()
+        {
+            var customAttributesValidationResult = new ProjectCustomAttributesValidationResult(Project);
+            return customAttributesValidationResult;
         }
     }
 }

@@ -1,0 +1,78 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectCustomAttributes.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Views.Shared.ProjectControls
+@inherits ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes
+
+@section JavascriptAndStylesContent
+{
+    <script type="text/javascript">
+        // <![CDATA[
+        jQuery(document).ready(function () {
+            HookupCheckIfFormIsDirty(undefined, ".submitProject");
+
+            // Bypass the "Could not parse a blank value" error
+            jQuery("#TaxonomyLeafID option.bs-title-option").val(-1);
+        });
+        // ]]>
+    </script>
+    <script type="text/javascript">
+
+        function saveForm(autoAdvance) {
+            var form = jQuery("form");
+            // Do not submit if the form
+            // does not pass client side validation
+
+            if (!form.valid()) {
+                return false;
+            }
+
+            jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
+            form.submit();
+            return true;
+        }
+        // ]]>
+    </script>
+
+}
+<div class="row">
+    <div class="col-xs-12">
+        @{ Html.RenderRazorSitkaPartial<EditProjectCustomAttributes, EditProjectCustomAttributesViewData, EditProjectCustomAttributesViewModel>(ViewDataTyped.EditCustomAttributesViewData, Model); }
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <div class="pull-right">
+            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+            <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // <![CDATA[
+    jQuery(document).ready(function () {
+        HookupCheckIfFormIsDirty("form");
+    });
+    // ]]>
+</script>
+

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectAdditionalAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectCustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,29 +19,22 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 
-namespace ProjectFirma.Web.Views.FundingSourceCustomAttributes
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class EditFundingSourceCustomAttributesViewModel
+    public class ProjectCustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
-        public ProjectFirmaModels.Models.FundingSourceCustomAttributes FundingSourceCustomAttributes { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditFundingSourceCustomAttributesViewModel()
+        public ProjectCustomAttributesViewModel()
         {
         }
 
-        public EditFundingSourceCustomAttributesViewModel(ProjectFirmaModels.Models.FundingSource fundingSource)
+        public ProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
         {
-            FundingSourceCustomAttributes = new ProjectFirmaModels.Models.FundingSourceCustomAttributes(fundingSource);
+            Project = project;
         }
-
-        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, Person currentPerson)
-        {
-            FundingSourceCustomAttributes?.UpdateModel(fundingSource, currentPerson);
-        }
-    }
+    }    
 }

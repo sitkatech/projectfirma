@@ -54,13 +54,24 @@ using ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
+using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotes;
+using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectUpdate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectUpdate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
+using Contacts = ProjectFirma.Web.Views.ProjectUpdate.Contacts;
+using ContactsViewData = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewData;
+using ContactsViewModel = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewModel;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
+using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostType;
+using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewData;
+using ExpectedFundingByCostTypeViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewModel;
 using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
 using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
+using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostType;
+using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewData;
+using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresViewModel;
 using GeospatialArea = ProjectFirmaModels.Models.GeospatialArea;
@@ -72,6 +83,10 @@ using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationD
 using LocationSimple = ProjectFirma.Web.Views.ProjectUpdate.LocationSimple;
 using LocationSimpleViewData = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewData;
 using LocationSimpleViewModel = ProjectFirma.Web.Views.ProjectUpdate.LocationSimpleViewModel;
+using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectUpdate.ProjectCustomAttributes;
+using Organizations = ProjectFirma.Web.Views.ProjectUpdate.Organizations;
+using OrganizationsViewData = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewData;
+using OrganizationsViewModel = ProjectFirma.Web.Views.ProjectUpdate.OrganizationsViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectUpdate.Photos;
 using ReportedPerformanceMeasures = ProjectFirma.Web.Views.ProjectUpdate.ReportedPerformanceMeasures;
 
@@ -81,6 +96,7 @@ namespace ProjectFirma.Web.Controllers
     {
         public const string ProjectUpdateBatchDiffLogPartialViewPath = "~/Views/ProjectUpdate/ProjectUpdateBatchDiffLog.cshtml";
         public const string ProjectBasicsPartialViewPath = "~/Views/Shared/ProjectControls/ProjectBasics.cshtml";
+        public const string ProjectCustomAttributesPartialViewPath = "~/Views/Shared/ProjectControls/DisplayProjectCustomAttributes.cshtml";
         public const string PerformanceMeasureReportedValuesPartialViewPath = "~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureReportedValuesSummary.cshtml";
         public const string ProjectExpendituresPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectExpendituresSummary.cshtml";
         public const string ProjectBudgetPartialViewPath = "~/Views/Shared/ProjectUpdateDiffControls/ProjectBudgetsDetail.cshtml";
@@ -287,12 +303,8 @@ namespace ProjectFirma.Web.Controllers
             var updateStatus = GetUpdateStatus(projectUpdate.ProjectUpdateBatch); // note, the way the diff for the basics section is built, it will actually "commit" the updated values to the project, so it needs to be done last, or we need to change the current approach
 
             var projectStages = projectUpdate.ProjectUpdateBatch.Project.ProjectStage.GetProjectStagesThatProjectCanUpdateTo();
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson)).ToList();
-            var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
-                projectCustomAttributeTypes,
-                new List<IProjectCustomAttribute>(projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.ToList()));
 
-            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, updateStatus, basicsValidationResult, projectCustomAttributeTypes, projectCustomAttributeTypesViewData);
+            var viewData = new BasicsViewData(CurrentPerson, projectUpdate, projectStages, updateStatus, basicsValidationResult);
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
@@ -1980,6 +1992,14 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.ContactsDiffLogHtmlString = new HtmlString(contactsDiffHelper.Build());
             }
 
+            // add custom attributes to the diff log
+            var customAttributesDiffContainer = DiffProjectCustomAttributesImpl(projectPrimaryKey);
+            if (customAttributesDiffContainer.HasChanged)
+            {
+                var customAttributesDiffHelper = new HtmlDiff.HtmlDiff(customAttributesDiffContainer.OriginalHtml, customAttributesDiffContainer.UpdatedHtml);
+                projectUpdateBatch.CustomAttributesDiffLogHtmlString = new HtmlString(customAttributesDiffHelper.Build());
+            }
+
         }
 
 
@@ -3117,7 +3137,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
-                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false);
+                return new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             }
             var isPerformanceMeasuresUpdated = DiffReportedPerformanceMeasuresImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isExpendituresUpdated = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ? DiffExpendituresByCostTypeImpl(projectUpdateBatch.ProjectID).HasChanged : DiffExpendituresImpl(projectUpdateBatch.ProjectID).HasChanged; 
@@ -3126,6 +3146,7 @@ namespace ProjectFirma.Web.Controllers
             var isLocationDetailUpdated = IsLocationDetailedUpdated(projectUpdateBatch.ProjectID);
             var isExternalLinksUpdated = DiffExternalLinksImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isNotesUpdated = DiffNotesAndAttachmentsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isCustomAttributesUpdated = DiffProjectCustomAttributesImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
@@ -3151,7 +3172,8 @@ namespace ProjectFirma.Web.Controllers
                 isOrganizationsUpdated,
                 isExpectedPerformanceMeasuresUpdated,
                 isTechnicalAssistanceRequestsUpdated,
-                isContactsUpdated);
+                isContactsUpdated,
+                isCustomAttributesUpdated);
         }
 
         private PartialViewResult ViewHtmlDiff(string htmlDiff, string diffTitle)
@@ -3482,9 +3504,6 @@ namespace ProjectFirma.Web.Controllers
         }
         #endregion 'Contacts'
 
-
-
-
         // BootstrapHtmlHelper's alert modal dialog method isn't great at dealing with near-arbitrary HTML like we expect these "Intro Content" strings to be, so we're using the From Url version instead, which seems to work better.
 
         [ProjectUpdateAdminFeature]
@@ -3525,5 +3544,131 @@ namespace ProjectFirma.Web.Controllers
 
             return emailContentPreview;
         }
+
+        #region "ProjectCustomAttributes"
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            var viewModel = new ProjectCustomAttributesViewModel(projectUpdateBatch);
+            return ViewProjectCustomAttributes(project, projectUpdateBatch, viewModel);
+        }
+
+        private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
+        {
+            var customAttributesValidationResult = project.ValidateCustomAttributes();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+
+            var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
+
+            var proposalSectionsStatus = GetUpdateStatus(projectUpdateBatch);
+            var viewData = new ProjectCustomAttributesViewData(CurrentPerson, projectUpdateBatch, proposalSectionsStatus, customAttributesValidationResult.GetWarningMessages(), ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName, editCustomAttributesViewData);
+
+            return RazorView<ProjectCustomAttributes, ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey, ProjectCustomAttributesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            
+            if (!ModelState.IsValid)
+            {
+                return ViewProjectCustomAttributes(project, projectUpdateBatch, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
+
+            viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
+
+            if (projectUpdateBatch.IsSubmitted())
+            {
+                projectUpdateBatch.CustomAttributesComment = viewModel.Comments;
+            }
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.CustomAttributes.ProjectUpdateSectionDisplayName);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult RefreshProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
+            return ViewRefreshProjectCustomAttributes(viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult RefreshProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
+            projectUpdateBatch.DeleteProjectCustomAttributeUpdates();
+            // refresh data
+            ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+
+            // the redirect here in the ModalDialogFormJsonResult below was required because select options were not being displayed accurately after submitting the refresh even though the data behind it was accurate
+            return new ModalDialogFormJsonResult(SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project)));
+        }
+
+        private PartialViewResult ViewRefreshProjectCustomAttributes(ConfirmDialogFormViewModel viewModel)
+        {
+            var viewData =
+                new ConfirmDialogFormViewData(
+                    $"Are you sure you want to refresh the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} custom attributes data? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} and any updates made in this section will be lost.");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
+        public PartialViewResult DiffProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var htmlDiffContainer = DiffProjectCustomAttributesImpl(projectPrimaryKey);
+            var htmlDiff = new HtmlDiff.HtmlDiff(htmlDiffContainer.OriginalHtml, htmlDiffContainer.UpdatedHtml);
+            return ViewHtmlDiff(htmlDiff.Build(), string.Empty);
+        }
+
+        public HtmlDiffContainer DiffProjectCustomAttributesImpl(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+            var projectUpdate = projectUpdateBatch.ProjectUpdate;
+
+            // get the original custom attributes
+            var customAttributesOriginal = new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList());
+            // get the updated custom attributes
+            var customAttributesUpdated = new List<IProjectCustomAttribute>(projectUpdate.GetProjectCustomAttributes());
+
+            // get the html for the original custom attributes
+            var originalHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesOriginal);
+            // get the html for the updated custom attributes
+            var updatedHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesUpdated);
+
+            // return a diff container for the original and updated html for the custom attributes
+            return new HtmlDiffContainer(originalHtml, updatedHtml);
+        }
+
+        private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes)
+        {
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).ToList();
+            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes);
+            var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
+            return partialViewAsString;
+        }
+        
+        #endregion "ProjectCustomAttributes"
+
     }
 }

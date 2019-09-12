@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectAdditionalAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="CustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,29 +19,35 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.FundingSourceCustomAttributes
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class EditFundingSourceCustomAttributesViewModel
+    public class ProjectCustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
-        public ProjectFirmaModels.Models.FundingSourceCustomAttributes FundingSourceCustomAttributes { get; set; }
+        [DisplayName("Reviewer Comments")]
+        [StringLength(ProjectUpdateBatch.FieldLengths.CustomAttributesComment)]
+        public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditFundingSourceCustomAttributesViewModel()
+        public ProjectCustomAttributesViewModel()
         {
         }
 
-        public EditFundingSourceCustomAttributesViewModel(ProjectFirmaModels.Models.FundingSource fundingSource)
+        public ProjectCustomAttributesViewModel(ProjectUpdateBatch projectUpdateBatch) : base(projectUpdateBatch)
         {
-            FundingSourceCustomAttributes = new ProjectFirmaModels.Models.FundingSourceCustomAttributes(fundingSource);
+            Project = projectUpdateBatch.ProjectUpdate;
+            Comments = projectUpdateBatch.CustomAttributesComment;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, Person currentPerson)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
         {
-            FundingSourceCustomAttributes?.UpdateModel(fundingSource, currentPerson);
+            ProjectCustomAttributes?.UpdateModel(projectUpdateBatch.ProjectUpdate, currentPerson);
         }
-    }
+    }    
 }

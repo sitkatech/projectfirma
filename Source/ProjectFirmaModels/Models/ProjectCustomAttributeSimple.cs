@@ -15,6 +15,7 @@ namespace ProjectFirmaModels.Models
         /// <param name="projectCustomAttribute"></param>
         public ProjectCustomAttributeSimple(IProjectCustomAttribute projectCustomAttribute)
         {
+            
             ProjectCustomAttributeTypeID = projectCustomAttribute.ProjectCustomAttributeTypeID;
             ProjectCustomAttributeValues = projectCustomAttribute.GetCustomAttributeValues()
                 .Select(y =>
@@ -30,6 +31,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public ProjectCustomAttributeSimple()
         {
+            ProjectCustomAttributeValues = new List<string>();
         }
     }
 }

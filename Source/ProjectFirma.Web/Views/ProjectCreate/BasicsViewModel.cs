@@ -68,8 +68,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public int? ImportExternalProjectStagingID { get; set; }
 
-        public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -88,7 +86,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            ProjectCustomAttributes = new ProjectCustomAttributes(project);
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
@@ -109,7 +106,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
-            ProjectCustomAttributes?.UpdateModel(project, person);
 
             var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) { TenantID = HttpRequestStorage.Tenant.TenantID })

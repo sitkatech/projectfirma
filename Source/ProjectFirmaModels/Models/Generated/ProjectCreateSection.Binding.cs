@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
         public static readonly ProjectCreateSectionContacts Contacts = ProjectCreateSectionContacts.Instance;
         public static readonly ProjectCreateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectCreateSectionAttachmentsAndNotes.Instance;
+        public static readonly ProjectCreateSectionCustomAttributes CustomAttributes = ProjectCreateSectionCustomAttributes.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -40,7 +41,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -128,6 +129,8 @@ namespace ProjectFirmaModels.Models
                     return Classifications;
                 case ProjectCreateSectionEnum.Contacts:
                     return Contacts;
+                case ProjectCreateSectionEnum.CustomAttributes:
+                    return CustomAttributes;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
                 case ProjectCreateSectionEnum.LocationDetailed:
@@ -162,7 +165,8 @@ namespace ProjectFirmaModels.Models
         Assessment = 12,
         Photos = 13,
         Contacts = 15,
-        AttachmentsAndNotes = 16
+        AttachmentsAndNotes = 16,
+        CustomAttributes = 17
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -241,5 +245,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCreateSectionAttachmentsAndNotes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionAttachmentsAndNotes Instance = new ProjectCreateSectionAttachmentsAndNotes(16, @"AttachmentsAndNotes", @"Attachments and Notes", 140, false, 5);
+    }
+
+    public partial class ProjectCreateSectionCustomAttributes : ProjectCreateSection
+    {
+        private ProjectCreateSectionCustomAttributes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionCustomAttributes Instance = new ProjectCreateSectionCustomAttributes(17, @"CustomAttributes", @"Custom Attributes", 25, true, 1);
     }
 }
