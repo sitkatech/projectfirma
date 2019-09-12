@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema) : this()
+        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema, bool isViewableOnFactSheet) : this()
         {
             this.ProjectCustomAttributeTypeID = projectCustomAttributeTypeID;
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
@@ -42,12 +42,13 @@ namespace ProjectFirmaModels.Models
             this.IsRequired = isRequired;
             this.ProjectCustomAttributeTypeDescription = projectCustomAttributeTypeDescription;
             this.ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeTypeOptionsSchema;
+            this.IsViewableOnFactSheet = isViewableOnFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, bool isRequired, bool isViewableOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -55,18 +56,20 @@ namespace ProjectFirmaModels.Models
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
+            this.IsViewableOnFactSheet = isViewableOnFactSheet;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired) : this()
+        public ProjectCustomAttributeType(string projectCustomAttributeTypeName, ProjectCustomAttributeDataType projectCustomAttributeDataType, bool isRequired, bool isViewableOnFactSheet) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectCustomAttributeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
             this.ProjectCustomAttributeDataTypeID = projectCustomAttributeDataType.ProjectCustomAttributeDataTypeID;
             this.IsRequired = isRequired;
+            this.IsViewableOnFactSheet = isViewableOnFactSheet;
         }
 
         /// <summary>
@@ -74,7 +77,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectCustomAttributeType CreateNewBlank(ProjectCustomAttributeDataType projectCustomAttributeDataType)
         {
-            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool));
+            return new ProjectCustomAttributeType(default(string), projectCustomAttributeDataType, default(bool), default(bool));
         }
 
         /// <summary>
@@ -144,6 +147,7 @@ namespace ProjectFirmaModels.Models
         public bool IsRequired { get; set; }
         public string ProjectCustomAttributeTypeDescription { get; set; }
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
+        public bool IsViewableOnFactSheet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 
