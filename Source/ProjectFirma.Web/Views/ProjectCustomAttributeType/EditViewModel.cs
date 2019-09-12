@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
         [Required(ErrorMessage = "Please specify whether the attribute is viewable on fact sheets")]
         [DisplayName("Viewable on fact sheets?")]
-        public bool IsViewableOnFactSheet { get; set; }
+        public bool? IsViewableOnFactSheet { get; set; }
 
         [DisplayName("Description")]
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
-            projectCustomAttributeType.IsViewableOnFactSheet = IsViewableOnFactSheet;
+            projectCustomAttributeType.IsViewableOnFactSheet = IsViewableOnFactSheet.GetValueOrDefault();
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]
