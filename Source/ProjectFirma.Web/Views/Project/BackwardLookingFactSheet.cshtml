@@ -189,6 +189,38 @@
                     @ViewDataTyped.Project.GetDuration()
                 </div>
             </div>
+            <div class="row">
+                @foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
+                {
+                    var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <strong>
+                            @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                        </strong>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-9">
+                        @if (projectCustomAttribute != null)
+                        {
+                            if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                            {
+                                @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                            }
+                            else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                            {
+                                @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                            }
+                            else
+                            {
+                                @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                            }
+                        }
+                        else
+                        {
+                            <em class="text-muted">None</em>
+                        }
+                    </div>
+                }
+            </div>
             
         </div>
     </div>
