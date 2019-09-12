@@ -173,7 +173,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString(), $"Download the Fact Sheet for {x.ProjectName}"), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() + $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30, DhtmlxGridColumnFilterType.None);
             //
 
             // Implement configured fields here
