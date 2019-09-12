@@ -35,6 +35,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [DisplayName("Required?")]
         public bool? IsRequired { get; set; }
 
+        [Required(ErrorMessage = "Please specify whether the attribute is viewable on fact sheets")]
+        [DisplayName("Viewable on fact sheets?")]
+        public bool? IsViewableOnFactSheet { get; set; }
+
         [DisplayName("Description")]
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
         public string ProjectCustomAttributeTypeDesription { get; set; }
@@ -73,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
             ViewableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
-
+            IsViewableOnFactSheet = projectCustomAttributeType.IsViewableOnFactSheet;
         }
 
 
@@ -84,6 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
+            projectCustomAttributeType.IsViewableOnFactSheet = IsViewableOnFactSheet.GetValueOrDefault();
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]

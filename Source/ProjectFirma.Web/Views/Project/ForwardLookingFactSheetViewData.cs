@@ -65,6 +65,8 @@ namespace ProjectFirma.Web.Views.Project
         public ViewPageContentViewData CustomFactSheetTextViewData { get; }
         public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
         public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
+        public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
+        public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
 
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
@@ -139,6 +141,9 @@ namespace ProjectFirma.Web.Views.Project
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
+
+            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson)).ToList();
+            ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentPerson) && x.IsViewableOnFactSheet).ToList();
         }
 
         public HtmlString LegendHtml
