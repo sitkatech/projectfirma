@@ -72,6 +72,10 @@
                     <label class="col-sm-3 control-label text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType())</label>
                     <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.GetViewableRoles()</div>
                 </div>
+                <div class="row">
+                    <label class="col-sm-3 control-label text-right">@Html.Label("Viewable on fact sheet?")</label>
+                    <div class="col-sm-9">@ViewDataTyped.ProjectCustomAttributeType.IsViewableOnFactSheet.ToYesNo()</div>
+                </div>
             </div>
         </div>
     </div>

@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
             ViewableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
-
+            IsViewableOnFactSheet = projectCustomAttributeType.IsViewableOnFactSheet;
         }
 
 
