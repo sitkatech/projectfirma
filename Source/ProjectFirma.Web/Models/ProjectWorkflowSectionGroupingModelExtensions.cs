@@ -26,13 +26,13 @@ namespace ProjectFirma.Web.Models
             {
                 case ProjectWorkflowSectionGroupingEnum.Overview:
                     // remove the custom attributes section from the overview section to begin with
-                    var projectCreateSectionForCustomAttributes = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> {ProjectCreateSection.CustomAttributes}).ToList();
+                    var projectCreateSectionForOverview = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> {ProjectCreateSection.CustomAttributes}).ToList();
                     // If there are custom attribute types for this tenant, we can add the section back
                     if (HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Any())
                     {
-                        projectCreateSectionForCustomAttributes.Add(ProjectCreateSection.CustomAttributes);
+                        projectCreateSectionForOverview.Add(ProjectCreateSection.CustomAttributes);
                     }
-                    return GetProjectCreateSectionsImpl(project, projectCreateSectionForCustomAttributes, ignoreStatus);
+                    return GetProjectCreateSectionsImpl(project, projectCreateSectionForOverview, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.AdditionalData:
                     var projectCreateSectionsForAdditionalData = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Assessment }).ToList();
 

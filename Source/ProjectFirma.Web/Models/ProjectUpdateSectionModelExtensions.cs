@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.Basics:
                     return projectUpdateBatch.AreProjectBasicsValid();
                 case ProjectUpdateSectionEnum.CustomAttributes:
-                    return true;
+                    return projectUpdateBatch.AreProjectCustomAttributesValid();
                 case ProjectUpdateSectionEnum.LocationSimple:
                     return projectUpdateBatch.IsProjectLocationSimpleValid();
                 case ProjectUpdateSectionEnum.Organizations:

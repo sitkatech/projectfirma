@@ -340,6 +340,16 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectBasics().IsValid;
         }
 
+        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate);
+        }
+
+        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
+        }
+
         public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (!projectUpdateBatch.AreProjectBasicsValid())
