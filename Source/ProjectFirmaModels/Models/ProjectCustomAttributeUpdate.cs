@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
@@ -13,6 +14,6 @@ namespace ProjectFirmaModels.Models
         public void SetCustomAttributeValues(IEnumerable<IProjectCustomAttributeValue> value) =>
             ProjectCustomAttributeUpdateValues = (ICollection<ProjectCustomAttributeUpdateValue>) value;
 
-        public IEnumerable<IProjectCustomAttributeValue> GetCustomAttributeValues() => ProjectCustomAttributeUpdateValues;
+        public IEnumerable<IProjectCustomAttributeValue> GetCustomAttributeValues() => ProjectCustomAttributeUpdateValues.OrderBy(x => x.AttributeValue);
     }
 }
