@@ -173,7 +173,7 @@ namespace ProjectFirma.Web
             var tenant = Tenant.All.SingleOrDefault(x =>
                 urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x),
                     StringComparison.InvariantCultureIgnoreCase));
-            Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
+            Check.RequireNotNull(tenant, $"[GetTenantFromUrl] Could not determine tenant from host \"{urlHost}\"");
             return tenant;
         }
 
