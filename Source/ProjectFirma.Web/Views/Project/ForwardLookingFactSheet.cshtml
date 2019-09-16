@@ -233,6 +233,10 @@
                             {
                                 @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
                             }
+                            else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                            {
+                                <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span> <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                            }
                             else
                             {
                                 @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
