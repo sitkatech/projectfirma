@@ -65,10 +65,7 @@ namespace ProjectFirma.Web.Common
                         var httpContext = HttpContext.Current;
                         if (httpContext != null)
                         {
-                            var urlHost = httpContext.Request.Url.Host;
-                            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
-                            Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");
-                            return tenant;
+                            return MultiTenantHelpers.GetTenantFromHostUrl(httpContext.Request.Url);
                         }
                         else
                         {

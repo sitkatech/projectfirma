@@ -38,6 +38,13 @@ namespace ProjectFirma.Web.Common
     {
         private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
 
+        public static Tenant GetTenantFromHostUrl(Uri urlHost)
+        {
+            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+            Check.RequireNotNull(tenant, $"[GetTenantFromHostUrl] Could not determine tenant from host \"{urlHost}\"");
+            return tenant;
+        }
+
         public static TenantAttribute GetTenantAttribute()
         {
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();

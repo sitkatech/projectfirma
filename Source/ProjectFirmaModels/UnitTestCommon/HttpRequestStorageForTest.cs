@@ -61,6 +61,7 @@ namespace ProjectFirmaModels.UnitTestCommon
             set { SetValue(PersonKey, value); }
         }
 
+
         /*
         public static Tenant Tenant
         {
@@ -72,6 +73,8 @@ namespace ProjectFirmaModels.UnitTestCommon
                         var httpContext = HttpContext.Current;
                         if (httpContext != null)
                         {
+                            // If you bring this back, use             return MultiTenantHelpers.GetTenantFromHostUrl(urlHost); instead. -- SLG 9/16/2019
+
                             //var urlHost = httpContext.Request.Url.Host;
                             ////var tenant = Tenant.All.SingleOrDefault(x => urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
                             ////Check.RequireNotNull(tenant, $"Could not determine tenant from host {urlHost}");

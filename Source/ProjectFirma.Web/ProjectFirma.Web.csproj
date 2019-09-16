@@ -53,6 +53,7 @@
     <Compile Include="Common\KeystoneService.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
+    <Compile Include="Common\MultiTenantHelpersTest.cs" />
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />

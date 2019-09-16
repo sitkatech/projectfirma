@@ -169,12 +169,7 @@ namespace ProjectFirma.Web
 
         private Tenant GetTenantFromUrl(IOwinRequest argRequest)
         {
-            var urlHost = argRequest.Host.ToString();
-            var tenant = Tenant.All.SingleOrDefault(x =>
-                urlHost.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x),
-                    StringComparison.InvariantCultureIgnoreCase));
-            Check.RequireNotNull(tenant, $"[GetTenantFromUrl] Could not determine tenant from host \"{urlHost}\"");
-            return tenant;
+            return MultiTenantHelpers.GetTenantFromHostUrl(argRequest.Uri);
         }
 
         private static HttpContextBase GetHttpContext(BaseContext<OpenIdConnectAuthenticationOptions> n)
