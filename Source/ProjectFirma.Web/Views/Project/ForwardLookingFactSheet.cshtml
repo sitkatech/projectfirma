@@ -217,15 +217,15 @@
                 @foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
                 {
                     var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <strong>
-                            @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                        </strong>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-9">
-                        @if (projectCustomAttribute != null)
-                        {
-                            if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                    if (projectCustomAttribute != null)
+                    {
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <strong>
+                                @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                            </strong>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-9">
+                            @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
                             {
                                 @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
                             }
@@ -233,16 +233,16 @@
                             {
                                 @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
                             }
+                            else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                            {
+                                <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span> <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                            }
                             else
                             {
                                 @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
                             }
-                        }
-                        else
-                        {
-                            <em class="text-muted">None</em>
-                        }
-                    </div>
+                        </div>
+                    }
                 }
             </div>
         </div>
