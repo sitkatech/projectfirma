@@ -8,3 +8,9 @@ GO
 
 ALTER TABLE [dbo].[ProjectCustomAttributeType]
 ADD [ProjectCustomAttributeGroupID] [int] NULL CONSTRAINT FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID FOREIGN KEY (ProjectCustomAttributeGroupID) REFERENCES dbo.ProjectCustomAttributeGroup(ProjectCustomAttributeGroupID)
+
+
+-- create default group for each tenant
+-- set default group for each attribute type for tenant
+-- set the projectCustomAttributeGroupID column to not null in the ProjectCustomAttributeType table
+
