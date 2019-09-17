@@ -33,13 +33,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        //[HttpGet]
-        //[AnonymousUnclassifiedFeature]
-        //public ContentResult Description(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey)
-        //{
-        //    return Content(projectCustomAttributeGroupPrimaryKey.EntityObject.ProjectCustomAttributeGroupDescription);
-        //}
-
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult New()
@@ -77,20 +70,20 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(viewModel, projectCustomAttributeGroup);
         }
 
-        //[HttpPost]
-        //[FirmaAdminFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult Edit(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey, EditViewModel viewModel)
-        //{
-        //    var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewEdit(viewModel, projectCustomAttributeGroup);
-        //    }
-        //    viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey, EditViewModel viewModel)
+        {
+            var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel, projectCustomAttributeGroup);
+            }
+            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
 
-        //    return new ModalDialogFormJsonResult();
-        //}
+            return new ModalDialogFormJsonResult();
+        }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectCustomAttributeGroup projectCustomAttributeGroup)
         {
