@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
         [Required]
         [DisplayName("Custom Attribute Group")]
-        public int? ProjectCustomAttributeGroupID { get; set; }
+        public int ProjectCustomAttributeGroupID { get; set; }
 
         [Required(ErrorMessage = "Specify data type for this custom attribute")]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCustomAttributeDataType)]

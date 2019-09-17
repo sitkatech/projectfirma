@@ -19,6 +19,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectCustomAttributeGroupController : FirmaBaseController
     {
 
+        [FirmaAdminFeature]
         public ViewResult Manage()
         {
             var firmaPage = FirmaPageTypeEnum.ManageProjectCustomAttributeGroupsList.GetFirmaPage();
