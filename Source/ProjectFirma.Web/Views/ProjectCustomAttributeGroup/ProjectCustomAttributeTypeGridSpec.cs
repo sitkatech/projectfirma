@@ -14,8 +14,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, DhtmlxGridColumnFilterType.None);
-            Add("Name", a => a.ProjectCustomAttributeGroupName, 300);
-            Add("Sort Order", a => a.SortOrder, 30);
+            Add("Name", a => a.ProjectCustomAttributeGroupName, 300, DhtmlxGridColumnFilterType.Text);
+            Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
         }
     }
 }

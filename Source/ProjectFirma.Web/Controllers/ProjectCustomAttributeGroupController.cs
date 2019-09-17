@@ -11,6 +11,8 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomAttributeGroup;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -135,5 +137,38 @@ namespace ProjectFirma.Web.Controllers
         //    SetMessageForDisplay(message);
         //    return new ModalDialogFormJsonResult();
         //}
+
+
+        [FirmaAdminFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+            EditSortOrderViewModel viewModel = new EditSortOrderViewModel();
+            return ViewEditSortOrder(projectCustomAttributeGroups, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IQueryable<ProjectCustomAttributeGroup> projectCustomAttributeGroups, EditSortOrderViewModel viewModel)
+        {
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(projectCustomAttributeGroups), FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderViewModel viewModel)
+        {
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(projectCustomAttributeGroups, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<IHaveASortOrder>(projectCustomAttributeGroups));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
     }
 }
