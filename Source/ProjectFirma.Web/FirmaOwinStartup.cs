@@ -177,8 +177,8 @@ namespace ProjectFirma.Web
             return (HttpContextBase) n.OwinContext.Environment["System.Web.HttpContextBase"];
         }
 
-        public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims,
-            IIdentity userIdentity)
+        public static IKeystoneUser SyncLocalAccountStore(IKeystoneUserClaims keystoneUserClaims, 
+                                                          IIdentity userIdentity)
         {
             SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - User '{0}', Authenticated = '{1}'",
                 userIdentity.Name,
@@ -211,8 +211,7 @@ namespace ProjectFirma.Web
             else
             {
                 // existing user - sync values
-                SitkaHttpApplication.Logger.DebugFormat(
-                    "In SyncLocalAccountStore - syncing local profile for User '{0}'", keystoneUserClaims.UserGuid);
+                SitkaHttpApplication.Logger.DebugFormat("In SyncLocalAccountStore - syncing local profile for User '{0}'", keystoneUserClaims.UserGuid);
             }
 
             person.FirstName = keystoneUserClaims.FirstName;
@@ -233,8 +232,9 @@ namespace ProjectFirma.Web
 
                 if (organization == null)
                 {
-                    var defaultOrganizationType =
-                        HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
+                    SitkaHttpApplication.Logger.Info($"In SyncLocalAccountStore - Could not find Organization with keystoneUserClaims.OrganizationGuid '{keystoneUserClaims.OrganizationGuid}' or keystoneUserClaims.OrganizationName '{keystoneUserClaims.OrganizationName}'. Will attempt to create new Organization.");
+
+                    var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
