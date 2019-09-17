@@ -17,6 +17,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public string SubmitUrl { get; }
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
         public IEnumerable<SelectListItem> ProjectCustomAttributeDataTypes { get; }
+        public IEnumerable<SelectListItem> ProjectCustomAttributeGroups { get; }
         public IEnumerable<SelectListItem> MeasurementUnitTypes { get; }
         public IEnumerable<SelectListItem> YesNos { get; }
         public EditViewDataForAngular ViewDataForAngular { get; }
@@ -29,7 +30,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             List<ProjectFirmaModels.Models.Role> roles,
             string submitUrl,
             ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
-            ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
+            ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType,
+            List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> allProjectCustomAttributeGroups)
             : base(currentPerson)
         {
             EntityName = "Attribute Type";
@@ -38,6 +40,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             YesNos = BooleanFormats.GetYesNoSelectList();
             ProjectCustomAttributeDataTypes = projectCustomAttributeDataTypes.ToSelectListWithEmptyFirstRow(
                 x => x.ProjectCustomAttributeDataTypeID.ToString(), x => x.ProjectCustomAttributeDataTypeDisplayName);
+            ProjectCustomAttributeGroups = allProjectCustomAttributeGroups.ToSelectListWithEmptyFirstRow(x => x.ProjectCustomAttributeGroupID.ToString(), x => x.ProjectCustomAttributeGroupName);
             MeasurementUnitTypes = measurementUnitTypes.OrderBy(x => x.MeasurementUnitTypeDisplayName)
                 .ToSelectListWithEmptyFirstRow(
                     x => x.MeasurementUnitTypeID.ToString(), x => x.MeasurementUnitTypeDisplayName,
