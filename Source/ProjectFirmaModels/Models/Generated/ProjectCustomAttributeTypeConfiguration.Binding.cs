@@ -24,10 +24,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectCustomAttributeTypeDescription).HasColumnName(@"ProjectCustomAttributeTypeDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
             Property(x => x.ProjectCustomAttributeTypeOptionsSchema).HasColumnName(@"ProjectCustomAttributeTypeOptionsSchema").HasColumnType("varchar").IsOptional();
             Property(x => x.IsViewableOnFactSheet).HasColumnName(@"IsViewableOnFactSheet").HasColumnType("bit").IsRequired();
-            Property(x => x.ProjectCustomAttributeGroupID).HasColumnName(@"ProjectCustomAttributeGroupID").HasColumnType("int").IsOptional();
+            Property(x => x.ProjectCustomAttributeGroupID).HasColumnName(@"ProjectCustomAttributeGroupID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasOptional(a => a.ProjectCustomAttributeGroup).WithMany(b => b.ProjectCustomAttributeTypes).HasForeignKey(c => c.ProjectCustomAttributeGroupID).WillCascadeOnDelete(false); // FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID
+            HasRequired(a => a.ProjectCustomAttributeGroup).WithMany(b => b.ProjectCustomAttributeTypes).HasForeignKey(c => c.ProjectCustomAttributeGroupID).WillCascadeOnDelete(false); // FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID
         }
     }
 }
