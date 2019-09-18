@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -28,11 +29,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public List<IProjectCustomAttribute> ProjectCustomAttributes { get; }
+        public List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get; }
 
         public EditProjectCustomAttributesViewData(List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<IProjectCustomAttribute> projectCustomAttributes)
         {
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             ProjectCustomAttributes = projectCustomAttributes;
+            ProjectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
         }
 
     }

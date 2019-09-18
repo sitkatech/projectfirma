@@ -7,6 +7,7 @@ namespace ProjectFirmaModels.Models
     public class ProjectCustomAttributeSimple
     {
         public int ProjectCustomAttributeTypeID { get; set; }
+        public int ProjectCustomAttributeGroupID { get; set; }
         public IList<string> ProjectCustomAttributeValues { get; set; }
 
         /// <summary>
@@ -17,6 +18,7 @@ namespace ProjectFirmaModels.Models
         {
             
             ProjectCustomAttributeTypeID = projectCustomAttribute.ProjectCustomAttributeTypeID;
+            ProjectCustomAttributeGroupID = projectCustomAttribute.ProjectCustomAttributeType.ProjectCustomAttributeGroupID;
             ProjectCustomAttributeValues = projectCustomAttribute.GetCustomAttributeValues()
                 .Select(y =>
                     y.GetIProjectCustomAttribute().ProjectCustomAttributeType.ProjectCustomAttributeDataType ==
