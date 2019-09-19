@@ -17,8 +17,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string EditSortOrderUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage neptunePage)
-            : base(currentPerson, neptunePage)
+        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentPerson, firmaPage)
         {
             EntityName = "Attribute Group";
             PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()} Groups";
