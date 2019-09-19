@@ -234,14 +234,12 @@
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesValidationResult.cs" />
-    <Compile Include="Views\ProjectCustomAttributeGroup\Detail.cs" />
-    <Compile Include="Views\ProjectCustomAttributeGroup\DetailViewData.cs" />
     <Compile Include="Views\ProjectCustomAttributeGroup\Edit.cs" />
     <Compile Include="Views\ProjectCustomAttributeGroup\EditViewData.cs" />
     <Compile Include="Views\ProjectCustomAttributeGroup\EditViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeGroup\Manage.cs" />
     <Compile Include="Views\ProjectCustomAttributeGroup\ManageViewData.cs" />
-    <Compile Include="Views\ProjectCustomAttributeGroup\ProjectCustomAttributeTypeGridSpec.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\ProjectCustomAttributeGroupGridSpec.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
@@ -422,7 +420,6 @@
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
-    <Content Include="Views\ProjectCustomAttributeGroup\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
@@ -574,7 +571,6 @@
     <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
-    <Content Include="Views\ProjectCustomAttributeGroup\Detail.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
