@@ -48,12 +48,10 @@
 @for (var indexOfGroup = 0; indexOfGroup < projectCustomAttributeGroups.Count; indexOfGroup++)
 {
     var attributeGroup = projectCustomAttributeGroups[indexOfGroup];
-    if(projectCustomAttributeGroups.Count > 1)
+    if (projectCustomAttributeGroups.Count > 1)
     {
-        <div class="row">
-            <h4>@attributeGroup.ProjectCustomAttributeGroupName</h4>
-            <hr />
-        </div>
+        <h4>@attributeGroup.ProjectCustomAttributeGroupName</h4>
+        <hr />
     }
 
     var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();

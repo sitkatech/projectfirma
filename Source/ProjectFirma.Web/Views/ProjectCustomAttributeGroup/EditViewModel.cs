@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeGroup.FieldLengths.ProjectCustomAttributeGroupName)]
         [DisplayName("Name of Group")]
         public string ProjectCustomAttributeGroupName { get; set; }
-        
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -35,10 +35,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         }
 
 
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup ProjectCustomAttributeGroup, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup, Person currentPerson)
         {
-            ProjectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName;
-            
+            projectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName;
+            if (projectCustomAttributeGroup.SortOrder != null) return;
+            var allProjectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+            var maxSortOrder = allProjectCustomAttributeGroups.Select(x => x.SortOrder).Max();
+            projectCustomAttributeGroup.SortOrder = maxSortOrder + 10;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
