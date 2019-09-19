@@ -31,130 +31,149 @@ Source code is available upon request via <support@sitkatech.com>.
 </style>
 
 <div class="overflow-y: auto">
+
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Basics</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Basics section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BasicsDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to Basics section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
-            <h2>Custom Attributes</h2>
+            <h2>@FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Custom Attributes section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.CustomAttributesDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.PerformanceMeasureDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>Expenditures</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Expenditures section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExpendituresDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to Expenditures section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>Budgets</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Budgets section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.BudgetsDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to Budgets section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>@FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized()</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized() section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ExternalLinksDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to @FieldDefinitionEnum.ExternalLinks.ToType().GetFieldDefinitionLabelPluralized() section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>Notes</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Notes section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.NotesDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to Notes section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.OrganizationsDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized() section</p>
+            }
+        </div>
     </div>
 
     <div class="panel panelFirma">
         <div class="panel-heading panelTitle">
             <h2>Contacts</h2>
         </div>
-        @if (ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString != null)
-        {
-            @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString)
-        }
-        else
-        {
-            <div class="panel-body">No changes to Contacts section</div>
-        }
+        <div class="panel-body">
+            @if (ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString != null)
+            {
+                @Html.Raw(ViewDataTyped.ProjectUpdateBatch.ContactsDiffLogHtmlString)
+            }
+            else
+            {
+                <p>No changes to Contacts section</p>
+            }
+        </div>
     </div>
 
 </div>
