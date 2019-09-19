@@ -12,7 +12,7 @@ ADD [ProjectCustomAttributeGroupID] [int] NULL CONSTRAINT FK_ProjectCustomAttrib
 GO
 
 -- create default group for each tenant
-insert into ProjectCustomAttributeGroup (TenantID, ProjectCustomAttributeGroupName, SortOrder)
+insert into dbo.ProjectCustomAttributeGroup (TenantID, ProjectCustomAttributeGroupName, SortOrder)
 select 
     t.TenantID,
     case when fdd.FieldDefinitionLabel is not null then fdd.FieldDefinitionLabel + ' Custom Attributes' else 'Project Custom Attributes' end as GroupName,
@@ -64,6 +64,3 @@ TenantID,
 from dbo.Tenant
 
 GO
-
-
-select * from FirmaPageType
