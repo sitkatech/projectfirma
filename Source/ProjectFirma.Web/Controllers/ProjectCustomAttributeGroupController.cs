@@ -98,46 +98,49 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        //[FirmaAdminFeature]
-        //public ViewResult Detail(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey)
-        //{
-        //    var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
-        //    var viewData = new DetailViewData(CurrentPerson, projectCustomAttributeGroup);
-        //    return RazorView<Detail, DetailViewData>(viewData);
-        //}
-
-
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult DeleteProjectCustomAttributeGroup(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey)
         {
             var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
+            
             var viewModel = new ConfirmDialogFormViewModel(projectCustomAttributeGroup.ProjectCustomAttributeGroupID);
             return ViewDeleteProjectCustomAttributeGroup(projectCustomAttributeGroup, viewModel);
         }
 
-        private PartialViewResult ViewDeleteProjectCustomAttributeGroup(ProjectCustomAttributeGroup projectCustomAttributeGroup, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteProjectCustomAttributeGroup(ProjectCustomAttributeGroup projectCustomAttributeGroup, ConfirmDialogFormViewModel viewModel, string message = null)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()} \"{projectCustomAttributeGroup.ProjectCustomAttributeGroupName}\"?", true);
+            bool canDelete = !projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any();
+            var deleteMessage = message ?? (canDelete 
+                                    ? $"Are you sure you want to delete {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()} \"{projectCustomAttributeGroup.ProjectCustomAttributeGroupName}\"?" 
+                                    : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(projectCustomAttributeGroup.ProjectCustomAttributeGroupName, SitkaRoute<ProjectCustomAttributeTypeController>.BuildLinkFromExpression(x => x.Manage(), "here")));
+
+            var viewData = new ConfirmDialogFormViewData(deleteMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        //[HttpPost]
-        //[FirmaAdminFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult DeleteProjectCustomAttributeGroup(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        //{
-        //    var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewDeleteProjectCustomAttributeGroup(projectCustomAttributeGroup, viewModel);
-        //    }
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteProjectCustomAttributeGroup(ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
+            bool canDelete = !projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any();
 
-        //    var message = $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} '{projectCustomAttributeGroup.ProjectCustomAttributeGroupName}' successfully deleted!";
-        //    projectCustomAttributeGroup.DeleteFull(HttpRequestStorage.DatabaseEntities);
-        //    SetMessageForDisplay(message);
-        //    return new ModalDialogFormJsonResult();
-        //}
+            if (!canDelete)
+            {
+                return ViewDeleteProjectCustomAttributeGroup(projectCustomAttributeGroup, viewModel, ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(projectCustomAttributeGroup.ProjectCustomAttributeGroupName, SitkaRoute<ProjectCustomAttributeTypeController>.BuildLinkFromExpression(x => x.Manage(), "here")));
+            }
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteProjectCustomAttributeGroup(projectCustomAttributeGroup, viewModel);
+            }
+
+            var message = $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} '{projectCustomAttributeGroup.ProjectCustomAttributeGroupName}' successfully deleted!";
+            projectCustomAttributeGroup.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay(message);
+            return new ModalDialogFormJsonResult();
+        }
 
 
         [FirmaAdminFeature]
