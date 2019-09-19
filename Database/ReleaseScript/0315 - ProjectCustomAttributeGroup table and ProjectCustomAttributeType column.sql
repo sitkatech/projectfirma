@@ -6,6 +6,13 @@ CREATE TABLE [dbo].[ProjectCustomAttributeGroup](
 ) ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[ProjectCustomAttributeGroup] ADD  CONSTRAINT [AK_ProjectCustomAttributeGroup_TenantID_ProjectCustomAttributeGroupName] UNIQUE NONCLUSTERED 
+(
+    [TenantID] ASC,
+    [ProjectCustomAttributeGroupName] ASC
+) ON [PRIMARY]
+GO
+
 ALTER TABLE [dbo].[ProjectCustomAttributeType]
 ADD [ProjectCustomAttributeGroupID] [int] NULL CONSTRAINT FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID FOREIGN KEY (ProjectCustomAttributeGroupID) REFERENCES dbo.ProjectCustomAttributeGroup(ProjectCustomAttributeGroupID)
 

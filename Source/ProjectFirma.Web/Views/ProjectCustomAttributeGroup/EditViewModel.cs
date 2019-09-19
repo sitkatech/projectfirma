@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 {
@@ -41,7 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             if (projectCustomAttributeGroup.SortOrder != null) return;
             var allProjectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
             var maxSortOrder = allProjectCustomAttributeGroups.Select(x => x.SortOrder).Max();
-            projectCustomAttributeGroup.SortOrder = maxSortOrder + 10;
+            projectCustomAttributeGroup.SortOrder = maxSortOrder + EditSortOrderViewModel.SortOrderIncrement;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
