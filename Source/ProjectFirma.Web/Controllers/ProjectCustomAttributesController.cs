@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         {
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
-
+            
             var viewData = new EditProjectCustomAttributesViewData(
                 projectCustomAttributeTypes.ToList(),
                 new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));

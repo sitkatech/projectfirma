@@ -164,12 +164,12 @@ namespace ProjectFirmaModels.Models
 
             var projectCustomAttributeSimples = Attributes;
 
-            foreach (var attributeSimple in projectCustomAttributeSimples)
+            for (int i = 0; i < projectCustomAttributeSimples.Count; i++)
             {
-                var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == attributeSimple.ProjectCustomAttributeTypeID);
-                if (attributeSimple.ProjectCustomAttributeValues.Any())
+                var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeSimples[i].ProjectCustomAttributeTypeID);
+                if (projectCustomAttributeSimples[i].ProjectCustomAttributeValues.Any())
                 {
-                    foreach (var value in attributeSimple.ProjectCustomAttributeValues)
+                    foreach (var value in projectCustomAttributeSimples[i].ProjectCustomAttributeValues)
                     {
                         if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
                         {
@@ -179,11 +179,12 @@ namespace ProjectFirmaModels.Models
                     }
                 }
 
-                if (type.IsRequired && attributeSimple.ProjectCustomAttributeValues.All(string.IsNullOrWhiteSpace))
+                if (type.IsRequired && projectCustomAttributeSimples[i].ProjectCustomAttributeValues.All(string.IsNullOrWhiteSpace))
                 {
                     yield return new ValidationResult($"Value is required for {type.ProjectCustomAttributeTypeName}.");
                 }
             }
+
         }
     }
 }

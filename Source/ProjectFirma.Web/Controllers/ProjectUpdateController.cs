@@ -3559,7 +3559,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
         {
-            var customAttributesValidationResult = project.ValidateCustomAttributes();
+            var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
@@ -3663,7 +3663,8 @@ namespace ProjectFirma.Web.Controllers
         private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes)
         {
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).ToList();
-            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes);
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes, projectCustomAttributeGroups);
             var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
             return partialViewAsString;
         }

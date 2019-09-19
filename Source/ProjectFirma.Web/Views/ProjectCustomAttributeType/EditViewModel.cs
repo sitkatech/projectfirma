@@ -21,6 +21,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [DisplayName("Name of Attribute")]
         public string ProjectCustomAttributeTypeName { get; set; }
 
+        [Required]
+        [DisplayName("Custom Attribute Group")]
+        public int ProjectCustomAttributeGroupID { get; set; }
+
         [Required(ErrorMessage = "Specify data type for this custom attribute")]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCustomAttributeDataType)]
         public int? ProjectCustomAttributeDataTypeID { get; set; }
@@ -78,6 +82,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ViewableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
             IsViewableOnFactSheet = projectCustomAttributeType.IsViewableOnFactSheet;
+            ProjectCustomAttributeGroupID = projectCustomAttributeType.ProjectCustomAttributeGroupID;
         }
 
 
@@ -89,6 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
             projectCustomAttributeType.IsViewableOnFactSheet = IsViewableOnFactSheet.GetValueOrDefault();
+            projectCustomAttributeType.ProjectCustomAttributeGroupID = ProjectCustomAttributeGroupID;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]

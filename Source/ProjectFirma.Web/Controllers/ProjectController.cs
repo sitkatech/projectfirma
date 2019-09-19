@@ -199,11 +199,13 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
-
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
                 projectCustomAttributeTypes.ToList(),
-                new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
+                new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
+                projectCustomAttributeGroups);
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,

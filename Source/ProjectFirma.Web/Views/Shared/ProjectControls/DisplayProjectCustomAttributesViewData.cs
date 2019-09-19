@@ -28,10 +28,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     {
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public List<IProjectCustomAttribute> ProjectCustomAttributes { get; }
+        public List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get; }
 
-        public DisplayProjectCustomAttributesViewData(List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<IProjectCustomAttribute> projectCustomAttributes)
+        public DisplayProjectCustomAttributesViewData(List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<IProjectCustomAttribute> projectCustomAttributes, List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> projectCustomAttributeGroups)
         {
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
+            ProjectCustomAttributeGroups = projectCustomAttributeGroups;
             ProjectCustomAttributes = projectCustomAttributes;
         }
 

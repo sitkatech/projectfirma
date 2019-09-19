@@ -104,6 +104,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectContactConfiguration());
             modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
@@ -280,6 +281,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectContact> ProjectContacts { get { return AllProjectContacts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContactUpdate> AllProjectContactUpdates { get; set; }
         public virtual IQueryable<ProjectContactUpdate> ProjectContactUpdates { get { return AllProjectContactUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeGroup> AllProjectCustomAttributeGroups { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get { return AllProjectCustomAttributeGroups.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
         public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeTypeRole> AllProjectCustomAttributeTypeRoles { get; set; }
@@ -673,6 +676,9 @@ namespace ProjectFirmaModels.Models
                     var projectCustomAttributeDataType = ProjectCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCustomAttributeDataType, "ProjectCustomAttributeDataType", primaryKey);
                     return projectCustomAttributeDataType;
+
+                case "ProjectCustomAttributeGroup":
+                    return ProjectCustomAttributeGroups.GetProjectCustomAttributeGroup(primaryKey);
 
                 case "ProjectCustomAttribute":
                     return ProjectCustomAttributes.GetProjectCustomAttribute(primaryKey);

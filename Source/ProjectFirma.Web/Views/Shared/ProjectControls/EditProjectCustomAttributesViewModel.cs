@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirmaModels.Models;
 using ProjectCustomAttributes = ProjectFirmaModels.Models.ProjectCustomAttributes;
@@ -32,6 +33,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
     public class EditProjectCustomAttributesViewModel : FormViewModel
     {
         public ProjectCustomAttributes ProjectCustomAttributes { get; set; }
+        public List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get; set; }
 
         public IProject Project { get; set; }
         

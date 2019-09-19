@@ -240,6 +240,7 @@ namespace ProjectFirmaModels.Models
         CostType = 290,
         ProjectAttachmentRelationshipType = 291,
         ProjectID = 292,
-        ExcludeTargetedFundingOrganizations = 293
+        ExcludeTargetedFundingOrganizations = 293,
+        ProjectCustomAttributeGroup = 294
     }
 }

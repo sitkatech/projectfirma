@@ -1,0 +1,29 @@
+﻿@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProjectCustomAttributeGroup.Edit
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.ProjectCustomAttributeGroupName)
+                    </div>
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.ProjectCustomAttributeGroupName, new { @class = "form-control", style = "width:100%" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

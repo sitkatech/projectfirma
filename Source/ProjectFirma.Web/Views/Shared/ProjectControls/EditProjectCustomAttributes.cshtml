@@ -26,6 +26,6 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8 })
+        @Html.EditorFor(m => m.ProjectCustomAttributes, new { ProjectCustomAttributes = ViewDataTyped.ProjectCustomAttributeTypes, colLeft = 4, colRight = 8, ProjectCustomAttributeGroups = ViewDataTyped.ProjectCustomAttributeGroups })
     </div>
 }

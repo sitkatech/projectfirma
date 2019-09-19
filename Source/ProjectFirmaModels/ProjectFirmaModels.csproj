@@ -326,6 +326,10 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeDataType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeDataTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroup.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroup.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
@@ -626,6 +630,7 @@
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectAttachment.cs" />

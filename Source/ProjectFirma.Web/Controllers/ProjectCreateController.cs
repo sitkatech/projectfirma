@@ -1736,6 +1736,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectCustomAttributesViewModel viewModel)
         {
             var customAttributesValidationResult = project.ValidateCustomAttributes();
+
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
