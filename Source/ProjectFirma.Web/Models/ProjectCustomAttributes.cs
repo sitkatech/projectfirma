@@ -164,12 +164,8 @@ namespace ProjectFirmaModels.Models
 
             var projectCustomAttributeSimples = Attributes;
 
-
-            
-
             for (int i = 0; i < projectCustomAttributeSimples.Count; i++)
             {
-
                 var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeSimples[i].ProjectCustomAttributeTypeID);
                 if (projectCustomAttributeSimples[i].ProjectCustomAttributeValues.Any())
                 {
@@ -185,11 +181,10 @@ namespace ProjectFirmaModels.Models
 
                 if (type.IsRequired && projectCustomAttributeSimples[i].ProjectCustomAttributeValues.All(string.IsNullOrWhiteSpace))
                 {
-                    yield return new ValidationResult($"Value is required for {type.ProjectCustomAttributeTypeName}.", new List<string>(){ "ProjectCustomAttributes.Attributes[0].ProjectCustomAttributeValues", "test" });
+                    yield return new ValidationResult($"Value is required for {type.ProjectCustomAttributeTypeName}.");
                 }
             }
 
-            
         }
     }
 }
