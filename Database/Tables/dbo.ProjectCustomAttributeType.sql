@@ -44,6 +44,11 @@ REFERENCES [dbo].[ProjectCustomAttributeGroup] ([ProjectCustomAttributeGroupID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID]
 GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID] FOREIGN KEY([ProjectCustomAttributeGroupID], [TenantID])
+REFERENCES [dbo].[ProjectCustomAttributeGroup] ([ProjectCustomAttributeGroupID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO

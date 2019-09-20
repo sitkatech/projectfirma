@@ -1,8 +1,19 @@
 CREATE TABLE [dbo].[ProjectCustomAttributeGroup](
-    [ProjectCustomAttributeGroupID] int identity(1,1) not null constraint PK_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID primary key,
+    [ProjectCustomAttributeGroupID] int identity(1,1) not null,
     [TenantID] [int] NOT NULL CONSTRAINT FK_ProjectCustomAttributeGroup_Tenant_TenantID FOREIGN KEY (TenantID) REFERENCES dbo.Tenant(TenantID),
     [ProjectCustomAttributeGroupName] [nvarchar](100) NULL,
     [SortOrder] [int] NULL,
+    CONSTRAINT [PK_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID] PRIMARY KEY CLUSTERED 
+(
+	[ProjectCustomAttributeGroupID] ASC
+) ON [PRIMARY] )
+
+GO
+
+ALTER TABLE [dbo].[ProjectCustomAttributeGroup] ADD  CONSTRAINT [AK_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectCustomAttributeGroupID] ASC,
+	[TenantID] ASC
 ) ON [PRIMARY]
 GO
 
@@ -43,6 +54,11 @@ ALTER TABLE [dbo].[ProjectCustomAttributeType]
 ALTER COLUMN [ProjectCustomAttributeGroupID] [int] NOT NULL
 
 GO
+
+alter table dbo.ProjectCustomAttributeType 
+add constraint FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID 
+foreign key (ProjectCustomAttributeGroupID, TenantID) 
+references dbo.ProjectCustomAttributeGroup(ProjectCustomAttributeGroupID, TenantID)
 
 -- create the firma pages
 INSERT INTO dbo.FirmaPageType (FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
