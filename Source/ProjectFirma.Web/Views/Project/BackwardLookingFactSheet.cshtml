@@ -36,7 +36,7 @@
 
 @section JavascriptAndStylesContent
 {
-    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
+    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print"/>
     <style>
         .projectTaxonomy {
             background-color: @ViewDataTyped.TaxonomyColor !important;
@@ -44,7 +44,7 @@
         }
 
         h1, h2, h3, h4, h5 {
-            color:  @ViewDataTyped.TaxonomyColor !important;
+            color: @ViewDataTyped.TaxonomyColor !important;
         }
 
         .headerPanel
@@ -57,7 +57,7 @@
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        google.load("visualization", "1", {packages:["corechart"]});
+        google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChart);
 
         function drawChart() {
@@ -66,13 +66,43 @@
             chartWrapper.draw();
         }
     </script>
+    <script type="text/javascript">
+        /**
+         * Toggle to control custom attributes visibility, I didn't think it was necessary to use angular for something so simple
+         * and seeing as how we're already using jQuery on this page, I felt it was most efficient to do it like this.
+         * If anyone at all has any comments or suggestions, feel free to contact me! - SMG <stewart.gordon@sitkatech.com>
+         */
+        jQuery(document).ready(function () {
+            var factSheetPdfUrl = '@ViewDataTyped.FactSheetPdfUrl';
+            var factSheetWithCustomAttributesPdfUrl = '@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl';
+
+            var factSheetCustomAttributeInput = jQuery('#FactSheetContainsCustomAttributes');
+            var customAttributesRow = jQuery('#CustomAttributesRow');
+            var printFactSheetLink = jQuery('#PrintFactSheetLink');
+
+            if (factSheetCustomAttributeInput.length > 0) {
+                factSheetCustomAttributeInput.on('change', function () {
+                    var isChecked = jQuery(this).is(':checked');
+                    customAttributesRow.toggle();
+                    var correctUrl = isChecked ? factSheetWithCustomAttributesPdfUrl : factSheetPdfUrl;
+                    printFactSheetLink.attr('href', correctUrl);
+                });
+            }
+        });
+    </script>
 }
 
 <div class="container noPrint">
     <div style="margin: 15px 0;">
+        @if (ViewDataTyped.ViewableProjectCustomAttributeTypes.Any())
+        {
+            <div class="pull-left">
+                <label class="btn btn-firma"><input type="checkbox" value="Complex" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /> @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()</label>
+            </div>
+        }
         <div class="pull-right">
             <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
-            <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
+            <a class="btn btn-firma" id="PrintFactSheetLink" href="@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
 </div>
@@ -81,7 +111,7 @@
     <div class="row section">
         <div class="col-sm-2 col-md-2">
             <img style="max-height: 200px; margin: 30px auto 10px auto" class="img-responsive factSheetPrimaryLogo" src="@MultiTenantHelpers.GetTenantSquareLogoUrl()" alt="@MultiTenantHelpers.GetTenantShortDisplayName()" />
-			@if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
+            @if (MultiTenantHelpers.ShowLeadImplementerLogoOnFactSheet() && ViewDataTyped.Project.GetPrimaryContactOrganizationLogo() != null)
             {
                 @*If the logo is not null then perforce the organization must not be null, so this is fine.*@
                 <img style="max-height: 200px; margin: 20px auto" class="img-responsive factSheetSecondaryLogo" src="@ViewDataTyped.Project.GetPrimaryContactOrganizationLogo().GetFileResourceUrl()" alt="@ViewDataTyped.Project.GetPrimaryContactOrganization().GetDisplayNameWithoutAbbreviation()" />
@@ -179,7 +209,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-8 col-md-9">
                     @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
-                </div>                
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
@@ -189,8 +219,11 @@
                     @ViewDataTyped.Project.GetDuration()
                 </div>
             </div>
-            <div class="row">
-                @foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
+            
+            @if (ViewDataTyped.ViewableProjectCustomAttributeTypes.Any())
+            {
+                @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "row", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
+                foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
                 {
                     var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
                     if (projectCustomAttribute != null)
@@ -211,7 +244,8 @@
                             }
                             else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
                             {
-                                <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span> <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                                <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
+                                <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
                             }
                             else
                             {
@@ -220,8 +254,9 @@
                         </div>
                     }
                 }
-            </div>
-            
+                @Html.Raw("</div>")
+            }
+
         </div>
     </div>
     <div class="row">
@@ -246,41 +281,41 @@
                     <h4>Key Accomplishments</h4>
                     @if (ViewDataTyped.PerformanceMeasureReportedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
                     {
-                    <ul>
-                        @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
-                        {
-                            if (performanceMeasureGroup.Key.IsSummable)
+                        <ul>
+                            @foreach (var performanceMeasureGroup in ViewDataTyped.PerformanceMeasureReportedValues)
                             {
-                                <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
-                            }
-
-                            var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
-                            if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
-                            {
-                                foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
+                                if (performanceMeasureGroup.Key.IsSummable)
                                 {
-                                    var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+                                    <li>@performanceMeasureGroup.Key.PerformanceMeasureDisplayName: <strong>@performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureGroup.Sum(x => x.GetReportedValue()))</strong></li>
+                                }
 
-                                    if (performanceMeasureReportedValues.Any())
+                                var performanceMeasureSubcategoryOptionsToShowOnFactSheet = performanceMeasureGroup.Key.GetPerformanceMeasureSubcategoryOptions().Where(x => x.ShowOnFactSheet).ToList();
+                                if (performanceMeasureSubcategoryOptionsToShowOnFactSheet.Any())
+                                {
+                                    foreach (var subcategoryOption in performanceMeasureSubcategoryOptionsToShowOnFactSheet)
                                     {
-                                        <li>
-                                            @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
-                                            <strong>
-                                                @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
-                                            </strong>
-                                        </li>
+                                        var performanceMeasureReportedValues = performanceMeasureGroup.Where(x => x.PerformanceMeasureActualSubcategoryOptions.Select(y => y.PerformanceMeasureSubcategoryOption).Contains(subcategoryOption)).ToList();
+
+                                        if (performanceMeasureReportedValues.Any())
+                                        {
+                                            <li>
+                                                @performanceMeasureGroup.Key.PerformanceMeasureDisplayName (@subcategoryOption.PerformanceMeasureSubcategoryOptionName):
+                                                <strong>
+                                                    @performanceMeasureGroup.Key.MeasurementUnitType.DisplayValue(performanceMeasureReportedValues.Sum(x => x.GetReportedValue()))
+                                                </strong>
+                                            </li>
+                                        }
                                     }
                                 }
                             }
-                        }
-                        @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
-                         {
-                             <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
-                             <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
-                         }
-                    </ul>
+                            @if (ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal() > 0)
+                            {
+                                <li>Engineering & Technical Assistance Hours Requested: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursRequestedTotal()</strong></li>
+                                <li>Engineering & Technical Assistance Hours Allocated: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursAllocatedTotal()</strong></li>
+                                <li>Engineering & Technical Assistance Hours Provided: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetHoursProvidedTotal()</strong></li>
+                                <li>Engineering & Technical Assistance Value: <strong>@ViewDataTyped.TechnicalAssistanceRequests.GetDollarValueProvidedTotal(@ViewDataTyped.TechnicalAssistanceParameters).ToStringCurrency()</strong></li>
+                            }
+                        </ul>
                     }
                     else
                     {
