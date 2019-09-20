@@ -57,7 +57,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, null);
             }
 
-            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false, false, null);
+            ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey = viewModel.ProjectCustomAttributeGroupID;
+            var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
+            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false, false, projectCustomAttributeGroup);
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
