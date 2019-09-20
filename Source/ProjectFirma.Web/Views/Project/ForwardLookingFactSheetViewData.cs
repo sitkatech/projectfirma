@@ -57,6 +57,8 @@ namespace ProjectFirma.Web.Views.Project
         public string FundingBudget { get; }
         public int CalculatedChartHeight { get; }
         public string FactSheetPdfUrl { get; }
+        public string FactSheetWithCustomAttributesPdfUrl { get; }
+        public bool WithCustomAttributes { get; }
 
         public string TaxonomyColor { get; }
         public string TaxonomyLeafDisplayName { get; }
@@ -75,7 +77,8 @@ namespace ProjectFirma.Web.Views.Project
             GoogleChartJson googleChartJson,
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, 
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText,
-            List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson, project)
+            List<TechnicalAssistanceParameter> technicalAssistanceParameters,
+            bool withoutCustomAttributes) : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -101,6 +104,7 @@ namespace ProjectFirma.Web.Views.Project
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 52
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 18);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
+            FactSheetWithCustomAttributesPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetWithCustomAttributesPdf(project));
 
             if (project.TaxonomyLeaf == null)
             {
@@ -144,6 +148,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson)).ToList();
             ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentPerson) && x.IsViewableOnFactSheet).ToList();
+            WithCustomAttributes = withoutCustomAttributes;
         }
 
         public HtmlString LegendHtml
