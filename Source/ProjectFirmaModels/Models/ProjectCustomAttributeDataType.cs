@@ -125,5 +125,12 @@ namespace ProjectFirmaModels.Models
         public override bool HasMeasurementUnit() => false;
     }
 
+    public partial class ProjectCustomAttributeDataTypeLongString
+    {
+        public override bool ValueIsCorrectDataType(string customAttributeValue) => true;
+        public override string ValueParsedForDataType(string customAttributeValue) => customAttributeValue;
+        public override bool HasOptions() => false;
+        public override bool HasMeasurementUnit() => false;
+    }
 
 }

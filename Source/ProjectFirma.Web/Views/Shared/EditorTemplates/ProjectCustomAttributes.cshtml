@@ -186,6 +186,11 @@
                                    @GetCheckedValueForBooleanCheckbox(attributeSimple)>
                             break;
 
+                        case ProjectCustomAttributeDataTypeEnum.LongString:
+                            <textarea class="form-control" rows="4"
+                                      name="@(MakeAttributeNameForProjectCustomAttributeValues(realIndexOfAttribute))">@(MakeAttributeValueForProjectCustomAttributeValues(attributeSimple))</textarea>
+                            break;
+
                         default:
                             throw new InvalidEnumArgumentException(string.Format("Enum value {0} is not supported by this view.", attribute.ProjectCustomAttributeDataType.ToEnum.ToString()));
                     }
