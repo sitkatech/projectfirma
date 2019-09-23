@@ -9,4 +9,5 @@ values
 (4, 'DateTime', 'Date/Time'),
 (5, 'PickFromList', 'Pick One from List'),
 (6, 'MultiSelect', 'Select Many from List'),
-(7, 'Boolean', 'True/False')
+(7, 'Boolean', 'True/False'),
+(8, 'LongString', 'Long String (Text Area)')

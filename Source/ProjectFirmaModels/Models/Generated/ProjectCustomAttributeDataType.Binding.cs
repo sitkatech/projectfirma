@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomAttributeDataTypePickFromList PickFromList = ProjectCustomAttributeDataTypePickFromList.Instance;
         public static readonly ProjectCustomAttributeDataTypeMultiSelect MultiSelect = ProjectCustomAttributeDataTypeMultiSelect.Instance;
         public static readonly ProjectCustomAttributeDataTypeBoolean Boolean = ProjectCustomAttributeDataTypeBoolean.Instance;
+        public static readonly ProjectCustomAttributeDataTypeLongString LongString = ProjectCustomAttributeDataTypeLongString.Instance;
 
         public static readonly List<ProjectCustomAttributeDataType> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomAttributeDataType> AllLookupDictionary;
@@ -34,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomAttributeDataType()
         {
-            All = new List<ProjectCustomAttributeDataType> { String, Integer, Decimal, DateTime, PickFromList, MultiSelect, Boolean };
+            All = new List<ProjectCustomAttributeDataType> { String, Integer, Decimal, DateTime, PickFromList, MultiSelect, Boolean, LongString };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomAttributeDataType>(All.ToDictionary(x => x.ProjectCustomAttributeDataTypeID));
         }
 
@@ -112,6 +113,8 @@ namespace ProjectFirmaModels.Models
                     return Decimal;
                 case ProjectCustomAttributeDataTypeEnum.Integer:
                     return Integer;
+                case ProjectCustomAttributeDataTypeEnum.LongString:
+                    return LongString;
                 case ProjectCustomAttributeDataTypeEnum.MultiSelect:
                     return MultiSelect;
                 case ProjectCustomAttributeDataTypeEnum.PickFromList:
@@ -132,7 +135,8 @@ namespace ProjectFirmaModels.Models
         DateTime = 4,
         PickFromList = 5,
         MultiSelect = 6,
-        Boolean = 7
+        Boolean = 7,
+        LongString = 8
     }
 
     public partial class ProjectCustomAttributeDataTypeString : ProjectCustomAttributeDataType
@@ -175,5 +179,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomAttributeDataTypeBoolean(int projectCustomAttributeDataTypeID, string projectCustomAttributeDataTypeName, string projectCustomAttributeDataTypeDisplayName) : base(projectCustomAttributeDataTypeID, projectCustomAttributeDataTypeName, projectCustomAttributeDataTypeDisplayName) {}
         public static readonly ProjectCustomAttributeDataTypeBoolean Instance = new ProjectCustomAttributeDataTypeBoolean(7, @"Boolean", @"True/False");
+    }
+
+    public partial class ProjectCustomAttributeDataTypeLongString : ProjectCustomAttributeDataType
+    {
+        private ProjectCustomAttributeDataTypeLongString(int projectCustomAttributeDataTypeID, string projectCustomAttributeDataTypeName, string projectCustomAttributeDataTypeDisplayName) : base(projectCustomAttributeDataTypeID, projectCustomAttributeDataTypeName, projectCustomAttributeDataTypeDisplayName) {}
+        public static readonly ProjectCustomAttributeDataTypeLongString Instance = new ProjectCustomAttributeDataTypeLongString(8, @"LongString", @"Long String (Text Area)");
     }
 }

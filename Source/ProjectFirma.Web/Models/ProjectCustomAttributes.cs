@@ -176,6 +176,11 @@ namespace ProjectFirmaModels.Models
                             yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
                                                               $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
                         }
+                        if (!string.IsNullOrWhiteSpace(value) && value.Length > ProjectCustomAttributeValue.FieldLengths.AttributeValue)
+                        {
+                            yield return new ValidationResult($"The value entered for {type.ProjectCustomAttributeTypeName} exceeds the maximum character length allowed of " +
+                                                              $"({ProjectCustomAttributeValue.FieldLengths.AttributeValue}).");
+                        }
                     }
                 }
 
