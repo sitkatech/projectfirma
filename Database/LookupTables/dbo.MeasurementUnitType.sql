@@ -34,4 +34,5 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (31, 'Hectare', 'Hectare (ha)', 'ha', 'Hectare', 0),
 (32, 'Kilometer', 'Kilometer (km)', 'km', 'Kilometer', 1),
 (33, 'ChemicalConcentrationWetWeight', 'Chemical Concentration Wet Weight (ng/g wet weight)', 'ng/g wet weight', 'Chemical Concentration Wet Weight', 1),
-(34, 'ChemicalConcentrationLipidWeight', 'Chemical Concentration Lipid Weight (ng/g lipid weight)', 'ng/g lipid weight', 'Chemical Concentration Lipid Weight', 1)
+(34, 'ChemicalConcentrationLipidWeight', 'Chemical Concentration Lipid Weight (ng/g lipid weight)', 'ng/g lipid weight', 'Chemical Concentration Lipid Weight', 1),
+(35, 'CanopyBulkDensity', 'Canopy Bulk Density (kg/m^3)', 'kg/m^3', 'Canopy Bulk Density', 2)
