@@ -52,6 +52,7 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeKilometer Kilometer = MeasurementUnitTypeKilometer.Instance;
         public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight ChemicalConcentrationWetWeight = MeasurementUnitTypeChemicalConcentrationWetWeight.Instance;
         public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight ChemicalConcentrationLipidWeight = MeasurementUnitTypeChemicalConcentrationLipidWeight.Instance;
+        public static readonly MeasurementUnitTypeCanopyBulkDensity CanopyBulkDensity = MeasurementUnitTypeCanopyBulkDensity.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -61,7 +62,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -141,6 +142,8 @@ namespace ProjectFirmaModels.Models
                     return AcreFeet;
                 case MeasurementUnitTypeEnum.Acres:
                     return Acres;
+                case MeasurementUnitTypeEnum.CanopyBulkDensity:
+                    return CanopyBulkDensity;
                 case MeasurementUnitTypeEnum.ChemicalConcentrationLipidWeight:
                     return ChemicalConcentrationLipidWeight;
                 case MeasurementUnitTypeEnum.ChemicalConcentrationWetWeight:
@@ -246,7 +249,8 @@ namespace ProjectFirmaModels.Models
         Hectare = 31,
         Kilometer = 32,
         ChemicalConcentrationWetWeight = 33,
-        ChemicalConcentrationLipidWeight = 34
+        ChemicalConcentrationLipidWeight = 34,
+        CanopyBulkDensity = 35
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -451,5 +455,11 @@ namespace ProjectFirmaModels.Models
     {
         private MeasurementUnitTypeChemicalConcentrationLipidWeight(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight Instance = new MeasurementUnitTypeChemicalConcentrationLipidWeight(34, @"ChemicalConcentrationLipidWeight", @"Chemical Concentration Lipid Weight (ng/g lipid weight)", @"ng/g lipid weight", @"Chemical Concentration Lipid Weight", 1);
+    }
+
+    public partial class MeasurementUnitTypeCanopyBulkDensity : MeasurementUnitType
+    {
+        private MeasurementUnitTypeCanopyBulkDensity(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeCanopyBulkDensity Instance = new MeasurementUnitTypeCanopyBulkDensity(35, @"CanopyBulkDensity", @"Canopy Bulk Density (kg/m^3)", @"kg/m^3", @"Canopy Bulk Density", 2);
     }
 }
