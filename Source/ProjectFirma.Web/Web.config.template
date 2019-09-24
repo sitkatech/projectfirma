@@ -22,7 +22,6 @@
     <add key="MaximumAllowedUploadFileSize" value="${max-file-upload-size}"/>
     <add key="MaximumAllowedUploadImageSize" value="${max-image-upload-size}"/>
     <add key="DatabaseConnectionString" value="Server=${db-data-source};Database=${db-name};${db-auth-settings}"/>
-    <add key="RecaptchaValidatorUrl" value="https://www.google.com/recaptcha/api/siteverify"/>
     <add key="SitkaSupportEmail" value="projectfirma@sitkatech.com"/>
     <add key="DoNotReplyEmail" value="donotreply@${application-domain}"/>
     <add key="ApplicationDomain" value="${application-domain}"/>
@@ -43,6 +42,12 @@
     <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}" />
     <add key="KeystoneRegisterUrl" value="${keystone-register-endpoint}" />
     <add key="KeystoneOpenIDUrl" value="https://${keystone-base-url}/core" />
+    
+    <!-- projectfirma.com reCAPTCHA key, be sure to add domain names to reCAPTCHA admin control panel when adding new tenants with new domains -->
+    <!-- reCAPTCHA domains as of 09/23/2019: clackamaspartnership.org, idaho.gov, peakstopeople.org, projectfirma.com, pugetsoundinfo.wa.gov, rcdprojects.org -->
+    <add key="RecaptchaPublicKey" value="6LfZQQoUAAAAAIJ_2lD6ct0lBHQB9j5kv8p994SP" />
+    <add key="RecaptchaPrivateKey" value="6LfZQQoUAAAAAOeNQDcXlTV9JM7PBQE3jCqlDBSB" />
+    <add key="RecaptchaValidatorUrl" value="https://www.google.com/recaptcha/api/siteverify"/>
 
     <!-- Feature Flag Settings -->
 

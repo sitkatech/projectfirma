@@ -135,16 +135,6 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttribute().MinimumYear;
         }
 
-        public static string GetTenantRecaptchaPrivateKey()
-        {
-            return GetTenantAttribute().RecaptchaPrivateKey;
-        }
-
-        public static string GetTenantRecaptchaPublicKey()
-        {
-            return GetTenantAttribute().RecaptchaPublicKey;
-        }
-
         public static List<TaxonomyTier> GetTopLevelTaxonomyTiers()
         {
             var taxonomyLevel = GetTaxonomyLevel();
