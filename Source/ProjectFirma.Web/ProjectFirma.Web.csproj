@@ -334,6 +334,10 @@
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Content\angular\directives\input-type-file.js" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.css" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.js" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.css" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js" />
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.css">
       <DependentUpon>actionagenda.theme.less</DependentUpon>
     </Content>
@@ -345,6 +349,7 @@
       <DependentUpon>bor.theme.less</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
