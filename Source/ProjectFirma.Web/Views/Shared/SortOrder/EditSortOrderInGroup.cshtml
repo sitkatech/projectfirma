@@ -72,26 +72,29 @@
     }
 
     jQuery(function () {
-        var allSortableLists = jQuery("div[id^='sortables-list-']");
+        var allSortableContainers = jQuery("div[id^='sortables-list-']");
 
-        var allSortables = [];
+        var allSortableLists = [];
 
-        jQuery.each(allSortableLists, function (index, value) {
-            allSortables.push(Sortable.create(allSortableLists[index]));
+        jQuery.each(allSortableContainers, function (index, value) {
+            var sortable = Sortable.create(allSortableContainers[index]);
+            allSortableLists.push(sortable);
         });
 
         jQuery('#ltinfo-modal-dialog-save-button-id').click(function () {
 
-            var idArray = [];
-            jQuery.each(allSortables, function (index, value) {
-                idArray.push(allSortables[index].toArray());
-            });
-            var form = jQuery("form");
-            for (var i = 0; i < idArray.length; i++) {
-                jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + i +"]' value=" + idArray[i] + " />").appendTo(form);
-            }
+            var itemCount = 0;
+            jQuery.each(allSortableLists, function (index, value) {
+                var sortedArray = allSortableLists[index].toArray();
 
-            debugger;
+                var form = jQuery("form");
+                //debugger;
+                for (var i = 0; i < sortedArray.length; i++) {
+                    jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + itemCount + "]' value=" + sortedArray[i] + " />").appendTo(form);
+                    itemCount++;
+                }
+            });
+           
         });
     })
 </script>

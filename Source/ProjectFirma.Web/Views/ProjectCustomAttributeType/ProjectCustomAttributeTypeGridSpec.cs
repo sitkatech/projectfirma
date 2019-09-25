@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Attribute")), 30, DhtmlxGridColumnFilterType.None);           
-            Add(FieldDefinitionEnum.ProjectCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ProjectCustomAttributeTypeName), 200, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectCustomAttribute.ToType().ToGridHeaderString(),a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ProjectCustomAttributeTypeName), 200, DhtmlxGridColumnFilterType.Html);      
             Add("Description", a => a.ProjectCustomAttributeTypeDescription, 300);
             Add(FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().ToGridHeaderString(), a => a.ProjectCustomAttributeGroup?.ProjectCustomAttributeGroupName ?? string.Empty, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ProjectCustomAttributeDataType.ToType().ToGridHeaderString(), a => a.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeEditableBy.ToType().ToGridHeaderString(), x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
             Add("Viewable on fact sheet?", a => a.IsViewableOnFactSheet.ToYesNo(), 140, DhtmlxGridColumnFilterType.Html);
+            Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
         }
     }
 }

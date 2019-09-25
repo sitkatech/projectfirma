@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
             });
         sortedSortables.sort(newWorldOrder);
     }
-    0
+
     jQuery(function() {
         var list = document.getElementById("sortables-list");
         sortedSortables = Sortable.create(list);
@@ -80,5 +80,6 @@ Source code is available upon request via <support@sitkatech.com>.
                 jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + i +"]' value=" + idArray[i] + " />").appendTo(form);
             }
         });
-    })
+        
+    });
 </script>
