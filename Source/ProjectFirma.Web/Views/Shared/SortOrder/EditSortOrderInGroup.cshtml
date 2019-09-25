@@ -1,0 +1,97 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditSortOrderInGroup.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@inherits EditSortOrderInGroup
+<script src="~/Content/Sortable.js"></script>
+<style>
+
+    .sortable-ghost {
+        background-color: #E0E0E0;
+    }
+
+    #sortables-list:hover {
+        cursor: move;
+        cursor: grab;
+    }
+
+    #sortables-list div:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
+<button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize()">Reset To Alphabetical</button>
+<hr />
+
+@foreach (var sortingGroup in ViewDataTyped.SortingGroups)
+{
+    <h2>@sortingGroup.GetDisplayName()</h2>
+    <div id="sortables-list-@sortingGroup.GetID()">
+        @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
+        {
+            <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;">
+                <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+                @sortable.GetDisplayName()
+            </div>
+        }
+    </div>
+}
+
+@using (Html.BeginForm())
+{
+
+}
+<script>
+    var sortedSortables;// = null;
+
+    var alphabetize = function() {
+        var newWorldOrder = _.sortBy(sortedSortables.toArray(),
+            function(sortableId) {
+                var $el = jQuery("[data-id=" + sortableId + "]");
+                var x = $el.attr("data-displayName").toLowerCase();
+                return x;
+            });
+        sortedSortables.sort(newWorldOrder);
+    }
+
+    jQuery(function () {
+        var allSortableLists = jQuery("div[id^='sortables-list-']");
+
+        var allSortables = [];
+
+        jQuery.each(allSortableLists, function (index, value) {
+            allSortables.push(Sortable.create(allSortableLists[index]));
+        });
+
+        jQuery('#ltinfo-modal-dialog-save-button-id').click(function () {
+
+            var idArray = [];
+            jQuery.each(allSortables, function (index, value) {
+                idArray.push(allSortables[index].toArray());
+            });
+            var form = jQuery("form");
+            for (var i = 0; i < idArray.length; i++) {
+                jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + i +"]' value=" + idArray[i] + " />").appendTo(form);
+            }
+
+            debugger;
+        });
+    })
+</script>

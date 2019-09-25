@@ -14,6 +14,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public string GridDataUrl { get; }
         public string NewProjectCustomAttributeTypeUrl { get; }
         public bool HasManagePermissions { get; }
+        public string EditSortOrderUrl { get; }
 
         public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage neptunePage)
             : base(currentPerson, neptunePage)
@@ -32,7 +33,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             GridName = "projectCustomAttributeTypeGrid";
             GridDataUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(tc => tc.ProjectCustomAttributeTypeGridJsonData());
 
+            EditSortOrderUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.EditSortOrder());
+            
             HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
         }
+
+        
     }
 }

@@ -68,7 +68,7 @@ Source code is available upon request via <support@sitkatech.com>.
             });
         sortedSortables.sort(newWorldOrder);
     }
-
+    0
     jQuery(function() {
         var list = document.getElementById("sortables-list");
         sortedSortables = Sortable.create(list);
@@ -77,7 +77,7 @@ Source code is available upon request via <support@sitkatech.com>.
             var idArray = sortedSortables.toArray();
             var form = jQuery("form");
             for (var i = 0; i < idArray.length; i++) {
-                jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" +i+"]' value=" + idArray[i] + " />").appendTo(form);
+                jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + i +"]' value=" + idArray[i] + " />").appendTo(form);
             }
         });
     })

@@ -312,6 +312,9 @@
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummaryViewData.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -1550,6 +1553,7 @@
     <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\Results\FundingStatus.cshtml" />
+    <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
