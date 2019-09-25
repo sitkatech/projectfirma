@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Project
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, 
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText,
             List<TechnicalAssistanceParameter> technicalAssistanceParameters,
-            bool withoutCustomAttributes) : base(currentPerson, project)
+            bool withCustomAttributes) : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -146,9 +146,10 @@ namespace ProjectFirma.Web.Views.Project
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
-            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson)).ToList();
             ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentPerson) && x.IsViewableOnFactSheet).ToList();
-            WithCustomAttributes = withoutCustomAttributes;
+            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
+            
+            WithCustomAttributes = withCustomAttributes;
         }
 
         public HtmlString LegendHtml

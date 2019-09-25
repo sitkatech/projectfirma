@@ -36,7 +36,10 @@
 
 @section JavascriptAndStylesContent
 {
-    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print"/>
+    <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
+
+    <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
     <style>
         .projectTaxonomy {
             background-color: @ViewDataTyped.TaxonomyColor !important;
@@ -94,10 +97,10 @@
 
 <div class="container noPrint">
     <div style="margin: 15px 0;">
-        @if (ViewDataTyped.ViewableProjectCustomAttributeTypes.Any())
+        @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
         {
             <div class="pull-left">
-                <label class="btn btn-firma"><input type="checkbox" value="Complex" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /> @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()</label>
+                <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
             </div>
         }
         <div class="pull-right">
@@ -219,8 +222,8 @@
                     @ViewDataTyped.Project.GetDuration()
                 </div>
             </div>
-            
-            @if (ViewDataTyped.ViewableProjectCustomAttributeTypes.Any())
+
+            @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
             {
                 @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "row", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
                 foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
