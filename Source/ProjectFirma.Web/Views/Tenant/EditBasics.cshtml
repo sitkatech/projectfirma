@@ -61,180 +61,187 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
-        @Html.HiddenFor(m => m.TenantID)
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.TenantShortDisplayName)</div>
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.TenantShortDisplayName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.TenantShortDisplayName)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ToolDisplayName)</div>
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.ToolDisplayName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.ToolDisplayName)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
-            <div class="col-md-8">
-                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.TenantPeople)
-                @Html.ValidationMessageFor(x => x.PrimaryContactPersonID)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="form-group">
-                    <div class="col-md-7 text-right">@Html.LabelFor(m => m.TaxonomyLevelID)</div>
-                    <div class="col-md-5">
-                        @Html.DropDownListFor(x => x.TaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new { @class = "form-control", style = "width:auto;" })
-                        @Html.ValidationMessageFor(m => m.TaxonomyLevelID)
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-7 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
-                    <div class="col-md-5">
-                        @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new { @class = "form-control", style = "width:auto;" })
-                        @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4" style="margin: 20px 0;">
-                <span class="smallExplanationText">Changing the number of Taxonomy Tiers or which Taxonomy Tier to associate Performance Measures to will result in the deletion of any relationships to Performance Measures</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelFor(m => m.MinimumYear)</div>
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.MinimumYear, new { type = "number", @class = "form-control", style = "width: auto;" })
-                @Html.ValidationMessageFor(m => m.MinimumYear)
-            </div>
-        </div>
-        <div ng-app="ProjectFirmaApp" ng-controller="EditBudgetTypeController" ng-cloak> 
-            <div class="form-group">
-                <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.BudgetTypeID)</div>
-                <div class="col-md-8">
-                    <select class="form-control"
-                            style="width: auto"
-                            id="BudgetTypeID"
-                            name="BudgetTypeID"
-                            ng-model="model.selectedBudgetTypeID"
-                            ng-required="true">
-                        <option value="">&lt;Choose one&gt;</option>
-                        <option ng-repeat="budgetType in AngularViewData.BudgetTypes"
-                                ng-selected="isSelected(budgetType)"
-                                ng-disabled="isDisabled(budgetType)"
-                                ng-value="getBudgetTypeID(budgetType)">
-                            {{budgetType}}
-                        </option>
-                    </select>
-                </div>
-                @Html.ValidationMessageFor(x => x.BudgetTypeID)
-            </div>
-            @* Enter Cost Types if required based on selected Budget Type *@
-            <div ng-if="budgetTypeRequiresCostTypes()">
-                <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.CostTypes) <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span></sup></div>
-                <div class="col-md-8 costTypesExplanatoryText">You have opted to use cost types when budgeting projects.  Please define the Cost Types you would like to use, they will be available to all projects regardless of project type.</div>
-                
-                <div class="col-md-12 addNewCostType">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8 input-group input-group-small">
-                        <input class="form-control" type="text" placeholder="Enter a Cost Type" ng-model="model.enteredCostType"/>
-                        <div class="input-group-btn">
-                            <a class="btn btn-firma" ng-click="addCostType()">
-                                <span class="glyphicon glyphicon-plus"></span><span style="margin: 0 10px;">Add</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12 costTypesContainer">
-                    <div ng-repeat="costType in model.costTypes track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4 costTypeBox">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control"
-                                   type="text"
-                                   value="{{costType}}"
-                                   disabled/>
-                            <div class="input-group-btn">
-                                <a class="btn btn-firma" ng-click="removeCostType(costType)"><span class="glyphicon glyphicon-remove"></span></a>
-                            </div>
-                        </div>
-                        @* Hidden form element since disabled inputs are not submitted *@
-                        <input type="hidden" name="@Html.NameFor(x => x.CostTypes[0]).ToString().Replace("0", "{{$index}}")" value="{{costType}}"/>
-                    </div>
-                </div>
-                <div ng-if="willDeleteCostType()" class="costTypeDeleteWarning">    
-                    <div class="col-md-4"></div>
-                    <div class="col-md-8 alert-warning">
-                        You are deleting an existing Cost Type. <br/>
-                        <strong>PLEASE NOTE:</strong> If you delete Cost Types, all data stored by those cost types will be deleted as well.
-                    </div>
-                    
-                </div>
-
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowProposalsToThePublic)</div>
-            <div class="col-md-8">
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, true) Yes
-                </label>
-                <label class="radio-inline">
-                    @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, false) No
-                </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelFor(m => m.ProjectExternalDataSourceEnabled)</div>
-            <div class="col-md-8">
-                <div>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, true) Yes
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, false) No
-                    </label>
-                </div>
-                @Html.ValidationMessageFor(m => m.ProjectExternalDataSourceEnabled)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowLeadImplementerLogoOnFactSheet)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.ShowLeadImplementerLogoOnFactSheet)
-                @Html.ValidationMessageFor(x => x.ShowLeadImplementerLogoOnFactSheet)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableAccomplishmentsDashboard)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.EnableAccomplishmentsDashboard)
-                @Html.ValidationMessageFor(x => x.ShowLeadImplementerLogoOnFactSheet)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableSecondaryProjectTaxonomyLeaf)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.EnableSecondaryProjectTaxonomyLeaf)
-                @Html.ValidationMessageFor(x => x.EnableSecondaryProjectTaxonomyLeaf)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.CanManageCustomAttributes)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.CanManageCustomAttributes)
-                @Html.ValidationMessageFor(x => x.CanManageCustomAttributes)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ExcludeTargetedFundingOrganizations)</div>
-            <div class="col-md-8">
-                @Html.CheckBoxFor(x => x.ExcludeTargetedFundingOrganizations)
-                @Html.ValidationMessageFor(x => x.ExcludeTargetedFundingOrganizations)
-            </div>
+<div class="form-horizontal">
+    @Html.HiddenFor(m => m.TenantID)
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.TenantShortDisplayName)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.TenantShortDisplayName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.TenantShortDisplayName)
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ToolDisplayName)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.ToolDisplayName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.ToolDisplayName)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.PrimaryContactPersonID)</div>
+        <div class="col-md-8">
+            @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.TenantPeople)
+            @Html.ValidationMessageFor(x => x.PrimaryContactPersonID)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <div class="col-md-7 text-right">@Html.LabelFor(m => m.TaxonomyLevelID)</div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.TaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new { @class = "form-control", style = "width:auto;" })
+                    @Html.ValidationMessageFor(m => m.TaxonomyLevelID)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 text-right">@Html.LabelFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)</div>
+                <div class="col-md-5">
+                    @Html.DropDownListFor(x => x.AssociatePerfomanceMeasureTaxonomyLevelID, ViewDataTyped.TaxonomyLevels, new { @class = "form-control", style = "width:auto;" })
+                    @Html.ValidationMessageFor(m => m.AssociatePerfomanceMeasureTaxonomyLevelID)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="margin: 20px 0;">
+            <span class="smallExplanationText">Changing the number of Taxonomy Tiers or which Taxonomy Tier to associate Performance Measures to will result in the deletion of any relationships to Performance Measures</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.MinimumYear)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(m => m.MinimumYear, new { type = "number", @class = "form-control", style = "width: auto;" })
+            @Html.ValidationMessageFor(m => m.MinimumYear)
+        </div>
+    </div>
+    <div ng-app="ProjectFirmaApp" ng-controller="EditBudgetTypeController" ng-cloak>
+        <div class="form-group">
+            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.BudgetTypeID)</div>
+            <div class="col-md-8">
+                <select class="form-control"
+                        style="width: auto"
+                        id="BudgetTypeID"
+                        name="BudgetTypeID"
+                        ng-model="model.selectedBudgetTypeID"
+                        ng-required="true">
+                    <option value="">&lt;Choose one&gt;</option>
+                    <option ng-repeat="budgetType in AngularViewData.BudgetTypes"
+                            ng-selected="isSelected(budgetType)"
+                            ng-disabled="isDisabled(budgetType)"
+                            ng-value="getBudgetTypeID(budgetType)">
+                        {{budgetType}}
+                    </option>
+                </select>
+            </div>
+            @Html.ValidationMessageFor(x => x.BudgetTypeID)
+        </div>
+        @* Enter Cost Types if required based on selected Budget Type *@
+        <div ng-if="budgetTypeRequiresCostTypes()">
+            <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.CostTypes) <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span></sup></div>
+            <div class="col-md-8 costTypesExplanatoryText">You have opted to use cost types when budgeting projects.  Please define the Cost Types you would like to use, they will be available to all projects regardless of project type.</div>
+
+            <div class="col-md-12 addNewCostType">
+                <div class="col-md-4"></div>
+                <div class="col-md-8 input-group input-group-small">
+                    <input class="form-control" type="text" placeholder="Enter a Cost Type" ng-model="model.enteredCostType" />
+                    <div class="input-group-btn">
+                        <a class="btn btn-firma" ng-click="addCostType()">
+                            <span class="glyphicon glyphicon-plus"></span><span style="margin: 0 10px;">Add</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 costTypesContainer">
+                <div ng-repeat="costType in model.costTypes track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4 costTypeBox">
+                    <div class="input-group input-group-sm">
+                        <input class="form-control"
+                               type="text"
+                               value="{{costType}}"
+                               disabled />
+                        <div class="input-group-btn">
+                            <a class="btn btn-firma" ng-click="removeCostType(costType)"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </div>
+                    @* Hidden form element since disabled inputs are not submitted *@
+                    <input type="hidden" name="@Html.NameFor(x => x.CostTypes[0]).ToString().Replace("0", "{{$index}}")" value="{{costType}}" />
+                </div>
+            </div>
+            <div ng-if="willDeleteCostType()" class="costTypeDeleteWarning">
+                <div class="col-md-4"></div>
+                <div class="col-md-8 alert-warning">
+                    You are deleting an existing Cost Type. <br />
+                    <strong>PLEASE NOTE:</strong> If you delete Cost Types, all data stored by those cost types will be deleted as well.
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowProposalsToThePublic)</div>
+        <div class="col-md-8">
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, true) Yes
+            </label>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.ShowProposalsToThePublic, false) No
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelFor(m => m.ProjectExternalDataSourceEnabled)</div>
+        <div class="col-md-8">
+            <div>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, true) Yes
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(m => m.ProjectExternalDataSourceEnabled, false) No
+                </label>
+            </div>
+            @Html.ValidationMessageFor(m => m.ProjectExternalDataSourceEnabled)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ShowLeadImplementerLogoOnFactSheet)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.ShowLeadImplementerLogoOnFactSheet)
+            @Html.ValidationMessageFor(x => x.ShowLeadImplementerLogoOnFactSheet)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableAccomplishmentsDashboard)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.EnableAccomplishmentsDashboard)
+            @Html.ValidationMessageFor(x => x.ShowLeadImplementerLogoOnFactSheet)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableSecondaryProjectTaxonomyLeaf)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.EnableSecondaryProjectTaxonomyLeaf)
+            @Html.ValidationMessageFor(x => x.EnableSecondaryProjectTaxonomyLeaf)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.CanManageCustomAttributes)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.CanManageCustomAttributes)
+            @Html.ValidationMessageFor(x => x.CanManageCustomAttributes)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.ExcludeTargetedFundingOrganizations)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.ExcludeTargetedFundingOrganizations)
+            @Html.ValidationMessageFor(x => x.ExcludeTargetedFundingOrganizations)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.GoogleAnalyticsTrackingCode)</div>
+        <div class="col-md-8">
+            @Html.TextBoxFor(x => x.GoogleAnalyticsTrackingCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.GoogleAnalyticsTrackingCode)
+        </div>
+    </div>
+</div>
 }

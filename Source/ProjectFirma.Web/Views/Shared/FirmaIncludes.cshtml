@@ -18,6 +18,8 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using Microsoft.Ajax.Utilities
+@using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Shared.FirmaIncludes
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -28,6 +30,10 @@
     gtag('js', new Date());
 
     gtag('config', 'UA-134855355-1');
+    @if (!MultiTenantHelpers.GetTenantGoogleAnalyticsTrackingCode().IsNullOrWhiteSpace())
+    {
+        @Html.Raw(String.Format("gtag('config', '{0}');", MultiTenantHelpers.GetTenantGoogleAnalyticsTrackingCode()))
+    }
 </script>
 
 <link href="@Url.Content("~/Content/themes/base/all.css")" rel="stylesheet" type="text/css" />
