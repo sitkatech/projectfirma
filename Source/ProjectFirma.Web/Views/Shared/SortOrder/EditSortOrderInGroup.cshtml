@@ -37,13 +37,16 @@
     }
 </style>
 <span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
-<button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize()">Reset To Alphabetical</button>
-<hr />
 
+<hr />
+@{
+    int itemCount = 0;
+}
 @foreach (var sortingGroup in ViewDataTyped.SortingGroups)
 {
+    <button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize(@itemCount)">Reset @sortingGroup.GetDisplayName() To Alphabetical</button>
     <h2>@sortingGroup.GetDisplayName()</h2>
-    <div id="sortables-list-@sortingGroup.GetID()">
+    <div id="sortables-list-@itemCount">
         @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
         {
             <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;">
@@ -52,6 +55,8 @@
             </div>
         }
     </div>
+
+    itemCount++;
 }
 
 @using (Html.BeginForm())
@@ -59,22 +64,20 @@
 
 }
 <script>
-    var sortedSortables;// = null;
+    var allSortableLists = [];
 
-    var alphabetize = function() {
-        var newWorldOrder = _.sortBy(sortedSortables.toArray(),
+    var alphabetize = function (id) {
+        var newWorldOrder = _.sortBy(allSortableLists[id].toArray(),
             function(sortableId) {
                 var $el = jQuery("[data-id=" + sortableId + "]");
                 var x = $el.attr("data-displayName").toLowerCase();
                 return x;
             });
-        sortedSortables.sort(newWorldOrder);
+        allSortableLists[id].sort(newWorldOrder);
     }
 
     jQuery(function () {
         var allSortableContainers = jQuery("div[id^='sortables-list-']");
-
-        var allSortableLists = [];
 
         jQuery.each(allSortableContainers, function (index, value) {
             var sortable = Sortable.create(allSortableContainers[index]);
@@ -94,7 +97,7 @@
                     itemCount++;
                 }
             });
-           
+
         });
     })
 </script>

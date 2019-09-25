@@ -28,9 +28,7 @@ namespace ProjectFirmaModels.Models
     {
         string GetDisplayName();
 
-        //void SetSortOrder(int? value);
         List<IHaveASortOrder> GetSortableList();
 
-        int GetID();
     }
 }

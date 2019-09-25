@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeEditableBy.ToType().ToGridHeaderString(), x => x.GetEditableRoles(), 150, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType().ToGridHeaderString(), a => a.GetViewableRoles(), 200, DhtmlxGridColumnFilterType.Html);
             Add("Viewable on fact sheet?", a => a.IsViewableOnFactSheet.ToYesNo(), 140, DhtmlxGridColumnFilterType.Html);
-            Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
         }
     }
 }
