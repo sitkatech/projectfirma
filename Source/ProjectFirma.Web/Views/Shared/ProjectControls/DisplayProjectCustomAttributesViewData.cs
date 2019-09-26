@@ -26,6 +26,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 {
     public class DisplayProjectCustomAttributesViewData : FirmaUserControlViewData
     {
+        //ProjectCustomAttributeTypes is here because the project Detail.cshtml uses this to check if it should output Project Custom Attributes
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; }
         public List<IProjectCustomAttribute> ProjectCustomAttributes { get; }
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get; }

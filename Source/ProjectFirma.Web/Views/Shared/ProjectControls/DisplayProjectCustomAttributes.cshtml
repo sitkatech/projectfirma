@@ -44,7 +44,7 @@
         <hr />
     }
     <dl class="dl-horizontal">
-        @foreach (var projectCustomAttributeType in projectCustomAttributeGroup.ProjectCustomAttributeTypes.OrderBy(x => x.ProjectCustomAttributeTypeName))
+        @foreach (var projectCustomAttributeType in projectCustomAttributeGroup.ProjectCustomAttributeTypes.OrderBy(x => x.SortOrder))
         {
             var projectCustomAttribute = ViewDataTyped.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
             <dt class="projectCustomAttributes">
