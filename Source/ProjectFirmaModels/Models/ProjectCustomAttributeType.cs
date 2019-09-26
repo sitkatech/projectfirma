@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ProjectCustomAttributeType : IAuditableEntity
+    public partial class ProjectCustomAttributeType : IAuditableEntity, IHaveASortOrder
     {
         public string GetAuditDescriptionString() => $"Custom Attribute Type: {ProjectCustomAttributeTypeName}";
 
@@ -17,5 +17,10 @@ namespace ProjectFirmaModels.Models
         {
             return ProjectCustomAttributeTypeOptionsSchema != null ? JsonConvert.DeserializeObject<List<string>>(ProjectCustomAttributeTypeOptionsSchema) : new List<string>();
         }
+
+        public string GetDisplayName() => ProjectCustomAttributeTypeName;
+        public void SetSortOrder(int? value) => SortOrder = value;
+        public int? GetSortOrder() => SortOrder;
+        public int GetID() => ProjectCustomAttributeTypeID;
     }
 }

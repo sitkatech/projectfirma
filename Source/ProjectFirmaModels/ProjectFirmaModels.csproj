@@ -624,6 +624,7 @@
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
     <Compile Include="Models\IProjectContact.cs" />
+    <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />

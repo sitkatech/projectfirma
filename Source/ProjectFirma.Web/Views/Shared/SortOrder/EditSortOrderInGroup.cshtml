@@ -1,0 +1,103 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditSortOrderInGroup.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@inherits EditSortOrderInGroup
+<script src="~/Content/Sortable.js"></script>
+<style>
+
+    .sortable-ghost {
+        background-color: #E0E0E0;
+    }
+
+    #sortables-list:hover {
+        cursor: move;
+        cursor: grab;
+    }
+
+    #sortables-list div:hover {
+        background-color: #E0E0E0;
+    }
+</style>
+<span class="systemText">Drag and drop the @ViewDataTyped.SortableNamePlural to set their sorting order.</span>
+
+<hr />
+@{
+    int itemCount = 0;
+}
+@foreach (var sortingGroup in ViewDataTyped.SortingGroups)
+{
+    <button type="button" class="pull-right btn btn-sm btn-firma" onclick="alphabetize(@itemCount)">Reset @sortingGroup.GetDisplayName() To Alphabetical</button>
+    <h2>@sortingGroup.GetDisplayName()</h2>
+    <div id="sortables-list-@itemCount">
+        @foreach (var sortable in sortingGroup.GetSortableList().SortByOrderThenName().ToArray())
+        {
+            <div data-id="@sortable.GetID()" data-displayName="@sortable.GetDisplayName()" style="font-size: 11pt; margin-bottom: 4px;">
+                <span class="glyphicon glyphicon-menu-hamburger" style="color: #808080; margin-right: 5px;"></span>
+                @sortable.GetDisplayName()
+            </div>
+        }
+    </div>
+
+    itemCount++;
+}
+
+@using (Html.BeginForm())
+{
+
+}
+<script>
+    var allSortableLists = [];
+
+    var alphabetize = function (id) {
+        var newWorldOrder = _.sortBy(allSortableLists[id].toArray(),
+            function(sortableId) {
+                var $el = jQuery("[data-id=" + sortableId + "]");
+                var x = $el.attr("data-displayName").toLowerCase();
+                return x;
+            });
+        allSortableLists[id].sort(newWorldOrder);
+    }
+
+    jQuery(function () {
+        var allSortableContainers = jQuery("div[id^='sortables-list-']");
+
+        jQuery.each(allSortableContainers, function (index, value) {
+            var sortable = Sortable.create(allSortableContainers[index]);
+            allSortableLists.push(sortable);
+        });
+
+        jQuery('#ltinfo-modal-dialog-save-button-id').click(function () {
+
+            var itemCount = 0;
+            jQuery.each(allSortableLists, function (index, value) {
+                var sortedArray = allSortableLists[index].toArray();
+
+                var form = jQuery("form");
+                //debugger;
+                for (var i = 0; i < sortedArray.length; i++) {
+                    jQuery("<input type='hidden' name='@(Html.NameFor(m => m.ReorderedSortableIDs))[" + itemCount + "]' value=" + sortedArray[i] + " />").appendTo(form);
+                    itemCount++;
+                }
+            });
+
+        });
+    })
+</script>

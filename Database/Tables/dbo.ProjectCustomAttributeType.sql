@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 	[ProjectCustomAttributeTypeOptionsSchema] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[IsViewableOnFactSheet] [bit] NOT NULL,
 	[ProjectCustomAttributeGroupID] [int] NOT NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomAttributeTypeID] ASC

@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema, bool isViewableOnFactSheet, int projectCustomAttributeGroupID) : this()
+        public ProjectCustomAttributeType(int projectCustomAttributeTypeID, string projectCustomAttributeTypeName, int projectCustomAttributeDataTypeID, int? measurementUnitTypeID, bool isRequired, string projectCustomAttributeTypeDescription, string projectCustomAttributeTypeOptionsSchema, bool isViewableOnFactSheet, int projectCustomAttributeGroupID, int? sortOrder) : this()
         {
             this.ProjectCustomAttributeTypeID = projectCustomAttributeTypeID;
             this.ProjectCustomAttributeTypeName = projectCustomAttributeTypeName;
@@ -44,6 +44,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectCustomAttributeTypeOptionsSchema = projectCustomAttributeTypeOptionsSchema;
             this.IsViewableOnFactSheet = isViewableOnFactSheet;
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroupID;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
@@ -154,6 +155,7 @@ namespace ProjectFirmaModels.Models
         public string ProjectCustomAttributeTypeOptionsSchema { get; set; }
         public bool IsViewableOnFactSheet { get; set; }
         public int ProjectCustomAttributeGroupID { get; set; }
+        public int? SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeTypeID; } set { ProjectCustomAttributeTypeID = value; } }
 

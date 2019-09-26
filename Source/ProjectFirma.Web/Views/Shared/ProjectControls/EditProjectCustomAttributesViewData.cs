@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectCustomAttributesViewData(List<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes, List<IProjectCustomAttribute> projectCustomAttributes)
         {
-            ProjectCustomAttributeTypes = projectCustomAttributeTypes;
+            ProjectCustomAttributeTypes = projectCustomAttributeTypes.OrderBy(x => x.SortOrder).ToList();
             ProjectCustomAttributes = projectCustomAttributes;
             ProjectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
         }

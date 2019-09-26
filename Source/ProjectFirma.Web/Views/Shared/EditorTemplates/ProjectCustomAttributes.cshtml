@@ -54,7 +54,7 @@
         <hr />
     }
 
-    var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.ProjectCustomAttributeTypeName).ToList();
+    var projectCustomAttributeTypesForCurrentGroup = projectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroupID == attributeGroup.ProjectCustomAttributeGroupID).OrderBy(x => x.SortOrder).ToList();
 
     for (var indexOfAttribute = 0; indexOfAttribute < projectCustomAttributeTypesForCurrentGroup.Count; indexOfAttribute++)
     {
