@@ -313,5 +313,11 @@ namespace ProjectFirma.Web.Common
         {
             return GetTenantAttribute().ProjectStewardshipAreaType;
         }
+
+        public static string GetTenantGoogleAnalyticsTrackingCode()
+        {
+            return GetTenantAttribute().GoogleAnalyticsTrackingCode;
+        }
+
     }
 }

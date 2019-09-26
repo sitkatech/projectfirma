@@ -129,6 +129,21 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
                     $"There can only be one {FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()} in the system where \"Is Primary Contact?\" is set to \"Yes\".",
                     m => m.IsPrimaryContact);
             }
+
+            // if the edit for the relationship type is changing the relationship to only must be related to once,
+            // prevent them from doing that if there are already projects that have multiple organizations for that relationship type
+            // This ensures that when we are looking for a primary contact through an organization, that there can only be one organization selected
+            if (CanOnlyBeRelatedOnceToAProject == true || IsPrimaryContact == true)
+            {
+                var projectOrganizations = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.ToList();
+                var projectOrganizationsWithThisRelationshipTypeGroupedByProjectID = projectOrganizations.Where(x => x.OrganizationRelationshipTypeID == RelationshipTypeID).GroupBy(x => x.ProjectID).ToList();
+                if (projectOrganizationsWithThisRelationshipTypeGroupedByProjectID.Any(c => c.Count() > 1))
+                {
+                    yield return new SitkaValidationResult<EditOrganizationRelationshipTypeViewModel, bool?>(
+                        $"There are already {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} in the system with more than one {OrganizationRelationshipTypeName} selected.",
+                        m => m.CanOnlyBeRelatedOnceToAProject);
+                }
+            }
         }
     }
 }

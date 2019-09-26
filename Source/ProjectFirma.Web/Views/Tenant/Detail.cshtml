@@ -188,6 +188,22 @@
                         @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        Google Analytics Tracking Code
+                    </div>
+                    <div class="col-sm-7">
+                        @if (ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode != null)
+                        {
+                            @ViewDataTyped.TenantAttribute.GoogleAnalyticsTrackingCode
+
+                        }
+                        else
+                        {
+                            <p class="systemText">None</p>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
