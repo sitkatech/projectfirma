@@ -60,6 +60,9 @@
                     @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0}", FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabelPluralized()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
                 }
             </td>
+            <td style="text-align: right; white-space: nowrap">
+                <a class="btn btn-xs btn-firma" title="Continue to next page" href="@ViewDataTyped.NextSectionUrl">Continue<span class='glyphicon glyphicon-chevron-right'></span></a>
+            </td>
         </tr>
     </table>
 }

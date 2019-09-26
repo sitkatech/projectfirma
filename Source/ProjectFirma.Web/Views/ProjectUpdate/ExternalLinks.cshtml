@@ -101,7 +101,6 @@
                 @using (Html.BeginForm())
                 {
                     <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)">Save</button>
-                    <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ProjectID}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkLabel).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkLabel}}">
                     <input ng-repeat="projectExternalLink in AngularModel.ProjectExternalLinks" type="hidden" name="@Html.NameFor(x => x.ProjectExternalLinks[0].ExternalLinkUrl).ToString().Replace("0", "{{$index}}")" value="{{projectExternalLink.ExternalLinkUrl}}">
