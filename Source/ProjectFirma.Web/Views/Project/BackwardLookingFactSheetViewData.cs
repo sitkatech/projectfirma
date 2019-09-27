@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
@@ -64,6 +66,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
         public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
+        public DateTime LastUpdated { get; }
 
         public BackwardLookingFactSheetViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
@@ -135,6 +138,7 @@ namespace ProjectFirma.Web.Views.Project
             ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
             
             WithCustomAttributes = withCustomAttributes;
+            LastUpdated = project.GetLastUpdateDate();
         }
     }
 }

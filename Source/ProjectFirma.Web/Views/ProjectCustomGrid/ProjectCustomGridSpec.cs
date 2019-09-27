@@ -123,6 +123,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectID:
                     Add(FieldDefinitionEnum.ProjectID.ToType().ToGridHeaderString(), x => x.ProjectID.ToString(), 140);
                     break;
+                case ProjectCustomGridColumnEnum.ProjectLastUpdated:
+                    Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.GetLastUpdateDate().ToShortDateString(), 140);
+                    break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:

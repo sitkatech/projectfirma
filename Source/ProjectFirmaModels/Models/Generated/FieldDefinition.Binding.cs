@@ -241,6 +241,7 @@ namespace ProjectFirmaModels.Models
         ProjectAttachmentRelationshipType = 291,
         ProjectID = 292,
         ExcludeTargetedFundingOrganizations = 293,
-        ProjectCustomAttributeGroup = 294
+        ProjectCustomAttributeGroup = 294,
+        ProjectLastUpdated = 295
     }
 }
