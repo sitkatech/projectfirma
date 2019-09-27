@@ -426,6 +426,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />

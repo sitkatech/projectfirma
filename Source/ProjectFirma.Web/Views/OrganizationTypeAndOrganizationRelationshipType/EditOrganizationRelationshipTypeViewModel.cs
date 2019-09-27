@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
-        [DisplayName("Must be Related to Once?")]
+        [DisplayName("Can Only be Related to Once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             // if the edit for the relationship type is changing the relationship to only must be related to once,
             // prevent them from doing that if there are already projects that have multiple organizations for that relationship type
             // This ensures that when we are looking for a primary contact through an organization, that there can only be one organization selected
-            if (CanOnlyBeRelatedOnceToAProject == true || IsPrimaryContact == true)
+            if (CanOnlyBeRelatedOnceToAProject == true || IsPrimaryContact == true || CanStewardProjects == true)
             {
                 var projectOrganizations = HttpRequestStorage.DatabaseEntities.ProjectOrganizations.ToList();
                 var projectOrganizationsWithThisRelationshipTypeGroupedByProjectID = projectOrganizations.Where(x => x.OrganizationRelationshipTypeID == RelationshipTypeID).GroupBy(x => x.ProjectID).ToList();
