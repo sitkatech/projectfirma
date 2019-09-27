@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public bool? IsPrimaryContact { get; set; }
 
         [Required]
-        [DisplayName("Must be Related to Once?")]
+        [DisplayName("Can Only be Related to Once?")]
         public bool? CanOnlyBeRelatedOnceToAProject { get; set; }
 
         [Required]
