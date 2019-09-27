@@ -69,8 +69,11 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
+    <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
+    <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
@@ -315,6 +318,7 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
+    <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -1560,6 +1564,7 @@
     <Content Include="Views\Shared\EditorTemplates\FundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\Results\FundingStatus.cshtml" />
     <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
+    <Content Include="Views\SiteMonitor\SiteMonitorNagios.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
