@@ -22,6 +22,7 @@ namespace ProjectFirma.Web.HealthMonitor
             // Assume success until we get failure
             result.HealthCheckStatus = HealthCheckStatus.OK;
 
+            // Make sure we have HTTP context
             var currentHttpContext = HttpContext.Current;
             if (currentHttpContext == null)
             {
@@ -30,18 +31,28 @@ namespace ProjectFirma.Web.HealthMonitor
                 return result;
             }
 
+            // Make sure wkhtml .EXE exists
+            FileInfo wkhtmlPdfExecutablePathFileInfo = new FileInfo(SitkaConfiguration.GetRequiredAppSetting("WkhtmltopdfExecutable"));
+            if (!File.Exists(wkhtmlPdfExecutablePathFileInfo.FullName))
+            {
+                result.HealthCheckStatus = HealthCheckStatus.Critical;
+                result.AddResultMessage($"Could not find Wkhtmltopdf .EXE at \"{wkhtmlPdfExecutablePathFileInfo.FullName}\"");
+                return result;
+            }
+
+            // If .EXE does exist, make sure it has the right version number
             var versionString = WkhtmlToPdfCommandLineRunner.RunWkhtmlToPdfAndGetVersionNumber();
 
             if (versionString != ExpectedWhtmlToPdfVersionString)
             {
                 result.HealthCheckStatus = HealthCheckStatus.Critical;
                 string wkhtmlPdfExecutablePath = SitkaConfiguration.GetRequiredAppSetting("WkhtmltopdfExecutable");
-                result.AddResultMessage($"Whtmltopdf found at {wkhtmlPdfExecutablePath} is version {versionString}; expected {ExpectedWhtmlToPdfVersionString}");
+                result.AddResultMessage($"Wkhtmltopdf found at {wkhtmlPdfExecutablePath} is version {versionString}; expected {ExpectedWhtmlToPdfVersionString}");
 
                 return result;
             }
 
-            result.AddResultMessage($"Whtmltopdf is expected version ({versionString})");
+            result.AddResultMessage($"Wkhtmltopdf is expected version ({versionString})");
             return result;
         }
     }
@@ -51,7 +62,7 @@ namespace ProjectFirma.Web.HealthMonitor
         private static string RunWkhtmlToPdfCommand(List<string> commandLineArguments)
         {
             FileInfo wkhtmlPdfExecutablePathFileInfo = new FileInfo(SitkaConfiguration.GetRequiredAppSetting("WkhtmltopdfExecutable"));
-            Check.RequireFileExists(wkhtmlPdfExecutablePathFileInfo, "Can't find WhtmlToPdf program in expected path. Is it installed?");
+            Check.RequireFileExists(wkhtmlPdfExecutablePathFileInfo, "Can't find WkhtmlToPdf program in expected path. Is it installed?");
             var retCode = ProcessUtility.ShellAndWaitImpl(wkhtmlPdfExecutablePathFileInfo.DirectoryName, wkhtmlPdfExecutablePathFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds));
             if (retCode.ReturnCode == 0)
             {
