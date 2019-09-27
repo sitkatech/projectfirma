@@ -1,0 +1,51 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProjectFundingSourceBudgets.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirmaModels.Models
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.SiteMonitor.SiteMonitorNagios
+
+
+<div id="MachineReadableNagiosOutput">
+    <div>
+        <h3>Machine Readable output</h3>
+    </div>
+
+    <div>
+        This is the numerical return code the Nagios plugin that reads this output will return to Nagios.
+    </div>
+    <pre>
+[BeginNagiosReturnCode]
+@ViewDataTyped.NagiosReturnCode
+[EndNagiosReturnCode]
+    </pre>
+
+    <div>
+        This is the raw textual output that the Nagios plugin will return to Nagios.
+    </div>
+    <pre>
+[BeginNagiosPluginOutput]
+@ViewDataTyped.CompleteNagiosOutput
+[EndNagiosPluginOutput]
+    </pre>
+</div>

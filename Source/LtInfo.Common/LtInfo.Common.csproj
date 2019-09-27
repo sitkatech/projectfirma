@@ -193,6 +193,7 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
+    <Compile Include="HealthMonitor\HealthCheckStatus.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />
     <Compile Include="HtmlHelperExtensions\IFieldDefinitionData.cs" />
     <Compile Include="HtmlHelperExtensions\SitkaHtmlHelpers.cs" />
@@ -377,7 +378,6 @@
     <Compile Include="Tasks\SitkaTaskBaseTest.cs" />
     <Compile Include="TcpUtility.cs" />
     <Compile Include="TcpUtilityTest.cs" />
-    <Compile Include="Threading\SitkaThreadCheckBase.cs" />
     <Compile Include="Threading\ThreadUtility.cs" />
     <Compile Include="ToCsvExtensionMethods.cs" />
     <Compile Include="ToCsvExtensionMethodsTest.cs" />
