@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Web.Mvc;
-using LtInfo.Common.HealthMonitor;
+using ProjectFirma.Web.HealthMonitor;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.SiteMonitor;
 
@@ -35,11 +35,9 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult SiteMonitor()
         {
-            //var siteMonitorCheckResults = SiteMonitorChecks.Run(TaurusSession);
-            HealthCheckResults siteMonitorCheckResults = new HealthCheckResults();
+            var siteMonitorCheckResults = SiteMonitorChecks.Run();
             var viewData = new SiteMonitorNagiosViewData(CurrentPerson, siteMonitorCheckResults);
             return RazorView<SiteMonitorNagios, SiteMonitorNagiosViewData>(viewData);
         }
-
     }
 }
