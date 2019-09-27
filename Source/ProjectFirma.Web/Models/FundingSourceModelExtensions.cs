@@ -33,6 +33,11 @@ namespace ProjectFirma.Web.Models
             return fundingSource.ProjectFundingSourceExpenditures.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
+        public static List<Project> GetAssociatedProjectsWithSecuredFunding(this FundingSource fundingSource, Person person)
+        {
+            return fundingSource.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0).Select(x => x.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+        }
+
         public static string GetDisplayName(this FundingSource fundingSource) =>
             $"{fundingSource.FundingSourceName} ({fundingSource.Organization.GetOrganizationShortNameIfAvailable()}){(!fundingSource.IsActive ? " (Inactive)" : string.Empty)}";
 

@@ -46,8 +46,11 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add("Description", a => a.FundingSourceDescription, 300);
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.FundingSourceAmount.ToType().ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
-            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with Expended Funds", a => a.GetAssociatedProjects(currentPerson).Count, 90);
             Add("Total Expenditures", a => a.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with Secured Funds", a => a.GetAssociatedProjectsWithSecuredFunding(currentPerson).Count, 90);
+            Add("Total Secured Funds", a => a.ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            Add("Total Targeted Funds", a => a.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount), 80, DhtmlxGridColumnFormatType.Currency);
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes.OrderBy(x => x.FundingSourceCustomAttributeTypeName))
             {
                 if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentPerson))
