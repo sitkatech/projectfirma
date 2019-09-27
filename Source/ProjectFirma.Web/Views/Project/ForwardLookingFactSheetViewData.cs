@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -69,7 +70,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
         public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
-
+        public DateTime LastUpdated { get; }
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
@@ -150,6 +151,7 @@ namespace ProjectFirma.Web.Views.Project
             ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
             
             WithCustomAttributes = withCustomAttributes;
+            LastUpdated = project.GetLastUpdateDate();
         }
 
         public HtmlString LegendHtml
