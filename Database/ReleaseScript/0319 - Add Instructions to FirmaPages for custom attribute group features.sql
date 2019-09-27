@@ -39,7 +39,7 @@ GO
 
 -- 65 is the custom attribute groups adding instructions
 Update dbo.FirmaPage
-set FirmaPageContent = 'Enter a new custom attribute group name below. The custom attribute group will be automatically be placed last in the sort order but you can change this after the group is added. By default, one custom attribute group must always exist.'
+set FirmaPageContent = '<p>Enter a new custom attribute group name below. The custom attribute group will be automatically be placed last in the sort order but you can change this after the group is added. By default, one custom attribute group must always exist.</p>'
 where FirmaPageTypeID = 65
 
 GO
