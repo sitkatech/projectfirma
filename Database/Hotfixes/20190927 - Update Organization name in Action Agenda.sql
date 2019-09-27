@@ -1,0 +1,1 @@
+Update dbo.Organization set OrganizationName = 'Whatcom Local Integration Organization' where OrganizationGuid = 'ca647e4a-d097-4dd5-af95-07a726c7a53d';
