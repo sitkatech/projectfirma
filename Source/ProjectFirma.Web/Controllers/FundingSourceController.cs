@@ -159,8 +159,8 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFundingSourceBudgetGridSpec = new ProjectFundingSourceBudgetGridSpec()
             {
-                ObjectNameSingular = "Project",
-                ObjectNamePlural = "Projects",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
 

@@ -117,4 +117,9 @@ VALUES
 (292, N'ProjectID', N'ProjectID', N'<p>The unique identifier for a project.</p>'),
 (293, N'ExcludeTargetedFundingOrganizations', N'Exclude Targeted Funding Organizations from List of Funders?', N'<p>When this option is set to Yes, the "Funders" field will not display the targeted funders on the forward looking fact sheet and project detail page (under Organizations). When set to No, both the secured and targeted funders will display in the "Funders" field</p>'),
 (294, N'ProjectCustomAttributeGroup', N'Project Custom Attribute Group', N'<p>The group that is assigned to a project custom attribute type.</p>'),
-(295, N'ProjectLastUpdated', N'Last Updated', N'<p>The date the project was last updated.</p>')
+(295, N'ProjectLastUpdated', N'Last Updated', N'<p>The date the project was last updated.</p>'),
+(296, N'NumberOfProjectsWithExpendedFunds', N'# of Projects with Expended Funds', N'The number of projects that have expenditures funded by this funding source.'),
+(297, N'TotalExpenditures', N'Total Expenditures', N'Total amount of reported expenditures funded by this funding source for all projects'),
+(298, N'NumberOfProjectsWithSecuredFunds', N'# of Projects with Secured Funds', N'The number of projects that have secured funds from this funding source.'),
+(299, N'TotalProjectSecuredFunds', N'Total Project Secured Funds', N'Total amount provided by this funding source as "Secured" for all projects.'),
+(300, N'TotalProjectTargetedFunds', N'Total Project Targeted Funds', N'Total amount provided by this funding source as "Targeted" for all projects.')
