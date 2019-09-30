@@ -66,7 +66,7 @@ namespace LtInfo.Common.GdalOgr
                 // I believe this is happening irregularly - I see crashes below I can't readily reproduce. This is an attempt to narrow down the problem.
                 // (Is the problem that a simple GET request is pounding on the Ogr2Ogr command line .EXE, and that the .EXE then gets too busy/overwhelmed to process multiple requests? 
                 //  Just my first guess. -- SLG 9/30/2019)
-                Check.Ensure(lines.Any(), $"No lines found returning from exec of \"{ogrInfoFileInfo.Name}\"in processed GeoJson string \"{geoJson}\". Raw StdOut: \"{processUtilityResult.StdOut}\"");
+                Check.Ensure(lines.Any(), $"No lines found returning from exec of \"{ogrInfoFileInfo.Name}\" in processed GeoJson string \"{geoJson}\". Raw StdOut: \"{processUtilityResult.StdOut}\"");
 
                 if (lines.Any(x => x.Contains("Feature Count: 0")))
                 {
