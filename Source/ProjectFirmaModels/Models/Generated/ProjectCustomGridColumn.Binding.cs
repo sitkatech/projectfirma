@@ -41,6 +41,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnGeospatialAreaName GeospatialAreaName = ProjectCustomGridColumnGeospatialAreaName.Instance;
         public static readonly ProjectCustomGridColumnCustomAttribute CustomAttribute = ProjectCustomGridColumnCustomAttribute.Instance;
         public static readonly ProjectCustomGridColumnProjectID ProjectID = ProjectCustomGridColumnProjectID.Instance;
+        public static readonly ProjectCustomGridColumnProjectLastUpdated ProjectLastUpdated = ProjectCustomGridColumnProjectLastUpdated.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -50,7 +51,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -152,6 +153,8 @@ namespace ProjectFirmaModels.Models
                     return ProjectDescription;
                 case ProjectCustomGridColumnEnum.ProjectID:
                     return ProjectID;
+                case ProjectCustomGridColumnEnum.ProjectLastUpdated:
+                    return ProjectLastUpdated;
                 case ProjectCustomGridColumnEnum.ProjectName:
                     return ProjectName;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContact:
@@ -198,7 +201,8 @@ namespace ProjectFirmaModels.Models
         NumberOfPhotos = 20,
         GeospatialAreaName = 21,
         CustomAttribute = 22,
-        ProjectID = 23
+        ProjectID = 23,
+        ProjectLastUpdated = 24
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -337,5 +341,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomGridColumnProjectID(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
         public static readonly ProjectCustomGridColumnProjectID Instance = new ProjectCustomGridColumnProjectID(23, @"ProjectID", @"ProjectID", true);
+    }
+
+    public partial class ProjectCustomGridColumnProjectLastUpdated : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnProjectLastUpdated(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnProjectLastUpdated Instance = new ProjectCustomGridColumnProjectLastUpdated(24, @"ProjectLastUpdated", @"Last Updated", true);
     }
 }

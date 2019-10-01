@@ -1,0 +1,79 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProjectFundingSourceBudgets.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@inherits ProjectFirma.Web.Views.SiteMonitor.SiteMonitorNagios
+
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">Project Firma Site Monitor (Health Checks)</div>
+    <div class="panel-body">
+        <p>This page is intended to help developers ensure that Project Firma is running properly and has all of its components.</p>
+    </div>
+</div>
+
+<div id="HumanReadableOutput">
+    <div>
+        <h3>Human Readable output</h3>
+    </div>
+    <div>
+        <h4 style="@GetStatusAsColorStyle(ViewDataTyped.HealthCheckResults.Status)">
+            Overall result: @ViewDataTyped.HealthCheckResults.Status
+        </h4>
+    </div>
+    @foreach (var currentHealthCheckResult in ViewDataTyped.HealthCheckResults.Results)
+    { 
+        <div style="@GetStatusAsColorStyle(currentHealthCheckResult.HealthCheckStatus)"> @currentHealthCheckResult.CheckName - @currentHealthCheckResult.HealthCheckStatus</div>
+        var currentResultMessages = currentHealthCheckResult.GetResultMessages(); 
+        if (currentResultMessages.Any()) 
+        { 
+        <ul>
+            @foreach (var currentResultMessage in currentResultMessages)
+             { 
+            <li>
+                @currentResultMessage
+            </li>
+             } 
+        </ul>
+        } 
+    } 
+</div>
+
+<div id="MachineReadableNagiosOutput">
+    <div>
+        <h3>Machine Readable output</h3>
+    </div>
+
+    <div>
+        This is the numerical return code the Nagios plugin that reads this output will return to Nagios.
+    </div>
+    <pre>
+[BeginNagiosReturnCode]
+@ViewDataTyped.NagiosReturnCode
+[EndNagiosReturnCode]
+    </pre>
+
+    <div>
+        This is the raw textual output that the Nagios plugin will return to Nagios.
+    </div>
+    <pre>
+[BeginNagiosPluginOutput]
+@ViewDataTyped.CompleteNagiosOutput
+[EndNagiosPluginOutput]
+    </pre>
+</div>

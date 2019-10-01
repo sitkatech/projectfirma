@@ -21,19 +21,21 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.DefinitionAndGuidance
 
 <style>
     h3 { font-weight: bold; font-size: 12px;}
 </style>
-<div class="fieldDefinition" style="font-size: 13px">
+<div class="fieldDefinition" style="font-size: 13px; max-height: 500px; overflow-y: scroll;">
     <h3>@MultiTenantHelpers.GetPerformanceMeasureName() Definition</h3>
     <div style="margin-left: 20px">
         <p>
             @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()
         </p>
     </div>
-    <hr/>
+    <hr />
     <h3>Critical Definitions</h3>
     <div style="margin-left: 20px">
         @if (ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString == null || string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString.ToString()))
@@ -44,6 +46,21 @@ Source code is available upon request via <support@sitkatech.com>.
         {
             <span>@ViewDataTyped.PerformanceMeasure.CriticalDefinitionsHtmlString</span>
         }
-        
+
     </div>
+    <hr />
+    <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Reporting Instructions</h3>
+    <div style="margin-left: 20px">
+        @if (ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString == null || string.IsNullOrWhiteSpace(ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString.ToString()))
+        {
+            <span>@ViewUtilities.NotProvidedString</span>
+        }
+        else
+        {
+            <span>@ViewDataTyped.PerformanceMeasure.ProjectReportingHtmlString</span>
+        }
+
+    </div>
+    <hr/>
+    See more: <a href=@ViewDataTyped.PerformanceMeasure.GetSummaryUrl() target="_blank">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
 </div>

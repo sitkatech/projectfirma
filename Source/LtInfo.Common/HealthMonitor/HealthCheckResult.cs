@@ -27,11 +27,12 @@ namespace LtInfo.Common.HealthMonitor
     {
         private readonly List<string> _resultMessages;
         public readonly string CheckName;
-        public bool Success;
+        public HealthCheckStatus HealthCheckStatus;
 
         public HealthCheckResult(string checkName)
         {
-            Success = true;
+            // Assume Unknown until we hear otherwise
+            HealthCheckStatus = HealthCheckStatus.Unknown;
             CheckName = checkName;
             _resultMessages = new List<string>();
         }
@@ -40,15 +41,25 @@ namespace LtInfo.Common.HealthMonitor
         {
             get
             {
-                var title = string.Format("{0}Check {1}: {2}{0}\t", Environment.NewLine, CheckName, Success ? "Pass" : "Fail");
+                var title = $"{Environment.NewLine}Check {CheckName}: {HealthCheckStatus}{Environment.NewLine}\t";
                 var messageList = String.Join(Environment.NewLine + "\t", _resultMessages.ToArray());
-                return string.Format("{0}{1}{2}{3}", title, messageList, Environment.NewLine, Environment.NewLine);
+                return $"{title}{messageList}{Environment.NewLine}{Environment.NewLine}";
             }
         }
 
         public void AddResultMessage(string message)
         {
             _resultMessages.Add(message);
+        }
+
+        public void AddResultMessages(IEnumerable<String> messages)
+        {
+            _resultMessages.AddRange(messages);
+        }
+
+        public List<String> GetResultMessages()
+        {
+            return _resultMessages;
         }
     }
 }

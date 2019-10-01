@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 
 namespace LtInfo.Common.GdalOgr
 {
@@ -61,11 +62,18 @@ namespace LtInfo.Common.GdalOgr
                 var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoFileInfo.DirectoryName, ogrInfoFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
 
                 var lines = processUtilityResult.StdOut.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // I believe this is happening irregularly - I see crashes below I can't readily reproduce. This is an attempt to narrow down the problem.
+                // (Is the problem that a simple GET request is pounding on the Ogr2Ogr command line .EXE, and that the .EXE then gets too busy/overwhelmed to process multiple requests? 
+                //  Just my first guess. -- SLG 9/30/2019)
+                Check.Ensure(lines.Any(), $"No lines found returning from exec of \"{ogrInfoFileInfo.Name}\" in processed GeoJson string \"{geoJson}\". Raw StdOut: \"{processUtilityResult.StdOut}\"");
+
                 if (lines.Any(x => x.Contains("Feature Count: 0")))
                 {
                     return null;
                 }
 
+                // We see crash here: "Sequence contains no matching element" on lines.First(..)
                 var extentTokens = lines.First(x => x.StartsWith("Extent:")).Split(new[] {' ', '(', ')', ','}, StringSplitOptions.RemoveEmptyEntries).ToList();
                 return new Tuple<double, double, double, double>(double.Parse(extentTokens[1]), double.Parse(extentTokens[2]), double.Parse(extentTokens[4]), double.Parse(extentTokens[5]));
             }

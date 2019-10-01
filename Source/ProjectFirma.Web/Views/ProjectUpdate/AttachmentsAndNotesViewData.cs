@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
@@ -34,6 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public EntityNotesViewData EntityNotesViewData { get; }
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
+        public string NextSectionUrl { get; }
         public ProjectAttachmentsDetailViewData ProjectAttachmentsViewData { get; }
 
         public AttachmentsAndNotesViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName)
@@ -52,6 +55,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                                                 );
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndAttachments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
+
+            var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true);
+            var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName, StringComparison.InvariantCultureIgnoreCase));
+            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            NextSectionUrl = nextProjectUpdateSection?.SectionUrl;
         }
     }
 }

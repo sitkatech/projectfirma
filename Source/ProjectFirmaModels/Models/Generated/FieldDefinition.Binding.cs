@@ -241,6 +241,12 @@ namespace ProjectFirmaModels.Models
         ProjectAttachmentRelationshipType = 291,
         ProjectID = 292,
         ExcludeTargetedFundingOrganizations = 293,
-        ProjectCustomAttributeGroup = 294
+        ProjectCustomAttributeGroup = 294,
+        ProjectLastUpdated = 295,
+        NumberOfProjectsWithExpendedFunds = 296,
+        TotalExpenditures = 297,
+        NumberOfProjectsWithSecuredFunds = 298,
+        TotalProjectSecuredFunds = 299,
+        TotalProjectTargetedFunds = 300
     }
 }
