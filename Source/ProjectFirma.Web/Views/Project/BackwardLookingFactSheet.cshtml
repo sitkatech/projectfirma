@@ -225,36 +225,39 @@
 
             @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
             {
-                @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "row", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
+                @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
                 foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
                 {
                     var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
                     if (projectCustomAttribute != null)
                     {
-                        <div class="col-xs-12 col-sm-6 col-md-3">
-                            <strong>
-                                @projectCustomAttributeType.ProjectCustomAttributeTypeName
-                            </strong>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <strong>
+                                    @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                                </strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-9">
+                                @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                {
+                                    @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                                {
+                                    @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                                {
+                                    <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
+                                    <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                                }
+                                else
+                                {
+                                    @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                                }
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-9">
-                            @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
-                            {
-                                @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
-                            }
-                            else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
-                            {
-                                @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
-                            }
-                            else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
-                            {
-                                <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
-                                <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
-                            }
-                            else
-                            {
-                                @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
-                            }
-                        </div>
+                        
                     }
                 }
                 @Html.Raw("</div>")
