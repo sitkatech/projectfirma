@@ -5,6 +5,9 @@
         public int GeospatialAreaID { get; set; }
         public string GeospatialAreaName { get; set; }
         public int ProjectViewableByUserCount { get; set; }
+        public GeospatialAreaIndexGridSimple()
+        {
+        }
 
         public GeospatialAreaIndexGridSimple(int geospatialAreaId, string geospatialAreaName, int projectViewableByUserCount)
         {

@@ -131,39 +131,21 @@ namespace ProjectFirma.Web.Models
 
         public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<Project> projectListViewableByUser)
         {
-            ILog theLogger = LogManager.GetLogger(typeof(GeospatialAreaModelExtensions));
-            theLogger.Info($"doing something");
-
-            string geospatialAreaIndexGridDataProc = "dbo.pGeospatialAreaIndexGridData";
-            using (SqlConnection sqlConnection = SqlHelpers.CreateAndOpenSqlConnection())
-            {
-                using (SqlCommand cmd = new SqlCommand(geospatialAreaIndexGridDataProc, sqlConnection))
+            var results = from geospatialArea in HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
+                    on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
+                    into x
+                from x2 in x.DefaultIfEmpty()
+                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
+                select new GeospatialAreaIndexGridSimple()
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@geospatialAreaTypeID", geospatialAreaType.GeospatialAreaTypeID);
-                    
-                    cmd.Parameters.Add("@projectIdListViewableByUser", SqlDbType.Structured);
-                    cmd.Parameters["@projectIdListViewableByUser"].Direction = ParameterDirection.Input;
-                    cmd.Parameters["@projectIdListViewableByUser"].TypeName = "dbo.IDList";
-                    cmd.Parameters["@projectIdListViewableByUser"].Value = SqlHelpers.IntListToDataTable(projectListViewableByUser.Select(x => x.ProjectID).ToList());
+                    GeospatialAreaID = grouped.Key.GeospatialAreaID,
+                    GeospatialAreaName = grouped.Key.GeospatialAreaName,
+                    ProjectViewableByUserCount = grouped.Count(t => t.ProjectGeospatialAreaID > 0)
+                };
 
-                    using (SqlDataReader dataReader = cmd.ExecuteReader())
-                    {
-                        List<GeospatialAreaIndexGridSimple> geospatialAreaTypeIndexGridResults = new List<GeospatialAreaIndexGridSimple>();
-
-                        while (dataReader.Read())
-                        {
-                            var geospatialAreaID = (int)dataReader["GeospatialAreaID"];
-                            var geospatialAreaName = (string)dataReader["GeospatialAreaName"];
-                            var projectCount = (int)dataReader["ProjectCount"];
-
-                            geospatialAreaTypeIndexGridResults.Add(new GeospatialAreaIndexGridSimple(geospatialAreaID, geospatialAreaName, projectCount));
-                        }
-
-                        return geospatialAreaTypeIndexGridResults;
-                    }
-                }
-            }
+            var geospatialAreaIndexGridSimplesNew = results.ToList();
+            return geospatialAreaIndexGridSimplesNew;
         }
     }
 }
