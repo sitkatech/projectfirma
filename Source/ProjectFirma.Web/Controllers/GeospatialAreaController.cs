@@ -57,12 +57,13 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [GeospatialAreaViewFeature]
-        public GridJsonNetJObjectResult<GeospatialArea> IndexGridJsonData(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        public GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple> IndexGridJsonData(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(CurrentPerson, geospatialAreaType);
-            var geospatialAreas = geospatialAreaType.GeospatialAreas.OrderBy(x => x.GeospatialAreaName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
+            var projectsPersonCanView = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
+            var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectsPersonCanView);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple>(geospatialAreaIndexGridSimples, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
