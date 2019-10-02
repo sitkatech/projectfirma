@@ -164,7 +164,6 @@
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
-    <Compile Include="Common\SqlHelpers.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
     <Compile Include="Models\TagModelExtensions.cs" />
