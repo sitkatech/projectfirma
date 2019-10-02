@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         public readonly List<ProjectSimple> AllProjects;
         public readonly int? ProjectID;
         public readonly bool UsePanelLayout;
+        public readonly string PerformanceMeasureExpectedFormID;
 
         public string ConfigurePerformanceMeasuresUrl { get; }
 
@@ -53,6 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             AllProjects = allProjects;
             UsePanelLayout = usePanelLayout;
             ConfigurePerformanceMeasuresUrl = configurePerformanceMeasuresUrl;
+            PerformanceMeasureExpectedFormID = $"performanceMeasureExpectedForm{projectID}";
         }
 
         public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, string configurePerformanceMeasuresUrl)
