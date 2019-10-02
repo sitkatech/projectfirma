@@ -234,18 +234,20 @@ Source code is available upon request via <support@sitkatech.com>.
             }
                         
             <hr/>           
-            @using (Html.BeginForm())
-            {
-                <div ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:'PerformanceMeasureID'">
-                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.PerformanceMeasureID}}">
-                    <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ExpectedValue}}">
-                    <div ng-repeat="performanceMeasureExpectedSubcategoryOption in getPerformanceMeasureExpectedSubcategoryOptionsWithValues(performanceMeasureExpected)">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID}}">
-                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID}}">
+            <div id="@ViewDataTyped.PerformanceMeasureExpectedFormID">
+                @using (Html.BeginForm())
+                {
+                    <div ng-repeat="performanceMeasureExpected in AngularModel.PerformanceMeasureExpecteds | orderBy:'PerformanceMeasureID'">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.PerformanceMeasureID}}">
+                        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].ExpectedValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureExpected.ExpectedValue}}">
+                        <div ng-repeat="performanceMeasureExpectedSubcategoryOption in getPerformanceMeasureExpectedSubcategoryOptionsWithValues(performanceMeasureExpected)">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryOptionID}}">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureSubcategoryID}}">
+                            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureExpecteds[0].PerformanceMeasureExpectedSubcategoryOptions[1].PerformanceMeasureID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{performanceMeasureExpectedSubcategoryOption.PerformanceMeasureID}}">
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
 
     </div>
