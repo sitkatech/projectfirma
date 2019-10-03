@@ -221,7 +221,7 @@ namespace ProjectFirma.Web.Controllers
             if (projectDetailLocationsFeatureCollection.Features.Any())
             {
                 hasSpatialData = true;
-                layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Hide));
+                layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
                 dbGeometries.AddRange(allActiveProjectsAndProposals.SelectMany(p => p.ProjectLocations.Select(pl => pl.ProjectLocationGeometry)));
             }
 
