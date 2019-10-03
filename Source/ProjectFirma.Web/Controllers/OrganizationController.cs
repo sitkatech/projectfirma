@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
@@ -186,6 +187,7 @@ namespace ProjectFirma.Web.Controllers
             hasSpatialData = false;
             
             var layers = new List<LayerGeoJson>();
+            var dbGeometries = new List<DbGeometry>();
 
             if (organization.OrganizationBoundary != null)
             {
@@ -193,6 +195,7 @@ namespace ProjectFirma.Web.Controllers
                 layers.Add(new LayerGeoJson("Organization Boundary",
                     organization.OrganizationBoundaryToFeatureCollection(), organization.OrganizationType?.LegendColor ?? FirmaHelpers.DefaultColorRange.First(), 1,
                     LayerInitialVisibility.Show));
+                dbGeometries.Add(organization.OrganizationBoundary);
             }
 
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
@@ -206,6 +209,8 @@ namespace ProjectFirma.Web.Controllers
                 return feature;
             }).ToList());
 
+            dbGeometries.AddRange(projectsAsSimpleLocations.Select(p => p.ProjectLocationPoint));
+
             if (projectSimpleLocationsFeatureCollection.Features.Any())
             {
                 hasSpatialData = true;
@@ -217,9 +222,11 @@ namespace ProjectFirma.Web.Controllers
             {
                 hasSpatialData = true;
                 layers.Add(new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detailed Mapping", projectDetailLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Hide));
+                dbGeometries.AddRange(allActiveProjectsAndProposals.SelectMany(p => p.ProjectLocations.Select(pl => pl.ProjectLocationGeometry)));
             }
 
-            var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
+            var boundingBox = new BoundingBox(dbGeometries);
+            //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
             layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
