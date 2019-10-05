@@ -64,8 +64,7 @@ namespace ProjectFirmaModels.Models
             var addedEntries = dbEntityEntries.Where(e => e.State == EntityState.Added).ToList();
             var modifiedEntries = dbEntityEntries
                 .Where(e => e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
-            var objectContext = GetObjectContext();
-
+            
             var tenantID = tenant.TenantID;
 
             SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
@@ -74,7 +73,7 @@ namespace ProjectFirmaModels.Models
             {
                 // For each changed record, get the audit record entries and add them
                 var auditRecordsForChange =
-                    AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, objectContext, tenantID);
+                    AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
 
@@ -106,7 +105,7 @@ namespace ProjectFirmaModels.Models
             foreach (var entry in addedEntries)
             {
                 // For each added record, get the audit record entries and add them
-                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, objectContext, tenantID);
+                var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
             }
 

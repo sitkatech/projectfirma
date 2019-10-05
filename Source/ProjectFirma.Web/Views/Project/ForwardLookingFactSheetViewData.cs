@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Views.Project
             ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
             
             WithCustomAttributes = withCustomAttributes;
-            LastUpdated = project.GetLastUpdateDate();
+            LastUpdated = project.LastUpdatedDate;
         }
 
         public HtmlString LegendHtml

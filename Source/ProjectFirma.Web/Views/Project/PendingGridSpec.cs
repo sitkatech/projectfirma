@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -55,7 +56,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             
             Add("Submitted Date", a => a.SubmissionDate, 120);
-            Add("Last Updated", a => a.GetLastUpdateDate(), 120);
+            Add("Last Updated", a => a.LastUpdatedDate, 120);
             Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 300);
         }
     }

@@ -219,16 +219,20 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult CreateAndEditBasicsPostImpl(BasicsViewModel viewModel)
         {
+            // To keep a 100% consistent time, we snapshot it so it doesn't change between calls
+            var now = DateTime.Now;
+
             var project = new Project(viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
+                ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
+                now)
             {
                 ProposingPerson = CurrentPerson,
-                ProposingDate = DateTime.Now
+                ProposingDate = now
             };
 
             return SaveProjectAndCreateAuditEntry(project, viewModel);

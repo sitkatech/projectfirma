@@ -32,6 +32,7 @@ CREATE TABLE [dbo].[Project](
 	[NoExpendituresToReportExplanation] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[NoFundingSourceIdentifiedYet] [money] NULL,
 	[ExpectedFundingUpdateNote] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LastUpdatedDate] [datetime] NOT NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

@@ -319,11 +319,6 @@ namespace ProjectFirma.Web.Models
             return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
-        public static DateTime GetLastUpdateDate(this Project project)
-        {
-            return HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(project).Max(x => x.AuditLogDate);
-        }
-
         public static string GetPlanningDesignStartYear(Project project)
         {
             return project.PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.PlanningDesignStartYear.Value) : null;

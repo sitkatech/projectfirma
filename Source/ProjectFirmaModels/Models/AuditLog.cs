@@ -83,8 +83,9 @@ namespace ProjectFirmaModels.Models
             return AuditDescription;
         }
 
-        public static List<AuditLog> GetAuditLogRecordsForModifiedOrDeleted(DbEntityEntry dbEntry, Person person, ObjectContext objectContext, int tenantID)
+        public static List<AuditLog> GetAuditLogRecordsForModifiedOrDeleted(DbEntityEntry dbEntry, Person person, DatabaseEntities dbContext, int tenantID)
         {
+            var objectContext = dbContext.GetObjectContext();
             var result = new List<AuditLog>();
             var tableName = EntityFrameworkHelpers.GetTableName(dbEntry.Entity.GetType(), objectContext);
             if (!IgnoredTables.Contains(tableName))
@@ -92,7 +93,7 @@ namespace ProjectFirmaModels.Models
                 switch (dbEntry.State)
                 {
                     case EntityState.Deleted:
-                        var newAuditLog = CreateAuditLogEntryForDeleted(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted, tenantID);
+                        var newAuditLog = CreateAuditLogEntryForDeleted(dbContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted, tenantID);
                         result.Add(newAuditLog);
                         break;
 
@@ -100,7 +101,7 @@ namespace ProjectFirmaModels.Models
                         var modifiedProperties = dbEntry.CurrentValues.PropertyNames.Where(p => dbEntry.Property(p).IsModified).Select(dbEntry.Property).ToList();
                         var auditLogs =
                             modifiedProperties.Select(
-                                modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Modified, modifiedProperty, tenantID))
+                                modifiedProperty => CreateAuditLogEntryForAddedOrModified(dbContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Modified, modifiedProperty, tenantID))
                                 .Where(x => x != null)
                                 .ToList();
                         result.AddRange(auditLogs);
@@ -114,8 +115,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// This has its own path because we need to call this after the initial savechanges to grab the new primary key id from the database
         /// </summary>
-        public static List<AuditLog> GetAuditLogRecordsForAdded(DbEntityEntry dbEntry, Person person, ObjectContext objectContext, int tenantID)
+        public static List<AuditLog> GetAuditLogRecordsForAdded(DbEntityEntry dbEntry, Person person, DatabaseEntities dbContext, int tenantID)
         {
+            var objectContext = dbContext.GetObjectContext();
             var result = new List<AuditLog>();
             var tableName = EntityFrameworkHelpers.GetTableName(dbEntry.Entity.GetType(), objectContext);
             if (!IgnoredTables.Contains(tableName))
@@ -123,7 +125,7 @@ namespace ProjectFirmaModels.Models
                 var modifiedProperties = dbEntry.CurrentValues.PropertyNames.Select(dbEntry.Property).Where(currentProperty => !IsPropertyChangeOfNullToNull(currentProperty)).ToList();
                 var auditLogs =
                     modifiedProperties.Select(
-                        modifiedProperty => CreateAuditLogEntryForAddedOrModified(objectContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Added, modifiedProperty, tenantID))
+                        modifiedProperty => CreateAuditLogEntryForAddedOrModified(dbContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Added, modifiedProperty, tenantID))
                         .Where(x => x != null)
                         .ToList();
                 result.AddRange(auditLogs);
@@ -143,16 +145,16 @@ namespace ProjectFirmaModels.Models
         /// Creates an audit log entry for a <see cref="DbEntityEntry"/> that has an <see cref="EntityState"/> of <see cref="EntityState.Deleted"/>
         /// Deleted log entries do not have columns/property names, so there will just be one record created
         /// </summary>
-        private static AuditLog CreateAuditLogEntryForDeleted(ObjectContext objectContext,
-            DbEntityEntry dbEntry,
+        private static AuditLog CreateAuditLogEntryForDeleted(DatabaseEntities dbContext, DbEntityEntry dbEntry,
             string tableName,
             Person person,
             DateTime changeDate,
-            AuditLogEventType auditLogEventType, int tenantID)
+            AuditLogEventType auditLogEventType,
+            int tenantID)
         {
             var auditableEntityDeleted = GetIAuditableEntityFromEntity(dbEntry.Entity, tableName);
             var optionalAuditDescriptionString = auditLogEventType.GetAuditStringForOperationType(tableName, null, auditableEntityDeleted.GetAuditDescriptionString());
-            var auditLogEntry = CreateAuditLogEntryImpl(dbEntry,
+            var auditLogEntry = CreateAuditLogEntryImpl(dbContext, dbEntry,
                 tableName,
                 person,
                 changeDate,
@@ -168,7 +170,7 @@ namespace ProjectFirmaModels.Models
         /// Creates an audit log entry for a <see cref="DbEntityEntry"/> that has an <see cref="EntityState"/> of <see cref="EntityState.Added"/> or <see cref="EntityState.Modified"/>
         /// It will create an audit log entry for each property that has changed
         /// </summary>
-        private static AuditLog CreateAuditLogEntryForAddedOrModified(ObjectContext objectContext,
+        private static AuditLog CreateAuditLogEntryForAddedOrModified(DatabaseEntities dbContext,
             DbEntityEntry dbEntry,
             string tableName,
             Person person,
@@ -179,8 +181,9 @@ namespace ProjectFirmaModels.Models
             var propertyName = modifiedProperty.Name;
             if (!string.Equals(propertyName, string.Format("{0}ID", tableName), StringComparison.InvariantCultureIgnoreCase) && !string.Equals(propertyName, "TenantID", StringComparison.InvariantCultureIgnoreCase))
             {
-                var optionalAuditDescriptionString = GetAuditDescriptionStringIfAnyForProperty(objectContext, dbEntry, propertyName, auditLogEventType);
-                var auditLogEntry = CreateAuditLogEntryImpl(dbEntry,
+                var optionalAuditDescriptionString = GetAuditDescriptionStringIfAnyForProperty(dbContext, dbEntry, propertyName, auditLogEventType);
+                var auditLogEntry = CreateAuditLogEntryImpl(dbContext,
+                    dbEntry,
                     tableName,
                     person,
                     changeDate,
@@ -197,22 +200,32 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// This is for adding any extra optional columns like ProjectID to the audit log record
         /// </summary>
+        /// <param name="dbContext"></param>
         /// <param name="entry"></param>
         /// <param name="tableName"></param>
         /// <param name="auditLog"></param>
-        private static void AddAdditionalRecordColumns(DbEntityEntry entry, string tableName, AuditLog auditLog)
+        private static void AddAdditionalRecordColumns(DatabaseEntities dbContext,
+                                                       DbEntityEntry entry,
+                                                       string tableName,
+                                                       AuditLog auditLog)
         {
             if (Project.DependentEntityTypeNames.Contains(tableName))
             {
                 var projectID = (int?) entry.Property(PropertyNameProjectID).CurrentValue;
                 if (projectID.HasValue)
                 {
-                    auditLog.ProjectID = projectID;    
-                }                
+                    auditLog.ProjectID = projectID;
+                    var project = dbContext.Projects.GetProject(projectID.Value);
+                    project.LastUpdatedDate = DateTime.Now;
+                    // This could likely be optimized in some fashion, to indicate to the caller that project was changed,
+                    // and not do this N number of times, but only once per batch.
+                    dbContext.ChangeTracker.DetectChanges();
+                }
             }
         }
 
-        private static AuditLog CreateAuditLogEntryImpl(DbEntityEntry dbEntry,
+        private static AuditLog CreateAuditLogEntryImpl(DatabaseEntities dbContext,
+            DbEntityEntry dbEntry,
             string tableName,
             Person person,
             DateTime changeDate,
@@ -230,7 +243,7 @@ namespace ProjectFirmaModels.Models
                 AuditDescription = optionalAuditDescriptionString,
                 TenantID = tenantID
             };
-            AddAdditionalRecordColumns(dbEntry, tableName, auditLog);
+            AddAdditionalRecordColumns(dbContext, dbEntry, tableName, auditLog);
             return auditLog;
         }
 
@@ -238,8 +251,9 @@ namespace ProjectFirmaModels.Models
         /// Gets the audit description string for a property that came from a <see cref="DbEntityEntry"/> that has an <see cref="EntityState"/> of <see cref="EntityState.Added"/> or <see cref="EntityState.Modified"/>
         /// This will attempt to look up a foreign key and return a more descriptive string for that fk property
         /// </summary>
-        public static string GetAuditDescriptionStringIfAnyForProperty(ObjectContext objectContext, DbEntityEntry dbEntry, string propertyName, AuditLogEventType auditLogEventType)
+        public static string GetAuditDescriptionStringIfAnyForProperty(DatabaseEntities dbContext, DbEntityEntry dbEntry, string propertyName, AuditLogEventType auditLogEventType)
         {
+            var objectContext = dbContext.GetObjectContext();
             var objectStateEntry = objectContext.ObjectStateManager.GetObjectStateEntry(dbEntry.Entity);
             // find foreign key relationships for given propertyname
             var relatedEnds = GetDependentForeignKeyRelatedEndsForProperty(objectStateEntry, propertyName);
