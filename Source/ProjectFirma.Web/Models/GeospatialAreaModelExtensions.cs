@@ -136,6 +136,7 @@ namespace ProjectFirma.Web.Models
                     on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
                     into x
                 from x2 in x.DefaultIfEmpty()
+                where x2.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
                 select new GeospatialAreaIndexGridSimple()
                 {
