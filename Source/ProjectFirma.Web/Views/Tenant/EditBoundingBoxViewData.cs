@@ -20,15 +20,14 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditBoundingBoxViewData
     {
-        public readonly MapInitJson MapInitJson;
-        public readonly string EditBoundingBoxUrl;
-        public readonly string EditBoundingBoxFormID;
+        public MapInitJson MapInitJson { get; }
+        public string EditBoundingBoxUrl { get; }
+        public string EditBoundingBoxFormID { get; }
 
         public EditBoundingBoxViewData(MapInitJson mapInitJson, string editBoundingBoxUrl, string editBoundingBoxFormID)
         {
