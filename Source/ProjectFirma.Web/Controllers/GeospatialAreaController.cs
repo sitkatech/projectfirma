@@ -61,8 +61,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var gridSpec = new IndexGridSpec(CurrentPerson, geospatialAreaType);
-            var projectsPersonCanView = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals());
-            var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectsPersonCanView);
+            var projectIDsViewableByUser = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals()).Select(x => x.ProjectID).ToList();
+            var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectIDsViewableByUser);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple>(geospatialAreaIndexGridSimples, gridSpec);
             return gridJsonNetJObjectResult;
         }

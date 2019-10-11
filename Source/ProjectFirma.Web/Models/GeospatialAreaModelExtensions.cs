@@ -129,10 +129,10 @@ namespace ProjectFirma.Web.Models
             return feature;
         }
 
-        public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<Project> projectListViewableByUser)
+        public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<int> projectIDsViewableByUser)
         {
             var results = from geospatialArea in HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
+                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Where(x => projectIDsViewableByUser.Contains(x.ProjectID))
                     on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
                     into x
                 where geospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
