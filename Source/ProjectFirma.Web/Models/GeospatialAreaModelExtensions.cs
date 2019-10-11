@@ -135,8 +135,8 @@ namespace ProjectFirma.Web.Models
                 join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
                     on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
                     into x
+                where geospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 from x2 in x.DefaultIfEmpty()
-                where x2.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
                 select new GeospatialAreaIndexGridSimple()
                 {
