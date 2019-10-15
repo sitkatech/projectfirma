@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantInternationYearOfTheSalmon InternationYearOfTheSalmon = TenantInternationYearOfTheSalmon.Instance;
         public static readonly TenantDemoProjectFirma DemoProjectFirma = TenantDemoProjectFirma.Instance;
         public static readonly TenantPeaksToPeople PeaksToPeople = TenantPeaksToPeople.Instance;
-        public static readonly TenantJohnDayPartnership JohnDayPartnership = TenantJohnDayPartnership.Instance;
+        public static readonly TenantJohnDayBasinPartnership JohnDayBasinPartnership = TenantJohnDayBasinPartnership.Instance;
         public static readonly TenantAshlandForestAllLandsRestorationInitiative AshlandForestAllLandsRestorationInitiative = TenantAshlandForestAllLandsRestorationInitiative.Instance;
         public static readonly TenantIdahoAssociatonOfSoilConservationDistricts IdahoAssociatonOfSoilConservationDistricts = TenantIdahoAssociatonOfSoilConservationDistricts.Instance;
         public static readonly TenantActionAgendaForPugetSound ActionAgendaForPugetSound = TenantActionAgendaForPugetSound.Instance;
@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static Tenant()
         {
-            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
+            All = new List<Tenant> { SitkaTechnologyGroup, ClackamasPartnership, RCDProjectTracker, InternationYearOfTheSalmon, DemoProjectFirma, PeaksToPeople, JohnDayBasinPartnership, AshlandForestAllLandsRestorationInitiative, IdahoAssociatonOfSoilConservationDistricts, ActionAgendaForPugetSound, BureauOfReclamation };
             AllLookupDictionary = new ReadOnlyDictionary<int, Tenant>(All.ToDictionary(x => x.TenantID));
         }
 
@@ -134,8 +134,8 @@ namespace ProjectFirmaModels.Models
                     return IdahoAssociatonOfSoilConservationDistricts;
                 case TenantEnum.InternationYearOfTheSalmon:
                     return InternationYearOfTheSalmon;
-                case TenantEnum.JohnDayPartnership:
-                    return JohnDayPartnership;
+                case TenantEnum.JohnDayBasinPartnership:
+                    return JohnDayBasinPartnership;
                 case TenantEnum.PeaksToPeople:
                     return PeaksToPeople;
                 case TenantEnum.RCDProjectTracker:
@@ -156,7 +156,7 @@ namespace ProjectFirmaModels.Models
         InternationYearOfTheSalmon = 4,
         DemoProjectFirma = 5,
         PeaksToPeople = 6,
-        JohnDayPartnership = 7,
+        JohnDayBasinPartnership = 7,
         AshlandForestAllLandsRestorationInitiative = 8,
         IdahoAssociatonOfSoilConservationDistricts = 9,
         ActionAgendaForPugetSound = 11,
@@ -199,10 +199,10 @@ namespace ProjectFirmaModels.Models
         public static readonly TenantPeaksToPeople Instance = new TenantPeaksToPeople(6, @"PeaksToPeople", @"peakstopeople.localhost.projectfirma.com", @"qa-outcomes.peakstopeople.org", @"outcomes.peakstopeople.org", DateTime.Parse("01/01/1990"), false, false, false);
     }
 
-    public partial class TenantJohnDayPartnership : Tenant
+    public partial class TenantJohnDayBasinPartnership : Tenant
     {
-        private TenantJohnDayPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced) {}
-        public static readonly TenantJohnDayPartnership Instance = new TenantJohnDayPartnership(7, @"JohnDayPartnership", @"johndaybasinpartnership.localhost.projectfirma.com", @"qa.johndaybasinpartnership.org", @"johndaybasinpartnership.org", DateTime.Parse("01/01/1990"), false, false, false);
+        private TenantJohnDayBasinPartnership(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime reportingYearStartDate, bool useFiscalYears, bool usesTechnicalAssistanceParameters, bool arePerformanceMeasuresExternallySourced) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, reportingYearStartDate, useFiscalYears, usesTechnicalAssistanceParameters, arePerformanceMeasuresExternallySourced) {}
+        public static readonly TenantJohnDayBasinPartnership Instance = new TenantJohnDayBasinPartnership(7, @"JohnDayBasinPartnership", @"johndaybasinpartnership.localhost.projectfirma.com", @"qa.johndaybasinpartnership.org", @"johndaybasinpartnership.org", DateTime.Parse("01/01/1990"), false, false, false);
     }
 
     public partial class TenantAshlandForestAllLandsRestorationInitiative : Tenant
