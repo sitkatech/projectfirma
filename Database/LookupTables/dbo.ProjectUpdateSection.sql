@@ -5,7 +5,7 @@ values
 (2, 'Basics', 'Basics', 20, 1, 1),
 (3, 'LocationSimple', 'Simple Location', 30, 1, 1),
 (4, 'Organizations', 'Organizations', 40, 1, 1),
-(5, 'LocationDetailed', 'Detailed Location', 60, 0, 2),
+(5, 'LocationDetailed', 'Detailed Location', 31, 0, 1),
 (6, 'ReportedAccomplishments', 'Reported Accomplishments', 80, 1, 3),
 (7, 'Budget', 'Budget', 90, 0, 4),
 (8, 'Expenditures', 'Expenditures', 100, 1, 4),
