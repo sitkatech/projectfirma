@@ -4,25 +4,6 @@ update dbo.Tenant
 set TenantName = 'JohnDayBasinPartnership'
 where TenantID = 7
 
-/*
--- Select fields I need into their own table so I can script the inserts then just use find/replace to make it insert into 
--- Insert Subwatersheds
-select 7 TenantID,
-	hu_10_name GeospatialAreaName,
-	Shape GeospatialAreaFeatures,
-	24 GeospatialAreaTypeID
-into Scratch.dbo.SubwatershedClean
-from Scratch.dbo.subwatershed
-
--- Insert Priority Focus Areas
-select 7 TenantID,
-	hu_10_name GeospatialAreaName,
-	Shape GeospatialAreaFeature,
-	25 GeospatialAreaTypeID
-into Scratch.dbo.PriorityBasinClean
-from Scratch.dbo.prioritybasin
-*/
-
 -- Delete existing type
 delete from ProjectCustomGridConfiguration
 where TenantID = 7 and GeospatialAreaTypeID is not null
