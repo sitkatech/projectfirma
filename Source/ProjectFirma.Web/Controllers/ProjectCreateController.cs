@@ -1016,6 +1016,7 @@ namespace ProjectFirma.Web.Controllers
             return $"editMapForProject{projectID}";
         }
 
+        #region "GeospatialAreas"
         [HttpGet]
         [ProjectCreateFeature]
         public ViewResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
@@ -1091,6 +1092,80 @@ namespace ProjectFirma.Web.Controllers
         {
             return $"editMapForProject{project.ProjectID}";
         }
+
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult QuickSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            //var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            //var quickSetViewData = new QuickSetProjectSpatialInformationViewData(CurrentPerson, project, HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList());
+            //var quickSetSpatialInformationViewData = new QuickSetSpatialInformationViewData(CurrentPerson, project, proposalSectionsStatus, quickSetViewData);
+            var viewModel = new QuickSetSpatialInformationViewModel();
+            return ViewQuickSetSpatialInformation(project, viewModel);
+        }
+        
+        private ViewResult ViewQuickSetSpatialInformation(Project project, QuickSetSpatialInformationViewModel viewModel)
+        {
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            //var geospatialAreaTypeIDs = viewModel.GeospatialAreaTypeIDs ?? new List<int>();
+            //var geospatialAreaTypesInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var quickSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.QuickSetSpatialInformation(project, null));
+            var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
+
+            var geospatialAreasContainingProjectSimpleLocation =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
+
+            var quickSetProjectSpatialInformationViewData = new QuickSetProjectSpatialInformationViewData(CurrentPerson, project,
+                geospatialAreaTypes, mapInitJson, quickSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
+                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint(),
+                project.HasProjectLocationDetail());
+
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
+            var viewData = new QuickSetSpatialInformationViewData(CurrentPerson, project, proposalSectionsStatus, quickSetProjectSpatialInformationViewData);
+
+            return RazorView<QuickSetSpatialInformation, QuickSetSpatialInformationViewData, QuickSetSpatialInformationViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult QuickSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey, QuickSetSpatialInformationViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewQuickSetSpatialInformation(project, viewModel);
+            }
+            //var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList();
+            //var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
+            //viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
+            //var projectGeospatialAreaTypeNote = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
+            //if (!string.IsNullOrWhiteSpace(viewModel.ProjectGeospatialAreaNotes))
+            //{
+            //    if (projectGeospatialAreaTypeNote == null)
+            //    {
+            //        projectGeospatialAreaTypeNote = new ProjectGeospatialAreaTypeNote(project, geospatialAreaType, viewModel.ProjectGeospatialAreaNotes);
+            //    }
+            //    projectGeospatialAreaTypeNote.Notes = viewModel.ProjectGeospatialAreaNotes;
+            //}
+            //else
+            //{
+            //    projectGeospatialAreaTypeNote?.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            //}
+
+            SetMessageForDisplay($"WE DID STUFF");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.QuickSetSpatialInformation.ProjectCreateSectionDisplayName);
+        }
+
+
+        #endregion "GeospatialAreas"
 
         #region "Attachments and Notes"
 

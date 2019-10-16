@@ -219,6 +219,7 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\QuickSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
@@ -310,6 +311,11 @@
     <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewModel.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetailViewData.cs" />
+    <Compile Include="Views\ProjectCreate\QuickSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectCreate\QuickSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\QuickSetProjectSpatialInformationViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\QuickSetProjectSpatialInformation.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\QuickSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -960,6 +966,7 @@
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachmentController.js" />
     <Content Include="Views\Shared\ProjectContact\ProjectContactController.js" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\QuickSetProjectSpatialInformationController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <Content Include="Views\Home\TrainingVideo.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
@@ -1566,6 +1573,8 @@
     <Content Include="Views\Results\FundingStatus.cshtml" />
     <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
     <Content Include="Views\SiteMonitor\SiteMonitorNagios.cshtml" />
+    <Content Include="Views\ProjectCreate\QuickSetSpatialInformation.cshtml" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\QuickSetProjectSpatialInformation.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
