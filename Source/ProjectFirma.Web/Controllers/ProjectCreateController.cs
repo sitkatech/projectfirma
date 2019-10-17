@@ -1144,7 +1144,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
 
-            SetMessageForDisplay($"WE DID STUFF");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Spatial Information successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.BulkSetSpatialInformation.ProjectCreateSectionDisplayName);
         }
 

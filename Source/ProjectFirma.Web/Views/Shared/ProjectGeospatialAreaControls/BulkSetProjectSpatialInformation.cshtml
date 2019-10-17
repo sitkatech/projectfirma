@@ -74,7 +74,7 @@
                 <div class="well" ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypes">
                     <label style="width: 100%;">
                         {{geospatialAreaType.GeospatialAreaTypeName}}
-                        <input type="checkbox" name="geospatialAreaType" class="pull-right" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
+                        <input type="checkbox" name="geospatialAreaType" class="pull-right" ng-checked="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
                     </label>
                     <div ng-if="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)">
                         <hr />
