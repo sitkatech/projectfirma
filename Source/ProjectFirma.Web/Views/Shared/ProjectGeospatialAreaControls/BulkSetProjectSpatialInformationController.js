@@ -1,6 +1,6 @@
-﻿//#sourceUrl=/Views/ProjectGeospatialArea/QuickSetProjectSpatialInformationController.js
+﻿//#sourceUrl=/Views/ProjectGeospatialArea/BulkSetProjectSpatialInformationController.js
 angular.module("ProjectFirmaApp")
-    .controller("QuickSetProjectSpatialInformationController",
+    .controller("BulkSetProjectSpatialInformationController",
         function ($scope, angularModelAndViewData) {
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.AngularViewData = angularModelAndViewData.AngularViewData;

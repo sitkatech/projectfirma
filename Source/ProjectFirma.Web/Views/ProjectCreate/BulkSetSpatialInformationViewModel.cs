@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="QuickSetSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkSetSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,16 +26,16 @@ using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {    
-    public class QuickSetSpatialInformationViewModel : QuickSetProjectSpatialInformationViewModel
+    public class BulkSetSpatialInformationViewModel : BulkSetProjectSpatialInformationViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public QuickSetSpatialInformationViewModel()
+        public BulkSetSpatialInformationViewModel()
         {
         }
 
-        public QuickSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
+        public BulkSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
         {
         }
         

@@ -9,7 +9,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
-    public class QuickSetProjectSpatialInformationViewData : FirmaViewData
+    public class BulkSetProjectSpatialInformationViewData : FirmaViewData
     {
         //public ProjectFirmaModels.Models.Project Project { get; set; }
         public DbGeometry ProjectSimpleLocation { get; }
@@ -17,14 +17,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string EditProjectGeospatialAreasUrl { get; }
 
 
-        public QuickSetProjectSpatialInformationViewDataForAngular ViewDataForAngular { get; }
+        public BulkSetProjectSpatialInformationViewDataForAngular ViewDataForAngular { get; }
         public string EditProjectGeospatialAreasFormID { get; }
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
         
         public string SimplePointMarkerImg { get; }
 
-        public QuickSetProjectSpatialInformationViewData(Person currentPerson, 
+        public BulkSetProjectSpatialInformationViewData(Person currentPerson, 
                                                          ProjectFirmaModels.Models.Project project, 
                                                          List<GeospatialAreaType> geospatialAreaTypes, 
                                                          MapInitJson mapInitJson, 
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationDetail = hasProjectLocationDetail;
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
 
-            ViewDataForAngular = new QuickSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
+            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
 
 
 
@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
     }
 
 
-    public class QuickSetProjectSpatialInformationViewDataForAngular
+    public class BulkSetProjectSpatialInformationViewDataForAngular
     {
         public MapInitJson MapInitJson { get; }
         //public string FindGeospatialAreaByNameUrl { get; }
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public bool HasProjectLocationPoint { get; }
 
-        public QuickSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson,
+        public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson,
                                                                    //List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, 
                                                                    List<GeospatialAreaType> geospatialAreaTypes, 
                                                                    List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
             //GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
-            GeospatialAreaTypes = geospatialAreaTypes.Select(x => new GeospatialAreaTypeSimple(x, geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
+            GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x => new GeospatialAreaTypeSimple(x, geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
 
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 

@@ -1,7 +1,7 @@
 ﻿
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
-@inherits ProjectFirma.Web.Views.ProjectCreate.QuickSetSpatialInformation
+@inherits ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformation
 
 @section JavascriptAndStylesContent
 {
@@ -10,7 +10,7 @@
 
 <div style="min-height: 300px">
     <div>
-        @{ QuickSetProjectSpatialInformation.RenderPartialView(Html, ViewDataTyped.QuickSetProjectSpatialInformationViewData, Model); }
+        @{ BulkSetProjectSpatialInformation.RenderPartialView(Html, ViewDataTyped.BulkSetProjectSpatialInformationViewData, Model); }
     </div>
 </div>
 
@@ -24,10 +24,10 @@
 @*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
 <script type="text/javascript">
     // <![CDATA[
-    jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.QuickSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID", ".submitProject"); });
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.BulkSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID", ".submitProject"); });
 
     function saveForm(autoAdvance) {
-        var form = jQuery("#@ViewDataTyped.QuickSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID");
+        var form = jQuery("#@ViewDataTyped.BulkSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID");
         // Do not submit if the form
         // does not pass client side validation
 

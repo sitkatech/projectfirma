@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="QuickSetProjectSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkSetProjectSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -31,7 +31,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
-    public class QuickSetProjectSpatialInformationViewModel : FormViewModel, IValidatableObject
+    public class BulkSetProjectSpatialInformationViewModel : FormViewModel
     {
         [DisplayName("Project Geospatial Areas")]
         public IEnumerable<int> GeospatialAreaIDs { get; set; }
@@ -41,19 +41,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public QuickSetProjectSpatialInformationViewModel()
+        public BulkSetProjectSpatialInformationViewModel()
         {
         }
 
-        public QuickSetProjectSpatialInformationViewModel(List<int> geospatialAreaIDs)
+        public BulkSetProjectSpatialInformationViewModel(List<int> geospatialAreaIDs)
         {
             GeospatialAreaIDs = geospatialAreaIDs;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, IList<ProjectGeospatialArea> allProjectGeospatialAreas)
         {
-            //var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialArea(project.ProjectID, x)).ToList() ?? new List<ProjectGeospatialArea>();
-            //currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectID == y.ProjectID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
+            var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialArea(project.ProjectID, x)).ToList() ?? new List<ProjectGeospatialArea>();
+            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectID == y.ProjectID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
         }
 
         public void UpdateModel(ProjectUpdateBatch project, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreas, IList<ProjectGeospatialAreaUpdate> allProjectGeospatialAreas)
@@ -62,24 +62,5 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             //currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
         }
 
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return GetValidationResults();
-        }
-
-        public IEnumerable<ValidationResult> GetValidationResults()
-        {
-            var errors = new List<ValidationResult>();
-            //var noGeospatialAreasSelected = GeospatialAreaIDs == null || GeospatialAreaIDs.Count().Equals(0);
-            //if (noGeospatialAreasSelected && string.IsNullOrWhiteSpace(ProjectGeospatialAreaNotes))
-            //{
-            //    errors.Add(
-            //        new SitkaValidationResult<EditProjectGeospatialAreasViewModel, string>(
-            //            $"Select at least one geospatial area or provide explanatory information in the Notes section if there are no applicable geospatial areas for this Project.",
-            //            x => x.ProjectGeospatialAreaNotes));
-            //}
-
-            return errors;
-        }
     }
 }

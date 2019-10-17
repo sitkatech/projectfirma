@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project);
                 case ProjectCreateSectionEnum.AttachmentsAndNotes:
                     return ProjectCreateSection.Basics.IsComplete(project);
-                case ProjectCreateSectionEnum.QuickSetSpatialInformation:
+                case ProjectCreateSectionEnum.BulkSetSpatialInformation:
                     return ProjectCreateSection.Basics.IsComplete(project);
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -133,8 +133,8 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Photos(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.AttachmentsAndNotes:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.AttachmentsAndNotes(project.ProjectID)) : null;
-                case ProjectCreateSectionEnum.QuickSetSpatialInformation:
-                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.QuickSetSpatialInformation(project.ProjectID)) : null;
+                case ProjectCreateSectionEnum.BulkSetSpatialInformation:
+                    return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project.ProjectID)) : null;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

@@ -16,4 +16,4 @@ values
 (15, 'Contacts', 'Contacts', 45, 1, 1),
 (16, 'AttachmentsAndNotes', 'Attachments and Notes', 140, 0, 5),
 (17, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
-(18, 'QuickSetSpatialInformation', 'Quick Set Spatial Information', 10, 0, 2)
+(18, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information', 10, 0, 2)
