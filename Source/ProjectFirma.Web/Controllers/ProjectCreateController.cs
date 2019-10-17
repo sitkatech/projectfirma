@@ -1109,8 +1109,8 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewQuickSetSpatialInformation(Project project, QuickSetSpatialInformationViewModel viewModel)
         {
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
-            layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
+            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project);//MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
+
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             //var geospatialAreaTypeIDs = viewModel.GeospatialAreaIDs ?? new List<int>();

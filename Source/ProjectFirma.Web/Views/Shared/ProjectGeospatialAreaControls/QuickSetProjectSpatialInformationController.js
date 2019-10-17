@@ -10,10 +10,10 @@ angular.module("ProjectFirmaApp")
             };
 
 
-            ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function() {
-                // Override parent to do nothing
-                return function() {};
-            };
+            //ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function() {
+            //    // Override parent to do nothing
+            //    return function() {};
+            //};
 
             function initializeMap() {
                 $scope.firmaMap = new ProjectFirmaMaps.Map($scope.AngularViewData.MapInitJson);
@@ -86,24 +86,19 @@ angular.module("ProjectFirmaApp")
 
                 $scope.firmaMap.selectedGeospatialAreaLayers = [];
 
-
                 _.forEach(geospatialAreaTypesSelected, function (thisSelectedGeospatialAreaType) {
-
-                    var wmsParameters = L.Util.extend(
+                    var wmsParameters = L.Util.extend($scope.firmaMap.wmsParams, 
                         {
                             layers: thisSelectedGeospatialAreaType.GeospatialAreaTypeLayerName,
                             cql_filter: "GeospatialAreaID in (" + thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")",
                             styles: "geospatialArea_yellow"
-                        },
-                        $scope.firmaMap.wmsParams);
-
+                        });
 
                     var tempLayer = L.tileLayer.wms(thisSelectedGeospatialAreaType.GeospatialAreaTypeMapServiceUrl, wmsParameters);
 
                     $scope.firmaMap.selectedGeospatialAreaLayers.push(tempLayer);
                     $scope.firmaMap.layerControl.addOverlay(tempLayer, "Selected " + thisSelectedGeospatialAreaType.GeospatialAreaTypeNamePluralized);
                     $scope.firmaMap.map.addLayer(tempLayer);
-
 
                     // Update map extent to selected geospatialAreas
                     if (_.any(thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation)) {
@@ -112,7 +107,6 @@ angular.module("ProjectFirmaApp")
                                 typeName: thisSelectedGeospatialAreaType.GeospatialAreaTypeLayerName,
                                 cql_filter: "GeospatialAreaID in (" + thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")"
                             });
-                        //debugger;
                         SitkaAjax.ajax({
                                 url: thisSelectedGeospatialAreaType.GeospatialAreaTypeMapServiceUrl + L.Util.getParamString(wfsParameters),
                                 dataType: "json",
