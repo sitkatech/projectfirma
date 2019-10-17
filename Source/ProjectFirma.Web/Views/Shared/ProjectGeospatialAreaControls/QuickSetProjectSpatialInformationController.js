@@ -34,15 +34,16 @@ angular.module("ProjectFirmaApp")
 
             $scope.setSelectedGeospatialAreaTypeFromProjectLocation = function () {
                 $scope.AngularModel.GeospatialAreaIDs = [];
+                var geospatialAreaTypesSelected = [];
                 jQuery("input[name='geospatialAreaType']:checked").each(function (index, checkbox) {
                     var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypes, function (o) { return o.GeospatialAreaTypeID == checkbox.value; });
                     _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
                         $scope.AngularModel.GeospatialAreaIDs.push(geospatialAreaID);
-                    });   
-
-                    $scope.updateSelectedGeospatialAreaLayer(geospatialAreaType);
+                    });
+                    geospatialAreaTypesSelected.push(geospatialAreaType);
+                    
                 });
-
+                $scope.updateSelectedGeospatialAreaLayer(geospatialAreaTypesSelected);
             };
 
             $scope.selectAll = function (event) {
@@ -72,50 +73,65 @@ angular.module("ProjectFirmaApp")
                 return selectedAreaMatches;
             };
 
-            $scope.updateSelectedGeospatialAreaLayer = function (geospatialAreaType) {
-                if ($scope.AngularModel.GeospatialAreaIDs == null) {
-                    $scope.AngularModel.GeospatialAreaIDs = [];
+            $scope.updateSelectedGeospatialAreaLayer = function (geospatialAreaTypesSelected) {
+               
+                if ($scope.firmaMap.selectedGeospatialAreaLayers) {
+
+                    _.forEach($scope.firmaMap.selectedGeospatialAreaLayers, function(thisSelectedGeospatialAreaLayer) {
+                        $scope.firmaMap.layerControl.removeLayer(thisSelectedGeospatialAreaLayer);
+                        $scope.firmaMap.map.removeLayer(thisSelectedGeospatialAreaLayer);
+                    });
+
                 }
 
-                if ($scope.firmaMap.selectedGeospatialAreaLayer) {
-                    $scope.firmaMap.layerControl.removeLayer($scope.firmaMap.selectedGeospatialAreaLayer);
-                    $scope.firmaMap.map.removeLayer($scope.firmaMap.selectedGeospatialAreaLayer);
-                }
+                $scope.firmaMap.selectedGeospatialAreaLayers = [];
 
-                var wmsParameters = L.Util.extend(
-                    {
-                        layers: geospatialAreaType.GeospatialAreaTypeLayerName,
-                        cql_filter: "GeospatialAreaID in (" + geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")",
-                        styles: "geospatialArea_yellow"
-                    },
-                    $scope.firmaMap.wmsParams);
 
-                $scope.firmaMap.selectedGeospatialAreaLayer = L.tileLayer.wms(geospatialAreaType.GeospatialAreaTypeMapServiceUrl, wmsParameters);
-                $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedGeospatialAreaLayer, "Selected " + geospatialAreaType.GeospatialAreaTypeNamePluralized);
-                $scope.firmaMap.map.addLayer($scope.firmaMap.selectedGeospatialAreaLayer);
+                _.forEach(geospatialAreaTypesSelected, function (thisSelectedGeospatialAreaType) {
 
-                // Update map extent to selected geospatialAreas
-                if (_.any(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation)) {
-                    var wfsParameters = L.Util.extend($scope.firmaMap.wfsParams,
+                    var wmsParameters = L.Util.extend(
                         {
-                            typeName: geospatialAreaType.GeospatialAreaTypeLayerName,
-                            cql_filter: "GeospatialAreaID in (" + geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")"
-                        });
-                    //debugger;
-                    SitkaAjax.ajax({
-                        url: geospatialAreaType.GeospatialAreaTypeMapServiceUrl + L.Util.getParamString(wfsParameters),
-                        dataType: "json",
-                        jsonpCallback: "getJson"
-                    },
-                        function (response) {
-                            if (response.features.length === 0)
-                                return;
-
-                            $scope.firmaMap.map.fitBounds(new L.geoJSON(response).getBounds());
+                            layers: thisSelectedGeospatialAreaType.GeospatialAreaTypeLayerName,
+                            cql_filter: "GeospatialAreaID in (" + thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")",
+                            styles: "geospatialArea_yellow"
                         },
-                        function () {
-                            console.error("There was an error setting map extent to the selected " + geospatialAreaType.GeospatialAreaTypeNamePluralized);
-                        });
-                }
+                        $scope.firmaMap.wmsParams);
+
+
+                    var tempLayer = L.tileLayer.wms(thisSelectedGeospatialAreaType.GeospatialAreaTypeMapServiceUrl, wmsParameters);
+
+                    $scope.firmaMap.selectedGeospatialAreaLayers.push(tempLayer);
+                    $scope.firmaMap.layerControl.addOverlay(tempLayer, "Selected " + thisSelectedGeospatialAreaType.GeospatialAreaTypeNamePluralized);
+                    $scope.firmaMap.map.addLayer(tempLayer);
+
+
+                    // Update map extent to selected geospatialAreas
+                    if (_.any(thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation)) {
+                        var wfsParameters = L.Util.extend($scope.firmaMap.wfsParams,
+                            {
+                                typeName: thisSelectedGeospatialAreaType.GeospatialAreaTypeLayerName,
+                                cql_filter: "GeospatialAreaID in (" + thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")"
+                            });
+                        //debugger;
+                        SitkaAjax.ajax({
+                                url: thisSelectedGeospatialAreaType.GeospatialAreaTypeMapServiceUrl + L.Util.getParamString(wfsParameters),
+                                dataType: "json",
+                                jsonpCallback: "getJson"
+                            },
+                            function (response) {
+                                if (response.features.length === 0)
+                                    return;
+
+                                $scope.firmaMap.map.fitBounds(new L.geoJSON(response).getBounds());
+                            },
+                            function () {
+                                console.error("There was an error setting map extent to the selected " + thisSelectedGeospatialAreaType.GeospatialAreaTypeNamePluralized);
+                            });
+                    }
+
+                    
+                });
+
+
             };
         });
