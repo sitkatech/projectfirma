@@ -1113,7 +1113,7 @@ namespace ProjectFirma.Web.Controllers
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            //var geospatialAreaTypeIDs = viewModel.GeospatialAreaTypeIDs ?? new List<int>();
+            //var geospatialAreaTypeIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             //var geospatialAreaTypesInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var quickSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.QuickSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);

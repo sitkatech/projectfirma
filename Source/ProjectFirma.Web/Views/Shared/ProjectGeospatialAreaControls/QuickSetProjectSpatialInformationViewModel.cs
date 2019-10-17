@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
     public class QuickSetProjectSpatialInformationViewModel : FormViewModel, IValidatableObject
     {
-        [DisplayName("Project Geospatial Area Types")]
-        public IEnumerable<int> GeospatialAreaTypeIDs { get; set; }
+        [DisplayName("Project Geospatial Areas")]
+        public IEnumerable<int> GeospatialAreaIDs { get; set; }
 
 
 
@@ -45,9 +45,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         {
         }
 
-        public QuickSetProjectSpatialInformationViewModel(List<int> geospatialAreaTypeIDs)
+        public QuickSetProjectSpatialInformationViewModel(List<int> geospatialAreaIDs)
         {
-            GeospatialAreaTypeIDs = geospatialAreaTypeIDs;
+            GeospatialAreaIDs = geospatialAreaIDs;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, IList<ProjectGeospatialArea> allProjectGeospatialAreas)

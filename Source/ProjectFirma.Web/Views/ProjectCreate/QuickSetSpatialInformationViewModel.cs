@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public QuickSetSpatialInformationViewModel(List<int> geospatialAreaTypeIDs) : base(geospatialAreaTypeIDs)
+        public QuickSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
         {
         }
         

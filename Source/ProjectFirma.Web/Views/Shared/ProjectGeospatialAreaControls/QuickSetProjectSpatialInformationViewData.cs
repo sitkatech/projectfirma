@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string EditProjectGeospatialAreasFormID { get; }
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
-        public List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
+        
         public string SimplePointMarkerImg { get; }
 
         public QuickSetProjectSpatialInformationViewData(Person currentPerson, 
@@ -40,9 +40,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             EditProjectGeospatialAreasFormID = editProjectGeospatialAreasFormID;
             HasProjectLocationPoint = hasProjectLocationPoint;
             HasProjectLocationDetail = hasProjectLocationDetail;
-            GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+
             ViewDataForAngular = new QuickSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
+
+
+
+
         }
 
     }
@@ -70,7 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
             //GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
-            GeospatialAreaTypes = geospatialAreaTypes.Select(x => new GeospatialAreaTypeSimple(x)).ToList();
+            GeospatialAreaTypes = geospatialAreaTypes.Select(x => new GeospatialAreaTypeSimple(x, geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
 
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 
@@ -85,6 +89,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string GeospatialAreaTypeName { get; }
         public string GeospatialAreaTypeNamePluralized { get; }
         public string GeospatialAreaTypeLayerName { get; }
+        public string GeospatialAreaTypeMapServiceUrl { get; }
+        public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
 
         public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType)
         {
@@ -92,6 +98,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialAreaType.GeospatialAreaTypeNamePluralized;
             GeospatialAreaTypeLayerName = geospatialAreaType.GeospatialAreaLayerName;
+            GeospatialAreaTypeMapServiceUrl = geospatialAreaType.MapServiceUrl;
+        }
+
+        public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType, List<int> geospatialAreaIDsContainingProjectSimpleLocation) : this(geospatialAreaType)
+        {
+            GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreaIDsContainingProjectSimpleLocation;
         }
     }
 }
