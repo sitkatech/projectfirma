@@ -119,7 +119,7 @@ angular.module("ProjectFirmaApp")
                 
                 var wmsParameters = L.Util.extend($scope.firmaMap.wmsParams, 
                     {
-                        layers: $scope.AngularViewData.GeospatialAreaMapSericeLayerName,
+                        layers: $scope.AngularViewData.GeospatialAreaMapServiceLayerName,
                         cql_filter: "GeospatialAreaID in (" + $scope.AngularModel.GeospatialAreaIDs.join(",") + ")",
                         styles: "geospatialArea_yellow"
                     });
