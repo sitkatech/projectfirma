@@ -9,20 +9,6 @@ angular.module("ProjectFirmaApp")
                 return $scope.AngularViewData.GeospatialAreaNameByID[geospatialAreaId];
             };
 
-
-            //ProjectFirmaMaps.Map.prototype.handleWmsPopupClickEventWithCurrentLayer = function() {
-            //    // Override parent to do nothing
-            //    return function() {};
-            //};
-
-            function initializeMap() {
-                $scope.firmaMap = new ProjectFirmaMaps.Map($scope.AngularViewData.MapInitJson);
-                //$scope.firmaMap.map.on("click", onMapClick);
-                $scope.firmaMap.map.scrollWheelZoom.enable();
-            };
-
-            initializeMap();
-
             $scope.noGeospatialAreasSelected = function () {
                 return !$scope.AngularModel.GeospatialAreaIDs || $scope.AngularModel.GeospatialAreaIDs.length < 1;
             };
@@ -128,4 +114,49 @@ angular.module("ProjectFirmaApp")
 
 
             };
+
+
+            $scope.isGeospatialAreaTypeSetBasedOnSimpleLocation = function(geospatialAreaType) {
+                var isSet = false;
+
+                _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
+                    if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                        isSet = true;
+                    }
+                }); 
+
+                return isSet;
+            };
+
+            $scope.getSelectedAreasFromGeospatialAreaType = function(geospatialAreaType) {
+                var selectedGeospatialAreas = [];
+
+                _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
+                    if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                        selectedGeospatialAreas.push(geospatialAreaID);
+                    }
+                });
+
+                return selectedGeospatialAreas;
+            };
+
+
+            function initializeMap() {
+                $scope.firmaMap = new ProjectFirmaMaps.Map($scope.AngularViewData.MapInitJson);
+                $scope.firmaMap.map.scrollWheelZoom.enable();
+                if ($scope.AngularModel.GeospatialAreaIDs) {
+                    var selectedGeospatialTypes = [];
+                    _.forEach($scope.AngularViewData.GeospatialAreaTypes, function (geospatialAreaType) {
+                        _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
+                            if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                                selectedGeospatialTypes.push(geospatialAreaType);
+                            }
+                        });
+                    });
+                    $scope.updateSelectedGeospatialAreaLayer(selectedGeospatialTypes);
+                }
+            };
+
+            initializeMap();
+
         });

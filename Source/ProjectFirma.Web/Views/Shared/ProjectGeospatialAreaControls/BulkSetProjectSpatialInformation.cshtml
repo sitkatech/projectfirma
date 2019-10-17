@@ -41,6 +41,9 @@
     .select-all-container label input {
         margin-left: 5px;
     }
+    .well hr {
+        margin-top: 0;
+    }
 </style>
 <div class="row">
     <div class="col-xs-12">
@@ -73,6 +76,16 @@
                         {{geospatialAreaType.GeospatialAreaTypeName}}
                         <input type="checkbox" name="geospatialAreaType" class="pull-right" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
                     </label>
+                    <div ng-if="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)">
+                        <hr />
+                        <div ng-repeat="geospatialAreaId in getSelectedAreasFromGeospatialAreaType(geospatialAreaType)">
+                            <a ng-click="removeGeospatialArea(geospatialAreaId)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                            <span>{{getGeospatialAreaName(geospatialAreaId)}}</span>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <div ng-repeat="geospatialAreaId in AngularModel.GeospatialAreaIDs">

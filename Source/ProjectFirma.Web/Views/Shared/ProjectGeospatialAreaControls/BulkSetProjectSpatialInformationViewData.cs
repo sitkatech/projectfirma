@@ -62,6 +62,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public List<GeospatialAreaTypeSimple> GeospatialAreaTypes { get; }
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public bool HasProjectLocationPoint { get; }
+        public Dictionary<int, string> GeospatialAreaNameByID { get; }
 
         public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson,
                                                                    //List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, 
@@ -79,6 +80,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 
             HasProjectLocationPoint = hasProjectLocationPoint;
+
+            GeospatialAreaNameByID = geospatialAreasContainingProjectSimpleLocation.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
         }
     }
 

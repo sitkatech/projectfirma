@@ -1099,7 +1099,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new BulkSetSpatialInformationViewModel();
+            var projectGeospatialAreasIntersectingProjectLocation = project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).GetGeospatialAreasContainingProjectLocation(project);
+            var viewModel = new BulkSetSpatialInformationViewModel(projectGeospatialAreasIntersectingProjectLocation.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, viewModel);
         }
         
