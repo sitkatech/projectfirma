@@ -140,20 +140,31 @@ angular.module("ProjectFirmaApp")
                 return selectedGeospatialAreas;
             };
 
+            $scope.removeGeospatialArea = function (geospatialAreaId) {
+                var index = $scope.AngularModel.GeospatialAreaIDs.indexOf(geospatialAreaId);
+                $scope.AngularModel.GeospatialAreaIDs.splice(index, 1);
+
+                $scope.updateSelectedGeospatialAreaLayer($scope.getSelectedGeospatialAreaTypes());
+            };
+
+            $scope.getSelectedGeospatialAreaTypes = function () {
+                var selectedGeospatialTypes = [];
+                _.forEach($scope.AngularModel.GeospatialAreaIDs, function (geospatialAreaID) {
+                    _.forEach($scope.AngularViewData.GeospatialAreaTypes, function (geospatialAreaType) {
+                        if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID)) {
+                            selectedGeospatialTypes.push(geospatialAreaType);
+                        }
+                    });
+                });
+                return selectedGeospatialTypes;
+            };
+
 
             function initializeMap() {
                 $scope.firmaMap = new ProjectFirmaMaps.Map($scope.AngularViewData.MapInitJson);
                 $scope.firmaMap.map.scrollWheelZoom.enable();
                 if ($scope.AngularModel.GeospatialAreaIDs) {
-                    var selectedGeospatialTypes = [];
-                    _.forEach($scope.AngularViewData.GeospatialAreaTypes, function (geospatialAreaType) {
-                        _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
-                            if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
-                                selectedGeospatialTypes.push(geospatialAreaType);
-                            }
-                        });
-                    });
-                    $scope.updateSelectedGeospatialAreaLayer(selectedGeospatialTypes);
+                    $scope.updateSelectedGeospatialAreaLayer($scope.getSelectedGeospatialAreaTypes());
                 }
             };
 

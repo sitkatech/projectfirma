@@ -1139,7 +1139,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewBulkSetSpatialInformation(project, viewModel);
             }
 
-            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => viewModel.GeospatialAreaIDs.Contains(x.GeospatialArea.GeospatialAreaID)).ToList();
+            var currentGeospatialAreaIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).Select(x => x.GeospatialAreaID).ToList();
+            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => currentGeospatialAreaIDs.Contains(x.GeospatialArea.GeospatialAreaID)).ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
 

@@ -11,17 +11,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 {
     public class BulkSetProjectSpatialInformationViewData : FirmaViewData
     {
-        //public ProjectFirmaModels.Models.Project Project { get; set; }
         public DbGeometry ProjectSimpleLocation { get; }
         public List<GeospatialAreaType> GeospatialAreaTypes { get; }
         public string EditProjectGeospatialAreasUrl { get; }
-
-
         public BulkSetProjectSpatialInformationViewDataForAngular ViewDataForAngular { get; }
         public string EditProjectGeospatialAreasFormID { get; }
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
-        
         public string SimplePointMarkerImg { get; }
 
         public BulkSetProjectSpatialInformationViewData(Person currentPerson, 
@@ -43,37 +39,26 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
 
             ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
-
-
-
-
         }
-
     }
 
 
     public class BulkSetProjectSpatialInformationViewDataForAngular
     {
         public MapInitJson MapInitJson { get; }
-        //public string FindGeospatialAreaByNameUrl { get; }
-
-        //public string GeospatialAreaMapServiceLayerName { get; }
         public string MapServiceUrl { get; }
         public List<GeospatialAreaTypeSimple> GeospatialAreaTypes { get; }
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public bool HasProjectLocationPoint { get; }
         public Dictionary<int, string> GeospatialAreaNameByID { get; }
 
-        public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson,
-                                                                   //List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, 
-                                                                   List<GeospatialAreaType> geospatialAreaTypes, 
-                                                                   List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
-                                                                   bool hasProjectLocationPoint)
+        public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson, 
+                                                                  List<GeospatialAreaType> geospatialAreaTypes, 
+                                                                  List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
+                                                                  bool hasProjectLocationPoint)
         {
             MapInitJson = mapInitJson;
-            //FindGeospatialAreaByNameUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.FindGeospatialAreaByName(geospatialAreaType, null));
 
-            //GeospatialAreaMapServiceLayerName = geospatialAreaType.GeospatialAreaLayerName;
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
             GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x => new GeospatialAreaTypeSimple(x, geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
 
