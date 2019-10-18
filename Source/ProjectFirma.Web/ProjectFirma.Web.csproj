@@ -259,6 +259,9 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewData.cs" />
@@ -593,6 +596,7 @@
     <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
+    <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

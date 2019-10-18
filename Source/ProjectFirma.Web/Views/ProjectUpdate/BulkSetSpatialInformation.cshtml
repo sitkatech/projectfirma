@@ -1,0 +1,42 @@
+﻿
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
+@inherits ProjectFirma.Web.Views.ProjectUpdate.BulkSetSpatialInformation
+
+@section JavascriptAndStylesContent
+{
+    @{ MapJavascriptIncludes.RenderPartialView(Html); }
+}
+
+<div style="min-height: 300px">
+    <div>
+        @{ BulkSetProjectSpatialInformation.RenderPartialView(Html, ViewDataTyped.BulkSetProjectSpatialInformationViewData, Model); }
+    </div>
+</div>
+
+
+<hr />
+<div class="pull-right">
+    <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(false)">Save</button>
+    <button type="button" class="btn btn-xs btn-firma" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+</div>
+
+@*This is intentionally down here because the document ready needs to be after the EditProjectLocation document ready*@
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function () { HookupCheckIfFormIsDirty("#@ViewDataTyped.BulkSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID", ".submitProject"); });
+
+    function saveForm(autoAdvance) {
+        var form = jQuery("#@ViewDataTyped.BulkSetProjectSpatialInformationViewData.EditProjectGeospatialAreasFormID");
+        // Do not submit if the form
+        // does not pass client side validation
+
+        if (!form.valid()) {
+            return false;
+        }
+
+        jQuery("<input type='hidden' name='@Html.NameFor(x => x.AutoAdvance)' value=" + autoAdvance + " />").appendTo(form);
+        form.submit();
+    }
+    // ]]>
+</script>

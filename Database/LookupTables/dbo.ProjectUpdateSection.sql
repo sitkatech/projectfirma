@@ -15,4 +15,5 @@ values
 (13, 'TechnicalAssistanceRequests', 'Technical Assistance Requests', 110, 0, 5),
 (14, 'Contacts', 'Contacts', 50, 1, 1),
 (15, 'AttachmentsAndNotes', 'Attachments and Notes', 130, 0, 5),
-(16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1)
+(16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
+(17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information', 10, 0, 2)

@@ -44,6 +44,8 @@ namespace ProjectFirma.Web.Models
                     return true;
                 case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
                     return true;
+                case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
+                    return true;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -90,6 +92,8 @@ namespace ProjectFirma.Web.Models
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedPerformanceMeasures(project));
                 case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.TechnicalAssistanceRequests(project));
+                case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
+                    return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.BulkSetSpatialInformation(project));
                 default:
                     throw new ArgumentOutOfRangeException();
             }
