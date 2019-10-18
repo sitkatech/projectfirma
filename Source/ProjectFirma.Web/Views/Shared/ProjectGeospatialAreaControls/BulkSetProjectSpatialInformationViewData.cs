@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
-using ApprovalUtilities.Utilities;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -38,7 +35,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationDetail = hasProjectLocationDetail;
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
 
-            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint);
+            ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList());
         }
     }
 
@@ -55,18 +52,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public BulkSetProjectSpatialInformationViewDataForAngular(MapInitJson mapInitJson, 
                                                                   List<GeospatialAreaType> geospatialAreaTypes, 
                                                                   List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
-                                                                  bool hasProjectLocationPoint)
+                                                                  bool hasProjectLocationPoint,
+                                                                  List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas)
         {
-            MapInitJson = mapInitJson;
 
-            MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
-            GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x => new GeospatialAreaTypeSimple(x, geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
-
+            var possibleGeospatialAreas = geospatialAreasContainingProjectSimpleLocation;
+            possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Where(x => !possibleGeospatialAreas.Contains(x)));
+            GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x => new GeospatialAreaTypeSimple(x, possibleGeospatialAreas.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
+            GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 
+            MapInitJson = mapInitJson;
+            MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
             HasProjectLocationPoint = hasProjectLocationPoint;
-
-            GeospatialAreaNameByID = geospatialAreasContainingProjectSimpleLocation.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
         }
     }
 

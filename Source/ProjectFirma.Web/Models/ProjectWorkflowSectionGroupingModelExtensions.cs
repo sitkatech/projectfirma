@@ -67,14 +67,19 @@ namespace ProjectFirma.Web.Models
 
                     return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
-                    var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
+                    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
+                    var createSections = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.BulkSetSpatialInformation }).ToList();
+                    if (geospatialAreaTypes.Count() > 1)
+                    {
+                        createSections.Add(ProjectCreateSection.BulkSetSpatialInformation);
+                    }
+                    var projectCreateSections = GetProjectCreateSectionsImpl(project, createSections, ignoreStatus);
                     int maxSortOrder = 0;
                     if (projectCreateSections.Any())
                     {
                         maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
                     }                    
                     IEnumerable<ProjectSectionSimple> projectSectionSimples;
-                    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
                     if (project == null)
                     {
                         projectSectionSimples = geospatialAreaTypes

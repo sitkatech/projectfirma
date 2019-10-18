@@ -1099,8 +1099,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectGeospatialAreasIntersectingProjectLocation = project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).GetGeospatialAreasContainingProjectLocation(project);
-            var viewModel = new BulkSetSpatialInformationViewModel(projectGeospatialAreasIntersectingProjectLocation.Select(x => x.GeospatialAreaID).ToList());
+            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList());
             return ViewBulkSetSpatialInformation(project, viewModel);
         }
         
@@ -1139,8 +1138,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewBulkSetSpatialInformation(project, viewModel);
             }
 
-            var currentGeospatialAreaIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).Select(x => x.GeospatialAreaID).ToList();
-            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.Where(x => currentGeospatialAreaIDs.Contains(x.GeospatialArea.GeospatialAreaID)).ToList();
+            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
 
