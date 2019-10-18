@@ -76,7 +76,7 @@
                         {{geospatialAreaType.GeospatialAreaTypeName}}
                         <input type="checkbox" name="geospatialAreaType" class="pull-right" ng-checked="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
                     </label>
-                    <div ng-if="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)">
+                    <div ng-if="isGeospatialAreaTypeSet(geospatialAreaType)">
                         <hr />
                         <div ng-repeat="geospatialAreaId in getSelectedAreasFromGeospatialAreaType(geospatialAreaType)">
                             <a ng-click="removeGeospatialArea(geospatialAreaId)">

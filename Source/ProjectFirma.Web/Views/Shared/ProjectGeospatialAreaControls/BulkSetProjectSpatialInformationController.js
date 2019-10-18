@@ -39,26 +39,6 @@ angular.module("ProjectFirmaApp")
                 }
             };
 
-            $scope.selectedGeospatialAreaDoesNotMatchProjectLocation = function () {                
-                if (!$scope.canSetGeospatialAreaFromProjectLocation()) {
-                    return false;
-                }
-                if ($scope.AngularModel.GeospatialAreaIDs === null ||
-                    $scope.AngularModel.GeospatialAreaIDs.length === 0) {
-                    return true;
-                }
-
-                var selectedAreaMatches = false;
-
-                _.forEach($scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
-                    if (!$scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
-                        selectedAreaMatches =  true;
-                        
-                    }
-                });                
-                return selectedAreaMatches;
-            };
-
             $scope.updateSelectedGeospatialAreaLayer = function (geospatialAreaTypesSelected) {
                
                 if ($scope.firmaMap.selectedGeospatialAreaLayers) {
@@ -78,7 +58,7 @@ angular.module("ProjectFirmaApp")
                     var wmsParameters = L.Util.extend($scope.firmaMap.wmsParams, 
                         {
                             layers: thisSelectedGeospatialAreaType.GeospatialAreaTypeLayerName,
-                            cql_filter: "GeospatialAreaID in (" + thisSelectedGeospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.join(",") + ")",
+                            cql_filter: "GeospatialAreaID in (" + $scope.AngularModel.GeospatialAreaIDs.join(",") + ")",
                             styles: "geospatialArea_yellow"
                         });
 
@@ -118,11 +98,11 @@ angular.module("ProjectFirmaApp")
             };
 
 
-            $scope.isGeospatialAreaTypeSetBasedOnSimpleLocation = function(geospatialAreaType) {
+            $scope.isGeospatialAreaTypeSet = function(geospatialAreaType) {
                 var isSet = false;
 
-                _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
-                    if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                _.forEach($scope.AngularModel.GeospatialAreaIDs, function (geospatialAreaID) {
+                    if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID) || geospatialAreaType.GeospatialAreaIDsInitiallySelected.includes(geospatialAreaID)) {
                         isSet = true;
                     }
                 }); 
@@ -132,9 +112,9 @@ angular.module("ProjectFirmaApp")
 
             $scope.getSelectedAreasFromGeospatialAreaType = function(geospatialAreaType) {
                 var selectedGeospatialAreas = [];
-
-                _.forEach(geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation, function (geospatialAreaID) {
-                    if ($scope.AngularModel.GeospatialAreaIDs.includes(geospatialAreaID)) {
+                
+                _.forEach($scope.AngularModel.GeospatialAreaIDs, function (geospatialAreaID) {
+                    if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID) || geospatialAreaType.GeospatialAreaIDsInitiallySelected.includes(geospatialAreaID)) {
                         selectedGeospatialAreas.push(geospatialAreaID);
                     }
                 });
@@ -153,7 +133,7 @@ angular.module("ProjectFirmaApp")
                 var selectedGeospatialTypes = [];
                 _.forEach($scope.AngularModel.GeospatialAreaIDs, function (geospatialAreaID) {
                     _.forEach($scope.AngularViewData.GeospatialAreaTypes, function (geospatialAreaType) {
-                        if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID)) {
+                        if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID) || geospatialAreaType.GeospatialAreaIDsInitiallySelected.includes(geospatialAreaID)) {
                             if (selectedGeospatialTypes.indexOf(geospatialAreaType) === -1) {
                                 selectedGeospatialTypes.push(geospatialAreaType);
                             }

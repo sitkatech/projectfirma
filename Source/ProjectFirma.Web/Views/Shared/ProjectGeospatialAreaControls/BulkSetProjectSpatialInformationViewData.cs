@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -56,9 +57,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                                   List<ProjectFirmaModels.Models.GeospatialArea> selectedGeospatialAreas)
         {
 
-            var possibleGeospatialAreas = geospatialAreasContainingProjectSimpleLocation;
+            var possibleGeospatialAreas = new List<ProjectFirmaModels.Models.GeospatialArea>();
+            geospatialAreasContainingProjectSimpleLocation.CopyItemsTo(possibleGeospatialAreas);
             possibleGeospatialAreas.AddRange(selectedGeospatialAreas.Where(x => !possibleGeospatialAreas.Contains(x)));
-            GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x => new GeospatialAreaTypeSimple(x, possibleGeospatialAreas.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList())).ToList();
+            GeospatialAreaTypes = geospatialAreaTypes.OrderBy(gat => gat.GeospatialAreaTypeName).Select(x =>
+            {
+                var geospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
+                var geospatialAreaIDsInitiallySelected = selectedGeospatialAreas.Where(gacpsl => gacpsl.GeospatialAreaTypeID == x.GeospatialAreaTypeID).Select(y => y.GeospatialAreaID).ToList();
+                return new GeospatialAreaTypeSimple(x, geospatialAreaIDsContainingProjectSimpleLocation, geospatialAreaIDsInitiallySelected);
+            }).ToList();
             GeospatialAreaNameByID = possibleGeospatialAreas.ToDictionary(x => x.GeospatialAreaID, y => y.GeospatialAreaName);
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 
@@ -77,6 +84,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string GeospatialAreaTypeLayerName { get; }
         public string GeospatialAreaTypeMapServiceUrl { get; }
         public List<int> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
+        public List<int> GeospatialAreaIDsInitiallySelected { get; }
 
         public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType)
         {
@@ -87,9 +95,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaTypeMapServiceUrl = geospatialAreaType.MapServiceUrl;
         }
 
-        public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType, List<int> geospatialAreaIDsContainingProjectSimpleLocation) : this(geospatialAreaType)
+        public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType, List<int> geospatialAreaIDsContainingProjectSimpleLocation, List<int> geospatialAreaIDsInitiallySelected) : this(geospatialAreaType)
         {
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreaIDsContainingProjectSimpleLocation;
+            GeospatialAreaIDsInitiallySelected = geospatialAreaIDsInitiallySelected;
         }
     }
 }
