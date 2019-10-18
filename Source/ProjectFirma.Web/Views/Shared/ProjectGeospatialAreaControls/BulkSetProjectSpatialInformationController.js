@@ -152,7 +152,9 @@ angular.module("ProjectFirmaApp")
                 _.forEach($scope.AngularModel.GeospatialAreaIDs, function (geospatialAreaID) {
                     _.forEach($scope.AngularViewData.GeospatialAreaTypes, function (geospatialAreaType) {
                         if (geospatialAreaType.GeospatialAreaIDsContainingProjectSimpleLocation.includes(geospatialAreaID)) {
-                            selectedGeospatialTypes.push(geospatialAreaType);
+                            if (selectedGeospatialTypes.indexOf(geospatialAreaType) === -1) {
+                                selectedGeospatialTypes.push(geospatialAreaType);
+                            }
                         }
                     });
                 });
