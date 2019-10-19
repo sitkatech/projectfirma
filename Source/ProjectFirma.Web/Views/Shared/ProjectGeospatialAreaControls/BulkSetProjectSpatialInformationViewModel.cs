@@ -58,8 +58,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
 
         public void UpdateModel(ProjectUpdateBatch project, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreas, IList<ProjectGeospatialAreaUpdate> allProjectGeospatialAreas)
         {
-            //var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialAreaUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectGeospatialAreaUpdate>();
-            //currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
+            var newProjectGeospatialAreas = GeospatialAreaIDs?.Select(x => new ProjectGeospatialAreaUpdate(project.ProjectUpdateBatchID, x)).ToList() ?? new List<ProjectGeospatialAreaUpdate>();
+            currentProjectGeospatialAreas.Merge(newProjectGeospatialAreas, allProjectGeospatialAreas, (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.GeospatialAreaID == y.GeospatialAreaID, HttpRequestStorage.DatabaseEntities);
         }
 
     }

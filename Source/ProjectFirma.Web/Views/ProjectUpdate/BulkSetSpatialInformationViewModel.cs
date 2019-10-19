@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
         
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreaUpdates, ObservableCollection<ProjectGeospatialAreaUpdate> allProjectGeospatialAreaUpdates)
         {
-            base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
+            base.UpdateModel(projectUpdateBatch, currentProjectGeospatialAreaUpdates, allProjectGeospatialAreaUpdates);
         }
     }    
 }
