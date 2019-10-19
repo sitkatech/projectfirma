@@ -67,10 +67,19 @@ namespace ProjectFirma.Web.Models
 
                     return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
-                    var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
-                    var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
-                    IEnumerable<ProjectSectionSimple> projectSectionSimples;
                     var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
+                    var createSections = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.BulkSetSpatialInformation }).ToList();
+                    if (geospatialAreaTypes.Count() > 1)
+                    {
+                        createSections.Add(ProjectCreateSection.BulkSetSpatialInformation);
+                    }
+                    var projectCreateSections = GetProjectCreateSectionsImpl(project, createSections, ignoreStatus);
+                    int maxSortOrder = 0;
+                    if (projectCreateSections.Any())
+                    {
+                        maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
+                    }                    
+                    IEnumerable<ProjectSectionSimple> projectSectionSimples;
                     if (project == null)
                     {
                         projectSectionSimples = geospatialAreaTypes
@@ -116,7 +125,11 @@ namespace ProjectFirma.Web.Models
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionForCustomAttributes, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
                     var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    var maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
+                    int maxSortOrder = 0;
+                    if (projectUpdateSections.Any())
+                    {
+                        maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
+                    }
                     var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
                     projectUpdateSections.AddRange(geospatialAreaTypes
                         .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>

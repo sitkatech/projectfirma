@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID,
-                project.HasProjectLocationPoint(), project.HasProjectLocationDetail(), geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
+                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
             return RazorPartialView<EditProjectGeospatialAreas, EditProjectGeospatialAreasViewData, EditProjectGeospatialAreasViewModel>(viewData, viewModel);
         }
 

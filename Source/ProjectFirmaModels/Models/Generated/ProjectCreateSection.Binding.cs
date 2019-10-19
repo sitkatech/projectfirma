@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionContacts Contacts = ProjectCreateSectionContacts.Instance;
         public static readonly ProjectCreateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectCreateSectionAttachmentsAndNotes.Instance;
         public static readonly ProjectCreateSectionCustomAttributes CustomAttributes = ProjectCreateSectionCustomAttributes.Instance;
+        public static readonly ProjectCreateSectionBulkSetSpatialInformation BulkSetSpatialInformation = ProjectCreateSectionBulkSetSpatialInformation.Instance;
 
         public static readonly List<ProjectCreateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectCreateSection> AllLookupDictionary;
@@ -41,7 +42,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -125,6 +126,8 @@ namespace ProjectFirmaModels.Models
                     return Basics;
                 case ProjectCreateSectionEnum.Budget:
                     return Budget;
+                case ProjectCreateSectionEnum.BulkSetSpatialInformation:
+                    return BulkSetSpatialInformation;
                 case ProjectCreateSectionEnum.Classifications:
                     return Classifications;
                 case ProjectCreateSectionEnum.Contacts:
@@ -166,7 +169,8 @@ namespace ProjectFirmaModels.Models
         Photos = 13,
         Contacts = 15,
         AttachmentsAndNotes = 16,
-        CustomAttributes = 17
+        CustomAttributes = 17,
+        BulkSetSpatialInformation = 18
     }
 
     public partial class ProjectCreateSectionBasics : ProjectCreateSection
@@ -190,7 +194,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCreateSectionLocationDetailed : ProjectCreateSection
     {
         private ProjectCreateSectionLocationDetailed(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 50, false, 2);
+        public static readonly ProjectCreateSectionLocationDetailed Instance = new ProjectCreateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 31, false, 1);
     }
 
     public partial class ProjectCreateSectionExpectedAccomplishments : ProjectCreateSection
@@ -251,5 +255,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCreateSectionCustomAttributes(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionCustomAttributes Instance = new ProjectCreateSectionCustomAttributes(17, @"CustomAttributes", @"Custom Attributes", 25, true, 1);
+    }
+
+    public partial class ProjectCreateSectionBulkSetSpatialInformation : ProjectCreateSection
+    {
+        private ProjectCreateSectionBulkSetSpatialInformation(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectCreateSectionBulkSetSpatialInformation Instance = new ProjectCreateSectionBulkSetSpatialInformation(18, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 10, false, 2);
     }
 }

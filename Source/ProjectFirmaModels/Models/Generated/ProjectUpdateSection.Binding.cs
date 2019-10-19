@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionContacts Contacts = ProjectUpdateSectionContacts.Instance;
         public static readonly ProjectUpdateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectUpdateSectionAttachmentsAndNotes.Instance;
         public static readonly ProjectUpdateSectionCustomAttributes CustomAttributes = ProjectUpdateSectionCustomAttributes.Instance;
+        public static readonly ProjectUpdateSectionBulkSetSpatialInformation BulkSetSpatialInformation = ProjectUpdateSectionBulkSetSpatialInformation.Instance;
 
         public static readonly List<ProjectUpdateSection> All;
         public static readonly ReadOnlyDictionary<int, ProjectUpdateSection> AllLookupDictionary;
@@ -41,7 +42,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes, CustomAttributes };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -123,6 +124,8 @@ namespace ProjectFirmaModels.Models
                     return Basics;
                 case ProjectUpdateSectionEnum.Budget:
                     return Budget;
+                case ProjectUpdateSectionEnum.BulkSetSpatialInformation:
+                    return BulkSetSpatialInformation;
                 case ProjectUpdateSectionEnum.Contacts:
                     return Contacts;
                 case ProjectUpdateSectionEnum.CustomAttributes:
@@ -166,7 +169,8 @@ namespace ProjectFirmaModels.Models
         TechnicalAssistanceRequests = 13,
         Contacts = 14,
         AttachmentsAndNotes = 15,
-        CustomAttributes = 16
+        CustomAttributes = 16,
+        BulkSetSpatialInformation = 17
     }
 
     public partial class ProjectUpdateSectionBasics : ProjectUpdateSection
@@ -190,7 +194,7 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectUpdateSectionLocationDetailed : ProjectUpdateSection
     {
         private ProjectUpdateSectionLocationDetailed(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 60, false, 2);
+        public static readonly ProjectUpdateSectionLocationDetailed Instance = new ProjectUpdateSectionLocationDetailed(5, @"LocationDetailed", @"Detailed Location", 31, false, 1);
     }
 
     public partial class ProjectUpdateSectionReportedAccomplishments : ProjectUpdateSection
@@ -251,5 +255,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectUpdateSectionCustomAttributes(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionCustomAttributes Instance = new ProjectUpdateSectionCustomAttributes(16, @"CustomAttributes", @"Custom Attributes", 25, true, 1);
+    }
+
+    public partial class ProjectUpdateSectionBulkSetSpatialInformation : ProjectUpdateSection
+    {
+        private ProjectUpdateSectionBulkSetSpatialInformation(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionBulkSetSpatialInformation Instance = new ProjectUpdateSectionBulkSetSpatialInformation(17, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 10, false, 2);
     }
 }

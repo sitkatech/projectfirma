@@ -87,8 +87,8 @@ namespace ProjectFirmaModels.Models
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }
         }
 
-        public bool HasProjectLocationPoint() => ProjectLocationPoint != null;
-        public bool HasProjectLocationDetail() => ProjectLocations.Any();
+        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => ProjectLocations.Any();
 
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;

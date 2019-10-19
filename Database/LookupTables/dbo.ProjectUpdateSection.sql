@@ -5,7 +5,7 @@ values
 (2, 'Basics', 'Basics', 20, 1, 1),
 (3, 'LocationSimple', 'Simple Location', 30, 1, 1),
 (4, 'Organizations', 'Organizations', 40, 1, 1),
-(5, 'LocationDetailed', 'Detailed Location', 60, 0, 2),
+(5, 'LocationDetailed', 'Detailed Location', 31, 0, 1),
 (6, 'ReportedAccomplishments', 'Reported Accomplishments', 80, 1, 3),
 (7, 'Budget', 'Budget', 90, 0, 4),
 (8, 'Expenditures', 'Expenditures', 100, 1, 4),
@@ -15,4 +15,5 @@ values
 (13, 'TechnicalAssistanceRequests', 'Technical Assistance Requests', 110, 0, 5),
 (14, 'Contacts', 'Contacts', 50, 1, 1),
 (15, 'AttachmentsAndNotes', 'Attachments and Notes', 130, 0, 5),
-(16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1)
+(16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
+(17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information', 10, 0, 2)

@@ -1,0 +1,107 @@
+﻿
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls.BulkSetProjectSpatialInformation
+
+
+<script type="text/javascript" src="@Url.Content("~/Views/Shared/ProjectGeospatialAreaControls/BulkSetProjectSpatialInformationController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData",
+        function() {
+            return {
+                "AngularModel": @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                "AngularViewData":
+                    @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+            };
+        });
+    angular.bootstrap(jQuery("[ng-controller=\"BulkSetProjectSpatialInformationController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+<style>
+    #@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID {
+        height: 500px;
+        margin: 0;
+    }
+
+    .firma-modal .modal-body {
+        overflow-y: visible;
+    }
+    .select-all-container {
+        padding: 19px;
+    }
+    .select-all-container label {
+        position: relative;
+        display: block;
+        margin-bottom: -1px;
+        text-align: right;
+    }
+    .select-all-container label input {
+        margin-left: 5px;
+    }
+    .well hr {
+        margin-top: 0;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <p>This section allows users to quickly set the spatial location for all steps/layers--or just a single one--by using the simple location. From there, users can then either refine the selection of shapes, or skip straight to the Accomplishments portion of the workflow.</p>
+    </div>
+</div>
+@Html.ValidationSummary()
+<div class="row" ng-app="ProjectFirmaApp" ng-controller="BulkSetProjectSpatialInformationController">
+    <div class="col-xs-12 col-md-5">
+        <form action="@ViewDataTyped.EditProjectGeospatialAreasUrl" method="POST" id="@ViewDataTyped.EditProjectGeospatialAreasFormID">
+
+            <div class="alert alert-danger" ng-if="!canSetGeospatialAreaFromProjectLocation()">
+                <span>The Project Simple Location is not set. Please set the Simple Location before using this page</span>
+            </div>
+            <hr />
+
+            
+            <div ng-if="canSetGeospatialAreaFromProjectLocation()">
+                <button type="button" class="btn btn-sm btn-firma" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    Set All Selected Layers from Simple Location
+                </button>
+                <div class="select-all-container">
+                    <label>
+                        Select All <input type="checkbox" ng-click="selectAll($event)"  />
+                    </label>
+                </div>
+                <div class="well" ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypes">
+                    <label style="width: 100%;">
+                        {{geospatialAreaType.GeospatialAreaTypeName}}
+                        <input type="checkbox" name="geospatialAreaType" class="pull-right" ng-checked="isGeospatialAreaTypeSetBasedOnSimpleLocation(geospatialAreaType)" value="{{geospatialAreaType.GeospatialAreaTypeID}}" />
+                    </label>
+                    <div ng-if="isGeospatialAreaTypeSet(geospatialAreaType)">
+                        <hr />
+                        <div ng-repeat="geospatialAreaId in getSelectedAreasFromGeospatialAreaType(geospatialAreaType)">
+                            <a ng-click="removeGeospatialArea(geospatialAreaId)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                            <span>{{getGeospatialAreaName(geospatialAreaId)}}</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="geospatialAreaId in AngularModel.GeospatialAreaIDs">
+                <input type="hidden" name="@Html.NameFor(x => x.GeospatialAreaIDs)" value="{{geospatialAreaId}}" />
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-md-7">
+        <div id="mapContainer">
+            <div id="@ViewDataTyped.ViewDataForAngular.MapInitJson.MapDivID"></div>
+        </div>
+        @if (ViewDataTyped.HasProjectLocationPoint || ViewDataTyped.HasProjectLocationDetail)
+        {
+            <div>
+                <img style="margin-top: 10px; margin-right: 5px;" src="@ViewDataTyped.SimplePointMarkerImg"> Simple and/or Detailed @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() location (for reference)
+            </div>
+        }
+    </div>
+</div>

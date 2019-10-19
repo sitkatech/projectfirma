@@ -117,13 +117,12 @@ angular.module("ProjectFirmaApp")
                     $scope.firmaMap.map.removeLayer($scope.firmaMap.selectedGeospatialAreaLayer);
                 }
                 
-                var wmsParameters = L.Util.extend(
+                var wmsParameters = L.Util.extend($scope.firmaMap.wmsParams, 
                     {
-                        layers: $scope.AngularViewData.GeospatialAreaMapSericeLayerName,
+                        layers: $scope.AngularViewData.GeospatialAreaMapServiceLayerName,
                         cql_filter: "GeospatialAreaID in (" + $scope.AngularModel.GeospatialAreaIDs.join(",") + ")",
                         styles: "geospatialArea_yellow"
-                    },
-                    $scope.firmaMap.wmsParams);
+                    });
 
                 $scope.firmaMap.selectedGeospatialAreaLayer = L.tileLayer.wms($scope.AngularViewData.MapServiceUrl, wmsParameters);
                 $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedGeospatialAreaLayer, "Selected " + $scope.AngularViewData.GeospatialAreaTypeName + "s");

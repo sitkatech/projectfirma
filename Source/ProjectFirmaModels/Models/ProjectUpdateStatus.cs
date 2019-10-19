@@ -36,6 +36,7 @@ namespace ProjectFirmaModels.Models
         public bool IsExpectedPerformanceMeasuresUpdated { get; }
         public bool IsTechnicalAssistanceRequestsUpdated { get;  }
         public bool IsCustomAttributesUpdated { get; }
+        public bool IsBulkSetSpatialInformationUpdated { get; }
 
         public ProjectUpdateStatus(bool isBasicsUpdated,
             bool isReportedPerformanceMeasuresUpdated,
@@ -66,6 +67,7 @@ namespace ProjectFirmaModels.Models
             IsTechnicalAssistanceRequestsUpdated = isTechnicalAssistanceRequestsUpdated;
             IsContactsUpdated = isContactsUpdated;
             IsCustomAttributesUpdated = isCustomAttributesUpdated;
+            IsBulkSetSpatialInformationUpdated = false;//10/18/2019 TK - always set to false because this section itself isn't updated. We are updating specific Geospatial Area Types.
         }
     }
 }

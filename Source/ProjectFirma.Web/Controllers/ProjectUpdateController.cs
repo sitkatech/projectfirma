@@ -1436,6 +1436,67 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
+        public ActionResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+            var viewModel = new BulkSetSpatialInformationViewModel(projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialAreaID).ToList());
+            return ViewBulkSetSpatialInformation(project, projectUpdateBatch, viewModel);
+        }
+
+        private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
+        {
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdateBatch.ProjectUpdate);
+            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
+
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var bulkSetSpatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
+            var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
+
+            var geospatialAreasContainingProjectSimpleLocation =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
+
+            var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
+                geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
+                geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail);
+
+            var viewData = new BulkSetSpatialInformationViewData(CurrentPerson, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
+            return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectUpdateCreateEditSubmitFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey, BulkSetSpatialInformationViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+            if (projectUpdateBatch == null)
+            {
+                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewBulkSetSpatialInformation(project, projectUpdateBatch, viewModel);
+            }
+
+            var currentProjectGeospatialAreaUpdates = projectUpdateBatch.ProjectGeospatialAreaUpdates.ToList();
+            var allProjectGeospatialAreaUpdates = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaUpdates.Local;
+            viewModel.UpdateModel(projectUpdateBatch, currentProjectGeospatialAreaUpdates, allProjectGeospatialAreaUpdates);
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Spatial Information successfully saved.");
+            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.BulkSetSpatialInformation.ProjectUpdateSectionDisplayName);
+        }
+
+        [HttpGet]
+        [ProjectUpdateCreateEditSubmitFeature]
         public PartialViewResult RefreshProjectGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;

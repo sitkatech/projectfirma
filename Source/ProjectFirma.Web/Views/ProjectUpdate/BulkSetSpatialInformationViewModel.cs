@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="GeospatialAreaViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BulkSetSpatialInformationViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -24,24 +24,24 @@ using System.Collections.ObjectModel;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectUpdate
 {    
-    public class GeospatialAreaViewModel : EditProjectGeospatialAreasViewModel
+    public class BulkSetSpatialInformationViewModel : BulkSetProjectSpatialInformationViewModel
     {
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public GeospatialAreaViewModel()
+        public BulkSetSpatialInformationViewModel()
         {
         }
 
-        public GeospatialAreaViewModel(List<int> geospatialAreaIDs, string geospatialAreaNotes) : base(geospatialAreaIDs, geospatialAreaNotes)
+        public BulkSetSpatialInformationViewModel(List<int> geospatialAreaIDs) : base(geospatialAreaIDs)
         {
         }
         
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectGeospatialArea> currentProjectGeospatialAreas, ObservableCollection<ProjectGeospatialArea> allProjectGeospatialAreas)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, List<ProjectGeospatialAreaUpdate> currentProjectGeospatialAreaUpdates, ObservableCollection<ProjectGeospatialAreaUpdate> allProjectGeospatialAreaUpdates)
         {
-            base.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
+            base.UpdateModel(projectUpdateBatch, currentProjectGeospatialAreaUpdates, allProjectGeospatialAreaUpdates);
         }
     }    
 }
