@@ -1047,7 +1047,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
-                project.HasProjectLocationPoint(), project.HasProjectLocationDetail(), geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
+                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1118,8 +1118,8 @@ namespace ProjectFirma.Web.Controllers
 
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
-                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint(),
-                project.HasProjectLocationDetail());
+                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
+                project.HasProjectLocationDetail);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;

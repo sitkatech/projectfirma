@@ -375,7 +375,7 @@ namespace ProjectFirma.Web.Controllers
             var filteredProjects = allProjectsForMap.Where(filterFunction.Compile())
                 .ToList();
 
-            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint()).ToList();
+            var filteredProjectsWithLocationAreas = filteredProjects.Where(x => !x.HasProjectLocationPoint).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var taxonomyTiersAsFancyTreeNodes = taxonomyLevel
