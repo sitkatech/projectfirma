@@ -124,13 +124,18 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionForCustomAttributes, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
-                    var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
+                    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
+                    var updateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.BulkSetSpatialInformation }).ToList();
+                    if (geospatialAreaTypes.Count() > 1)
+                    {
+                        updateSections.Add(ProjectUpdateSection.BulkSetSpatialInformation);
+                    }
+                    var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, updateSections, projectUpdateStatus, ignoreStatus);
                     int maxSortOrder = 0;
                     if (projectUpdateSections.Any())
                     {
                         maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
                     }
-                    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
                     projectUpdateSections.AddRange(geospatialAreaTypes
                         .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
                             new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized, maxSortOrder + index + 1,
