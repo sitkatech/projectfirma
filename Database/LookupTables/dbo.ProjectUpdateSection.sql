@@ -1,3 +1,4 @@
+--The sort order for these is for the entire table, NOT the sort order within the grouping
 delete from dbo.ProjectUpdateSection
 
 insert into dbo.ProjectUpdateSection (ProjectUpdateSectionID, ProjectUpdateSectionName, ProjectUpdateSectionDisplayName, SortOrder, HasCompletionStatus, ProjectWorkflowSectionGroupingID)
@@ -16,4 +17,4 @@ values
 (14, 'Contacts', 'Contacts', 50, 1, 1),
 (15, 'AttachmentsAndNotes', 'Attachments and Notes', 130, 0, 5),
 (16, 'CustomAttributes', 'Custom Attributes', 25, 1, 1),
-(17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information', 10, 0, 2)
+(17, 'BulkSetSpatialInformation', 'Bulk Set Spatial Information',60, 0, 2)

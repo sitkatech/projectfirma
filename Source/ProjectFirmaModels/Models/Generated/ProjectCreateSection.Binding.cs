@@ -260,6 +260,6 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectCreateSectionBulkSetSpatialInformation : ProjectCreateSection
     {
         private ProjectCreateSectionBulkSetSpatialInformation(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionBulkSetSpatialInformation Instance = new ProjectCreateSectionBulkSetSpatialInformation(18, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 10, false, 2);
+        public static readonly ProjectCreateSectionBulkSetSpatialInformation Instance = new ProjectCreateSectionBulkSetSpatialInformation(18, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 50, false, 2);
     }
 }

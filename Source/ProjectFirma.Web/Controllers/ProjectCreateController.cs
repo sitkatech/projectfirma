@@ -1537,7 +1537,7 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Returned.ProjectApprovalStatusID;
             project.ReviewedByPerson = CurrentPerson;
             NotificationProjectModelExtensions.SendReturnedMessage(project);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} returned to Submitter for additional clarifications/corrections.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 

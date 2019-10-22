@@ -260,6 +260,6 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectUpdateSectionBulkSetSpatialInformation : ProjectUpdateSection
     {
         private ProjectUpdateSectionBulkSetSpatialInformation(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionBulkSetSpatialInformation Instance = new ProjectUpdateSectionBulkSetSpatialInformation(17, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 10, false, 2);
+        public static readonly ProjectUpdateSectionBulkSetSpatialInformation Instance = new ProjectUpdateSectionBulkSetSpatialInformation(17, @"BulkSetSpatialInformation", @"Bulk Set Spatial Information", 60, false, 2);
     }
 }

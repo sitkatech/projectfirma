@@ -74,11 +74,8 @@ namespace ProjectFirma.Web.Models
                         createSections.Add(ProjectCreateSection.BulkSetSpatialInformation);
                     }
                     var projectCreateSections = GetProjectCreateSectionsImpl(project, createSections, ignoreStatus);
-                    int maxSortOrder = 0;
-                    if (projectCreateSections.Any())
-                    {
-                        maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
-                    }                    
+                    //this sort order is used to figure navigation across all sections. Setting this to the BulkSetSpatialInformation sort order because it is currently the only section in the DB for spatial information
+                    int maxSortOrder = ProjectCreateSection.BulkSetSpatialInformation.SortOrder;
                     IEnumerable<ProjectSectionSimple> projectSectionSimples;
                     if (project == null)
                     {
@@ -131,11 +128,8 @@ namespace ProjectFirma.Web.Models
                         updateSections.Add(ProjectUpdateSection.BulkSetSpatialInformation);
                     }
                     var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, updateSections, projectUpdateStatus, ignoreStatus);
-                    int maxSortOrder = 0;
-                    if (projectUpdateSections.Any())
-                    {
-                        maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
-                    }
+                    //Bulk Set is the only section setup for spatial areas in the DB. so we always want to start with that sort order
+                    int maxSortOrder = ProjectUpdateSection.BulkSetSpatialInformation.SortOrder;
                     projectUpdateSections.AddRange(geospatialAreaTypes
                         .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
                             new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized, maxSortOrder + index + 1,
