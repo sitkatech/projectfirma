@@ -208,4 +208,16 @@ angular.module("ProjectFirmaApp")
                 });                
                 return selectedAreaMatches;
             };
+
+            $scope.getGeospatialAreaTableStyles = function () {
+                var returnValue = "overflow-y: auto;";
+                if ($scope.selectedGeospatialAreaDoesNotMatchProjectLocation() && $scope.canSetGeospatialAreaFromProjectLocation() && !$scope.noGeospatialAreasSelected()) {
+                    returnValue += "max-height: 200px;";
+                } else {
+                    returnValue += "max-height: 350px;";
+                }
+                
+
+                return returnValue;
+            };
         });

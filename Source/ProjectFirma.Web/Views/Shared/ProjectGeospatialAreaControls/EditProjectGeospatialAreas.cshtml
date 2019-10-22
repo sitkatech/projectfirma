@@ -93,7 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="alert alert-warning" ng-if="noGeospatialAreasSelected()">
                 No @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized selected for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.
             </div>
-            <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1" style="max-height:350px; overflow-y: auto">
+            <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1"  style="{{getGeospatialAreaTableStyles()}}">
                 <table class="table">
                     <thead>
                         <tr>
