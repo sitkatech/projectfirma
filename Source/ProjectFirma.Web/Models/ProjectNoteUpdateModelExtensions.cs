@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
             var projectNotesFromProjectUpdate =
                 projectUpdateBatch.ProjectNoteUpdates.Select(
                     x => new ProjectNote(project.ProjectID, x.Note, x.CreateDate) {CreatePersonID = x.CreatePersonID, UpdateDate = x.UpdateDate, UpdatePersonID = x.UpdatePersonID}).ToList();
-            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note, HttpRequestStorage.DatabaseEntities);
+            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note && x.CreateDate == y.CreateDate, HttpRequestStorage.DatabaseEntities);
         }
     }
 }
