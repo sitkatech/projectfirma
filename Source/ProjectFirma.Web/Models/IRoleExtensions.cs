@@ -79,12 +79,13 @@ namespace ProjectFirma.Web.Models
                     sb.AppendLine();
                 }
                 string errorMessage = sb.ToString();
-                Logger.Info($"Reflection error message: {errorMessage}");
-                //Display or log the error based on your application.
+                Logger.Error($"Reflection error message: {errorMessage}");
+
+                // re-throw; this detour is just to try to fish out the extra logging info
+                throw ex;
             }
             return featurePermissions;
         }
-
 
         public static List<Person> GetPeopleWithRole(this IRole role)
         {
