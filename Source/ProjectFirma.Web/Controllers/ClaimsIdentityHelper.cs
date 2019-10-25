@@ -36,15 +36,18 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 // Get the Person from Claims Identity
+                //var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
+                //    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
+                //    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+
+                // Other RPs use an actual "anonymous" user, but we are trying to have CurrentPerson be null, so, we are trying this. -- SLG & SG
+                const Person anonymousSitkaUser = null;
                 var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
+                    authenticationManager.User, anonymousSitkaUser,
                     HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
 
-                // I believe we are always expecting a valid Person here
-                Check.EnsureNotNull(personFromClaimsIdentity);
-
                 // Actual real person
-                if (!personFromClaimsIdentity.IsAnonymousUser())
+                if (personFromClaimsIdentity != null)
                 {
                     // Try to find existing Session for this Person. This seems potentially flawed, and may not work for multiple logins -- SLG & SG
                     var firmaSessionForRealPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionByPersonID(personFromClaimsIdentity.PersonID, false);

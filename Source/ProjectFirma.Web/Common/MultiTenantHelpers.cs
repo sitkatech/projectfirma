@@ -297,14 +297,13 @@ namespace ProjectFirma.Web.Common
         // TODO make this into a check to see if the tenant uses custom results pages. For now, it's just the Action Agenda for PSP, so check if the 2 firma page types needed for their custom results page are present for the tenant
         public static bool UsesCustomResultsPages(Person currentPerson)
         {
-            return currentPerson.Tenant == Tenant.ActionAgendaForPugetSound;
+            return currentPerson != null && currentPerson.Tenant == Tenant.ActionAgendaForPugetSound;
         }
 
         public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
         {
             if (UsesCustomResultsPages(currentPerson))
             {
-                
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentPerson, "Funding Status"));
             }
         }

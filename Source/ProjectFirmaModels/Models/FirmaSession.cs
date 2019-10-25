@@ -42,5 +42,10 @@ namespace ProjectFirmaModels.Models
         {
             return Person == null;
         }
+
+        public bool IsAnonymousOrUnassigned()
+        {
+            return IsAnonymousUser() || Person.Role == Role.Unassigned;
+        }
     }
 }

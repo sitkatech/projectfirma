@@ -126,9 +126,10 @@ namespace ProjectFirma.Web.Views
 
             MultiTenantHelpers.GetCustomPages().ForEach(x =>
             {
-                var isVisible = x.CustomPageDisplayType == CustomPageDisplayType.Public ||
-                                (!currentPerson.IsAnonymousUser() &&
-                                 x.CustomPageDisplayType == CustomPageDisplayType.Protected);
+                var pageTypeIsPublic = x.CustomPageDisplayType == CustomPageDisplayType.Public;
+                var currentUserIsAnonymous = currentPerson != null && currentPerson.IsAnonymousUser();
+                var pageTypeIsProtected = x.CustomPageDisplayType == CustomPageDisplayType.Protected;
+                var isVisible = pageTypeIsPublic || (!currentUserIsAnonymous && pageTypeIsProtected);
                 if (isVisible)
                 {
                     aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentPerson, x.CustomPageDisplayName, "Group1"));

@@ -423,7 +423,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FullProjectList.GetFirmaPage();
             var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, projectCustomFullGridConfigurations);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, projectCustomFullGridConfigurations);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

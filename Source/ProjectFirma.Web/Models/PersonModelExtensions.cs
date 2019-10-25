@@ -96,7 +96,8 @@ namespace ProjectFirma.Web.Models
             return person != null ? DetailUrlTemplate.ParameterReplace(person.PersonID) : null;
         }
 
-        public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
+        //public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
+        public static bool IsUnassigned(this Person person) => person!= null && person.Role == Role.Unassigned;
 
         public static bool IsSitkaAdministrator(this Person person)
         {
@@ -170,7 +171,7 @@ namespace ProjectFirma.Web.Models
             return Role.ProjectSteward.RoleID == person.RoleID;
         }
 
-        public static bool CanViewProposals(this Person person) => MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsAnonymousOrUnassigned();
+        public static bool CanViewProposals(this Person person) => person != null && MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsUnassigned();
 
         public static List<HtmlString> GetProjectStewardshipAreaHtmlStringList(this Person person)
         {

@@ -159,7 +159,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @ViewDataTyped.Person.GetFullNameFirstLast() is an Administrator and can manage all @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()).
                             </p>
                         }
-                        else if (ViewDataTyped.Person.IsAnonymousOrUnassigned())
+                        else if (ViewDataTyped.Person.IsUnassigned())
                         {
                             <p class="systemText">
                                 @ViewDataTyped.Person.GetFullNameFirstLast() is not assigned a role and cannot add or edit any @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()).

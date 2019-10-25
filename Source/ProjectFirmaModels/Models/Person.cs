@@ -48,10 +48,17 @@ namespace ProjectFirmaModels.Models
             var notifications = Notifications.Where(x => x.NotificationType == NotificationType.ProjectUpdateReminder).ToList();
 
             if (notifications.Count == 0)
+            {
                 return null;
+            }
+
             return notifications.OrderByDescending(y => y.NotificationDate).First();
         }
 
+        /// <summary>
+        /// This function really needs to die, but not doing it yet. -- SLG & SG
+        /// </summary>
+        /// <returns></returns>
         public bool IsAnonymousUser() => PersonID == AnonymousPersonID;
 
         /// <summary>

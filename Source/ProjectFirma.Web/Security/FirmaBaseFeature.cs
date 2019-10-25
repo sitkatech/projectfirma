@@ -88,15 +88,22 @@ namespace ProjectFirma.Web.Security
 
         public virtual bool HasPermissionByPerson(Person person)
         {
-            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned())
+            if (person == null)
             {
                 return false;
             }
+
+            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsUnassigned())
+            {
+                return false;
+            }
+
             if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
             {
                 return true; 
             }
-            return person != null && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+
+            return _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
