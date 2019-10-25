@@ -44,6 +44,9 @@
     .well hr {
         margin-top: 0;
     }
+    .btn-set-all {
+        white-space: normal;
+    }
 </style>
 <div class="row">
     <div class="col-xs-12">
@@ -56,15 +59,24 @@
         <form action="@ViewDataTyped.EditProjectGeospatialAreasUrl" method="POST" id="@ViewDataTyped.EditProjectGeospatialAreasFormID">
 
             <div class="alert alert-danger" ng-if="!canSetGeospatialAreaFromProjectLocation()">
-                <span>The Project Simple Location is not set. Please set the Simple Location before using this page</span>
+                <span>The Project Simple Location is not set.</span>
+                @if (!string.IsNullOrEmpty(ViewDataTyped.EditSimpleLocationUrl))
+                {
+                    <span>Please <a href="@ViewDataTyped.EditSimpleLocationUrl">set the Simple Location</a> before using this page.</span>
+                }
+                else
+                {
+                    <span>Please set the Simple Location before using this page.</span>
+                }
+
             </div>
             <hr />
 
             
             <div ng-if="canSetGeospatialAreaFromProjectLocation()">
-                <button type="button" class="btn btn-sm btn-firma" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
+                <button type="button" class="btn btn-sm btn-firma btn-set-all" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
                     <span class="glyphicon glyphicon-map-marker"></span>
-                    Set All Selected Layers from Simple Location
+                    Set Selected Layers from Simple Location
                 </button>
                 <div class="select-all-container">
                     <label>

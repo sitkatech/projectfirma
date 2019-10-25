@@ -1039,6 +1039,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas
@@ -1047,7 +1048,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
-                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
+                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1112,6 +1113,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
@@ -1119,7 +1121,7 @@ namespace ProjectFirma.Web.Controllers
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
-                project.HasProjectLocationDetail);
+                project.HasProjectLocationDetail, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
