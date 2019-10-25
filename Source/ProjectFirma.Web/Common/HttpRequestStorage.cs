@@ -18,9 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using LtInfo.Common;
@@ -49,10 +48,26 @@ namespace ProjectFirma.Web.Common
             return HttpContext.Current.GetOwinContext().Authentication.User;
         }
 
+        public static FirmaSession FirmaSession
+        {
+            get => GetValueOrDefault(FirmaSessionKey, FirmaSessionModelExtensions.GetAnonymousFirmaSession);
+            set => SetValue(FirmaSessionKey, value);
+        }
+
+        // Old way - accessed directly
+
+        //public static Person Person
+        //{
+        //    get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
+        //    set => SetValue(PersonKey, value);
+        //}
+
+        // New way - Accessed via current Session. Ultimately this may be able to be inlined
+
         public static Person Person
         {
-            get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
-            set => SetValue(PersonKey, value);
+            get => FirmaSession.Person;
+            //set => SetValue(PersonKey, value);
         }
 
         public static Tenant Tenant

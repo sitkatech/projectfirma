@@ -32,6 +32,10 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
+
+
+
+
     /// <summary>
     /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object
     /// </summary>

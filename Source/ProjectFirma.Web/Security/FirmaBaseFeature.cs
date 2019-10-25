@@ -28,8 +28,9 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
-using Keystone.Common.OpenID;
 using ProjectFirma.Web.Models;
+using Keystone.Common.OpenID;
+
 
 namespace ProjectFirma.Web.Security
 {
@@ -51,16 +52,32 @@ namespace ProjectFirma.Web.Security
             _grantedRoles = grantedRoles;
         }
 
-        public override void OnAuthorization(AuthorizationContext filterContext)
+        public override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {
             Roles = CalculateRoleNameStringFromFeature();
 
-            // MR #321 - force reload of user roles onto IClaimsIdentity
-            KeystoneOpenIDUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
+            // Unsure if this is needed anymore
+
+            AddLocalUserAccountRolesToClaims(HttpRequestStorage.FirmaSession, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
         }
+
+
+        public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
+        {
+            if (firmaSession.IsAnonymousUser())
+            {
+                return;
+            }
+            
+            if (userIdentity is System.Security.Claims.ClaimsIdentity claimsIdentity)
+            {
+                firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
+            }
+        }
+
 
         internal string CalculateRoleNameStringFromFeature()
         {

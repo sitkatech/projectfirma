@@ -49,7 +49,6 @@ namespace ProjectFirma.Web.Controllers
             get { return SitkaRoute<AccountController>.BuildAbsoluteUrlHttpsFromExpression(c => c.LogOn()); }
         }
 
-
         [LoggedInUnclassifiedFeature]
         [CrossAreaRoute]
         public ActionResult LogOn()

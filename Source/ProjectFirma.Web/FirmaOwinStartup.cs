@@ -56,8 +56,7 @@ namespace ProjectFirma.Web
                     var tenant = GetTenantFromUrl(ctx.Request);
                     HttpRequestStorage.Tenant = tenant;
 
-                    var canonicalHostNameForEnvironment =
-                        FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
+                    var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
@@ -259,8 +258,12 @@ namespace ProjectFirma.Web
 
             person.UpdateDate = DateTime.Now;
             person.LastActivityDate = DateTime.Now;
-            HttpRequestStorage.Person = person;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(person);
+
+            // We are assuming here that this code path is always a NEW session, and not using an existing one. But I'm definitely not sure about that.
+            var newFirmaSession = new FirmaSession(person);
+            //HttpRequestStorage.Person = person;
+            HttpRequestStorage.FirmaSession = newFirmaSession;
+            HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
 
             if (sendNewUserNotification)
             {

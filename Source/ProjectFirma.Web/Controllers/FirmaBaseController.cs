@@ -54,13 +54,19 @@ namespace ProjectFirma.Web.Controllers
 
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            var personFromClaimsIdentity = ClaimsIdentityHelper.PersonFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
-            HttpRequestStorage.Person = personFromClaimsIdentity;
-            HttpRequestStorage.DatabaseEntities.Person = personFromClaimsIdentity; // we need to set this so that the save will now who the Person is
+            // OLd Way
+            //var personFromClaimsIdentity = ClaimsIdentityHelper.PersonFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
+            //HttpRequestStorage.Person = personFromClaimsIdentity;
+            //HttpRequestStorage.DatabaseEntities.Person = personFromClaimsIdentity; // we need to set this so that the save will now who the Person is
+
+            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
+
+            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
+            // we need to set this so that the save will know who the Person is
+            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person; 
+
             base.OnAuthentication(filterContext);
         }
-
-
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
@@ -74,7 +80,9 @@ namespace ProjectFirma.Web.Controllers
         protected FirmaBaseController()
         {
             if (ControllerContextStatic == null)
+            {
                 ControllerContextStatic = ControllerContext;
+            }
         }
 
         public static ReadOnlyCollection<MethodInfo> AllControllerActionMethods => AllControllerActionMethodsProtected;
