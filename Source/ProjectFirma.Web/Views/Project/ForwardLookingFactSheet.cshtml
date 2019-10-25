@@ -305,7 +305,7 @@
                     <div class="projectDescription">@Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())</div>
                 </div>
                 <div class="col-xs-12" style="margin-top: 10px">
-                    <h4>Targeted Performance Measures</h4>
+                    <h4>Targeted @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()</h4>
                     @if (ViewDataTyped.PerformanceMeasureExpectedValues.Any() || ViewDataTyped.TechnicalAssistanceRequests.Any())
                     {
                         <ul>
