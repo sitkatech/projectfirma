@@ -1414,6 +1414,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas
@@ -1423,7 +1424,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
                 projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType,
-                geospatialAreasContainingProjectSimpleLocation);
+                geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
@@ -1457,6 +1458,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
+            var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
@@ -1464,7 +1466,7 @@ namespace ProjectFirma.Web.Controllers
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
-                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail);
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl);
 
             var viewData = new BulkSetSpatialInformationViewData(CurrentPerson, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
             return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);

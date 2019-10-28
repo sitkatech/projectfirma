@@ -34,18 +34,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
     public class EditProjectGeospatialAreasViewData : FirmaViewData
     {
         public GeospatialAreaType GeospatialAreaType { get; }
-        public readonly EditProjectGeospatialAreasViewDataForAngular ViewDataForAngular;
-        public readonly string EditProjectGeospatialAreasFormID;
-        public readonly string EditProjectGeospatialAreasUrl;
-        public readonly bool HasProjectLocationPoint;
-        public readonly bool HasProjectLocationDetail;
-        public readonly List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation;
-        public readonly string SimplePointMarkerImg;
+        public EditProjectGeospatialAreasViewDataForAngular ViewDataForAngular { get; }
+        public string EditProjectGeospatialAreasFormID { get; }
+        public string EditProjectGeospatialAreasUrl { get; }
+        public bool HasProjectLocationPoint { get; }
+        public bool HasProjectLocationDetail { get; }
+        public List<ProjectFirmaModels.Models.GeospatialArea> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
+        public string SimplePointMarkerImg { get; }
+        public string EditSimpleLocationUrl { get; }
 
         public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
             string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
-            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation) : base(currentPerson)
+            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentPerson)
         {
             GeospatialAreaType = geospatialAreaType;
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;
@@ -59,6 +60,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             HasProjectLocationDetail = hasProjectLocationDetail;
 
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
+
+            EditSimpleLocationUrl = editSimpleLocationUrl;
         }
     }
 

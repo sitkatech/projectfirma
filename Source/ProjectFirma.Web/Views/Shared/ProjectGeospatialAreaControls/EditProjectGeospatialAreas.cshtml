@@ -73,11 +73,20 @@ Source code is available upon request via <support@sitkatech.com>.
                     <span>The currently selected @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName does not match the project simple location - this may be OK if the project location is outside the associated boundary, or may require updating either the simple location or the associated area.</span>
                 </div>
                 <div class="alert alert-warning" ng-if="!canSetGeospatialAreaFromProjectLocation()">
-                    <span>The Project Simple Location is not set or is outside the @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName boundaries, so it is not be set automatically.</span>
+                    <span>The Project Simple Location is not set or is outside the @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName boundaries, so it cannot be set automatically.</span>
+                        @if (!string.IsNullOrEmpty(ViewDataTyped.EditSimpleLocationUrl))
+                        {
+                            <span>You may set a Simple Location by visiting the <a href="@ViewDataTyped.EditSimpleLocationUrl"> Simple Location section</a>.</span>
+                        }
+                            
+    
+                    </div>
+    
+                <hr/>
+    
                 </div>
-            <hr/>
-            </div>
-            <div class="input-group" id="scrollable-dropdown-menu" style="margin-bottom: 10px;">
+    
+                <div class="input-group" id="scrollable-dropdown-menu" style="margin-bottom: 10px;">
                 @* ReSharper disable once UnknownCssClass *@
                 <input type="text"
                        id="@ViewDataTyped.ViewDataForAngular.TypeAheadInputId"
