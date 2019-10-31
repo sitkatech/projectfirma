@@ -72,6 +72,9 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult LogOff()
         {
             Request.GetOwinContext().Authentication.SignOut();
+            var currentPerson = HttpRequestStorage.Person;
+            HttpRequestStorage.FirmaSession.Delete(HttpRequestStorage.DatabaseEntities);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(currentPerson);
             return Redirect("/");
         }
 

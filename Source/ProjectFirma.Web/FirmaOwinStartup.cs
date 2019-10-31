@@ -261,8 +261,6 @@ namespace ProjectFirma.Web
 
             // Find existing FirmaSession if we can for this user
             var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
-            //Check.Ensure(firmaSessionsForPerson.Any(), $"No FirmaSessions found for person: {person.GetFullNameFirstLast()} PersonID: {person.PersonID}");
-
             // If we find an existing Session..
             if (firmaSessionsForPerson.Any())
             {
@@ -277,12 +275,6 @@ namespace ProjectFirma.Web
                 // Only save if session is being newly created
                 HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
                 HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
-
-                // Other mechanism for notes.. not using above I don't think.
-                //
-                // Only save if session is being newly created
-                //HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
-                //HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(HttpRequestStorage.Tenant.TenantID);
             }
 
             if (sendNewUserNotification)
