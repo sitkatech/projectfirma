@@ -120,6 +120,8 @@
                     var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
                         {
                             typeName: $scope.GeospatialAreaMapServiceLayerNamesCommaSeparated,
+                            // Limit to just properties needed for performance/data size (i.e. not including unnecessary data such as full geometries)
+                            propertyName: "GeospatialAreaName",
                             cql_filter: "intersects(Ogr_Geometry, POINT(" +
                                 latlngWrapped.lat +
                                 " " +
@@ -135,7 +137,7 @@
                             setPointOnMap(latlng);
                             if (response.features.length > 0) {
                                 var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                                propertiesForDisplay[$scope.AngularViewData.GeospatialAreaFieldDefinitionLabel] =
+                                propertiesForDisplay[$scope.AngularViewData.ProjectLocationFieldDefinitionLabel] =
                                     mergedProperties.GeospatialAreaName;
                             }
 
