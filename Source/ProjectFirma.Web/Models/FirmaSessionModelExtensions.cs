@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -38,19 +39,28 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static FirmaSession GetAnonymousFirmaSession()
         {
-            var anonymousFirmaSession = new FirmaSession(Guid.NewGuid(), DateTime.Now);
+            var anonymousFirmaSession = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.Tenant);
             return anonymousFirmaSession;
         }
 
         public static List<FirmaSession> GetFirmaSessionsByPersonID(this IQueryable<FirmaSession> firmaSessions, int personID, bool requireRecordFound)
         {
-            var firmaSessionsForPersonID = firmaSessions.Where(x => x.PersonID == personID);
+            // Clients currently prefer the *LAST* FirmaSession we provide, so we attempt to provide FirmaSessions in a relevant preference order.
+            // Here we deliberately prefer normal logged-in users for a given desired Person over ones where impersonation is being used, but we do provide both.
+            // This all needs review if we want to have PF really support multiple sessions per user. -- SLG
+            var firmaSessionsForPersonCurrentlyImpersonating = firmaSessions.Where(x => x.OriginalPersonID == personID && x.OriginalPersonID != null && x.PersonID != x.OriginalPersonID).ToList();
+            var firmaSessionsForRegularPersonID = firmaSessions.Where(x => x.PersonID == personID && !(x.OriginalPersonID != null && x.PersonID != x.OriginalPersonID)).ToList();
+
+            List<FirmaSession> matchingFirmaSessions = new List<FirmaSession>();
+            matchingFirmaSessions.AddRange(firmaSessionsForPersonCurrentlyImpersonating);
+            matchingFirmaSessions.AddRange(firmaSessionsForRegularPersonID);
+
             if (requireRecordFound)
             {
-                Check.RequireNotNullThrowNotFound(firmaSessions, personID.ToString());
-                Check.Require(firmaSessions.Any(), personID.ToString());
+                Check.RequireNotNullThrowNotFound(matchingFirmaSessions, personID.ToString());
+                Check.Require(matchingFirmaSessions.Any(), personID.ToString());
             }
-            return firmaSessionsForPersonID.ToList();
+            return matchingFirmaSessions;
         }
 
         //public static FirmaSession (this IQueryable<FirmaSession> firmaSessions, int personID)

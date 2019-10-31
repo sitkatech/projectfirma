@@ -68,8 +68,7 @@ namespace ProjectFirma.Web.Security
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
         }
-        
-        // Unsure if needed???
+
         public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
         {
             // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
@@ -86,27 +85,6 @@ namespace ProjectFirma.Web.Security
                 }
             }
         }
-
-        // Old verion (pre FirmaSession)
-        /*
-        public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
-        {
-            // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
-            if (!userIdentity.IsAuthenticated)
-            {
-                return;
-            }
-            
-            if (userIdentity is System.Security.Claims.ClaimsIdentity claimsIdentity)
-            {
-                if (firmaSession.Person != null)
-                { 
-                    firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
-                }
-            }
-        }
-        */
-
 
         internal string CalculateRoleNameStringFromFeature()
         {

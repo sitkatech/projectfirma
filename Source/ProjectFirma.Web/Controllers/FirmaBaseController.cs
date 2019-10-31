@@ -54,24 +54,11 @@ namespace ProjectFirma.Web.Controllers
 
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            // OLd Way
-            //var personFromClaimsIdentity = ClaimsIdentityHelper.PersonFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
-            //HttpRequestStorage.Person = personFromClaimsIdentity;
-            //HttpRequestStorage.DatabaseEntities.Person = personFromClaimsIdentity; // we need to set this so that the save will now who the Person is
-
             var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
 
             HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
             // we need to set this so that the save will know who the Person is
             HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person;
-
-            // Manually save changes. (This is the only call so far that does not require a current Person
-            //var blah = HttpRequestStorage.DatabaseEntities.FirmaSessions;
-            // What is in blah?
-            //HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentTenant.TenantID);
-            //SitkaDbContext.SaveChanges();
-            //SitkaDbContext.SaveChangesWithNoAuditing();
-
 
             base.OnAuthentication(filterContext);
         }
@@ -112,7 +99,6 @@ namespace ProjectFirma.Web.Controllers
         protected FirmaSession CurrentFirmaSession => HttpRequestStorage.FirmaSession;
 
         protected Person CurrentPerson => CurrentFirmaSession.Person;
-        //protected Person CurrentPerson => HttpRequestStorage.Person;
 
         protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
     }

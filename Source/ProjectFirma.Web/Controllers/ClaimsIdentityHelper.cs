@@ -87,7 +87,6 @@ namespace ProjectFirma.Web.Controllers
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
             var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);
-            //HttpRequestStorage.Person = PersonModelExtensions.GetAnonymousSitkaUser();
             HttpRequestStorage.FirmaSession.Person = PersonModelExtensions.GetAnonymousSitkaUser();
             // This might be right, but we aren't sure yet. -- SG & SLG
             HttpRequestStorage.FirmaSession.OriginalPerson = null;
