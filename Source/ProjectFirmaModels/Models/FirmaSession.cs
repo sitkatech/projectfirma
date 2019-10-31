@@ -10,12 +10,15 @@ namespace ProjectFirmaModels.Models
         /// Static constructor
         /// </summary>
         /// <returns></returns>
-        public static FirmaSession MakeEmptyFirmaSession()
+        public static FirmaSession MakeEmptyFirmaSession(Tenant tenant)
         {
+            Check.EnsureNotNull(tenant, "Tenant must not be null. Should be current Tenant.");
+
             // I'd prefer just to write this as a real constructor, but it's already in EF generated code, so we resort to this.
             var newFirmaSession = new FirmaSession();
-            newFirmaSession.FirmaSessionGuid = new Guid();
+            newFirmaSession.FirmaSessionGuid = Guid.NewGuid();
             newFirmaSession.CreateDate = DateTime.Now;
+            newFirmaSession.TenantID = tenant.TenantID;
 
             return newFirmaSession;
         }
@@ -28,7 +31,8 @@ namespace ProjectFirmaModels.Models
         {
             Check.EnsureNotNull(person, "Do not call this if Person is null");
 
-            FirmaSessionGuid = new Guid();
+            FirmaSessionGuid = Guid.NewGuid();
+            CreateDate = DateTime.Now;
             Person = person;
             TenantID = person.Tenant.TenantID;
         }

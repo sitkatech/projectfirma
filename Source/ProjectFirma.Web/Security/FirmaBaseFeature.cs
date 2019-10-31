@@ -57,7 +57,6 @@ namespace ProjectFirma.Web.Security
             Roles = CalculateRoleNameStringFromFeature();
 
             // Unsure if this is needed anymore
-
             AddLocalUserAccountRolesToClaims(HttpRequestStorage.FirmaSession, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
 
             // This ends up making the calls into the RoleProvider
@@ -67,14 +66,18 @@ namespace ProjectFirma.Web.Security
 
         public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
         {
-            if (firmaSession.IsAnonymousUser())
+            // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
+            if (!userIdentity.IsAuthenticated)
             {
                 return;
             }
             
             if (userIdentity is System.Security.Claims.ClaimsIdentity claimsIdentity)
             {
-                firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
+                if (firmaSession.Person != null)
+                { 
+                    firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
+                }
             }
         }
 

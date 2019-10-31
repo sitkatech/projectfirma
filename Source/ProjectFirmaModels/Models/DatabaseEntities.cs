@@ -118,7 +118,7 @@ namespace ProjectFirmaModels.Models
 
         private static void SetTenantIDForAllModifiedEntries(List<DbEntityEntry> dbEntityEntries, int tenantID)
         {
-/*
+            /*
              * This is where we are setting it to the TenantID of the current thread or HttpRequestStorage.Tenant;
              */
             foreach (var entry in dbEntityEntries.Where(entry =>
