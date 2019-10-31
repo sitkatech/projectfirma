@@ -259,11 +259,31 @@ namespace ProjectFirma.Web
             person.UpdateDate = DateTime.Now;
             person.LastActivityDate = DateTime.Now;
 
-            // We are assuming here that this code path is always a NEW session, and not using an existing one. But I'm definitely not sure about that.
-            var newFirmaSession = new FirmaSession(person);
-            //HttpRequestStorage.Person = person;
-            HttpRequestStorage.FirmaSession = newFirmaSession;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
+            // Find existing FirmaSession if we can for this user
+            var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
+            //Check.Ensure(firmaSessionsForPerson.Any(), $"No FirmaSessions found for person: {person.GetFullNameFirstLast()} PersonID: {person.PersonID}");
+
+            // If we find an existing Session..
+            if (firmaSessionsForPerson.Any())
+            {
+                // For now, we just give them the last session. This is NOT a long term solution. -- SLG
+                HttpRequestStorage.FirmaSession = firmaSessionsForPerson.Last();
+            }
+            else
+            {
+                // Otherwise, we could not find a FirmaSession for this person. Create one.
+                var newFirmaSession = new FirmaSession(person);
+                HttpRequestStorage.FirmaSession = newFirmaSession;
+                // Only save if session is being newly created
+                HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
+                HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
+
+                // Other mechanism for notes.. not using above I don't think.
+                //
+                // Only save if session is being newly created
+                //HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
+                //HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(HttpRequestStorage.Tenant.TenantID);
+            }
 
             if (sendNewUserNotification)
             {

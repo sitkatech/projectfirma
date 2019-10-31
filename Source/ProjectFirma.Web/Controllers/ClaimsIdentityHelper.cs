@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using Keystone.Common.OpenID;
 using LtInfo.Common;
@@ -49,11 +50,16 @@ namespace ProjectFirma.Web.Controllers
                 // Actual real person
                 if (personFromClaimsIdentity != null)
                 {
-                    // Try to find existing Session for this Person. This seems potentially flawed, and may not work for multiple logins -- SLG & SG
-                    var firmaSessionForRealPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionByPersonID(personFromClaimsIdentity.PersonID, false);
-                    if (firmaSessionForRealPerson != null)
+                    // Sanity check
+                    Check.Ensure(currentTenant.TenantID == personFromClaimsIdentity.TenantID);
+
+                    // Try to find existing Session for this Person.
+                    // ** This seems potentially flawed, and may not work for multiple logins -- SLG & SG **
+                    var firmaSessionForRealPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(personFromClaimsIdentity.PersonID, false);
+                    if (firmaSessionForRealPerson.Any())
                     {
-                        return firmaSessionForRealPerson;
+                        // For now, we just give them the last session. This is NOT a long term solution. -- SLG
+                        return firmaSessionForRealPerson.Last();
                     }
                     // Otherwise, we could not find a FirmaSession for this person. Create one.
                     var firmaSessionFromClaimsIdentity = new FirmaSession(personFromClaimsIdentity);

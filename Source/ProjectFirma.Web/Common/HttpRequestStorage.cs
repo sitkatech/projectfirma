@@ -25,6 +25,7 @@ using System.Web;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
+using Microsoft.Owin.Security;
 using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
 
@@ -45,7 +46,12 @@ namespace ProjectFirma.Web.Common
         public static IPrincipal GetHttpContextUserThroughOwin()
         {
             Check.EnsureNotNull(HttpContext.Current, "Null HttpContext.Current!");
-            return HttpContext.Current.GetOwinContext().Authentication.User;
+            return GetHttpContextAuthenticationThroughOwin().User;
+        }
+
+        public static IAuthenticationManager GetHttpContextAuthenticationThroughOwin()
+        {
+            return HttpContext.Current.GetOwinContext().Authentication;
         }
 
         public static FirmaSession FirmaSession

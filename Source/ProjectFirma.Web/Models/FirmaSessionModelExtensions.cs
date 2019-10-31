@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
@@ -41,14 +42,15 @@ namespace ProjectFirma.Web.Models
             return anonymousFirmaSession;
         }
 
-        public static FirmaSession GetFirmaSessionByPersonID(this IQueryable<FirmaSession> firmaSessions, int personID, bool requireRecordFound)
+        public static List<FirmaSession> GetFirmaSessionsByPersonID(this IQueryable<FirmaSession> firmaSessions, int personID, bool requireRecordFound)
         {
-            var firmaSession = firmaSessions.SingleOrDefault(x => x.PersonID == personID);
+            var firmaSessionsForPersonID = firmaSessions.Where(x => x.PersonID == personID);
             if (requireRecordFound)
             {
-                Check.RequireNotNullThrowNotFound(firmaSession, personID.ToString());
+                Check.RequireNotNullThrowNotFound(firmaSessions, personID.ToString());
+                Check.Require(firmaSessions.Any(), personID.ToString());
             }
-            return firmaSession;
+            return firmaSessionsForPersonID.ToList();
         }
 
         //public static FirmaSession (this IQueryable<FirmaSession> firmaSessions, int personID)

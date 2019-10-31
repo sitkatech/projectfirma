@@ -30,6 +30,7 @@ using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Models;
 using Keystone.Common.OpenID;
+using Microsoft.Owin.Security;
 
 
 namespace ProjectFirma.Web.Security
@@ -52,18 +53,42 @@ namespace ProjectFirma.Web.Security
             _grantedRoles = grantedRoles;
         }
 
+        // Is this called only on initial authorization? or every call? I think only first time, but let's be sure.
         public override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {
             Roles = CalculateRoleNameStringFromFeature();
 
-            // Unsure if this is needed anymore
-            AddLocalUserAccountRolesToClaims(HttpRequestStorage.FirmaSession, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
+            var userIdentity = HttpRequestStorage.GetHttpContextUserThroughOwin().Identity;
+            //if ()
+            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpRequestStorage.GetHttpContextAuthenticationThroughOwin(), HttpRequestStorage.Tenant);
+            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
+
+            AddLocalUserAccountRolesToClaims(HttpRequestStorage.FirmaSession, userIdentity);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
         }
+        
+        // Unsure if needed???
+        public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
+        {
+            // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
+            if (!userIdentity.IsAuthenticated)
+            {
+                return;
+            }
 
+            if (userIdentity is System.Security.Claims.ClaimsIdentity claimsIdentity)
+            {
+                if (firmaSession.Person != null)
+                { 
+                    firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
+                }
+            }
+        }
 
+        // Old verion (pre FirmaSession)
+        /*
         public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
         {
             // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
@@ -80,6 +105,7 @@ namespace ProjectFirma.Web.Security
                 }
             }
         }
+        */
 
 
         internal string CalculateRoleNameStringFromFeature()
