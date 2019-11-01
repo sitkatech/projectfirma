@@ -49,16 +49,14 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
         {
-            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
-                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            var editTypeRoles = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit);
+            return (currentPerson != null && editTypeRoles.Select(x => x.Role).Contains(currentPerson.Role)) || new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
         }
 
         public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
         {
-            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role).Contains(currentPerson.Role) ||
-                   new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            var viewTypeRoles = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View);
+            return (currentPerson != null && viewTypeRoles.Select(x => x.Role).Contains(currentPerson.Role)) || new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
         }
     }
 }
