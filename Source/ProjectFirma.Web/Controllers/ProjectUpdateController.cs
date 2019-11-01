@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
-using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -1325,7 +1324,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(projectUpdateBatch, viewModel);
             }
             SaveProjectLocationUpdates(viewModel, projectUpdateBatch);
-            DbSpatialHelper.Reduce(new List<IHaveDbGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -3022,9 +3021,7 @@ namespace ProjectFirma.Web.Controllers
                         SitkaLogger.Instance.LogDetailedErrorMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectID} appears to have inconsistent simple location configuration.");
                         return true;
                     }
-
-                    return !project.ProjectLocationPoint.SpatialEquals(projectUpdateBatch.ProjectUpdate
-                        .ProjectLocationPoint);
+                    return project.ProjectLocationPoint.ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.ProjectLocationPoint.ToSqlGeometry()).IsFalse;
             }
 
             return false;
