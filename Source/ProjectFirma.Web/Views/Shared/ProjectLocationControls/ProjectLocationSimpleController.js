@@ -109,50 +109,10 @@
                     Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                 };
 
-                if (!$scope.hasGeospatialAreaTypeLayers) {
-                    setPointOnMap(latlng);
-                    $scope.propertiesForPointOnMap = propertiesForDisplay;
-                    if (callback) {
-                        callback.call();
-                    }
-                }
-                else {
-                    var parameters = L.Util.extend($scope.projectLocationMap.wfsParams,
-                        {
-                            typeName: $scope.GeospatialAreaMapServiceLayerNamesCommaSeparated,
-                            // Limit to just properties needed for performance/data size (i.e. not including unnecessary data such as full geometries)
-                            propertyName: "GeospatialAreaName",
-                            cql_filter: "intersects(Ogr_Geometry, POINT(" +
-                                latlngWrapped.lat +
-                                " " +
-                                latlngWrapped.lng +
-                                "))"
-                        });
-                    SitkaAjax.ajax({
-                        url: $scope.AngularViewData.MapServiceUrl + L.Util.getParamString(parameters),
-                            dataType: "json",
-                            jsonpCallback: "getJson"
-                        },
-                        function(response) {
-                            setPointOnMap(latlng);
-                            if (response.features.length > 0) {
-                                var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                                propertiesForDisplay[$scope.AngularViewData.ProjectLocationFieldDefinitionLabel] =
-                                    mergedProperties.GeospatialAreaName;
-                            }
-
-                            $scope.propertiesForPointOnMap = propertiesForDisplay;
-
-                            if (callback) {
-                                callback.call();
-                            }
-                        },
-                        function() {
-                            console.error(
-                                "There was an error selecting the " +
-                                $scope.AngularViewData.ProjectLocationFieldDefinitionLabel +
-                                " area from list.");
-                        });
+                setPointOnMap(latlng);
+                $scope.propertiesForPointOnMap = propertiesForDisplay;
+                if (callback) {
+                    callback.call();
                 }
             }
 
@@ -234,30 +194,6 @@
                         Longitude: L.Util.formatNum(latlngWrapped.lng, 4)
                     };
 
-                    // Get the initial Location Information from the WMS service
-                    if ($scope.hasGeospatialAreaTypeLayers) {
-                        SitkaAjax.ajax({
-                                url: $scope.AngularViewData.MapServiceUrl +
-                                    L.Util.getParamString(L.Util.extend($scope.projectLocationMap.wfsParams,
-                                        {
-                                            typeName: $scope.GeospatialAreaMapServiceLayerNamesCommaSeparated,
-                                            cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
-                                        })),
-                                dataType: "json",
-                                jsonpCallback: "getJson"
-                            },
-                            function(response) {
-                                if (response.features.length === 0)
-                                    return;
-
-                                var mergedProperties = _.merge.apply(_, _.map(response.features, "properties"));
-                                $scope.propertiesForPointOnMap[$scope.AngularViewData.GeospatialAreaFieldDefinitionLabel] = mergedProperties.GeospatialAreaName;
-                                $scope.$apply();
-                            },
-                            function() {
-                                console.error("There was an error getting the initial " + $scope.AngularViewData.GeospatialAreaFieldDefinitionLabel + " name to display.");
-                            });
-                    }
                     // 7/29/2019 SMG & TK: Added setTimeout so map pans to lat lng when opening modal dialog, for some reason without setTimeout the map does not pan
                     setTimeout(function () {
                         $scope.projectLocationMap.map.panTo(latlng);
