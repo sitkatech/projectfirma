@@ -90,6 +90,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
@@ -257,6 +258,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get; set; }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
         public virtual IQueryable<PerformanceMeasure> PerformanceMeasures { get { return AllPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategory> AllPerformanceMeasureSubcategories { get; set; }
@@ -610,6 +612,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
+
+                case "PerformanceMeasureReportingPeriod":
+                    return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);
 
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);

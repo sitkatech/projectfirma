@@ -260,6 +260,10 @@
     <Compile Include="Models\Generated\PerformanceMeasureNoteConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureNotePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureReportingPeriodConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureReportingPeriodPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureSubcategory.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureSubcategory.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureSubcategoryConfiguration.Binding.cs" />
