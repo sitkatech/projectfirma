@@ -42,25 +42,26 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ProjectFundingSourceExpenditureController" style="max-height: 600px; overflow-y: auto">
     <div style="margin-top: 5px">
+        <strong>1. </strong>
         <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
-            <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'" ></i> 
             What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report?
+            <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i>
         </a>
         <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
             Select the years for which you have no expenditures to report and provide a brief explanation.
             <a style="cursor: pointer" ng-click="selectAllYears(true)">Select All</a> |
-            <a style="cursor: pointer"  ng-click="selectAllYears(false)">Unselect All</a>
+            <a style="cursor: pointer" ng-click="selectAllYears(false)">Unselect All</a>
             <div>
                 <label ng-repeat="projectExemptReportingYear in AngularModel.ProjectExemptReportingYears | orderBy: 'CalendarYear'" style="padding-right: 10px">
-                    <input type="checkbox" ng-model="projectExemptReportingYear.IsExempt" /> <span ng-bind="projectExemptReportingYear.CalendarYearDisplay"></span>
+                    <input type="checkbox" ng-model="projectExemptReportingYear.IsExempt"/> <span ng-bind="projectExemptReportingYear.CalendarYearDisplay"></span>
                 </label>
             </div>
-            <textarea class="form-control" cols="20" ng-model="AngularModel.Explanation" placeholder="Explanation here" rows="2" style="width:100%">{{AngularModel.Explanation}}</textarea>
+            <textarea class="form-control" cols="20" ng-model="AngularModel.Explanation" placeholder="Explanation here" rows="2" style="width: 100%">{{AngularModel.Explanation}}</textarea>
         </div>
     </div>    
     <hr />
     <div class="form-group">
-        <label class="control-label">@FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:</label>
+        <label class="control-label">2. Identify the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized().  You can add more than one.</label>
         <div class="input-group">
             <select ng-model="FundingSourceIDToAdd"
                     class="selectpicker"
@@ -82,6 +83,9 @@ Source code is available upon request via <support@sitkatech.com>.
             </span>
         </div>
         <br />
+    </div>
+    <div>
+        <label>3. Enter expenditures for each year and @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
     </div>
     <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
         <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
