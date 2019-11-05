@@ -44,8 +44,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public string Explanation { get; set; }
 
-        public List<ProjectExemptReportingYearSimple> ProjectExemptReportingYears { get; set; }
-
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -53,10 +51,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate,
-            List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
+        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
         {
-            ProjectExemptReportingYears = projectExemptReportingYears;
             Explanation = projectUpdateBatch.NoExpendituresToReportExplanation;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearsToPopulate);
             ShowValidationWarnings = true;
@@ -74,22 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditureUpdates(projectUpdateBatch)).ToList();
             }
 
-            var currentProjectExemptYears = projectUpdateBatch.GetExpendituresExemptReportingYears();
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
-            databaseEntities.ProjectExemptReportingYearUpdates.Load();
-            var allProjectExemptYears = databaseEntities.AllProjectExemptReportingYearUpdates.Local;
-            var projectExemptReportingYears = new List<ProjectExemptReportingYearUpdate>();
-            if (ProjectExemptReportingYears != null)
-            {
-                // Completely rebuild the list
-                projectExemptReportingYears =
-                    ProjectExemptReportingYears.Where(x => x.IsExempt)
-                        .Select(x => new ProjectExemptReportingYearUpdate(x.ProjectExemptReportingYearID, x.ProjectID, x.CalendarYear, ProjectExemptReportingType.Expenditures.ProjectExemptReportingTypeID))
-                        .ToList();
-            }
-            currentProjectExemptYears.Merge(projectExemptReportingYears,
-                allProjectExemptYears,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, databaseEntities);
 
             projectUpdateBatch.NoExpendituresToReportExplanation = Explanation;
 

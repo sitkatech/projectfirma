@@ -94,7 +94,7 @@ else
     <p class="systemText">No Expenditures have been reported for this project.</p>
 }
 
-@if (ViewDataTyped.ProjectExemptReportingYears.Any())
+@if (string.IsNullOrWhiteSpace(ViewDataTyped.ProjectHasNoExpendituresToReport))
 {
     <table class="summaryLayout">
         <colgroup>
@@ -122,14 +122,6 @@ else
             <th colspan="2">
                 The @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName has no expenditures to report
             </th>
-        </tr>
-        <tr>
-            <td>
-                Selected Years:
-            </td>
-            <td>
-                @string.Join(", ", @ViewDataTyped.ProjectExemptReportingYears.OrderBy(x => x))
-            </td>
         </tr>
         <tr>
             <td>

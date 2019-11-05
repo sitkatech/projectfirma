@@ -64,9 +64,7 @@ namespace ProjectFirma.Web.Models
                         var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
                         var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
                                     projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project),
-                                    project,
-                                    project.GetExpendituresExemptReportingYears()
-                                        .Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+                                    project)
                                 {ProjectID = project.ProjectID}
                             .GetValidationResults();
                         return !validationResults.Any();

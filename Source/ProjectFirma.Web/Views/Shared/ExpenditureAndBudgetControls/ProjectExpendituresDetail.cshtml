@@ -68,7 +68,7 @@ else
 }
 
 
-@if (ViewDataTyped.ExemptReportingYears.Any())
+@if (string.IsNullOrWhiteSpace(ViewDataTyped.ExemptionExplanation))
 {
     <hr />
     <table class="summaryLayout">
@@ -77,7 +77,7 @@ else
         </tr>
         <tr>
             <th>Year(s):</th>
-            <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
+            @* <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td> *@
         </tr>
         <tr>
             <th>Comment:</th>

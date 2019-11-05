@@ -583,13 +583,7 @@ namespace ProjectFirma.Web.Controllers
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
 
-            var projectExemptReportingYears = project.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
-            var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
-            projectExemptReportingYears.AddRange(
-                calendarYearRange.Where(x => !currentExemptedYears.Contains(x))
-                    .Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), project.ProjectID, x)));
-
-            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures, calendarYearRange, project, projectExemptReportingYears) {ProjectID = project.ProjectID};
+            var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditures, calendarYearRange, project) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, calendarYearRange, viewModel);
         }
 
@@ -680,8 +674,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpenditures(Project project, List<int> calendarYearRange, ExpendituresViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var expendituresExemptReportingYears = project.GetExpendituresExemptReportingYears();
-            var showNoExpendituresExplanation = expendituresExemptReportingYears.Any();
+            var showNoExpendituresExplanation = !project.ProjectFundingSourceExpenditures.Any();
             var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project,
                 allFundingSources,
                 calendarYearRange, showNoExpendituresExplanation);
@@ -691,7 +684,6 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearRange);
             var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
                 fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
-                FirmaHelpers.CalculateYearRanges(expendituresExemptReportingYears.Select(x => x.CalendarYear)),
                 project.NoExpendituresToReportExplanation);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);

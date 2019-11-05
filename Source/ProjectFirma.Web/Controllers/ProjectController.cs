@@ -279,7 +279,6 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(
                 fromFundingSourcesAndCalendarYears,
                 calendarYearsForFundingSourceExpenditures.Select(x => new CalendarYearString(x)).ToList(),
-                FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear)),
                 project.NoExpendituresToReportExplanation);
             return projectExpendituresDetailViewData;
         }
