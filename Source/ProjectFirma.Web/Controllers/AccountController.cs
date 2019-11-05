@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -71,9 +70,22 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult LogOff()
         {
+            // If we are impersonating, we drop back to the original user instead of fully logging out.
+            var currentFirmaSession = HttpRequestStorage.FirmaSession;
+            if (currentFirmaSession.IsImpersonating())
+            {
+                var previousPageUri = Request.UrlReferrer;
+                currentFirmaSession.ResumeOriginalUser(previousPageUri, out string statusMessage);
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(currentFirmaSession.Person.TenantID);
+                //TaurusSecurityLogger.Info(this.TaurusSession, statusMessage);
+                SetInfoForDisplay(statusMessage);
+                return Redirect("/");
+            }
+
+            // Otherwise, we just log off normally
             Request.GetOwinContext().Authentication.SignOut();
             var currentPerson = HttpRequestStorage.Person;
-            HttpRequestStorage.FirmaSession.Delete(HttpRequestStorage.DatabaseEntities);
+            currentFirmaSession.Delete(HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentPerson);
             return Redirect("/");
         }

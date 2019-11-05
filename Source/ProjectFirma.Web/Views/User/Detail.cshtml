@@ -108,13 +108,11 @@ Source code is available upon request via <support@sitkatech.com>.
                             This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                         </div>
                     }
-                    [If we can impersonate it will be below here]
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
                     {
                         <div>
-                            [Impersonate button should appear here]
                             @{ ImpersonateUserButton.RenderPartialView(Html, new ImpersonateUserButtonViewData(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Person)); }
                         </div>
                     }

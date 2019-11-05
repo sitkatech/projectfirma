@@ -106,8 +106,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-
-
         [HttpGet]
         [UserEditFeature]
         public PartialViewResult EditRoles(PersonPrimaryKey personPrimaryKey)

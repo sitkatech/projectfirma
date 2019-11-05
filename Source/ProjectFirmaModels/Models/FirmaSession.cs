@@ -153,10 +153,8 @@ namespace ProjectFirmaModels.Models
         {
             var lastPageLinkHtml = MakeLastPageLinkHtml(optionalPreviousPageUri);
 
-            Check.EnsureNotNull(OriginalPerson,
-                "FirmaSession {0} is not impersonating; it is not valid to call ResumeOriginalUser()");
-            impersonationStatusMessage =
-                $"Logon {OriginalPerson.GetFullNameFirstLast()} resuming their original session; ceasing impersonation of Logon {Person.GetFullNameFirstLast()}.{lastPageLinkHtml}";
+            Check.EnsureNotNull(OriginalPerson, "FirmaSession {0} is not impersonating; it is not valid to call ResumeOriginalUser()");
+            impersonationStatusMessage = $"Logon {OriginalPerson.GetFullNameFirstLast()} resuming their original session; ceasing impersonation of Logon {Person.GetFullNameFirstLast()}.{lastPageLinkHtml}";
             //_logger.InfoFormat(impersonationStatusMessage);
             // Swap back
             Person = OriginalPerson;

@@ -52,14 +52,13 @@ namespace ProjectFirma.Web.Common
         protected abstract bool IsCurrentUserAnonymous();
         protected abstract string LoginUrl { get; }
 
-
         protected override void OnException(ExceptionContext filterContext)
         {
             var lastError = filterContext.Exception;
             if (lastError is SitkaRecordNotAuthorizedException && IsCurrentUserAnonymous())
             {
                 var requestUrl = Request.Url != null ? Request.Url.ToString() : String.Empty;
-                var url = String.Format("{0}?returnUrl={1}", LoginUrl, Server.UrlEncode(requestUrl));
+                var url = $"{LoginUrl}?returnUrl={Server.UrlEncode(requestUrl)}";
                 filterContext.ExceptionHandled = true;
                 Response.Redirect(url);
                 return;
