@@ -586,17 +586,17 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         public ActionResult ImpersonateUser(PersonPrimaryKey personToImpersonate)
         {
-            /*
             AssertImpersonationAllowedByEnvironment();
-            AssertFirmaSessionCanImpersonate(this.TaurusSession);
+            AssertFirmaSessionCanImpersonate(this.CurrentFirmaSession);
 
             Uri previousPageUri = Request.UrlReferrer;
-            ImpersonatePersonID(this, personIDToImpersonate, previousPageUri);
+            ImpersonatePersonID(this, personToImpersonate, previousPageUri);
 
-            // Drop them on the home page for any new impersonation.
+            // Drop them on the home page for any new impersonation. 
+            // 
+            // This is because we don't know what a given user might have access to, so we can't be sure the current page
+            // will be accessible any more.
             return RedirectToAction(new SitkaRoute<HomeController>(c => c.Index()));
-            */
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -606,34 +606,33 @@ namespace ProjectFirma.Web.Controllers
         /// <param name="activeController"></param>
         /// <param name="personIDToImpersonate"></param>
         /// <param name="optionalPreviousPageUri">Optional URI to the referring page. May be null or blank if not known.</param>
-        public static void ImpersonatePersonID(FirmaBaseController activeController, int personIDToImpersonate, Uri optionalPreviousPageUri)
+        public static void ImpersonatePersonID(FirmaBaseController activeController, PersonPrimaryKey personIDToImpersonate, Uri optionalPreviousPageUri)
         {
-            /*
-            if (activeController.TaurusSession.PersonID == personIDToImpersonate)
+            Person personToImpersonate = personIDToImpersonate.EntityObject;
+            if (activeController.CurrentFirmaSession.Person.PersonID == personToImpersonate.PersonID)
             {
-                string impersonationWarning = $"Attempted to impersonate person {activeController.TaurusSession.Person.FullNameFirstLast}, but you are already acting as {activeController.TaurusSession.Person.FullNameFirstLast}. Nothing done.";
-                activeController.Context.AddWarning(impersonationWarning);
+                string currentPersonFullName = activeController.CurrentFirmaSession.Person.GetFullNameFirstLast();
+                string impersonationWarning = $"Attempted to impersonate person {currentPersonFullName}, but you are already acting as {currentPersonFullName}. Nothing done.";
+                activeController.SetErrorForDisplay(impersonationWarning);
                 return;
             }
 
             AssertImpersonationAllowedByEnvironment();
-            AssertFirmaSessionCanImpersonate(activeController.TaurusSession);
-            AssertNotAttemptingToImpersonateSelf(activeController.TaurusSession, personIDToImpersonate);
+            AssertFirmaSessionCanImpersonate(activeController.CurrentFirmaSession);
+            AssertNotAttemptingToImpersonateSelf(activeController.CurrentFirmaSession, personToImpersonate.PersonID);
+            AssertPersonCanBeImpersonated(activeController.CurrentFirmaSession, personToImpersonate);
 
-            var personToImpersonate = People.GetPerson(personIDToImpersonate, true);
-            AssertPersonCanBeImpersonated(activeController.TaurusSession, personToImpersonate);
+            activeController.CurrentFirmaSession.ImpersonateUser(personToImpersonate, optionalPreviousPageUri, out var statusMessage, out var statusWarning);
+            activeController.SetMessageForDisplay(statusMessage);
 
-            activeController.TaurusSession.ImpersonateUser(personToImpersonate, optionalPreviousPageUri, out var statusMessage, out var statusWarning);
-            activeController.TaurusSession.Save();
-
-            activeController.Context.AddMessage(statusMessage);
             // Warning is optional
             if (statusWarning != null)
             {
-                activeController.Context.AddWarning(statusWarning);
+                // In Firma, is this the best way to express a "warning" message? Unsure.
+                activeController.SetMessageForDisplay(statusWarning);
             }
-            */
-            throw new NotImplementedException();
+
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(activeController.CurrentPerson.TenantID);
         }
 
         [FirmaImpersonateUserFeature]

@@ -77,8 +77,8 @@ namespace ProjectFirma.Web.Common
         {
             SetMessage(StatusErrorIndex, errorMessage, tempData);
         }
-        
-        protected void SetErrorForDisplay(string errorMessage)
+
+        public void SetErrorForDisplay(string errorMessage)
         {
             SetMessage(StatusErrorIndex, errorMessage, TempData);
         }
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Common
             RemoveMessage(StatusErrorIndex, TempData);
         }
 
-        protected void SetMessageForDisplay(string message)
+        public void SetMessageForDisplay(string message)
         {
             SetMessage(StatusMessageIndex, message, TempData);
         }
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Common
             tempData[index] = message;
         }
 
-        protected void SetInfoForDisplay(string message)
+        public void SetInfoForDisplay(string message)
         {
             SetMessage(InfoMessageIndex, message, TempData);
         }

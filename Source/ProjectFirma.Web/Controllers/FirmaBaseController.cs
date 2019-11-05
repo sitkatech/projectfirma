@@ -96,10 +96,10 @@ namespace ProjectFirma.Web.Controllers
 
         protected override ISitkaDbContext SitkaDbContext => HttpRequestStorage.DatabaseEntities;
 
-        protected FirmaSession CurrentFirmaSession => HttpRequestStorage.FirmaSession;
+        public FirmaSession CurrentFirmaSession => HttpRequestStorage.FirmaSession;
 
-        protected Person CurrentPerson => CurrentFirmaSession.Person;
+        public Person CurrentPerson => CurrentFirmaSession.Person;
 
-        protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
+        public Tenant CurrentTenant => HttpRequestStorage.Tenant;
     }
 }

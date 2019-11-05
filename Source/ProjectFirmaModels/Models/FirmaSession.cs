@@ -64,10 +64,24 @@ namespace ProjectFirmaModels.Models
             return this.Person.GetFullNameFirstLast();
         }
 
+        public string GetFullNameFirstLastWithAsteriskIfImpersonating()
+        {
+            if (this.Person == null)
+            {
+                return "(Anonymous)";
+            }
+
+            string asteriskIfImpersonating = this.IsImpersonating() ? "*" : string.Empty;
+            var fullName = this.Person.GetFullNameFirstLast();
+            return string.Format($"{fullName}{asteriskIfImpersonating}");
+        }
+
         #region Impersonation
 
-        public void ImpersonateUser(Person personToImpersonate, Uri optionalPreviousPageUri,
-            out string impersonationStatusMessage, out string impersonationStatusWarning)
+        public void ImpersonateUser(Person personToImpersonate,
+                                    Uri optionalPreviousPageUri,
+                                    out string impersonationStatusMessage,
+                                    out string impersonationStatusWarning)
         {
             Check.EnsureNotNull(this.PersonID, "Anonymous users can't impersonate authentic users.");
             Check.EnsureNotNull(personToImpersonate, "You can't impersonate an Anonymous user.");
