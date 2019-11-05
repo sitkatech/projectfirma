@@ -26,6 +26,7 @@ using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -56,6 +57,14 @@ namespace ProjectFirma.Web.Models
         {
             var classification = classifications.SingleOrDefault(x => x.ClassificationID != currentClassificationID && String.Equals(x.DisplayName, displayName, StringComparison.InvariantCultureIgnoreCase));
             return classification == null;
+        }
+
+        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(
+            this Classification classification,
+            PerformanceMeasure performanceMeasure, Person currentPerson)
+        {
+            var projects = classification.GetAssociatedProjects(currentPerson);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
         }
 
         public static List<Project> GetAssociatedProjects(this Classification classification, Person person)

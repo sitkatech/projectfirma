@@ -31,6 +31,9 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Index = ProjectFirma.Web.Views.Classification.Index;
@@ -158,8 +161,44 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
+            var mapDivID = $"classification_{classification.ClassificationID}_Map";
+            var associatedProjects = classification.GetAssociatedProjects(CurrentPerson);
+            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
+
+            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(associatedProjects, currentPersonCanViewProposals);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", associatedProjects.MappedPointsToGeoJsonFeatureCollection(false, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
+                projectMapCustomization, mapDivID)
+            {
+                AllowFullScreen = false,
+                Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()
+            };
+            var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            projectLocationsMapInitJson.BoundingBox =
+                new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+
+            var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
+
+            const string chartTitle = "Reported Expenditures By Organization Type";
+            var chartContainerID = chartTitle.Replace(" ", "");
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
+                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                chartContainerID,
+                chartTitle);
+
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
+
+            var performanceMeasures = associatedProjects
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
+
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, classification, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentPerson, classification, projectLocationsMapViewData, projectLocationsMapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
