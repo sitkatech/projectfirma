@@ -31,6 +31,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Models;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Index = ProjectFirma.Web.Views.Classification.Index;
@@ -158,8 +159,47 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
+
+            var mapDivID = $"classification_{classification.ClassificationID}_Map";
+            var associatedProjects = classification.GetAssociatedProjects(CurrentPerson);
+            var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var layers = new List<LayerGeoJson>();
+            ProjectStage.All.ForEach(x =>
+            {
+                var filteredProjects = filteredProjectList.Where(p => p.ProjectStage == x).ToList();
+                if (filteredProjects.Any())
+                {
+                    layers.Add(new LayerGeoJson(
+                        $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple ({x.ProjectStageDisplayName})",
+                        filteredProjects.MappedPointsToGeoJsonFeatureCollection(true, false),
+                        x.ProjectStageColor, 1, LayerInitialVisibility.Show));
+                }
+            });
+
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList()));
+
+            var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
+
+            const string chartTitle = "Reported Expenditures By Organization Type";
+            var chartContainerID = chartTitle.Replace(" ", "");
+            var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                organizationTypes.Select(x => x.OrganizationTypeName).ToList(),
+                x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
+                chartContainerID,
+                chartTitle);
+
+            var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 405, true);
+
+            var performanceMeasures = associatedProjects
+                .SelectMany(x => x.PerformanceMeasureActuals)
+                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .OrderBy(x => x.PerformanceMeasureDisplayName)
+                .ToList();
+
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, classification, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentPerson, classification, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
