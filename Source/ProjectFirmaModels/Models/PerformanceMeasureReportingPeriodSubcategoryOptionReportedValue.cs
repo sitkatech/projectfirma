@@ -8,7 +8,7 @@ namespace ProjectFirmaModels.Models
         private PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(int calendarYear, double? reportedValue, int sortOrder, int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, string chartName)
         {
             PerformanceMeasureReportingPeriod =
-                new PerformanceMeasureReportingPeriod(performanceMeasureSubcategory.PerformanceMeasure, new DateTime(calendarYear, 1, 1), calendarYear.ToString()) { PerformanceMeasureReportingPeriodID = calendarYear };
+                new PerformanceMeasureReportingPeriod(performanceMeasureSubcategory.PerformanceMeasure, calendarYear, calendarYear.ToString()) { PerformanceMeasureReportingPeriodID = calendarYear };
             ReportedValue = reportedValue;
             SortOrder = sortOrder;
             PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;

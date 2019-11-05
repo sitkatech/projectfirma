@@ -74,7 +74,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                         x.ProjectID.GetValueOrDefault(),
                         x.PerformanceMeasureID.GetValueOrDefault(),
                         x.CalendarYear.GetValueOrDefault(),
-                        x.ActualValue.GetValueOrDefault());
+                        x.ActualValue.GetValueOrDefault(),
+                        x.PerformanceMeasureReportingPeriodID);
                     if (x.PerformanceMeasureActualSubcategoryOptions != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions =

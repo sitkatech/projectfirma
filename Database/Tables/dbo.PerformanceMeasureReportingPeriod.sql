@@ -6,8 +6,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 	[PerformanceMeasureReportingPeriodID] [int] IDENTITY(1,1) NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[PerformanceMeasureReportingPeriodBeginDate] [datetime] NOT NULL,
-	[PerformanceMeasureReportingPeriodEndDate] [datetime] NULL,
+	[PerformanceMeasureReportingPeriodCalendarYear] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TargetValue] [float] NULL,
 	[TargetValueDescription] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -37,7 +36,3 @@ ALTER TABLE [dbo].[PerformanceMeasureReportingPeriod]  WITH CHECK ADD  CONSTRAIN
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureReportingPeriod] CHECK CONSTRAINT [FK_PerformanceMeasureReportingPeriod_Tenant_TenantID]
-GO
-ALTER TABLE [dbo].[PerformanceMeasureReportingPeriod]  WITH CHECK ADD  CONSTRAINT [CK_PerformanceMeasureReportingPeriod_BeginDateBeforeEndDate] CHECK  (([PerformanceMeasureReportingPeriodBeginDate]<=[PerformanceMeasureReportingPeriodEndDate]))
-GO
-ALTER TABLE [dbo].[PerformanceMeasureReportingPeriod] CHECK CONSTRAINT [CK_PerformanceMeasureReportingPeriod_BeginDateBeforeEndDate]

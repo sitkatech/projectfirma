@@ -36,9 +36,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [StringLength(PerformanceMeasureReportingPeriod.FieldLengths.PerformanceMeasureReportingPeriodLabel)]
         public string PerformanceMeasureReportingPeriodLabel { get; set; }
         [Required]
-        public string PerformanceMeasureReportingPeriodBeginDate { get; set; }
-        [Required]
-        public string PerformanceMeasureReportingPeriodEndDate { get; set; }
+        public int PerformanceMeasureReportingPeriodCalendarYear { get; set; }
+
         public int? PerformanceMeasureSubcategoryID { get; set; }
         [Required]
         public List<ReportedValueForDisplay> ReportedValuesForDisplay { get; set; }
@@ -57,8 +56,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
             PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
-            PerformanceMeasureReportingPeriodBeginDate = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodBeginDate.ToStringDate();
-            PerformanceMeasureReportingPeriodEndDate = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodEndDate.ToStringDate();
+            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
 
             PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
             TargetValue = performanceMeasureReportingPeriod.TargetValue;
@@ -66,10 +64,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var allPossibleReportedValuesForDisplays = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Select(x => new ReportedValueForDisplay(x.PerformanceMeasureSubcategoryOptionID, 0, x.SortOrder ?? 0)).ToList();
             foreach (var performanceMeasureReportedValue in performanceMeasureReportedValues)
             {
-                var matchingPerformanceMeasureReportedValue = allPossibleReportedValuesForDisplays.SingleOrDefault(x => x.PerformanceMeasureSubcategoryOptionID == performanceMeasureReportedValue.PerformanceMeasureReportedValueSubcategoryOptions.Single().PerformanceMeasureSubcategoryOptionID);
+                var matchingPerformanceMeasureReportedValue = allPossibleReportedValuesForDisplays.SingleOrDefault(x => x.PerformanceMeasureSubcategoryOptionID == performanceMeasureReportedValue.PerformanceMeasureActualSubcategoryOptions.Single().PerformanceMeasureSubcategoryOptionID);
                 if (matchingPerformanceMeasureReportedValue != null)
                 {
-                    matchingPerformanceMeasureReportedValue.ReportedValue = performanceMeasureReportedValue.ReportedValue;// .GetReportedValue();
+                    matchingPerformanceMeasureReportedValue.ReportedValue = performanceMeasureReportedValue.GetReportedValue();
                     //todo: 11/4/2019 TK - check this out
                     //matchingPerformanceMeasureReportedValue.SortOrder = performanceMeasureReportedValue.GetSortOrder();
                 }

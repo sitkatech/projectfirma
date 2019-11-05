@@ -194,9 +194,6 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureReporteds.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureReportedsViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureReportedsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportedBulk.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
@@ -447,7 +444,6 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
-    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureReportedsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
@@ -476,7 +472,6 @@
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
-    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureReporteds.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

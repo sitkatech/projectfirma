@@ -260,14 +260,6 @@
     <Compile Include="Models\Generated\PerformanceMeasureNoteConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureNotePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasurePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValue.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValue.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValueConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValuePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValueSubcategoryOption.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValueSubcategoryOption.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValueSubcategoryOptionConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureReportedValueSubcategoryOptionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureReportingPeriodConfiguration.Binding.cs" />
@@ -641,7 +633,6 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
-    <Compile Include="Models\PerformanceMeasureReportedValueSubcategoryOption.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />

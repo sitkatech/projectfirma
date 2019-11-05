@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Models
         public double? ActualValue { get; set; }
         public List<PerformanceMeasureActualSubcategoryOptionSimple> PerformanceMeasureActualSubcategoryOptions { get; set; }
         public string PerformanceMeasureActualName { get; set; }
+        public int? PerformanceMeasureReportingPeriodID { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -50,7 +51,7 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualSimple(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue)
+        public PerformanceMeasureActualSimple(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue, int? performanceMeasureReportingPeriodID)
             : this()
         {
             PerformanceMeasureActualID = performanceMeasureActualID;
@@ -58,6 +59,7 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureID = performanceMeasureID;
             CalendarYear = calendarYear;
             ActualValue = actualValue;
+            PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
@@ -72,6 +74,7 @@ namespace ProjectFirma.Web.Models
             CalendarYear = performanceMeasureActual.CalendarYear;
             ActualValue = performanceMeasureActual.ActualValue;
             PerformanceMeasureActualSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureActual);
+            PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
         }        
     }
 }

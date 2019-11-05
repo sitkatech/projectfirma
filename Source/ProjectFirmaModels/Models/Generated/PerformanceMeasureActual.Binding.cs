@@ -30,13 +30,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
+        public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue, int? performanceMeasureReportingPeriodID) : this()
         {
             this.PerformanceMeasureActualID = performanceMeasureActualID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.CalendarYear = calendarYear;
             this.ActualValue = actualValue;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
@@ -128,6 +129,7 @@ namespace ProjectFirmaModels.Models
         public int PerformanceMeasureID { get; set; }
         public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
+        public int? PerformanceMeasureReportingPeriodID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
@@ -135,6 +137,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod { get; set; }
 
         public static class FieldLengths
         {

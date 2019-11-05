@@ -25,69 +25,56 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirmaModels.Models
 {
-    /// <summary>
-    /// This is a wrapper class for PerformanceMeasureActual
-    /// </summary>
-    public partial class PerformanceMeasureReportedValue //: IPerformanceMeasureReportedValue
+    public class PerformanceMeasureReportedValue : IPerformanceMeasureReportedValue
     {
-        //public readonly Project Project;
-        //private readonly double? _reportedValue;
-        public int CalendarYear => this.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodBeginDate.Year;
-        //public PerformanceMeasure PerformanceMeasure { get; }
+        public readonly Project Project;
+        private readonly double? _reportedValue;
+        public int CalendarYear { get; }
+        public PerformanceMeasure PerformanceMeasure { get; }
+        public PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod { get; }
 
-        //public double? GetReportedValue()
-        //{
-        //    return _reportedValue;
-        //}
-
-        //public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
-
-        //public string GetPerformanceMeasureName() => PerformanceMeasure.PerformanceMeasureDisplayName;
-
-        //todo: 11/4/2019 TK -- find another way to get the project name
-        public string ProjectName => this.PerformanceMeasureID.ToString();
-
-        //public MeasurementUnitType GetMeasurementUnitType() => PerformanceMeasure.MeasurementUnitType;
-
-        //public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
-
-        private PerformanceMeasureReportedValue(PerformanceMeasureActual performanceMeasureActual) : this()
+        public double? GetReportedValue()
         {
-            // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
-            //this.PerformanceMeasure = performanceMeasureActual.PerformanceMeasure;
-            //this.PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
-            //this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
-            //performanceMeasureReportingPeriod.PerformanceMeasureReportedValues.Add(this);
-            this.ReportedValue = performanceMeasureActual.ActualValue;
-
+            return _reportedValue;
         }
-        //{
-        //    PerformanceMeasure = performanceMeasureActual.PerformanceMeasure;
 
-        //    CalendarYear = performanceMeasureActual.CalendarYear;
-        //    _reportedValue = performanceMeasureActual.ActualValue;
-        //    Project = performanceMeasureActual.Project;
-        //    PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>(performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions);
-        //}
+        public int PerformanceMeasureID => PerformanceMeasure.PerformanceMeasureID;
 
-        //public PerformanceMeasureReportedValue(PerformanceMeasure performanceMeasure, Project project, int calendarYear, double reportedValue)
-        //{
-        //    PerformanceMeasure = performanceMeasure;
-        //    CalendarYear = calendarYear;
-        //    _reportedValue = reportedValue;
-        //    Project = project;
-        //    PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>();
-        //}
+        public string GetPerformanceMeasureName() => PerformanceMeasure.PerformanceMeasureDisplayName;
+
+        public string ProjectName => Project.GetDisplayName();
+
+        public MeasurementUnitType GetMeasurementUnitType() => PerformanceMeasure.MeasurementUnitType;
+
+        public List<IPerformanceMeasureValueSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
+
+        private PerformanceMeasureReportedValue(PerformanceMeasureActual performanceMeasureActual)
+        {
+            PerformanceMeasure = performanceMeasureActual.PerformanceMeasure;
+            CalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            _reportedValue = performanceMeasureActual.ActualValue;
+            Project = performanceMeasureActual.Project;
+            PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>(performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions);
+            PerformanceMeasureReportingPeriod = performanceMeasureActual.PerformanceMeasureReportingPeriod;
+        }
+
+        public PerformanceMeasureReportedValue(PerformanceMeasure performanceMeasure, Project project, int calendarYear, double reportedValue)
+        {
+            PerformanceMeasure = performanceMeasure;
+            CalendarYear = calendarYear;
+            _reportedValue = reportedValue;
+            Project = project;
+            PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>();
+        }
 
         public string GetPerformanceMeasureSubcategoriesAsString()
         {
-            return PerformanceMeasureReportedValueSubcategoryOptions.Any()
+            return PerformanceMeasureActualSubcategoryOptions.Any()
                 ? string.Join("\r\n",
-                    PerformanceMeasureReportedValueSubcategoryOptions.OrderBy(x =>
+                    PerformanceMeasureActualSubcategoryOptions.OrderBy(x =>
                             x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName)
                         .Select(x =>
-                            $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.PerformanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName}"))
+                            $"{x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName}: {x.GetPerformanceMeasureSubcategoryOptionName()}"))
                 : ViewUtilities.NoneString;
         }
 
@@ -97,6 +84,6 @@ namespace ProjectFirmaModels.Models
         }
 
         public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions() =>
-            new List<IPerformanceMeasureValueSubcategoryOption>(this.PerformanceMeasureReportedValueSubcategoryOptions);
+            new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);
     }
 }

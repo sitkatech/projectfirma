@@ -90,8 +90,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
-            modelBuilder.Configurations.Add(new PerformanceMeasureReportedValueConfiguration());
-            modelBuilder.Configurations.Add(new PerformanceMeasureReportedValueSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
@@ -260,10 +258,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PerformanceMeasureReportedValue> AllPerformanceMeasureReportedValues { get; set; }
-        public virtual IQueryable<PerformanceMeasureReportedValue> PerformanceMeasureReportedValues { get { return AllPerformanceMeasureReportedValues.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PerformanceMeasureReportedValueSubcategoryOption> AllPerformanceMeasureReportedValueSubcategoryOptions { get; set; }
-        public virtual IQueryable<PerformanceMeasureReportedValueSubcategoryOption> PerformanceMeasureReportedValueSubcategoryOptions { get { return AllPerformanceMeasureReportedValueSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureReportingPeriod> AllPerformanceMeasureReportingPeriods { get; set; }
         public virtual IQueryable<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get { return AllPerformanceMeasureReportingPeriods.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
@@ -619,12 +613,6 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
-
-                case "PerformanceMeasureReportedValue":
-                    return PerformanceMeasureReportedValues.GetPerformanceMeasureReportedValue(primaryKey);
-
-                case "PerformanceMeasureReportedValueSubcategoryOption":
-                    return PerformanceMeasureReportedValueSubcategoryOptions.GetPerformanceMeasureReportedValueSubcategoryOption(primaryKey);
 
                 case "PerformanceMeasureReportingPeriod":
                     return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);

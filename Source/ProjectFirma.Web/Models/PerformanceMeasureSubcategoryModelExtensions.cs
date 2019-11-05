@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Models
             bool reverseTooltipOrder)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
-            foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate))
+            foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
                 if (hasTargets)
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Models
             if (hasTargets)
             {
                 targetRowVs.Add(new GoogleChartRowV(GetTargetColumnLabel(performanceMeasureReportingPeriods)));
-                targetRowVs.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate)
+                targetRowVs.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear)
                     .Select(x => new GoogleChartRowV(x.TargetValue, GetFormattedTargetValue(x, performanceMeasure))));
                 googleChartRowCs.Add(new GoogleChartRowC(targetRowVs));
             }
@@ -123,13 +123,13 @@ namespace ProjectFirma.Web.Models
             foreach (var performanceMeasureSubcategoryOption in groupedBySubcategoryOption.OrderBy(x => x.Key.Item2))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureSubcategoryOption.Key.Item1) };
-                googleChartRowVs.AddRange(performanceMeasureSubcategoryOption.OrderBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodBeginDate).Select(irviso =>
+                googleChartRowVs.AddRange(performanceMeasureSubcategoryOption.OrderBy(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Select(irviso =>
                     new GoogleChartRowV(irviso.ReportedValue, GoogleChartJson.GetFormattedValue(irviso.ReportedValue, performanceMeasure.MeasurementUnitType))));
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
             }
 
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn(performanceMeasure.GetDisplayName(), GoogleChartColumnDataType.String) };
-            googleChartColumns.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodBeginDate).Select(x =>
+            googleChartColumns.AddRange(performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear).Select(x =>
                 new GoogleChartColumn(x.PerformanceMeasureReportingPeriodID.ToString(), x.PerformanceMeasureReportingPeriodLabel, GoogleChartColumnDataType.Number.ColumnDataType)));
 
             var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
