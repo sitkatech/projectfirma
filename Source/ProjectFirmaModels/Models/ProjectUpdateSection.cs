@@ -116,4 +116,12 @@
             return projectUpdateStatus.IsTechnicalAssistanceRequestsUpdated;
         }
     }
+
+    public partial class ProjectUpdateSectionBulkSetSpatialInformation
+    {
+        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+        {
+            return projectUpdateStatus.IsBulkSetSpatialInformationUpdated;
+        }
+    }
 }

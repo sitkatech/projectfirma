@@ -991,7 +991,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            DbSpatialHelper.Reduce(new List<IHaveDbGeometry>(project.ProjectLocations.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1016,6 +1016,7 @@ namespace ProjectFirma.Web.Controllers
             return $"editMapForProject{projectID}";
         }
 
+        #region "GeospatialAreas"
         [HttpGet]
         [ProjectCreateFeature]
         public ViewResult EditGeospatialArea(ProjectPrimaryKey projectPrimaryKey, GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
@@ -1038,6 +1039,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas
@@ -1046,7 +1048,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
-                project.HasProjectLocationPoint(), project.HasProjectLocationDetail(), geospatialAreaType, geospatialAreasContainingProjectSimpleLocation);
+                project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
@@ -1091,6 +1093,63 @@ namespace ProjectFirma.Web.Controllers
         {
             return $"editMapForProject{project.ProjectID}";
         }
+
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new BulkSetSpatialInformationViewModel(project.ProjectGeospatialAreas.Select(x => x.GeospatialAreaID).ToList());
+            return ViewBulkSetSpatialInformation(project, viewModel);
+        }
+        
+        private ViewResult ViewBulkSetSpatialInformation(Project project, BulkSetSpatialInformationViewModel viewModel)
+        {
+            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project);
+
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
+            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var bulkSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
+            var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationSimple(project));
+
+            var geospatialAreasContainingProjectSimpleLocation =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
+
+            var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
+                geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
+                geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
+                project.HasProjectLocationDetail, editSimpleLocationUrl);
+
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
+            var viewData = new BulkSetSpatialInformationViewData(CurrentPerson, project, proposalSectionsStatus, quickSetProjectSpatialInformationViewData);
+            return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult BulkSetSpatialInformation(ProjectPrimaryKey projectPrimaryKey, BulkSetSpatialInformationViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewBulkSetSpatialInformation(project, viewModel);
+            }
+
+            var currentProjectGeospatialAreas = project.ProjectGeospatialAreas.ToList();
+            var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
+            viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Spatial Information successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.BulkSetSpatialInformation.ProjectCreateSectionDisplayName);
+        }
+
+
+        #endregion "GeospatialAreas"
 
         #region "Attachments and Notes"
 
@@ -1480,7 +1539,7 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.Returned.ProjectApprovalStatusID;
             project.ReviewedByPerson = CurrentPerson;
             NotificationProjectModelExtensions.SendReturnedMessage(project);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} returned to Submitter for additional clarifactions/corrections.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} returned to Submitter for additional clarifications/corrections.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 

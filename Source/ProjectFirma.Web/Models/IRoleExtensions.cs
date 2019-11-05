@@ -21,8 +21,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Web;
+using log4net;
+using log4net.Repository.Hierarchy;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -34,21 +39,50 @@ namespace ProjectFirma.Web.Models
 {
     public static class IRoleExtensions
     {
+        private static ILog Logger = LogManager.GetLogger(typeof(IRoleExtensions));
+        
         public static List<FeaturePermission> GetFeaturePermissions(this IRole role, Type baseFeatureType)
         {
             var featurePermissions = new List<FeaturePermission>();
 
-            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p => baseFeatureType.IsAssignableFrom(p) && p.Name != baseFeatureType.Name && !p.IsAbstract);
-            foreach (var type in types)
-            {                                           
-                string featureDisplayName = FirmaBaseFeatureHelpers.GetDisplayName(type);
-                var hasPermission = FirmaBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, type);
-
-                //Don't add duplicates to the list
-                if (featurePermissions.All(x => x.FeatureName != featureDisplayName))
+            try
+            {
+                var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(s => s.GetTypes()).Where(p =>
+                    baseFeatureType.IsAssignableFrom(p) && p.Name != baseFeatureType.Name && !p.IsAbstract);
+                foreach (var type in types)
                 {
-                    featurePermissions.Add(new FeaturePermission(featureDisplayName, hasPermission));
+                    string featureDisplayName = FirmaBaseFeatureHelpers.GetDisplayName(type);
+                    var hasPermission = FirmaBaseFeatureHelpers.DoesRoleHavePermissionsForFeature(role, type);
+
+                    // Don't add duplicates to the list
+                    if (featurePermissions.All(x => x.FeatureName != featureDisplayName))
+                    {
+                        featurePermissions.Add(new FeaturePermission(featureDisplayName, hasPermission));
+                    }
                 }
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                string errorMessage = sb.ToString();
+                Logger.Error($"Reflection error message: {errorMessage}");
+
+                // re-throw; this detour is just to try to fish out the extra logging info
+                throw ex;
             }
             return featurePermissions;
         }

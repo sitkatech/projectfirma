@@ -20,11 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("ProjectExternalLinkController", function ($scope, angularModelAndViewData)
 {
+    $scope.AngularModel = angularModelAndViewData.AngularModel;
+    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+
     $scope.resetExternalLinkToAdd = function()
     {
         $scope.ExternalLinkLabelToAdd = null;
         $scope.ExternalLinkUrlToAdd = "http://";
     };
+    $scope.resetExternalLinkToAdd();
+
+    $scope.projectSubmitButton = jQuery(".submitProject");
+    $scope.submitCachedOnClick = $scope.projectSubmitButton.attr('onclick');
+    $scope.originalFormValues = $scope.AngularModel.ProjectExternalLinks.slice(0);
 
     $scope.getExternalLink = function (externalLinkId) {
         return _.find($scope.AngularViewData.AllExternalLinks, function (f) { return externalLinkId == f.ExternalLinkID; });
@@ -40,7 +48,21 @@ angular.module("ProjectFirmaApp").controller("ProjectExternalLinkController", fu
             $scope.AngularModel.ProjectExternalLinks.push(newProjectExternalLink);
             $scope.resetExternalLinkToAdd();
         }
+        $scope.checkIfOriginalInput();
     };
+
+    // since all of the inputs on this view are angular inputs, we need to disable the submit button manually.
+    $scope.checkIfOriginalInput = function () {
+        if (JSON.stringify($scope.AngularModel.ProjectExternalLinks) === JSON.stringify($scope.originalFormValues)) {
+            $scope.projectSubmitButton.attr('disabled', false);
+            $scope.projectSubmitButton.removeClass('disabledByDirtyCheck');
+            $scope.projectSubmitButton.attr('onclick', $scope.submitCachedOnClick);
+        } else {
+            $scope.projectSubmitButton.attr('disabled', true);
+            $scope.projectSubmitButton.addClass('disabledByDirtyCheck');
+            $scope.projectSubmitButton.attr('onclick', 'event.preventDefault()');
+        }
+    }
 
     $scope.createNewRow = function (projectId, externalLinkLabel, externalLinkUrl) {
         var newProjectExternalLink = {
@@ -53,10 +75,8 @@ angular.module("ProjectFirmaApp").controller("ProjectExternalLinkController", fu
 
     $scope.deleteRow = function (rowToDelete) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.ProjectExternalLinks, rowToDelete);
+        $scope.checkIfOriginalInput();
     };
 
-    $scope.AngularModel = angularModelAndViewData.AngularModel;
-    $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.resetExternalLinkToAdd();
 });
 

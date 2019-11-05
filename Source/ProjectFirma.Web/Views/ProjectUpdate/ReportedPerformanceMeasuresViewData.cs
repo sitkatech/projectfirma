@@ -84,7 +84,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 AllPerformanceMeasureSubcategoryOptions = allPerformanceMeasureSubcategoryOptions;
                 CalendarYearStrings = calendarYearStrings;
                 ShowExemptYears = showExemptYears;
-                MaxSubcategoryOptions = allPerformanceMeasureSubcategories.GroupBy(x => x.PerformanceMeasureID).Max(x => x.Count());
+                MaxSubcategoryOptions = 0;
+                if (allPerformanceMeasureSubcategories.Any())
+                {
+                    MaxSubcategoryOptions = allPerformanceMeasureSubcategories.GroupBy(x => x.PerformanceMeasureID).Max(x => x.Count());
+                }
             }
         }
     }

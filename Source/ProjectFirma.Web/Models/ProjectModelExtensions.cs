@@ -236,7 +236,7 @@ namespace ProjectFirma.Web.Models
         public static FeatureCollection MappedPointsToGeoJsonFeatureCollection(this List<Project> projects, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var featureCollection = new FeatureCollection();
-            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint()).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var filteredProjectList = projects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
             featureCollection.Features.AddRange(filteredProjectList.Select<Project, Feature>(project => project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, useDetailedCustomPopup)).ToList());
             return featureCollection;
         }
@@ -293,7 +293,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetProjectLocationStateProvince(this Project project)
         {
-            if (project.HasProjectLocationPoint())
+            if (project.HasProjectLocationPoint)
             {
                 var stateProvince = HttpRequestStorage.DatabaseEntities.StateProvinces.ToList().FirstOrDefault(x => x.StateProvinceFeatureForAnalysis.Intersects(project.ProjectLocationPoint));
                 return stateProvince != null ? stateProvince.StateProvinceAbbreviation : ViewUtilities.NaString;
@@ -740,7 +740,7 @@ namespace ProjectFirma.Web.Models
         {
             var featureCollection = new FeatureCollection();
 
-            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint())
+            if ((project.ProjectLocationSimpleType == ProjectLocationSimpleType.PointOnMap || project.ProjectLocationSimpleType == ProjectLocationSimpleType.LatLngInput) && project.HasProjectLocationPoint)
             {
                 featureCollection.Features.Add(project.MakePointFeatureWithRelevantProperties(project.ProjectLocationPoint, addProjectProperties, true));
             }

@@ -209,7 +209,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(project, viewModel);
             }
             SaveProjectDetailedLocations(viewModel, project);
-            DbSpatialHelper.Reduce(new List<IHaveDbGeometry>(project.ProjectLocations.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
             return EditProjectLocationDetailed(projectPrimaryKey);
         }
 
@@ -263,11 +263,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var layerGeoJsons = new List<LayerGeoJson>
                 {
-                    project.HasProjectLocationPoint()
+                    project.HasProjectLocationPoint
                         ? new LayerGeoJson("Simple Location", project.SimpleLocationToGeoJsonFeatureCollection(true),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
                         : null,
-                    project.HasProjectLocationDetail()
+                    project.HasProjectLocationDetail
                         ? new LayerGeoJson("Detailed Location", project.DetailedLocationToGeoJsonFeatureCollection(),
                             FirmaHelpers.DefaultColorRange[1], 0.8m, LayerInitialVisibility.Show)
                         : null

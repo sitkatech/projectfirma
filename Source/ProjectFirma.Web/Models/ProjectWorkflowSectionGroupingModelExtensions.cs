@@ -67,10 +67,16 @@ namespace ProjectFirma.Web.Models
 
                     return GetProjectCreateSectionsImpl(project, new List<ProjectCreateSection> { ProjectCreateSection.ExpectedAccomplishments }, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
-                    var projectCreateSections = GetProjectCreateSectionsImpl(project, projectWorkflowSectionGrouping.ProjectCreateSections, ignoreStatus);
-                    var maxSortOrder = projectCreateSections.Max(x => x.SortOrder);
-                    IEnumerable<ProjectSectionSimple> projectSectionSimples;
                     var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
+                    var createSections = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.BulkSetSpatialInformation }).ToList();
+                    if (geospatialAreaTypes.Count() > 1)
+                    {
+                        createSections.Add(ProjectCreateSection.BulkSetSpatialInformation);
+                    }
+                    var projectCreateSections = GetProjectCreateSectionsImpl(project, createSections, ignoreStatus);
+                    //this sort order is used to figure navigation across all sections. Setting this to the BulkSetSpatialInformation sort order because it is currently the only section in the DB for spatial information
+                    int maxSortOrder = ProjectCreateSection.BulkSetSpatialInformation.SortOrder;
+                    IEnumerable<ProjectSectionSimple> projectSectionSimples;
                     if (project == null)
                     {
                         projectSectionSimples = geospatialAreaTypes
@@ -115,9 +121,15 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectUpdateSectionsImpl(projectUpdateBatch, projectUpdateSectionForCustomAttributes, projectUpdateStatus, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.SpatialInformation:
-                    var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, projectWorkflowSectionGrouping.ProjectUpdateSections, projectUpdateStatus, ignoreStatus);
-                    var maxSortOrder = projectUpdateSections.Max(x => x.SortOrder);
                     var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes;
+                    var updateSections = projectWorkflowSectionGrouping.ProjectUpdateSections.Except(new List<ProjectUpdateSection> { ProjectUpdateSection.BulkSetSpatialInformation }).ToList();
+                    if (geospatialAreaTypes.Count() > 1)
+                    {
+                        updateSections.Add(ProjectUpdateSection.BulkSetSpatialInformation);
+                    }
+                    var projectUpdateSections = GetProjectUpdateSectionsImpl(projectUpdateBatch, updateSections, projectUpdateStatus, ignoreStatus);
+                    //Bulk Set is the only section setup for spatial areas in the DB. so we always want to start with that sort order
+                    int maxSortOrder = ProjectUpdateSection.BulkSetSpatialInformation.SortOrder;
                     projectUpdateSections.AddRange(geospatialAreaTypes
                         .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
                             new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized, maxSortOrder + index + 1,

@@ -18,8 +18,20 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectControls
+@using ProjectFirmaModels.Models
 @inherits EditProjectCustomAttributes
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            Provide additional information about your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() here.
+        </p>
+    </div>
+</div>
+<hr/>
 
 @Html.ValidationSummary()
 

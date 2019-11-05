@@ -53,12 +53,13 @@ Source code is available upon request via <support@sitkatech.com>.
 <div class="row">
     <div class="col-xs-12">
         <p>
-            Select one or more @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower() to associate with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().ToLower()).
-            You can select @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower() by clicking on the map or searching by @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.ToLower() name.
-            If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().ToLower() is not associated with any @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized.ToLower(), please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes).ToString().ToLower() field.
+            Select one or more @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized to associate with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).
+            You can select @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized by clicking on the map or searching by @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName name.
+            If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is not associated with any @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized, please provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes).ToString() field.
         </p>
     </div>
 </div>
+<hr/>
 
 @Html.ValidationSummary()
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="EditProjectGeospatialAreasController">
@@ -69,14 +70,21 @@ Source code is available upon request via <support@sitkatech.com>.
                     <span class="glyphicon glyphicon-map-marker"></span>
                     Set from Simple Location
                 </button>
+
                 <div class="alert alert-warning" ng-if="selectedGeospatialAreaDoesNotMatchProjectLocation() && canSetGeospatialAreaFromProjectLocation() && !noGeospatialAreasSelected()">
                     <span>The currently selected @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName does not match the project simple location - this may be OK if the project location is outside the associated boundary, or may require updating either the simple location or the associated area.</span>
                 </div>
                 <div class="alert alert-warning" ng-if="!canSetGeospatialAreaFromProjectLocation()">
-                    <span>The Project Simple Location is not set or is outside the @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName boundaries, so it is not be set automatically.</span>
-                </div>
-            <hr/>
+                    <span>The Project Simple Location is not set or is outside the @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName boundaries, so it cannot be set automatically.</span>
+                        @if (!string.IsNullOrEmpty(ViewDataTyped.EditSimpleLocationUrl))
+                        {
+                            <span>You may set a Simple Location by visiting the <a href="@ViewDataTyped.EditSimpleLocationUrl"> Simple Location section</a>.</span>
+                        }
+                            
+    
+                    </div>
             </div>
+            <br/>
             <div class="input-group" id="scrollable-dropdown-menu" style="margin-bottom: 10px;">
                 @* ReSharper disable once UnknownCssClass *@
                 <input type="text"
@@ -93,7 +101,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="alert alert-warning" ng-if="noGeospatialAreasSelected()">
                 No @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeNamePluralized selected for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), provide an explanation in the @Html.DisplayNameFor(m => m.ProjectGeospatialAreaNotes) field or select a @ViewDataTyped.GeospatialAreaType.GeospatialAreaTypeName.
             </div>
-            <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1" style="max-height:350px; overflow-y: auto">
+            <div ng-if="AngularModel.GeospatialAreaIDs.length >= 1"  style="{{getGeospatialAreaTableStyles()}}">
                 <table class="table">
                     <thead>
                         <tr>

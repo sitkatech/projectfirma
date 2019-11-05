@@ -219,6 +219,7 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
@@ -258,6 +259,9 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewData.cs" />
@@ -310,6 +314,11 @@
     <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewModel.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetailViewData.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -587,6 +596,7 @@
     <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
+    <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -960,6 +970,7 @@
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachmentController.js" />
     <Content Include="Views\Shared\ProjectContact\ProjectContactController.js" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <Content Include="Views\Home\TrainingVideo.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
@@ -1566,6 +1577,8 @@
     <Content Include="Views\Results\FundingStatus.cshtml" />
     <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
     <Content Include="Views\SiteMonitor\SiteMonitorNagios.cshtml" />
+    <Content Include="Views\ProjectCreate\BulkSetSpatialInformation.cshtml" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1654,6 +1667,7 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>

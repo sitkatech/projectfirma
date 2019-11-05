@@ -19,21 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.CustomPage;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.CustomPage;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -44,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult About(string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
-                .SingleOrDefault(x => x.CustomPageVanityUrl == vanityUrl);
+                .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
                 throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");

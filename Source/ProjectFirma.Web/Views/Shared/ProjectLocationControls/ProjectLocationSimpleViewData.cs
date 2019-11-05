@@ -51,8 +51,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public MapInitJson MapInitJson { get; }
         public string TypeAheadInputId { get; }
-        public string ProjectLocationFieldDefinitionLabel { get; }
-        public List<string> GeospatialAreaMapSericeLayerNames { get; }
+        public List<string> GeospatialAreaMapServiceLayerNames { get; }
         public string MapServiceUrl { get; }
         public Feature CurrentFeature { get; }
 
@@ -60,8 +59,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
-            ProjectLocationFieldDefinitionLabel = FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel();
-            GeospatialAreaMapSericeLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
+            GeospatialAreaMapServiceLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
             MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl;
             CurrentFeature = currentFeature;
         }

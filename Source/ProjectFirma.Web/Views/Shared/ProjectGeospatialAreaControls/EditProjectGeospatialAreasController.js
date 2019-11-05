@@ -117,13 +117,12 @@ angular.module("ProjectFirmaApp")
                     $scope.firmaMap.map.removeLayer($scope.firmaMap.selectedGeospatialAreaLayer);
                 }
                 
-                var wmsParameters = L.Util.extend(
+                var wmsParameters = L.Util.extend($scope.firmaMap.wmsParams, 
                     {
-                        layers: $scope.AngularViewData.GeospatialAreaMapSericeLayerName,
+                        layers: $scope.AngularViewData.GeospatialAreaMapServiceLayerName,
                         cql_filter: "GeospatialAreaID in (" + $scope.AngularModel.GeospatialAreaIDs.join(",") + ")",
                         styles: "geospatialArea_yellow"
-                    },
-                    $scope.firmaMap.wmsParams);
+                    });
 
                 $scope.firmaMap.selectedGeospatialAreaLayer = L.tileLayer.wms($scope.AngularViewData.MapServiceUrl, wmsParameters);
                 $scope.firmaMap.layerControl.addOverlay($scope.firmaMap.selectedGeospatialAreaLayer, "Selected " + $scope.AngularViewData.GeospatialAreaTypeName + "s");
@@ -208,5 +207,17 @@ angular.module("ProjectFirmaApp")
                     }
                 });                
                 return selectedAreaMatches;
+            };
+
+            $scope.getGeospatialAreaTableStyles = function () {
+                var returnValue = "overflow-y: auto;";
+                if ($scope.selectedGeospatialAreaDoesNotMatchProjectLocation() && $scope.canSetGeospatialAreaFromProjectLocation() && !$scope.noGeospatialAreasSelected()) {
+                    returnValue += "max-height: 200px;";
+                } else {
+                    returnValue += "max-height: 350px;";
+                }
+                
+
+                return returnValue;
             };
         });
