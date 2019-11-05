@@ -47,12 +47,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="basicsLayout">
 
-    <div class="row">
-        <div class="col-xs-12">
-            <label>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Category</label>
-        </div>
-    </div>
-
     @{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
 
     @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf && ViewDataTyped.SecondaryTaxonomyLeaves.Any())
