@@ -31,16 +31,17 @@ namespace ProjectFirma.Api.Controllers
         public PerformanceMeasureReportedValueFromProjectFirma(PerformanceMeasureReportedValue performanceMeasureReportedValue)
         {
             PerformanceMeasureID = performanceMeasureReportedValue.PerformanceMeasureID;
-            PerformanceMeasureName = performanceMeasureReportedValue.GetPerformanceMeasureName();
+            PerformanceMeasureName = performanceMeasureReportedValue.PerformanceMeasure.PerformanceMeasureDisplayName;
             CalendarYear = performanceMeasureReportedValue.CalendarYear;
-            ReportedValue = performanceMeasureReportedValue.GetReportedValue();
-            MeasurementUnitType = performanceMeasureReportedValue.GetMeasurementUnitType().MeasurementUnitTypeDisplayName;
-            ProjectStage = performanceMeasureReportedValue.Project.ProjectStage.ProjectStageDisplayName;
-            LeadImplementer = performanceMeasureReportedValue.Project.GetPrimaryContactOrganization()?.OrganizationShortName;
-            ProjectName = performanceMeasureReportedValue.Project.GetDisplayName();
-            ProjectDetailUrl = $"/Project/Detail/{performanceMeasureReportedValue.Project.ProjectID}";
+            ReportedValue = performanceMeasureReportedValue.ReportedValue;
+            MeasurementUnitType = performanceMeasureReportedValue.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
+            //todo: 11/4/2019 TK -- find a way to get a project!
+            //ProjectStage = performanceMeasureReportedValue.Project.ProjectStage.ProjectStageDisplayName;
+            //LeadImplementer = performanceMeasureReportedValue.Project.GetPrimaryContactOrganization()?.OrganizationShortName;
+            //ProjectName = performanceMeasureReportedValue.Project.GetDisplayName();
+            //ProjectDetailUrl = $"/Project/Detail/{performanceMeasureReportedValue.Project.ProjectID}";
             PerformanceMeasureSubcategoryOptions = performanceMeasureReportedValue
-                .PerformanceMeasureActualSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))
+                .PerformanceMeasureReportedValueSubcategoryOptions.Select(x => new PerformanceMeasureSubcategoryOptionFromProjectFirma(x))
                 .ToList();
             PerformanceMeasureSubcategoriesAsString = performanceMeasureReportedValue.GetPerformanceMeasureSubcategoriesAsString();
         }

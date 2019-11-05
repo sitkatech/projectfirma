@@ -15,16 +15,16 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PerformanceMeasureReportingPeriod] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[PerformanceMeasureReportingPeriod] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[PerformanceMeasureReportingPeriod]")]
-    public partial class PerformanceMeasureReportingPeriod : IHavePrimaryKey, ICanDeleteFull
+    public partial class PerformanceMeasureReportingPeriod : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
         protected PerformanceMeasureReportingPeriod()
         {
-
+            this.PerformanceMeasureReportedValues = new HashSet<PerformanceMeasureReportedValue>();
         }
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return PerformanceMeasureReportedValues.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(PerformanceMeasureReportedValue).Name};
 
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PerformanceMeasureReportingPeriods.Remove(this);
+            dbContext.AllPerformanceMeasureReportingPeriods.Remove(this);
         }
         
         /// <summary>
@@ -104,13 +104,25 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in PerformanceMeasureReportedValues.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
         public int PerformanceMeasureReportingPeriodID { get; set; }
         public int PerformanceMeasureID { get; set; }
+        public int TenantID { get; set; }
         public DateTime PerformanceMeasureReportingPeriodBeginDate { get; set; }
         public DateTime? PerformanceMeasureReportingPeriodEndDate { get; set; }
         public string PerformanceMeasureReportingPeriodLabel { get; set; }
@@ -119,7 +131,9 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureReportingPeriodID; } set { PerformanceMeasureReportingPeriodID = value; } }
 
+        public virtual ICollection<PerformanceMeasureReportedValue> PerformanceMeasureReportedValues { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths
         {

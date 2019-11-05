@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PerformanceMeasureReportingPeriod]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -20,33 +19,5 @@ namespace ProjectFirmaModels.Models
             return performanceMeasureReportingPeriod;
         }
 
-        // Delete using an IDList (Firma style)
-        public static void DeletePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, List<int> performanceMeasureReportingPeriodIDList)
-        {
-            if(performanceMeasureReportingPeriodIDList.Any())
-            {
-                performanceMeasureReportingPeriods.Where(x => performanceMeasureReportingPeriodIDList.Contains(x.PerformanceMeasureReportingPeriodID)).Delete();
-            }
-        }
-
-        // Delete using an object list (Firma style)
-        public static void DeletePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToDelete)
-        {
-            if(performanceMeasureReportingPeriodsToDelete.Any())
-            {
-                var performanceMeasureReportingPeriodIDList = performanceMeasureReportingPeriodsToDelete.Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
-                performanceMeasureReportingPeriods.Where(x => performanceMeasureReportingPeriodIDList.Contains(x.PerformanceMeasureReportingPeriodID)).Delete();
-            }
-        }
-
-        public static void DeletePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, int performanceMeasureReportingPeriodID)
-        {
-            DeletePerformanceMeasureReportingPeriod(performanceMeasureReportingPeriods, new List<int> { performanceMeasureReportingPeriodID });
-        }
-
-        public static void DeletePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriodToDelete)
-        {
-            DeletePerformanceMeasureReportingPeriod(performanceMeasureReportingPeriods, new List<PerformanceMeasureReportingPeriod> { performanceMeasureReportingPeriodToDelete });
-        }
     }
 }

@@ -17,6 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.PerformanceMeasureReportingPeriodID);
             Property(x => x.PerformanceMeasureReportingPeriodID).HasColumnName(@"PerformanceMeasureReportingPeriodID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureReportingPeriodBeginDate).HasColumnName(@"PerformanceMeasureReportingPeriodBeginDate").HasColumnType("datetime").IsRequired();
             Property(x => x.PerformanceMeasureReportingPeriodEndDate).HasColumnName(@"PerformanceMeasureReportingPeriodEndDate").HasColumnType("datetime").IsOptional();
             Property(x => x.PerformanceMeasureReportingPeriodLabel).HasColumnName(@"PerformanceMeasureReportingPeriodLabel").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
