@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using Detail = ProjectFirma.Web.Views.Classification.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Classification.DetailViewData;
 using Index = ProjectFirma.Web.Views.Classification.Index;
@@ -159,25 +161,22 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var classification = classificationPrimaryKey.EntityObject;
-
             var mapDivID = $"classification_{classification.ClassificationID}_Map";
             var associatedProjects = classification.GetAssociatedProjects(CurrentPerson);
-            var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
-            var layers = new List<LayerGeoJson>();
-            ProjectStage.All.ForEach(x =>
+            var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(associatedProjects, currentPersonCanViewProposals);
+            var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", associatedProjects.MappedPointsToGeoJsonFeatureCollection(false, true), "red", 1, LayerInitialVisibility.Show);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
+                projectMapCustomization, mapDivID)
             {
-                var filteredProjects = filteredProjectList.Where(p => p.ProjectStage == x).ToList();
-                if (filteredProjects.Any())
-                {
-                    layers.Add(new LayerGeoJson(
-                        $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple ({x.ProjectStageDisplayName})",
-                        filteredProjects.MappedPointsToGeoJsonFeatureCollection(true, false),
-                        x.ProjectStageColor, 1, LayerInitialVisibility.Show));
-                }
-            });
-
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList()));
+                AllowFullScreen = false,
+                Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()
+            };
+            var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            projectLocationsMapInitJson.BoundingBox =
+                new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
@@ -199,7 +198,7 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, classification, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentPerson, classification, projectLocationsMapViewData, projectLocationsMapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

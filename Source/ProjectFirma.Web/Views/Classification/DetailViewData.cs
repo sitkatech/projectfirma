@@ -25,9 +25,11 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -46,19 +48,22 @@ namespace ProjectFirma.Web.Views.Classification
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
 
-        public MapInitJson MapInitJson { get; }
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
         public ViewGoogleChartViewData ViewGoogleChartViewData { get; }
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
 
         public DetailViewData(Person currentPerson, 
                             ProjectFirmaModels.Models.Classification classification,
-                            MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData,
+                            ProjectLocationsMapViewData projectLocationsMapViewData,
+                            ProjectLocationsMapInitJson projectLocationsMapInitJson, ViewGoogleChartViewData viewGoogleChartViewData,
                             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
                             List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations)
                             : base(currentPerson)
         {
             Classification = classification;
-            MapInitJson = mapInitJson;
+            ProjectLocationsMapViewData = projectLocationsMapViewData;
+            ProjectLocationsMapInitJson = projectLocationsMapInitJson;
             ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
