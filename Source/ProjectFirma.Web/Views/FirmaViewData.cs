@@ -42,7 +42,12 @@ namespace ProjectFirma.Web.Views
         public string BreadCrumbTitle { get; set; }
         public string EntityName { get; set; }
         public ProjectFirmaModels.Models.FirmaPage FirmaPage { get; }
-        public Person CurrentPerson { get; }
+        public FirmaSession CurrentFirmaSession { get; }
+        // Eventually this should be removed in favor of CurrentFirmaSession whenever possible.
+        public Person CurrentPerson
+        {
+            get { return CurrentFirmaSession.Person; }
+        }
         public string FirmaHomeUrl { get; }
         public string LogInUrl { get; }
         public string LogOutUrl { get; }
@@ -58,18 +63,21 @@ namespace ProjectFirma.Web.Views
         /// <summary>
         /// Call for page without associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson) : this(currentPerson, null)
+        
+        protected FirmaViewData(FirmaSession currentFirmaSession) : this(currentFirmaSession, null)
         {
+            // TODO: MUST change currentPerson to CurrentSession
         }
      
         /// <summary>
         /// Call for page with associated FirmaPage
         /// </summary>
-        protected FirmaViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
+        protected FirmaViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage)
         {
             FirmaPage = firmaPage;
 
-            CurrentPerson = currentPerson;
+            //CurrentPerson = currentPerson;
+            CurrentFirmaSession = currentFirmaSession;
             FirmaHomeUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index());
 
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
@@ -77,13 +85,13 @@ namespace ProjectFirma.Web.Views
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
-            MakeFirmaMenu(currentPerson);
+            MakeFirmaMenu(currentFirmaSession.Person);
 
             FullProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Index());
             ProjectSearchUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Search(UrlTemplate.Parameter1String));
             ProjectFindUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Find(string.Empty));
 
-            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
+            var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, firmaPage).HasPermission;
             ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPersonCanManage) : null;
             CustomFooterViewData = new ViewPageContentViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage);
             TenantName = MultiTenantHelpers.GetTenantName();
@@ -91,7 +99,6 @@ namespace ProjectFirma.Web.Views
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
             TenantToolDisplayName = MultiTenantHelpers.GetToolDisplayName();
         }
-
 
         private void MakeFirmaMenu(Person currentPerson)
         {
@@ -162,7 +169,7 @@ namespace ProjectFirma.Web.Views
             MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.ClassificationSystem(x.ClassificationSystemID)), currentPerson, ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(x), "Group1"));
-            });            
+            });
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             
             foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList())

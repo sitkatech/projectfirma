@@ -35,22 +35,24 @@ namespace ProjectFirma.Web.Views.Project
         public bool HasProposeProjectPermissions { get; }
         public string ProposeNewProjectUrl { get; }
 
-        public ProposedViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public ProposedViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized();
 
-            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
+            var currentPerson = currentFirmaSession.Person;
+
+            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(currentPerson);
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
 
 
             GridSpec = new ProposalsGridSpec(currentPerson) {ObjectNameSingular = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};
 
-            if (new ProjectCreateNewFeature().HasPermissionByPerson(CurrentPerson))
+            if (new ProjectCreateNewFeature().HasPermissionByPerson(currentPerson))
             {
                 GridSpec.CustomExcelDownloadUrl =
                     SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProposalsExcelDownload());
             }
-            if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
+            if (new ProjectCreateFeature().HasPermissionByPerson(currentPerson))
             {
                 GridSpec.CreateEntityActionPhrase = "Propose a New Project";
                 GridSpec.CreateEntityModalDialogForm = null;

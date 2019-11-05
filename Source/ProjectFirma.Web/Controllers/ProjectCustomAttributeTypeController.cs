@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var firmaPage = FirmaPageTypeEnum.ManageProjectCustomAttributeTypesList.GetFirmaPage();
-            var viewData = new ManageViewData(CurrentPerson, firmaPage);
+            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
                 : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
             var allProjectCustomAttributeGroups =
                 HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups.ToList();
-            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, Role.All, 
+            var viewData = new EditViewData(CurrentFirmaSession, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, Role.All, 
                 submitUrl, instructionsFirmaPage, projectCustomAttributeType, allProjectCustomAttributeGroups);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
         {
             var projectCustomAttributeType = projectCustomAttributeTypePrimaryKey.EntityObject;
-            var viewData = new DetailViewData(CurrentPerson, projectCustomAttributeType);
+            var viewData = new DetailViewData(CurrentFirmaSession, projectCustomAttributeType);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

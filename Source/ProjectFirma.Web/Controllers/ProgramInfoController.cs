@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
                 .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
                 .Select(x => x.ToFancyTreeNode(CurrentPerson))
                 .ToList();
-            var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
+            var viewData = new TaxonomyViewData(CurrentFirmaSession, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);
         }
 
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ClassificationSystem(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var viewData = new ClassificationSystemViewData(CurrentPerson, classificationSystem);
+            var viewData = new ClassificationSystemViewData(CurrentFirmaSession, classificationSystem);
             return RazorView<Views.ProgramInfo.ClassificationSystem, ClassificationSystemViewData>(viewData);
         }
     }

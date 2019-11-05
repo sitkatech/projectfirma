@@ -51,14 +51,14 @@ namespace ProjectFirma.Web.Controllers
             }
             new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
             var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
-            var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
+            var viewData = new DisplayPageContentViewData(CurrentFirmaSession, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
         [FirmaPageViewListFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 

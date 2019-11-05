@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Controllers
             var cancelUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Index());
             var selectListWithEmptyFirstRow = allSupportRequestTypes.ToSelectListWithEmptyFirstRow(x => x.SupportRequestTypeID.ToString(), x => x.GetSubjectLine());
             var supportFormViewData = new SupportFormViewData(string.Empty, IsCurrentUserAnonymous(), selectListWithEmptyFirstRow, supportRequestTypeSimples);
-            var viewData = new RequestSupportViewData(CurrentPerson, supportFormViewData, cancelUrl);
+            var viewData = new RequestSupportViewData(CurrentFirmaSession, supportFormViewData, cancelUrl);
             return RazorView<RequestSupport, RequestSupportViewData, RequestSupportViewModel>(viewData, viewModel);
         }
 

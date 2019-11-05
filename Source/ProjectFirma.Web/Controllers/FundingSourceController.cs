@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FundingSourcesList.GetFirmaPage();
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, fundingSourceCustomAttributeTypes);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, fundingSourceCustomAttributeTypes);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var gridSpec = new IndexGridSpec(CurrentPerson, fundingSourceCustomAttributeTypes);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession, fundingSourceCustomAttributeTypes);
             var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
                 fundingSourceCustomAttributeTypes.ToList(),
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
 
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
+            var viewData = new DetailViewData(CurrentFirmaSession, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
 
             return RazorView<Detail, DetailViewData>(viewData);
         }

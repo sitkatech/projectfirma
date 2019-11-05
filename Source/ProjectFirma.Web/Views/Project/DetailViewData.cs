@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Views.Project
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
 
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
             ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData,
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl, string editExpectedFundingUrl)
-            : base(currentPerson, project)
+            : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
@@ -156,6 +156,8 @@ namespace ProjectFirma.Web.Views.Project
             var backToAllProposalsText = "Back to all Proposals";
             var pendingProjectsListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Pending());
             var backToAllPendingProjectsText = $"Back to all Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+
+            var currentPerson = currentFirmaSession.Person;
 
             if (project.IsRejected())
             {
@@ -184,7 +186,7 @@ namespace ProjectFirma.Web.Views.Project
                     projectAlerts.Add(
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} was rejected and can no longer be edited. It can be deleted, or preserved for archival purposes.");
                 }
-            }            
+            }
             else if (project.IsProposal())
             {
                 var projectApprovalStatus = project.ProjectApprovalStatus;

@@ -26,7 +26,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web.Mvc;
-using LtInfo.Common;
+using DocumentFormat.OpenXml.Office2013.Word;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -40,6 +40,7 @@ using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
 using Organization = ProjectFirmaModels.Models.Organization;
+using Person = ProjectFirmaModels.Models.Person;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -76,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             };
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOnlyOrAllUserSelectListItems);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOnlyOrAllUserSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -199,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
                 SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
             var activateInactivateUrl =
                 SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
-            var viewData = new DetailViewData(CurrentPerson,
+            var viewData = new DetailViewData(this.CurrentFirmaSession,
                 person,
                 basicProjectInfoGridSpec,
                 basicProjectInfoGridName,
@@ -361,15 +362,15 @@ namespace ProjectFirma.Web.Controllers
                 case ProjectStewardshipAreaTypeEnum.ProjectStewardingOrganizations:
                     var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList()
                         .Where(x => x.CanStewardProjects()).ToList();
-                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allOrganizations, false);
+                    viewData = new EditUserStewardshipAreasViewData(CurrentFirmaSession, allOrganizations, false);
                     break;
                 case ProjectStewardshipAreaTypeEnum.TaxonomyBranches:
                     var allTaxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList();
-                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allTaxonomyBranches, false);
+                    viewData = new EditUserStewardshipAreasViewData(CurrentFirmaSession, allTaxonomyBranches, false);
                     break;
                 case ProjectStewardshipAreaTypeEnum.GeospatialAreas:
                     var allGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList();
-                    viewData = new EditUserStewardshipAreasViewData(CurrentPerson, allGeospatialAreas, false);
+                    viewData = new EditUserStewardshipAreasViewData(CurrentFirmaSession, allGeospatialAreas, false);
                     break;
                 default:
                     throw new InvalidOperationException(
@@ -394,7 +395,7 @@ namespace ProjectFirma.Web.Controllers
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.OrderBy(x => x.OrganizationName)
                 .ToList();
             var cancelUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
-            var viewData = new InviteViewData(CurrentPerson, organizations, firmaPage, cancelUrl);
+            var viewData = new InviteViewData(CurrentFirmaSession, organizations, firmaPage, cancelUrl);
             return RazorView<Invite, InviteViewData, InviteViewModel>(viewData, viewModel);
         }
 
@@ -469,8 +470,7 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
-        private static Person CreateNewFirmaPerson(KeystoneService.KeystoneUserClaims keystoneUser,
-            Guid? organizationGuid)
+        private static Person CreateNewFirmaPerson(KeystoneService.KeystoneUserClaims keystoneUser, Guid? organizationGuid)
         {
             Organization organization;
             if (organizationGuid.HasValue)
@@ -554,5 +554,136 @@ namespace ProjectFirma.Web.Controllers
             mailMessage.To.Add(person.Email);
             SitkaSmtpClient.Send(mailMessage);
         }
+
+
+
+
+
+
+
+
+
+
+        #region Impersonation
+        
+        [FirmaImpersonateUserFeature]
+        public ActionResult SinglePageImpersonateUser(int personIDToImpersonate)
+        {
+            /*
+            AssertImpersonationAllowedByEnvironment();
+            AssertFirmaSessionCanImpersonate(this.CurrentFirmaSession);
+
+            var personToImpersonate = People.GetPerson(personIDToImpersonate, true);
+
+            var viewData = new SinglePageImpersonateUserViewData(TaurusSession, personToImpersonate);
+            var viewModel = new SinglePageImpersonateUserViewModel();
+            return View<SinglePageImpersonateUser, SinglePageImpersonateUserViewData, SinglePageImpersonateUserViewModel>(viewData, viewModel);
+            */
+            throw new NotImplementedException();
+        }
+
+        [FirmaImpersonateUserFeature]
+        [HttpPost]
+        public ActionResult ImpersonateUser(int personIDToImpersonate)
+        {
+            /*
+            AssertImpersonationAllowedByEnvironment();
+            AssertFirmaSessionCanImpersonate(this.TaurusSession);
+
+            Uri previousPageUri = Request.UrlReferrer;
+            ImpersonatePersonID(this, personIDToImpersonate, previousPageUri);
+
+            // Drop them on the home page for any new impersonation.
+            return RedirectToAction(new SitkaRoute<HomeController>(c => c.Index()));
+            */
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Impersonate the given User ID.
+        /// Designed to be callable by other methods in other controllers
+        /// </summary>
+        /// <param name="activeController"></param>
+        /// <param name="personIDToImpersonate"></param>
+        /// <param name="optionalPreviousPageUri">Optional URI to the referring page. May be null or blank if not known.</param>
+        public static void ImpersonatePersonID(FirmaBaseController activeController, int personIDToImpersonate, Uri optionalPreviousPageUri)
+        {
+            /*
+            if (activeController.TaurusSession.PersonID == personIDToImpersonate)
+            {
+                string impersonationWarning = $"Attempted to impersonate person {activeController.TaurusSession.Person.FullNameFirstLast}, but you are already acting as {activeController.TaurusSession.Person.FullNameFirstLast}. Nothing done.";
+                activeController.Context.AddWarning(impersonationWarning);
+                return;
+            }
+
+            AssertImpersonationAllowedByEnvironment();
+            AssertFirmaSessionCanImpersonate(activeController.TaurusSession);
+            AssertNotAttemptingToImpersonateSelf(activeController.TaurusSession, personIDToImpersonate);
+
+            var personToImpersonate = People.GetPerson(personIDToImpersonate, true);
+            AssertPersonCanBeImpersonated(activeController.TaurusSession, personToImpersonate);
+
+            activeController.TaurusSession.ImpersonateUser(personToImpersonate, optionalPreviousPageUri, out var statusMessage, out var statusWarning);
+            activeController.TaurusSession.Save();
+
+            activeController.Context.AddMessage(statusMessage);
+            // Warning is optional
+            if (statusWarning != null)
+            {
+                activeController.Context.AddWarning(statusWarning);
+            }
+            */
+            throw new NotImplementedException();
+        }
+
+        [FirmaImpersonateUserFeature]
+        [HttpPost]
+        public ActionResult RevertToOriginalUser()
+        {
+            /*
+            AssertImpersonationAllowedByEnvironment();
+            AssertFirmaSessionCanImpersonate(this.TaurusSession);
+            Check.Ensure(this.TaurusSession.IsImpersonating(), "This session is not impersonating any user currently.");
+
+            string statusMessage;
+            Uri previousPageUri = Request.UrlReferrer;
+            this.TaurusSession.ResumeOriginalUser(previousPageUri, out statusMessage);
+            this.TaurusSession.Save();
+
+            Context.AddMessage(statusMessage);
+            Logger.Info(statusMessage);
+
+            // Drop them on the home page
+            return RedirectToAction(new SitkaRoute<HomeController>(c => c.Index()));
+            */
+            throw new NotImplementedException();
+        }
+
+        public static void AssertNotAttemptingToImpersonateSelf(FirmaSession firmaSession, int personIDToImpersonate)
+        {
+            Check.RequireThrowNotAuthorized(firmaSession.PersonID != personIDToImpersonate, $"User {firmaSession.UserDisplayName} is not allowed to impersonate themselves. (This should not have happened, and may indicate a coding error).");
+        }
+
+        public static void AssertImpersonationAllowedByEnvironment()
+        {
+            Check.RequireThrowNotAuthorized(MultiTenantHelpers.GetTenantAttribute().ImpersonationEnabled, $"Impersonation is not enabled for Tenant {HttpRequestStorage.Tenant.TenantName}");
+        }
+
+        public static void AssertFirmaSessionCanImpersonate(FirmaSession firmaSession)
+        {
+            bool currentFirmaSessionCanImpersonate = new FirmaImpersonateUserFeature().HasPermissionByFirmaSession(firmaSession);
+            Check.RequireThrowNotAuthorized(currentFirmaSessionCanImpersonate, $"User {firmaSession.UserDisplayName} is not allowed to impersonate anyone else.");
+        }
+
+        public static void AssertPersonCanBeImpersonated(FirmaSession firmaSession, Person personToImpersonate)
+        {
+            Check.RequireNotNull(personToImpersonate, "Can't impersonate a null/anonymous user");
+            AssertNotAttemptingToImpersonateSelf(firmaSession, personToImpersonate.PersonID);
+        }
+
+        #endregion impersonation
+
+
+
     }
 }

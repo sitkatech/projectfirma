@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public string ValidateImportExternalProjectDataUrl { get; set; }
 
-        public ImportExternalViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public ImportExternalViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Import Project";
             ValidateImportExternalProjectDataUrl =

@@ -51,7 +51,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
-@if(ViewDataTyped.CurrentPerson.IsAdministrator()){
+@if(ViewDataTyped.CurrentFirmaSession.Person.IsAdministrator()){
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>

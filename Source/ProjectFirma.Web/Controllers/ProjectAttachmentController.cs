@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ProjectAttachmentIndex()
         {
-            var viewData = new ProjectAttachmentIndexViewData(CurrentPerson);
+            var viewData = new ProjectAttachmentIndexViewData(CurrentFirmaSession);
             return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
         }
 

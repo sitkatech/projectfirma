@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.Help
         public string CancelUrl { get; }
         public SupportFormViewData SupportFormViewData { get; }
 
-        public RequestSupportViewData(Person currentPerson, SupportFormViewData supportFormViewData, string cancelUrl) : base(currentPerson)
+        public RequestSupportViewData(FirmaSession currentFirmaSession, SupportFormViewData supportFormViewData, string cancelUrl) : base(currentFirmaSession)
         {
             PageTitle = "Request Support";
             CancelUrl = cancelUrl;

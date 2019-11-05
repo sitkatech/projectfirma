@@ -33,8 +33,10 @@ namespace ProjectFirma.Web.Views.FundingSource
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.FundingSource>
     {
-        public IndexGridSpec(Person currentPerson, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
+        public IndexGridSpec(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
+            var currentPerson = currentFirmaSession.Person;
+
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
             if (fundingSourceDeleteFeature.HasPermissionByPerson(currentPerson))
             {

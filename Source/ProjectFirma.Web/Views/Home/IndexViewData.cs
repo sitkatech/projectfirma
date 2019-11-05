@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.Home
 
         public IndexViewData(FirmaSession firmaSession, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage, ProjectFirmaModels.Models.FirmaPage firmaPageAdditionalInfo, ProjectFirmaModels.Models.FirmaPage firmaPageMapInfo,
             FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            List<ProjectFirmaModels.Models.FirmaHomePageImage> firmaHomePageImages) : base(firmaSession.Person, firmaPageHomePage)
+            List<ProjectFirmaModels.Models.FirmaHomePageImage> firmaHomePageImages) : base(firmaSession, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 

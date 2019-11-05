@@ -76,14 +76,14 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult Error()
         {
-            var viewData = new ErrorViewData(CurrentPerson);
+            var viewData = new ErrorViewData(CurrentFirmaSession);
             return RazorView<Error, ErrorViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public ViewResult NotFound()
         {
-            var viewData = new NotFoundViewData(CurrentPerson);
+            var viewData = new NotFoundViewData(CurrentFirmaSession);
             return RazorView<NotFound, NotFoundViewData>(viewData);
         }
 
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = firmaPageTypeEnum.GetFirmaPage();
             var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentPerson, firmaPage).HasPermission;
-            var viewData = new DisplayPageContentViewData(CurrentPerson, firmaPage, hasPermission);
+            var viewData = new DisplayPageContentViewData(CurrentFirmaSession, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
@@ -112,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
             var canAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList();
             var addNewPhotoUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
-            var imageGalleryViewData = new ImageGalleryViewData(CurrentPerson,
+            var imageGalleryViewData = new ImageGalleryViewData(CurrentFirmaSession,
                 "HomePageImagesGallery",
                 firmaHomePageImages,
                 canAddPhotos,
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
                 true,
                 x => x.CaptionOnFullView,
                 "Photo");
-            var viewData = new ManageHomePageImagesViewData(CurrentPerson, imageGalleryViewData, canAddPhotos);
+            var viewData = new ManageHomePageImagesViewData(CurrentFirmaSession, imageGalleryViewData, canAddPhotos);
             return RazorView<ManageHomePageImages, ManageHomePageImagesViewData>(viewData);
         }
 
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
             List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos = HttpRequestStorage.DatabaseEntities.TrainingVideos.ToList();
-            var viewData = new TrainingVideoViewData(CurrentPerson, firmaPage, trainingVideos);
+            var viewData = new TrainingVideoViewData(CurrentFirmaSession, firmaPage, trainingVideos);
             return RazorView<Views.Home.TrainingVideo, TrainingVideoViewData>(viewData);
         }
 
@@ -148,7 +148,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult StyleGuide()
         {
             var firmaPage = FirmaPageTypeEnum.Training.GetFirmaPage();
-            var viewData = new StyleGuideViewData(CurrentPerson, firmaPage);
+            var viewData = new StyleGuideViewData(CurrentFirmaSession, firmaPage);
             return RazorView<StyleGuide, StyleGuideViewData>(viewData);
         }
 
@@ -158,12 +158,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
             var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var viewData = new ReleaseNotesViewData(
-                releaseNotes,
-                SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()),
-                "Release Notes",
-                userHasEditReleaseNotePermission,
-                CurrentPerson);
+            var viewData = new ReleaseNotesViewData(CurrentFirmaSession, releaseNotes, SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()), "Release Notes", userHasEditReleaseNotePermission);
             return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }
 

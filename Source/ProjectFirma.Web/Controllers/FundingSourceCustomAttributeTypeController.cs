@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var firmaPage = FirmaPageTypeEnum.ManageFundingSourceCustomAttributeTypesList.GetFirmaPage();
-            var viewData = new ManageViewData(CurrentPerson, firmaPage);
+            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.FundingSourceCustomAttributeTypeID)
                 ? SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.FundingSourceCustomAttributeTypeID))
                 : SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
-            var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, FundingSourceCustomAttributeDataType.All, Role.All,
+            var viewData = new EditViewData(CurrentFirmaSession, MeasurementUnitType.All, FundingSourceCustomAttributeDataType.All, Role.All,
                 submitUrl, instructionsFirmaPage, fundingSourceCustomAttributeType);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(FundingSourceCustomAttributeTypePrimaryKey fundingSourceCustomAttributeTypePrimaryKey)
         {
             var fundingSourceCustomAttributeType = fundingSourceCustomAttributeTypePrimaryKey.EntityObject;
-            var viewData = new DetailViewData(CurrentPerson, fundingSourceCustomAttributeType);
+            var viewData = new DetailViewData(CurrentFirmaSession, fundingSourceCustomAttributeType);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

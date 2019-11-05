@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.TagList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var tag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(tagName);
             Check.RequireNotNullThrowNotFound(tag, tagName);
-            var viewData = new DetailViewData(CurrentPerson, tag);
+            var viewData = new DetailViewData(CurrentFirmaSession, tag);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -28,11 +28,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData;
 
-        public GeospatialAreaViewData(Person currentPerson,
+        public GeospatialAreaViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             GeospatialAreaType geospatialAreaType,
             ProposalSectionsStatus proposalSectionsStatus,
-            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentPerson, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
+            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentFirmaSession, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
         }

@@ -43,21 +43,21 @@ namespace ProjectFirma.Web.Views.Classification
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
 
-        public DetailViewData(Person currentPerson, 
+        public DetailViewData(FirmaSession currentFirmaSession, 
                             ProjectFirmaModels.Models.Classification classification,
                             List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations)
-                            : base(currentPerson)
+                            : base(currentFirmaSession)
         {
             Classification = classification;
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
 
-            UserHasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
             ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "classificationProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));

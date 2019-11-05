@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var viewData = new IndexViewData(CurrentPerson, classificationSystem);
+            var viewData = new IndexViewData(CurrentFirmaSession, classificationSystem);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
+            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);
             var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, classification, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentFirmaSession, classification, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

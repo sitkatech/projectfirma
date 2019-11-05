@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
@@ -53,6 +52,16 @@ namespace ProjectFirmaModels.Models
         public bool IsAnonymousOrUnassigned()
         {
             return IsAnonymousUser() || Person.Role == Role.Unassigned;
+        }
+
+        public string GetFullNameFirstLast()
+        {
+            if (this.Person == null)
+            {
+                return "(Anonymous)";
+            }
+
+            return this.Person.GetFullNameFirstLast();
         }
 
         #region Impersonation
@@ -153,5 +162,17 @@ namespace ProjectFirmaModels.Models
         }
 
         #endregion Impersonation
+
+        public const string AnonymousDisplayString = "(anonymous)";
+
+        public string UserDisplayName
+        {
+            get
+            {
+                return IsAnonymousOrUnassigned()
+                    ? AnonymousDisplayString:
+                    Person.GetFullNameFirstLast();
+            }
+        }
     }
 }

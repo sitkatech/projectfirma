@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, tenantAttribute,
+            var viewData = new AccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, tenantAttribute,
                 organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
                 defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
@@ -303,7 +303,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
             }
-            var viewData = new ProjectMapViewData(CurrentPerson,
+            var viewData = new ProjectMapViewData(CurrentFirmaSession,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
@@ -444,7 +444,7 @@ namespace ProjectFirma.Web.Controllers
             var accomplishmentsChartViewData =
                 new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentPerson, false, new List<Project>());
 
-            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage,
+            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentFirmaSession, firmaPage,
                 performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
             var viewModel = new SpendingByPerformanceMeasureByProjectViewModel();
             return RazorView<SpendingByPerformanceMeasureByProject, SpendingByPerformanceMeasureByProjectViewData,
@@ -542,7 +542,7 @@ namespace ProjectFirma.Web.Controllers
             var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
 
-            var viewData = new FundingStatusViewData(CurrentPerson, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
+            var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
         }
     }

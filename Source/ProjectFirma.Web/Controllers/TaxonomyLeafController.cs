@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.TaxonomyLeafList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, primaryProjectLocationsMapInitJson,
+            var viewData = new DetailViewData(CurrentFirmaSession, taxonomyLeaf, primaryProjectLocationsMapInitJson,
                 secondaryProjectLocationsMapInitJson, primaryProjectLocationsMapViewData,
                 secondaryProjectLocationsMapViewData, canHaveAssociatedPerformanceMeasures,
                 relatedPerformanceMeasuresViewData, taxonomyLevel, tenantAttribute, performanceMeasures,

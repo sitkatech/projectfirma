@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
                 new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
             };
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -422,7 +422,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public ViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
             var viewModel = new EditBoundaryViewModel();
-            var viewData = new EditBoundaryViewData(CurrentPerson, organizationPrimaryKey.EntityObject);
+            var viewData = new EditBoundaryViewData(CurrentFirmaSession, organizationPrimaryKey.EntityObject);
             return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
         }
 
@@ -434,7 +434,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                var viewData = new EditBoundaryViewData(CurrentPerson, organization);
+                var viewData = new EditBoundaryViewData(CurrentFirmaSession, organization);
                 return RazorPartialView<EditBoundaryErrors, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
             }
 
@@ -478,7 +478,7 @@ namespace ProjectFirma.Web.Controllers
                 index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
             var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
-            var viewData = new ApproveUploadGisViewData(CurrentPerson, organization, mapInitJson);
+            var viewData = new ApproveUploadGisViewData(CurrentFirmaSession, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
         }
 

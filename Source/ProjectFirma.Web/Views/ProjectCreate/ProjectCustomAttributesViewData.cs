@@ -29,9 +29,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EditProjectCustomAttributesViewData EditCustomAttributesViewData;
 
-        public ProjectCustomAttributesViewData(Person currentPerson,
+        public ProjectCustomAttributesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, ProjectCustomAttributesValidationResult projectCustomAttributesValidationResult) : base(currentPerson, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditProjectCustomAttributesViewData editCustomAttributesViewData, ProjectCustomAttributesValidationResult projectCustomAttributesValidationResult) : base(currentFirmaSession, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
         }

@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public bool HasProjectLocationDetail { get; }
         public string SimplePointMarkerImg { get; }
 
-        public BulkSetProjectSpatialInformationViewData(Person currentPerson, 
+        public BulkSetProjectSpatialInformationViewData(FirmaSession currentFirmaSession, 
                                                          IProject project, 
                                                          List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasOnProject, 
                                                          List<GeospatialAreaType> geospatialAreaTypes, 
@@ -26,8 +26,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          string editProjectGeospatialAreasUrl, 
                                                          string editProjectGeospatialAreasFormID, 
                                                          List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
-                                                         bool hasProjectLocationPoint, 
-                                                         bool hasProjectLocationDetail) : base(currentPerson)
+                                                         bool hasProjectLocationPoint,
+                                                         bool hasProjectLocationDetail) : base(currentFirmaSession)
         {
             ProjectSimpleLocation = project.ProjectLocationPoint;
             GeospatialAreaTypes = geospatialAreaTypes;

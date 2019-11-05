@@ -14,7 +14,7 @@
 
 @section RightOfPageTitle
 {
-    @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentPerson))
+    @if (new FirmaAdminFeature().HasPermissionByPerson(ViewDataTyped.CurrentFirmaSession.Person))
     {
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Edit Attribute", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit")), ViewDataTyped.ProjectCustomAttributeType.GetEditUrl(), "Edit Attribute", new List<string> {"btn btn-firma headerButtonText customAttributeTypeButton"}, true)
     }

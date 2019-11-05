@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new ManageViewData(CurrentPerson, goals);
+            var viewData = new ManageViewData(CurrentFirmaSession, goals);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewNewQuestion(NewQuestionViewModel viewModel)
         {
             var subGoalsGroup = HttpRequestStorage.DatabaseEntities.AssessmentSubGoals.ToList().ToGroupedSelectList();
-            var viewData = new NewQuestionViewData(CurrentPerson, subGoalsGroup);
+            var viewData = new NewQuestionViewData(CurrentFirmaSession, subGoalsGroup);
             return RazorPartialView<NewQuestion, NewQuestionViewData, NewQuestionViewModel>(viewData, viewModel);
         }
 

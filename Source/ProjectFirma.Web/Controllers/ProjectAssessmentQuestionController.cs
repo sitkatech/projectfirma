@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditAssessment(Project project, EditAssessmentViewModel viewModel)
         {
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals);
+            var viewData = new EditAssessmentViewData(CurrentFirmaSession, project, assessmentGoals);
             return RazorPartialView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
         

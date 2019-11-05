@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
         {
-            var viewData = new EditViewData(CurrentPerson, fieldDefinitionPrimaryKey.EntityObject);
+            var viewData = new EditViewData(CurrentFirmaSession, fieldDefinitionPrimaryKey.EntityObject);
             return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

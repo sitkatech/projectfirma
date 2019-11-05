@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Common
         }
 
         public static string BuildLinkFromExpression(Expression<Action<T>> routeExpression, string linkText, Dictionary<string, string> attributeDict)
-        {            
+        {
             return String.Format("<a href=\"{0}\" {2}>{1}</a>", BuildUrlFromExpression(routeExpression), linkText, BuildAttributeString(attributeDict));
         }
 

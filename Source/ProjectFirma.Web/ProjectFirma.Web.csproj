@@ -179,6 +179,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -1451,6 +1452,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
+      <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\User\Invite.cs" />
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
@@ -1563,6 +1567,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectContact\EditContacts.cshtml" />

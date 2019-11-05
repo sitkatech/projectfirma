@@ -27,11 +27,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly ProjectLocationDetailViewData ProjectLocationDetailViewData;
 
-        public LocationDetailedViewData(Person currentPerson,
+        public LocationDetailedViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ProjectLocationDetailViewData projectLocationDetailViewData)
-            : base(currentPerson, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.LocationDetailed.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
         }
