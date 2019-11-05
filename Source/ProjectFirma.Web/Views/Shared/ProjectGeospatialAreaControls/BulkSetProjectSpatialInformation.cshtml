@@ -30,7 +30,7 @@
         overflow-y: visible;
     }
     .select-all-container {
-        padding: 19px;
+        padding: 10px;
     }
     .select-all-container label {
         position: relative;
@@ -41,34 +41,52 @@
     .select-all-container label input {
         margin-left: 5px;
     }
+    .well {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
     .well hr {
         margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .btn-set-all {
+        white-space: normal;
     }
 </style>
 <div class="row">
     <div class="col-xs-12">
-        <p>This section allows users to quickly set the spatial location for all steps/layers--or just a single one--by using the simple location. From there, users can then either refine the selection of shapes, or skip straight to the Accomplishments portion of the workflow.</p>
+        <p>Use this page to quickly set the geographic relationships for your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(). If needed, you can refine the selection, add additional selections, and add notes on the subsequent pages of the workflow. If everything looks good on this page, you can skip to the Accomplishments.</p>
     </div>
 </div>
+<hr />
 @Html.ValidationSummary()
 <div class="row" ng-app="ProjectFirmaApp" ng-controller="BulkSetProjectSpatialInformationController">
     <div class="col-xs-12 col-md-5">
         <form action="@ViewDataTyped.EditProjectGeospatialAreasUrl" method="POST" id="@ViewDataTyped.EditProjectGeospatialAreasFormID">
 
             <div class="alert alert-danger" ng-if="!canSetGeospatialAreaFromProjectLocation()">
-                <span>The Project Simple Location is not set. Please set the Simple Location before using this page</span>
-            </div>
-            <hr />
+                <span>The Project Simple Location is not set.</span>
+                @if (!string.IsNullOrEmpty(ViewDataTyped.EditSimpleLocationUrl))
+                {
+                    <span>Please <a href="@ViewDataTyped.EditSimpleLocationUrl">set the Simple Location</a> before using this page.</span>
+                }
+                else
+                {
+                    <span>Please set the Simple Location before using this page.</span>
+                }
 
-            
+            </div>
+
+
+
             <div ng-if="canSetGeospatialAreaFromProjectLocation()">
-                <button type="button" class="btn btn-sm btn-firma" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
+                <button type="button" class="btn btn-sm btn-firma btn-set-all" ng-click="setSelectedGeospatialAreaTypeFromProjectLocation()" ng-disabled="!canSetGeospatialAreaFromProjectLocation()">
                     <span class="glyphicon glyphicon-map-marker"></span>
-                    Set All Selected Layers from Simple Location
+                    Set Selected Layers from Simple Location
                 </button>
                 <div class="select-all-container">
                     <label>
-                        Select All <input type="checkbox" ng-click="selectAll($event)"  />
+                        Select All <input type="checkbox" ng-click="selectAll($event)" />
                     </label>
                 </div>
                 <div class="well" ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypes">

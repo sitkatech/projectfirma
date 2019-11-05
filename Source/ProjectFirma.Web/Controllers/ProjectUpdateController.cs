@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Spatial;
-using System.Data.Entity.SqlServer;
 using System.Globalization;
 using System.Linq;
 using System.Net.Mail;
@@ -1326,7 +1325,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(projectUpdateBatch, viewModel);
             }
             SaveProjectLocationUpdates(viewModel, projectUpdateBatch);
-            DbSpatialHelper.Reduce(new List<IHaveDbGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(projectUpdateBatch.ProjectLocationUpdates.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1415,6 +1414,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.GeospatialArea(project, geospatialAreaType, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
+            var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas
@@ -1424,7 +1424,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
                 projectUpdate.HasProjectLocationPoint, projectUpdate.HasProjectLocationDetail, geospatialAreaType,
-                geospatialAreasContainingProjectSimpleLocation);
+                geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
@@ -1458,6 +1458,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
+            var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate).ToList();
@@ -1465,7 +1466,7 @@ namespace ProjectFirma.Web.Controllers
             var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch.ProjectUpdate, projectUpdateBatch.ProjectGeospatialAreaUpdates.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint,
-                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail);
+                projectUpdateBatch.ProjectUpdate.HasProjectLocationDetail, editSimpleLocationUrl);
 
             var viewData = new BulkSetSpatialInformationViewData(CurrentFirmaSession, projectUpdateBatch, GetUpdateStatus(projectUpdateBatch), quickSetProjectSpatialInformationViewData);
             return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);
@@ -3021,9 +3022,7 @@ namespace ProjectFirma.Web.Controllers
                         SitkaLogger.Instance.LogDetailedErrorMessage($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.ProjectID} appears to have inconsistent simple location configuration.");
                         return true;
                     }
-
-                    return !project.ProjectLocationPoint.SpatialEquals(projectUpdateBatch.ProjectUpdate
-                        .ProjectLocationPoint);
+                    return project.ProjectLocationPoint.ToSqlGeometry().STEquals(projectUpdateBatch.ProjectUpdate.ProjectLocationPoint.ToSqlGeometry()).IsFalse;
             }
 
             return false;

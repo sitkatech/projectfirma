@@ -567,7 +567,7 @@ namespace ProjectFirma.Web.Controllers
         #region Impersonation
         
         [FirmaImpersonateUserFeature]
-        public ActionResult SinglePageImpersonateUser(int personIDToImpersonate)
+        public ActionResult SinglePageImpersonateUser(PersonPrimaryKey personToImpersonate)
         {
             /*
             AssertImpersonationAllowedByEnvironment();
@@ -584,7 +584,7 @@ namespace ProjectFirma.Web.Controllers
 
         [FirmaImpersonateUserFeature]
         [HttpPost]
-        public ActionResult ImpersonateUser(int personIDToImpersonate)
+        public ActionResult ImpersonateUser(PersonPrimaryKey personToImpersonate)
         {
             /*
             AssertImpersonationAllowedByEnvironment();

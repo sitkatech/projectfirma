@@ -17,6 +17,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
         public string SimplePointMarkerImg { get; }
+        public string EditSimpleLocationUrl { get; }
 
         public BulkSetProjectSpatialInformationViewData(FirmaSession currentFirmaSession, 
                                                          IProject project, 
@@ -26,8 +27,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
                                                          string editProjectGeospatialAreasUrl, 
                                                          string editProjectGeospatialAreasFormID, 
                                                          List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, 
-                                                         bool hasProjectLocationPoint,
-                                                         bool hasProjectLocationDetail) : base(currentFirmaSession)
+                                                         bool hasProjectLocationPoint, 
+                                                         bool hasProjectLocationDetail,
+                                                         string editSimpleLocationUrl) : base(currentFirmaSession)
         {
             ProjectSimpleLocation = project.ProjectLocationPoint;
             GeospatialAreaTypes = geospatialAreaTypes;
@@ -38,6 +40,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             SimplePointMarkerImg = "https://api.tiles.mapbox.com/v3/marker/pin-s-marker+838383.png";
 
             ViewDataForAngular = new BulkSetProjectSpatialInformationViewDataForAngular(mapInitJson, geospatialAreaTypes, geospatialAreasContainingProjectSimpleLocation, hasProjectLocationPoint, geospatialAreasOnProject);
+
+            EditSimpleLocationUrl = editSimpleLocationUrl;
         }
     }
 

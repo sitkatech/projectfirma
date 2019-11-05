@@ -1,4 +1,4 @@
-﻿@*-----------------------------------------------------------------------
+﻿ @*-----------------------------------------------------------------------
     <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
@@ -60,7 +60,10 @@
 }
 @if (ViewDataTyped.PrimaryContactPerson != null)
 {
-    <hr />
+    if (ViewDataTyped.AllProjectContacts.Any())
+     {
+         <hr/>
+     }
     <div class="row">
         <div class="col-xs-3">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectPrimaryContact.ToType())

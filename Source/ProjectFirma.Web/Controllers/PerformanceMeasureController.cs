@@ -496,11 +496,10 @@ namespace ProjectFirma.Web.Controllers
             Check.Assert(MultiTenantHelpers.UsesTechnicalAssistanceParameters(), "This feature is not available.");
             var technicalAssistanceParameterSimples = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList()
                 .Select(x => new TechnicalAssistanceParameterSimple(x)).ToList();
-
             // add blank TAPSes for the years that don't already have stuff in the DB
             var reportingYearsForUserInputAsIntegers = FirmaDateUtilities.ReportingYearsForUserInputAsIntegers();
-            var twoYearsIntoTheFuture = reportingYearsForUserInputAsIntegers.Max() + 2;
-            reportingYearsForUserInputAsIntegers.Add(twoYearsIntoTheFuture);
+            var nextTwoYears = new List<int>() { reportingYearsForUserInputAsIntegers.Max() + 1, reportingYearsForUserInputAsIntegers.Max() + 2 };
+            reportingYearsForUserInputAsIntegers.AddRange(nextTwoYears);
             technicalAssistanceParameterSimples.AddRange(reportingYearsForUserInputAsIntegers
                 .Where(year => !technicalAssistanceParameterSimples.Select(x => x.Year).ToList().Contains(year))
                 .Select(year => new TechnicalAssistanceParameterSimple(year)));

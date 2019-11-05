@@ -19,12 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Data.Entity.Spatial;
+using Microsoft.SqlServer.Types;
 
 namespace LtInfo.Common.DbSpatial
 {
-    public interface IHaveDbGeometry
+    public interface IHaveSqlGeometry
     {
         void SetDbGeometry(DbGeometry value);
         DbGeometry GetDbGeometry();
+        SqlGeometry GetSqlGeometry();
     }
 }

@@ -21,7 +21,7 @@
                 var technicalAssistanceParameter = Model.TechnicalAssistanceParameters[i];
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-2" style="padding-top: 8px;">
                             <label>@MultiTenantHelpers.FormatReportingYear(technicalAssistanceParameter.Year)</label>
                             @Html.HiddenFor(m=>m.TechnicalAssistanceParameters[i].Year)
                         </div>
