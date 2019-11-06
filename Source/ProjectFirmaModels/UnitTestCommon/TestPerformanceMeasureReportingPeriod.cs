@@ -36,6 +36,12 @@ namespace ProjectFirmaModels.UnitTestCommon
                 return performanceMeasureReportingPeriod;
             }
 
+            public static PerformanceMeasureReportingPeriod Create(PerformanceMeasure performanceMeasure, int calendarYear)
+            {
+                var performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(performanceMeasure, calendarYear, calendarYear.ToString());
+                return performanceMeasureReportingPeriod;
+            }
+
 
         }
     }

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirmaModels.UnitTestCommon
@@ -36,7 +37,8 @@ namespace ProjectFirmaModels.UnitTestCommon
             public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, int calendarYear, double? actualValue)
             {
                 var performanceMeasure = TestPerformanceMeasure.Create();
-                var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, calendarYear) {ActualValue = actualValue};
+                var performanceMeasureReportingPeriod = TestPerformanceMeasureReportingPeriod.Create(performanceMeasure, calendarYear);
+                var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, performanceMeasureReportingPeriod) {ActualValue = actualValue};
                 return performanceMeasureActualUpdate;
             }
         }

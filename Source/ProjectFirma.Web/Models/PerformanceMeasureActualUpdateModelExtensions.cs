@@ -79,7 +79,8 @@ namespace ProjectFirma.Web.Models
             int newCalendarYear,
             double? actualValue)
         {
-            var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear)
+            var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear);
+            var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, performanceMeasureReportingPeriod)
             {
                 ActualValue = actualValue
             };

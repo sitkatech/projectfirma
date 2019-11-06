@@ -75,11 +75,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 // Completely rebuild the list
                 performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(x =>
                 {
+
                     var performanceMeasureActual = new PerformanceMeasureActualUpdate(x.PerformanceMeasureActualUpdateID,
                         x.ProjectUpdateBatchID,
                         x.PerformanceMeasureID,
-                        x.CalendarYear.Value,
-                        x.ActualValue);
+                        x.ActualValue,
+                        x.PerformanceMeasureReportingPeriodID);
                     if (x.PerformanceMeasureActualSubcategoryOptionUpdates != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates =

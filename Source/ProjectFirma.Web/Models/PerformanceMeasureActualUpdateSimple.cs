@@ -32,10 +32,9 @@ namespace ProjectFirma.Web.Models
         public int PerformanceMeasureActualUpdateID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PerformanceMeasureID { get; set; }
+        public int PerformanceMeasureReportingPeriodID { get; set; }
 
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportingYear)]
-        public int? CalendarYear { get; set; }
+        public int CalendarYear { get; set; }
 
         [DisplayName("Reported Value")]
         public double? ActualValue { get; set; }
@@ -55,7 +54,8 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureActualUpdateID = performanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
             ProjectUpdateBatchID = performanceMeasureActualUpdate.ProjectUpdateBatchID;
             PerformanceMeasureID = performanceMeasureActualUpdate.PerformanceMeasureID;
-            CalendarYear = performanceMeasureActualUpdate.CalendarYear;
+            CalendarYear = performanceMeasureActualUpdate.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            PerformanceMeasureReportingPeriodID = performanceMeasureActualUpdate.PerformanceMeasureReportingPeriodID;
             ActualValue = performanceMeasureActualUpdate.ActualValue;
             PerformanceMeasureActualSubcategoryOptionUpdates = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureActualUpdate);
         }

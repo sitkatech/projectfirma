@@ -37,6 +37,12 @@ namespace ProjectFirmaModels.Models
             return ActualValue;
         }
 
+        public int CalendarYear
+        {
+            get => this.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            set => this.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear = value;
+        }
+
         public string GetPerformanceMeasureName() => PerformanceMeasure.PerformanceMeasureDisplayName;
 
         public MeasurementUnitType GetMeasurementUnitType() => PerformanceMeasure.MeasurementUnitType;
