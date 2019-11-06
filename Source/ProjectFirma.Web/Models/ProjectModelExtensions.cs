@@ -302,7 +302,7 @@ namespace ProjectFirma.Web.Models
             return ViewUtilities.NaString;
         }
 
-        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures(this Project project)
+        public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Project project)
         {
             var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
 

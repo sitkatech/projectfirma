@@ -58,6 +58,17 @@ namespace ProjectFirmaModels.Models
             PerformanceMeasureReportingPeriod = performanceMeasureActual.PerformanceMeasureReportingPeriod;
         }
 
+        private PerformanceMeasureReportedValue(PerformanceMeasureActualUpdate performanceMeasureActualUpdate)
+        {
+            PerformanceMeasure = performanceMeasureActualUpdate.PerformanceMeasure;
+            CalendarYear = performanceMeasureActualUpdate.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            _reportedValue = performanceMeasureActualUpdate.ActualValue;
+            Project = performanceMeasureActualUpdate.ProjectUpdateBatch.Project;
+            PerformanceMeasureActualSubcategoryOptions = new List<IPerformanceMeasureValueSubcategoryOption>(performanceMeasureActualUpdate.PerformanceMeasureActualSubcategoryOptionUpdates);
+            PerformanceMeasureReportingPeriod = performanceMeasureActualUpdate.PerformanceMeasureReportingPeriod;
+        }
+
+        
         public PerformanceMeasureReportedValue(PerformanceMeasure performanceMeasure, Project project, int calendarYear, double reportedValue)
         {
             PerformanceMeasure = performanceMeasure;
@@ -82,6 +93,13 @@ namespace ProjectFirmaModels.Models
         {
             return performanceMeasureActuals.Select(x => new PerformanceMeasureReportedValue(x)).ToList();
         }
+
+
+        public static List<PerformanceMeasureReportedValue> MakeFromList(IEnumerable<PerformanceMeasureActualUpdate> performanceMeasureActualUpdates)
+        {
+            return performanceMeasureActualUpdates.Select(x => new PerformanceMeasureReportedValue(x)).ToList();
+        }
+
 
         public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions() =>
             new List<IPerformanceMeasureValueSubcategoryOption>(PerformanceMeasureActualSubcategoryOptions);

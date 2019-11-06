@@ -286,7 +286,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Project project)
         {
-            var performanceMeasureReportedValues = project.GetReportedPerformanceMeasures();
+            var performanceMeasureReportedValues = project.GetPerformanceMeasureReportedValues();
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x=>x.PerformanceMeasure.GetSortOrder()).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())));
             var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
@@ -541,7 +541,7 @@ namespace ProjectFirma.Web.Controllers
             workSheets.Add(wsPerformanceMeasureExpecteds);
 
             var performanceMeasureActualExcelSpec = new PerformanceMeasureActualExcelSpec();
-            var performanceMeasureActuals = (projects.SelectMany(p => p.GetReportedPerformanceMeasures())).ToList();
+            var performanceMeasureActuals = (projects.SelectMany(p => p.GetPerformanceMeasureReportedValues())).ToList();
             var wsPerformanceMeasureActuals = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
             workSheets.Add(wsPerformanceMeasureActuals);
