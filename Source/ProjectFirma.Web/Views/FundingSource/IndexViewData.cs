@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             GridName = "fundingSourcesGrid";
             GridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-            HasPerformanceMeasureManagePermissions = new FundingSourceCreateFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasPerformanceMeasureManagePermissions = new FundingSourceCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             NewUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New());
         }
     }

@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
             GridName = "fundingSourceCustomAttributeTypeGrid";
             GridDataUrl = SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(tc => tc.FundingSourceCustomAttributeTypeGridJsonData());
 
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Tag> IndexGridJsonData()
         {
-            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new IndexGridSpec(hasTagDeletePermission);
             var tags = HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Tag>(tags, gridSpec);
@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TagPrimaryKey tagPrimaryKey)
         {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true);
             var projectGeospatialAreas = tagPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectGeospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;

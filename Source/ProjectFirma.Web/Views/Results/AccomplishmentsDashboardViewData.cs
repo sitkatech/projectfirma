@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.Results
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
             AccomplishmentsDashboardOrganizationTypeName = accomplishmentsDashboardOrganizationTypeName;
             TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
-            HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             ConfigureAccomplishmentsDashboardUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.ConfigureAccomplishmentsDashboard());
         }
     }

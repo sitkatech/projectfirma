@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TechnicalAssistanceRequest> TechnicalAssistanceReportGridJsonData()
         {
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var gridSpec = new TechnicalAssistanceReportGridSpec(CurrentPerson, technicalAssistanceParameters);
+            var gridSpec = new TechnicalAssistanceReportGridSpec(CurrentFirmaSession, technicalAssistanceParameters);
             var technicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.OrderBy(x => x.Project.ProjectName).ThenByDescending(x => x.FiscalYear).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TechnicalAssistanceRequest>(technicalAssistanceRequests, gridSpec);
             return gridJsonNetJObjectResult;
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.Load();
             var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
             var currentTechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
-            viewModel.UpdateModel(CurrentPerson, currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
+            viewModel.UpdateModel(CurrentFirmaSession, currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
             return new ModalDialogFormJsonResult();
         }
 

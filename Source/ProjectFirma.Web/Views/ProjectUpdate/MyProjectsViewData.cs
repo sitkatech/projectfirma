@@ -87,8 +87,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(tc => tc.InstructionsProposal(null));
 
             var currentPerson = currentFirmaSession.Person;
-            HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByPerson(currentPerson);
-            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(currentPerson);
+            HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             GridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};

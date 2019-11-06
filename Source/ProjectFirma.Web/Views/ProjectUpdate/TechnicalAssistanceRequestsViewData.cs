@@ -40,9 +40,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public TechnicalAssistanceRequestsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName)
         {
             Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
-            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, firmaPage).HasPermission;
+            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
             TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
-            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession.Person, projectUpdateBatch.Project).HasPermission;
+            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, projectUpdateBatch.Project).HasPermission;
             ViewDataForAngular = new TechnicalAssistanceRequestsViewDataForAngular(projectUpdateBatch.ProjectID, technicalAssistanceTypes, fiscalYearStrings, personSimples);
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.TechnicalAssistanceRequestsComment, projectUpdateBatch.IsReturned());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshTechnicalAssistanceRequests(projectUpdateBatch.Project));

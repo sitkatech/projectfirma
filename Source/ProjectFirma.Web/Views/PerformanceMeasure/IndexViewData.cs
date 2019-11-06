@@ -39,10 +39,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
-            var currentPerson = currentFirmaSession.Person;
-
-            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentPerson) {
+            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentFirmaSession)
+            {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true

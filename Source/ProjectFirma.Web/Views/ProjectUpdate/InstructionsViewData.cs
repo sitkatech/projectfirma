@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectUpdateStatus projectUpdateStatus, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), "Instructions")
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
         }
     }
 }

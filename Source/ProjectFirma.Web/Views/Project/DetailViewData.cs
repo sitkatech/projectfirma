@@ -349,9 +349,9 @@ namespace ProjectFirma.Web.Views.Project
                 EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
                 SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(x => x.New(project)), 
                 project.ProjectName,
-                new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission,
+                new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission,
                 project.GetAllAttachmentRelationshipTypes().ToList(),
-                currentPerson);
+                currentFirmaSession);
         }
     }
 }

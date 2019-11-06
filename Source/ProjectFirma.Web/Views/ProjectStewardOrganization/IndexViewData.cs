@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
         {
             PageTitle = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}",

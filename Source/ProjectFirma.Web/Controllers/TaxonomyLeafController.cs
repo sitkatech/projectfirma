@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<TaxonomyLeaf> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyLeaf>(taxonomyLeafs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -134,10 +134,10 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
             var primaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
             var secondaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
@@ -285,7 +285,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
-            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentFirmaSession, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 

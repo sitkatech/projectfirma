@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EditStylesheetUrl = editStylesheetUrl;
             EditTenantLogoUrl = editTenantLogoUrl;
             PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
-            UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;
             DeleteTenantSquareLogoFileResourceUrl = deleteTenantSquareLogoFileResourceUrl;
             DeleteTenantBannerLogoFileResourceUrl = deleteTenantBannerLogoFileResourceUrl;

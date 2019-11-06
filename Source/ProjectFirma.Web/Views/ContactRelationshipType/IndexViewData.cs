@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 

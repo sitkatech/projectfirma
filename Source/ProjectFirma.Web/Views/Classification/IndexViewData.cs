@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Classification
         {
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
 
-            HasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             GridSpec = new IndexGridSpec(HasClassificationManagePermissions, classificationSystem)
             {
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,

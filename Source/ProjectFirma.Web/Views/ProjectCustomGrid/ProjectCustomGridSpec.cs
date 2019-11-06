@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         150, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
-                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentFirmaSession.Person);
+                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByFirmaSession(currentFirmaSession);
                     if (userHasEmailViewingPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
@@ -161,8 +161,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
     public ProjectCustomGridSpec(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
-            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)

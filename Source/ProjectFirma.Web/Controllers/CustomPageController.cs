@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
             }
-            new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
-            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
+            new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentFirmaSession, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
@@ -64,9 +64,9 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageViewListFeature]
         public GridJsonNetJObjectResult<CustomPage> IndexGridJsonData()
         {
-            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(CurrentPerson));
+            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(CurrentFirmaSession));
             var customPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
-                .Where(x => new CustomPageManageFeature().HasPermission(CurrentPerson, x).HasPermission)
+                .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession, x).HasPermission)
                 .OrderBy(x => x.CustomPageDisplayName)
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CustomPage>(customPages, gridSpec);

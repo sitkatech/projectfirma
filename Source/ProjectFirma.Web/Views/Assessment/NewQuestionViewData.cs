@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Assessment
         public NewQuestionViewData(FirmaSession currentFirmaSession, IEnumerable<SelectListItem> subGoalsGroup)
             : base(currentFirmaSession)
         {
-            HasEditPermissions = new AssessmentManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasEditPermissions = new AssessmentManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             SubGoalsGroup = subGoalsGroup;
         }
     }

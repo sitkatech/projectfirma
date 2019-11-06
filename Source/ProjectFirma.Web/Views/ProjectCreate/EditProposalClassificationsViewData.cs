@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ClassificationSystems = classificationSystems;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForClassification = FieldDefinitionEnum.Classification.ToType();
-            if (new SitkaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person))
+            if (new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ConfigureClassificationSystemsUrl = SitkaRoute<TenantController>.BuildUrlFromExpression(tc => tc.Detail());
             }

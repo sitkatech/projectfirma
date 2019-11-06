@@ -40,14 +40,14 @@ namespace ProjectFirma.Web.Views.CustomPage
         {
             PageTitle = "Manage Custom About Pages";
 
-            GridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(currentFirmaSession.Person))
+            GridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ObjectNameSingular = "About Page",
                 ObjectNamePlural = "About Pages",
                 SaveFiltersInCookie = true
             };
 
-            var hasCustomPageManagePermissions = new CustomPageManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            var hasCustomPageManagePermissions = new CustomPageManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             GridName = "customPagesGrid";
             GridDataUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
             CustomPageUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(x => x.CustomPageDetails(UrlTemplate.Parameter1Int));

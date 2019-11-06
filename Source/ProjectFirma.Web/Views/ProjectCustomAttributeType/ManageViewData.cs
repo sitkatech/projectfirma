@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
             EditSortOrderUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.EditSortOrder());
             
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
         

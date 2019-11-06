@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         {
             PageTitle = $"Manage Attachment Relationship Types";
 
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             AttachmentRelationshipTypeGridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 

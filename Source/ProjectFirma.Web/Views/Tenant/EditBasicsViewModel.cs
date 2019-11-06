@@ -185,6 +185,7 @@ namespace ProjectFirma.Web.Views.Tenant
             if (PrimaryContactPersonID != null)
             {
                 var primaryContact = HttpRequestStorage.DatabaseEntities.People.GetPerson(PrimaryContactPersonID.Value);
+                /// MMM???
                 if (!new FirmaAdminFeature().HasPermissionByPerson(primaryContact))
                 {
                     errors.Add(new SitkaValidationResult<EditBasicsViewModel, int?>($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} must be an admin.", m => m.PrimaryContactPersonID));

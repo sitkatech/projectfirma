@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             PageTitle = projectCustomAttributeType.ProjectCustomAttributeTypeName;
             ManageUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 
-            UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ProjectTypeGridName = "projectTypeGridForAttribute";
             ProjectTypeGridDataUrl = "#";

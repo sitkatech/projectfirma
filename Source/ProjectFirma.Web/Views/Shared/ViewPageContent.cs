@@ -14,9 +14,9 @@ namespace ProjectFirma.Web.Views.Shared
             html.RenderRazorSitkaPartial<ViewPageContent, ViewPageContentViewData>(viewData);
         }
 
-        public static void RenderPartialView(HtmlHelper<object> html, GeospatialAreaType geospatialAreaType, Person currentPerson)
+        public static void RenderPartialView(HtmlHelper<object> html, GeospatialAreaType geospatialAreaType, FirmaSession firmaSession)
         {
-            html.RenderRazorSitkaPartial<ViewPageContent, ViewPageContentViewData>(new ViewPageContentViewData(geospatialAreaType, currentPerson));
+            html.RenderRazorSitkaPartial<ViewPageContent, ViewPageContentViewData>(new ViewPageContentViewData(geospatialAreaType, firmaSession));
         }
     }
 }

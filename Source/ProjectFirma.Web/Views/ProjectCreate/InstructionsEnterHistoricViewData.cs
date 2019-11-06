@@ -37,13 +37,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public InstructionsEnterHistoricViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentFirmaSession, "Instructions", SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null)))
         {
             PageTitle = $"Add {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
 
         public InstructionsEnterHistoricViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus, ProjectFirmaModels.Models.FirmaPage firmaPage, bool isNewProjectCreate) : base(currentFirmaSession, project, "Instructions", proposalSectionsStatus)
         {
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
             IsNewProjectCreate = isNewProjectCreate;
         }
     }

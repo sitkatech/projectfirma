@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             GridName = "projectCustomAttributeGroupGrid";
             GridDataUrl = SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(c => c.ProjectCustomAttributeGroupGridJsonData());
 
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             EditSortOrderUrl = SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.EditSortOrder());
         }

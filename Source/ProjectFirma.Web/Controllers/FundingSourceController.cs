@@ -166,7 +166,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
 
-            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession));
             var projectCustomAttributeTypesViewData = new DisplayFundingSourceCustomAttributesViewData(
                 fundingSourceCustomAttributeTypes.ToList(),
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));

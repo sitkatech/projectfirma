@@ -49,8 +49,8 @@ namespace ProjectFirma.Web.Views.Organization
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
-            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person, hasOrganizationManagePermissions)
+            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            GridSpec = new IndexGridSpec(currentFirmaSession, hasOrganizationManagePermissions)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Organization
             GridDataUrl = gridDataUrl;
 
             PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
-            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             HasOrganizationManagePermissions = hasOrganizationManagePermissions;
             NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
 

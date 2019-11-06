@@ -53,13 +53,13 @@ namespace ProjectFirma.Web.Views.Home
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
             Check.EnsureNotNull(firmaPageHomePage, "firmaPageHomePage not found; is one defined?");
-            bool hasPermissionToManageHomePage = new FirmaPageManageFeature().HasPermission(firmaSession.Person, firmaPageHomePage).HasPermission;
+            bool hasPermissionToManageHomePage = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageHomePage).HasPermission;
 
             Check.EnsureNotNull(firmaPageAdditionalInfo, "firmaPageAdditionalInfo not found; is one defined?");
-            bool hasPermissionToManageAdditionalInfo = new FirmaPageManageFeature().HasPermission(firmaSession.Person, firmaPageAdditionalInfo).HasPermission;
+            bool hasPermissionToManageAdditionalInfo = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageAdditionalInfo).HasPermission;
 
             Check.EnsureNotNull(firmaPageMapInfo, "firmaPageMapInfo not found; is one defined?");
-            bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(firmaSession.Person, firmaPageMapInfo).HasPermission;
+            bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageMapInfo).HasPermission;
 
             CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, hasPermissionToManageHomePage);
             CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, hasPermissionToManageAdditionalInfo);

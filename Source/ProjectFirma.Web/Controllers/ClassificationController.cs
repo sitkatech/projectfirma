@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);
+            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession), classificationSystem);
             var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }

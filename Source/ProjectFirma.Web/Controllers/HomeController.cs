@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ViewPageContent(FirmaPageTypeEnum firmaPageTypeEnum)
         {
             var firmaPage = firmaPageTypeEnum.GetFirmaPage();
-            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentPerson, firmaPage).HasPermission;
+            var hasPermission = new FirmaPageManageFeature().HasPermission(CurrentFirmaSession, firmaPage).HasPermission;
             var viewData = new DisplayPageContentViewData(CurrentFirmaSession, firmaPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
@@ -109,7 +109,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageHomePageImages()
         {
-            var canAddPhotos = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var canAddPhotos = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var firmaHomePageImages = HttpRequestStorage.DatabaseEntities.FirmaHomePageImages.ToList().Select(x => new FileResourcePhoto(x)).ToList();
             var addNewPhotoUrl = SitkaRoute<FirmaHomePageImageController>.BuildUrlFromExpression(x => x.New());
             var imageGalleryViewData = new ImageGalleryViewData(CurrentFirmaSession,
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ReleaseNotes()
         {
             var releaseNotes = HttpRequestStorage.DatabaseEntities.ReleaseNotes.OrderByDescending(rn => rn.CreateDate).ToList();
-            var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var userHasEditReleaseNotePermission = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var viewData = new ReleaseNotesViewData(CurrentFirmaSession, releaseNotes, SitkaRoute<ReleaseNoteController>.BuildUrlFromExpression(x => x.New()), "Release Notes", userHasEditReleaseNotePermission);
             return RazorView<ReleaseNotes, ReleaseNotesViewData>(viewData);
         }

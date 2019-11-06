@@ -109,10 +109,11 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(
             this GeospatialArea geospatialArea,
-            PerformanceMeasure performanceMeasure, Person currentPerson)
+            PerformanceMeasure performanceMeasure, 
+            FirmaSession currentFirmaSession)
         {
-            var projects = geospatialArea.GetAssociatedProjects(currentPerson);
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
+            var projects = geospatialArea.GetAssociatedProjects(currentFirmaSession.Person);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
         }
 
         public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, Person person)

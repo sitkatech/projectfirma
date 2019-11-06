@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         [ContactRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<ContactRelationshipType> ContactRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions);
             var contactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList().OrderBy(x => x.ContactRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ContactRelationshipType>(contactRelationshipTypes, gridSpec);

@@ -358,7 +358,7 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
             var configurePerformanceMeasuresUrl = string.Empty;
-            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession))
             {
                 configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
             }
@@ -1158,7 +1158,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditAttachmentsAndNotes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
@@ -1169,7 +1169,7 @@ namespace ProjectFirma.Web.Controllers
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
                                                                                         canEditAttachmentsAndNotes,
                                                                                         attachmentRelationshipTypes,
-                                                                                        CurrentPerson);
+                                                                                        CurrentFirmaSession);
             var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
             return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);
         }

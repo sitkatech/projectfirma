@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             var taxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyLeafDisplayNamePluralized;
 
-            var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var taxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = taxonomyLeafDisplayName,
                 ObjectNamePlural = taxonomyLeafDisplayNamePluralized,

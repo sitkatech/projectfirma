@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Controllers
         [AttachmentRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<AttachmentRelationshipType> AttachmentRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions);
             var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList().OrderBy(x => x.AttachmentRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AttachmentRelationshipType>(attachmentRelationshipTypes, gridSpec);

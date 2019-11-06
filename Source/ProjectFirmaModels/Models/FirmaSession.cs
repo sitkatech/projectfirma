@@ -54,6 +54,16 @@ namespace ProjectFirmaModels.Models
             return IsAnonymousUser() || Person.Role == Role.Unassigned;
         }
 
+        public bool IsSitkaAdministrator()
+        {
+            return this.Person != null && Person.Role == Role.SitkaAdmin;
+        }
+
+        public bool IsAdministrator()
+        {
+            return this.Person != null && (Person.Role == Role.Admin || IsSitkaAdministrator());
+        }
+
         public string GetFullNameFirstLast()
         {
             if (this.Person == null)

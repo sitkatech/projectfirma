@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         [TaxonomyTrunkViewFeature]
         public GridJsonNetJObjectResult<TaxonomyTrunk> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTrunk>(taxonomyTrunks, gridSpec);
             return gridJsonNetJObjectResult;
@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Controllers
             if (canHaveAssociatedPerformanceMeasures)
             {
                 performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x =>
-                    new PerformanceMeasureChartViewData(x.Key, CurrentPerson, false, new List<Project>())).ToList();
+                    new PerformanceMeasureChartViewData(x.Key, CurrentFirmaSession, false, new List<Project>())).ToList();
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();

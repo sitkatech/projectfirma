@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationAndRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<OrganizationType> OrganizationTypeGridJsonData()
         {
-            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new OrganizationTypeGridSpec(hasManagePermissions);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().OrderBy(x => x.OrganizationTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<OrganizationType>(organizationTypes, gridSpec);
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationAndRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<OrganizationRelationshipType> OrganizationRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new OrganizationRelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList());
             var organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList().OrderBy(x => x.OrganizationRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<OrganizationRelationshipType>(organizationRelationshipTypes, gridSpec);

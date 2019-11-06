@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.MyOrganizationProjectsCustomGridDefaultJsonData());
 
             ProposalsGridName = "myOrganizationsProposalsGrid";
-            ProposalsGridSpec = new ProposalsGridSpec(currentPerson)
+            ProposalsGridSpec = new ProposalsGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{organizationNamePossessive} {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}",

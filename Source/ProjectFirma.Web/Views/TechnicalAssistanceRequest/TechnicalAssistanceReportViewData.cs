@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         public string TechnicalAssistanceReportGridDataUrl { get; }
         public TechnicalAssistanceReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            TechnicalAssistanceReportGridSpec = new TechnicalAssistanceReportGridSpec(currentFirmaSession.Person, new List<TechnicalAssistanceParameter>());
+            TechnicalAssistanceReportGridSpec = new TechnicalAssistanceReportGridSpec(currentFirmaSession, new List<TechnicalAssistanceParameter>());
             TechnicalAssistanceReportGridDataUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.TechnicalAssistanceReportGridJsonData());
         }
     }

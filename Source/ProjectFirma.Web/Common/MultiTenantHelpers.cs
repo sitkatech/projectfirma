@@ -274,9 +274,9 @@ namespace ProjectFirma.Web.Common
             return HttpRequestStorage.Tenant.UsesTechnicalAssistanceParameters;
         }
 
-        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, Person currentPerson, string menuGroupName)
+        public static void AddTechnicalAssistanceParametersMenuItem(LtInfoMenuItem manageMenu, FirmaSession currentFirmaSession, string menuGroupName)
         {
-            if (UsesTechnicalAssistanceParameters() && new FirmaAdminFeature().HasPermission(currentPerson).HasPermission)
+            if (UsesTechnicalAssistanceParameters() && new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem("Technical Assistance Parameters",
                     ModalDialogFormHelper.ModalDialogFormLink("Technical Assistance Parameters",
@@ -286,11 +286,11 @@ namespace ProjectFirma.Web.Common
             }
         }
 
-        public static void AddTechnicalAssistanceReportMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
+        public static void AddTechnicalAssistanceReportMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
         {
-            if (UsesTechnicalAssistanceParameters() && new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(currentPerson))
+            if (UsesTechnicalAssistanceParameters() && new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TechnicalAssistanceRequestController>(c => c.TechnicalAssistanceReport()), currentPerson, "Technical Assistance Report"));
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TechnicalAssistanceRequestController>(c => c.TechnicalAssistanceReport()), currentFirmaSession, "Technical Assistance Report"));
             }
         }
 
@@ -300,11 +300,11 @@ namespace ProjectFirma.Web.Common
             return currentPerson != null && currentPerson.Tenant == Tenant.ActionAgendaForPugetSound;
         }
 
-        public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, Person currentPerson)
+        public static void AddFundingStatusMenuItem(LtInfoMenuItem resultsMenu, FirmaSession currentFirmaSession)
         {
-            if (UsesCustomResultsPages(currentPerson))
+            if (UsesCustomResultsPages(currentFirmaSession.Person))
             {
-                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentPerson, "Funding Status"));
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.FundingStatus()), currentFirmaSession, "Funding Status"));
             }
         }
 

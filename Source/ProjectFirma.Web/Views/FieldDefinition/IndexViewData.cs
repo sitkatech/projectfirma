@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         {
             PageTitle = "Manage Field Definitions";
 
-            GridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByPerson(currentFirmaSession.Person))
+            GridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ObjectNameSingular = "Field Definition",
                 ObjectNamePlural = "Field Definitions",

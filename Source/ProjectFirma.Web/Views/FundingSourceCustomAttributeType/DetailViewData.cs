@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
             PageTitle = fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName;
             ManageUrl = SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 
-            UserHasFundingSourceCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasFundingSourceCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ProjectTypeGridName = "fundingSourceTypeGridForAttribute";
             ProjectTypeGridDataUrl = "#";

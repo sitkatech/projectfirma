@@ -16,12 +16,12 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Person contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Person contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person currentUser, Person personToImpersonate)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Person personToImpersonate)
         {
             if (personToImpersonate == null)
             {
@@ -30,14 +30,14 @@ namespace ProjectFirma.Web.Security
             }
 
 #pragma warning disable 612
-            bool userHasAppropriateRole = HasPermissionByPerson(currentUser);
+            bool userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);
 #pragma warning restore 612
             if (!userHasAppropriateRole)
             {
                 return new PermissionCheckResult("You can't impersonate users. If you aren't logged in, do that and try again.");
             }
 
-            bool userViewingOwnPage = currentUser.PersonID == personToImpersonate.PersonID;
+            bool userViewingOwnPage = firmaSession.Person.PersonID == personToImpersonate.PersonID;
             if (userViewingOwnPage)
             {
                 return new PermissionCheckResult("You can't impersonate yourself.");
@@ -47,17 +47,17 @@ namespace ProjectFirma.Web.Security
             return new PermissionCheckResult();
         }
 
-        //This should only ever be called by HasPermission
-        [Obsolete]
-        public new bool HasPermissionByPerson(Person person)
-        {
-            return base.HasPermissionByPerson(person);
-        }
+        ////This should only ever be called by HasPermission
+        //[Obsolete]
+        //public new bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        //{
+        //    return base.HasPermissionByPerson(person);
+        //}
 
         public new bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
-            bool currentEffectiveUserHasRole = firmaSession.Person != null && base.HasPermissionByPerson(firmaSession.Person);
-            bool isImpersonatingAndOriginalUserHasRole = firmaSession.IsImpersonating() && base.HasPermissionByPerson(firmaSession.OriginalPerson);
+            bool currentEffectiveUserHasRole = firmaSession.Person != null && base.HasPermissionByFirmaSession(firmaSession);
+            bool isImpersonatingAndOriginalUserHasRole = firmaSession.IsImpersonating() && base.HasPermissionByFirmaSession(firmaSession);
 
             // Impersonation allowed if:
             //

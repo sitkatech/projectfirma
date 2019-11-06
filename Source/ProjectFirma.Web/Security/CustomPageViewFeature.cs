@@ -35,15 +35,15 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, CustomPage contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, CustomPage contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, CustomPage contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, CustomPage contextModelObject)
         {
             var isVisible = contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Public ||
-                            (!person.IsAnonymousUser() &&
+                            (!firmaSession.IsAnonymousUser() &&
                              contextModelObject.CustomPageDisplayType == CustomPageDisplayType.Protected);
             if (isVisible)
             {

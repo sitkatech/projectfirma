@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
-            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentFirmaSession.Person, project).HasPermission;
+            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
 
             Project = project;
             ProposalSectionsStatus = proposalSectionsStatus;
@@ -137,8 +137,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             EntityName = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
-            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(currentFirmaSession.Person);
-            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession.Person, project).HasPermission;
+            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             CurrentSectionDisplayName = currentSectionDisplayName;
         }

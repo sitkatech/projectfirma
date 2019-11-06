@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             // only let them sort tier two taxonomy if that's the highest level.
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
-            HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
 
             var taxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = taxonomyBranchDisplayName,
                 ObjectNamePlural = taxonomyBranchDisplayNamePluralized,

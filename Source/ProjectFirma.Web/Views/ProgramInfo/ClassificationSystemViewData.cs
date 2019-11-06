@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProgramInfo
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
             Classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             ClassificationSystem = classificationSystem;
-            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentFirmaSession.Person, null).HasPermission;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentFirmaSession, null).HasPermission;
             EditPageContentUrl = SitkaRoute<ClassificationSystemController>.BuildUrlFromExpression(t => t.EditInDialog(classificationSystem));
         }
     }

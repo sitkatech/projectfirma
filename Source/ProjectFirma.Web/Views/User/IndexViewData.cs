@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.User
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());
-            UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;
             ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";

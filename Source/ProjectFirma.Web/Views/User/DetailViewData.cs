@@ -69,11 +69,11 @@ namespace ProjectFirma.Web.Views.User
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
 
             // And again, here we should take Current FirmaSession, not the person. -- SLG & SG
-            UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentFirmaSession.Person, personToView).HasPermission;
-            UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByPerson(currentFirmaSession.Person);
-            UserHasViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
+            UserHasPersonManagePermissions = new UserEditFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            UserHasViewEverythingPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            CurrentPersonCanBeImpersonatedByCurrentUser = new FirmaImpersonateUserFeature().HasPermission(currentFirmaSession.Person, personToView).HasPermission;
+            CurrentPersonCanBeImpersonatedByCurrentUser = new FirmaImpersonateUserFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
 
             IsViewingSelf = currentFirmaSession.Person != null && currentFirmaSession.Person.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions

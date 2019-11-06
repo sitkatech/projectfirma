@@ -36,13 +36,14 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
+            var person = firmaSession.Person;
             var isProposal = contextModelObject.IsProposal();
             var isPending = contextModelObject.IsPendingProject();
             if (isProposal)
@@ -56,7 +57,7 @@ namespace ProjectFirma.Web.Security
                     $"You cannot edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is a Pending Project.");
             }
             bool isProjectStewardButCannotStewardThisProject = person != null && person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject);
-            bool doesNotHavePermissionByPerson = !HasPermissionByPerson(person);
+            bool doesNotHavePermissionByPerson = !HasPermissionByFirmaSession(firmaSession);
             var forbidAdmin = doesNotHavePermissionByPerson || isProjectStewardButCannotStewardThisProject;
             if (forbidAdmin)
             {

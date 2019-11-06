@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var persons = HttpRequestStorage.DatabaseEntities.People.Include(x => x.Organization)
                 .Include(x => x.OrganizationsWhereYouAreThePrimaryContactPerson).ToList().Where(x =>
-                    new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
+                    new UserViewFeature().HasPermission(CurrentFirmaSession, x).HasPermission);
             switch (usersStatusFilterType)
             {
                 case IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers:
@@ -183,7 +183,7 @@ namespace ProjectFirma.Web.Controllers
             var userNotificationGridDataUrl =
                 SitkaRoute<UserController>.BuildUrlFromExpression(
                     x => x.UserNotificationsGridJsonData(personPrimaryKey));
-            var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false)
+            var basicProjectInfoGridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentFirmaSession, false)
             {
                 ObjectNameSingular =
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} where {person.GetFullNameFirstLast()} is the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}",
@@ -212,7 +212,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
-            var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentPerson, false);
+            var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentFirmaSession, false);
             var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.GetDisplayName())
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);

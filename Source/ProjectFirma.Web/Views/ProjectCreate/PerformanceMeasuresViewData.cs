@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             
             IsImplementationStartYearValid = project.ImplementationStartYear.HasValue && project.ImplementationStartYear < project.CompletionYear;
             ReportingYearLabel = "Year";
-            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(currentFirmaSession.Person))
+            if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ConfigurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.Manage());
             }

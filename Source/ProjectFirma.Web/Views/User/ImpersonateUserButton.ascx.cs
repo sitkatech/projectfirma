@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.User
             ImpersonateUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(c => c.ImpersonateUser(PersonToImpersonate.PersonID));
 
             // Flawed - Won't work WHEN impersonating. ** FIX **
-            HasRightsToImpersonate = new FirmaImpersonateUserFeature().HasPermission(firmaSession.Person, personToImpersonate).HasPermission;
+            HasRightsToImpersonate = new FirmaImpersonateUserFeature().HasPermission(firmaSession, personToImpersonate).HasPermission;
 
             IsDifferentUserFromCurrentLoggedInUser = personToImpersonate.PersonID != firmaSession.PersonID;
             IsOriginalIdentityWhenImpersonating = personToImpersonate.PersonID == firmaSession.OriginalPersonID;

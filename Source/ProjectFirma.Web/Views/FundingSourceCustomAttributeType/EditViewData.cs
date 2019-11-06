@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
                 SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession.Person);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
             ViewDataForAngular = new EditViewDataForAngular(fundingSourceCustomAttributeDataTypes);
         }

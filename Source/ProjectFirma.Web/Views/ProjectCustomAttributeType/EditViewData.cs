@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession.Person);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
             ViewDataForAngular = new EditViewDataForAngular(projectCustomAttributeDataTypes);
         }

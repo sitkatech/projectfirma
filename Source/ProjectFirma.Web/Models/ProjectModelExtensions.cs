@@ -456,9 +456,9 @@ namespace ProjectFirma.Web.Models
                    && project.ProjectStage.IsStageIncludedInCostCalculations();
         }
 
-        public static bool IsEditableToThisPerson(this Project project, Person person)
+        public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession)
         {
-            return project.IsMyProject(person) || new ProjectApproveFeature().HasPermission(person, project).HasPermission;
+            return project.IsMyProject(firmaSession.Person) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());
@@ -495,9 +495,14 @@ namespace ProjectFirma.Web.Models
                 : new List<Project>();
         }
 
-        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
+        //public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
+        //{
+        //    return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
+        //}
+
+        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, FirmaSession firmaSesssion)
         {
-            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
+            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(firmaSesssion, x).HasPermission).ToList();
         }
 
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)

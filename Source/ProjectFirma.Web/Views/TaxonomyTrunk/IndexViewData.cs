@@ -44,11 +44,11 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             var taxonomyTrunkPluralized = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyTrunkPluralized;
 
-            HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelTrunk() || MultiTenantHelpers.IsTaxonomyLevelTrunk();
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
             var taxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
+            GridSpec = new IndexGridSpec(currentFirmaSession) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
 
             GridName = "taxonomyTrunksGrid";
             GridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());

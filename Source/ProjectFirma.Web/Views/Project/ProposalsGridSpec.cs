@@ -32,15 +32,15 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class ProposalsGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProposalsGridSpec(Person currentPerson)
+        public ProposalsGridSpec(FirmaSession firmaSession)
         {
             Add(string.Empty, x =>
             {
-                var userHasDeletePermission = new ProjectDeleteProposalFeature().HasPermission(currentPerson, x).HasPermission;
+                var userHasDeletePermission = new ProjectDeleteProposalFeature().HasPermission(firmaSession, x).HasPermission;
                 return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteProposalUrl(),
                         userHasDeletePermission, true);
             }, 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(), new ProjectCreateFeature().HasPermission(currentPerson, x).HasPermission), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsHyperlinkBootstrap(x.GetProjectCreateUrl(), new ProjectCreateFeature().HasPermission(firmaSession, x).HasPermission), 30, DhtmlxGridColumnFilterType.None);
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             Add("Submittal Status", a => a.ProjectApprovalStatus.ProjectApprovalStatusDisplayName, 110, DhtmlxGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())

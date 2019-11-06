@@ -92,12 +92,12 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             SecondaryProjectLocationsMapViewData = secondaryProjectLocationsMapViewData;
             ProjectMapFilteredUrl = PrimaryProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
-            UserHasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditTaxonomyLeafUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(c => c.Edit(taxonomyLeaf));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(x => x.Taxonomy());
 
             SecondaryBasicProjectInfoGridName = "secondaryLeafProjectListGrid";
-            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(currentFirmaSession.Person, true, taxonomyLeaf)
+            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(currentFirmaSession, true, taxonomyLeaf)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",

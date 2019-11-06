@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public FundingStatusViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.FirmaPage fundingStatusFooter, GoogleChartJson summaryGoogleChart, GoogleChartJson orgTypeGoogleChart) : base(currentFirmaSession, firmaPage)
         {
-            FundingStatusFooterViewPageContentViewData = new ViewPageContentViewData(fundingStatusFooter, currentFirmaSession.Person);
+            FundingStatusFooterViewPageContentViewData = new ViewPageContentViewData(fundingStatusFooter, currentFirmaSession);
             SummaryViewGoogleChartViewData = new ViewGoogleChartViewData(summaryGoogleChart, summaryGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             StatusByOwnerOrgTypeViewGoogleChartViewData = new ViewGoogleChartViewData(orgTypeGoogleChart, orgTypeGoogleChart.GoogleChartConfiguration.Title, 400, true);
         }

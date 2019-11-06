@@ -60,8 +60,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             FundingSource = fundingSource;
             PageTitle = fundingSource.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
-            UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(currentFirmaSession.Person, fundingSource).HasPermission;
-            UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
+            UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
 
             EditFundingSourceCustomAttributesUrl = SitkaRoute<FundingSourceCustomAttributesController>.BuildUrlFromExpression(c => c.EditFundingSourceCustomAttributesForFundingSource(fundingSource));

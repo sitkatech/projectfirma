@@ -29,8 +29,6 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Models;
-using Keystone.Common.OpenID;
-using Microsoft.Owin.Security;
 
 
 namespace ProjectFirma.Web.Security
@@ -93,6 +91,7 @@ namespace ProjectFirma.Web.Security
 
         public string FeatureName => GetType().Name;
 
+        // Hoping this can be eliminated in favor of HasPermissionByFirmaSession, but here for the moment.
         public virtual bool HasPermissionByPerson(Person person)
         {
             if (person == null)
@@ -107,23 +106,22 @@ namespace ProjectFirma.Web.Security
 
             if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
             {
-                return true; 
+                return true;
             }
 
             return _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
         }
 
         // Eventually, usages like this should replace HasPermissionByPerson throughout
-        public bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        public virtual bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
-            // Implemented using HasPermissionByPerson for now, but this can/should change
-            return HasPermissionByPerson(firmaSession.Person);
+            Person firmaSessionPerson = firmaSession.Person;
+            return HasPermissionByPerson(firmaSessionPerson);
         }
-
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            return HasPermissionByPerson(HttpRequestStorage.Person);
+            return HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
@@ -137,12 +135,12 @@ namespace ProjectFirma.Web.Security
             throw new SitkaRecordNotAuthorizedException($"You are not authorized for feature \"{FeatureName}\". Log out and log in as a different user or request additional permissions.");
         }
 
-        public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, Person currentPerson) where T : Controller
+        public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, FirmaSession currentFirmaSession) where T : Controller
         {
             var firmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
             Check.RequireNotNull(firmaFeatureLookupAttribute, $"Could not find feature for {sitkaRoute.BuildUrlFromExpression()}");
             // ReSharper disable PossibleNullReferenceException
-            return firmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
+            return firmaFeatureLookupAttribute.HasPermissionByFirmaSession(currentFirmaSession);
             // ReSharper restore PossibleNullReferenceException
         }
 

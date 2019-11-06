@@ -46,11 +46,11 @@ namespace ProjectFirma.Web.Views.Tag
             
             EditTagUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Edit(tag));
             ManageTagsUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Index());
-            UserHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            UserHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             BasicProjectInfoGridName = "tagProjectListGrid";
 
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession.Person, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this Tag",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this Tag",

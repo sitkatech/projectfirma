@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
                 SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession.Person);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
         }
 

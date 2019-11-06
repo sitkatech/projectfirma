@@ -121,11 +121,11 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
-            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -167,7 +167,7 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
             var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
-            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
+            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentFirmaSession, project, canViewNotes, technicalAssistanceParameters);
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
@@ -298,7 +298,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ImageGalleryViewData BuildImageGalleryViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var userCanAddPhotosToThisProject = new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession.Person, project).HasPermission;
+            var userCanAddPhotosToThisProject = new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission;
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
             var selectKeyImageUrl = userCanAddPhotosToThisProject
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewForwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
@@ -438,8 +438,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
-            var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -456,7 +456,7 @@ namespace ProjectFirma.Web.Controllers
         [PendingProjectsViewListFeature]
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
-            var gridSpec = new PendingGridSpec(CurrentPerson);
+            var gridSpec = new PendingGridSpec(CurrentFirmaSession);
             var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
             List<Project> filteredProposals;
             if (CurrentPerson.Role == Role.Normal)
@@ -486,7 +486,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetProposalsVisibleToUser(CurrentPerson),
+                    .GetProposalsVisibleToUser(CurrentFirmaSession),
                 FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized());
         }
 
@@ -827,10 +827,10 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> MyOrganizationsProposalsGridJsonData()
         {
-            var gridSpec = new ProposalsGridSpec(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
 
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetProposalsVisibleToUser(CurrentPerson)
+                .GetProposalsVisibleToUser(CurrentFirmaSession)
                 .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 
