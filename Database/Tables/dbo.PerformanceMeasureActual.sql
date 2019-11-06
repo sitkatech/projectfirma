@@ -7,9 +7,8 @@ CREATE TABLE [dbo].[PerformanceMeasureActual](
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
-	[CalendarYear] [int] NOT NULL,
 	[ActualValue] [float] NOT NULL,
-	[PerformanceMeasureReportingPeriodID] [int] NULL,
+	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureActual_PerformanceMeasureActualID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureActualID] ASC

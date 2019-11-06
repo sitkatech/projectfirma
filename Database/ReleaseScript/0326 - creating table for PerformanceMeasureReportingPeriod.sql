@@ -38,6 +38,7 @@ GO
 
 
 
+--Setup the regular performance measure actuals
 alter table dbo.PerformanceMeasureActual
 add [PerformanceMeasureReportingPeriodID] [int] NULL;
 go
@@ -47,78 +48,82 @@ REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReporti
 
 go
 
+insert into dbo.PerformanceMeasureReportingPeriod
+    SELECT 
+		pma.PerformanceMeasureID as PerformanceMeasureID,
+		pma.TenantID as TenantID,
+		pma.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
+		pma.CalendarYear as PerformanceMeasureReportingPeriodLabel,
+		null as TargetValue,
+		null as TargetValueDescription
+    FROM 
+		dbo.PerformanceMeasureActual as pma
+    group by pma.TenantID, pma.CalendarYear, pma.PerformanceMeasureID
+
+
+UPDATE
+	dbo.PerformanceMeasureActual
+SET
+	PerformanceMeasureReportingPeriodID = pmrp.PerformanceMeasureReportingPeriodID
+FROM
+	dbo.PerformanceMeasureReportingPeriod as pmrp
+	join dbo.PerformanceMeasureActual as pma on pmrp.TenantID = pma.TenantID and pmrp.PerformanceMeasureID = pma.PerformanceMeasureID and pmrp.PerformanceMeasureReportingPeriodCalendarYear = pma.CalendarYear
+
+
+alter table dbo.PerformanceMeasureActual
+drop column CalendarYear;
+go
+
+alter table dbo.PerformanceMeasureActual
+alter column [PerformanceMeasureReportingPeriodID] [int] NOT NULL;
+go
 
 
 
+--Setup the update performance measure actuals
+alter table dbo.PerformanceMeasureActualUpdate
+add [PerformanceMeasureReportingPeriodID] [int] NULL;
+go
 
---CREATE TABLE [dbo].[PerformanceMeasureActualSubcategoryOption](
---	[PerformanceMeasureActualSubcategoryOptionID] [int] IDENTITY(1,1) NOT NULL,
---	[PerformanceMeasureActualID] [int] NOT NULL,
---	[PerformanceMeasureSubcategoryOptionID] [int] NOT NULL,
---	[PerformanceMeasureID] [int] NOT NULL,
---	[PerformanceMeasureSubcategoryID] [int] NOT NULL,
---	[TenantID] [int] NOT NULL,
--- CONSTRAINT [PK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActualSubcategoryOptionID] PRIMARY KEY CLUSTERED 
---(
---	[PerformanceMeasureActualSubcategoryOptionID] ASC
---)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
---CONSTRAINT [AK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActualSubcategoryOptionID_TenantID] UNIQUE NONCLUSTERED 
---(
---	PerformanceMeasureActualSubcategoryOptionID ASC,
---	[TenantID] ASC
---)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
---) ON [PRIMARY]
---GO
+ALTER TABLE [dbo].PerformanceMeasureActualUpdate  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] FOREIGN KEY([PerformanceMeasureReportingPeriodID])
+REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReportingPeriodID])
+go
 
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID] FOREIGN KEY([PerformanceMeasureID])
---REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID])
---GO
+insert into dbo.PerformanceMeasureReportingPeriod
+    SELECT 
+		pmau.PerformanceMeasureID as PerformanceMeasureID,
+		pmau.TenantID as TenantID,
+		pmau.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
+		pmau.CalendarYear as PerformanceMeasureReportingPeriodLabel,
+		null as TargetValue,
+		null as TargetValueDescription
+    FROM 
+		dbo.PerformanceMeasureActualUpdate as pmau
+	where
+		NOT EXISTS (SELECT 
+						pmrp.PerformanceMeasureID,
+						pmrp.TenantID,
+						pmrp.PerformanceMeasureReportingPeriodCalendarYear,
+						pmrp.PerformanceMeasureReportingPeriodLabel
+					FROM dbo.PerformanceMeasureReportingPeriod as pmrp
+					WHERE pmrp.PerformanceMeasureID = pmau.PerformanceMeasureID and pmrp.TenantID = pmau.TenantID and pmrp.PerformanceMeasureReportingPeriodCalendarYear = pmau.CalendarYear
+					)
+    group by pmau.TenantID, pmau.CalendarYear, pmau.PerformanceMeasureID
 
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasure_PerformanceMeasureID]
---GO
 
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID] FOREIGN KEY([PerformanceMeasureActualID])
---REFERENCES [dbo].[PerformanceMeasureActual] ([PerformanceMeasureActualID])
---GO
+UPDATE
+	dbo.PerformanceMeasureActualUpdate
+SET
+	PerformanceMeasureReportingPeriodID = pmrp.PerformanceMeasureReportingPeriodID
+FROM
+	dbo.PerformanceMeasureReportingPeriod as pmrp
+	join dbo.PerformanceMeasureActualUpdate as pmau on pmrp.TenantID = pmau.TenantID and pmrp.PerformanceMeasureID = pmau.PerformanceMeasureID and pmrp.PerformanceMeasureReportingPeriodCalendarYear = pmau.CalendarYear
 
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActual_PerformanceMeasureActualID]
---GO
+alter table dbo.PerformanceMeasureActualUpdate
+drop column CalendarYear;
+go
 
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActualID_PerformanceMeasureID] FOREIGN KEY([PerformanceMeasureActualID], [PerformanceMeasureID])
---REFERENCES [dbo].[PerformanceMeasureActual] ([PerformanceMeasureActualID], [PerformanceMeasureID])
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureActualID_PerformanceMeasureID]
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID] FOREIGN KEY([PerformanceMeasureSubcategoryID])
---REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategoryID])
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID]
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryID_PerformanceMeasureID] FOREIGN KEY([PerformanceMeasureSubcategoryID], [PerformanceMeasureID])
---REFERENCES [dbo].[PerformanceMeasureSubcategory] ([PerformanceMeasureSubcategoryID], [PerformanceMeasureID])
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryID_PerformanceMeasureID]
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID] FOREIGN KEY([PerformanceMeasureSubcategoryOptionID])
---REFERENCES [dbo].[PerformanceMeasureSubcategoryOption] ([PerformanceMeasureSubcategoryOptionID])
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOption_PerformanceMeasureSubcategoryOptionID]
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOptionID_PerformanceMeasureSubcategoryID] FOREIGN KEY([PerformanceMeasureSubcategoryOptionID], [PerformanceMeasureSubcategoryID])
---REFERENCES [dbo].[PerformanceMeasureSubcategoryOption] ([PerformanceMeasureSubcategoryOptionID], [PerformanceMeasureSubcategoryID])
---GO
-
---ALTER TABLE [dbo].[PerformanceMeasureActualSubcategoryOption] CHECK CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_PerformanceMeasureSubcategoryOptionID_PerformanceMeasureSubcategoryID]
---GO
---ALTER TABLE [dbo].PerformanceMeasureActualSubcategoryOption  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualSubcategoryOption_Tenant_TenantID] FOREIGN KEY([TenantID])
---REFERENCES [dbo].[Tenant] ([TenantID])
---GO
+alter table dbo.PerformanceMeasureActualUpdate
+alter column [PerformanceMeasureReportingPeriodID] [int] NOT NULL;
+go
 

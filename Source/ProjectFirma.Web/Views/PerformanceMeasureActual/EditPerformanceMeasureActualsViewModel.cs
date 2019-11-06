@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 // Completely rebuild the list
                 foreach (var x in PerformanceMeasureActuals)
                 {
-                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.ProjectID.Value, x.PerformanceMeasureID.Value, x.CalendarYear.Value, x.ActualValue.Value);
+                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.ProjectID.Value, x.PerformanceMeasureID.Value, x.ActualValue.Value, x.PerformanceMeasureReportingPeriodID);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
                     if (x.PerformanceMeasureActualSubcategoryOptions != null)
                     {
@@ -134,13 +134,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 .ToList();
 
             var performanceMeasureActualsWithMissingDataDisplayNames = PerformanceMeasureActuals?.Where(x =>
-                    x.CalendarYear == null || x.ActualValue == null ||
+                    x.ActualValue == null ||
                     x.PerformanceMeasureActualSubcategoryOptions.Any(y =>
                         y.PerformanceMeasureSubcategoryOptionID == null))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
             var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
-                ?.Where(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value))
+                ?.Where(x => exemptYears.Contains(x.CalendarYear))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
             performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));

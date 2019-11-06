@@ -683,6 +683,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureExpected.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureExpectedSubcategoryOption.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureNote.cs" />
+    <Compile Include="UnitTestCommon\TestPerformanceMeasureReportingPeriod.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />

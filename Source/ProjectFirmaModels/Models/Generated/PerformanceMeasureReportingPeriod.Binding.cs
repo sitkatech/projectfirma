@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected PerformanceMeasureReportingPeriod()
         {
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
+            this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
         }
 
         /// <summary>
@@ -81,13 +82,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActuals.Any();
+            return PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(PerformanceMeasureActual).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name};
 
 
         /// <summary>
@@ -116,6 +117,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in PerformanceMeasureActualUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -130,6 +136,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return PerformanceMeasureReportingPeriodID; } set { PerformanceMeasureReportingPeriodID = value; } }
 
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
+        public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

@@ -535,5 +535,50 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(currentTechnicalAssistanceParameters, allTechnicalAssistanceParameters);
             return new ModalDialogFormJsonResult();
         }
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ActionResult EditPerformanceMeasureReportedValues(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new EditPerformanceMeasureTargetsViewModel(performanceMeasure);
+            return ViewEditPerformanceMeasureReportedValues(performanceMeasure, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditPerformanceMeasureReportedValues(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditPerformanceMeasureTargetsViewModel viewModel)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditPerformanceMeasureReportedValues(performanceMeasure, viewModel);
+            }
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
+            viewModel.UpdateModel(performanceMeasure, PerformanceMeasureReportedValue.MakeFromList(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals),
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.ToList(),
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList());
+            return new ModalDialogFormJsonResult();
+        }
+
+        private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
+        {
+            var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
+            var defaultReportingPeriodYear = performanceMeasure.PerformanceMeasureReportingPeriods.Any()
+                ? performanceMeasure.PerformanceMeasureReportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
+                : DateTime.Now.Year;
+            var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
+                defaultReportingPeriodYear,
+                performanceMeasureTargetValueTypes.ToDictionary(x => x.PerformanceMeasureTargetValueTypeName, x => x.PerformanceMeasureTargetValueTypeID));
+            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular, performanceMeasureTargetValueTypes);
+            return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>(viewData, viewModel);
+        }
+
+
+
     }
 }

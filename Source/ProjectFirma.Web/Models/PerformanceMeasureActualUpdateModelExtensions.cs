@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
                     performanceMeasureActualUpdates.AddRange(
                         currentPerformanceMeasureActuals.Select<PerformanceMeasureActual, PerformanceMeasureActualUpdate>(
                             performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual,
-                                performanceMeasureActual.CalendarYear, performanceMeasureActual.ActualValue)));
+                                performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear, performanceMeasureActual.ActualValue)));
                 }
                 // use expected values if any only if we are not in Planning/Design
                 else if (currentStage != ProjectStage.PlanningDesign)
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Models
                 // Completely rebuild the list
                 projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().ForEach(x =>
                 {
-                    var performanceMeasureActual = new PerformanceMeasureActual(project, x.PerformanceMeasure, x.CalendarYear, x.ActualValue ?? 0);
+                    var performanceMeasureActual = new PerformanceMeasureActual(project, x.PerformanceMeasure, x.ActualValue ?? 0, x.PerformanceMeasureReportingPeriod);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
                     var performanceMeasureActualSubcategoryOptionUpdates = x.PerformanceMeasureActualSubcategoryOptionUpdates.ToList();
                     if (performanceMeasureActualSubcategoryOptionUpdates.Any())
