@@ -653,7 +653,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static void AssertImpersonationAllowedByEnvironment()
         {
-            Check.RequireThrowNotAuthorized(MultiTenantHelpers.GetTenantAttribute().ImpersonationEnabled, $"Impersonation is not enabled for Tenant {HttpRequestStorage.Tenant.TenantName}");
+            Check.RequireThrowNotAuthorized(FirmaWebConfiguration.ImpersonationAllowedInEnvironment, $"Impersonation is not enabled for Tenant {HttpRequestStorage.Tenant.TenantName}");
         }
 
         public static void AssertFirmaSessionCanImpersonate(FirmaSession firmaSession)

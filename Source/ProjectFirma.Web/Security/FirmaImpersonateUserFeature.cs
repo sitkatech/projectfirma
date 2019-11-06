@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 
         public FirmaImpersonateUserFeature()
-            : base(new List<Role> {Role.Admin, Role.SitkaAdmin})
+            : base(new List<Role> {Role.SitkaAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

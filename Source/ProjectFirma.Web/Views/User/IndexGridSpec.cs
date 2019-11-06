@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.User
             }
 
             // Impersonate link
-            bool impersonationIsAllowed = MultiTenantHelpers.GetTenantAttribute().ImpersonationEnabled;
+            bool impersonationIsAllowed = FirmaWebConfiguration.ImpersonationAllowedInEnvironment;
             bool hasImpersonationPermission = new FirmaImpersonateUserFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (impersonationIsAllowed && hasImpersonationPermission)
             {

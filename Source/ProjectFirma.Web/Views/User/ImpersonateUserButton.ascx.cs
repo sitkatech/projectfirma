@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.User
             var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
 
             // Tenant configuration - is impersonation allowed.
-            ShouldShowButton = tenantAttributes.ImpersonationEnabled && HasRightsToImpersonate && PersonCanBeImpersonated && IsDifferentUserFromCurrentLoggedInUser;
+            ShouldShowButton = FirmaWebConfiguration.ImpersonationAllowedInEnvironment && HasRightsToImpersonate && PersonCanBeImpersonated && IsDifferentUserFromCurrentLoggedInUser;
         }
 
     }
