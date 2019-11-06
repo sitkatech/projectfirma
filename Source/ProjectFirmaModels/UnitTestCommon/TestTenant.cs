@@ -1,4 +1,5 @@
-﻿/*-----------------------------------------------------------------------
+﻿
+/*-----------------------------------------------------------------------
 <copyright file="TestPerson.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
@@ -25,31 +26,13 @@ namespace ProjectFirmaModels.UnitTestCommon
 {
     public static partial class TestFramework
     {
-        public static class TestPerson
+        public static class TestTenant
         {
-            public static Person Create()
+            public static Tenant Get()
             {
-                var organization = TestOrganization.Create();
-                var person = Person.CreateNewBlank(Role.Normal, organization);
-                person.Organization = organization;
-                person.Email = MakeTestEmail("email");
-                person.FirstName = MakeTestName("firstName", Person.FieldLengths.FirstName);
-                person.LastName = MakeTestName("lastName", Person.FieldLengths.LastName);
-                person.PasswordPdfK2SaltHash = null;
-
-                return person;
-            }
-
-            public static Person Create(Tenant tenant)
-            {
-                var person = Create();
-                person.TenantID = tenant.TenantID;
-                return person;
+                // For now, just always test on Sitka
+                return Tenant.SitkaTechnologyGroup;
             }
         }
-
-
-
-
     }
 }

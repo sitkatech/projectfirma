@@ -94,8 +94,8 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int FirmaSessionID { get; set; }
-        public Guid FirmaSessionGuid { get; set; }
         public int TenantID { get; set; }
+        public Guid FirmaSessionGuid { get; set; }
         public int? PersonID { get; set; }
         public int? OriginalPersonID { get; set; }
         public DateTime CreateDate { get; set; }

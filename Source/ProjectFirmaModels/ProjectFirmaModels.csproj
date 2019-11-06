@@ -688,6 +688,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureNote.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
+    <Compile Include="UnitTestCommon\TestTenant.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />
     <Compile Include="UnitTestCommon\TestProject.cs" />
     <Compile Include="UnitTestCommon\TestProjectClassification.cs" />

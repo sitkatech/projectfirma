@@ -16,8 +16,8 @@ namespace ProjectFirmaModels.Models
             ToTable("FirmaSession", schema);
             HasKey(x => x.FirmaSessionID);
             Property(x => x.FirmaSessionID).HasColumnName(@"FirmaSessionID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.FirmaSessionGuid).HasColumnName(@"FirmaSessionGuid").HasColumnType("uniqueidentifier").IsRequired();
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
+            Property(x => x.FirmaSessionGuid).HasColumnName(@"FirmaSessionGuid").HasColumnType("uniqueidentifier").IsRequired();
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsOptional();
             Property(x => x.OriginalPersonID).HasColumnName(@"OriginalPersonID").HasColumnType("int").IsOptional();
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();

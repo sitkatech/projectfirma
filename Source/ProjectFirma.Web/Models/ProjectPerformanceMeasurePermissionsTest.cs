@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Security;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.UnitTestCommon;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirmaModels.Models
@@ -330,7 +331,9 @@ namespace ProjectFirmaModels.Models
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
         {
             // Hack - fudge up a fake Session
-            var tmpFirmaSession = new FirmaSession(user);
+            var tmpFirmaSession = TestFirmaSession.Create();
+            // Normally we don't allow deliberate setting of null Person in constructor, so we need to work around this in test context.
+            tmpFirmaSession.Person = user;
             Assert.That(projectCheckingFeature.HasPermission(tmpFirmaSession, project).HasPermission == expectedPermission);
         }
 

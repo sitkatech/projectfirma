@@ -623,29 +623,6 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(activeController.CurrentPerson.TenantID);
         }
 
-        [FirmaImpersonateUserFeature]
-        [HttpPost]
-        public ActionResult RevertToOriginalUser()
-        {
-            /*
-            AssertImpersonationAllowedByEnvironment();
-            AssertFirmaSessionCanImpersonate(this.TaurusSession);
-            Check.Ensure(this.TaurusSession.IsImpersonating(), "This session is not impersonating any user currently.");
-
-            string statusMessage;
-            Uri previousPageUri = Request.UrlReferrer;
-            this.TaurusSession.ResumeOriginalUser(previousPageUri, out statusMessage);
-            this.TaurusSession.Save();
-
-            Context.AddMessage(statusMessage);
-            Logger.Info(statusMessage);
-
-            // Drop them on the home page
-            return RedirectToAction(new SitkaRoute<HomeController>(c => c.Index()));
-            */
-            throw new NotImplementedException();
-        }
-
         public static void AssertNotAttemptingToImpersonateSelf(FirmaSession firmaSession, int personIDToImpersonate)
         {
             Check.RequireThrowNotAuthorized(firmaSession.PersonID != personIDToImpersonate, $"User {firmaSession.UserDisplayName} is not allowed to impersonate themselves. (This should not have happened, and may indicate a coding error).");
