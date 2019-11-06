@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Security
             return base.HasPermissionByPerson(person);
         }
 
-        public bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        public new bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
             bool currentEffectiveUserHasRole = firmaSession.Person != null && base.HasPermissionByPerson(firmaSession.Person);
             bool isImpersonatingAndOriginalUserHasRole = firmaSession.IsImpersonating() && base.HasPermissionByPerson(firmaSession.OriginalPerson);

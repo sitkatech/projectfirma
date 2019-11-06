@@ -111,14 +111,12 @@ namespace ProjectFirmaModels.Models
 
             // Switch to the new user we want to impersonate
             Person = personToImpersonate;
-            impersonationStatusMessage =
-                $"Logon {OriginalPerson.GetFullNameFirstLast()}{currentImpersonationString} switching to impersonate Logon {personToImpersonate.GetFullNameFirstLast()}.{lastPageLinkHtml}";
+            impersonationStatusMessage = $"Logon {OriginalPerson.GetFullNameFirstLast()}{currentImpersonationString} switching to impersonate Logon {personToImpersonate.GetFullNameFirstLast()}.{lastPageLinkHtml}";
             //_logger.InfoFormat(impersonationStatusMessage);
 
             if (!personToImpersonate.IsActive)
             {
-                impersonationStatusWarning =
-                    $"Logon {personToImpersonate.GetFullNameFirstLast()} is inactive. Impersonation will allow you to act as this person, but be aware of potential issues due to the account being inactive.";
+                impersonationStatusWarning = $"Logon {personToImpersonate.GetFullNameFirstLast()} is inactive. Impersonation will allow you to act as this person, but be aware of potential issues due to the account being inactive.";
             }
         }
 

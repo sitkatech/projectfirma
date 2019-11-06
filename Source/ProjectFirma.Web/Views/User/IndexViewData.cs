@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.User
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Users";
-            GridSpec = new IndexGridSpec(currentFirmaSession.Person) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());

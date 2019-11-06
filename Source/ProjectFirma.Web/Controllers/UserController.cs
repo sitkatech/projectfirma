@@ -52,8 +52,7 @@ namespace ProjectFirma.Web.Controllers
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
                 IndexGridSpec.UsersStatusFilterTypeEnum.ActiveUsers;
-            return ViewIndex(
-                SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
+            return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
         [UserEditFeature]
@@ -82,10 +81,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [UserEditFeature]
-        public GridJsonNetJObjectResult<Person> IndexGridJsonData(
-            IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
+        public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var persons = HttpRequestStorage.DatabaseEntities.People.Include(x => x.Organization)
                 .Include(x => x.OrganizationsWhereYouAreThePrimaryContactPerson).ToList().Where(x =>
                     new UserViewFeature().HasPermission(CurrentPerson, x).HasPermission);
@@ -553,20 +551,12 @@ namespace ProjectFirma.Web.Controllers
             SitkaSmtpClient.Send(mailMessage);
         }
 
-
-
-
-
-
-
-
-
-
         #region Impersonation
         
         [FirmaImpersonateUserFeature]
         public ActionResult SinglePageImpersonateUser(PersonPrimaryKey personToImpersonate)
         {
+            return ImpersonateUser(personToImpersonate);
             /*
             AssertImpersonationAllowedByEnvironment();
             AssertFirmaSessionCanImpersonate(this.CurrentFirmaSession);
@@ -577,7 +567,7 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new SinglePageImpersonateUserViewModel();
             return View<SinglePageImpersonateUser, SinglePageImpersonateUserViewData, SinglePageImpersonateUserViewModel>(viewData, viewModel);
             */
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         [FirmaImpersonateUserFeature]
@@ -621,7 +611,7 @@ namespace ProjectFirma.Web.Controllers
             AssertPersonCanBeImpersonated(activeController.CurrentFirmaSession, personToImpersonate);
 
             activeController.CurrentFirmaSession.ImpersonateUser(personToImpersonate, optionalPreviousPageUri, out var statusMessage, out var statusWarning);
-            activeController.SetMessageForDisplay(statusMessage);
+            activeController.SetInfoForDisplay(statusMessage);
 
             // Warning is optional
             if (statusWarning != null)

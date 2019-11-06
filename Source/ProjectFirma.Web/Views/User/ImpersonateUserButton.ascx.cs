@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common;
 using LtInfo.Common.HtmlHelperExtensions;
@@ -90,12 +91,11 @@ namespace ProjectFirma.Web.Views.User
             return fullHtml;
         }
 
-        // RENAME this, is this the button, suitable for use on only one page?
-        public static string MakeImpersonateSinglePageHtmlLink(Person personToImpersonate)
+        public static HtmlString MakeImpersonateSinglePageHtmlLink(Person personToImpersonate)
         {
             if (personToImpersonate == null)
             {
-                return String.Empty;
+                return new HtmlString(String.Empty);
             }
 
             string theLinkUrl = ImpersonateUserSinglePageUrlTemplate.ParameterReplace(personToImpersonate.PersonID);
@@ -105,7 +105,7 @@ namespace ProjectFirma.Web.Views.User
             string linkHtml = String.Format(linkHtmlTemplate,  "user", personToImpersonate.GetFullNameFirstLast());
             // Controller is actually irrelevant here
             string theHref = SitkaRoute<UserController>.BuildLinkFromUrl(theLinkUrl, linkHtml, $"impersonate user {personToImpersonate.GetFullNameFirstLast()}");
-            return theHref;
+            return new HtmlString(theHref);
         }
     }
 }

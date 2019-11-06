@@ -113,6 +113,14 @@ namespace ProjectFirma.Web.Security
             return _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
         }
 
+        // Eventually, usages like this should replace HasPermissionByPerson throughout
+        public bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        {
+            // Implemented using HasPermissionByPerson for now, but this can/should change
+            return HasPermissionByPerson(firmaSession.Person);
+        }
+
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             return HasPermissionByPerson(HttpRequestStorage.Person);
