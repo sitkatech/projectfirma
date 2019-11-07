@@ -71,16 +71,22 @@ namespace ProjectFirma.Web.Security
 
         public virtual bool HasPermissionByPerson(Person person)
         {
+            // Inactive Tenants disallow anonymous traffic
             bool tenantIsActive = MultiTenantHelpers.GetTenantAttribute().IsActive;
             if (!tenantIsActive && person.IsAnonymousOrUnassigned())
             {
                 return false;
             }
-            if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
+
+            // AnonymousUnclassifiedFeatures allow anyone, always
+            if (!_grantedRoles.Any()) 
             {
                 return true; 
             }
-            return person != null && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+
+            // for a Role-limited feature, user must have matching Role
+            bool hasMatchingRole = person != null && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+            return hasMatchingRole;
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
