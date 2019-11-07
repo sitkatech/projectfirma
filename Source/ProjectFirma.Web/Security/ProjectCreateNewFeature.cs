@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Security
             }
 
             var person = firmaSession.Person;
-            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.IsPersonAProjectOwnerWhoCanStewardProjects());
+            return !(firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.IsPersonAProjectOwnerWhoCanStewardProjects());
         }
 
     }

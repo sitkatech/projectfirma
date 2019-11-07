@@ -50,9 +50,9 @@ namespace ProjectFirma.Web.Models
         public static bool HasEditPermission(this FundingSourceCustomAttributeType fundingSourceCustomAttributeType, FirmaSession currentFirmaSession)
         {
             return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles
-                       .Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType ==
+                       .Where(x => !currentFirmaSession.IsAnonymousUser() && x.FundingSourceCustomAttributeTypeRolePermissionType ==
                                    FundingSourceCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role)
-                       .Contains(currentFirmaSession.Person.Role) ||
+                       .Contains(currentFirmaSession.Role) ||
                    new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
@@ -61,9 +61,8 @@ namespace ProjectFirma.Web.Models
             return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles
                        .Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType ==
                                    FundingSourceCustomAttributeTypeRolePermissionType.View).Select(x => x.Role)
-                       .Contains(currentFirmaSession.Person.Role) ||
+                                   .Contains(currentFirmaSession.Role) ||
                    new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-
         }
     }
 }

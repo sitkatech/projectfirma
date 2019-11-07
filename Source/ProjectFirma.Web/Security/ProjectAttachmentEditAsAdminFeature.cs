@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Security
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectAttachment contextModelObject)
         {
             var person = firmaSession.Person;
-            var isProjectAttachmentStewardButCannotStewardThisProjectAttachment = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject.Project);
+            var isProjectAttachmentStewardButCannotStewardThisProjectAttachment = firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject.Project);
             var forbidAdmin = !HasPermissionByFirmaSession(firmaSession) || isProjectAttachmentStewardButCannotStewardThisProjectAttachment;
             if (forbidAdmin)
             {

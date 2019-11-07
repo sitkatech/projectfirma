@@ -8,6 +8,21 @@ namespace ProjectFirmaModels.Models
     {
         //protected static readonly ILog Logger = LogManager.GetLogger(typeof(SitkaHttpApplication));
 
+        public Role Role
+        {
+            get
+            {
+                if (Person == null)
+                {
+                    // Anonymous always has the Unassigned role
+                    return Role.Unassigned;
+                }
+
+                // Otherwise, we use the actual Person's role.
+                return this.Person.Role;
+            }
+        }
+
         /// <summary>
         /// Static constructor
         /// </summary>
@@ -54,17 +69,17 @@ namespace ProjectFirmaModels.Models
 
         public bool IsAnonymousOrUnassigned()
         {
-            return IsAnonymousUser() || Person.Role == Role.Unassigned;
+            return IsAnonymousUser() || this.Role == Role.Unassigned;
         }
 
         public bool IsSitkaAdministrator()
         {
-            return this.Person != null && Person.Role == Role.SitkaAdmin;
+            return this.Person != null && this.Role == Role.SitkaAdmin;
         }
 
         public bool IsAdministrator()
         {
-            return this.Person != null && (Person.Role == Role.Admin || IsSitkaAdministrator());
+            return this.Person != null && (this.Role == Role.Admin || IsSitkaAdministrator());
         }
 
         public string GetFullNameFirstLast()

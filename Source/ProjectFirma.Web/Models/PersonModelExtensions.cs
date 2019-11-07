@@ -94,7 +94,9 @@ namespace ProjectFirma.Web.Models
         }
 
         //public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
-        public static bool IsUnassigned(this Person person) => person!= null && person.Role == Role.Unassigned;
+
+        // The Anonymous (null) user has the Unassigned role
+        public static bool IsUnassigned(this Person person) => person == null || person.Role == Role.Unassigned;
 
         public static bool IsSitkaAdministrator(this Person person)
         {
@@ -155,6 +157,12 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsPersonAProjectOwnerWhoCanStewardProjects(this Person person)
         {
+            // If anonymous, definitely not Project owner or Steward
+            if (person == null)
+            {
+                return false;
+            }
+
             var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
             if (MultiTenantHelpers.GetProjectStewardshipAreaType() == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
             {

@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Project
             {
                 ProjectCustomFullGridSpec.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload()); // TODO:
             }
-            else if (currentFirmaSession.Person.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
+            else if (currentFirmaSession.Role.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
             {
                 ProjectCustomFullGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }

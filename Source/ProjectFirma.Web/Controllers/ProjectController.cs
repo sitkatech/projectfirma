@@ -459,7 +459,7 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new PendingGridSpec(CurrentFirmaSession);
             var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
             List<Project> filteredProposals;
-            if (CurrentPerson.Role == Role.Normal)
+            if (CurrentFirmaSession.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
                         x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))

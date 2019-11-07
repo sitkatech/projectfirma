@@ -35,11 +35,6 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        //public PermissionCheckResult HasPermission(FirmaSession firmaSession, Person contextModelObject)
-        //{
-        //    throw new NotImplementedException("Who is calling this?");
-        //}
-
         public void DemandPermission(FirmaSession firmaSession, Person contextModelObject)
         {
             _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
@@ -53,7 +48,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("The Person whose details you are requesting to see doesn't exist.");
             }
             var userHasEditPermission = new UserEditFeature().HasPermissionByFirmaSession(firmaSession);
-            var userViewingOwnPage = firmaSession.Person.PersonID == contextModelObject.PersonID;
+            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.Person.PersonID == contextModelObject.PersonID;
 
             #pragma warning disable 612
             var userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);
@@ -64,7 +59,7 @@ namespace ProjectFirma.Web.Security
             }
 
             //Only SitkaAdmin users should be able to see other SitkaAdmin users
-            if (firmaSession.Person.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
+            if (firmaSession.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
             {
                 return new PermissionCheckResult("You don't have permission to view this user.");
             }

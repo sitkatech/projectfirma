@@ -118,13 +118,13 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditRoles(PersonPrimaryKey personPrimaryKey, EditRolesViewModel viewModel)
         {
-            var person = personPrimaryKey.EntityObject;
+            var personBeingEdited = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewEditRoles(viewModel);
             }
 
-            viewModel.UpdateModel(person, CurrentFirmaSession);
+            viewModel.UpdateModel(personBeingEdited, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
