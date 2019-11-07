@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
             var mapDivID = $"geospatialArea_{geospatialArea.GeospatialAreaID}_Map";
 
-            var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentPerson);
+            var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentFirmaSession);
             var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(geospatialArea.GeospatialAreaFeature));
 

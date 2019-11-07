@@ -26,6 +26,7 @@ using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -58,9 +59,18 @@ namespace ProjectFirma.Web.Models
             return classification == null;
         }
 
-        public static List<Project> GetAssociatedProjects(this Classification classification, Person person)
+        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(
+            this Classification classification,
+            PerformanceMeasure performanceMeasure, 
+            FirmaSession currentFirmaSession)
         {
-            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals()).ToList();
+            var projects = classification.GetAssociatedProjects(currentFirmaSession);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
+        }
+
+        public static List<Project> GetAssociatedProjects(this Classification classification, FirmaSession currentFirmaSession)
+        {
+            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
         }
 
         public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResource != null

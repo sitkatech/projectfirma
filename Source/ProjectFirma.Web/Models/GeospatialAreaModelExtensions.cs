@@ -112,14 +112,14 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasure performanceMeasure, 
             FirmaSession currentFirmaSession)
         {
-            var projects = geospatialArea.GetAssociatedProjects(currentFirmaSession.Person);
+            var projects = geospatialArea.GetAssociatedProjects(currentFirmaSession);
             return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
         }
 
-        public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, Person person)
+        public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, FirmaSession currentFirmaSession)
         {
             return geospatialArea.ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList()
-                .GetActiveProjectsAndProposals(person.CanViewProposals());
+                .GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
         public static Feature MakeFeatureWithRelevantProperties(this GeospatialArea geospatialArea)
