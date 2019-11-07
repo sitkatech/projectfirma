@@ -36,6 +36,12 @@ Source code is available upon request via <support@sitkatech.com>.
     // ]]>
 </script>
 
+<style>
+    table.dialogFormLayout th, table.dialogFormLayout td {
+        background-color: #f1f1f1;
+    }
+</style>
+
 <div class="validationError">
     @Html.ValidationSummary()
 </div>
@@ -87,63 +93,67 @@ Source code is available upon request via <support@sitkatech.com>.
     <div>
         <label>3. Enter expenditures for each year and @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
     </div>
-    <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
-        <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
-        <label ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceExpenditure)" : "getFundingSourceName(projectFundingSourceExpenditure)")"></label>
+    @* Scroll container *@
+    <div style="overflow: auto;">
+        <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
+            <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
+            <label ng-bind="@(ViewDataTyped.FromFundingSource ? "getProjectName(projectFundingSourceExpenditure)" : "getFundingSourceName(projectFundingSourceExpenditure)")"></label>
 
-        <table class="table table-responsive table-condensed dialogFormLayout"
-               style="margin-bottom: 25px; display: block; overflow: auto; background-color: #f1f1f1">
-            <thead>
-            <tr>
-                <th></th>
-                <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
-                    <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
-                    <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                    <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
-                </th>
-                <th style="text-align: right">Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Amount:</td>
-                <td ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
-                    <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
-                </td>
-                <td style="text-align: right; font-weight: bold;">
-                    {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            <table class="table table-condensed dialogFormLayout"
+                   style="margin-bottom: 25px; display: block;">
+                <thead>
+                <tr style="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         background-color: #f1f1f1">
+                        <th></th>
+                        <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span ng-bind="formatCalendarYear(calendarYear)"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                        </th>
+                        <th style="text-align: right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Amount:</td>
+                        <td ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
+                            <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
+                        </td>
+                        <td style="text-align: right; font-weight: bold;">
+                            {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <div ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
-        <label>Total</label>
-        <table class="table table-responsive table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
-                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
-                        <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                        <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
-                    </th>
-                    <th style="text-align: right">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr style="font-weight: bold;">
-                    <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
-                    <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
-                        {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
-                    </td>
-                    <td style="text-align: right">
-                        {{getExpenditureTotalForCalendarYear() | currency:"$"}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
+            <label>Total</label>
+            <table class="table table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span ng-bind="formatCalendarYear(calendarYear)"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                        </th>
+                        <th style="text-align: right">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="font-weight: bold;">
+                        <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
+                        <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
+                            {{getExpenditureTotalForCalendarYear(calendarYear) | currency:"$"}}
+                        </td>
+                        <td style="text-align: right">
+                            {{getExpenditureTotalForCalendarYear() | currency:"$"}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     @using (Html.BeginForm())

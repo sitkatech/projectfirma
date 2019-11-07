@@ -35,7 +35,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     };
 
     $scope.getCalendarYearRange = function () {
-        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange)).reverse();
+        return _.sortBy(_.union($scope.getAllUsedCalendarYears(), $scope.AngularViewData.CalendarYearRange));
     };
 
     $scope.getAllUsedFundingSourceIds = function () {
@@ -155,7 +155,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     $scope.createNewCalendarYearExpenditureRow = function (calendarYear) {
         return {
             CalendarYear: calendarYear,
-            MonetaryAmount: null
+            MonetaryAmount: 0
         };
     };
 

@@ -1,5 +1,6 @@
 
 -- Insert zeros for year that are currently ProjectExemptReportingYears
+/*  Don't want to insert zeros so we can tell which Projects have not reported andy expenditures based on presence/absence of expenditure records
 insert into ProjectFundingSourceExpenditure
 select pery.TenantID,
 	pery.ProjectID,
@@ -34,6 +35,7 @@ join (
 ) as pfseu on peryu.TenantID = pfseu.TenantID and peryu.ProjectUpdateBatchID = pfseu.ProjectUpdateBatchID
 where ProjectExemptReportingTypeID = 2
 go
+*/
 
 
 -- Delete all examples of ProjectExemptReportingYears for Expenditures
