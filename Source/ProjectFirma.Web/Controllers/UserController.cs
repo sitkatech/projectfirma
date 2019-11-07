@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditRoles(viewModel);
             }
 
-            viewModel.UpdateModel(person, CurrentPerson);
+            viewModel.UpdateModel(person, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var goal = assessmentGoalPrimaryKey.EntityObject;
-            viewModel.UpdateModel(goal, CurrentPerson);
+            viewModel.UpdateModel(goal, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditSubGoal(viewModel);
             }
             var subGoal = assessmentSubGoalPrimaryKey.EntityObject;
-            viewModel.UpdateModel(subGoal, CurrentPerson);
+            viewModel.UpdateModel(subGoal, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditQuestion(viewModel);
             }
             var question = assessmentQuestionPrimaryKey.EntityObject;
-            viewModel.UpdateModel(question, CurrentPerson);
+            viewModel.UpdateModel(question, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewQuestion(viewModel);
             }
             var question = new AssessmentQuestion(viewModel.AssessmentSubGoalID, viewModel.AssessmentQuestionText);
-            viewModel.UpdateModel(question, CurrentPerson);
+            viewModel.UpdateModel(question, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllAssessmentQuestions.Add(question);
             return new ModalDialogFormJsonResult();
         }

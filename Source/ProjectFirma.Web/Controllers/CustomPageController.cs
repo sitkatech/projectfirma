@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

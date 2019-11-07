@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var projectCustomAttributeGroup = ProjectCustomAttributeGroup.CreateNewBlank();
-            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentFirmaSession);
 
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeGroups.Add(projectCustomAttributeGroup);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, projectCustomAttributeGroup);
             }
-            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }

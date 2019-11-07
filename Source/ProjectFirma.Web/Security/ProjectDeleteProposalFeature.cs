@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return contextModelObject.IsMyProject(firmaSession.Person) && (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Draft || contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
+            return contextModelObject.IsMyProject(firmaSession) && (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Draft || contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
                 ? new PermissionCheckResult()
                 : new PermissionCheckResult(permissionDeniedMessage);
         }

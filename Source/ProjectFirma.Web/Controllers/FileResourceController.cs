@@ -169,7 +169,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResource(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForFirmaPage(FirmaPagePrimaryKey firmaPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var firmaPage = firmaPagePrimaryKey.EntityObject;
             var ppImage = new FirmaPageImage(firmaPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllFirmaPageImages.Add(ppImage);
@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
         [FieldDefinitionManageFeature]
         public ContentResult CkEditorUploadFileResourceForFieldDefinition(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
             var image = new FieldDefinitionDataImage(fieldDefinition.GetFieldDefinitionData().FieldDefinitionDataID, fileResource.FileResourceID);
             HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDataImages.Add(image);
@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Controllers
         [CustomPageManageFeature]
         public ContentResult CkEditorUploadFileResourceForCustomPage(CustomPagePrimaryKey customPagePrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var customPage = customPagePrimaryKey.EntityObject;
             var ppImage = new CustomPageImage(customPage, fileResource);
             HttpRequestStorage.DatabaseEntities.AllCustomPageImages.Add(ppImage);
@@ -290,7 +290,7 @@ namespace ProjectFirma.Web.Controllers
         [GeospatialAreaManageFeature]
         public ContentResult CkEditorUploadFileResourceForGeospatialAreaDescription(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, CkEditorImageUploadViewModel viewModel)
         {
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.upload, CurrentFirmaSession);
             var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
             var ppImage = new GeospatialAreaImage(geospatialArea, fileResource);
             HttpRequestStorage.DatabaseEntities.AllGeospatialAreaImages.Add(ppImage);

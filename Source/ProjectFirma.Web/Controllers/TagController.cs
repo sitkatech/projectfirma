@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var tag = new Tag(string.Empty);
-            viewModel.UpdateModel(tag, CurrentPerson);
+            viewModel.UpdateModel(tag, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Tag {tag.GetDisplayNameAsUrl()} successfully created.");
@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var tag = tagPrimaryKey.EntityObject;
-            viewModel.UpdateModel(tag, CurrentPerson);
+            viewModel.UpdateModel(tag, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(tag.TagName)));
         }
 

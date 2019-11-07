@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var releaseNote = new ReleaseNote(String.Empty, CurrentPerson.PersonID, default(DateTime));
-            viewModel.UpdateModel(releaseNote, CurrentPerson);
+            viewModel.UpdateModel(releaseNote, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.ReleaseNotes.Add(releaseNote);
             return new ModalDialogFormJsonResult();
         }
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var releaseNote = releaseNotePrimaryKey.EntityObject;
-            viewModel.UpdateModel(releaseNote, CurrentPerson);
+            viewModel.UpdateModel(releaseNote, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

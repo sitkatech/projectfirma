@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey = viewModel.ProjectCustomAttributeGroupID;
             var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
             var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false, false, projectCustomAttributeGroup);
-            viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeType, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectCustomAttributeType.ProjectCustomAttributeTypeName} successfully created.");
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, projectCustomAttributeType);
             }
-            viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeType, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }

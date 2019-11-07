@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel, project);
             }
             
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
 
             SetMessageForDisplay($"Successfully created new document \"{viewModel.DisplayName}\" for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{project.ProjectName}\".");
 

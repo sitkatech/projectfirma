@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyLeaf = new TaxonomyLeaf(viewModel.TaxonomyBranchID, string.Empty);
-            viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
+            viewModel.UpdateModel(taxonomyLeaf, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Add(taxonomyLeaf);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.GetDisplayName());
             }
 
-            viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
+            viewModel.UpdateModel(taxonomyLeaf, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

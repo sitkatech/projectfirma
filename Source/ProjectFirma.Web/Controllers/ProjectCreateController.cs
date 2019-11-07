@@ -231,7 +231,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now)
             {
-                ProposingPerson = CurrentPerson,
+                ProposingPerson = CurrentFirmaSession.Person,
                 ProposingDate = now
             };
 
@@ -298,7 +298,7 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             }
 
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
 
             if (project.ProjectStage == ProjectStage.Proposal)
             {
@@ -325,7 +325,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            var auditLog = new AuditLog(CurrentPerson,
+            var auditLog = new AuditLog(CurrentFirmaSession.Person,
                 DateTime.Now,
                 AuditLogEventType.Added,
                 "Project",
@@ -944,7 +944,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentPerson);
+                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
             }
             return ApproveGisUpload(project);
         }
@@ -1193,7 +1193,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var project = projectPrimaryKey.EntityObject;
             var projectNote = ProjectNote.CreateNewBlank(project);
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectNotes.Add(projectNote);
             return new ModalDialogFormJsonResult();
         }
@@ -1217,7 +1217,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditNote(viewModel);
             }
             var projectNote = projectNotePrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1283,7 +1283,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
             }
             var project = projectPrimaryKey.EntityObject;
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1596,7 +1596,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new OrganizationsViewModel(project, CurrentPerson);
+            var viewModel = new OrganizationsViewModel(project, CurrentFirmaSession);
             return ViewOrganizations(project, viewModel);
         }
 
@@ -1646,7 +1646,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Contacts(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ContactsViewModel(project, CurrentPerson);
+            var viewModel = new ContactsViewModel(project, CurrentFirmaSession);
             return ViewContacts(project, viewModel);
         }
 

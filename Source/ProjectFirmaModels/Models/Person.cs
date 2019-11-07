@@ -57,22 +57,10 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// This function really needs to die, but not doing it yet. -- SLG & SG
-        /// </summary>
-        /// <returns></returns>
-        public bool IsAnonymousUser() => PersonID == AnonymousPersonID;
-
-        /// <summary>
         /// All role names of BOTH types used by Keystone not for user display 
         /// </summary>
         public IEnumerable<string> GetRoleNames()
         {
-            if (IsAnonymousUser())
-            {
-                // the presence of roles switches you from being IsAuthenticated or not
-                return new List<string>();
-            }
-
             var roleNames = new List<string> {Role.RoleName};
             return roleNames;
         }

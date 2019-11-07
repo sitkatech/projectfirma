@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
             var projectNoteUpdate = ProjectNoteUpdate.CreateNewBlank(projectUpdateBatch);
-            viewModel.UpdateModel(projectNoteUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectNoteUpdate, CurrentFirmaSession);
             projectNoteUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectNoteUpdates.Add(projectNoteUpdate);
             return new ModalDialogFormJsonResult();
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var projectNoteUpdate = projectNoteUpdatePrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectNoteUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectNoteUpdate, CurrentFirmaSession);
             projectNoteUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }

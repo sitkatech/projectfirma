@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             HasExistingProjectUpdate = hasExistingProjectUpdate;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;

@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditContacts(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditContactsViewModel(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), CurrentPerson);
+            var viewModel = new EditContactsViewModel(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), CurrentFirmaSession);
             return ViewEditContacts(viewModel, project);
         }
 

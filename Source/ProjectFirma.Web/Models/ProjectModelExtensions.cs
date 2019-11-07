@@ -100,9 +100,9 @@ namespace ProjectFirma.Web.Models
             return ProjectMapSimplePopuUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
-        public static bool IsMyProject(this Project project, Person person)
+        public static bool IsMyProject(this Project project, FirmaSession currentFirmaSession)
         {
-            return !person.IsAnonymousUser() && (project.IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(project) || person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
+            return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -458,7 +458,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession)
         {
-            return project.IsMyProject(firmaSession.Person) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
+            return project.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());

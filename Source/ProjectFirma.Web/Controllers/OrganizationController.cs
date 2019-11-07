@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentPerson);
+            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
@@ -253,11 +253,11 @@ namespace ProjectFirma.Web.Controllers
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, Person currentPerson)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, FirmaSession currentFirmaSession)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentFirmaSession.Person).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";

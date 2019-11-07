@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
             IsFundingType = organizationType.IsFundingType;
         }
 
-        public void UpdateModel(OrganizationType organizationType, Person currentPerson)
+        public void UpdateModel(OrganizationType organizationType, FirmaSession currentFirmaSession)
         {
             organizationType.OrganizationTypeName = OrganizationTypeName;
             organizationType.OrganizationTypeAbbreviation = OrganizationTypeAbbreviation; 

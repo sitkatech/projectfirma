@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(projectUpdateBatch, viewModel);
             }
             var projectImageUpdate = new ProjectImageUpdate(projectUpdateBatch, true);
-            viewModel.UpdateModel(projectImageUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectImageUpdate, CurrentFirmaSession);
             projectUpdateBatch.ProjectImageUpdates.Add(projectImageUpdate);
             projectUpdateBatch.IsPhotosUpdated = true;
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(projectImageUpdate, viewModel);
             }
-            viewModel.UpdateModel(projectImageUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectImageUpdate, CurrentFirmaSession);
             var projectUpdateBatch = projectImageUpdate.ProjectUpdateBatch;
             projectUpdateBatch.IsPhotosUpdated = true;
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);

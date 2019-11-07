@@ -89,8 +89,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewRequestSupport(viewModel);
             }
-            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentPerson);
-            viewModel.UpdateModel(supportRequestLog, CurrentPerson);
+            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentFirmaSession);
+            viewModel.UpdateModel(supportRequestLog, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
             SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Message sent. Thank you for contacting us.");
@@ -158,8 +158,8 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewSupportImpl(viewModel, string.Empty);
             }
-            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentPerson);
-            viewModel.UpdateModel(supportRequestLog, CurrentPerson);
+            var supportRequestLog = SupportRequestLogModelExtensions.Create(CurrentFirmaSession);
+            viewModel.UpdateModel(supportRequestLog, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
             SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Support request sent.");

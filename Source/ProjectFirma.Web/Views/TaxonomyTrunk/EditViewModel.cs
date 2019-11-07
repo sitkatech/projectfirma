@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             ThemeColor = taxonomyTrunk.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyTrunk taxonomyTrunk, FirmaSession currentFirmaSession)
         {
             taxonomyTrunk.TaxonomyTrunkName = TaxonomyTrunkName;
             taxonomyTrunk.TaxonomyTrunkDescriptionHtmlString = TaxonomyTrunkDescription;

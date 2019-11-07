@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
         {
             var taxonomyBranch = taxonomyBranchPrimaryKey.EntityObject;
-            var taxonomyBranchProjects = taxonomyBranch.GetAssociatedProjects(CurrentPerson).ToList();
+            var taxonomyBranchProjects = taxonomyBranch.GetAssociatedProjects(CurrentFirmaSession.Person).ToList();
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}", taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1, LayerInitialVisibility.Show);
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel);
             }
             var taxonomyBranch = new TaxonomyBranch(viewModel.TaxonomyTrunkID, string.Empty);
-            viewModel.UpdateModel(taxonomyBranch, CurrentPerson);
+            viewModel.UpdateModel(taxonomyBranch, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyBranches.Add(taxonomyBranch);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.GetDisplayName());
             }
-            viewModel.UpdateModel(taxonomyBranch, CurrentPerson);
+            viewModel.UpdateModel(taxonomyBranch, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel, projectUpdateBatchPrimaryKey.EntityObject);
             }
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
+            viewModel.UpdateModel(projectUpdateBatch, CurrentFirmaSession);
             projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
             return new ModalDialogFormJsonResult();
         }

@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
             }
             
             var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
-            viewModel.UpdateModel(classification, CurrentPerson);
+            viewModel.UpdateModel(classification, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, classification.ClassificationSystem);
             }
             
-            viewModel.UpdateModel(classification, CurrentPerson);
+            viewModel.UpdateModel(classification, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not updateable via the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process");
             }
 
-            var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession.Person);
+            var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");

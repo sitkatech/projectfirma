@@ -179,13 +179,13 @@ namespace ProjectFirma.Web.Controllers
             switch (projectUpdateStatusFilterType)
             {
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllMyProjects:
-                    projects = projects.Where(p => p.IsMyProject(CurrentPerson));
+                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MyProjectsRequiringAnUpdate:
-                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && p.IsUpdateMandatory() && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
+                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && p.IsUpdateMandatory() && p.GetLatestUpdateState() != ProjectUpdateState.Submitted);
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.MySubmittedProjects:
-                    projects = projects.Where(p => p.IsMyProject(CurrentPerson) && (!p.IsUpdateMandatory() || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
+                    projects = projects.Where(p => p.IsMyProject(CurrentFirmaSession) && (!p.IsUpdateMandatory() || p.GetLatestUpdateState() == ProjectUpdateState.Submitted));
                     break;
                 case ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.SubmittedProjects:
                     projects = projects.Where(p =>
@@ -287,7 +287,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 HttpRequestStorage.DatabaseEntities.AllProjectUpdates.Add(projectUpdate);
             }
-            viewModel.UpdateModel(projectUpdate, CurrentPerson);
+            viewModel.UpdateModel(projectUpdate, CurrentFirmaSession);
             if (projectUpdateBatch.IsSubmitted())
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
@@ -1276,7 +1276,7 @@ namespace ProjectFirma.Web.Controllers
                 var gdbFile = disposableTempFile.FileInfo;
                 httpPostedFileBase.SaveAs(gdbFile.FullName);
                 projectUpdateBatch.DeleteProjectLocationStagingUpdates();
-                ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, httpPostedFileBase.FileName, projectUpdateBatch, CurrentPerson);
+                ProjectLocationStagingUpdateModelExtensions.CreateProjectLocationStagingUpdateListFromGdb(gdbFile, httpPostedFileBase.FileName, projectUpdateBatch, CurrentFirmaSession.Person);
             }
             return ApproveGisUpload(project);
         }
@@ -2112,7 +2112,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectUpdateBatches =
                 HttpRequestStorage.DatabaseEntities.ProjectUpdateBatches.ToList()
-                    .Where(pub => pub.IsReadyToSubmit() && pub.Project.ProjectStage.RequiresReportedExpenditures() && pub.Project.IsMyProject(CurrentPerson))
+                    .Where(pub => pub.IsReadyToSubmit() && pub.Project.ProjectStage.RequiresReportedExpenditures() && pub.Project.IsMyProject(CurrentFirmaSession))
                     .ToList();
             projectUpdateBatches.ForEach(pub =>
             {

@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var fundingSourceCustomAttributeType = new FundingSourceCustomAttributeType(String.Empty, FundingSourceCustomAttributeDataType.String, false, false);
-            viewModel.UpdateModel(fundingSourceCustomAttributeType, CurrentPerson);
+            viewModel.UpdateModel(fundingSourceCustomAttributeType, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllFundingSourceCustomAttributeTypes.Add(fundingSourceCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabel()} {fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName} successfully created.");
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, fundingSourceCustomAttributeType);
             }
-            viewModel.UpdateModel(fundingSourceCustomAttributeType, CurrentPerson);
+            viewModel.UpdateModel(fundingSourceCustomAttributeType, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }

@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentPerson);
+                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
             }
             return ApproveGisUpload(project);
         }

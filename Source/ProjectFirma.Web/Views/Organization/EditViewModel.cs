@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationUrl = OrganizationUrl;
             if (LogoFileResourceData != null)
             {
-                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession.Person);
+                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
             }
 
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);

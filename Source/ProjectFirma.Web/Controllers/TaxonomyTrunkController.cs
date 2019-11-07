@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyTrunk = new TaxonomyTrunk(string.Empty);
-            viewModel.UpdateModel(taxonomyTrunk, CurrentPerson);
+            viewModel.UpdateModel(taxonomyTrunk, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyTrunks.Add(taxonomyTrunk);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyTrunk = taxonomyTrunkPrimaryKey.EntityObject;
-            viewModel.UpdateModel(taxonomyTrunk, CurrentPerson);
+            viewModel.UpdateModel(taxonomyTrunk, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

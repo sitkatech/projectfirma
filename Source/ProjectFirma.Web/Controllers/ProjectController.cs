@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
             }
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

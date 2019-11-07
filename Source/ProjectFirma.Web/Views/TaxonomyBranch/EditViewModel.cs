@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             ThemeColor = taxonomyBranch.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch, FirmaSession currentFirmaSession)
         {
             Check.Ensure(HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.Any(), "No entries in TaxonomyTrunks; is something wrong with db?");
             taxonomyBranch.TaxonomyBranchName = TaxonomyBranchName;

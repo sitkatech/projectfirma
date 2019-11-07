@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
             var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
             var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
             if (viewModel.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID)
             {
                 var existingCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
@@ -224,7 +224,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Controllers
 
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
 
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson, HttpRequestStorage.DatabaseEntities);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
@@ -331,7 +331,7 @@ namespace ProjectFirma.Web.Controllers
             var currentClassificationSystems= MultiTenantHelpers.GetClassificationSystems();
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.AllClassificationSystems.Local;
 
-            viewModel.UpdateModel(CurrentPerson, currentClassificationSystems, allClassificationSystems);
+            viewModel.UpdateModel(CurrentFirmaSession, currentClassificationSystems, allClassificationSystems);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 

@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewOrganizationType(viewModel);
             }
             var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false, viewModel.IsFundingType ?? false);
-            viewModel.UpdateModel(organizationType, CurrentPerson);
+            viewModel.UpdateModel(organizationType, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllOrganizationTypes.Add(organizationType);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditOrganizationType(viewModel);
             }
-            viewModel.UpdateModel(organizationType, CurrentPerson);
+            viewModel.UpdateModel(organizationType, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

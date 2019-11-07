@@ -123,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(performanceMeasure, CurrentPerson);
+            viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
@@ -309,7 +309,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
-            viewModel.UpdateModel(performanceMeasure, CurrentPerson);
+            viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
             var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);

@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.User
             ShouldReceiveSupportEmails = person.ReceiveSupportEmails;
         }
 
-        public void UpdateModel(Person person, Person currentPerson)
+        public void UpdateModel(Person person, FirmaSession currentFirmaSession)
         {
             var downgradingFromSteward = person.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
                                          RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&

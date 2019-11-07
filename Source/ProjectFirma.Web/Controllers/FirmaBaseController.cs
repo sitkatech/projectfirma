@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     CurrentPerson.LastActivityDate = DateTime.Now;
                     HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
+                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
                 }
             }
             base.OnActionExecuting(filterContext);
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Controllers
 
         protected override bool IsCurrentUserAnonymous()
         {
-            return CurrentPerson == null || CurrentPerson.IsAnonymousUser();
+            return CurrentFirmaSession == null || CurrentFirmaSession.IsAnonymousUser();
         }
 
         protected override string LoginUrl => FirmaHelpers.GenerateLogInUrl();
