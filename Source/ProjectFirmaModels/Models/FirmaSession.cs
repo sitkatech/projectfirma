@@ -32,10 +32,13 @@ namespace ProjectFirmaModels.Models
         public FirmaSession(Person person)
         {
             Check.EnsureNotNull(person, "Do not call this if Person is null");
+            Check.Ensure(person.TenantID > 0, $"Person does not have a TenantID set (TenantID = {person.TenantID})");
+            Check.EnsureNotNull(person.Tenant, "Person does not have a Tenant set");
 
             FirmaSessionGuid = Guid.NewGuid();
             CreateDate = DateTime.Now;
             Person = person;
+
             TenantID = person.Tenant.TenantID;
         }
 

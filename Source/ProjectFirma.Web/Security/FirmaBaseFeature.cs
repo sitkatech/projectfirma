@@ -119,6 +119,7 @@ namespace ProjectFirma.Web.Security
             return HasPermissionByPerson(firmaSessionPerson);
         }
 
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             return HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);

@@ -37,5 +37,5 @@ GO
 alter table dbo.FirmaSession add constraint FK_FirmaSession_Person_PersonID_TenantID foreign key (PersonID, TenantID) references dbo.Person(PersonID, TenantID)
 GO
 
-alter table dbo.FirmaSession add constraint FK_FirmaSession_Person_OriginalPersonID_TenantID foreign key (OriginalPersonID, TenantID) references dbo.Person(PersonID, TenantID)
+alter table dbo.FirmaSession add constraint FK_FirmaSession_Person_OriginalPersonID_TenantID_PersonID_TenantID foreign key (OriginalPersonID, TenantID) references dbo.Person(PersonID, TenantID)
 GO

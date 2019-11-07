@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
                 string.Empty,
                 true);
 
-            viewModel.UpdateModel(fundingSource, CurrentPerson);
+            viewModel.UpdateModel(fundingSource, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {fundingSource.GetDisplayName()} successfully created.");
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            viewModel.UpdateModel(fundingSource, CurrentPerson);
+            viewModel.UpdateModel(fundingSource, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationsAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations()
                     .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            var viewData = new EditViewData(organizationsAsSelectListItems, CurrentPerson);
+            var viewData = new EditViewData(organizationsAsSelectListItems, CurrentFirmaSession);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

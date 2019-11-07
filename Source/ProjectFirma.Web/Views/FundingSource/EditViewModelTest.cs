@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             viewModel.IsActive = true;
 
             // Act
-            viewModel.UpdateModel(fundingSource, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(fundingSource, ProjectFirmaModels.UnitTestCommon.TestFirmaSession.Create());
 
             // Assert
             Assert.That(fundingSource.FundingSourceName, Is.EqualTo(viewModel.FundingSourceName));
