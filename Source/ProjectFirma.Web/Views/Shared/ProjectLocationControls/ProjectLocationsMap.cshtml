@@ -33,12 +33,13 @@ Source code is available upon request via <support@sitkatech.com>.
 
     .mapLegendElement {
         display: inline-block;
-        margin-right: 10px;
+        margin-right: 13px;
     }
 
     .mapLegendIcon
     {
-        margin-bottom: -30px;
+        margin-bottom: -20px;
+        margin-right: 2px
     }
 
     .mapLegendElement .maki-marker
@@ -81,6 +82,9 @@ Source code is available upon request via <support@sitkatech.com>.
         this.mapCustomizationObject = projectLocationsMapInitJson.ProjectMapCustomization;
         // draw the project locations
         this.addLocationLayers();
+
+        // prevent standard popup for lat/long when clicking on general map area (not features)
+        this.removeClickEventHandler();
     };
 
     ProjectFirmaMaps.Map.prototype.changeFilter = function(filterPropertyNameSelected, actualFilter)
@@ -165,7 +169,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var allLegendsHtml = "";
         for (var i = 0; i < markerColorTable.length; ++i)
         {
-            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "m" }),
+            var currentLegendIcon = L.MakiMarkers.icon({ icon: "marker", color: markerColorTable[i].LegendColor, size: "s" }),
                 currentLegendAsHtml = currentLegendIcon.options.iconUrl;
             allLegendsHtml += "<div class=\"mapLegendElement\">" + "<img class='mapLegendIcon' src= '" + currentLegendAsHtml  + "'></img>" + markerColorTable[i].LegendText + "</div>";
         }
