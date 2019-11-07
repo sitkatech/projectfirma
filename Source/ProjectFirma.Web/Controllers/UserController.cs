@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var gridSpec = new Views.Project.BasicProjectInfoGridSpec(CurrentFirmaSession, false);
-            var projectPersons = person.GetPrimaryContactProjects(CurrentPerson).OrderBy(x => x.GetDisplayName())
+            var projectPersons = person.GetPrimaryContactProjects(CurrentFirmaSession).OrderBy(x => x.GetDisplayName())
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectPersons, gridSpec);
             return gridJsonNetJObjectResult;

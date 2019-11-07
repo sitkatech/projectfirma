@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.User
 
             CurrentPersonCanBeImpersonatedByCurrentUser = new FirmaImpersonateUserFeature().HasPermission(currentFirmaSession, personToView).HasPermission;
 
-            IsViewingSelf = currentFirmaSession.Person != null && currentFirmaSession.Person.PersonID == personToView.PersonID;
+            IsViewingSelf = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == personToView.PersonID;
             EditRolesLink = UserHasPersonManagePermissions
                 ? ModalDialogFormHelper.MakeEditIconLink(SitkaRoute<UserController>.BuildUrlFromExpression(c => c.EditRoles(personToView)),
                     $"Edit Roles for User - {personToView.GetFullNameFirstLast()}",

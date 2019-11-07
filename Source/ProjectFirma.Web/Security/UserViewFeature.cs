@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("The Person whose details you are requesting to see doesn't exist.");
             }
             var userHasEditPermission = new UserEditFeature().HasPermissionByFirmaSession(firmaSession);
-            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.Person.PersonID == contextModelObject.PersonID;
+            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == contextModelObject.PersonID;
 
             #pragma warning disable 612
             var userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);

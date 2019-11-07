@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("You can't impersonate users. If you aren't logged in, do that and try again.");
             }
 
-            bool userViewingOwnPage = firmaSession.Person.PersonID == personToImpersonate.PersonID;
+            bool userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == personToImpersonate.PersonID;
             if (userViewingOwnPage)
             {
                 return new PermissionCheckResult("You can't impersonate yourself.");

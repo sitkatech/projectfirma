@@ -117,11 +117,15 @@ namespace ProjectFirma.Web.Models
         
         public static bool ShouldReceiveNotifications(this Person person)
         {
-            return person.ReceiveSupportEmails;
+            return person != null && person.ReceiveSupportEmails;
         }
 
         public static string GetKeystoneEditLink(this Person person)
         {
+            if (person == null)
+            {
+                return "[No Keystone Edit Link]";
+            }
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
         }
 
