@@ -42,13 +42,13 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public static FancyTreeNode ToFancyTreeNode(this TaxonomyBranch taxonomyBranch, Person currentPerson)
+        public static FancyTreeNode ToFancyTreeNode(this TaxonomyBranch taxonomyBranch, FirmaSession currentFirmaSession)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName())}", taxonomyBranch.TaxonomyBranchID.ToString(), false)
             {
                 ThemeColor = string.IsNullOrWhiteSpace(taxonomyBranch.ThemeColor) ? taxonomyBranch.TaxonomyTrunk.ThemeColor : taxonomyBranch.ThemeColor,
                 MapUrl = taxonomyBranch.GetCustomizedMapUrl(),
-                Children = taxonomyBranch.TaxonomyLeafs.SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentPerson)).ToList()
+                Children = taxonomyBranch.TaxonomyLeafs.SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentFirmaSession)).ToList()
             };
             return fancyTreeNode;
         }

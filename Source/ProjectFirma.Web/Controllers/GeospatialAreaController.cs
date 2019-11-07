@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple> IndexGridJsonData(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(CurrentPerson, geospatialAreaType);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession, geospatialAreaType);
             var projectIDsViewableByUser = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals()).Select(x => x.ProjectID).ToList();
             var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectIDsViewableByUser);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple>(geospatialAreaIndexGridSimples, gridSpec);

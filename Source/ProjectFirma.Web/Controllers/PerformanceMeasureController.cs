@@ -266,15 +266,15 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasureReportedValue> PerformanceMeasureReportedValuesGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            var performanceMeasureActuals = GetPerformanceMeasureReportedValuesAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject, CurrentPerson);
+            var performanceMeasureActuals = GetPerformanceMeasureReportedValuesAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject, CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureReportedValue>(performanceMeasureActuals, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValuesAndGridSpec(out PerformanceMeasureReportedValuesGridSpec gridSpec, PerformanceMeasure performanceMeasure, Person currentPerson)
+        private static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValuesAndGridSpec(out PerformanceMeasureReportedValuesGridSpec gridSpec, PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             gridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure);
-            return performanceMeasure.GetReportedPerformanceMeasureValues(currentPerson);
+            return performanceMeasure.GetReportedPerformanceMeasureValues(currentFirmaSession.Person);
         }
 
         [PerformanceMeasureViewFeature]

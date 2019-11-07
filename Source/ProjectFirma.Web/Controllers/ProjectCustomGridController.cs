@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Controllers
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var taxonomyLeafProjects = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
+            var taxonomyLeafProjects = taxonomyLeaf.GetAssociatedProjects(CurrentFirmaSession);
             return new GridJsonNetJObjectResult<Project>(taxonomyLeafProjects, gridSpec);
         }
 

@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 3, 0))
+                if (DateTime.Now - (CurrentFirmaSession.Person.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 3, 0))
                 {
-                    CurrentPerson.LastActivityDate = DateTime.Now;
+                    CurrentFirmaSession.Person.LastActivityDate = DateTime.Now;
                     HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
                     HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
                 }
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
+                HttpRequestStorage.DatabaseEntities.Person = CurrentFirmaSession.Person;
             }
             base.OnAuthorization(filterContext);
         }

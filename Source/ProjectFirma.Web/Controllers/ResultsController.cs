@@ -381,7 +381,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTiersAsFancyTreeNodes = taxonomyLevel
                 .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
-                .Select(x => x.ToFancyTreeNode(CurrentPerson))
+                .Select(x => x.ToFancyTreeNode(CurrentFirmaSession))
                 .ToList();
             var projectsIDsThatDoNotHaveSimpleLocation = filteredProjectsWithLocationAreas
                 .Select(project => project.ProjectID.ToString()).ToList();
