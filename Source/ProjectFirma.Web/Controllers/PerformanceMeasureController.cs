@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
             var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
             var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentFirmaSession, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentFirmaSession, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentFirmaSession));
 
             // Avoid scrolling the legend if it can be displayed on two lines
             performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
@@ -274,7 +274,7 @@ namespace ProjectFirma.Web.Controllers
         private static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValuesAndGridSpec(out PerformanceMeasureReportedValuesGridSpec gridSpec, PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             gridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure);
-            return performanceMeasure.GetReportedPerformanceMeasureValues(currentFirmaSession.Person);
+            return performanceMeasure.GetReportedPerformanceMeasureValues(currentFirmaSession);
         }
 
         [PerformanceMeasureViewFeature]

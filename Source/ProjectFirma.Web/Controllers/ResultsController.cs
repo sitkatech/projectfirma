@@ -457,7 +457,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var performanceMeasureSubcategoriesTotalReportedValues =
-                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure, CurrentPerson);
+                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure, CurrentFirmaSession);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(
                     performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
@@ -466,10 +466,11 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<PerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByPerformanceMeasureByProjectAndGridSpec(
                 out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
-                PerformanceMeasure performanceMeasure, Person currentPerson)
+                PerformanceMeasure performanceMeasure, 
+                FirmaSession currentFirmaSession)
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
-            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, performanceMeasure);
+            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure);
         }
 
         [HttpGet]
