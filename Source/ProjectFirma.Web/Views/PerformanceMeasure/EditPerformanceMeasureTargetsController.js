@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("CorralApp").controller("EditPerformanceMeasureTargetsController", function ($scope, angularModelAndViewData) {
+angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsController", function ($scope, angularModelAndViewData) {
     $scope.resetReportingPeriodToAdd = function () {
         $scope.ReportingPeriodBeginDateToAdd = "01/01/" + $scope.NextReportingPeriodYear;
         $scope.ReportingPeriodEndDateToAdd = "12/31/" + $scope.NextReportingPeriodYear;
