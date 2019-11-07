@@ -93,7 +93,9 @@ namespace ProjectFirma.Web.Models
             return person != null ? DetailUrlTemplate.ParameterReplace(person.PersonID) : null;
         }
 
-        //public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
+        // Really you should prefer the equivalent function on FIrmaSession
+        [Obsolete]
+        public static bool IsAnonymous(this Person person) => person == null;
 
         // The Anonymous (null) user has the Unassigned role
         public static bool IsUnassigned(this Person person) => person == null || person.Role == Role.Unassigned;
@@ -121,20 +123,6 @@ namespace ProjectFirma.Web.Models
         public static string GetKeystoneEditLink(this Person person)
         {
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
-        }
-
-        /// <summary>
-        /// Needed for Keystone; basically <see cref="HttpRequestStorage.Person" /> is set to this fake
-        /// "Anonymous" person when we are not authenticated to not have to handle the null Person case.
-        /// Seems like MR and all the other RPs do this so following the pattern
-        /// </summary>
-        /// <returns></returns>
-        public static Person GetAnonymousSitkaUser()
-        {
-            var anonymousSitkaUser = new Person(Person.AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
-            anonymousSitkaUser.TenantID = HttpRequestStorage.Tenant?.TenantID ?? 0;
-            // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
-            return anonymousSitkaUser;
         }
 
         /// <summary>

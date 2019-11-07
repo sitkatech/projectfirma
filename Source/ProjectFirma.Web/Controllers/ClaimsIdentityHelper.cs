@@ -16,22 +16,6 @@ namespace ProjectFirma.Web.Controllers
     {
         public const string AuthenticationApplicationCookieName = "PsInfoCookieIdentity";
 
-        // Possibly this goes away long term, replaced by FirmaSessionFromClaimsIdentity. But unsure. -- SLG & SG
-        public static Person PersonFromClaimsIdentity(IAuthenticationManager authenticationManager)
-        {
-            try
-            {
-                return KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
-                    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
-            }
-            catch (Exception ex)
-            {
-                IdentitySignOut(authenticationManager);
-                throw new SitkaDisplayErrorException("Something went wrong with your session or credentials. Please try logging in again. If this does not resolve the issue, please contact support.", ex);
-            }
-        }
-
         public static FirmaSession FirmaSessionFromClaimsIdentity(IAuthenticationManager authenticationManager, Tenant currentTenant)
         {
             try
@@ -87,8 +71,7 @@ namespace ProjectFirma.Web.Controllers
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
             var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);
-            HttpRequestStorage.FirmaSession.Person = PersonModelExtensions.GetAnonymousSitkaUser();
-            // This might be right, but we aren't sure yet. -- SG & SLG
+            HttpRequestStorage.FirmaSession.Person = null;
             HttpRequestStorage.FirmaSession.OriginalPerson = null;
         }
 
