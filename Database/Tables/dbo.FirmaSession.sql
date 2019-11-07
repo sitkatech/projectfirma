@@ -25,10 +25,10 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[FirmaSession] CHECK CONSTRAINT [FK_FirmaSession_Person_OriginalPersonID_PersonID]
 GO
-ALTER TABLE [dbo].[FirmaSession]  WITH CHECK ADD  CONSTRAINT [FK_FirmaSession_Person_OriginalPersonID_TenantID] FOREIGN KEY([OriginalPersonID], [TenantID])
+ALTER TABLE [dbo].[FirmaSession]  WITH CHECK ADD  CONSTRAINT [FK_FirmaSession_Person_OriginalPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([OriginalPersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[FirmaSession] CHECK CONSTRAINT [FK_FirmaSession_Person_OriginalPersonID_TenantID]
+ALTER TABLE [dbo].[FirmaSession] CHECK CONSTRAINT [FK_FirmaSession_Person_OriginalPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[FirmaSession]  WITH CHECK ADD  CONSTRAINT [FK_FirmaSession_Person_PersonID] FOREIGN KEY([PersonID])
 REFERENCES [dbo].[Person] ([PersonID])
