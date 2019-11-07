@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), ProjectFirmaModels.Models.ProjectUpdate.FieldLengths.ProjectDescription);
 
             // Act
-            viewModel.UpdateModel(projectUpdate, ProjectFirmaModels.UnitTestCommon.TestFirmaSession.Create());
+            viewModel.UpdateModel(projectUpdate, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(projectUpdate.ProjectDescription, Is.EqualTo(viewModel.ProjectDescription));

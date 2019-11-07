@@ -59,13 +59,13 @@ namespace ProjectFirma.Web.Models
             return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
-        public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
             return taxonomyLeaf.Projects
                 .Union(taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project))
                 .Distinct(new HavePrimaryKeyComparer<Project>())
                 .ToList()
-                .GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+                .GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
         public static IEnumerable<SelectListItem> ToGroupedSelectList(this List<TaxonomyLeaf> taxonomyLeafs)

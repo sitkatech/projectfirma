@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PeopleReceivingReminderGridSpec : GridSpec<Person>
     {
-        public PeopleReceivingReminderGridSpec(bool showCheckbox, Person currentPerson)
+        public PeopleReceivingReminderGridSpec(bool showCheckbox, FirmaSession currentFirmaSession)
         {
             if (showCheckbox)
             {
@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             }
             Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), x => x.GetFullNameFirstLastAndOrgShortNameAsUrl(), 220);
             Add("Email", a => a.Email, 170);
+            var currentPerson = currentFirmaSession.Person;
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Requiring Update",
                 x => x.GetPrimaryContactUpdatableProjects(currentPerson).Count,
                 70, DhtmlxGridColumnAggregationType.Total);

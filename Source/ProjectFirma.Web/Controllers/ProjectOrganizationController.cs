@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }

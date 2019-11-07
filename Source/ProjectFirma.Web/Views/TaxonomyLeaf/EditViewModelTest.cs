@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             viewModel.TaxonomyLeafName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyLeafName), ProjectFirmaModels.Models.TaxonomyLeaf.FieldLengths.TaxonomyLeafName);
 
             // Act
-            viewModel.UpdateModel(taxonomyLeaf, ProjectFirmaModels.UnitTestCommon.TestFirmaSession.Create());
+            viewModel.UpdateModel(taxonomyLeaf, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(taxonomyLeaf.TaxonomyLeafName, Is.EqualTo(viewModel.TaxonomyLeafName));

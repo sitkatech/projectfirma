@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
             
            
             var projectOrganizations = new List<ProjectFirmaModels.Models.ProjectOrganization>();
-            var viewModel = new EditOrganizationsViewModel(project, projectOrganizations, ProjectFirmaModels.UnitTestCommon.TestFirmaSession.Create());
+            var viewModel = new EditOrganizationsViewModel(project, projectOrganizations, TestFramework.TestFirmaSession.Create());
 
             //TODO tests
         }

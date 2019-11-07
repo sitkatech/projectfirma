@@ -331,7 +331,7 @@ namespace ProjectFirmaModels.Models
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
         {
             // Hack - fudge up a fake Session
-            var tmpFirmaSession = TestFirmaSession.Create();
+            var tmpFirmaSession = TestFramework.TestFirmaSession.Create();
             // Normally we don't allow deliberate setting of null Person in constructor, so we need to work around this in test context.
             tmpFirmaSession.Person = user;
             Assert.That(projectCheckingFeature.HasPermission(tmpFirmaSession, project).HasPermission == expectedPermission);

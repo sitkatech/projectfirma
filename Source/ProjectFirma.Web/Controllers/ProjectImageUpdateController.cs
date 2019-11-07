@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectImageUpdate, CurrentFirmaSession);
             projectUpdateBatch.ProjectImageUpdates.Add(projectImageUpdate);
             projectUpdateBatch.IsPhotosUpdated = true;
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectImageUpdate, CurrentFirmaSession);
             var projectUpdateBatch = projectImageUpdate.ProjectUpdateBatch;
             projectUpdateBatch.IsPhotosUpdated = true;
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -145,7 +145,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             projectUpdateBatch.IsPhotosUpdated = true;
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
             var projectImageUpdate = projectImageUpdatePrimaryKey.EntityObject;
             projectImageUpdate.SetAsKeyPhoto();
             projectImageUpdate.ProjectUpdateBatch.IsPhotosUpdated = true;
-            projectImageUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectImageUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
     }

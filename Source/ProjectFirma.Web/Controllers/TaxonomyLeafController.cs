@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> SecondaryProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
+            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentFirmaSession);
             var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentFirmaSession, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }

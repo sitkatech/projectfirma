@@ -236,7 +236,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentPerson);
+            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentFirmaSession);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var firmaPage = FirmaPageTypeEnum.ProjectUpdateInstructions.GetFirmaPage();
             var viewData = new InstructionsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, firmaPage);
@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Controllers
         public RedirectResult Instructions(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentPerson);
+            ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(project, CurrentFirmaSession);
             return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Basics(project)));
         }
 
@@ -328,7 +328,7 @@ namespace ProjectFirma.Web.Controllers
             if (projectUpdate != null)
             {
                 projectUpdate.LoadUpdateFromProject(project);
-                projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+                projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             }
             if (!projectUpdateBatch.AreAccomplishmentsRelevant())
             {
@@ -460,7 +460,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
             ProjectExemptReportingYearUpdateModelExtensions.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
             PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -567,7 +567,7 @@ namespace ProjectFirma.Web.Controllers
 
             // refresh the data
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -678,7 +678,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
             ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -844,7 +844,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
 
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -966,7 +966,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             }
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1014,7 +1014,7 @@ namespace ProjectFirma.Web.Controllers
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1117,7 +1117,7 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
             projectUpdate.LoadSimpleLocationFromProject(project);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1222,7 +1222,7 @@ namespace ProjectFirma.Web.Controllers
 
             // refresh the data
             ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1525,7 +1525,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh the data
             ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
             ProjectGeospatialAreaTypeNoteUpdate.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1577,7 +1577,7 @@ namespace ProjectFirma.Web.Controllers
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             ProjectAttachmentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1788,7 +1788,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectExternalLinkUpdates();
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectExternalLinkUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1876,7 +1876,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteTechnicalAssistanceRequestsUpdates();
             // refresh the data
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1953,7 +1953,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
             var allProjectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
 
-            projectUpdateBatch.Approve(CurrentPerson,
+            projectUpdateBatch.Approve(CurrentFirmaSession,
                 DateTime.Now,
                 allProjectExemptReportingYears,
                 allProjectRelevantCostTypes,
@@ -2083,7 +2083,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to submit for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
-            projectUpdateBatch.SubmitToReviewer(CurrentPerson, DateTime.Now);
+            projectUpdateBatch.SubmitToReviewer(CurrentFirmaSession, DateTime.Now);
             var peopleToCc = project.GetProjectStewardPeople();
             NotificationProjectModelExtensions.SendSubmittedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectUpdateBatch.Project.GetDisplayName()}' was submitted.");
@@ -2116,7 +2116,7 @@ namespace ProjectFirma.Web.Controllers
                     .ToList();
             projectUpdateBatches.ForEach(pub =>
             {
-                pub.SubmitToReviewer(CurrentPerson, DateTime.Now);
+                pub.SubmitToReviewer(CurrentFirmaSession, DateTime.Now);
                 var peopleToNotify = pub.Project.GetProjectStewardPeople();
                 NotificationProjectModelExtensions.SendSubmittedMessage(peopleToNotify, pub);
             });
@@ -2126,7 +2126,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewSubmitAll(ConfirmDialogFormViewModel viewModel)
         {
-            //TODO: Change "for review" to specific reviewer as determined by tentant review 
+            //TODO: Change "for review" to specific reviewer as determined by tenant review 
             var viewData = new ConfirmDialogFormViewData($"Are you sure you want to submit all your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} that are ready to be submitted for review?");
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -2151,7 +2151,7 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to return for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot return a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update that has not been submitted!");
             viewModel.UpdateModel(projectUpdateBatch);
-            projectUpdateBatch.Return(CurrentPerson, DateTime.Now);
+            projectUpdateBatch.Return(CurrentFirmaSession, DateTime.Now);
             var peopleToCc = project.GetProjectStewardPeople();
             NotificationProjectModelExtensions.SendReturnedMessage(peopleToCc, projectUpdateBatch);
             SetMessageForDisplay($"The update submitted for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {projectUpdateBatch.Project.GetDisplayName()} has been returned.");
@@ -2220,7 +2220,7 @@ namespace ProjectFirma.Web.Controllers
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
-            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(true, CurrentPerson) {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
+            var contactsReceivingReminderGridSpec = new PeopleReceivingReminderGridSpec(true, CurrentFirmaSession) {ObjectNameSingular = "Person", ObjectNamePlural = "People", SaveFiltersInCookie = true};
             var firmaPage = FirmaPageTypeEnum.ManageUpdateNotifications.GetFirmaPage();
 
             var projectsWithNoContactCount = GetProjectsWithNoContact().Count;
@@ -2256,9 +2256,9 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Person> PeopleReceivingReminderGridJsonData(bool showCheckbox)
         {
-            var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox, CurrentPerson);
+            var gridSpec = new PeopleReceivingReminderGridSpec(showCheckbox, CurrentFirmaSession);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess() && x.IsEditableToThisFirmaSession(CurrentFirmaSession)).ToList();
-            var people = projects.GetPrimaryContactPeople();            
+            var people = projects.GetPrimaryContactPeople();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Person>(people, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -3179,7 +3179,7 @@ namespace ProjectFirma.Web.Controllers
 
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }
@@ -3265,7 +3265,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult TickleLastUpdateDateAndGoToNextSection(FormViewModel viewModel, ProjectUpdateBatch projectUpdateBatch, string currentSectionName)
         {
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(true);
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
             var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
@@ -3293,7 +3293,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectOrganizationUpdates();
             // refresh data
             ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -3440,7 +3440,7 @@ namespace ProjectFirma.Web.Controllers
             var contactsValidationResult = projectUpdateBatch.ValidateContacts();
 
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameLastFirst()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }
@@ -3474,7 +3474,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectContactUpdates();
             // refresh data
             ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -3678,7 +3678,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectCustomAttributeUpdates();
             // refresh data
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
 
             // the redirect here in the ModalDialogFormJsonResult below was required because select options were not being displayed accurately after submitting the refresh even though the data behind it was accurate
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ProjectCustomAttributes(project)));

@@ -45,9 +45,8 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, FirmaSession currentFirmaSession)
         {
-            
             ProjectUpdateBatch projectUpdateBatch;
             if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
@@ -55,15 +54,15 @@ namespace ProjectFirma.Web.Models
             }
             else
             {
-                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentPerson);
+                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentFirmaSession);
             }
 
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession)
         {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentFirmaSession);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -73,11 +72,11 @@ namespace ProjectFirma.Web.Models
 
         public static DateTime? GetLatestSubmittalDate(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted()?.TransitionDate;
 
-        public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, Person currentPerson)
+        public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, FirmaSession currentFirmaSession)
         {
             Check.Require(project.ProjectUpdateBatches.All(x => x.ProjectUpdateState == ProjectUpdateState.Approved), "Cannot create a new Project Update Batch, there is already an active update for this project.");
 
-            var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentPerson);
+            var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentFirmaSession);
 
             // basics & map
             projectUpdateBatch.CreateFromProject();
@@ -152,12 +151,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Only public for unit testing
         /// </summary>
-        public static ProjectUpdateBatch CreateProjectUpdateBatchAndLogTransition(Project project, Person currentPerson)
+        public static ProjectUpdateBatch CreateProjectUpdateBatchAndLogTransition(Project project, FirmaSession currentFirmaSession)
         {
-            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, currentPerson, ProjectUpdateState.Created, false);
+            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, currentFirmaSession.Person, ProjectUpdateState.Created, false);
 
             // create a project update history record
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Created, currentPerson, DateTime.Now);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Created, currentFirmaSession, DateTime.Now);
             return projectUpdateBatch;
         }
 
@@ -576,20 +575,20 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
-        public static void SubmitToReviewer(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void SubmitToReviewer(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsReadyToSubmit(), $"You cannot submit a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that is not ready to be submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Submitted, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Submitted, currentFirmaSession, transitionDate);
         }
 
-        public static void Return(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void Return(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot return a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
         public static void Approve(
-            this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
+            this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
@@ -632,7 +631,7 @@ namespace ProjectFirma.Web.Models
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,
                 allProjectContacts);
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentFirmaSession, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
         }
 
@@ -741,21 +740,22 @@ namespace ProjectFirma.Web.Models
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 
-        public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), "You cannot reject a batch that has not been submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
         /// <summary>
         /// Note, the saving is done by the controller
         /// </summary>
-        private static void CreateNewTransitionRecord(this ProjectUpdateBatch projectUpdateBatch, ProjectUpdateState projectUpdateState, Person currentPerson, DateTime transitionDate)
+        private static void CreateNewTransitionRecord(this ProjectUpdateBatch projectUpdateBatch, ProjectUpdateState projectUpdateState, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
+            var currentPerson = currentFirmaSession.Person;
             var projectUpdateHistory = new ProjectUpdateHistory(projectUpdateBatch, projectUpdateState, currentPerson, transitionDate);
             HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.Add(projectUpdateHistory);
             projectUpdateBatch.ProjectUpdateStateID = projectUpdateState.ProjectUpdateStateID;
-            projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentFirmaSession);
         }
 
         public static bool AreAccomplishmentsRelevant(this ProjectUpdateBatch projectUpdateBatch)

@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         public void AllViewModelFieldsAreSetFromConstructorTest()
         {
             // Act
-            var viewModel = new EditOrganizationsViewModel(_project, _projectOrganizations, ProjectFirmaModels.UnitTestCommon.TestFirmaSession.Create());
+            var viewModel = new EditOrganizationsViewModel(_project, _projectOrganizations, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(viewModel.ProjectOrganizationSimples, Is.Not.Null);

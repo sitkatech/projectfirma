@@ -147,13 +147,13 @@ namespace ProjectFirma.Web.Controllers
             return ViewDelete(person, viewModel);
         }
 
-        private PartialViewResult ViewDelete(Person person, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDelete(Person personToDelete, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !person.HasDependentObjects() && person != CurrentPerson;
+            var canDelete = !personToDelete.HasDependentObjects() && personToDelete != CurrentPerson;
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete {person.GetFullNameFirstLastAndOrg()}?"
+                ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
-                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(person), "here"));
+                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
