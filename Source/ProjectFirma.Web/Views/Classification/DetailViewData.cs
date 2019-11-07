@@ -20,11 +20,16 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -43,12 +48,23 @@ namespace ProjectFirma.Web.Views.Classification
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
 
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ViewGoogleChartViewData ViewGoogleChartViewData { get; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+
         public DetailViewData(Person currentPerson, 
                             ProjectFirmaModels.Models.Classification classification,
+                            ProjectLocationsMapViewData projectLocationsMapViewData,
+                            ProjectLocationsMapInitJson projectLocationsMapInitJson, ViewGoogleChartViewData viewGoogleChartViewData,
+                            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
                             List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations)
                             : base(currentPerson)
         {
             Classification = classification;
+            ProjectLocationsMapViewData = projectLocationsMapViewData;
+            ProjectLocationsMapInitJson = projectLocationsMapInitJson;
+            ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
@@ -61,6 +77,8 @@ namespace ProjectFirma.Web.Views.Classification
 
             ProjectCustomDefaultGridName = "classificationProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));
+
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => classification.GetPerformanceMeasureChartViewData(x, CurrentPerson)).ToList();
         }
     }
 }
