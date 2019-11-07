@@ -26,6 +26,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using MoreLinq;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public List<PerformanceMeasureReportedBulk> PerformanceMeasureReportedBulks { get; set; }
 
         [Required]
-        public int PerformanceMeasureTypeID { get; set; }
+        public int PerformanceMeasureTargetValueTypeID { get; set; }
         public double? OverallTargetValue { get; set; }
         public string OverallTargetValueDescription { get; set; }
 
@@ -52,7 +53,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             var performanceMeasureReporteds = PerformanceMeasureReportedValue.MakeFromList(performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureReportedBulks = PerformanceMeasureReportedBulk.MakeFromList(performanceMeasureReporteds);
-            PerformanceMeasureTypeID = performanceMeasure.PerformanceMeasureTypeID;
+            PerformanceMeasureTargetValueTypeID = performanceMeasure.PerformanceMeasureReportingPeriods.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ICollection<PerformanceMeasureReportedValue> allPerformanceMeasureReportedValues,
@@ -80,7 +81,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             // Completely rebuild the list
 
-            var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTypeID].ToEnum;
+            var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
             PerformanceMeasureReportedBulks.ForEach(bulk =>
             {
                 var reportingPeriod = new PerformanceMeasureReportingPeriod(performanceMeasure.PerformanceMeasureID, bulk.PerformanceMeasureReportingPeriodCalendarYear, bulk.PerformanceMeasureReportingPeriodLabel);

@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Models
             return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueDescription})";
         }
 
-        public static PerformanceMeasureTargetValueType GetTargetValueType(ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
         {
             var performanceMeasureReportingPeriods = performanceMeasurePerformanceMeasureReportingPeriods;
             if (!performanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))

@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsController", function ($scope, angularModelAndViewData) {
+
     $scope.resetReportingPeriodToAdd = function () {
-        $scope.ReportingPeriodBeginDateToAdd = "01/01/" + $scope.NextReportingPeriodYear;
-        $scope.ReportingPeriodEndDateToAdd = "12/31/" + $scope.NextReportingPeriodYear;
+
         $scope.ReportingPeriodLabelToAdd = $scope.NextReportingPeriodYear;
         $scope.ReportingPeriodYearToAdd = $scope.NextReportingPeriodYear;
         $scope.ReportedValuesToAdd = _($scope.AngularViewData.ReportingCategoriesForDisplay)
@@ -38,12 +38,11 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     };
 
     $scope.addRow = function () {
-        if ((Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodBeginDateToAdd)) ||
-            (Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodEndDateToAdd)) ||
+        if ((Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodYearToAdd)) ||
             (Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodLabelToAdd))) {
             return;
         }
-        var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodBeginDateToAdd, $scope.ReportingPeriodEndDateToAdd, $scope.ReportingPeriodLabelToAdd, $scope.ReportedValuesToAdd);
+        var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd, $scope.ReportedValuesToAdd);
         $scope.AngularModel.PerformanceMeasureReportedBulks.push(newBulk);
         $scope.NextReportingPeriodYear = $scope.getNextReportingPeriodYear();
         $scope.resetReportingPeriodToAdd();
@@ -55,17 +54,14 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         {
             return;
         }
-        $scope.ReportingPeriodBeginDateToAdd = "01/01/" + $scope.ReportingPeriodYearToAdd;
-        $scope.ReportingPeriodEndDateToAdd = "12/31/" + $scope.ReportingPeriodYearToAdd;
         $scope.ReportingPeriodLabelToAdd = $scope.ReportingPeriodYearToAdd;
         $scope.addRow();
     }
 
-    $scope.createNewBulkRow = function (reportingPeriodBeginDate, reportingPeriodEndDate, reportingPeriodLabel, reportedValuesForDisplay) {
+    $scope.createNewBulkRow = function (reportingPeriodCalendarYear, reportingPeriodLabel, reportedValuesForDisplay) {
         var newBulk = {
             PerformanceMeasureSubcategoryID: $scope.AngularViewData.PerformanceMeasureSubcategoryID,
-            PerformanceMeasureReportingPeriodBeginDate: reportingPeriodBeginDate,
-            PerformanceMeasureReportingPeriodEndDate: reportingPeriodEndDate,
+            PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
             PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
             ReportedValuesForDisplay: reportedValuesForDisplay
         };
@@ -75,7 +71,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.getNextReportingPeriodYear = function()
     {
         return _($scope.AngularModel.PerformanceMeasureReportedBulks)
-            .map(function(bulk) { return new Date(bulk.PerformanceMeasureReportingPeriodBeginDate).getFullYear(); })
+            .map(function(bulk) { return bulk.PerformanceMeasureReportingPeriodCalendarYear; })
             .max() + 1;
     }
 
@@ -88,14 +84,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return hasValidationErrors;
     };
 
-    $scope.getFormattedDateLabel = function(bulk)
-    {
-        var beginDateString = jQuery.datepicker.formatDate("m/d/y", new Date(bulk.PerformanceMeasureReportingPeriodBeginDate));
-        var endDateString = jQuery.datepicker.formatDate("m/d/y", new Date(bulk.PerformanceMeasureReportingPeriodEndDate));
-        return bulk.PerformanceMeasureReportingPeriodLabel + " (" + beginDateString + " - " + endDateString + ")";
-    };
-
-    $scope.getBulkOrder = function (bulk) { return new Date(bulk.PerformanceMeasureReportingPeriodBeginDate); }
+    $scope.getBulkOrder = function (bulk) { return new Date(bulk.PerformanceMeasureReportingPeriodCalendarYear); }
 
     $scope.isPerformanceMeasureTargetValueTypeNoTarget = function () {
         return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.AngularViewData.PerformanceMeasureTargetValueTypes.NoTarget;
