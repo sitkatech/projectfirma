@@ -91,29 +91,7 @@ namespace ProjectFirma.Web.Security
 
         public string FeatureName => GetType().Name;
 
-        /*
         // Hoping this can be eliminated in favor of HasPermissionByFirmaSession, but here for the moment.
-        public virtual bool HasPermissionByPerson(Person person)
-        {
-            if (person == null)
-            {
-                return false;
-            }
-
-            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsUnassigned())
-            {
-                return false;
-            }
-
-            if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
-            {
-                return true;
-            }
-
-            return _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
-        }
-        */
-
         public virtual bool HasPermissionByPerson(Person person)
         {
             bool personIsAnonymous = person == null;
@@ -135,8 +113,6 @@ namespace ProjectFirma.Web.Security
             bool hasMatchingRole = !personIsAnonymous && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
             return hasMatchingRole;
         }
-
-
 
         // Eventually, usages like this should replace HasPermissionByPerson throughout
         public virtual bool HasPermissionByFirmaSession(FirmaSession firmaSession)
