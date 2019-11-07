@@ -128,19 +128,19 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// List of Projects for which this Person is the primary contact
         /// </summary>
-        public static List<Project> GetPrimaryContactProjects(this Person person, Person currentPerson)
+        public static List<Project> GetPrimaryContactProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            var isPersonViewingThePrimaryContact = currentPerson.PersonID == person.PersonID;
+            var isPersonViewingThePrimaryContact = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
             if (isPersonViewingThePrimaryContact)
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
-            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals()).ToList();
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
         }
 
-        public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, Person currentPerson)
+        public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            return person.GetPrimaryContactProjects(currentPerson).Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
+            return person.GetPrimaryContactProjects(currentFirmaSession).Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
         }
 
         public static bool IsPersonAProjectOwnerWhoCanStewardProjects(this Person person)
