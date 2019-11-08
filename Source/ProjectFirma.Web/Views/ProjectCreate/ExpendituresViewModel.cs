@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public List<ProjectFundingSourceExpenditureBulk> ProjectFundingSourceExpenditures { get; set; }
         public string Explanation { get; set; }
+        public bool HasExpenditures { get; set; }
 
 
         /// <summary>
@@ -54,9 +55,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ExpendituresViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             List<int> calendarYearsToPopulate, ProjectFirmaModels.Models.Project project)
         {
-            Explanation = project.NoExpendituresToReportExplanation;
+            Explanation = project.ExpendituresNote;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearsToPopulate);
             ShowValidationWarnings = true;
+            HasExpenditures = projectFundingSourceExpenditures.Any();
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
@@ -70,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditures()).ToList();
             }
 
-            project.NoExpendituresToReportExplanation = Explanation;
+            project.ExpendituresNote = Explanation;
 
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
@@ -88,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
             var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
             var validationErrors = ExpendituresValidationResult.Validate(ProjectFundingSourceExpenditures,
-                Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange());
+                Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange(), HasExpenditures);
             errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
 
             return errors;

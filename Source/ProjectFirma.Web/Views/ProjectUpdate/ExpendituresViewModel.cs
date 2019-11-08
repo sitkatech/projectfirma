@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
         {
-            Explanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+            Explanation = projectUpdateBatch.ExpendituresNote;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearsToPopulate);
             ShowValidationWarnings = true;
             Comments = projectUpdateBatch.ExpendituresComment;
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
 
-            projectUpdateBatch.NoExpendituresToReportExplanation = Explanation;
+            projectUpdateBatch.ExpendituresNote = Explanation;
 
             currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
                 allProjectFundingSourceExpenditureUpdates,

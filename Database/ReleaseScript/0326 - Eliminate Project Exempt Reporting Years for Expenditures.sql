@@ -48,3 +48,9 @@ go
 -- Delete the ProjectExemptReportingType for Expenditures
 delete from dbo.ProjectExemptReportingType
 where ProjectExemptReportingTypeID = 2
+
+-- Rename NoExpendituresToReportExplanation to ExpendituresNote to make it a general purpose notes field
+EXEC sp_rename 'dbo.Project.NoExpendituresToReportExplanation', 'ExpendituresNote', 'COLUMN';
+
+EXEC sp_rename 'dbo.ProjectUpdateBatch.NoExpendituresToReportExplanation', 'ExpendituresNote', 'COLUMN';
+

@@ -55,9 +55,9 @@ namespace ProjectFirma.Web.Models
 
                         // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
                         return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&
-                                string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation)) ||
+                                string.IsNullOrWhiteSpace(project.ExpendituresNote)) ||
                                (!project.ProjectFundingSourceExpenditures.Any() &&
-                                !string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation));
+                                !string.IsNullOrWhiteSpace(project.ExpendituresNote));
                     }
                     else
                     {
