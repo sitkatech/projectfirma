@@ -399,10 +399,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(project.ProjectID)));
-            }
+
             var performanceMeasureActualSimples =
                 project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())
                     .ThenByDescending(x => x.CalendarYear)
@@ -428,10 +425,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult PerformanceMeasures(ProjectPrimaryKey projectPrimaryKey, PerformanceMeasuresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(project.ProjectID)));
-            }
+
             if (!ModelState.IsValid)
             {
                 return ViewPerformanceMeasures(project, viewModel);
@@ -521,12 +515,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
-
             var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
             var projectRelevantCostTypes = project.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
@@ -544,11 +532,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
-
             var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
             if (!ModelState.IsValid)
             {
@@ -575,11 +558,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
 
@@ -593,12 +571,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
-
             viewModel.ProjectID = project.ProjectID;
 
             var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
@@ -619,11 +591,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
             var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
             var projectRelevantCostTypes = project.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
@@ -642,12 +609,6 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-
-            if (project == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectCreateController>(x => x.InstructionsProposal(projectPrimaryKey.PrimaryKeyValue)));
-            }
-
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
             if (!ModelState.IsValid)
