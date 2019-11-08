@@ -32,11 +32,28 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
             (Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodLabelToAdd))) {
             return;
         }
+        
+        if ($scope.IsYearInUse) {
+            console.log('Year is already in use');
+            return;
+        }
         var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd);
         $scope.AngularModel.PerformanceMeasureReportingPeriodSimples.push(newBulk);
         $scope.NextReportingPeriodYear = $scope.getNextReportingPeriodYear();
         $scope.resetReportingPeriodToAdd();
     };
+
+    
+    $scope.CheckForYearInUse = function () {
+        
+        if (_.find($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, function (o) { return o.PerformanceMeasureReportingPeriodCalendarYear == $scope.ReportingPeriodYearToAdd; })) {
+            $scope.IsYearInUse = true;
+            console.log('year is in use');
+        } else {
+            $scope.IsYearInUse = false;
+            console.log('year is NOT in use');
+        }
+    }
 
     $scope.addYearRow = function()
     {
@@ -44,6 +61,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         {
             return;
         }
+        $scope.CheckForYearInUse();
         $scope.ReportingPeriodLabelToAdd = $scope.ReportingPeriodYearToAdd;
         $scope.addRow();
     }
@@ -123,4 +141,5 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
 
     $scope.targetValueTypeChanged();
     $scope.resetReportingPeriodToAdd();
+    $scope.CheckForYearInUse();
 });

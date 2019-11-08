@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues)
         {
-            return performanceMeasureReportedValues.Select(pmrv => new PerformanceMeasureReportingPeriodSimple(pmrv.PerformanceMeasureReportingPeriod)).ToList();
+            return performanceMeasureReportedValues.Select(x => x.PerformanceMeasureReportingPeriod).Distinct().Select(pmrv => new PerformanceMeasureReportingPeriodSimple(pmrv)).ToList();
         }
     }
 }

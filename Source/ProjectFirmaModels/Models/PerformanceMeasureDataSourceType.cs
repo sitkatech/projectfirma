@@ -19,8 +19,6 @@ namespace ProjectFirmaModels.Models
                     performanceMeasure.PerformanceMeasureActuals.Where(x => projectIDs.Contains(x.Project.ProjectID)).ToList();
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
-            //.ThenBy(pma => pma.ProjectName)
-            //todo: 11/4/2019 TK - try to sort by project name
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ToList();
         }
 
@@ -38,8 +36,6 @@ namespace ProjectFirmaModels.Models
                 performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActualUpdates.Where(x => projectIDs.Contains(x.ProjectUpdateBatch.ProjectID)).ToList();
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
-            //.ThenBy(pma => pma.ProjectName)
-            //todo: 11/4/2019 TK - try to sort by project name
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ToList();
         }
 

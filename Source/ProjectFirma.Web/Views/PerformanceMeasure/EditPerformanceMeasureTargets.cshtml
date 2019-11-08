@@ -97,7 +97,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <table class="dashboardTable table table-hover table-condensed">
         <colgroup>
             <col style="width: 200px">
-            <col style="width: auto">
+            <col style="width: 165px">
             <col style="width: 100%">
         </colgroup>
         <thead>
@@ -110,12 +110,16 @@ Source code is available upon request via <support@sitkatech.com>.
         <tbody>
             <tr>
                 <td>
-                    <input type="number" ng-model="ReportingPeriodYearToAdd" />
+                    <input type="number" ng-onchange="CheckForYearInUse" ng-model="ReportingPeriodYearToAdd" />
                 </td>
                 <td>
                     <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Reporting Year</button>
                 </td>
-                <td></td>
+                <td>
+                    <div class="alert alert-danger" ng-show="IsYearInUse">
+                        The year you entered is already being reported. Please enter a different year.
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
