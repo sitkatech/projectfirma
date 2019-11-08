@@ -62,8 +62,9 @@ namespace ProjectFirma.Web.Models
                     else
                     {
                         var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                                    projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project),
+                        var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+                        var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditureBulks,
                                     project)
                                 {ProjectID = project.ProjectID}
                             .GetValidationResults();

@@ -19,17 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Data.Entity;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -41,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public bool ShowValidationWarnings { get; set; }
 
         public List<ProjectFundingSourceExpenditureBulk> ProjectFundingSourceExpenditures { get; set; }
-        public string Explanation { get; set; }
+        public string ExpendituresNote { get; set; }
         public bool HasExpenditures { get; set; }
 
 
@@ -52,11 +50,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ExpendituresViewModel(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            List<int> calendarYearsToPopulate, ProjectFirmaModels.Models.Project project)
+        public ExpendituresViewModel(List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditures,
+            ProjectFirmaModels.Models.Project project)
         {
-            Explanation = project.ExpendituresNote;
-            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearsToPopulate);
+            ExpendituresNote = project.ExpendituresNote;
+            ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
             ShowValidationWarnings = true;
             HasExpenditures = projectFundingSourceExpenditures.Any();
         }
@@ -72,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 projectFundingSourceExpendituresUpdated = ProjectFundingSourceExpenditures.SelectMany(x => x.ToProjectFundingSourceExpenditures()).ToList();
             }
 
-            project.ExpendituresNote = Explanation;
+            project.ExpendituresNote = ExpendituresNote;
 
             currentProjectFundingSourceExpenditures.Merge(projectFundingSourceExpendituresUpdated,
                 allProjectFundingSourceExpenditures,
@@ -90,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var errors = new List<ValidationResult>();
             var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
             var validationErrors = ExpendituresValidationResult.Validate(ProjectFundingSourceExpenditures,
-                Explanation, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange(), HasExpenditures);
+                ExpendituresNote, project.GetProjectUpdatePlanningDesignStartToCompletionYearRange(), HasExpenditures);
             errors.AddRange(validationErrors.Select(x => new ValidationResult(x)));
 
             return errors;
