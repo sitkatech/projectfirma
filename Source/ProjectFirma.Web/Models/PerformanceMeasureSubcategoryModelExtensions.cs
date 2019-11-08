@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
 
                 var googleChartDataTable = performanceMeasure.SwapChartAxes
                     ? GetGoogleChartDataTableWithReportingPeriodsAsVerticalAxis(performanceMeasure, hasTargets, performanceMeasureReportingPeriods, groupedBySubcategoryOption)
-                    : GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder);
+                    : GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder);
                 var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Models
             return googleChartJsons;
         }
 
-        public static GoogleChartDataTable GetGoogleChartDataTableWithReportingPeriodsAsHorixontalAxis(PerformanceMeasure performanceMeasure,
+        public static GoogleChartDataTable GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(PerformanceMeasure performanceMeasure,
             ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
             bool hasTargets,
             IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption,
@@ -146,9 +146,8 @@ namespace ProjectFirma.Web.Models
             return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueDescription})";
         }
 
-        public static PerformanceMeasureTargetValueType GetTargetValueType(this ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
         {
-            var performanceMeasureReportingPeriods = performanceMeasurePerformanceMeasureReportingPeriods;
             if (!performanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
             {
                 return PerformanceMeasureTargetValueType.NoTarget;

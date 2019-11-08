@@ -180,7 +180,7 @@ namespace ProjectFirma.Web.Models
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()
                 : performanceMeasureValues;
 
-            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
+            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.PerformanceMeasureReportingPeriod }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
             var projectPerformanceMeasureReportingPeriodValues = groupByProjectAndSubcategory.Select(reportedValuesGroup =>
             {
@@ -193,14 +193,14 @@ namespace ProjectFirma.Web.Models
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod, y.PerformanceMeasureSubcategoryOption,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0));
                         }
                         else
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0), y.PerformanceMeasureSubcategory, y.GetPerformanceMeasureSubcategoryOptionName());
                         }
                     }).ToList();
