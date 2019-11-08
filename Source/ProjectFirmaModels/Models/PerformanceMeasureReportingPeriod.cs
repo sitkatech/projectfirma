@@ -5,8 +5,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class PerformanceMeasureReportingPeriod 
+    public partial class PerformanceMeasureReportingPeriod : IAuditableEntity
     {
-
+        public string GetAuditDescriptionString() => PerformanceMeasureReportingPeriodLabel;
     }
 }

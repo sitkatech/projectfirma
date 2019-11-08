@@ -24,17 +24,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
 
         $scope.ReportingPeriodLabelToAdd = $scope.NextReportingPeriodYear;
         $scope.ReportingPeriodYearToAdd = $scope.NextReportingPeriodYear;
-        $scope.ReportedValuesToAdd = _($scope.AngularViewData.ReportingCategoriesForDisplay)
-            .sortBy(function(reportingCategoryForDisplay)
-            {
-                return reportingCategoryForDisplay.SortOrder;
-            })
-            .map(function (reportingCategoryForDisplay) {
-                return {
-                    PerformanceMeasureSubcategoryOptionID: reportingCategoryForDisplay.PerformanceMeasureSubcategoryOptionID,
-                    ReportedValueAmount: null
-                };
-            }).value();
+
     };
 
     $scope.addRow = function () {
@@ -42,8 +32,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
             (Sitka.Methods.isUndefinedNullOrEmpty($scope.ReportingPeriodLabelToAdd))) {
             return;
         }
-        var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd, $scope.ReportedValuesToAdd);
-        $scope.AngularModel.PerformanceMeasureReportedBulks.push(newBulk);
+        var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd);
+        $scope.AngularModel.PerformanceMeasureReportingPeriodSimples.push(newBulk);
         $scope.NextReportingPeriodYear = $scope.getNextReportingPeriodYear();
         $scope.resetReportingPeriodToAdd();
     };
@@ -58,25 +48,23 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         $scope.addRow();
     }
 
-    $scope.createNewBulkRow = function (reportingPeriodCalendarYear, reportingPeriodLabel, reportedValuesForDisplay) {
+    $scope.createNewBulkRow = function (reportingPeriodCalendarYear, reportingPeriodLabel) {
         var newBulk = {
-            PerformanceMeasureSubcategoryID: $scope.AngularViewData.PerformanceMeasureSubcategoryID,
             PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
-            PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
-            ReportedValuesForDisplay: reportedValuesForDisplay
+            PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel
         };
         return newBulk;
     };
 
     $scope.getNextReportingPeriodYear = function()
     {
-        return _($scope.AngularModel.PerformanceMeasureReportedBulks)
+        return _($scope.AngularModel.PerformanceMeasureReportingPeriodSimples)
             .map(function(bulk) { return bulk.PerformanceMeasureReportingPeriodCalendarYear; })
             .max() + 1;
     }
 
     $scope.deleteRow = function (rowToDelete) {
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureReportedBulks, rowToDelete);
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, rowToDelete);
     };
 
     $scope.showRowValidationErrors = function (bulk) {
@@ -127,9 +115,9 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.NextReportingPeriodYear = $scope.AngularViewData.DefaultReportingPeriodYear;
     $scope.ReportingPeriodYearToAdd = $scope.AngularViewData.DefaultReportingPeriodYear;
 
-    if ($scope.AngularModel.PerformanceMeasureReportedBulks.length > 0) {
-        $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportedBulks[0].TargetValue;
-        $scope.AngularModel.OverallTargetValueDescription = $scope.AngularModel.PerformanceMeasureReportedBulks[0].TargetValueDescription;
+    if ($scope.AngularModel.PerformanceMeasureReportingPeriodSimples.length > 0) {
+        $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
+        $scope.AngularModel.OverallTargetValueDescription = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueDescription;
     }
 
     $scope.targetValueTypeChanged();

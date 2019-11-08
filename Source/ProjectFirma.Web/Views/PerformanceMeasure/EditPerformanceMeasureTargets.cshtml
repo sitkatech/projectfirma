@@ -119,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
             </tr>
         </tbody>
     </table>
-    <div ng-show="AngularModel.PerformanceMeasureReportedBulks.length" style="max-height: 400px; overflow: auto">
+    <div ng-show="AngularModel.PerformanceMeasureReportingPeriodSimples.length" style="max-height: 400px; overflow: auto">
         <hr />
         <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
             <colgroup>
@@ -141,7 +141,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="bulk in AngularModel.PerformanceMeasureReportedBulks | orderBy: getBulkOrder : reverse">
+                <tr ng-repeat="bulk in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy: getBulkOrder : reverse">
                     <td>
                         <span class="glyphicon glyphicon-warning-sign red" alt="" ng-show="showRowValidationErrors(bulk)"></span>
                     </td>
@@ -168,16 +168,12 @@ Source code is available upon request via <support@sitkatech.com>.
         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
         <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValue)" value="{{AngularModel.OverallTargetValue}}" />
         <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueDescription)" value="{{AngularModel.OverallTargetValueDescription}}" />
-        <div ng-repeat="performanceMeasureReportedBulk in AngularModel.PerformanceMeasureReportedBulks | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportedBulk.PerformanceMeasureReportingPeriodCalendarYear}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportedBulk.PerformanceMeasureReportingPeriodLabel}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].PerformanceMeasureSubcategoryID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportedBulk.PerformanceMeasureSubcategoryID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].TargetValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportedBulk.TargetValue}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].TargetValueDescription).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportedBulk.TargetValueDescription}}" />
-            <div ng-repeat="reportedValueForDisplay in performanceMeasureReportedBulk.ReportedValuesForDisplay | orderBy:'PerformanceMeasureSubcategoryOptionID'">
-                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].ReportedValuesForDisplay[1].PerformanceMeasureSubcategoryOptionID).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{reportedValueForDisplay.PerformanceMeasureSubcategoryOptionID}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportedBulks[0].ReportedValuesForDisplay[1].ReportedValue).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{reportedValueForDisplay.ReportedValue}}" />
-            </div>
+        <div ng-repeat="performanceMeasureReportingPeriodSimple in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodLabel}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].TargetValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.TargetValue}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].TargetValueDescription).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.TargetValueDescription}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodID}}" />
         </div>
     }
 </div>

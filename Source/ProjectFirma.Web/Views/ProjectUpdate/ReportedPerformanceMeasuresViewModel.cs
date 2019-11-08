@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID,
                 (x, y) =>
                 {
-                    x.CalendarYear = y.CalendarYear;
+                    x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear = y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
                     x.ActualValue = y.ActualValue;
                 }, databaseEntities);
 

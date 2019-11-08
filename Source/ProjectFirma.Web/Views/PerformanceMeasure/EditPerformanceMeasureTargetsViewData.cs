@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
@@ -45,15 +44,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly int? PerformanceMeasureSubcategoryID;
         public readonly int DefaultReportingPeriodYear;
         public readonly Dictionary<string, int> PerformanceMeasureTargetValueTypes;
-        public List<ReportingCategoryForDisplay> ReportingCategoriesForDisplay;
 
         public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, Dictionary<string, int> performanceMeasureTargetValueTypes)
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
-            var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single();
-            ReportingCategoriesForDisplay = performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions.Select(x => new ReportingCategoryForDisplay(x)).ToList();
-            PerformanceMeasureSubcategoryID = performanceMeasureSubcategory.PerformanceMeasureSubcategoryID;
         }
     }
 }

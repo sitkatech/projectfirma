@@ -393,7 +393,7 @@ namespace ProjectFirma.Web.Models
                 return new HashSet<int>();
             }
             var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
-                .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
                 .Select(x => x)
@@ -410,7 +410,7 @@ namespace ProjectFirma.Web.Models
             }
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
 
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();            
+            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();            
 
             return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }

@@ -198,7 +198,7 @@
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
-    <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportedBulk.cs" />
+    <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />
