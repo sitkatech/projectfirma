@@ -51,7 +51,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.createNewBulkRow = function (reportingPeriodCalendarYear, reportingPeriodLabel) {
         var newBulk = {
             PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
-            PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel
+            PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
+            PerformanceMeasureReportingPeriodID: -1
         };
         return newBulk;
     };
