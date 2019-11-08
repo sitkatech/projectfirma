@@ -113,7 +113,9 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
 
     $scope.formatCalendarYear = function (calendarYear) { return $scope.AngularViewData.UseFiscalYears ? "FY" + calendarYear : calendarYear; };
 
-    $scope.findProjectFundingSourceExpenditureRow = function(projectId, fundingSourceId) { return _.find($scope.AngularModel.ProjectFundingSourceExpenditures, function(pfse) { return pfse.ProjectID == projectId && pfse.FundingSourceID == fundingSourceId; }); }
+    $scope.findProjectFundingSourceExpenditureRow = function(projectId, fundingSourceId) {
+         return _.find($scope.AngularModel.ProjectFundingSourceExpenditures, function(pfse) { return pfse.ProjectID == projectId && pfse.FundingSourceID == fundingSourceId; });
+    }
     
     $scope.addRow = function () {
         if (($scope.FundingSourceIDToAdd == null) || ($scope.projectIDToAdd == null)) {
@@ -128,7 +130,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceExpenditureCon
     {
         var fundingSource = $scope.getFundingSource(fundingSourceId);
         var newProjectFundingSourceExpenditure = {
-            ProjectID: $scope.ProjectID,
+            ProjectID: $scope.projectIDToAdd,
             FundingSourceID: fundingSource.FundingSourceID,
             CalendarYearExpenditures: _.map(calendarYearsToAdd, $scope.createNewCalendarYearExpenditureRow),
             IsRelevant: true
