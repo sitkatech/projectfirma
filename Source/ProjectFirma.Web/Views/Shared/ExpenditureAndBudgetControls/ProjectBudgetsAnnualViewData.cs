@@ -35,13 +35,13 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public string ExpectedFundingUpdateNote { get; }
 
         // Constructor for Annual Budgeting
-        public ProjectBudgetsAnnualViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson)
+        public ProjectBudgetsAnnualViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project) : base(currentFirmaSession)
         {
             Project = project;
             ProjectFundingSourceBudgetsAnnual = new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets);
             ExpectedFundingUpdateNote = project.ExpectedFundingUpdateNote;
         }
-        public ProjectBudgetsAnnualViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch) : base(currentPerson)
+        public ProjectBudgetsAnnualViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch) : base(currentFirmaSession)
         {
             Project = projectUpdateBatch.Project;
             ProjectFundingSourceBudgetsAnnual = new List<IFundingSourceBudgetAmount>(projectUpdateBatch.ProjectFundingSourceBudgetUpdates);

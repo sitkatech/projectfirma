@@ -34,12 +34,12 @@ namespace ProjectFirma.Web.Views.ProjectStewardOrganization
         public string GridDataUrl { get; }
         public List<ProjectFirmaModels.Models.Organization> ProjectStewardOrganizations { get; }
 
-        public IndexViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> projectStewardOrganizations, ProjectFirmaModels.Models.FirmaPage firmaPage)
-            : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Organization> projectStewardOrganizations, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            GridSpec = new IndexGridSpec(currentPerson)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}",

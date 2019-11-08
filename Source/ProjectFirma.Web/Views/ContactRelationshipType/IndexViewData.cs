@@ -36,11 +36,11 @@ namespace ProjectFirma.Web.Views.ContactRelationshipType
         public bool HasManagePermissions { get; }
         public string NewProjectAssociationUrl { get; }
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
+            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ContactRelationshipTypeGridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectContactRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 

@@ -11,9 +11,9 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
 {
     public class TechnicalAssistanceReportGridSpec : GridSpec<ProjectFirmaModels.Models.TechnicalAssistanceRequest>
     {
-        public TechnicalAssistanceReportGridSpec(Person currentPerson, List<TechnicalAssistanceParameter> technicalAssistanceParameters)
+        public TechnicalAssistanceReportGridSpec(FirmaSession currentFirmaSession, List<TechnicalAssistanceParameter> technicalAssistanceParameters)
         {
-            var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (isAdmin)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), 1000, "Edit Technical Assistance Requests for this Project")), 30, DhtmlxGridColumnFilterType.None);

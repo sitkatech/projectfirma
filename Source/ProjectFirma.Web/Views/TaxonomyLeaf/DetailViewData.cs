@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public Dictionary<int, PerformanceMeasureChartViewData> PrimaryPerformanceMeasureChartViewDataByPerformanceMeasure { get; }
         public Dictionary<int, PerformanceMeasureChartViewData> SecondaryPerformanceMeasureChartViewDataByPerformanceMeasure { get; }
 
-        public DetailViewData(Person currentPerson,
+        public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf,
             ProjectLocationsMapInitJson primaryProjectLocationsMapInitJson,
             ProjectLocationsMapInitJson secondaryProjectLocationsMapInitJson,
@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             IEnumerable<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
             Dictionary<int, PerformanceMeasureChartViewData> primaryPerformanceMeasureChartViewDataByPerformanceMeasure,
             Dictionary<int, PerformanceMeasureChartViewData> secondaryPerformanceMeasureChartViewDataByPerformanceMeasure,
-            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson)
+            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentFirmaSession)
         {
             TaxonomyLeaf = taxonomyLeaf;
             PageTitle = taxonomyLeaf.GetDisplayName();
@@ -92,12 +92,12 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             SecondaryProjectLocationsMapViewData = secondaryProjectLocationsMapViewData;
             ProjectMapFilteredUrl = PrimaryProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
-            UserHasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByPerson(CurrentPerson);
+            UserHasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditTaxonomyLeafUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(c => c.Edit(taxonomyLeaf));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(x => x.Taxonomy());
 
             SecondaryBasicProjectInfoGridName = "secondaryLeafProjectListGrid";
-            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf)
+            BasicProjectInfoGridSpec = new ProjectForTaxonomyLeafGridSpec(currentFirmaSession, true, taxonomyLeaf)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this {taxonomyLeafDisplayName}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this {taxonomyLeafDisplayName}",
@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             SecondaryBasicProjectInfoGridDataUrl = SitkaRoute<TaxonomyLeafController>.BuildUrlFromExpression(tc => tc.SecondaryProjectsGridJsonData(taxonomyLeaf));
             ProjectTaxonomyViewData = new ProjectTaxonomyViewData(taxonomyLeaf, taxonomyLevel);
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "taxonomyLeafProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyLeafProjectsGridJsonData(taxonomyLeaf));

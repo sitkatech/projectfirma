@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var project = projectPrimaryKey.EntityObject;
             var projectNote = ProjectNote.CreateNewBlank(project);
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectNotes.Add(projectNote);
             return new ModalDialogFormJsonResult();
         }
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var projectNote = projectNotePrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

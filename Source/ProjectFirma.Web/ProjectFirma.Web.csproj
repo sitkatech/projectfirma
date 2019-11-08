@@ -121,6 +121,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Models\FirmaSessionModelExtensions.cs" />
     <Compile Include="Models\PersonSimple.cs" />
     <Compile Include="Models\ProjectAttachmentModelExtensions.cs" />
     <Compile Include="Models\ProjectAttachmentUpdateModelExtensions.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -1450,6 +1452,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
+      <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\User\Invite.cs" />
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
@@ -1562,6 +1567,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectContact\EditContacts.cshtml" />
@@ -1667,7 +1673,7 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>

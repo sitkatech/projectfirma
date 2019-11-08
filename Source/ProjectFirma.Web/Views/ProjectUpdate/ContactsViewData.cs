@@ -10,8 +10,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
 
-        public ContactsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, EditContactsViewData editContactsViewData, ContactsValidationResult contactsValidationResult, ProjectContactsDetailViewData projectContactsDetailViewData) : base(
-            currentPerson, projectUpdateBatch, projectUpdateStatus, contactsValidationResult.GetWarningMessages(), ProjectUpdateSection.Contacts.ProjectUpdateSectionDisplayName)
+        public ContactsViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, EditContactsViewData editContactsViewData, ContactsValidationResult contactsValidationResult, ProjectContactsDetailViewData projectContactsDetailViewData) : base(
+            currentFirmaSession, projectUpdateBatch, projectUpdateStatus, contactsValidationResult.GetWarningMessages(), ProjectUpdateSection.Contacts.ProjectUpdateSectionDisplayName)
         {
             EditContactsViewData = editContactsViewData;
             ProjectContactsDetailViewData = projectContactsDetailViewData;

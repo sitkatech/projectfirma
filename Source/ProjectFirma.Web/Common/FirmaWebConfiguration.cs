@@ -58,6 +58,8 @@ namespace ProjectFirma.Web.Common
         public static readonly string RecaptchaPrivateKey = SitkaConfiguration.GetRequiredAppSetting("RecaptchaPrivateKey");
         public static readonly string RecaptchaValidatorUrl = SitkaConfiguration.GetRequiredAppSettingNotNullNotEmptyNotWhitespace("RecaptchaValidatorUrl");
 
+        public static readonly bool ImpersonationAllowedInEnvironment = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("ImpersonationAllowed"));
+
         public static readonly FirmaEnvironment FirmaEnvironment = FirmaEnvironment.MakeFirmaEnvironment(SitkaConfiguration.GetRequiredAppSetting("FirmaEnvironment"));
 
         public static readonly string CanonicalHostName = CanonicalHostNames.FirstOrDefault();

@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.Security
 {
     public interface IFirmaBaseFeatureWithContext<in T>
     {
-        PermissionCheckResult HasPermission(Person person, T contextModelObject);
-        void DemandPermission(Person person, T contextModelObject);
+        PermissionCheckResult HasPermission(FirmaSession firmaSession, T contextModelObject);
+        void DemandPermission(FirmaSession firmaSession, T contextModelObject);
         string FeatureName { get; }
     }
 }

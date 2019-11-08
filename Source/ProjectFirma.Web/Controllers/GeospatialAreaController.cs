@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
 
             var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox());
 
-            var viewData = new IndexViewData(CurrentPerson, geospatialAreaType, mapInitJson);
+            var viewData = new IndexViewData(CurrentFirmaSession, geospatialAreaType, mapInitJson);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple> IndexGridJsonData(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
         {
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(CurrentPerson, geospatialAreaType);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession, geospatialAreaType);
             var projectIDsViewableByUser = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjectsAndProposals(CurrentPerson.CanViewProposals()).Select(x => x.ProjectID).ToList();
             var geospatialAreaIndexGridSimples = GeospatialAreaModelExtensions.GetGeospatialAreaIndexGridSimples(geospatialAreaType, projectIDsViewableByUser);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialAreaIndexGridSimple>(geospatialAreaIndexGridSimples, gridSpec);
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
             var mapDivID = $"geospatialArea_{geospatialArea.GeospatialAreaID}_Map";
 
-            var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentPerson);
+            var associatedProjects = geospatialArea.GetAssociatedProjects(CurrentFirmaSession);
             var layers = geospatialArea.GetGeospatialAreaAndAssociatedProjectLayers(associatedProjects);
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, new BoundingBox(geospatialArea.GeospatialAreaFeature));
 
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, geospatialArea, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentFirmaSession, geospatialArea, mapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public PartialViewResult MapTooltip(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
         {
-            var viewData = new MapTooltipViewData(CurrentPerson, geospatialAreaPrimaryKey.EntityObject);
+            var viewData = new MapTooltipViewData(CurrentFirmaSession, geospatialAreaPrimaryKey.EntityObject);
             return RazorPartialView<MapTooltip, MapTooltipViewData>(viewData);
         }
 

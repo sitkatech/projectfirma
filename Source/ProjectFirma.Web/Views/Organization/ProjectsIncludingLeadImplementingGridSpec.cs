@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Organization
 {
     public class ProjectsIncludingLeadImplementingGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProjectsIncludingLeadImplementingGridSpec(ProjectFirmaModels.Models.Organization organization, Person currentPerson, bool showSubmittalStatus)
+        public ProjectsIncludingLeadImplementingGridSpec(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession, bool showSubmittalStatus)
         {
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 350, DhtmlxGridColumnFilterType.Html);
 
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Organization
                 Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
             }
             Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
-            if (new FirmaAdminFeature().HasPermissionByPerson(currentPerson))
+            if (new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, DhtmlxGridColumnFilterType.Html);
             }

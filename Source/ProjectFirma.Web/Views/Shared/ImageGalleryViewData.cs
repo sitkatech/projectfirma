@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Views.Shared
         public Func<FileResourcePhoto, object> SortFunction { get; }
         public string ImageEntityName { get; }
 
-        public ImageGalleryViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, bool canAddPhotos, string addNewPhotoUrl, string selectKeyImageUrl, bool isGalleryMode, Func<FileResourcePhoto, object> sortFunction, string imageEntityName)
+        public ImageGalleryViewData(FirmaSession currentFirmaSession, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, bool canAddPhotos, string addNewPhotoUrl, string selectKeyImageUrl, bool isGalleryMode, Func<FileResourcePhoto, object> sortFunction, string imageEntityName)
         {
-            CurrentPerson = currentPerson;
+            CurrentPerson = currentFirmaSession.Person;
             GalleryImages = galleryImages.ToList();
             UserCanAddPhotos = canAddPhotos;
             SelectKeyImageUrl = selectKeyImageUrl;

@@ -154,7 +154,7 @@ else
 
                 <div class="visibleText">
                     <h3>@classification.GetDisplayName()</h3>
-                    <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentPerson).Count() @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p> 
+                    <p>@classification.GetAssociatedProjects(ViewDataTyped.CurrentFirmaSession).Count() @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</p> 
                 </div>
                 <div class="overlay" style="background-color: @classification.ThemeColor">
                     <h3>@classification.GetDisplayName()</h3>

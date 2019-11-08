@@ -35,33 +35,33 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Person contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Person contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
 
-        public PermissionCheckResult HasPermission(Person person, Person contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Person contextModelObject)
         {
             if (contextModelObject == null)
             {
                 return new PermissionCheckResult("The Person whose details you are requesting to see doesn't exist.");
             }
-            var userHasEditPermission = new UserEditFeature().HasPermissionByPerson(person);
-            var userViewingOwnPage = person.PersonID == contextModelObject.PersonID;
+            var userHasEditPermission = new UserEditFeature().HasPermissionByFirmaSession(firmaSession);
+            var userViewingOwnPage = !firmaSession.IsAnonymousUser() && firmaSession.PersonID == contextModelObject.PersonID;
 
             #pragma warning disable 612
-            var userHasAppropriateRole = HasPermissionByPerson(person);
+            var userHasAppropriateRole = HasPermissionByFirmaSession(firmaSession);
             #pragma warning restore 612
             if (!userHasAppropriateRole)
             {
-                return new PermissionCheckResult("You don't permissions to view user details. If you aren't logged in, do that and try again.");
+                return new PermissionCheckResult("You don't have permissions to view user details. If you aren't logged in, do that and try again.");
             }
 
             //Only SitkaAdmin users should be able to see other SitkaAdmin users
-            if (person.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
+            if (firmaSession.Role != Role.SitkaAdmin && contextModelObject.Role == Role.SitkaAdmin)
             {
-                return new PermissionCheckResult("You don\'t have permission to view this user.");
+                return new PermissionCheckResult("You don't have permission to view this user.");
             }
 
             if (userViewingOwnPage || userHasEditPermission)
@@ -69,14 +69,14 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult();
             }
 
-            return new PermissionCheckResult("You don\'t have permission to view this user.");
+            return new PermissionCheckResult("You don't have permission to view this user.");
         }
 
-        //This should only ever be called by HasPermission
-        [Obsolete]
-        public new bool HasPermissionByPerson(Person person)
-        {
-            return base.HasPermissionByPerson(person);
-        }
+        ////This should only ever be called by HasPermission
+        //[Obsolete]
+        //public new bool HasPermissionByPerson(Person person)
+        //{
+        //    return base.HasPermissionByPerson(person);
+        //}
     }
 }

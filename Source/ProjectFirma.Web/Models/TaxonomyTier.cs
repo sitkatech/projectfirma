@@ -26,16 +26,16 @@ namespace ProjectFirma.Web.Models
         public TaxonomyBranch TaxonomyBranch { get; }
         public TaxonomyTrunk TaxonomyTrunk { get; }
 
-        public FancyTreeNode ToFancyTreeNode(Person currentPerson)
+        public FancyTreeNode ToFancyTreeNode(FirmaSession currentFirmaSession)
         {
             switch (TaxonomyLevel)
             {
                 case TaxonomyLevelEnum.Leaf:
-                    return TaxonomyLeaf.ToFancyTreeNode(currentPerson);
+                    return TaxonomyLeaf.ToFancyTreeNode(currentFirmaSession);
                 case TaxonomyLevelEnum.Branch:
-                    return TaxonomyBranch.ToFancyTreeNode(currentPerson);
+                    return TaxonomyBranch.ToFancyTreeNode(currentFirmaSession);
                 case TaxonomyLevelEnum.Trunk:
-                    return TaxonomyTrunk.ToFancyTreeNode(currentPerson);
+                    return TaxonomyTrunk.ToFancyTreeNode(currentFirmaSession);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

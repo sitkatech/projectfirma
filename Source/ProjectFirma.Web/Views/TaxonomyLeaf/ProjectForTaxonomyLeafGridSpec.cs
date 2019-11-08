@@ -14,9 +14,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class ProjectForTaxonomyLeafGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public ProjectForTaxonomyLeafGridSpec(Person currentPerson, bool allowTaggingFunctionality, ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf)
+        public ProjectForTaxonomyLeafGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (userHasTagManagePermissions && allowTaggingFunctionality)
             {
                 BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");

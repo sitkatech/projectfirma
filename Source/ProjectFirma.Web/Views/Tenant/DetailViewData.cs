@@ -50,12 +50,12 @@ namespace ProjectFirma.Web.Views.Tenant
         public bool UsesCostTypes { get; }
         public string CostTypes { get; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Tenant tenant, TenantAttribute tenantAttribute,
             string editBasicsUrl, string editBoundingBoxUrl, string deleteTenantStyleSheetFileResourceUrl,
             string deleteTenantSquareLogoFileResourceUrl, string deleteTenantBannerLogoFileResourceUrl,
             string editBoundingBoxFormID, MapInitJson mapInitJson, DetailGridSpec gridSpec, string gridName,
             string gridDataUrl, string editClassificationSystemsUrl, string editStylesheetUrl, string editTenantLogoUrl, string costTypes)
-            : base(currentPerson)
+            : base(currentFirmaSession)
         {
             PageTitle = tenantAttribute.TenantShortDisplayName;
             Tenant = tenant;
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EditStylesheetUrl = editStylesheetUrl;
             EditTenantLogoUrl = editTenantLogoUrl;
             PrimaryContactRoute = tenantAttribute.PrimaryContactPerson != null ? new SitkaRoute<UserController>(c => c.Detail(tenantAttribute.PrimaryContactPersonID)) : null;
-            UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            UserHasTenantManagePermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             DeleteTenantStyleSheetFileResourceUrl = deleteTenantStyleSheetFileResourceUrl;
             DeleteTenantSquareLogoFileResourceUrl = deleteTenantSquareLogoFileResourceUrl;
             DeleteTenantBannerLogoFileResourceUrl = deleteTenantBannerLogoFileResourceUrl;

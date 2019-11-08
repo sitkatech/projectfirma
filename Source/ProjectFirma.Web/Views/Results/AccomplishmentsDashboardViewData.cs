@@ -48,9 +48,9 @@ namespace ProjectFirma.Web.Views.Results
         public string ConfigureAccomplishmentsDashboardUrl { get; set; }
         public TenantAttribute TenantAttribute { get; set; }
 
-        public AccomplishmentsDashboardViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
+        public AccomplishmentsDashboardViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute,
             List<ProjectFirmaModels.Models.Organization> organizations, List<int> calendarYears, int defaultBeginYear, int defaultEndYear,
-            List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentPerson, firmaPage)
+            List<TaxonomyTier> taxonomyTiers, TaxonomyLevel associatePerformanceMeasureTaxonomyLevel) : base(currentFirmaSession, firmaPage)
         {
             var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
                 .ToType().GetFieldDefinitionLabelPluralized();
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.Results
             SpendingByOrganizationTypeAndOrganizationUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(x => x.SpendingByOrganizationTypeByOrganization(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int, UrlTemplate.Parameter3Int));
             AccomplishmentsDashboardOrganizationTypeName = accomplishmentsDashboardOrganizationTypeName;
             TaxonomyTierDisplayName = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabel();
-            HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            HasSitkaAdminPermissions = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             ConfigureAccomplishmentsDashboardUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.ConfigureAccomplishmentsDashboard());
         }
     }

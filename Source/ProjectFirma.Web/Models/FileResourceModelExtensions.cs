@@ -89,9 +89,9 @@ namespace ProjectFirma.Web.Models
             return fileResourceMimeTypeForFile;
         }
 
-        public static FileResource CreateNewFromHttpPostedFileAndSave(HttpPostedFileBase httpPostedFileBase, Person currentPerson)
+        public static FileResource CreateNewFromHttpPostedFileAndSave(HttpPostedFileBase httpPostedFileBase, FirmaSession currentFirmaSession)
         {
-            var fileResource = CreateNewFromHttpPostedFile(httpPostedFileBase, currentPerson);
+            var fileResource = CreateNewFromHttpPostedFile(httpPostedFileBase, currentFirmaSession.Person);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             return fileResource;

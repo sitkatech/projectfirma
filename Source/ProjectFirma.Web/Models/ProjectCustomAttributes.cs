@@ -24,12 +24,12 @@ namespace ProjectFirmaModels.Models
             Attributes = project.GetProjectCustomAttributes().Select(x => new ProjectCustomAttributeSimple(x)).ToList();
         }
 
-        public void UpdateModel(Project project, Person currentPerson)
+        public void UpdateModel(Project project, FirmaSession currentFirmaSession)
         {
             FixUpMissingBooleansToBeFalse();
 
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var existingProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
+            var existingProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentFirmaSession)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))
@@ -69,12 +69,12 @@ namespace ProjectFirmaModels.Models
                 HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local);
         }
 
-        public void UpdateModel(ProjectUpdate projectUpdate, Person currentPerson)
+        public void UpdateModel(ProjectUpdate projectUpdate, FirmaSession currentFirmaSession)
         {
             FixUpMissingBooleansToBeFalse();
 
             var allProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentPerson)).ToList();
+            var existingProjectCustomAttributes = projectUpdate.ProjectUpdateBatch.ProjectCustomAttributeUpdates.Where(x => x.ProjectCustomAttributeType.HasEditPermission(currentFirmaSession)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.ProjectCustomAttributeValues != null &&
                     x.ProjectCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))

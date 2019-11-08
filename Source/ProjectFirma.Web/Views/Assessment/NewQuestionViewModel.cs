@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Assessment
         {
         }        
         
-        public void UpdateModel(AssessmentQuestion question, Person currentPerson)
+        public void UpdateModel(AssessmentQuestion question, FirmaSession currentFirmaSession)
         {
             question.AssessmentQuestionText = AssessmentQuestionText;
             question.AssessmentSubGoalID = AssessmentSubGoalID;

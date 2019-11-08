@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult SiteMonitor()
         {
             var siteMonitorCheckResults = SiteMonitorChecks.Run();
-            var viewData = new SiteMonitorNagiosViewData(CurrentPerson, siteMonitorCheckResults);
+            var viewData = new SiteMonitorNagiosViewData(CurrentFirmaSession, siteMonitorCheckResults);
             return RazorView<SiteMonitorNagios, SiteMonitorNagiosViewData>(viewData);
         }
     }

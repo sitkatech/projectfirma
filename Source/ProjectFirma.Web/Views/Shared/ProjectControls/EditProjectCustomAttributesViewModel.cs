@@ -56,9 +56,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             Project = projectUpdateBatch.ProjectUpdate;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
-            ProjectCustomAttributes?.UpdateModel(project, currentPerson);
+            ProjectCustomAttributes?.UpdateModel(project, currentFirmaSession);
         }
         
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

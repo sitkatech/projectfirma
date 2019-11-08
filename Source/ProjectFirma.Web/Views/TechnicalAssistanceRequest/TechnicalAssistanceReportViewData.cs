@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
     {
         public TechnicalAssistanceReportGridSpec TechnicalAssistanceReportGridSpec { get; }
         public string TechnicalAssistanceReportGridDataUrl { get; }
-        public TechnicalAssistanceReportViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public TechnicalAssistanceReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            TechnicalAssistanceReportGridSpec = new TechnicalAssistanceReportGridSpec(currentPerson, new List<TechnicalAssistanceParameter>());
+            TechnicalAssistanceReportGridSpec = new TechnicalAssistanceReportGridSpec(currentFirmaSession, new List<TechnicalAssistanceParameter>());
             TechnicalAssistanceReportGridDataUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.TechnicalAssistanceReportGridJsonData());
         }
     }

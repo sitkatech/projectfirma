@@ -49,10 +49,10 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public ViewPageContentViewData GeospatialAreaDescriptionViewPageContentViewData { get; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
                             MapInitJson mapInitJson, ViewGoogleChartViewData viewGoogleChartViewData, 
                             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
-                            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson)
+                            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentFirmaSession)
         {
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
@@ -61,17 +61,17 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             GeospatialAreaTypeName = geospatialArea.GeospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialArea.GeospatialAreaType.GeospatialAreaTypeNamePluralized;
             EntityName = $"{GeospatialAreaTypeName}";
-            UserHasGeospatialAreaManagePermissions = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
+            UserHasGeospatialAreaManagePermissions = new GeospatialAreaManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IndexUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index(geospatialArea.GeospatialAreaType));
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "geospatialAreaProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.GeospatialAreaProjectsGridJsonData(geospatialArea));
 
-            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>geospatialArea.GetPerformanceMeasureChartViewData(x, CurrentPerson)).ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>geospatialArea.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
 
-            GeospatialAreaDescriptionViewPageContentViewData = new ViewPageContentViewData(geospatialArea, currentPerson);
+            GeospatialAreaDescriptionViewPageContentViewData = new ViewPageContentViewData(geospatialArea, currentFirmaSession);
         }
 
         

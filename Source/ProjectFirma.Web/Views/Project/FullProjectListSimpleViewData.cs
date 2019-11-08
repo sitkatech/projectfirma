@@ -28,8 +28,8 @@ namespace ProjectFirma.Web.Views.Project
     {
         public readonly List<ProjectFirmaModels.Models.Project> Projects; 
 
-        public FullProjectListSimpleViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.Project> projects)
-            : base(currentPerson, firmaPage)
+        public FullProjectListSimpleViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.Project> projects)
+            : base(currentFirmaSession, firmaPage)
         {
             Projects = projects;
             PageTitle = $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List (Simple)";

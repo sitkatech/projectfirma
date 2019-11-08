@@ -47,18 +47,16 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NoAnswerProvided);
         }
 
-        public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        public static bool HasEditPermission(this ProjectCustomAttributeType projectCustomAttributeType, FirmaSession currentFirmaSession)
         {
-            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
-                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            var editTypeRoles = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.Edit);
+            return (currentFirmaSession.Person != null && editTypeRoles.Select(x => x.Role).Contains(currentFirmaSession.Role)) || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
-        public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, FirmaSession currentFirmaSession)
         {
-            return projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role).Contains(currentPerson.Role) ||
-                   new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            var viewTypeRoles = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View);
+            return (currentFirmaSession.Person != null && viewTypeRoles.Select(x => x.Role).Contains(currentFirmaSession.Role)) || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
     }
 }

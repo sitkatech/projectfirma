@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public string TaxonomyLeafDisplayName { get; }
         public TaxonomyLevel TaxonomyLevel { get; }
 
-        public TaxonomyViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage,
-            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentPerson, firmaPage)
+        public TaxonomyViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
+            List<FancyTreeNode> topLevelTaxonomyTierAsFancyTreeNodes) : base(currentFirmaSession, firmaPage)
         {
             TopLevelTaxonomyTierAsFancyTreeNodes = topLevelTaxonomyTierAsFancyTreeNodes;
             PageTitle = MultiTenantHelpers.GetTaxonomySystemName();

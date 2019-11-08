@@ -53,9 +53,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             TechnicalAssistanceRequestsComment = technicalAssistanceRequestsComment;
         }
 
-        public void UpdateModel(Person currentPerson, List<TechnicalAssistanceRequestUpdate> currentTechnicalAssistanceRequests, IList<TechnicalAssistanceRequestUpdate> allTechnicalAssistanceRequests, ProjectUpdateBatch projectUpdateBatch)
+        public void UpdateModel(FirmaSession currentFirmaSession, List<TechnicalAssistanceRequestUpdate> currentTechnicalAssistanceRequests, IList<TechnicalAssistanceRequestUpdate> allTechnicalAssistanceRequests, ProjectUpdateBatch projectUpdateBatch)
         {
-            var userCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentPerson, projectUpdateBatch.Project).HasPermission;
+            var userCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, projectUpdateBatch.Project).HasPermission;
             var updatedTechnicalAssistanceRequests = TechnicalAssistanceRequestSimples != null ? 
                 TechnicalAssistanceRequestSimples.Select(x => new TechnicalAssistanceRequestUpdate(x.TechnicalAssistanceRequestID, projectUpdateBatch.ProjectUpdateBatchID, x.FiscalYear, x.PersonID, x.TechnicalAssistanceTypeID.Value, x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList() :
                 new List<TechnicalAssistanceRequestUpdate>();

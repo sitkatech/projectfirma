@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(project, viewModel);
             }
             var projectImage = new ProjectImage(project, true);
-            viewModel.UpdateModel(projectImage, CurrentPerson);
+            viewModel.UpdateModel(projectImage, CurrentFirmaSession);
             project.ProjectImages.Add(projectImage);
             SetMessageForDisplay("Photo successfully created.");
             return new ModalDialogFormJsonResult();
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(projectImage, viewModel);
             }
-            viewModel.UpdateModel(projectImage, CurrentPerson);
+            viewModel.UpdateModel(projectImage, CurrentFirmaSession);
             SetMessageForDisplay("Photo successfully edited.");
             return new ModalDialogFormJsonResult();
         }

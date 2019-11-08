@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Tag
             viewModel.TagName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TagName), ProjectFirmaModels.Models.Tag.FieldLengths.TagName);
 
             // Act
-            viewModel.UpdateModel(tag, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(tag, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(tag.TagName, Is.EqualTo(viewModel.TagName));

@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Tag
             TagDescription = tag.TagDescription;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Tag tag, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Tag tag, FirmaSession currentFirmaSession)
         {
             tag.TagName = TagName;
             tag.TagDescription = TagDescription;

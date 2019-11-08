@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
-                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())</div>
+                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>
@@ -323,7 +323,7 @@
                                     <ul>
                                         @foreach (var person in ViewDataTyped.Organization.People.Where(x => x.IsActive).OrderBy(x => x.GetFullNameLastFirst()))
                                         {
-                                            if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentPerson, person).HasPermission)
+                                            if (new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, person).HasPermission)
                                             {
                                                 <li>
                                                     @person.GetFullNameFirstLastAsUrl()

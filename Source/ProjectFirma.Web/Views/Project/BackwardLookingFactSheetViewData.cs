@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EstimatedTotalCost { get; }
         public string NoFundingSourceIdentified { get; }
         public string SecuredFunding { get; }
-        public string TargetedFunding { get; }       
+        public string TargetedFunding { get; }
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
@@ -68,13 +68,13 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
         public DateTime LastUpdated { get; }
 
-        public BackwardLookingFactSheetViewData(Person currentPerson, ProjectFirmaModels.Models.Project project,
+        public BackwardLookingFactSheetViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson projectFactSheetGoogleChart,
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet,
             List<TechnicalAssistanceParameter> technicalAssistanceParameters,
-            bool withCustomAttributes) : base(currentPerson, project)
+            bool withCustomAttributes) : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -134,8 +134,8 @@ namespace ProjectFirma.Web.Views.Project
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
-            ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentPerson) && x.IsViewableOnFactSheet).ToList();
-            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
+            ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentFirmaSession) && x.IsViewableOnFactSheet).ToList();
+            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentFirmaSession) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
             
             WithCustomAttributes = withCustomAttributes;
             LastUpdated = project.LastUpdatedDate;

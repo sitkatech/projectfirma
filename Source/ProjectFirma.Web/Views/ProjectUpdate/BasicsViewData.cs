@@ -46,10 +46,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public int? StartYearForTotalCostCalculation { get; }
 
 
-        public BasicsViewData(Person currentPerson, ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
+        public BasicsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             IEnumerable<ProjectStage> projectStages, ProjectUpdateStatus projectUpdateStatus,
             BasicsValidationResult basicsValidationResult)
-            : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
+            : base(currentFirmaSession, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, basicsValidationResult.GetWarningMessages(), ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName)
         {
             ProjectUpdate = projectUpdate;
             TaxonomyLeafDisplayName = projectUpdate.ProjectUpdateBatch.Project.TaxonomyLeaf.GetDisplayName();

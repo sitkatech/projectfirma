@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditContacts(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditContactsViewModel(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), CurrentPerson);
+            var viewModel = new EditContactsViewModel(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), CurrentFirmaSession);
             return ViewEditContacts(viewModel, project);
         }
 
@@ -43,7 +43,6 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditContacts(EditContactsViewModel viewModel, Project project)
         {
-
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
             if (!allPeople.Contains(CurrentPerson))
             {

@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             int height,
-            Person currentPerson,
+            FirmaSession currentFirmaSession,
             bool showLastUpdatedDate,
             bool fromPerformanceMeasureDetailPage,
             List<ProjectFirmaModels.Models.Project> projects,
@@ -60,8 +60,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
             ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
-            
-            var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+            var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
 
             ShowLastUpdatedDate = showLastUpdatedDate;
@@ -79,10 +79,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
             showLastUpdatedDate,
             false, 
             projects,
@@ -91,11 +91,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         }
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
-            Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
+            FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
             string chartUniqueName) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
             showLastUpdatedDate,
             false,
             projects,
@@ -103,10 +103,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
             showLastUpdatedDate,
             showConfigureOption, 
             projects,

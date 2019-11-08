@@ -25,10 +25,10 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.User
 @inherits ProjectFirma.Web.Views.User.Detail
 
 @section JavascriptAndStylesContent
@@ -89,6 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div class="col-xs-4 fieldLabel text-right">@FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()</div>
                         <div class="col-xs-8">@ViewDataTyped.Person.Organization.GetDisplayNameAsUrl()</div>
                     </div>
+
                     @if (ViewDataTyped.UserHasPersonManagePermissions)
                     {
                         <div class="row">
@@ -100,14 +101,22 @@ Source code is available upon request via <support@sitkatech.com>.
                             <div class="col-xs-8">@ViewDataTyped.Person.CreateDate.ToStringDateTimeNoLeadingZeros()</div>
                         </div>
                     }
+
                     @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
                     {
                         <div class="alert" role="alert">
                             This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                         </div>
-
-
                     }
+
+                    @*  Impersonate User Button  *@
+                    @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
+                    {
+                        <div>
+                            @{ ImpersonateUserButton.RenderPartialView(Html, new ImpersonateUserButtonViewData(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Person)); }
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>
@@ -159,7 +168,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 @ViewDataTyped.Person.GetFullNameFirstLast() is an Administrator and can manage all @(FieldDefinitionEnum.ProjectStewardshipArea.ToType().GetFieldDefinitionLabelPluralized()).
                             </p>
                         }
-                        else if (ViewDataTyped.Person.IsAnonymousOrUnassigned())
+                        else if (ViewDataTyped.Person.IsUnassigned())
                         {
                             <p class="systemText">
                                 @ViewDataTyped.Person.GetFullNameFirstLast() is not assigned a role and cannot add or edit any @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()).

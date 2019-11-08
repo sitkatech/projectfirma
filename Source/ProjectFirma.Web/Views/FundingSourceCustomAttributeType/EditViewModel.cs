@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
         }
 
 
-        public void UpdateModel(ProjectFirmaModels.Models.FundingSourceCustomAttributeType fundingSourceCustomAttributeType, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.FundingSourceCustomAttributeType fundingSourceCustomAttributeType, FirmaSession currentFirmaSession)
         {
             fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName = FundingSourceCustomAttributeTypeName;
             fundingSourceCustomAttributeType.FundingSourceCustomAttributeDataTypeID = FundingSourceCustomAttributeDataTypeID ?? ModelObjectHelpers.NotYetAssignedID;

@@ -52,14 +52,13 @@ namespace ProjectFirma.Web.Common
         protected abstract bool IsCurrentUserAnonymous();
         protected abstract string LoginUrl { get; }
 
-
         protected override void OnException(ExceptionContext filterContext)
         {
             var lastError = filterContext.Exception;
             if (lastError is SitkaRecordNotAuthorizedException && IsCurrentUserAnonymous())
             {
                 var requestUrl = Request.Url != null ? Request.Url.ToString() : String.Empty;
-                var url = String.Format("{0}?returnUrl={1}", LoginUrl, Server.UrlEncode(requestUrl));
+                var url = $"{LoginUrl}?returnUrl={Server.UrlEncode(requestUrl)}";
                 filterContext.ExceptionHandled = true;
                 Response.Redirect(url);
                 return;
@@ -77,8 +76,8 @@ namespace ProjectFirma.Web.Common
         {
             SetMessage(StatusErrorIndex, errorMessage, tempData);
         }
-        
-        protected void SetErrorForDisplay(string errorMessage)
+
+        public void SetErrorForDisplay(string errorMessage)
         {
             SetMessage(StatusErrorIndex, errorMessage, TempData);
         }
@@ -88,7 +87,7 @@ namespace ProjectFirma.Web.Common
             RemoveMessage(StatusErrorIndex, TempData);
         }
 
-        protected void SetMessageForDisplay(string message)
+        public void SetMessageForDisplay(string message)
         {
             SetMessage(StatusMessageIndex, message, TempData);
         }
@@ -108,7 +107,7 @@ namespace ProjectFirma.Web.Common
             tempData[index] = message;
         }
 
-        protected void SetInfoForDisplay(string message)
+        public void SetInfoForDisplay(string message)
         {
             SetMessage(InfoMessageIndex, message, TempData);
         }

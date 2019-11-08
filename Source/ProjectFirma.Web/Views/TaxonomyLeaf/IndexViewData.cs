@@ -36,14 +36,14 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
         public string NewUrl { get; }
         public string TaxonomyLeafDisplayName { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             var taxonomyLeafDisplayNamePluralized = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyLeafDisplayNamePluralized;
 
-            var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByPerson(currentPerson);
+            var hasTaxonomyLeafManagePermissions = new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var taxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentPerson)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = taxonomyLeafDisplayName,
                 ObjectNamePlural = taxonomyLeafDisplayNamePluralized,
