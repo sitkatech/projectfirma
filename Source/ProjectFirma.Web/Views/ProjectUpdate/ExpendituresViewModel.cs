@@ -26,7 +26,6 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
@@ -39,10 +38,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [DisplayName("Review Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.ExpendituresComment)]
         public string Comments { get; set; }
+        public int? ProjectID { get; set; }
 
         public List<ProjectFundingSourceExpenditureBulk> ProjectFundingSourceExpenditures { get; set; }
 
-        public string Explanation { get; set; }
+        public string ExpendituresNote { get; set; }
+        public bool HasExpenditures { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -51,12 +52,13 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
         }
 
-        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate)
+        public ExpendituresViewModel(ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceExpenditureBulk> projectFundingSourceExpenditures)
         {
-            Explanation = projectUpdateBatch.ExpendituresNote;
-            ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearsToPopulate);
+            ExpendituresNote = projectUpdateBatch.ExpendituresNote;
+            ProjectFundingSourceExpenditures = projectFundingSourceExpenditures;
             ShowValidationWarnings = true;
             Comments = projectUpdateBatch.ExpendituresComment;
+            HasExpenditures = projectFundingSourceExpenditures.Any();
         }
 
         public void UpdateModel(ProjectUpdateBatch projectUpdateBatch,
@@ -72,7 +74,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             var databaseEntities = HttpRequestStorage.DatabaseEntities;
 
-            projectUpdateBatch.ExpendituresNote = Explanation;
+            projectUpdateBatch.ExpendituresNote = ExpendituresNote;
 
             currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
                 allProjectFundingSourceExpenditureUpdates,
@@ -89,6 +91,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (emptyRows?.Any() ?? false)
             {
                 errors.Add(new ValidationResult($"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update could not be saved because there are blank rows. Enter a value in all fields or delete funding sources for which there is no expenditure data to report."));
+            }
+            // Expenditures note is required if no expenditures to enter is selected
+            if (!HasExpenditures && string.IsNullOrWhiteSpace(ExpendituresNote))
+            {
+                errors.Add(new ValidationResult($"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} could not be saved, Expenditures Notes are required if no expenditures are entered."));
             }
 
             return errors;

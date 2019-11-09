@@ -590,10 +590,11 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
+            var calendarYearRangeForExpenditures = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
+            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearRangeForExpenditures);
 
-            var viewModel = new ExpendituresViewModel(projectUpdateBatch, calendarYearRange);
-            return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
+            var viewModel = new ExpendituresViewModel(projectUpdateBatch, projectFundingSourceExpenditureBulks);
+            return ViewExpenditures(projectUpdateBatch, viewModel);
         }
 
         [HttpPost]
@@ -608,10 +609,9 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            var calendarYearRange = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
             if (!ModelState.IsValid)
             {
-                return ViewExpenditures(projectUpdateBatch, calendarYearRange, viewModel);
+                return ViewExpenditures(projectUpdateBatch, viewModel);
             }
             HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
             var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditureUpdates.Local;
@@ -625,20 +625,22 @@ namespace ProjectFirma.Web.Controllers
                 ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
         }
 
-        private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresViewModel viewModel)
+        private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, ExpendituresViewModel viewModel)
         {
             var project = projectUpdateBatch.Project;
-            var showNoExpendituresExplanation = !projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.Any();
+            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+
+            var requiredCalendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
 
-            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
-            var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, requiredCalendarYearRange);
             var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
-                new List<IFundingSourceExpenditure>(projectFundingSourceExpenditures),
-                calendarYearRange);
+                new List<IFundingSourceExpenditure>(projectFundingSourceExpenditureUpdates),
+                requiredCalendarYearRange);
             var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
-                fromFundingSourcesAndCalendarYears, calendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
+                fromFundingSourcesAndCalendarYears, requiredCalendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
                 projectUpdateBatch.ExpendituresNote);
 
             var viewData = new ExpendituresViewData(CurrentPerson, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
