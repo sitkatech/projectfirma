@@ -174,7 +174,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresController", function(
         _.pull($scope.calendarYearRange, calendarYear);
     };
 
-
     $scope.onTextFocus = function ($event) {
         $event.target.select();
     };

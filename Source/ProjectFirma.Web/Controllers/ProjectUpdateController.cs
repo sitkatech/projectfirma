@@ -2577,29 +2577,29 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
 
-            var projectHasNoExpendituresToReportOriginal = project.ExpendituresNote;
+            var expendituresNoteOriginal = project.ExpendituresNote;
             var projectFundingSourceExpendituresOriginal = project.ProjectFundingSourceExpenditures.ToList();
             var calendarYearsOriginal = projectFundingSourceExpendituresOriginal.CalculateCalendarYearRangeForExpenditures(project);
 
-            var projectHasNoExpendituresToReportUpdated = projectUpdateBatch.ExpendituresNote;
+            var expendituresNoteUpdated = projectUpdateBatch.ExpendituresNote;
             var projectFundingSourceExpendituresUpdated = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
             var calendarYearsUpdated = projectFundingSourceExpendituresUpdated.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
 
-            var originalHtml = GeneratePartialViewForOriginalExpenditures(projectHasNoExpendituresToReportOriginal, new List<IFundingSourceExpenditure>(projectFundingSourceExpendituresOriginal),
+            var originalHtml = GeneratePartialViewForOriginalExpenditures(expendituresNoteOriginal, new List<IFundingSourceExpenditure>(projectFundingSourceExpendituresOriginal),
                 calendarYearsOriginal,
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpendituresUpdated),
                 calendarYearsUpdated);
 
             var updatedHtml = GeneratePartialViewForModifiedExpenditures(new List<IFundingSourceExpenditure>(projectFundingSourceExpendituresOriginal),
                 calendarYearsOriginal,
-                projectHasNoExpendituresToReportUpdated,
+                expendituresNoteUpdated,
                 new List<IFundingSourceExpenditure>(projectFundingSourceExpendituresUpdated),
                 calendarYearsUpdated);
 
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForOriginalExpenditures(string projectHasNoExpendituresToReportOriginal, List<IFundingSourceExpenditure> projectFundingSourceExpendituresOriginal,
+        private string GeneratePartialViewForOriginalExpenditures(string expendituresNoteOriginal, List<IFundingSourceExpenditure> projectFundingSourceExpendituresOriginal,
             List<int> calendarYearsOriginal,
             List<IFundingSourceExpenditure> projectFundingSourceExpendituresUpdated,
             List<int> calendarYearsUpdated)
@@ -2630,7 +2630,7 @@ namespace ProjectFirma.Web.Controllers
             });
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForOriginal(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForExpendituresAsString(projectHasNoExpendituresToReportOriginal, fundingSourceCalendarYearExpendituresOriginal, calendarYearStrings);
+            return GeneratePartialViewForExpendituresAsString(expendituresNoteOriginal, fundingSourceCalendarYearExpendituresOriginal, calendarYearStrings);
         }
 
         private static void ZeroOutExpenditure(FundingSourceCalendarYearExpenditure fundingSourceCalendarYearExpenditure, IEnumerable<int> calendarYearsToZeroOut)
@@ -2643,7 +2643,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForModifiedExpenditures(List<IFundingSourceExpenditure> projectFundingSourceExpendituresOriginal,
             List<int> calendarYearsOriginal,
-            string projectHasNoExpendituresToReportUpdated,
+            string expendituresNoteUpdated,
             List<IFundingSourceExpenditure> projectFundingSourceExpendituresUpdated,
             List<int> calendarYearsUpdated)
         {
@@ -2663,7 +2663,7 @@ namespace ProjectFirma.Web.Controllers
             fundingSourceCalendarYearExpendituresUpdated.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
 
             var calendarYearStrings = GetCalendarYearStringsForDiffForUpdated(calendarYearsOriginal, calendarYearsUpdated);
-            return GeneratePartialViewForExpendituresAsString(projectHasNoExpendituresToReportUpdated, fundingSourceCalendarYearExpendituresUpdated, calendarYearStrings);
+            return GeneratePartialViewForExpendituresAsString(expendituresNoteUpdated, fundingSourceCalendarYearExpendituresUpdated, calendarYearStrings);
         }
 
         private string GeneratePartialViewForExpendituresAsString(string projectHasNoExpendituresToReport, List<FundingSourceCalendarYearExpenditure> fundingSourceCalendarYearExpenditures, List<CalendarYearString> calendarYearStrings)

@@ -27,14 +27,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectUpdateDiffControls
 {
     public class ProjectExpendituresSummaryViewData : FirmaUserControlViewData
     {
-        public string ProjectHasNoExpendituresToReport { get; }
+        public string ExpendituresNote { get; }
         public List<CalendarYearString> CalendarYears { get; }
         public List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures { get; }
         
 
-        public ProjectExpendituresSummaryViewData(string projectHasNoExpendituresToReport, List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYears)
+        public ProjectExpendituresSummaryViewData(string expendituresNote, List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYears)
         {
-            ProjectHasNoExpendituresToReport = projectHasNoExpendituresToReport;
+            ExpendituresNote = expendituresNote;
             FundingSourceExpenditures = fundingSourceExpenditures;
             CalendarYears = calendarYears;
         }
