@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Views.Tenant
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
         }
 
-        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
         {
             attribute.TenantShortDisplayName = TenantShortDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;

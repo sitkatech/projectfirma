@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
-        public ProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentPerson)
+        public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
         {
             Project = project;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();

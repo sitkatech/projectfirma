@@ -56,8 +56,7 @@ namespace ProjectFirma.Web
                     var tenant = GetTenantFromUrl(ctx.Request);
                     HttpRequestStorage.Tenant = tenant;
 
-                    var canonicalHostNameForEnvironment =
-                        FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
+                    var canonicalHostNameForEnvironment = FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(tenant);
                     var tenantAttributes = MultiTenantHelpers.GetTenantAttribute();
                     branch.UseCookieAuthentication(new CookieAuthenticationOptions
                     {
@@ -259,8 +258,24 @@ namespace ProjectFirma.Web
 
             person.UpdateDate = DateTime.Now;
             person.LastActivityDate = DateTime.Now;
-            HttpRequestStorage.Person = person;
-            HttpRequestStorage.DatabaseEntities.SaveChanges(person);
+
+            // Find existing FirmaSession if we can for this user
+            var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
+            // If we find an existing Session..
+            if (firmaSessionsForPerson.Any())
+            {
+                // For now, we just give them the last session. This is NOT a long term solution. -- SLG
+                HttpRequestStorage.FirmaSession = firmaSessionsForPerson.Last();
+            }
+            else
+            {
+                // Otherwise, we could not find a FirmaSession for this person. Create one.
+                var newFirmaSession = new FirmaSession(person);
+                HttpRequestStorage.FirmaSession = newFirmaSession;
+                // Only save if session is being newly created
+                HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(newFirmaSession);
+                HttpRequestStorage.DatabaseEntities.SaveChanges(newFirmaSession.Person);
+            }
 
             if (sendNewUserNotification)
             {

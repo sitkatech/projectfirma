@@ -37,10 +37,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             return validationResults;
         }
 
-        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
             CheckForNotNullProjectUpdateBatchId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {

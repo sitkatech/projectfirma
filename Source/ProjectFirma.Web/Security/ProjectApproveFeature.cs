@@ -36,16 +36,16 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
-            if (!HasPermissionByPerson(person))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult($"You do not have permission to approve this {projectLabel}.");
             }
 
-            if (person.Role.RoleID == Role.ProjectSteward.RoleID &&
-                !person.CanStewardProject(contextModelObject))
+            if (firmaSession.Role.RoleID == Role.ProjectSteward.RoleID &&
+                !firmaSession.Person.CanStewardProject(contextModelObject))
             {
                 var organizationLabel = FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel();
                 return new PermissionCheckResult($"You do not have permission to approve this {projectLabel} based on your relationship to the {projectLabel}'s {organizationLabel}.");
@@ -54,9 +54,9 @@ namespace ProjectFirma.Web.Security
             return new PermissionCheckResult();
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using Keystone.Common.OpenID;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using ProjectFirma.Web.Common;
@@ -14,13 +16,47 @@ namespace ProjectFirma.Web.Controllers
     {
         public const string AuthenticationApplicationCookieName = "PsInfoCookieIdentity";
 
-        public static Person PersonFromClaimsIdentity(IAuthenticationManager authenticationManager)
+        public static FirmaSession FirmaSessionFromClaimsIdentity(IAuthenticationManager authenticationManager, Tenant currentTenant)
         {
             try
             {
-                return KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
-                    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
+                // Get the Person from Claims Identity
+                //var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
+                //    authenticationManager.User, PersonModelExtensions.GetAnonymousSitkaUser(),
+                //    HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+
+                // Other RPs use an actual "anonymous" user, but we are trying to have CurrentPerson be null, so, we are trying this. -- SLG & SG
+                const Person anonymousSitkaUser = null;
+                var personFromClaimsIdentity = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(
+                    authenticationManager.User, anonymousSitkaUser,
                     HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
+
+                // Actual real person
+                if (personFromClaimsIdentity != null)
+                {
+                    // Sanity check
+                    Check.Ensure(currentTenant.TenantID == personFromClaimsIdentity.TenantID);
+
+                    // Try to find existing Session for this Person.
+                    // ** This seems potentially flawed, and may not work for multiple logins -- SLG & SG **
+                    var firmaSessionForRealPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(personFromClaimsIdentity.PersonID, false);
+                    if (firmaSessionForRealPerson.Any())
+                    {
+                        // For now, we just give them the last session. This is NOT a long term solution. -- SLG
+                        return firmaSessionForRealPerson.Last();
+                    }
+                    // Otherwise, we could not find a FirmaSession for this person. Create one.
+                    var firmaSessionFromClaimsIdentity = new FirmaSession(personFromClaimsIdentity);
+
+                    // Only save if the Session if it being newly created
+                    HttpRequestStorage.DatabaseEntities.AllFirmaSessions.Add(firmaSessionFromClaimsIdentity);
+                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(currentTenant.TenantID);
+
+                    return firmaSessionFromClaimsIdentity;
+                }
+                // Otherwise, anonymous user. We make a new session each time, which seems flawed - but not sure how else to handle yet. -- SLG
+                var firmaSessionForAnonymousPerson = FirmaSession.MakeEmptyFirmaSession(HttpRequestStorage.Tenant);
+                return firmaSessionForAnonymousPerson;
             }
             catch (Exception ex)
             {
@@ -29,12 +65,16 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
+
         public static void IdentitySignOut(IAuthenticationManager authenticationManager)
         {
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
             var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);
-            HttpRequestStorage.Person = PersonModelExtensions.GetAnonymousSitkaUser();
+            HttpRequestStorage.FirmaSession.Person = null;
+            HttpRequestStorage.FirmaSession.OriginalPerson = null;
         }
+
+
     }
 }

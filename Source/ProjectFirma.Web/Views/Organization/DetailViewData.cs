@@ -80,18 +80,18 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfLeadImplementedProjects { get; }
         public int NumberOfProjectsContributedTo { get; }
 
-        public DetailViewData(Person currentPerson,
+        public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
-            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentPerson)
+            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentFirmaSession)
         {
             Organization = organization;
             PageTitle = organization.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}";
-            UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
+            UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
             EditBoundaryUrl =
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Views.Organization
                     c => c.DeleteOrganizationBoundary(organization));
 
             ProjectsIncludingLeadImplementingGridSpec =
-                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false)
+                new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, false)
                 {
                     ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
@@ -138,19 +138,19 @@ namespace ProjectFirma.Web.Views.Organization
             ExpendituresDirectlyFromOrganizationViewGoogleChartViewData = expendituresDirectlyFromOrganizationViewGoogleChartViewData;
             ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
 
-            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => organization.GetPerformanceMeasureChartViewData(x, currentPerson)).ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => organization.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
 
             NewFundingSourceUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(c => c.New());
-            CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByPerson(CurrentPerson) &&
-                                        (CurrentPerson.RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
-                                         CurrentPerson.OrganizationID == organization.OrganizationID);
-            ShowProposals = currentPerson.CanViewProposals();
+            CanCreateNewFundingSource = new FundingSourceCreateFeature().HasPermissionByFirmaSession(currentFirmaSession) &&
+                                        (currentFirmaSession.Person.RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID || // If person is project steward, they can only create funding sources for their organization
+                                         currentFirmaSession.Person.OrganizationID == organization.OrganizationID);
+            ShowProposals = currentFirmaSession.Person.CanViewProposals();
             ProposalsPanelHeader = MultiTenantHelpers.ShowProposalsToThePublic()
                 ? FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()
                 : $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} (Not Visible to the Public)";
 
             ProposalsGridSpec =
-                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
+                new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)
                 {
                     ObjectNameSingular = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",
@@ -162,10 +162,10 @@ namespace ProjectFirma.Web.Views.Organization
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     tc => tc.ProposalsGridJsonData(organization));
 
-            ShowPendingProjects = currentPerson.CanViewPendingProjects();
+            ShowPendingProjects = currentFirmaSession.Person.CanViewPendingProjects();
 
             PendingProjectsGridSpec =
-                new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true)
+                new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)
                 {
                     ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                     ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {organization.GetDisplayName()}",

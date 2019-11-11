@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.CustomPage
             CustomPageDisplayTypeID = customPage.CustomPageDisplayTypeID;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.CustomPage customPage, FirmaSession currentFirmaSession)
         {
             customPage.CustomPageDisplayName = CustomPageDisplayName;
             customPage.CustomPageVanityUrl = CustomPageVanityUrl;

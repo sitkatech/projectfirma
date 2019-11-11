@@ -62,14 +62,14 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.TaxonomyBranchList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [TaxonomyBranchViewFeature]
         public GridJsonNetJObjectResult<TaxonomyBranch> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().OrderTaxonomyBranches().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyBranch>(taxonomyBranches, gridSpec);
             return gridJsonNetJObjectResult;
@@ -79,12 +79,12 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
         {
             var taxonomyBranch = taxonomyBranchPrimaryKey.EntityObject;
-            var taxonomyBranchProjects = taxonomyBranch.GetAssociatedProjects(CurrentPerson).ToList();
+            var taxonomyBranchProjects = taxonomyBranch.GetAssociatedProjects(CurrentFirmaSession.Person).ToList();
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}", taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyBranchProjectMap");
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals());
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var canHaveAssociatedPerformanceMeasures = associatePerformanceMeasureTaxonomyLevel == TaxonomyLevel.Branch;
@@ -93,12 +93,12 @@ namespace ProjectFirma.Web.Controllers
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas = null;
             if (canHaveAssociatedPerformanceMeasures)
             {
-                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, CurrentPerson, false, new List<Project>())).ToList();
+                performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x => new PerformanceMeasureChartViewData(x.Key, CurrentFirmaSession, false, new List<Project>())).ToList();
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentFirmaSession, taxonomyBranch, projectLocationsMapInitJson, projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData, performanceMeasureChartViewDatas, taxonomyLevel, projectCustomDefaultGridConfigurations);
             return RazorView<Summary, DetailViewData>(viewData);
         }
 
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel);
             }
             var taxonomyBranch = new TaxonomyBranch(viewModel.TaxonomyTrunkID, string.Empty);
-            viewModel.UpdateModel(taxonomyBranch, CurrentPerson);
+            viewModel.UpdateModel(taxonomyBranch, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyBranches.Add(taxonomyBranch);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, taxonomyBranch.TaxonomyTrunk.GetDisplayName());
             }
-            viewModel.UpdateModel(taxonomyBranch, CurrentPerson);
+            viewModel.UpdateModel(taxonomyBranch, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

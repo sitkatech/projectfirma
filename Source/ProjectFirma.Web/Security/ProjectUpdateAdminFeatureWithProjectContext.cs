@@ -17,15 +17,16 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             if (contextModelObject.IsProposal())
             {
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} cannot be updated through the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process.");
             }
 
-            var forbidAdmin = !HasPermissionByPerson(person) ||
-                                       person.Role.RoleID == Role.ProjectSteward.RoleID &&
+            var person = firmaSession.Person;
+            var forbidAdmin = !HasPermissionByFirmaSession(firmaSession) ||
+                                       firmaSession.Role.RoleID == Role.ProjectSteward.RoleID &&
                                        !person.CanStewardProject(contextModelObject);
             
             return forbidAdmin
@@ -34,9 +35,9 @@ namespace ProjectFirma.Web.Security
                 : new PermissionCheckResult();
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
     }
 }

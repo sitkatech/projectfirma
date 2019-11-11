@@ -59,14 +59,14 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.TaxonomyTrunkList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [TaxonomyTrunkViewFeature]
         public GridJsonNetJObjectResult<TaxonomyTrunk> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var taxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().SortByOrderThenName().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyTrunk>(taxonomyTrunks, gridSpec);
             return gridJsonNetJObjectResult;
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
                 projectMapCustomization, "TaxonomyTrunkProjectMap");
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
@@ -102,12 +102,12 @@ namespace ProjectFirma.Web.Controllers
             if (canHaveAssociatedPerformanceMeasures)
             {
                 performanceMeasureChartViewDatas = taxonomyTierPerformanceMeasures.Select(x =>
-                    new PerformanceMeasureChartViewData(x.Key, CurrentPerson, false, new List<Project>())).ToList();
+                    new PerformanceMeasureChartViewData(x.Key, CurrentFirmaSession, false, new List<Project>())).ToList();
             }
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, taxonomyTrunk, projectLocationsMapInitJson,
+            var viewData = new DetailViewData(CurrentFirmaSession, taxonomyTrunk, projectLocationsMapInitJson,
                 projectLocationsMapViewData, canHaveAssociatedPerformanceMeasures, relatedPerformanceMeasuresViewData,
                 performanceMeasureChartViewDatas, taxonomyLevel, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyTrunk = new TaxonomyTrunk(string.Empty);
-            viewModel.UpdateModel(taxonomyTrunk, CurrentPerson);
+            viewModel.UpdateModel(taxonomyTrunk, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyTrunks.Add(taxonomyTrunk);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyTrunk = taxonomyTrunkPrimaryKey.EntityObject;
-            viewModel.UpdateModel(taxonomyTrunk, CurrentPerson);
+            viewModel.UpdateModel(taxonomyTrunk, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

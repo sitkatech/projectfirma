@@ -42,8 +42,8 @@ namespace ProjectFirma.Web.Views.Role
         public string RoleName { get; }
         public HtmlString RoleDescription { get; }
 
-        public DetailViewData(Person currentPerson, IRole role, List<FeaturePermission> featurePermissions, string roleName)
-            : base(currentPerson)
+        public DetailViewData(FirmaSession currentFirmaSession, IRole role, List<FeaturePermission> featurePermissions, string roleName)
+            : base(currentFirmaSession)
         {
             ApprovedFeatures = featurePermissions.Where(x => x.HasPermission).ToList();
             DeniedFeatures = featurePermissions.Where(x => !x.HasPermission).ToList();

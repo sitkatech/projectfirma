@@ -12,11 +12,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
 
 
-        public EditViewData(Person currentPerson,
+        public EditViewData(FirmaSession currentFirmaSession,
             string submitUrl,
             ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
             ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup)
-            : base(currentPerson)
+            : base(currentFirmaSession)
         {
             EntityName = "Attribute Group";
             PageTitle =
@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
                 SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentPerson);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
         }
 

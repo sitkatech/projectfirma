@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var firmaPage = FirmaPageTypeEnum.ManageProjectCustomAttributeGroupsList.GetFirmaPage();
-            var viewData = new ManageViewData(CurrentPerson, firmaPage);
+            var viewData = new ManageViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var projectCustomAttributeGroup = ProjectCustomAttributeGroup.CreateNewBlank();
-            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentFirmaSession);
 
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeGroups.Add(projectCustomAttributeGroup);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, projectCustomAttributeGroup);
             }
-            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentPerson);
+            viewModel.UpdateModel(projectCustomAttributeGroup, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeGroupID)
                 ? SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeGroupID))
                 : SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.New());
-            var viewData = new EditViewData(CurrentPerson, submitUrl, instructionsFirmaPage, projectCustomAttributeGroup);
+            var viewData = new EditViewData(CurrentFirmaSession, submitUrl, instructionsFirmaPage, projectCustomAttributeGroup);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

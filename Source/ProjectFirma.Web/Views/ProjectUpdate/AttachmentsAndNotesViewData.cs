@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string NextSectionUrl { get; }
         public ProjectAttachmentsDetailViewData ProjectAttachmentsViewData { get; }
 
-        public AttachmentsAndNotesViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, string diffUrl) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName)
+        public AttachmentsAndNotesViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, string diffUrl) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.AttachmentsAndNotes.ProjectUpdateSectionDisplayName)
         {
             EntityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(projectUpdateBatch.ProjectNoteUpdates),
                 SitkaRoute<ProjectNoteUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
@@ -51,8 +51,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                                                 projectUpdateBatch.Project.GetDisplayName(),
                                                                 IsEditable,
                                                                 projectUpdateBatch.GetAllAttachmentRelationshipTypes().ToList(),
-                                                                currentPerson
-                                                                );
+                                                                currentFirmaSession);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndAttachments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
 

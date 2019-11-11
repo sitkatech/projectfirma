@@ -76,19 +76,19 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tr>
                             <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.SpendingAssociatedWithPM.ToType())</th>
                             <td>
-                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditure(ViewDataTyped.CurrentPerson).ToStringCurrency() - This includes all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() expenditures, even for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that have multiple @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments
+                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditure(ViewDataTyped.CurrentFirmaSession).ToStringCurrency() - This includes all @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() expenditures, even for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that have multiple @MultiTenantHelpers.GetPerformanceMeasureName() accomplishments
                             </td>
                         </tr>
                         <tr>
                             <th>Total @ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.LegendDisplayName Completed</th>
                             <td>
-                                @ViewDataTyped.SelectedPerformanceMeasure.TotalReportedValueWithNonZeroExpenditures(ViewDataTyped.CurrentPerson).ToString()
+                                @ViewDataTyped.SelectedPerformanceMeasure.TotalReportedValueWithNonZeroExpenditures(ViewDataTyped.CurrentFirmaSession).ToString()
                             </td>
                         </tr>
                         <tr>
                             <th>@string.Format("Spending Per {0} ", ViewDataTyped.SelectedPerformanceMeasure.MeasurementUnitType.SingularDisplayName)</th>
                             <td>
-                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditurePerPerformanceMeasureUnit(ViewDataTyped.CurrentPerson).ToStringCurrency()
+                                @ViewDataTyped.SelectedPerformanceMeasure.TotalExpenditurePerPerformanceMeasureUnit(ViewDataTyped.CurrentFirmaSession).ToStringCurrency()
                             </td>
                         </tr>
                     </table>

@@ -16,15 +16,16 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, ProjectAttachment contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, ProjectAttachment contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, ProjectAttachment contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectAttachment contextModelObject)
         {
-            var isProjectAttachmentStewardButCannotStewardThisProjectAttachment = person.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject.Project);
-            var forbidAdmin = !HasPermissionByPerson(person) || isProjectAttachmentStewardButCannotStewardThisProjectAttachment;
+            var person = firmaSession.Person;
+            var isProjectAttachmentStewardButCannotStewardThisProjectAttachment = firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject.Project);
+            var forbidAdmin = !HasPermissionByFirmaSession(firmaSession) || isProjectAttachmentStewardButCannotStewardThisProjectAttachment;
             if (forbidAdmin)
             {
                 return new PermissionCheckResult(
@@ -33,7 +34,7 @@ namespace ProjectFirma.Web.Security
 
             if (contextModelObject.Project.IsProposal() || contextModelObject.Project.IsPendingProject())
             {
-                return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject.Project);
             }
 
             return new PermissionCheckResult();

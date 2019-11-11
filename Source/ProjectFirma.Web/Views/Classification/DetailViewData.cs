@@ -20,11 +20,16 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.ProjectCustomGrid;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Classification
@@ -43,24 +48,37 @@ namespace ProjectFirma.Web.Views.Classification
         public string ClassificationDisplayName { get; }
         public string ClassificationDisplayNamePluralized { get; }
 
-        public DetailViewData(Person currentPerson, 
+        public ProjectLocationsMapViewData ProjectLocationsMapViewData { get; }
+        public ProjectLocationsMapInitJson ProjectLocationsMapInitJson { get; }
+        public ViewGoogleChartViewData ViewGoogleChartViewData { get; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+
+        public DetailViewData(FirmaSession currentFirmaSession,
                             ProjectFirmaModels.Models.Classification classification,
+                            ProjectLocationsMapViewData projectLocationsMapViewData,
+                            ProjectLocationsMapInitJson projectLocationsMapInitJson, ViewGoogleChartViewData viewGoogleChartViewData,
+                            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
                             List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations)
-                            : base(currentPerson)
+                            : base(currentFirmaSession)
         {
             Classification = classification;
+            ProjectLocationsMapViewData = projectLocationsMapViewData;
+            ProjectLocationsMapInitJson = projectLocationsMapInitJson;
+            ViewGoogleChartViewData = viewGoogleChartViewData;
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             EditClassificationUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(c => c.Edit(classification));
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.ClassificationSystem(classification.ClassificationSystem));
 
-            UserHasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "classificationProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));
+
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => classification.GetPerformanceMeasureChartViewData(x, CurrentFirmaSession)).ToList();
         }
     }
 }

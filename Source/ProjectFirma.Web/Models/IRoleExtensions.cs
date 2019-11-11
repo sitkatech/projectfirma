@@ -95,6 +95,7 @@ namespace ProjectFirma.Web.Models
             }
             return HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive && x.RoleID == role.RoleID).ToList();
         }
+
         public static HtmlString GetDisplayNameWithUrl(this IRole role)
         {
             return UrlTemplate.MakeHrefString(

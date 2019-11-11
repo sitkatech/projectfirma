@@ -27,13 +27,13 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Manage Performance Measure; note if they are externally sourced they will not be able to edited")]
     public class PerformanceMeasureManageFeature : FirmaAdminFeature
     {
-        public override bool HasPermissionByPerson(Person person)
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
             if (HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced)
             {
                 return false;
             }
-            return base.HasPermissionByPerson(person);
+            return base.HasPermissionByFirmaSession(firmaSession);
         }
     }
 }

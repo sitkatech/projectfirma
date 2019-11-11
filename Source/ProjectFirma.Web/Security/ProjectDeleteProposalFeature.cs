@@ -14,20 +14,20 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _lakeTahoeInfoFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _lakeTahoeInfoFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             var permissionDeniedMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not deletable by you";
-            if (new ProjectDeleteFeature().HasPermission(person, contextModelObject).HasPermission)
+            if (new ProjectDeleteFeature().HasPermission(firmaSession, contextModelObject).HasPermission)
             {
                 return new PermissionCheckResult();
             }
 
-            return contextModelObject.IsMyProject(person) && (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Draft || contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
+            return contextModelObject.IsMyProject(firmaSession) && (contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Draft || contextModelObject.ProjectApprovalStatus == ProjectApprovalStatus.Rejected)
                 ? new PermissionCheckResult()
                 : new PermissionCheckResult(permissionDeniedMessage);
         }

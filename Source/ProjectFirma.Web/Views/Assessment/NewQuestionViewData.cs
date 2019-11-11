@@ -30,11 +30,11 @@ namespace ProjectFirma.Web.Views.Assessment
         public readonly bool HasEditPermissions;
         public readonly IEnumerable<SelectListItem> SubGoalsGroup;
 
-        public NewQuestionViewData(Person currentPerson, IEnumerable<SelectListItem> subGoalsGroup)
-            : base(currentPerson)
+        public NewQuestionViewData(FirmaSession currentFirmaSession, IEnumerable<SelectListItem> subGoalsGroup)
+            : base(currentFirmaSession)
         {
-            HasEditPermissions = new AssessmentManageFeature().HasPermissionByPerson(CurrentPerson);
-            SubGoalsGroup = subGoalsGroup;           
+            HasEditPermissions = new AssessmentManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            SubGoalsGroup = subGoalsGroup;
         }
     }
 }

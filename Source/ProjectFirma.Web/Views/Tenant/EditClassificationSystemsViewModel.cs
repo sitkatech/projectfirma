@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.Tenant
             }
         }
 
-        public void UpdateModel(Person currentPerson, List<ProjectFirmaModels.Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems)
+        public void UpdateModel(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ClassificationSystem> currentClassificationSystems, ObservableCollection<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems)
         {
             var updatedClassificationSystems = ClassificationSystemSimples.Where(x => !string.IsNullOrEmpty(x.ClassificationSystemName)).Select(x => new ProjectFirmaModels.Models.ClassificationSystem(x.ClassificationSystemID ?? ModelObjectHelpers.NotYetAssignedID, 
                 x.ClassificationSystemName, 

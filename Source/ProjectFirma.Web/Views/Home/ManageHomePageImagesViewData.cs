@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Home
         public bool UserCanAddPhotos { get; }
         public string NewUrl { get; }
         
-        public ManageHomePageImagesViewData(Person currentPerson, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentPerson)
+        public ManageHomePageImagesViewData(FirmaSession currentFirmaSession, ImageGalleryViewData imageGalleryViewData, bool userCanAddPhotos) : base(currentFirmaSession)
         {
             ImageGalleryViewData = imageGalleryViewData;
             UserCanAddPhotos = userCanAddPhotos;

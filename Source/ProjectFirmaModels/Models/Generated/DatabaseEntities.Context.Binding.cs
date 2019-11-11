@@ -63,6 +63,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
+            modelBuilder.Configurations.Add(new FirmaSessionConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
@@ -204,6 +205,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPage> AllFirmaPages { get; set; }
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
+        public virtual DbSet<FirmaSession> AllFirmaSessions { get; set; }
+        public virtual IQueryable<FirmaSession> FirmaSessions { get { return AllFirmaSessions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
         public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttributeTypeRole> AllFundingSourceCustomAttributeTypeRoles { get; set; }
@@ -497,6 +500,9 @@ namespace ProjectFirmaModels.Models
 
                 case "FirmaPageType":
                     return FirmaPageTypes.GetFirmaPageType(primaryKey);
+
+                case "FirmaSession":
+                    return FirmaSessions.GetFirmaSession(primaryKey);
 
                 case "FundingSourceCustomAttributeDataType":
                     var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.Project> EntitySearchResults { get; }
         public string SearchCriteria { get; }
 
-        public SearchResultsViewData(Person currentPerson, List<ProjectFirmaModels.Models.Project> entitySearchResults, string searchCriteria) : base(currentPerson)
+        public SearchResultsViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Project> entitySearchResults, string searchCriteria) : base(currentFirmaSession)
         {
             EntitySearchResults = entitySearchResults;
             SearchCriteria = searchCriteria;

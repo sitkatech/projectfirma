@@ -37,10 +37,10 @@ namespace ProjectFirma.Web.Views.ProjectImage
         [SitkaFileExtensions("jpg|jpeg|gif|png")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, FirmaSession currentFirmaSession)
         {
-            base.UpdateModel(projectImage, person);
-            projectImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            base.UpdateModel(projectImage, currentFirmaSession);
+            projectImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
             if (projectImage.Project.ProjectImages.All(x => x.ProjectImageID == projectImage.ProjectImageID))
             {
                 projectImage.IsKeyPhoto = true;

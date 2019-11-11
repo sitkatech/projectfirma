@@ -46,14 +46,14 @@ namespace ProjectFirma.Web.Models
             return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
-        public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, Person currentPerson)
+        public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, FirmaSession currentFirmaSession)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyTrunk.GetDetailUrl(), taxonomyTrunk.GetDisplayName())}",
                 taxonomyTrunk.TaxonomyTrunkID.ToString(), true)
             {
                 ThemeColor = taxonomyTrunk.ThemeColor,
                 MapUrl = taxonomyTrunk.GetCustomizedMapUrl(),
-                Children = taxonomyTrunk.TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentPerson))
+                Children = taxonomyTrunk.TaxonomyBranches.ToList().SortByOrderThenName().Select(x => x.ToFancyTreeNode(currentFirmaSession))
                     .ToList()
             };
             return fancyTreeNode;

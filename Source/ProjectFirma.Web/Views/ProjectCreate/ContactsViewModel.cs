@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
         }
 
-        public ContactsViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson) : base(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentPerson)
+        public ContactsViewModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession) : base(project, project.ProjectContacts.OrderBy(x => x.Contact.GetFullNameLastFirst()).ToList(), currentFirmaSession)
         {
             
         }

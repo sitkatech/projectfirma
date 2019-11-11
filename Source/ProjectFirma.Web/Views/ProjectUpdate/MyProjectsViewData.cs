@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string ArbitraryHtmlPlaceholderID;
         public readonly string ArbitraryHtmlProjectFilterButtonsID;
 
-        public MyProjectsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentPerson, firmaPage)
+        public MyProjectsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType, string gridDataUrl) : base(currentFirmaSession, firmaPage)
         {
             ProjectUpdateStatusFilterType = projectUpdateStatusFilterType;
             var currentYearToUseForReporting = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -86,8 +86,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             SubmittedProjectsUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(tc => tc.SubmittedProjects());
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(tc => tc.InstructionsProposal(null));
 
-            HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByPerson(CurrentPerson);
-            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
+            var currentPerson = currentFirmaSession.Person;
+            HasProjectUpdateAdminPermissions = new ProjectUpdateAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            HasProposeProjectPermissions = new ProjectCreateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             GridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, currentPerson.IsAdministrator() || currentPerson.IsSitkaAdministrator()) {ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true};

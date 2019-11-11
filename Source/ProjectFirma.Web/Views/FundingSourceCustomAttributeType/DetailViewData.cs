@@ -14,15 +14,15 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
         public string ProjectTypeGridDataUrl { get; }
         public string ManageUrl { get; }
 
-        public DetailViewData(Person currentPerson,
-            ProjectFirmaModels.Models.FundingSourceCustomAttributeType fundingSourceCustomAttributeType) : base(currentPerson)
+        public DetailViewData(FirmaSession currentFirmaSession,
+            ProjectFirmaModels.Models.FundingSourceCustomAttributeType fundingSourceCustomAttributeType) : base(currentFirmaSession)
         {
             FundingSourceCustomAttributeType = fundingSourceCustomAttributeType;
             EntityName = FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName;
             ManageUrl = SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 
-            UserHasFundingSourceCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasFundingSourceCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ProjectTypeGridName = "fundingSourceTypeGridForAttribute";
             ProjectTypeGridDataUrl = "#";

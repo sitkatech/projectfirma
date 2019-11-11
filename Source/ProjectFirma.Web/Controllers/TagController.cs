@@ -49,14 +49,14 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.TagList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Tag> IndexGridJsonData()
         {
-            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new IndexGridSpec(hasTagDeletePermission);
             var tags = HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Tag>(tags, gridSpec);
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var tag = new Tag(string.Empty);
-            viewModel.UpdateModel(tag, CurrentPerson);
+            viewModel.UpdateModel(tag, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTags.Add(tag);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Tag {tag.GetDisplayNameAsUrl()} successfully created.");
@@ -107,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var tag = tagPrimaryKey.EntityObject;
-            viewModel.UpdateModel(tag, CurrentPerson);
+            viewModel.UpdateModel(tag, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.Detail(tag.TagName)));
         }
 
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var tag = HttpRequestStorage.DatabaseEntities.Tags.GetTag(tagName);
             Check.RequireNotNullThrowNotFound(tag, tagName);
-            var viewData = new DetailViewData(CurrentPerson, tag);
+            var viewData = new DetailViewData(CurrentFirmaSession, tag);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -249,7 +249,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TagPrimaryKey tagPrimaryKey)
         {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true);
             var projectGeospatialAreas = tagPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectGeospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;

@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Assessment
             AssessmentSubGoalTitle = assessmentSubGoal.AssessmentSubGoalTitle;
         }
 
-        public void UpdateModel(AssessmentSubGoal assessmentSubGoal, Person currentPerson)
+        public void UpdateModel(AssessmentSubGoal assessmentSubGoal, FirmaSession currentFirmaSession)
         {
             assessmentSubGoal.AssessmentSubGoalDescription = AssessmentSubGoalDescription;
             assessmentSubGoal.AssessmentSubGoalTitle = AssessmentSubGoalTitle;

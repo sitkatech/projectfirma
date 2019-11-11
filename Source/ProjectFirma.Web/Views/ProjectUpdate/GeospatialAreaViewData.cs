@@ -35,12 +35,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public GeospatialAreaType GeospatialAreaType { get; }
 
-        public GeospatialAreaViewData(Person currentPerson,
+        public GeospatialAreaViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData, 
             GeospatialAreaValidationResult geospatialAreaValidationResult,
-            ProjectUpdateStatus projectUpdateStatus, GeospatialAreaType geospatialAreaType) : base(currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, geospatialAreaValidationResult.GetWarningMessages(), geospatialAreaType.GeospatialAreaTypeNamePluralized)
+            ProjectUpdateStatus projectUpdateStatus, GeospatialAreaType geospatialAreaType) : base(currentFirmaSession, projectUpdate.ProjectUpdateBatch, projectUpdateStatus, geospatialAreaValidationResult.GetWarningMessages(), geospatialAreaType.GeospatialAreaTypeNamePluralized)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;

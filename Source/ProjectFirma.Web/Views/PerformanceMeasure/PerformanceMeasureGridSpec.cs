@@ -32,9 +32,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class PerformanceMeasureGridSpec : GridSpec<ProjectFirmaModels.Models.PerformanceMeasure>
     {
-        public PerformanceMeasureGridSpec(Person currentPerson)
+        public PerformanceMeasureGridSpec(FirmaSession currentFirmaSession)
         {
-            var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
+            var hasDeletePermission = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasDeletePermission)
             {
                 Add(string.Empty, x => x.PerformanceMeasureDataSourceType.IsCustomCalculation ? new HtmlString("") : DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add(FieldDefinitionEnum.PerformanceMeasureType.ToType().ToGridHeaderString("Type"), a => a.PerformanceMeasureType.PerformanceMeasureTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
-            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount(currentPerson), 80);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount(currentFirmaSession), 80);
         }
     }
 }

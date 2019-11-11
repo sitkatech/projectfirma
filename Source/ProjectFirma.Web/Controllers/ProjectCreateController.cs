@@ -134,13 +134,13 @@ namespace ProjectFirma.Web.Controllers
             {
                 var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
                 var proposalSectionsStatus = GetProposalSectionsStatus(project);
-                var viewData = new InstructionsProposalViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
+                var viewData = new InstructionsProposalViewData(CurrentFirmaSession, project, proposalSectionsStatus, firmaPage, false);
 
                 return RazorView<InstructionsProposal, InstructionsProposalViewData>(viewData);
             }
             else
             {
-                var viewData = new InstructionsProposalViewData(CurrentPerson, firmaPage, true);
+                var viewData = new InstructionsProposalViewData(CurrentFirmaSession, firmaPage, true);
                 return RazorView<InstructionsProposal, InstructionsProposalViewData>(viewData);
             }
         }
@@ -159,13 +159,13 @@ namespace ProjectFirma.Web.Controllers
             {
                 var project = HttpRequestStorage.DatabaseEntities.Projects.GetProject(projectID.Value);
                 var proposalSectionsStatus = GetProposalSectionsStatus(project);
-                var viewData = new InstructionsEnterHistoricViewData(CurrentPerson, project, proposalSectionsStatus, firmaPage, false);
+                var viewData = new InstructionsEnterHistoricViewData(CurrentFirmaSession, project, proposalSectionsStatus, firmaPage, false);
 
                 return RazorView<InstructionsEnterHistoric, InstructionsEnterHistoricViewData>(viewData);
             }
             else
             {
-                var viewData = new InstructionsEnterHistoricViewData(CurrentPerson, firmaPage, true);
+                var viewData = new InstructionsEnterHistoricViewData(CurrentFirmaSession, firmaPage, true);
                 return RazorView<InstructionsEnterHistoric, InstructionsEnterHistoricViewData>(viewData);
             }
         }
@@ -231,7 +231,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now)
             {
-                ProposingPerson = CurrentPerson,
+                ProposingPerson = CurrentFirmaSession.Person,
                 ProposingDate = now
             };
 
@@ -247,7 +247,7 @@ namespace ProjectFirma.Web.Controllers
 
             var fundingTypes = FundingType.All.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
+            var viewData = new BasicsViewData(CurrentFirmaSession, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
                 instructionsPageUrl, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
@@ -279,7 +279,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
             var fundingTypes =FundingType.All.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
-            var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs,
+            var viewData = new BasicsViewData(CurrentFirmaSession, project, proposalSectionsStatus, taxonomyLeafs,
                 fundingTypes, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
@@ -298,7 +298,7 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             }
 
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
 
             if (project.ProjectStage == ProjectStage.Proposal)
             {
@@ -325,7 +325,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            var auditLog = new AuditLog(CurrentPerson,
+            var auditLog = new AuditLog(CurrentFirmaSession.Person,
                 DateTime.Now,
                 AuditLogEventType.Added,
                 "Project",
@@ -358,14 +358,14 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
             var configurePerformanceMeasuresUrl = string.Empty;
-            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession))
             {
                 configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
             }
 
             var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(
                 new List<ProjectSimple> {new ProjectSimple(project)}, performanceMeasures, project.ProjectID, false, configurePerformanceMeasuresUrl);
-            var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentPerson, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
+            var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentFirmaSession, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);
         }
 
@@ -473,7 +473,7 @@ namespace ProjectFirma.Web.Controllers
                 showExemptYears);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var viewData =
-                new PerformanceMeasuresViewData(CurrentPerson, project, viewDataForAngularEditor, proposalSectionsStatus);
+                new PerformanceMeasuresViewData(CurrentFirmaSession, project, viewDataForAngularEditor, proposalSectionsStatus);
             return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
@@ -494,7 +494,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsExpectedFundingSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var viewData = new ExpectedFundingViewData(CurrentPerson, project, proposalSectionsStatus, viewDataForAngularEditor);
+            var viewData = new ExpectedFundingViewData(CurrentFirmaSession, project, proposalSectionsStatus, viewDataForAngularEditor);
             return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
         }
 
@@ -566,7 +566,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             var viewDataForAngularEditor = new ExpectedFundingByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentPerson, project, GetProposalSectionsStatus(project), viewDataForAngularEditor);
+            var viewData = new ExpectedFundingByCostTypeViewData(CurrentFirmaSession, project, GetProposalSectionsStatus(project), viewDataForAngularEditor);
             return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
         }
 
@@ -673,7 +673,7 @@ namespace ProjectFirma.Web.Controllers
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, showNoExpendituresExplanation);
-            var viewData = new ExpendituresByCostTypeViewData(CurrentPerson, project, viewDataForAngularEditor, GetProposalSectionsStatus(project));
+            var viewData = new ExpendituresByCostTypeViewData(CurrentFirmaSession, project, viewDataForAngularEditor, GetProposalSectionsStatus(project));
             return RazorView<ExpendituresByCostType, ExpendituresByCostTypeViewData, ExpendituresByCostTypeViewModel>(viewData, viewModel);
         }
 
@@ -694,7 +694,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.CalculateYearRanges(expendituresExemptReportingYears.Select(x => x.CalendarYear)),
                 project.NoExpendituresToReportExplanation);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
+            var viewData = new ExpendituresViewData(CurrentFirmaSession, project, viewDataForAngularEditor, projectExpendituresSummaryViewData, proposalSectionsStatus);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
         }
 
@@ -736,7 +736,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsClassificationsComplete = ModelState.IsValid && proposalSectionsStatus.IsClassificationsComplete;
 
-            var viewData = new EditProposalClassificationsViewData(CurrentPerson, project, allClassificationSystems, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName, proposalSectionsStatus);
+            var viewData = new EditProposalClassificationsViewData(CurrentFirmaSession, project, allClassificationSystems, ProjectCreateSection.Classifications.ProjectCreateSectionDisplayName, proposalSectionsStatus);
             return RazorView<EditProposalClassifications, EditProposalClassificationsViewData, EditProposalClassificationsViewModel>(viewData, viewModel);
         }
 
@@ -805,7 +805,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsAssessmentComplete = ModelState.IsValid && proposalSectionsStatus.IsAssessmentComplete;
             var assessmentGoals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new EditAssessmentViewData(CurrentPerson, project, assessmentGoals, ProjectCreateSection.Assessment.ProjectCreateSectionDisplayName, proposalSectionsStatus);
+            var viewData = new EditAssessmentViewData(CurrentFirmaSession, project, assessmentGoals, ProjectCreateSection.Assessment.ProjectCreateSectionDisplayName, proposalSectionsStatus);
             return RazorView<EditAssessment, EditAssessmentViewData, EditAssessmentViewModel>(viewData, viewModel);
         }
 
@@ -828,11 +828,11 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
-            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
+            var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentFirmaSession, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
-            var viewData = new LocationSimpleViewData(CurrentPerson, project, proposalSectionsStatus, editProjectLocationViewData);
+            var viewData = new LocationSimpleViewData(CurrentFirmaSession, project, proposalSectionsStatus, editProjectLocationViewData);
 
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
@@ -887,7 +887,7 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
-            var viewData = new LocationDetailedViewData(CurrentPerson, project, proposalSectionsStatus, projectLocationDetailViewData);
+            var viewData = new LocationDetailedViewData(CurrentFirmaSession, project, proposalSectionsStatus, projectLocationDetailViewData);
             return RazorView<LocationDetailed, LocationDetailedViewData, LocationDetailedViewModel>(viewData, viewModel);
         }
 
@@ -944,7 +944,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentPerson);
+                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
             }
             return ApproveGisUpload(project);
         }
@@ -1046,13 +1046,13 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
                     .GetGeospatialAreasContainingProjectLocation(project).ToList();
 
-            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
+            var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
                 project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
-            var viewData = new GeospatialAreaViewData(CurrentPerson, project, geospatialAreaType, proposalSectionsStatus, editProjectLocationViewData);
+            var viewData = new GeospatialAreaViewData(CurrentFirmaSession, project, geospatialAreaType, proposalSectionsStatus, editProjectLocationViewData);
 
             return RazorView<Views.ProjectCreate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
@@ -1118,14 +1118,14 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreasContainingProjectSimpleLocation =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().GetGeospatialAreasContainingProjectLocation(project).ToList();
 
-            var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentPerson, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
+            var quickSetProjectSpatialInformationViewData = new BulkSetProjectSpatialInformationViewData(CurrentFirmaSession, project, project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList(),
                 geospatialAreaTypes, mapInitJson, bulkSetSpatialAreaUrl, editProjectGeospatialAreasFormId,
                 geospatialAreasContainingProjectSimpleLocation, project.HasProjectLocationPoint,
                 project.HasProjectLocationDetail, editSimpleLocationUrl);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsGeospatialAreaSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsGeospatialAreaSectionComplete;
-            var viewData = new BulkSetSpatialInformationViewData(CurrentPerson, project, proposalSectionsStatus, quickSetProjectSpatialInformationViewData);
+            var viewData = new BulkSetSpatialInformationViewData(CurrentFirmaSession, project, proposalSectionsStatus, quickSetProjectSpatialInformationViewData);
             return RazorView<BulkSetSpatialInformation, BulkSetSpatialInformationViewData, BulkSetSpatialInformationViewModel>(viewData, viewModel);
         }
 
@@ -1158,7 +1158,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var addNoteUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewNote(project));
-            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var canEditAttachmentsAndNotes = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(project.ProjectNotes), addNoteUrl, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", canEditAttachmentsAndNotes);
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
@@ -1169,8 +1169,8 @@ namespace ProjectFirma.Web.Controllers
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
                                                                                         canEditAttachmentsAndNotes,
                                                                                         attachmentRelationshipTypes,
-                                                                                        CurrentPerson);
-            var viewData = new AttachmentsAndNotesViewData(CurrentPerson, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
+                                                                                        CurrentFirmaSession);
+            var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
             return RazorView<AttachmentsAndNotes, AttachmentsAndNotesViewData>(viewData);
         }
 
@@ -1193,7 +1193,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var project = projectPrimaryKey.EntityObject;
             var projectNote = ProjectNote.CreateNewBlank(project);
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectNotes.Add(projectNote);
             return new ModalDialogFormJsonResult();
         }
@@ -1217,7 +1217,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditNote(viewModel);
             }
             var projectNote = projectNotePrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectNote, CurrentPerson);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1283,7 +1283,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewAttachment(viewModel, projectPrimaryKey.EntityObject);
             }
             var project = projectPrimaryKey.EntityObject;
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -1366,17 +1366,17 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Photos(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewData = BuildImageGalleryViewData(project, CurrentPerson);
+            var viewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
             return RazorView<Photos, PhotoViewData>(viewData);
         }
 
-        private static PhotoViewData BuildImageGalleryViewData(Project project, Person currentPerson)
+        private static PhotoViewData BuildImageGalleryViewData(Project project, FirmaSession currentFirmaSession)
         {
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.NewFromProposal(project));
             var galleryName = $"ProjectImage{project.ProjectID}";
             var projectImages = project.ProjectImages.ToList();
-            var imageGalleryViewData = new PhotoViewData(currentPerson, galleryName, projectImages.Select(x => new FileResourcePhoto(x)), newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
+            var imageGalleryViewData = new PhotoViewData(currentFirmaSession, galleryName, projectImages.Select(x => new FileResourcePhoto(x)), newPhotoForProjectUrl, x => x.CaptionOnFullView, project, proposalSectionsStatus);
             return imageGalleryViewData;
         }
 
@@ -1596,7 +1596,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Organizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new OrganizationsViewModel(project, CurrentPerson);
+            var viewModel = new OrganizationsViewModel(project, CurrentFirmaSession);
             return ViewOrganizations(project, viewModel);
         }
 
@@ -1604,7 +1604,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }
@@ -1615,7 +1615,7 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectOrganizationsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectOrganizationsSectionComplete;
-            var viewData = new OrganizationsViewData(CurrentPerson, project, proposalSectionsStatus, editOrganizationsViewData);
+            var viewData = new OrganizationsViewData(CurrentFirmaSession, project, proposalSectionsStatus, editOrganizationsViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
         }
@@ -1646,14 +1646,14 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Contacts(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ContactsViewModel(project, CurrentPerson);
+            var viewModel = new ContactsViewModel(project, CurrentFirmaSession);
             return ViewContacts(project, viewModel);
         }
 
         private ViewResult ViewContacts(Project project, ContactsViewModel viewModel)
         {
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }
@@ -1664,7 +1664,7 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectContactsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectContactsSectionComplete;
-            var viewData = new ContactsViewData(CurrentPerson, project, proposalSectionsStatus, editContactsViewData);
+            var viewData = new ContactsViewData(CurrentFirmaSession, project, proposalSectionsStatus, editContactsViewData);
 
             return RazorView<Contacts, ContactsViewData, ContactsViewModel>(viewData, viewModel);
         }
@@ -1733,7 +1733,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewImportExternal(ImportExternalViewModel viewModel)
         {
-            var viewData = new ImportExternalViewData(CurrentPerson, FirmaPageTypeEnum.ProjectCreateImportExternal.GetFirmaPage());
+            var viewData = new ImportExternalViewData(CurrentFirmaSession, FirmaPageTypeEnum.ProjectCreateImportExternal.GetFirmaPage());
             return RazorView<ImportExternal, ImportExternalViewData, ImportExternalViewModel>(viewData, viewModel);
         }
 
@@ -1800,13 +1800,13 @@ namespace ProjectFirma.Web.Controllers
         {
             var customAttributesValidationResult = project.ValidateCustomAttributes();
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectCustomAttributesSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectCustomAttributesSectionComplete;
-            var viewData = new ProjectCustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
+            var viewData = new ProjectCustomAttributesViewData(CurrentFirmaSession, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
 
             return RazorView<ProjectCustomAttributes, ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>(viewData, viewModel);
         }
@@ -1824,7 +1824,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
 
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");

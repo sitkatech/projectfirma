@@ -29,8 +29,8 @@ namespace ProjectFirma.Web.Views.ProjectAssessmentQuestion
         public readonly List<AssessmentGoal> AssessmentGoals;
         public readonly string ProjectName;
         
-        public EditAssessmentViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<AssessmentGoal> assessmentGoals)
-            : base(currentPerson, project)
+        public EditAssessmentViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<AssessmentGoal> assessmentGoals)
+            : base(currentFirmaSession, project)
         {
             ProjectName = project.GetDisplayName();
             AssessmentGoals = assessmentGoals;

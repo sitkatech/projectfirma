@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel);
             }
             var firmaHomePageImage = new FirmaHomePageImage(ModelObjectHelpers.NotYetAssignedID, null, 0);
-            viewModel.UpdateModel(firmaHomePageImage, CurrentPerson);
+            viewModel.UpdateModel(firmaHomePageImage, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllFirmaHomePageImages.Add(firmaHomePageImage);
             return new ModalDialogFormJsonResult();
         }
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(firmaHomePageImage, viewModel);
             }
-            viewModel.UpdateModel(firmaHomePageImage, CurrentPerson);
+            viewModel.UpdateModel(firmaHomePageImage, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

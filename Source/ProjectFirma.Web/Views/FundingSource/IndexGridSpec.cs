@@ -33,12 +33,14 @@ namespace ProjectFirma.Web.Views.FundingSource
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.FundingSource>
     {
-        public IndexGridSpec(Person currentPerson, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
+        public IndexGridSpec(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
+            var currentPerson = currentFirmaSession.Person;
+
             var fundingSourceDeleteFeature = new FundingSourceDeleteFeature();
-            if (fundingSourceDeleteFeature.HasPermissionByPerson(currentPerson))
+            if (fundingSourceDeleteFeature.HasPermissionByFirmaSession(currentFirmaSession))
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentPerson, x).HasPermission, true), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), fundingSourceDeleteFeature.HasPermission(currentFirmaSession, x).HasPermission, true), 30, DhtmlxGridColumnFilterType.None);
             }
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 320, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
@@ -53,7 +55,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add($"{FieldDefinitionEnum.TotalProjectTargetedFunds.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount), 80, DhtmlxGridColumnFormatType.Currency);
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes.OrderBy(x => x.FundingSourceCustomAttributeTypeName))
             {
-                if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentPerson))
+                if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentFirmaSession))
                 {
                     Add($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}", a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
                 }

@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             ThemeColor = taxonomyLeaf.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
             taxonomyLeaf.TaxonomyLeafName = TaxonomyLeafName;
             taxonomyLeaf.TaxonomyLeafDescriptionHtmlString = TaxonomyLeafDescription;

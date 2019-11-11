@@ -14,15 +14,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public string ProjectTypeGridDataUrl { get; }
         public string ManageUrl { get; }
 
-        public DetailViewData(Person currentPerson,
-            ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentPerson)
+        public DetailViewData(FirmaSession currentFirmaSession,
+            ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType) : base(currentFirmaSession)
         {
             ProjectCustomAttributeType = projectCustomAttributeType;
             EntityName = FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = projectCustomAttributeType.ProjectCustomAttributeTypeName;
             ManageUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(c => c.Manage());
 
-            UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasProjectCustomAttributeTypeManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ProjectTypeGridName = "projectTypeGridForAttribute";
             ProjectTypeGridDataUrl = "#";

@@ -39,14 +39,14 @@ namespace ProjectFirma.Web.Views.User
         public List<SelectListItem> ActiveOnlyOrAllUsersSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOnlyOrAllUsersSelectListItems) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Users";
-            GridSpec = new IndexGridSpec(currentPerson) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
+            GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = "User", ObjectNamePlural = "Users", SaveFiltersInCookie = true};
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());
-            UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;
             ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";

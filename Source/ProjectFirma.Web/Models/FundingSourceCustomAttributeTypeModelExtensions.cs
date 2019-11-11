@@ -47,18 +47,22 @@ namespace ProjectFirma.Web.Models
                 : ViewUtilities.NoAnswerProvided);
         }
 
-        public static bool HasEditPermission(this FundingSourceCustomAttributeType fundingSourceCustomAttributeType, Person currentPerson)
+        public static bool HasEditPermission(this FundingSourceCustomAttributeType fundingSourceCustomAttributeType, FirmaSession currentFirmaSession)
         {
-            return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles.Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role).Contains(currentPerson.Role) ||
-                                 new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles
+                       .Where(x => !currentFirmaSession.IsAnonymousUser() && x.FundingSourceCustomAttributeTypeRolePermissionType ==
+                                   FundingSourceCustomAttributeTypeRolePermissionType.Edit).Select(x => x.Role)
+                       .Contains(currentFirmaSession.Role) ||
+                   new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
-        public static bool HasViewPermission(this FundingSourceCustomAttributeType fundingSourceCustomAttributeType, Person currentPerson)
+        public static bool HasViewPermission(this FundingSourceCustomAttributeType fundingSourceCustomAttributeType, FirmaSession currentFirmaSession)
         {
-            return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles.Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType == FundingSourceCustomAttributeTypeRolePermissionType.View).Select(x => x.Role).Contains(currentPerson.Role) ||
-                   new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-
+            return fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeRoles
+                       .Where(x => x.FundingSourceCustomAttributeTypeRolePermissionType ==
+                                   FundingSourceCustomAttributeTypeRolePermissionType.View).Select(x => x.Role)
+                                   .Contains(currentFirmaSession.Role) ||
+                   new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
     }
 }

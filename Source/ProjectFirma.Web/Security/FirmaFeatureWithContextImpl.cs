@@ -39,14 +39,14 @@ namespace ProjectFirma.Web.Security
             _firmaFeatureWithContext = firmaFeatureWithContext;
         }
 
-        public PermissionCheckResult HasPermission(Person person, T contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, T contextModelObject)
         {
-            return _firmaFeatureWithContext.HasPermission(person, contextModelObject);
+            return _firmaFeatureWithContext.HasPermission(firmaSession, contextModelObject);
         }
 
-        public void DemandPermission(Person person, T contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, T contextModelObject)
         {
-            var permissionCheckResult = HasPermission(person, contextModelObject);
+            var permissionCheckResult = HasPermission(firmaSession, contextModelObject);
             if (!permissionCheckResult.HasPermission)
             {
                 throw new SitkaRecordNotAuthorizedException(permissionCheckResult.PermissionDeniedMessage);
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Security
         public virtual void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var primaryKeyForObject = GetPrimaryKeyForObjectAndEnsureTenantMatch(filterContext);
-            DemandPermission(HttpRequestStorage.Person, primaryKeyForObject.EntityObject);
+            DemandPermission(HttpRequestStorage.FirmaSession, primaryKeyForObject.EntityObject);
         }
 
         protected LtInfoEntityPrimaryKey<T> GetPrimaryKeyForObjectAndEnsureTenantMatch(ActionExecutingContext filterContext)

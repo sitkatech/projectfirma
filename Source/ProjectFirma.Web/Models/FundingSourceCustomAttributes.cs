@@ -25,10 +25,10 @@ namespace ProjectFirmaModels.Models
             Attributes = fundingSource.FundingSourceCustomAttributes.Select(x => new FundingSourceCustomAttributeSimple(x)).ToList();
         }
 
-        public void UpdateModel(FundingSource fundingSource, Person currentPerson)
+        public void UpdateModel(FundingSource fundingSource, FirmaSession currentFirmaSession)
         {
             var allFundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var existingFundingSourceCustomAttributes = fundingSource.FundingSourceCustomAttributes.Where(x => x.FundingSourceCustomAttributeType.HasEditPermission(currentPerson)).ToList();
+            var existingFundingSourceCustomAttributes = fundingSource.FundingSourceCustomAttributes.Where(x => x.FundingSourceCustomAttributeType.HasEditPermission(currentFirmaSession)).ToList();
             var customAttributesToUpdate = Attributes.Where(x =>
                     x.FundingSourceCustomAttributeValues != null &&
                     x.FundingSourceCustomAttributeValues.Any(y => !string.IsNullOrWhiteSpace(y)))

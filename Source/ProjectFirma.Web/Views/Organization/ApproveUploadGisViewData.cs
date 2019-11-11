@@ -13,8 +13,8 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson MapInitJson;
         public readonly string OrganizationDetailUrl;
 
-        public ApproveUploadGisViewData(Person currentPerson, ProjectFirmaModels.Models.Organization organization,
-            MapInitJson mapInitJson) : base(currentPerson)
+        public ApproveUploadGisViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization,
+            MapInitJson mapInitJson) : base(currentFirmaSession)
         {
             MapInitJson = mapInitJson;
             OrganizationDetailUrl =

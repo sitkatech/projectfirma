@@ -53,40 +53,40 @@ namespace ProjectFirma.Web.Views.User
             ShouldReceiveSupportEmails = person.ReceiveSupportEmails;
         }
 
-        public void UpdateModel(Person person, Person currentPerson)
+        public void UpdateModel(Person personBeingEdited, FirmaSession currentFirmaSession)
         {
-            var downgradingFromSteward = person.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
+            var downgradingFromSteward = personBeingEdited.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
                                          RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&
                                          RoleID != ProjectFirmaModels.Models.Role.Admin.RoleID &&
                                          RoleID != ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID;
 
-            person.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
-            person.ReceiveSupportEmails = ShouldReceiveSupportEmails;
+            personBeingEdited.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
+            personBeingEdited.ReceiveSupportEmails = ShouldReceiveSupportEmails;
 
-            if (ModelObjectHelpers.IsRealPrimaryKeyValue(person.PersonID))
+            if (ModelObjectHelpers.IsRealPrimaryKeyValue(personBeingEdited.PersonID))
             {
-                person.UpdateDate = DateTime.Now; // Existing person
+                personBeingEdited.UpdateDate = DateTime.Now; // Existing person
             }
             else
             {
-                person.CreateDate = DateTime.Now; // New person
+                personBeingEdited.CreateDate = DateTime.Now; // New person
             }
 
             if (downgradingFromSteward)
             {
-                var personPersonStewardGeospatialAreas = person.PersonStewardGeospatialAreas.ToList();
+                var personPersonStewardGeospatialAreas = personBeingEdited.PersonStewardGeospatialAreas.ToList();
                 foreach (var personStewardGeospatialArea in personPersonStewardGeospatialAreas)
                 {
                     personStewardGeospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                var personPersonStewardTaxonomyBranches = person.PersonStewardTaxonomyBranches.ToList();
+                var personPersonStewardTaxonomyBranches = personBeingEdited.PersonStewardTaxonomyBranches.ToList();
                 foreach (var personStewardTaxonomyBranch in personPersonStewardTaxonomyBranches)
                 {
                     personStewardTaxonomyBranch.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
 
-                var personPersonStewardOrganizations = person.PersonStewardOrganizations.ToList();
+                var personPersonStewardOrganizations = personBeingEdited.PersonStewardOrganizations.ToList();
                 foreach (var personStewardOrganization in personPersonStewardOrganizations)
                 {
                     personStewardOrganization.DeleteFull(HttpRequestStorage.DatabaseEntities);

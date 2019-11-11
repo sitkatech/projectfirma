@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Controllers
                     .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList()
                     .GetGeospatialAreasContainingProjectLocation(project).ToList();
 
-            var viewData = new EditProjectGeospatialAreasViewData(CurrentPerson, mapInitJson,
+            var viewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormID,
                 project.HasProjectLocationPoint, project.HasProjectLocationDetail, geospatialAreaType, geospatialAreasContainingProjectSimpleLocation, null);
             return RazorPartialView<EditProjectGeospatialAreas, EditProjectGeospatialAreasViewData, EditProjectGeospatialAreasViewModel>(viewData, viewModel);

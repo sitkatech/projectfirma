@@ -35,11 +35,11 @@ namespace ProjectFirma.Web.Views.Assessment
         public string AddQuestionUrl { get; }
         public string DownloadAllAssessmentsUrl { get; }
 
-        public ManageViewData(Person currentPerson, List<AssessmentGoal> assessmentGoals)
-            : base(currentPerson)
+        public ManageViewData(FirmaSession currentFirmaSession, List<AssessmentGoal> assessmentGoals)
+            : base(currentFirmaSession)
         {
             PageTitle = "Manage  Assessment";
-            HasEditPermissions = new AssessmentManageFeature().HasPermissionByPerson(CurrentPerson);
+            HasEditPermissions = new AssessmentManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             AssessmentGoals = assessmentGoals;
             AddQuestionUrl = SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.NewQuestion());
             DownloadAllAssessmentsUrl = SitkaRoute<AssessmentController>.BuildUrlFromExpression(c => c.IndexExcelDownload());

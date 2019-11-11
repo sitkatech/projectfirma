@@ -24,8 +24,8 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public class ErrorViewData : FirmaViewData
     {
-        public ErrorViewData(Person currentPerson)
-            : base(currentPerson)
+        public ErrorViewData(FirmaSession currentFirmaSession)
+            : base(currentFirmaSession)
         {
             HtmlPageTitle = "Error Page";
             PageTitle = "Error Page";

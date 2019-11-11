@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.SiteMonitor
         public readonly string CompleteNagiosOutput;
         public readonly int NagiosReturnCode;
 
-        public SiteMonitorNagiosViewData(Person currentPerson, HealthCheckResults healthCheckResults) : base(currentPerson)
+        public SiteMonitorNagiosViewData(FirmaSession currentFirmaSession, HealthCheckResults healthCheckResults) : base(currentFirmaSession)
         {
             HealthCheckResults = healthCheckResults;
             CompleteNagiosOutput = HealthCheckResults.GetHealthCheckResultsAsCompleteNagiosOutputText();

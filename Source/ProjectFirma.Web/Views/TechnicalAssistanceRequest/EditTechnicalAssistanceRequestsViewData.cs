@@ -37,16 +37,16 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         public bool UserCanAllocate { get; }
 
 
-        public EditTechnicalAssistanceRequestsViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base()
+        public EditTechnicalAssistanceRequestsViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, List<TechnicalAssistanceType> technicalAssistanceTypes, List<CalendarYearString> fiscalYearStrings, List<PersonSimple> personSimples) : base()
         {
             Check.EnsureNotNull(firmaPage, "The Firma Page for this section is not found; is one defined?");
-            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission;
+            bool hasPermissionToManageFirmaPage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
             TechnicalAssistanceInstructionsViewData = new ViewPageContentViewData(firmaPage, hasPermissionToManageFirmaPage);
             ProjectID = project.ProjectID;
             TechnicalAssistanceTypes = technicalAssistanceTypes;
             FiscalYearStrings = fiscalYearStrings;
             PersonSimples = personSimples;
-            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentPerson, project).HasPermission;
+            UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, project).HasPermission;
 
         }
     }
