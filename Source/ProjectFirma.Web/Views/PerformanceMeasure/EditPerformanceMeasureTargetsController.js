@@ -34,7 +34,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         }
         
         if ($scope.IsYearInUse) {
-            console.log('Year is already in use');
+            //console.log('Year is already in use');
             return;
         }
         var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd);
@@ -48,10 +48,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         
         if (_.find($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, function (o) { return o.PerformanceMeasureReportingPeriodCalendarYear == $scope.ReportingPeriodYearToAdd; })) {
             $scope.IsYearInUse = true;
-            console.log('year is in use');
+            //console.log('year is in use');
         } else {
             $scope.IsYearInUse = false;
-            console.log('year is NOT in use');
+            //console.log('year is NOT in use');
         }
     }
 
@@ -70,6 +70,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         var newBulk = {
             PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
             PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
+            TargetValue: $scope.AngularModel.OverallTargetValue,
+            TargetValueDescription: $scope.AngularModel.OverallTargetValueDescription,
             PerformanceMeasureReportingPeriodID: -1
         };
         return newBulk;
@@ -121,11 +123,23 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         {
             $scope.ShowPerReportingPeriodTargetColumns = true;
             $scope.ShowOverallTargetInputs = false;
+            $scope.populateSimpleTargets();
         }
         else
         {
             console.error("Unknown target type: " + $scope.AngularModel.PerformanceMeasureTargetValueTypeID);
         }
+    }
+
+    $scope.populateSimpleTargets = function () {
+        _.forEach($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, function (value, key) {
+            if (!value.TargetValueDescription) {
+                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValueDescription = $scope.AngularModel.OverallTargetValueDescription;
+            }
+            if (!value.TargetValue) {
+                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValue = $scope.AngularModel.OverallTargetValue;
+            }
+        });
     }
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
@@ -138,7 +152,13 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
         $scope.AngularModel.OverallTargetValueDescription = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueDescription;
     }
+    if (!$scope.AngularModel.OverallTargetValueDescription) {
+        $scope.AngularModel.OverallTargetValueDescription = "Target";
+    }
 
+
+
+    $scope.populateSimpleTargets();
     $scope.targetValueTypeChanged();
     $scope.resetReportingPeriodToAdd();
     $scope.CheckForYearInUse();
