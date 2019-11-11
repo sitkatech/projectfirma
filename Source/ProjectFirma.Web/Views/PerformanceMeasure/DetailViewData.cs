@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
-            UserHasEditPerformanceMeasureTargetPermission = new FirmaAdminFeature().HasPermission(currentPerson).HasPermission;
+            UserHasEditPerformanceMeasureTargetPermission = new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission;
 
             FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
