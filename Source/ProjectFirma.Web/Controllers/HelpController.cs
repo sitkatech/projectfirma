@@ -151,7 +151,6 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         [CrossAreaRoute]
         [HttpPost]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Support(SupportFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -163,6 +162,18 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllSupportRequestLogs.Add(supportRequestLog);
             SupportRequestLogModelExtensions.SendMessage(supportRequestLog, Request.UserHostAddress, Request.UserAgent, viewModel.CurrentPageUrl, supportRequestLog.SupportRequestType, HttpRequestStorage.DatabaseEntities, FirmaWebConfiguration.DefaultSupportPersonID);
             SetMessageForDisplay("Support request sent.");
+            if (CurrentFirmaSession.IsAnonymousUser())
+            {
+                // This is a rare place in the system where an anonymous user writes to the DB.
+                // If this becomes more commonplace we can work out a more general solution.
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
+            }
+            else
+            {
+                // Logged in user, normal audit trail on save
+                SitkaDbContext.SaveChanges();
+            }
+
             return new ModalDialogFormJsonResult();
         }
 
