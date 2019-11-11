@@ -170,13 +170,13 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, mapDivID)
             {
-                AllowFullScreen = false,
+                AllowFullScreen = true,
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()
             };
             var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
             projectLocationsMapInitJson.BoundingBox =
                 new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList());
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();

@@ -113,10 +113,10 @@ namespace ProjectFirma.Web.Controllers
             var secondaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(secondaryProjectLocationsLayerGeoJson,
                 secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap");
             var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
             var secondaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(secondaryProjectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =

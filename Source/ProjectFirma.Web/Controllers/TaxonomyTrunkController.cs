@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
                 projectMapCustomization, "TaxonomyTrunkProjectMap");
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
