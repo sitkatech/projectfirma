@@ -32,9 +32,7 @@ namespace ProjectFirma.Web.Models
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
 
-        // Only used by ExpendituredByCostType pages
-        public bool? IsRelevant { get; set; }
-        // Only used by ExpendituredByCostType pages
+        public bool IsRelevant { get; set; }
         public int? CostTypeID { get; set; }
 
         public List<CalendarYearMonetaryAmount> CalendarYearExpenditures { get; set; }
@@ -52,11 +50,12 @@ namespace ProjectFirma.Web.Models
         {
             ProjectID = projectFundingSourceExpenditure.ProjectID;
             FundingSourceID = projectFundingSourceExpenditure.FundingSourceID;
+            IsRelevant = true;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
             AddProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditures.Select(x => x.CalendarYear).ToList();
-            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, 0, true)));
         }
 
         private ProjectFundingSourceExpenditureBulk(ProjectFundingSourceExpenditureUpdate projectFundingSourceExpenditureUpdate,
@@ -65,11 +64,12 @@ namespace ProjectFirma.Web.Models
         {
             ProjectID = projectFundingSourceExpenditureUpdate.ProjectUpdateBatch.ProjectID;
             FundingSourceID = projectFundingSourceExpenditureUpdate.FundingSourceID;
+            IsRelevant = true;
             CalendarYearExpenditures = new List<CalendarYearMonetaryAmount>();
             AddProjectFundingSourceExpenditureUpdates(projectFundingSourceExpenditureUpdates);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
-            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null)));
+            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null, true)));
         }
 
         private ProjectFundingSourceExpenditureBulk(int projectID, int fundingSourceID, int costTypeID,
@@ -174,14 +174,14 @@ namespace ProjectFirma.Web.Models
         {
             Check.Require(projectFundingSourceExpenditure.ProjectID == ProjectID && projectFundingSourceExpenditure.FundingSourceID == FundingSourceID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
-            CalendarYearExpenditures.Add(new CalendarYearMonetaryAmount(projectFundingSourceExpenditure.CalendarYear, projectFundingSourceExpenditure.ExpenditureAmount));
+            CalendarYearExpenditures.Add(new CalendarYearMonetaryAmount(projectFundingSourceExpenditure.CalendarYear, projectFundingSourceExpenditure.ExpenditureAmount, true));
         }
 
         public void AddProjectFundingSourceExpenditureUpdate(ProjectFundingSourceExpenditureUpdate projectFundingSourceExpenditureUpdate)
         {
             Check.Require(projectFundingSourceExpenditureUpdate.ProjectUpdateBatch.ProjectID == ProjectID && projectFundingSourceExpenditureUpdate.FundingSourceID == FundingSourceID,
                 "Row doesn't align with collection mismatch ProjectID and FundingSourceID");
-            CalendarYearExpenditures.Add(new CalendarYearMonetaryAmount(projectFundingSourceExpenditureUpdate.CalendarYear, projectFundingSourceExpenditureUpdate.ExpenditureAmount));
+            CalendarYearExpenditures.Add(new CalendarYearMonetaryAmount(projectFundingSourceExpenditureUpdate.CalendarYear, projectFundingSourceExpenditureUpdate.ExpenditureAmount, true));
         }
 
         public List<ProjectFundingSourceExpenditure> ToProjectFundingSourceExpenditures()

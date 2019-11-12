@@ -29,16 +29,14 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
     {
         public List<CalendarYearString> CalendarYearStrings { get; }
         public List<FundingSourceCalendarYearExpenditure> FundingSourceExpenditures { get; }
-        public List<string> ExemptReportingYears { get; }
-        public string ExemptionExplanation { get; }
+        public string ExpendituresNote { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
-        public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYearStrings, List<string> exemptReportingYears, string exemptionExplanation)
+        public ProjectExpendituresDetailViewData(List<FundingSourceCalendarYearExpenditure> fundingSourceExpenditures, List<CalendarYearString> calendarYearStrings, string expendituresNote)
         {
             FundingSourceExpenditures = fundingSourceExpenditures;
             CalendarYearStrings = calendarYearStrings;
-            ExemptReportingYears = exemptReportingYears;
-            ExemptionExplanation = exemptionExplanation;
+            ExpendituresNote = expendituresNote;
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
         }
     }

@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ExpendituresByCostTypeViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypeSimples)
         {
             ProjectRelevantCostTypes = projectRelevantCostTypeSimples;
-            Explanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+            Explanation = projectUpdateBatch.ExpendituresNote;
             ProjectFundingSourceExpenditures = ProjectFundingSourceExpenditureBulk.MakeFromListByCostType(projectUpdateBatch, calendarYearsToPopulate);
             HasExpenditures = ProjectFundingSourceExpenditures.Any();
             ShowValidationWarnings = true;
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             if (ProjectFundingSourceExpenditures != null)
             {
                 // Completely rebuild the list
-                projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant ?? false).SelectMany(x => x.ToProjectFundingSourceExpenditureUpdatesSetNullToZero(projectUpdateBatch)).ToList();
+                projectFundingSourceExpenditureUpdatesUpdated = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant).SelectMany(x => x.ToProjectFundingSourceExpenditureUpdatesSetNullToZero(projectUpdateBatch)).ToList();
             }
 
             currentProjectFundingSourceExpenditureUpdates.Merge(projectFundingSourceExpenditureUpdatesUpdated,
@@ -98,7 +98,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 allProjectRelevantCostTypes,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CostTypeID == y.CostTypeID && x.ProjectRelevantCostTypeGroupID == y.ProjectRelevantCostTypeGroupID, databaseEntities);
 
-            projectUpdateBatch.NoExpendituresToReportExplanation = ProjectFundingSourceExpenditures != null && ProjectFundingSourceExpenditures.Any() ? null : Explanation;
+            projectUpdateBatch.ExpendituresNote = ProjectFundingSourceExpenditures != null && ProjectFundingSourceExpenditures.Any() ? null : Explanation;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             {
                 ProjectFundingSourceExpenditures = new List<ProjectFundingSourceExpenditureBulk>();
             }
-            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant ?? false).ToList();
+            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditures.Where(x => x.IsRelevant).ToList();
             if (HasExpenditures && !projectFundingSourceExpenditureBulks.Any())
             {
                 errors.Add(new ValidationResult("Please enter your expenditures"));

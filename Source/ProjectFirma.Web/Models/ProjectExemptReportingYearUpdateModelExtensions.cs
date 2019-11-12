@@ -20,18 +20,6 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void CreateExpendituresExemptReportingYearsFromProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var project = projectUpdateBatch.Project;
-            foreach (var projectExemptReportingYearUpdate in project.GetExpendituresExemptReportingYears()
-                .Select(projectExemptReportingYear => new ProjectExemptReportingYearUpdate(projectUpdateBatch,
-                    projectExemptReportingYear.CalendarYear, projectExemptReportingYear.ProjectExemptReportingType))
-                .ToList())
-            {
-                projectUpdateBatch.ProjectExemptReportingYearUpdates.Add(projectExemptReportingYearUpdate);
-            }
-        }
-
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears)
         {
             var project = projectUpdateBatch.Project;

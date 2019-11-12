@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
 
-        public EditProjectFundingSourceExpendituresByCostTypeViewData(ViewDataForAngularClass viewDataForAngularClass, bool showNoExpendituresExplanation)
+        public EditProjectFundingSourceExpendituresByCostTypeViewData(ViewDataForAngularClass viewDataForAngularClass)
         {
             ViewDataForAngular = viewDataForAngularClass;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();

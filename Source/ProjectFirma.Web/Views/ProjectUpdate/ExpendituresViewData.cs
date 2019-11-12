@@ -18,13 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -32,6 +31,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
+        public int ProjectID { get; }
         public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
             : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
+            ProjectID = projectUpdateBatch.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpenditures(projectUpdateBatch.Project));
@@ -60,19 +61,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public int ProjectID { get; }
             public int MaxYear { get; }
             public bool UseFiscalYears { get; }
-            public bool ShowNoExpendituresExplanation { get; }
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange)
             {
-                CalendarYearRange = calendarYearRange;
-                ShowNoExpendituresExplanation = showNoExpendituresExplanation;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
                 

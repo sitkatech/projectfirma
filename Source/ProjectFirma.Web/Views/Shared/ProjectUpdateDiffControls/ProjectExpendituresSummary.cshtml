@@ -94,51 +94,15 @@ else
     <p class="systemText">No Expenditures have been reported for this project.</p>
 }
 
-@if (ViewDataTyped.ProjectExemptReportingYears.Any())
-{
-    <table class="summaryLayout">
-        <colgroup>
-            <col>
-            @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
-            {
-                switch (calendarYear.AddedDeletedOrRealElement)
-                {
-                    case AddedDeletedOrRealElement.AddedElement:
-                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForAddedElement">
-                        break;
-                    case AddedDeletedOrRealElement.DeletedElement:
-                        <col class="@calendarYear.DisplayCssClass" style="background-color: @HtmlDiffContainer.BackgroundColorForDeletedElement">
-                        break;
-                    case AddedDeletedOrRealElement.RealElement:
-                        <col>
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            <col>
-        </colgroup>
-        <tr>
-            <th colspan="2">
-                The @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName has no expenditures to report
-            </th>
-        </tr>
-        <tr>
-            <td>
-                Selected Years:
-            </td>
-            <td>
-                @string.Join(", ", @ViewDataTyped.ProjectExemptReportingYears.OrderBy(x => x))
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Comment:
-            </td>
-            <td>
-                @ViewDataTyped.ProjectHasNoExpendituresToReport
-            </td>
+<table class="summaryLayout" style="margin-top: 15px;">
+    <tr>
+        <td>
+            <label>Expenditures Notes:</label>
+        </td>
+        <td>
+            @ViewDataTyped.ExpendituresNote
+        </td>
 
-        </tr>
-    </table>
-}
+    </tr>
+</table>
+

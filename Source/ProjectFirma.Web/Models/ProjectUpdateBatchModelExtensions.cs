@@ -24,12 +24,6 @@ namespace ProjectFirma.Web.Models
                 .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.PerformanceMeasures)
                 .OrderBy(x => x.CalendarYear).ToList();
         }
-        public static List<ProjectExemptReportingYearUpdate> GetExpendituresExemptReportingYears(this ProjectUpdateBatch project)
-        {
-            return project.ProjectExemptReportingYearUpdates
-                .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures)
-                .OrderBy(x => x.CalendarYear).ToList();
-        }
 
         public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch project)
         {
@@ -87,9 +81,6 @@ namespace ProjectFirma.Web.Models
             // project expenditures relevant cost types
             ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectRelevantCostTypeUpdateModelExtensions.CreateBudgetsRelevantCostTypesFromProject(projectUpdateBatch);
-
-            // project expenditures exempt reporting years
-            ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // expenditures exempt explanation
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
@@ -211,16 +202,7 @@ namespace ProjectFirma.Web.Models
             {
                 projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
-            projectUpdateBatch.NoExpendituresToReportExplanation = null;
-        }
-
-        public static void DeleteExpendituresProjectExemptReportingYearUpdates(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            foreach (var projectExemptReportingYearUpdate in projectUpdateBatch.GetExpendituresExemptReportingYears())
-            {
-                projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            }
-            projectUpdateBatch.NoExpendituresToReportExplanation = null;
+            projectUpdateBatch.ExpendituresNote = null;
         }
 
         public static void DeleteExpendituresProjectRelevantCostTypeUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -444,8 +426,7 @@ namespace ProjectFirma.Web.Models
             {
                 // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
                 var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(
-                    projectUpdateBatch.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList(), projectUpdateBatch.NoExpendituresToReportExplanation, yearsExpected, new List<IFundingSourceExpenditure>(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates));
+                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(projectUpdateBatch.ExpendituresNote, yearsExpected, new List<IFundingSourceExpenditure>(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates));
                 return validateExpenditures;
             }
             return new List<string>();
@@ -470,7 +451,7 @@ namespace ProjectFirma.Web.Models
 
                 if (!projectFundingSourceExpenditures.Any())
                 {
-                    if (string.IsNullOrWhiteSpace(projectUpdateBatch.NoExpendituresToReportExplanation))
+                    if (string.IsNullOrWhiteSpace(projectUpdateBatch.ExpendituresNote))
                     {
                         errors.Add(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
                     }
@@ -683,7 +664,7 @@ namespace ProjectFirma.Web.Models
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
-            projectUpdateBatch.Project.NoExpendituresToReportExplanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
 
             // project relevant cost types
             ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
