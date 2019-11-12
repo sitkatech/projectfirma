@@ -1393,7 +1393,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
 
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
+            //            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
+            var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
@@ -1443,7 +1444,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
         {
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdateBatch.ProjectUpdate);
+            //            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdateBatch.ProjectUpdate);
+            var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
 
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };

@@ -18,6 +18,29 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using LtInfo.Common;
+using LtInfo.Common.DbSpatial;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
+using Newtonsoft.Json;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Map;
+using ProjectFirma.Web.Views.ProjectCreate;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectAttachment;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
+using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
+using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
+using ProjectFirma.Web.Views.Shared.ProjectOrganization;
+using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirma.Web.Views.Shared.TextControls;
+using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -28,31 +51,6 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Map;
-using ProjectFirma.Web.Views.ProjectCreate;
-using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.TextControls;
-using LtInfo.Common;
-using LtInfo.Common.DbSpatial;
-using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using Newtonsoft.Json;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
-using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
-using ProjectFirma.Web.Views.Shared.ProjectAttachment;
-using ProjectFirma.Web.Views.Shared.ProjectContact;
-using ProjectFirma.Web.Views.Shared.ProjectControls;
-using ProjectFirma.Web.Views.Shared.ProjectOrganization;
-using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectCreate.BasicsViewModel;
@@ -65,6 +63,8 @@ using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFu
 using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
+using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
 using LocationDetailedViewData = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewData;
 using LocationDetailedViewModel = ProjectFirma.Web.Views.ProjectCreate.LocationDetailedViewModel;
@@ -78,8 +78,6 @@ using PerformanceMeasures = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeas
 using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewData;
 using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
-using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
-using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Controllers
@@ -994,7 +992,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditGeospatialArea(Project project, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
@@ -1071,7 +1069,7 @@ namespace ProjectFirma.Web.Controllers
         
         private ViewResult ViewBulkSetSpatialInformation(Project project, BulkSetSpatialInformationViewModel viewModel)
         {
-            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project);
 
             var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
