@@ -103,8 +103,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.AngularViewData.PerformanceMeasureTargetValueTypes.OverallTarget;
     }
 
-    $scope.isPerformanceMeasureTargetValueTypeTargetPerReportingPeriod = function () {
-        return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.AngularViewData.PerformanceMeasureTargetValueTypes.TargetPerReportingPeriod;
+    $scope.isPerformanceMeasureTargetValueTypeTargetPerYear = function () {
+        return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.AngularViewData.PerformanceMeasureTargetValueTypes.TargetPerYear;
     }
 
     $scope.targetValueTypeChanged = function()
@@ -119,7 +119,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
             $scope.ShowPerReportingPeriodSection = false;
             $scope.ShowOverallTargetInputs = true;
         }
-        else if ($scope.isPerformanceMeasureTargetValueTypeTargetPerReportingPeriod())
+        else if ($scope.isPerformanceMeasureTargetValueTypeTargetPerYear())
         {
             $scope.ShowPerReportingPeriodSection = true;
             $scope.ShowOverallTargetInputs = false;

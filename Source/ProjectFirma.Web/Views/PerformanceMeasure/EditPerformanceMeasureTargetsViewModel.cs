@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                             reportingPeriod.TargetValue = OverallTargetValue;
                             reportingPeriod.TargetValueLabel = OverallTargetValueDescription;
                             break;
-                        case PerformanceMeasureTargetValueTypeEnum.TargetPerReportingPeriod:
+                        case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                             reportingPeriod.TargetValue = bulk.TargetValue;
                             reportingPeriod.TargetValueLabel = bulk.TargetValueLabel;
                             break;

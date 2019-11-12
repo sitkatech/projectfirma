@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Models
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
-            return PerformanceMeasureTargetValueType.TargetPerReportingPeriod;
+            return PerformanceMeasureTargetValueType.TargetPerYear;
         }
 
         public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, 

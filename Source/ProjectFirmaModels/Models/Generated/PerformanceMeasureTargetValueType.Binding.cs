@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
     {
         public static readonly PerformanceMeasureTargetValueTypeNoTarget NoTarget = PerformanceMeasureTargetValueTypeNoTarget.Instance;
         public static readonly PerformanceMeasureTargetValueTypeOverallTarget OverallTarget = PerformanceMeasureTargetValueTypeOverallTarget.Instance;
-        public static readonly PerformanceMeasureTargetValueTypeTargetPerReportingPeriod TargetPerReportingPeriod = PerformanceMeasureTargetValueTypeTargetPerReportingPeriod.Instance;
+        public static readonly PerformanceMeasureTargetValueTypeTargetPerYear TargetPerYear = PerformanceMeasureTargetValueTypeTargetPerYear.Instance;
 
         public static readonly List<PerformanceMeasureTargetValueType> All;
         public static readonly ReadOnlyDictionary<int, PerformanceMeasureTargetValueType> AllLookupDictionary;
@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static PerformanceMeasureTargetValueType()
         {
-            All = new List<PerformanceMeasureTargetValueType> { NoTarget, OverallTarget, TargetPerReportingPeriod };
+            All = new List<PerformanceMeasureTargetValueType> { NoTarget, OverallTarget, TargetPerYear };
             AllLookupDictionary = new ReadOnlyDictionary<int, PerformanceMeasureTargetValueType>(All.ToDictionary(x => x.PerformanceMeasureTargetValueTypeID));
         }
 
@@ -104,8 +104,8 @@ namespace ProjectFirmaModels.Models
                     return NoTarget;
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     return OverallTarget;
-                case PerformanceMeasureTargetValueTypeEnum.TargetPerReportingPeriod:
-                    return TargetPerReportingPeriod;
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    return TargetPerYear;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -116,7 +116,7 @@ namespace ProjectFirmaModels.Models
     {
         NoTarget = 1,
         OverallTarget = 2,
-        TargetPerReportingPeriod = 3
+        TargetPerYear = 3
     }
 
     public partial class PerformanceMeasureTargetValueTypeNoTarget : PerformanceMeasureTargetValueType
@@ -131,9 +131,9 @@ namespace ProjectFirmaModels.Models
         public static readonly PerformanceMeasureTargetValueTypeOverallTarget Instance = new PerformanceMeasureTargetValueTypeOverallTarget(2, @"OverallTarget", @"Overall Target");
     }
 
-    public partial class PerformanceMeasureTargetValueTypeTargetPerReportingPeriod : PerformanceMeasureTargetValueType
+    public partial class PerformanceMeasureTargetValueTypeTargetPerYear : PerformanceMeasureTargetValueType
     {
-        private PerformanceMeasureTargetValueTypeTargetPerReportingPeriod(int performanceMeasureTargetValueTypeID, string performanceMeasureTargetValueTypeName, string performanceMeasureTargetValueTypeDisplayName) : base(performanceMeasureTargetValueTypeID, performanceMeasureTargetValueTypeName, performanceMeasureTargetValueTypeDisplayName) {}
-        public static readonly PerformanceMeasureTargetValueTypeTargetPerReportingPeriod Instance = new PerformanceMeasureTargetValueTypeTargetPerReportingPeriod(3, @"TargetPerReportingPeriod", @"Target per Reporting Period");
+        private PerformanceMeasureTargetValueTypeTargetPerYear(int performanceMeasureTargetValueTypeID, string performanceMeasureTargetValueTypeName, string performanceMeasureTargetValueTypeDisplayName) : base(performanceMeasureTargetValueTypeID, performanceMeasureTargetValueTypeName, performanceMeasureTargetValueTypeDisplayName) {}
+        public static readonly PerformanceMeasureTargetValueTypeTargetPerYear Instance = new PerformanceMeasureTargetValueTypeTargetPerYear(3, @"TargetPerYear", @"Target per Year");
     }
 }
