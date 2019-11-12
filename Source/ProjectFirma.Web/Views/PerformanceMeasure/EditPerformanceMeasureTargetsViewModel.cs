@@ -66,6 +66,29 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             {
                 var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
                 List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
+
+                //if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
+                var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
+                var missingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID));
+                foreach (var missingReportingPeriod in missingPeriods)
+                {
+                    switch (performanceMeasureTargetValueTypeEnum)
+                    {
+                        case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+                            missingReportingPeriod.TargetValue = OverallTargetValue;
+                            missingReportingPeriod.TargetValueLabel = OverallTargetValueDescription;
+                            break;
+                        case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+                        case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                            missingReportingPeriod.TargetValue = null;
+                            missingReportingPeriod.TargetValueLabel = null;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
+                    }
+                    performanceMeasureReportingPeriodsUpdated.Add(missingReportingPeriod);
+                }
+
                 PerformanceMeasureReportingPeriodSimples.ForEach(bulk =>
                 {
                     var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == bulk.PerformanceMeasureReportingPeriodID);
@@ -95,6 +118,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     performanceMeasureReportingPeriodsUpdated.Add(reportingPeriod);
 
                 });
+
+                
 
                 performanceMeasure.PerformanceMeasureReportingPeriods.Merge(
                     performanceMeasureReportingPeriodsUpdated,
