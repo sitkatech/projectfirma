@@ -111,17 +111,17 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     {
         if ($scope.isPerformanceMeasureTargetValueTypeNoTarget())
         {
-            $scope.ShowPerReportingPeriodTargetColumns = false;
+            $scope.ShowPerReportingPeriodSection = false;
             $scope.ShowOverallTargetInputs = false;
         }
         else if ($scope.isPerformanceMeasureTargetValueTypeOverallTarget())
         {
-            $scope.ShowPerReportingPeriodTargetColumns = false;
+            $scope.ShowPerReportingPeriodSection = false;
             $scope.ShowOverallTargetInputs = true;
         }
         else if ($scope.isPerformanceMeasureTargetValueTypeTargetPerReportingPeriod())
         {
-            $scope.ShowPerReportingPeriodTargetColumns = true;
+            $scope.ShowPerReportingPeriodSection = true;
             $scope.ShowOverallTargetInputs = false;
             $scope.populateSimpleTargets();
         }

@@ -21,21 +21,24 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class EditPerformanceMeasureTargetsViewData
     {        
-        public readonly ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure;
-        public readonly List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes;
-        public readonly EditPerformanceMeasureTargetsViewDataForAngular ViewDataForAngular;
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
+        public List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes { get; }
+        public EditPerformanceMeasureTargetsViewDataForAngular ViewDataForAngular { get; }
+        public ProjectFirmaModels.Models.FieldDefinition PerformanceMeasureFieldDefinition { get; }
 
         public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes)
         {
             PerformanceMeasure = performanceMeasure;
             ViewDataForAngular = viewDataForAngular;
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
+            PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
         }
     }
 

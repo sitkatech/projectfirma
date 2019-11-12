@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.PerformanceMeasure.EditPerformanceMeasureTargets
 <script type="text/javascript">
     // <![CDATA[
@@ -72,7 +74,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div ng-app="ProjectFirmaApp" id="EditPerformanceMeasureTargetsApp" ng-controller="EditPerformanceMeasureTargetsController" style="max-height: 600px">
     <div>
-        <span style="color: black; font-weight: bold">PerformanceMeasure: </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
+        <span style="color: black; font-weight: bold">@ViewDataTyped.PerformanceMeasureFieldDefinition.GetFieldDefinitionLabel(): </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
         <hr />
     </div>
     <div>
@@ -94,7 +96,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-    <table class="dashboardTable table table-hover table-condensed">
+    <table ng-show="ShowPerReportingPeriodSection" class="dashboardTable table table-hover table-condensed">
         <colgroup>
             <col style="width: 200px">
             <col style="width: 165px">
@@ -123,15 +125,15 @@ Source code is available upon request via <support@sitkatech.com>.
             </tr>
         </tbody>
     </table>
-    <div ng-show="AngularModel.PerformanceMeasureReportingPeriodSimples.length" style="max-height: 400px; overflow: auto">
+    <div ng-show="ShowPerReportingPeriodSection" style="max-height: 400px; overflow: auto">
         <hr />
         <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
             <colgroup>
                 <col style="text-align: left; width: 20px">
                 <col style="text-align: left; width: 20px">
                 <col style="text-align: left; min-width: 200px">
-                <col style="text-align: left; min-width: 60px; border-left:1px solid black" ng-show="ShowPerReportingPeriodTargetColumns">
-                <col style="text-align: left; min-width: 100px" ng-show="ShowPerReportingPeriodTargetColumns">
+                <col style="text-align: left; min-width: 60px; border-left:1px solid black">
+                <col style="text-align: left; min-width: 100px">
                 <col width:auto />
             </colgroup>
             <thead>
@@ -139,8 +141,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     <th></th>
                     <th></th>
                     <th style="text-align: left">Reporting Period</th>
-                    <th ng-show="ShowPerReportingPeriodTargetColumns">Target</th>
-                    <th ng-show="ShowPerReportingPeriodTargetColumns">Target Description</th>
+                    <th>Target</th>
+                    <th>Target Description</th>
                     <th></th>
                 </tr>
             </thead>
@@ -154,10 +156,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     </td>
                     <td>{{bulk.PerformanceMeasureReportingPeriodLabel}}</td>
 
-                    <td ng-show="ShowPerReportingPeriodTargetColumns">
+                    <td>
                         <input type="number" ng-model="bulk.TargetValue" step="0.0001" />
                     </td>
-                    <td ng-show="ShowPerReportingPeriodTargetColumns">
+                    <td>
                         <input type="text" ng-model="bulk.TargetValueLabel" />
                     </td>
                     <td></td>
