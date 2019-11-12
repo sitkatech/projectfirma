@@ -66,14 +66,17 @@ namespace ProjectFirma.Web.Models
             foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
+                
+                if (hasToolTipWithTotal)
+                {
+                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, performanceMeasureReportingPeriod.TargetValue, performanceMeasureReportingPeriod.TargetValueDescription);
+                    googleChartRowVs.Add(new GoogleChartRowV(null, formattedDataTooltip));
+                }
                 if (hasTargets)
                 {
                     googleChartRowVs.Add(new GoogleChartRowV(performanceMeasureReportingPeriod.TargetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
                 }
-                if (hasToolTipWithTotal)
-                {
-                    googleChartRowVs.Add(new GoogleChartRowV(null, FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder)));
-                }
+
                 googleChartRowVs.AddRange(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x =>
                 {
                     var calendarYearReportedValue = x.Where(isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel)
@@ -86,18 +89,17 @@ namespace ProjectFirma.Web.Models
 
             // reporting period is going to be the first column and it will be our horizontal axis
             var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Reporting Period", GoogleChartColumnDataType.String) };
-            if (hasTargets)
-            {
-                // GoogleChartType for targets is always LINE; we also always render the target line first to stay consistent
-                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(performanceMeasureReportingPeriods), GoogleChartColumnDataType.Number));
-            }
 
             // add column with row tooltip
             if (hasToolTipWithTotal)
             {
                 googleChartColumns.Add(new GoogleChartColumn(GoogleChartColumnDataType.String.ColumnDataType, "tooltip", new GoogleChartProperty()));
             }
-
+            if (hasTargets)
+            {
+                // GoogleChartType for targets is always LINE; we also always render the target line first to stay consistent
+                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(performanceMeasureReportingPeriods), GoogleChartColumnDataType.Number));
+            }
             // all the subcategory option values are individual columns and series and they will be on the vertical axis
             googleChartColumns.AddRange(subcategoryOptions.Select(x => new GoogleChartColumn(x, GoogleChartColumnDataType.Number)));
 
@@ -161,7 +163,11 @@ namespace ProjectFirma.Web.Models
         }
 
         public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, 
-                                                  PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, MeasurementUnitType performanceMeasureMeasurementUnitType, bool reverseTooltipOrder)
+                                                  PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, 
+                                                  MeasurementUnitType performanceMeasureMeasurementUnitType, 
+                                                  bool reverseTooltipOrder,
+                                                  double? targetValue,
+                                                  string targetValueDescription)
         {
             // shape data
             var calendarReportedYearValuesDictionary = new Dictionary<string, double>();
@@ -201,6 +207,11 @@ namespace ProjectFirma.Web.Models
 
             var formattedTotal = calendarReportedYearValuesDictionary.Sum(x => x.Value).ToString($"#,###,###,##0.{stringPrecision}");
             html += $"<tr class='googleTooltipTableTotalRow'><td>Total</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTotal} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            if (targetValue.HasValue && !string.IsNullOrWhiteSpace(targetValueDescription))
+            {
+                var formattedTarget = targetValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
+                html += $"<tr class='googleTooltipTableTotalRow'><td>{targetValueDescription}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTarget} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            }
             html += "</table></div>";
 
             return html;

@@ -61,7 +61,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ICollection<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             ICollection<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions, ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
-            //ClearModel(performanceMeasure, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods);
 
             if (PerformanceMeasureReportingPeriodSimples != null)
             {
@@ -97,17 +96,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
                 });
 
-                //performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
-                //    performanceMeasureSubcategoryOptionsToUpdate,
-                //    performanceMeasureSubcategoryOptionsFromDatabase,
-                //    (x, y) => x.PerformanceMeasureSubcategoryOptionID == y.PerformanceMeasureSubcategoryOptionID,
-                //    (x, y) =>
-                //    {
-                //        x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
-                //        x.SortOrder = y.SortOrder;
-                //        x.ShowOnFactSheet = y.ShowOnFactSheet;
-                //    }, HttpRequestStorage.DatabaseEntities);
-
                 performanceMeasure.PerformanceMeasureReportingPeriods.Merge(
                     performanceMeasureReportingPeriodsUpdated,
                     allPerformanceMeasureReportingPeriods,
@@ -121,23 +109,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
 
             }
-        }
-
-        //private static void ClearModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ICollection<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
-        //    ICollection<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureReportedValueSubcategoryOptions,
-        //    ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
-        //{
-        //    // Remove all existing associations
-        //    allPerformanceMeasureReportedValueSubcategoryOptions.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList().ForEach(x => allPerformanceMeasureReportedValueSubcategoryOptions.Remove(x));
-        //    allPerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList().ForEach(x => allPerformanceMeasureActuals.Remove(x));
-        //    allPerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).ToList().ForEach(x => allPerformanceMeasureReportingPeriods.Remove(x));            
-        //}
-
-        private void UpdateReportedValues(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
-        {
-            // Completely rebuild the list
-
-            
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
