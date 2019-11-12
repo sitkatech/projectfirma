@@ -578,7 +578,6 @@ namespace ProjectFirma.Web.Controllers
 
             var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
             var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
-ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReportingYears) {ProjectID = project.ProjectID};
 
             var viewModel = new ExpendituresViewModel(projectFundingSourceExpenditureBulks, project) {ProjectID = project.ProjectID};
             return ViewExpenditures(project, viewModel);
@@ -590,9 +589,6 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
         public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-}
-
-
             var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
 
             if (!ModelState.IsValid)
@@ -615,7 +611,7 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
                 allFundingSources,
                 requiredCalendarYearRange);
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            var viewData = new ExpendituresViewData(CurrentPerson, project, viewDataForAngularClass, proposalSectionsStatus);
+            var viewData = new ExpendituresViewData(CurrentFirmaSession, project, viewDataForAngularClass, proposalSectionsStatus);
             return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
         }
 
@@ -766,7 +762,6 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
             {
                 return ViewEditAssessment(project, viewModel);
             }
-
             viewModel.UpdateModel(project);
             SetMessageForDisplay("Assessment successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.Assessment.ProjectCreateSectionDisplayName);
@@ -795,20 +790,15 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
         {
             var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide);
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
-            
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
-
             var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentFirmaSession, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
-
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsProjectLocationSimpleSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectLocationSimpleSectionComplete;
 
             var viewData = new LocationSimpleViewData(CurrentFirmaSession, project, proposalSectionsStatus, editProjectLocationViewData);
-
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
         }
 
@@ -848,18 +838,14 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
             var mapDivID = $"project_{project.GetEntityID()}_EditDetailedMap";
             var detailedLocationGeoJsonFeatureCollection = ProjectModelExtensions.DetailedLocationToGeoJsonFeatureCollection(project);
             var editableLayerGeoJson = new LayerGeoJson($"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.Show);
-
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
-
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project, null));
-
             var hasSimpleLocationPoint = project.ProjectLocationPoint != null;
-
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             var projectLocationDetailViewData = new ProjectLocationDetailViewData(project.ProjectID, mapInitJson, editableLayerGeoJson, uploadGisFileUrl, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, hasSimpleLocationPoint);
 
@@ -1462,11 +1448,8 @@ ojectFundingSourceExpenditures, calendarYearRange, project, projectExemptReporti
             }
 
             GenerateApprovalAuditLogEntries(project);
-
             NotificationProjectModelExtensions.SendApprovalMessage(project);
-
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName())}\" successfully approved.");
-
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
 

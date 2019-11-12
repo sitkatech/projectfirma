@@ -23,6 +23,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
+using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -34,9 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
-        public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
-        public ExpendituresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
+            ViewDataForAngularClass viewDataForAngularClass,
+            ProposalSectionsStatus proposalSectionsStatus) : base(currentFirmaSession, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectID = project.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;
