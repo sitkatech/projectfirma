@@ -15,8 +15,8 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
         public string NewFundingSourceCustomAttributeTypeUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage neptunePage)
-            : base(currentPerson, neptunePage)
+        public ManageViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage neptunePage)
+            : base(currentFirmaSession, neptunePage)
         {
             EntityName = "Attribute Type";
             PageTitle = $"Manage {FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
             GridName = "fundingSourceCustomAttributeTypeGrid";
             GridDataUrl = SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(tc => tc.FundingSourceCustomAttributeTypeGridJsonData());
 
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
     }
 }

@@ -200,7 +200,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             {
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentPerson.GetFullNameFirstLast()</span>
+                                        <span>Welcome&nbsp;@ViewDataTyped.CurrentFirmaSession.GetFullNameFirstLastWithAsteriskIfImpersonating()</span>
                                         <span class="glyphicon glyphicon-menu-down"></span>
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
@@ -217,7 +217,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </li>
                             }
                             @ViewDataTyped.HelpMenu.RenderMenu()
-                        </ul>                                                
+                        </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>

@@ -22,8 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ApprovalUtilities.Utilities;
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -43,10 +41,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string SimplePointMarkerImg { get; }
         public string EditSimpleLocationUrl { get; }
 
-        public EditProjectGeospatialAreasViewData(Person currentPerson, MapInitJson mapInitJson,
+        public EditProjectGeospatialAreasViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
             string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
-            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentPerson)
+            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentFirmaSession)
         {
             GeospatialAreaType = geospatialAreaType;
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;

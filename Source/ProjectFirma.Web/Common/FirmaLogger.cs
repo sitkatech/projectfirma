@@ -28,14 +28,15 @@ namespace ProjectFirma.Web.Common
     {
         public override string GetUserAndSessionInformationForError(HttpContext context)
         {
-            var person = HttpRequestStorage.Person;
-            if (person.IsAnonymousUser())
+            var firmaSession = HttpRequestStorage.FirmaSession;
+            if (firmaSession.IsAnonymousUser())
             {
                 return "User: Anonymous";
             }
-            string organizationName = person.Organization.OrganizationName;
+            string organizationName = firmaSession.Person.Organization.OrganizationName;
+            string impersonatedByString = firmaSession.IsImpersonating() ? $"ImpersonatedBy: {firmaSession.OriginalPerson.Email}{Environment.NewLine}OriginalPersonID: {firmaSession.OriginalPersonID}{Environment.NewLine}" : string.Empty;
             return
-                $"User: {person.GetFullNameFirstLast()}{Environment.NewLine}LogonName: {person.Email}{Environment.NewLine}PersonID: {person.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}";
+                $"User: {firmaSession.GetFullNameFirstLast()}{Environment.NewLine}LogonName: {firmaSession.Person.Email}{Environment.NewLine}PersonID: {firmaSession.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}{impersonatedByString}";
         }
     }
 }

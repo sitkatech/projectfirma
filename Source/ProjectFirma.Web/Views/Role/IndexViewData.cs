@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.Role
         public readonly string GridName;
         public readonly string GridDataUrl;
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             GridSpec = new IndexGridSpec { ObjectNameSingular = "Role", ObjectNamePlural = "Roles", SaveFiltersInCookie = true };
             GridName = "RoleGrid";

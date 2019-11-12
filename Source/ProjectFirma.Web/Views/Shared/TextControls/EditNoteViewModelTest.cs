@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             viewModel.Note = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.Note), ProjectFirmaModels.Models.ProjectNote.FieldLengths.Note);
 
             // Act
-            viewModel.UpdateModel(projectNote, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(projectNote, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(projectNote.Note, Is.EqualTo(viewModel.Note));

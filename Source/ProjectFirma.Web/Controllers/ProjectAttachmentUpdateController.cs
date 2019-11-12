@@ -31,8 +31,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel, projectUpdateBatchPrimaryKey.EntityObject);
             }
             var projectUpdateBatch = projectUpdateBatchPrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectUpdateBatch, CurrentPerson);
-            projectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            viewModel.UpdateModel(projectUpdateBatch, CurrentFirmaSession);
+            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var projectAttachmentUpdate = projectAttachmentUpdatePrimaryKey.EntityObject;
             viewModel.UpdateModel(projectAttachmentUpdate);
-            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDelete(projectAttachmentUpdate, viewModel);
             }
-            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentPerson);
+            projectAttachmentUpdate.ProjectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             projectAttachmentUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }

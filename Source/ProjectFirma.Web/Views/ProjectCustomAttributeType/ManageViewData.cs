@@ -16,8 +16,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public bool HasManagePermissions { get; }
         public string EditSortOrderUrl { get; }
 
-        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage neptunePage)
-            : base(currentPerson, neptunePage)
+        public ManageViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage neptunePage)
+            : base(currentFirmaSession, neptunePage)
         {
             EntityName = "Attribute Type";
             PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}";
@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
             EditSortOrderUrl = SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.EditSortOrder());
             
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
         

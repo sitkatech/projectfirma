@@ -32,10 +32,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string SupportEmail;
         public readonly Person CurrentPerson;
 
-        public CustomNotificationViewData(Person currentPerson, List<Person> peopleToNotify, string sendPreviewEmailUrl)
+        public CustomNotificationViewData(FirmaSession currentFirmaSession, List<Person> peopleToNotify, string sendPreviewEmailUrl)
         {
             PeopleToNotify = peopleToNotify;
-            CurrentPerson = currentPerson;
+            CurrentPerson = currentFirmaSession.Person;
             SendPreviewEmailUrl = sendPreviewEmailUrl;
             PersonLabel = peopleToNotify.Count > 1 ? "People" : "Person";
             SupportEmail = NotificationModelExtensions.DoNotReplyMailAddress().Address;

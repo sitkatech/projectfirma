@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var defaultBeginYear = defaultEndYear -(defaultEndYear - MultiTenantHelpers.GetMinimumYear());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             var taxonomyTiers = associatePerformanceMeasureTaxonomyLevel.GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder).ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase).ToList();
-            var viewData = new AccomplishmentsDashboardViewData(CurrentPerson, firmaPage, tenantAttribute,
+            var viewData = new AccomplishmentsDashboardViewData(CurrentFirmaSession, firmaPage, tenantAttribute,
                 organizations, FirmaDateUtilities.GetRangeOfYearsForReporting(), defaultBeginYear,
                 defaultEndYear, taxonomyTiers, associatePerformanceMeasureTaxonomyLevel);
             return RazorView<AccomplishmentsDashboard, AccomplishmentsDashboardViewData>(viewData);
@@ -177,7 +177,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
             var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.TaxonomyTierPerformanceMeasures.Select(x => x.Key).ToList();
             var performanceMeasures = primaryPerformanceMeasuresForTaxonomyTier.SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, projects)).ToList();
+            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, projects)).ToList();
 
             var viewData = new OrganizationAccomplishmentsViewData(performanceMeasureChartViewDatas, taxonomyTier, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
@@ -284,7 +284,7 @@ namespace ProjectFirma.Web.Controllers
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, colorByValue.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             
             var projectLocationFilterTypesAndValues = CreateProjectLocationFilterTypesAndValuesDictionary(currentPersonCanViewProposals);
@@ -303,7 +303,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectColorByTypes.Add(ProjectColorByType.TaxonomyBranch);
             }
-            var viewData = new ProjectMapViewData(CurrentPerson,
+            var viewData = new ProjectMapViewData(CurrentFirmaSession,
                 firmaPage,
                 projectLocationsMapInitJson,
                 projectLocationsMapViewData,
@@ -381,7 +381,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTiersAsFancyTreeNodes = taxonomyLevel
                 .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
-                .Select(x => x.ToFancyTreeNode(CurrentPerson))
+                .Select(x => x.ToFancyTreeNode(CurrentFirmaSession))
                 .ToList();
             var projectsIDsThatDoNotHaveSimpleLocation = filteredProjectsWithLocationAreas
                 .Select(project => project.ProjectID.ToString()).ToList();
@@ -442,9 +442,9 @@ namespace ProjectFirma.Web.Controllers
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
                 : performanceMeasures.First();
             var accomplishmentsChartViewData =
-                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentPerson, false, new List<Project>());
+                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentFirmaSession, false, new List<Project>());
 
-            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentPerson, firmaPage,
+            var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentFirmaSession, firmaPage,
                 performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
             var viewModel = new SpendingByPerformanceMeasureByProjectViewModel();
             return RazorView<SpendingByPerformanceMeasureByProject, SpendingByPerformanceMeasureByProjectViewData,
@@ -457,7 +457,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var performanceMeasureSubcategoriesTotalReportedValues =
-                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure, CurrentPerson);
+                GetSpendingByPerformanceMeasureByProjectAndGridSpec(out var gridSpec, performanceMeasure, CurrentFirmaSession);
             var gridJsonNetJObjectResult =
                 new GridJsonNetJObjectResult<PerformanceMeasureSubcategoriesTotalReportedValue>(
                     performanceMeasureSubcategoriesTotalReportedValues, gridSpec);
@@ -466,10 +466,11 @@ namespace ProjectFirma.Web.Controllers
 
         private static List<PerformanceMeasureSubcategoriesTotalReportedValue> GetSpendingByPerformanceMeasureByProjectAndGridSpec(
                 out SpendingByPerformanceMeasureByProjectGridSpec gridSpec,
-                PerformanceMeasure performanceMeasure, Person currentPerson)
+                PerformanceMeasure performanceMeasure, 
+                FirmaSession currentFirmaSession)
         {
             gridSpec = new SpendingByPerformanceMeasureByProjectGridSpec(performanceMeasure);
-            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentPerson, performanceMeasure);
+            return PerformanceMeasureModelExtensions.SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure);
         }
 
         [HttpGet]
@@ -542,7 +543,7 @@ namespace ProjectFirma.Web.Controllers
             var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
 
-            var viewData = new FundingStatusViewData(CurrentPerson, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
+            var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
         }
     }

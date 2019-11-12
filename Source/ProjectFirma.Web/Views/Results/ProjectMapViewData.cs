@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Results
         public string ProjectLocationsUrl { get; }
         public string FilteredProjectsWithLocationAreasUrl { get; }
 
-        public ProjectMapViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes) : base(currentPerson, firmaPage)
+        public ProjectMapViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectLocationsMapInitJson projectLocationsMapInitJson, ProjectLocationsMapViewData projectLocationsMapViewData, Dictionary<ProjectLocationFilterTypeSimple, IEnumerable<SelectListItem>> projectLocationFilterTypesAndValues, string projectLocationsUrl, string filteredProjectsWithLocationAreasUrl, List<ProjectColorByType> projectColorByTypes) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map";
             ProjectLocationsMapInitJson = projectLocationsMapInitJson;

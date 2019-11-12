@@ -162,8 +162,7 @@ namespace LtInfo.Common.Mvc
             {
                 if (!_sessionItemsBySessionIdDict.ContainsKey(sessionID))
                 {
-                    _sessionItemsBySessionIdDict.Add(sessionID,
-                        new SessionItemsWithExpiration(new SessionStateItemCollection(), timeout));
+                    _sessionItemsBySessionIdDict.Add(sessionID, new SessionItemsWithExpiration(new SessionStateItemCollection(), timeout));
                 }
             }
         }

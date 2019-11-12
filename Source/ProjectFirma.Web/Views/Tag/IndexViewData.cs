@@ -33,11 +33,11 @@ namespace ProjectFirma.Web.Views.Tag
         public bool HasTagManagePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Tags";
 
-            var hasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            var hasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             GridSpec = new IndexGridSpec(hasTagManagePermissions) {ObjectNameSingular = "Tag", ObjectNamePlural = "Tags", SaveFiltersInCookie = true};
             GridName = "TagsGrid";
             GridDataUrl = SitkaRoute<TagController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());

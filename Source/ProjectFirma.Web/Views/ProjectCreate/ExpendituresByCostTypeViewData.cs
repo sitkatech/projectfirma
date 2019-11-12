@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
 
-        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public ExpendituresByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());

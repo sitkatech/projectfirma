@@ -36,11 +36,11 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public bool HasManagePermissions { get; }
         public string NewProjectAssociationUrl { get; }
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Manage Attachment Relationship Types";
 
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
+            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             AttachmentRelationshipTypeGridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 

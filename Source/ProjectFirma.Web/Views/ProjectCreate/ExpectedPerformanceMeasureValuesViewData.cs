@@ -27,13 +27,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EditPerformanceMeasureExpectedViewData EditPerformanceMeasureExpectedViewData;
 
-        public ExpectedPerformanceMeasureValuesViewData(Person currentPerson,
+        public ExpectedPerformanceMeasureValuesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EditPerformanceMeasureExpectedViewData editPerformanceMeasureExpectedViewData)
-            : base(currentPerson, project, ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.ExpectedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
-            EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;            
+            EditPerformanceMeasureExpectedViewData = editPerformanceMeasureExpectedViewData;
         }
     }
 }

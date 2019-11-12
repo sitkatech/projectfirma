@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string ApproveGisUploadUrl;
         public readonly string OrganizationDetailUrl;
 
-        public EditBoundaryViewData(Person currentPerson, ProjectFirmaModels.Models.Organization organization) : base(currentPerson)
+        public EditBoundaryViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Organization organization) : base(currentFirmaSession)
         {
             PageTitle = "Edit Organization Boundary";
 

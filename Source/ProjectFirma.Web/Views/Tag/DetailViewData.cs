@@ -38,19 +38,19 @@ namespace ProjectFirma.Web.Views.Tag
         public string BasicProjectInfoGridName { get; }
         public string BasicProjectInfoGridDataUrl { get; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Tag tag) : base(currentPerson)
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Tag tag) : base(currentFirmaSession)
         {
-            Tag = tag;            
+            Tag = tag;
             PageTitle = tag.TagName;
             EntityName = "Tag";
             
             EditTagUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Edit(tag));
             ManageTagsUrl = SitkaRoute<TagController>.BuildUrlFromExpression(c => c.Index());
-            UserHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             BasicProjectInfoGridName = "tagProjectListGrid";
 
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} with this Tag",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} with this Tag",

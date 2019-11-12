@@ -46,9 +46,9 @@ namespace ProjectFirma.Web.Views.Tenant
         {
         }
 
-        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
         {
-           attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentPerson);
-        }        
+           attribute.TenantStyleSheetFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(TenantStyleSheetFileResourceData, currentFirmaSession);
+        }
     }
 }

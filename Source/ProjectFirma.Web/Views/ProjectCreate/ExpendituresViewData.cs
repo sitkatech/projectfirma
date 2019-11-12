@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
+        public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
         public ExpendituresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProposalSectionsStatus proposalSectionsStatus)
             : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {

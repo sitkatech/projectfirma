@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Security
     {
         public FirmaAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin }) { }
 
-        public PermissionCheckResult HasPermission(Person person)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession)
         {
-            if (HasPermissionByPerson(person))
+            if (HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult();
             }

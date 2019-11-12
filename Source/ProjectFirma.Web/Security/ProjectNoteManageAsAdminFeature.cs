@@ -36,19 +36,19 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, ProjectNote contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
             if (contextModelObject.Project.IsProposal() || contextModelObject.Project.IsPendingProject())
             {
-                return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject.Project);
             }
 
-            return new ProjectEditAsAdminFeature().HasPermission(person, contextModelObject.Project);
+            return new ProjectEditAsAdminFeature().HasPermission(firmaSession, contextModelObject.Project);
         }
     }
 }

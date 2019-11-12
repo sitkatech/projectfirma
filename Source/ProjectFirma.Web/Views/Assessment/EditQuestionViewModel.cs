@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Assessment
             Archive = assessmentQuestion.ArchiveDate.HasValue;
         }
 
-        public void UpdateModel(AssessmentQuestion assessmentQuestion, Person currentPerson)
+        public void UpdateModel(AssessmentQuestion assessmentQuestion, FirmaSession currentFirmaSession)
         {
             assessmentQuestion.AssessmentQuestionText = AssessmentQuestionText;
             assessmentQuestion.ArchiveDate = Archive ? DateTime.Now : (DateTime?) null;

@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Controllers
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new ManageProjectCustomGridsViewData(CurrentPerson, firmaPage, projectCustomDefaultGridConfigurations, projectCustomFullGridConfigurations);
+            var viewData = new ManageProjectCustomGridsViewData(CurrentFirmaSession, firmaPage, projectCustomDefaultGridConfigurations, projectCustomFullGridConfigurations);
             return RazorView<ManageProjectCustomGrids, ManageProjectCustomGridsViewData>(viewData);
         }
 
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> AllActiveProjectsCustomGridDefaultJsonData()
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> AllActiveProjectsCustomGridFullJsonData()
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
             var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = CurrentPerson.Organization;
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
             var projects = HttpRequestStorage.DatabaseEntities.Projects
                 .ToList().GetActiveProjects()
                 .Where(p => organization.IsLeadImplementingOrganizationForProject(p) || organization.IsProjectStewardOrganizationForProject(p))
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> TaxonomyTrunkProjectsGridJsonData(TaxonomyTrunkPrimaryKey taxonomyTrunkPrimaryKey)
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
             var projectTaxonomyTrunks = taxonomyTrunkPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyTrunks, gridSpec);
             return gridJsonNetJObjectResult;
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> TaxonomyBranchProjectsGridJsonData(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomDefaultGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
             var taxonomyBranchProjects = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranchProjects, gridSpec);
             return gridJsonNetJObjectResult;
@@ -151,9 +151,9 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> TaxonomyLeafProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomDefaultGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var taxonomyLeafProjects = taxonomyLeaf.GetAssociatedProjects(CurrentPerson);
+            var taxonomyLeafProjects = taxonomyLeaf.GetAssociatedProjects(CurrentFirmaSession);
             return new GridJsonNetJObjectResult<Project>(taxonomyLeafProjects, gridSpec);
         }
 
@@ -162,8 +162,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ClassificationProjectsGridJsonData(ClassificationPrimaryKey classificationPrimaryKey)
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomDefaultGridConfigurations);
-            var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
+            var projectClassifications = classificationPrimaryKey.EntityObject.GetAssociatedProjects(CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectClassifications, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -173,8 +173,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> GeospatialAreaProjectsGridJsonData(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomDefaultGridConfigurations);
-            var projectGeospatialAreas = geospatialAreaPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
+            var projectGeospatialAreas = geospatialAreaPrimaryKey.EntityObject.GetAssociatedProjects(CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectGeospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> FeaturedProjectsGridJsonData()
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var gridSpec = new ProjectCustomGridSpec(CurrentPerson, projectCustomDefaultGridConfigurations);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations);
             var featuredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(featuredProjects, gridSpec);
             return gridJsonNetJObjectResult;

@@ -135,7 +135,7 @@ namespace LtInfo.Common
             {
                 username = context.User.Identity.Name;
             }
-            return String.Format("Username: {0}", username);
+            return $"Username: {username}";
         }
     }
 }

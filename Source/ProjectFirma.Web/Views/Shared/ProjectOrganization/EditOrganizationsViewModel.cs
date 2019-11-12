@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -44,23 +45,28 @@ namespace ProjectFirma.Web.Views.Shared.ProjectOrganization
         {
         }
 
-        public EditOrganizationsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectOrganization> projectOrganizations,
-            Person currentPerson)
-        {           
+        public EditOrganizationsViewModel(ProjectFirmaModels.Models.Project project, 
+                                          List<ProjectFirmaModels.Models.ProjectOrganization> projectOrganizations,
+                                          FirmaSession currentFirmaSession)
+        {
+            // Preconditions
+            Check.EnsureNotNull(project);
+            Check.EnsureNotNull(projectOrganizations);
+            Check.EnsureNotNull(currentFirmaSession);
+
             PrimaryContactPersonID = project.PrimaryContactPersonID;
-            
             ProjectOrganizationSimples = projectOrganizations.Select(x => new ProjectOrganizationSimple(x)).ToList();
 
             // If the current person belongs to a primary contact organization, and the current project has no primary contact organization set, prepopulate.
-            if (currentPerson != null && currentPerson.Organization.CanBeAPrimaryContactOrganization())
+            if (!currentFirmaSession.IsAnonymousUser() && currentFirmaSession.Person.Organization.CanBeAPrimaryContactOrganization())
             {
                 var primaryContactOrganizationRelationshipTypeIDs = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes
                     .Where(x => x.IsPrimaryContact).Select(x => x.OrganizationRelationshipTypeID).ToList();
                 if (!projectOrganizations.Any(x => primaryContactOrganizationRelationshipTypeIDs.Contains(x.OrganizationRelationshipTypeID)))
                 {
                     ProjectOrganizationSimples.AddRange(primaryContactOrganizationRelationshipTypeIDs.Select(x =>
-                        new ProjectOrganizationSimple(currentPerson.OrganizationID, x)));
-                    PrimaryContactPersonID = currentPerson.Organization.PrimaryContactPersonID;
+                        new ProjectOrganizationSimple(currentFirmaSession.Person.OrganizationID, x)));
+                    PrimaryContactPersonID = currentFirmaSession.Person.Organization.PrimaryContactPersonID;
                 }
             }
         }

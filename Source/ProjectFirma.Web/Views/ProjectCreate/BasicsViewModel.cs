@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -88,7 +90,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CompletionYear = project.CompletionYear;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             if (ImportExternalProjectStagingID.HasValue)
             {
@@ -97,7 +99,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Remove(importExternalProjectStagingToDelete);
             }
 
-            project.ProposingPersonID = person.PersonID;
+            project.ProposingPersonID = currentFirmaSession.PersonID;
             project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;

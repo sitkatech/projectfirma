@@ -46,20 +46,20 @@ namespace ProjectFirma.Web.Views.Home
         public string ProjectUpdatesUrl { get; }
         public bool DisplayActionButtons { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage, ProjectFirmaModels.Models.FirmaPage firmaPageAdditionalInfo, ProjectFirmaModels.Models.FirmaPage firmaPageMapInfo,
+        public IndexViewData(FirmaSession firmaSession, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage, ProjectFirmaModels.Models.FirmaPage firmaPageAdditionalInfo, ProjectFirmaModels.Models.FirmaPage firmaPageMapInfo,
             FeaturedProjectsViewData featuredProjectsViewData, ProjectLocationsMapViewData projectLocationsMapViewData, ProjectLocationsMapInitJson projectLocationsMapInitJson,
-            List<ProjectFirmaModels.Models.FirmaHomePageImage> firmaHomePageImages) : base(currentPerson, firmaPageHomePage)
+            List<ProjectFirmaModels.Models.FirmaHomePageImage> firmaHomePageImages) : base(firmaSession, firmaPageHomePage)
         {
             PageTitle = MultiTenantHelpers.GetToolDisplayName();
 
             Check.EnsureNotNull(firmaPageHomePage, "firmaPageHomePage not found; is one defined?");
-            bool hasPermissionToManageHomePage = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageHomePage).HasPermission;
+            bool hasPermissionToManageHomePage = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageHomePage).HasPermission;
 
             Check.EnsureNotNull(firmaPageAdditionalInfo, "firmaPageAdditionalInfo not found; is one defined?");
-            bool hasPermissionToManageAdditionalInfo = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageAdditionalInfo).HasPermission;
+            bool hasPermissionToManageAdditionalInfo = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageAdditionalInfo).HasPermission;
 
             Check.EnsureNotNull(firmaPageMapInfo, "firmaPageMapInfo not found; is one defined?");
-            bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(currentPerson, firmaPageMapInfo).HasPermission;
+            bool hasPermissionToManagePageMapInfo = new FirmaPageManageFeature().HasPermission(firmaSession, firmaPageMapInfo).HasPermission;
 
             CustomHomePageTextViewData = new ViewPageContentViewData(firmaPageHomePage, hasPermissionToManageHomePage);
             CustomHomePageAdditionalInfoTextViewData = new ViewPageContentViewData(firmaPageAdditionalInfo, hasPermissionToManageAdditionalInfo);
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.Home
             FirmaHomePageCarouselImages = firmaHomePageImages;
             ProposeNewProjectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
             ProjectUpdatesUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate());
-            DisplayActionButtons = !currentPerson.IsAnonymousOrUnassigned();
+            DisplayActionButtons = !firmaSession.IsAnonymousOrUnassigned();
         }
     }
 }

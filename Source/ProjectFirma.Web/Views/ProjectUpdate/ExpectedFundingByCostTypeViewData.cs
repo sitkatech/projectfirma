@@ -48,14 +48,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
 
-        public ExpectedFundingByCostTypeViewData(Person currentPerson,
+        public ExpectedFundingByCostTypeViewData(FirmaSession currentFiramSession,
             ProjectUpdateBatch projectUpdateBatch,
             ViewDataForAngularClass viewDataForAngularClass,
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
             ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
             ProjectUpdateStatus projectUpdateStatus,
             ExpectedFundingValidationResult expectedFundingValidationResult
-        ) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
+        ) : base(currentFiramSession, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFundingByCostType(projectUpdateBatch.Project));
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
-        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        }
 
         public class ViewDataForAngularClass
         {

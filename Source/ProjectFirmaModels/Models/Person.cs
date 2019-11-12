@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Keystone.Common.OpenID;
@@ -48,23 +49,18 @@ namespace ProjectFirmaModels.Models
             var notifications = Notifications.Where(x => x.NotificationType == NotificationType.ProjectUpdateReminder).ToList();
 
             if (notifications.Count == 0)
+            {
                 return null;
+            }
+
             return notifications.OrderByDescending(y => y.NotificationDate).First();
         }
-
-        public bool IsAnonymousUser() => PersonID == AnonymousPersonID;
 
         /// <summary>
         /// All role names of BOTH types used by Keystone not for user display 
         /// </summary>
         public IEnumerable<string> GetRoleNames()
         {
-            if (IsAnonymousUser())
-            {
-                // the presence of roles switches you from being IsAuthenticated or not
-                return new List<string>();
-            }
-
             var roleNames = new List<string> {Role.RoleName};
             return roleNames;
         }

@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class BasicProjectInfoGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public BasicProjectInfoGridSpec(Person currentPerson, bool allowTaggingFunctionality)
+        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (userHasTagManagePermissions && allowTaggingFunctionality)
             {
                 BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");

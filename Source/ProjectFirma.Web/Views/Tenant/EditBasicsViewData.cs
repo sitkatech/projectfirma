@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Views.Tenant
         public IEnumerable<SelectListItem> TaxonomyLevels { get; }
         public EditBasicsViewDataForAngular ViewDataForAngular { get; }
 
-        public EditBasicsViewData(Person currentPerson, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels, 
+        public EditBasicsViewData(FirmaSession currentFirmaSession, IEnumerable<SelectListItem> tenantPeople, IEnumerable<SelectListItem> taxonomyLevels, 
             int budgetTypeID, Dictionary<int, string> budgetTypes, IEnumerable<int> disabledBudgetTypeValues, List<string> costTypes)
-            : base(currentPerson)
+            : base(currentFirmaSession)
         {
             TenantPeople = tenantPeople;
             TaxonomyLevels = taxonomyLevels;

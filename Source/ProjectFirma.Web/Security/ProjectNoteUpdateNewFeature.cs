@@ -35,14 +35,14 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, ProjectUpdateBatch contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, ProjectUpdateBatch contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, ProjectUpdateBatch contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectUpdateBatch contextModelObject)
         {
-            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(person, contextModelObject.Project);
+            return new ProjectUpdateCreateEditSubmitFeature().HasPermission(firmaSession, contextModelObject.Project);
         }
     }
 }

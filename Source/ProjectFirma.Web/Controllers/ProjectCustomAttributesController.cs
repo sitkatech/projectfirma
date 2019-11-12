@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult UpdateProjectCustomAttributes(EditProjectCustomAttributesViewModel viewModel, Project project)
         {
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectCustomAttributes(Project project, EditProjectCustomAttributesViewModel viewModel)
         {
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
             
             var viewData = new EditProjectCustomAttributesViewData(
                 projectCustomAttributeTypes.ToList(),

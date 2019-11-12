@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
                 .ToList();
-            var viewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
+            var viewData = new ProjectLocationSimpleViewData(CurrentFirmaSession, mapInitJson, geospatialAreaTypes, null, mapPostUrl, mapFormID);
             return RazorPartialView<ProjectLocationSimple, ProjectLocationSimpleViewData, ProjectLocationSimpleViewModel>(viewData, viewModel);
         }
 
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentPerson);
+                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
             }
             return ApproveGisUpload(project);
         }

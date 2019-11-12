@@ -138,6 +138,10 @@
     <Compile Include="Models\Generated\FirmaPageType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FirmaPageTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FirmaPageTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaSession.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaSession.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaSessionConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaSessionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FundingSource.Binding.cs" />
     <Compile Include="Models\Generated\FundingSource.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FundingSourceConfiguration.Binding.cs" />
@@ -578,6 +582,8 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\FirmaSession.cs" />
+    <Compile Include="Models\FirmaSessionExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
     <Compile Include="Models\AttachmentRelationshipType.cs" />
@@ -665,6 +671,7 @@
     <Compile Include="UnitTestCommon\TestClassification.cs" />
     <Compile Include="UnitTestCommon\TestClassificationSystem.cs" />
     <Compile Include="UnitTestCommon\TestFileResource.cs" />
+    <Compile Include="UnitTestCommon\TestFirmaSession.cs" />
     <Compile Include="UnitTestCommon\TestFramework.cs" />
     <Compile Include="UnitTestCommon\TestFundingSource.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialArea.cs" />
@@ -681,6 +688,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureNote.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
+    <Compile Include="UnitTestCommon\TestTenant.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />
     <Compile Include="UnitTestCommon\TestProject.cs" />
     <Compile Include="UnitTestCommon\TestProjectClassification.cs" />
@@ -719,6 +727,10 @@
     </Reference>
     <Reference Include="Keystone.Common.OpenID, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.10\lib\net45\Keystone.Common.OpenID.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

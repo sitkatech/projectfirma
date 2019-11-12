@@ -145,9 +145,9 @@ namespace ProjectFirma.Web.Models
             return organization.GetAllAssociatedProjects().GetActiveProjects();
         }
 
-        public static List<Project> GetProposalsVisibleToUser(this Organization organization, Person person)
+        public static List<Project> GetProposalsVisibleToUser(this Organization organization, FirmaSession firmaSession)
         {
-            return organization.GetAllAssociatedProjects().GetProposalsVisibleToUser(person);
+            return organization.GetAllAssociatedProjects().GetProposalsVisibleToUser(firmaSession);
         }
 
         public static List<Project> GetAllPendingProjects(this Organization organization, Person person)
@@ -199,10 +199,11 @@ namespace ProjectFirma.Web.Models
         }
 
         public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(this Organization organization,
-            PerformanceMeasure performanceMeasure, Person currentPerson)
+                                                                                         PerformanceMeasure performanceMeasure, 
+                                                                                         FirmaSession firmaSession)
         {
-            var projects = organization.GetAllActiveProjectsAndProposals(currentPerson).ToList();
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
+            var projects = organization.GetAllActiveProjectsAndProposals(firmaSession.Person).ToList();
+            return new PerformanceMeasureChartViewData(performanceMeasure, firmaSession, false, projects);
         }
 
         public static bool IsOrganizationNameUnique(IEnumerable<Organization> organizations, string organizationName, int currentOrganizationID)

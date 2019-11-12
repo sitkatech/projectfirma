@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FundingSourcesList.GetFirmaPage();
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, fundingSourceCustomAttributeTypes);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, fundingSourceCustomAttributeTypes);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<FundingSource> IndexGridJsonData()
         {
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var gridSpec = new IndexGridSpec(CurrentPerson, fundingSourceCustomAttributeTypes);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession, fundingSourceCustomAttributeTypes);
             var fundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().OrderBy(ht => ht.GetDisplayName()).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FundingSource>(fundingSources, gridSpec);
             return gridJsonNetJObjectResult;
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
                 string.Empty,
                 true);
 
-            viewModel.UpdateModel(fundingSource, CurrentPerson);
+            viewModel.UpdateModel(fundingSource, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllFundingSources.Add(fundingSource);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {fundingSource.GetDisplayName()} successfully created.");
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            viewModel.UpdateModel(fundingSource, CurrentPerson);
+            viewModel.UpdateModel(fundingSource, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -133,7 +133,7 @@ namespace ProjectFirma.Web.Controllers
             var organizationsAsSelectListItems =
                 HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations()
                     .ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
-            var viewData = new EditViewData(organizationsAsSelectListItems, CurrentPerson);
+            var viewData = new EditViewData(organizationsAsSelectListItems, CurrentFirmaSession);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -166,12 +166,12 @@ namespace ProjectFirma.Web.Controllers
 
             var viewGoogleChartViewData = new ViewGoogleChartViewData(googleChart, chartTitle, 350, false);
 
-            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession));
             var projectCustomAttributeTypesViewData = new DisplayFundingSourceCustomAttributesViewData(
                 fundingSourceCustomAttributeTypes.ToList(),
                 new List<FundingSourceCustomAttribute>(fundingSource.FundingSourceCustomAttributes.ToList()));
 
-            var viewData = new DetailViewData(CurrentPerson, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
+            var viewData = new DetailViewData(CurrentFirmaSession, fundingSource, viewGoogleChartViewData, projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData);
 
             return RazorView<Detail, DetailViewData>(viewData);
         }
@@ -187,7 +187,6 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteFundingSource(FundingSource fundingSource, ConfirmDialogFormViewModel viewModel)
         {
-
             var numberOfProjectsAssociated = fundingSource.GetAssociatedProjects(CurrentPerson).Count;
             var confirmMessage = numberOfProjectsAssociated > 0 ?
                 $"This {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} is associated with {numberOfProjectsAssociated} Projects. Deleting the Funding Source will delete all associated expenditure records. Are you sure you wish to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.FundingSourceName}'?" :

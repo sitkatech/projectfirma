@@ -42,8 +42,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
 
-        public ExpendituresViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
+        public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ProjectID = projectUpdateBatch.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;

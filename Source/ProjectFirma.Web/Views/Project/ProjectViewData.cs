@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public ProjectFirmaModels.Models.Project Project { get; }
 
-        protected ProjectViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson, null)
+        protected ProjectViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project) : base(currentFirmaSession, null)
         {
             Project = project;
             HtmlPageTitle = project.ProjectName;

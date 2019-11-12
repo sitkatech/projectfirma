@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.Shared
             SupportRequestTypeEnum = supportRequestTypeEnum;
         }
 
-        public void UpdateModel(SupportRequestLog supportRequestLog, Person updatePerson)
+        public void UpdateModel(SupportRequestLog supportRequestLog, FirmaSession currentFirmaSession)
         {
             supportRequestLog.RequestPersonName = RequestPersonName;
             supportRequestLog.RequestPersonEmail = RequestPersonEmail;
@@ -87,9 +87,9 @@ namespace ProjectFirma.Web.Views.Shared
             supportRequestLog.SupportRequestTypeID = (int) SupportRequestTypeEnum.Value;
             supportRequestLog.RequestDescription = RequestDescription;
             supportRequestLog.RequestDate = DateTime.Now;
-            if (updatePerson != null && !updatePerson.IsAnonymousUser())
+            if (!currentFirmaSession.IsAnonymousUser())
             {
-                supportRequestLog.RequestPersonID = updatePerson.PersonID;
+                supportRequestLog.RequestPersonID = currentFirmaSession.PersonID;
             }
         }
 

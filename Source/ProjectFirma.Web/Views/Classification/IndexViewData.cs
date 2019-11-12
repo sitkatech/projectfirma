@@ -38,11 +38,12 @@ namespace ProjectFirma.Web.Views.Classification
         public string ClassificationSystemName { get; }
 
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
+
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentFirmaSession)
         {
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
 
-            HasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            HasClassificationManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             GridSpec = new IndexGridSpec(HasClassificationManagePermissions, classificationSystem)
             {
                 ObjectNameSingular = classificationSystem.ClassificationSystemName,
@@ -55,6 +56,8 @@ namespace ProjectFirma.Web.Views.Classification
             NewUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.New(classificationSystem));
             EditSortOrderUrl = SitkaRoute<ClassificationController>.BuildUrlFromExpression(tc => tc.EditSortOrder(classificationSystem));
             ClassificationSystemName = classificationSystem.ClassificationSystemName;
+
+
         }
     }
 }

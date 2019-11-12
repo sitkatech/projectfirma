@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             IsSummable = performanceMeasure.IsSummable;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             performanceMeasure.PerformanceMeasureDisplayName = PerformanceMeasureDisplayName;
             performanceMeasure.PerformanceMeasureTypeID = PerformanceMeasureTypeID.Value;

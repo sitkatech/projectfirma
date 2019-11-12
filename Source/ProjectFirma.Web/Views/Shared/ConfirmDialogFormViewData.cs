@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public static string GetStandardCannotDeleteMessage(string objectName)
         {
-            return String.Format("You can't delete this {0} because it has associations to other items.", objectName);
+            return $"You can't delete this {objectName} because it has associations to other items.";
         }
 
         public static string GetStandardCannotDeleteMessage(string objectName, string linkToObjectSummaryPage)

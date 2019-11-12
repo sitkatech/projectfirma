@@ -54,18 +54,18 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(taxonomyLeaf.TaxonomyLeafID);
         }
 
-        public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
-            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
-        public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
             return taxonomyLeaf.Projects
                 .Union(taxonomyLeaf.SecondaryProjectTaxonomyLeafs.Select(x => x.Project))
                 .Distinct(new HavePrimaryKeyComparer<Project>())
                 .ToList()
-                .GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+                .GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
         public static IEnumerable<SelectListItem> ToGroupedSelectList(this List<TaxonomyLeaf> taxonomyLeafs)
@@ -181,14 +181,14 @@ namespace ProjectFirma.Web.Models
             return taxonomyLeaf == null;
         }
 
-        public static FancyTreeNode ToFancyTreeNode(this TaxonomyLeaf taxonomyLeaf, Person currentPerson)
+        public static FancyTreeNode ToFancyTreeNode(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyLeaf.GetDetailUrl(), taxonomyLeaf.GetDisplayName())}",
                 taxonomyLeaf.TaxonomyLeafID.ToString(), false)
             {
                 ThemeColor = String.IsNullOrWhiteSpace(taxonomyLeaf.ThemeColor) ? taxonomyLeaf.TaxonomyBranch.ThemeColor : taxonomyLeaf.ThemeColor,
                 MapUrl = GetCustomizedMapUrl(taxonomyLeaf),
-                Children = taxonomyLeaf.GetAssociatedProjects(currentPerson).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
+                Children = taxonomyLeaf.GetAssociatedProjects(currentFirmaSession).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
             };
             return fancyTreeNode;
         }

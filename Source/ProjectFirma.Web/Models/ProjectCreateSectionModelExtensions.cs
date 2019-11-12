@@ -16,6 +16,9 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
+
+            var currentFirmaSession = HttpRequestStorage.FirmaSession;
+
             switch (projectCreateSection.ToEnum)
             {
                 case ProjectCreateSectionEnum.Basics:
@@ -27,9 +30,9 @@ namespace ProjectFirma.Web.Models
                     var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
                     return !locationSimpleValidationResults.Any();
                 case ProjectCreateSectionEnum.Organizations:
-                    return !new OrganizationsViewModel(project, null).GetValidationResults().ToList().Any();
+                    return !new OrganizationsViewModel(project, currentFirmaSession).GetValidationResults().ToList().Any();
                 case ProjectCreateSectionEnum.Contacts:
-                    return !new ContactsViewModel(project, null).GetValidationResults().ToList().Any();
+                    return !new ContactsViewModel(project, currentFirmaSession).GetValidationResults().ToList().Any();
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:

@@ -34,14 +34,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string AddNewUrl { get; }
         public readonly ImageGalleryViewData ImageGalleryViewData;
 
-        public PhotoViewData(Person currentPerson, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<FileResourcePhoto, object> sortFunction, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public PhotoViewData(FirmaSession currentFirmaSession, string galleryName, IEnumerable<FileResourcePhoto> galleryImages, string addNewPhotoUrl, Func<FileResourcePhoto, object> sortFunction, ProjectFirmaModels.Models.Project project, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.Photos.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             AddNewUrl = addNewPhotoUrl;
             var selectKeyImageUrl =
                 SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x =>
                     x.SetKeyPhoto(UrlTemplate.Parameter1Int));
-            ImageGalleryViewData = new ImageGalleryViewData(currentPerson, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        
+            ImageGalleryViewData = new ImageGalleryViewData(currentFirmaSession, galleryName, galleryImages, true, addNewPhotoUrl, selectKeyImageUrl, true, sortFunction, "Photo");                        
         }        
     }
 }

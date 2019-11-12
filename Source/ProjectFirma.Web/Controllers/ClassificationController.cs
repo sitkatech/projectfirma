@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var viewData = new IndexViewData(CurrentPerson, classificationSystem);
+            var viewData = new IndexViewData(CurrentFirmaSession, classificationSystem);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Classification> IndexGridJsonData(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson), classificationSystem);            
+            var gridSpec = new IndexGridSpec(new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession), classificationSystem);
             var classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             return new GridJsonNetJObjectResult<Classification>(classifications, gridSpec);
         }
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             }
             
             var classification = new Classification(string.Empty, "#BBBBBB", viewModel.DisplayName, classificationSystem.ClassificationSystemID);
-            viewModel.UpdateModel(classification, CurrentPerson);
+            viewModel.UpdateModel(classification, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllClassifications.Add(classification);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, classification.ClassificationSystem);
             }
             
-            viewModel.UpdateModel(classification, CurrentPerson);
+            viewModel.UpdateModel(classification, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -162,7 +162,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var classification = classificationPrimaryKey.EntityObject;
             var mapDivID = $"classification_{classification.ClassificationID}_Map";
-            var associatedProjects = classification.GetAssociatedProjects(CurrentPerson);
+            var associatedProjects = classification.GetAssociatedProjects(CurrentFirmaSession);
             var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(associatedProjects, currentPersonCanViewProposals);
@@ -170,13 +170,13 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
                 projectMapCustomization, mapDivID)
             {
-                AllowFullScreen = false,
+                AllowFullScreen = true,
                 Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()
             };
             var filteredProjectList = associatedProjects.Where(x1 => x1.HasProjectLocationPoint).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
             projectLocationsMapInitJson.BoundingBox =
                 new BoundingBox(filteredProjectList.Select(x => x.ProjectLocationPoint).ToList());
-            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
+            var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), currentPersonCanViewProposals);
 
             var projectFundingSourceExpenditures = associatedProjects.SelectMany(x => x.ProjectFundingSourceExpenditures);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList();
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new DetailViewData(CurrentPerson, classification, projectLocationsMapViewData, projectLocationsMapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
+            var viewData = new DetailViewData(CurrentFirmaSession, classification, projectLocationsMapViewData, projectLocationsMapInitJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -64,14 +64,14 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult IndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.TaxonomyLeafList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<TaxonomyLeaf> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec(CurrentPerson);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession);
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TaxonomyLeaf>(taxonomyLeafs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -113,10 +113,10 @@ namespace ProjectFirma.Web.Controllers
             var secondaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(secondaryProjectLocationsLayerGeoJson,
                 secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap");
             var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
             var secondaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(secondaryProjectLocationsMapInitJson.MapDivID,
-                ProjectColorByType.ProjectStage.GetDisplayName(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
+                ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel =
@@ -134,14 +134,14 @@ namespace ProjectFirma.Web.Controllers
                 .ToList();
             var primaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, primaryTaxonomyLeafProjects, $"primary{x.GetJavascriptSafeChartUniqueName()}"));
             var secondaryPerformanceMeasureChartViewDataByPerformanceMeasure = performanceMeasures.ToDictionary(
                 x => x.PerformanceMeasureID,
-                x => new PerformanceMeasureChartViewData(x, CurrentPerson, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
+                x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, secondaryTaxonomyLeafProjects, $"secondary{x.GetJavascriptSafeChartUniqueName()}"));
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, taxonomyLeaf, primaryProjectLocationsMapInitJson,
+            var viewData = new DetailViewData(CurrentFirmaSession, taxonomyLeaf, primaryProjectLocationsMapInitJson,
                 secondaryProjectLocationsMapInitJson, primaryProjectLocationsMapViewData,
                 secondaryProjectLocationsMapViewData, canHaveAssociatedPerformanceMeasures,
                 relatedPerformanceMeasuresViewData, taxonomyLevel, tenantAttribute, performanceMeasures,
@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var taxonomyLeaf = new TaxonomyLeaf(viewModel.TaxonomyBranchID, string.Empty);
-            viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
+            viewModel.UpdateModel(taxonomyLeaf, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllTaxonomyLeafs.Add(taxonomyLeaf);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, taxonomyLeaf.TaxonomyBranch.GetDisplayName());
             }
 
-            viewModel.UpdateModel(taxonomyLeaf, CurrentPerson);
+            viewModel.UpdateModel(taxonomyLeaf, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -284,8 +284,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> SecondaryProjectsGridJsonData(TaxonomyLeafPrimaryKey taxonomyLeafPrimaryKey)
         {
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
-            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentPerson);
-            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentPerson, true, taxonomyLeaf);
+            var projectTaxonomyLeafs = taxonomyLeaf.GetAssociatedPrimaryAndSecondaryProjects(CurrentFirmaSession);
+            var gridSpec = new ProjectForTaxonomyLeafGridSpec(CurrentFirmaSession, true, taxonomyLeaf);
             return new GridJsonNetJObjectResult<Project>(projectTaxonomyLeafs, gridSpec);
         }
 

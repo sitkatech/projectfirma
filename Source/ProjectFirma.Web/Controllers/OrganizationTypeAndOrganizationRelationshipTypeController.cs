@@ -49,14 +49,14 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [OrganizationAndRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<OrganizationType> OrganizationTypeGridJsonData()
         {
-            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new OrganizationTypeGridSpec(hasManagePermissions);
             var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList().OrderBy(x => x.OrganizationTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<OrganizationType>(organizationTypes, gridSpec);
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationAndRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<OrganizationRelationshipType> OrganizationRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new OrganizationRelationshipTypeGridSpec(hasManagePermissions, HttpRequestStorage.DatabaseEntities.OrganizationTypes.ToList());
             var organizationRelationshipTypes = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.ToList().OrderBy(x => x.OrganizationRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<OrganizationRelationshipType>(organizationRelationshipTypes, gridSpec);
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewOrganizationType(viewModel);
             }
             var organizationType = new OrganizationType(viewModel.OrganizationTypeName, viewModel.OrganizationTypeAbbreviation, viewModel.LegendColor, viewModel.ShowOnProjectMaps ?? false, viewModel.IsDefaultOrganizationType ?? false, viewModel.IsFundingType ?? false);
-            viewModel.UpdateModel(organizationType, CurrentPerson);
+            viewModel.UpdateModel(organizationType, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllOrganizationTypes.Add(organizationType);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditOrganizationType(viewModel);
             }
-            viewModel.UpdateModel(organizationType, CurrentPerson);
+            viewModel.UpdateModel(organizationType, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

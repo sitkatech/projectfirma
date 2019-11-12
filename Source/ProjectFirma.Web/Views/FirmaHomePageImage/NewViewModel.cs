@@ -36,10 +36,10 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
         [SitkaFileExtensions("jpg|jpeg|gif|png|tiff|bmp")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
-        public override void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, Person person)
+        public override void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, FirmaSession currentFirmaSession)
         {
-            base.UpdateModel(firmaHomePageImage, person);
-            firmaHomePageImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, person);
+            base.UpdateModel(firmaHomePageImage, currentFirmaSession);
+            firmaHomePageImage.FileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(FileResourceData, currentFirmaSession);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

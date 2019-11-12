@@ -61,15 +61,16 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(
             this Classification classification,
-            PerformanceMeasure performanceMeasure, Person currentPerson)
+            PerformanceMeasure performanceMeasure, 
+            FirmaSession currentFirmaSession)
         {
-            var projects = classification.GetAssociatedProjects(currentPerson);
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentPerson, false, projects);
+            var projects = classification.GetAssociatedProjects(currentFirmaSession);
+            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
         }
 
-        public static List<Project> GetAssociatedProjects(this Classification classification, Person person)
+        public static List<Project> GetAssociatedProjects(this Classification classification, FirmaSession currentFirmaSession)
         {
-            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals()).ToList();
+            return classification.ProjectClassifications.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
         }
 
         public static string GetKeyImageUrlLarge(this Classification classification) => classification.KeyImageFileResource != null

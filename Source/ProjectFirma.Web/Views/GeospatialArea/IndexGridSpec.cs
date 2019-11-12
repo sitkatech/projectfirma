@@ -19,13 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Linq;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -33,7 +29,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
 {
     public class IndexGridSpec : GridSpec<GeospatialAreaIndexGridSimple>
     {
-        public IndexGridSpec(Person person, GeospatialAreaType geospatialAreaType)
+        public IndexGridSpec(FirmaSession currentFirmaSession, GeospatialAreaType geospatialAreaType)
         {
             Add(geospatialAreaType.GeospatialAreaTypeName, a => UrlTemplate.MakeHrefString(GeospatialAreaModelExtensions.GetDetailUrl(a.GeospatialAreaID), a.GeospatialAreaName), 300, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectViewableByUserCount, 65);

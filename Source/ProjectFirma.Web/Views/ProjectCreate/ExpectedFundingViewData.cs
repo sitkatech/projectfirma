@@ -33,11 +33,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
-        public ExpectedFundingViewData(Person currentPerson,
+        public ExpectedFundingViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             ViewDataForAngularClass viewDataForAngularClass
-            ) : base(currentPerson, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ) : base(currentFirmaSession, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             ViewDataForAngular = viewDataForAngularClass;

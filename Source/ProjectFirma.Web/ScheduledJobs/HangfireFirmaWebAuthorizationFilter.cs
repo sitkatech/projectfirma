@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         {
             var owinContext = new OwinContext(context.GetOwinEnvironment());
             var person = KeystoneClaimsHelpers.GetOpenIDUserFromPrincipal(owinContext.Authentication.User,
-                PersonModelExtensions.GetAnonymousSitkaUser(),
+                null,
                 HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
             return person.IsAdministrator();
         }

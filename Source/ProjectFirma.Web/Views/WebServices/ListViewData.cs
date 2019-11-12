@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.WebServices
         public readonly WebServiceToken WebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
 
-        public ListViewData(Person currentPerson, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
-            : base(currentPerson)
+        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
+            : base(currentFirmaSession)
         {
             ServiceDocumentationList = serviceDocumentationList;
             WebServiceAccessToken = webServiceAccessToken;

@@ -50,19 +50,19 @@ namespace ProjectFirma.Web.Views
         /// Make a ProjectFirmaMenuItem from a route. A feature is required on the Route and will be used to check access for the menu item.
         /// If menu item is not accessible, it will not be shown.
         /// </summary>
-        public static LtInfoMenuItem MakeItem<T>(SitkaRoute<T> route, Person currentPerson, string menuItemName) where T : Controller
+        public static LtInfoMenuItem MakeItem<T>(SitkaRoute<T> route, FirmaSession currentFirmaSession, string menuItemName) where T : Controller
         {
-            return MakeItem(route, currentPerson, menuItemName, null);
+            return MakeItem(route, currentFirmaSession, menuItemName, null);
         }
 
         /// <summary>
         /// Make a ProjectFirmaMenuItem from a route. A feature is required on the Route and will be used to check access for the menu item.
         /// If menu item is not accessible, it will not be shown.
         /// </summary>
-        public static LtInfoMenuItem MakeItem<T>(SitkaRoute<T> route, Person currentPerson, string menuItemName, string menuGroupName) where T : Controller
+        public static LtInfoMenuItem MakeItem<T>(SitkaRoute<T> route, FirmaSession  currentFirmaSession, string menuItemName, string menuGroupName) where T : Controller
         {
             var urlString = route.BuildUrlFromExpression();
-            var shouldShow = FirmaBaseFeature.IsAllowed(route, currentPerson);
+            var shouldShow = FirmaBaseFeature.IsAllowed(route, currentFirmaSession);
             return new LtInfoMenuItem(urlString, menuItemName, shouldShow, false, menuGroupName);
         }
 

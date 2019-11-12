@@ -33,9 +33,9 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.TaxonomyBranch>
     {
-        public IndexGridSpec(Person currentPerson)
+        public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            if (new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson))
+            if (new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             }            
             Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyBranchCodeAndName()), 240);
             Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyLeafs.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 420, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession.Person).Count, 90);
             Add("Sort Order", a => a.TaxonomyBranchSortOrder, 90, DhtmlxGridColumnFormatType.None);
             Add(FieldDefinitionEnum.TaxonomyBranchDescription.ToType().ToGridHeaderString(),a => a.TaxonomyBranchDescription, 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
         }

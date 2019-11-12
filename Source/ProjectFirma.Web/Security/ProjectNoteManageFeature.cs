@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, ProjectNote contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
         /// <summary>
@@ -46,9 +46,9 @@ namespace ProjectFirma.Web.Security
         /// <param name="person"></param>
         /// <param name="contextModelObject"></param>
         /// <returns></returns>
-        public PermissionCheckResult HasPermission(Person person, ProjectNote contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, ProjectNote contextModelObject)
         {
-            return new ProjectCreateFeature().HasPermission(person, contextModelObject.Project);
+            return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject.Project);
         }
     }
 

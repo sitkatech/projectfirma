@@ -37,19 +37,19 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            if (!HasPermissionByPerson(person))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult($"You don't have permission to view {contextModelObject.GetDisplayName()}");
             }
 
-            if (contextModelObject.IsProposal() && person.IsAnonymousUser())
+            if (contextModelObject.IsProposal() && firmaSession.IsAnonymousUser())
             {
                 // do not allow if user is anonymous and do not show proposals to public
                 if (!MultiTenantHelpers.ShowProposalsToThePublic())
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Security
                 if (MultiTenantHelpers.ShowProposalsToThePublic() && contextModelObject.ProjectApprovalStatus != ProjectApprovalStatus.PendingApproval)
                 {
                     return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not visible to you.");
-                }                
+                }
             }
 
             // Allowed

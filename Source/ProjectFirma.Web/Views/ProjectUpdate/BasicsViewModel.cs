@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Comments = comments;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, FirmaSession currentFirmaSession)
         {
             projectUpdate.ProjectDescription = ProjectDescription;
             projectUpdate.ProjectStageID = ProjectStageID;

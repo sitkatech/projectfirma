@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         }
 
         public EditContactsViewModel(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.ProjectContact> projectContacts,
-            Person currentPerson)
+            FirmaSession currentFirmaSession)
         {           
             PrimaryContactPersonID = project.PrimaryContactPersonID;
             ProjectContactSimples = projectContacts.Select(x => new ProjectContactSimple(x)).ToList();

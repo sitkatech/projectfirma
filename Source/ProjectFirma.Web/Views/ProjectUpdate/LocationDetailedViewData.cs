@@ -37,8 +37,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string UploadGisFileUrl;
 
 
-        public LocationDetailedViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, ProjectUpdateStatus projectUpdateStatus)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName)
+        public LocationDetailedViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectLocationDetailViewData projectLocationDetailViewData, string uploadGisFileUrl, ProjectUpdateStatus projectUpdateStatus)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName)
         {
             ProjectLocationDetailViewData = projectLocationDetailViewData;
             UploadGisFileUrl = uploadGisFileUrl;

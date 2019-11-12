@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType{ get; }
 
 
-        public ExpendituresByCostTypeViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
+        public ExpendituresByCostTypeViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
             ProjectExpendituresByCostTypeDetailViewData projectExpendituresByCostTypeDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
