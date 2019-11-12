@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 	[PerformanceMeasureReportingPeriodCalendarYear] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodLabel] [varchar](100) NOT NULL,
 	[TargetValue] [float] NULL,
-	[TargetValueDescription] [varchar](100) NULL,
+	[TargetValueLabel] [varchar](100) NULL,
  CONSTRAINT [PK_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureReportingPeriodID] ASC
@@ -55,7 +55,7 @@ insert into dbo.PerformanceMeasureReportingPeriod
 		pma.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
 		pma.CalendarYear as PerformanceMeasureReportingPeriodLabel,
 		null as TargetValue,
-		null as TargetValueDescription
+		null as TargetValueLabel
     FROM 
 		dbo.PerformanceMeasureActual as pma
     group by pma.TenantID, pma.CalendarYear, pma.PerformanceMeasureID
@@ -96,7 +96,7 @@ insert into dbo.PerformanceMeasureReportingPeriod
 		pmau.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
 		pmau.CalendarYear as PerformanceMeasureReportingPeriodLabel,
 		null as TargetValue,
-		null as TargetValueDescription
+		null as TargetValueLabel
     FROM 
 		dbo.PerformanceMeasureActualUpdate as pmau
 	where

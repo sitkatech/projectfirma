@@ -31,14 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureReportingPeriod(int performanceMeasureReportingPeriodID, int performanceMeasureID, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel, double? targetValue, string targetValueDescription) : this()
+        public PerformanceMeasureReportingPeriod(int performanceMeasureReportingPeriodID, int performanceMeasureID, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel, double? targetValue, string targetValueLabel) : this()
         {
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodCalendarYear;
             this.PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodLabel;
             this.TargetValue = targetValue;
-            this.TargetValueDescription = targetValueDescription;
+            this.TargetValueLabel = targetValueLabel;
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace ProjectFirmaModels.Models
         public int PerformanceMeasureReportingPeriodCalendarYear { get; set; }
         public string PerformanceMeasureReportingPeriodLabel { get; set; }
         public double? TargetValue { get; set; }
-        public string TargetValueDescription { get; set; }
+        public string TargetValueLabel { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureReportingPeriodID; } set { PerformanceMeasureReportingPeriodID = value; } }
 
@@ -143,7 +143,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int PerformanceMeasureReportingPeriodLabel = 100;
-            public const int TargetValueDescription = 100;
+            public const int TargetValueLabel = 100;
         }
     }
 }

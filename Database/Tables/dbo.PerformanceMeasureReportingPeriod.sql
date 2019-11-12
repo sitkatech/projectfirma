@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 	[PerformanceMeasureReportingPeriodCalendarYear] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[TargetValue] [float] NULL,
-	[TargetValueDescription] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TargetValueLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureReportingPeriodID] ASC

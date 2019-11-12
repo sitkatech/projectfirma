@@ -21,7 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PerformanceMeasureReportingPeriodCalendarYear).HasColumnName(@"PerformanceMeasureReportingPeriodCalendarYear").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureReportingPeriodLabel).HasColumnName(@"PerformanceMeasureReportingPeriodLabel").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.TargetValue).HasColumnName(@"TargetValue").HasColumnType("float").IsOptional();
-            Property(x => x.TargetValueDescription).HasColumnName(@"TargetValueDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
+            Property(x => x.TargetValueLabel).HasColumnName(@"TargetValueLabel").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys
             HasRequired(a => a.PerformanceMeasure).WithMany(b => b.PerformanceMeasureReportingPeriods).HasForeignKey(c => c.PerformanceMeasureID).WillCascadeOnDelete(false); // FK_PerformanceMeasureReportingPeriod_PerformanceMeasure_PerformanceMeasureID

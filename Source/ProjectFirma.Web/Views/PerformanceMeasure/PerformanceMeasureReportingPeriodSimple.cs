@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public int PerformanceMeasureReportingPeriodCalendarYear { get; set; }
 
         public double? TargetValue { get; set; }
-        public string TargetValueDescription { get; set; }
+        public string TargetValueLabel { get; set; }
 
         public int PerformanceMeasureID { get; set; }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
             PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
             TargetValue = performanceMeasureReportingPeriod.TargetValue;
-            TargetValueDescription = performanceMeasureReportingPeriod.TargetValueDescription;
+            TargetValueLabel = performanceMeasureReportingPeriod.TargetValueLabel;
             PerformanceMeasureID = performanceMeasureReportingPeriod.PerformanceMeasureID;
         }
 

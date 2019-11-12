@@ -78,15 +78,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     {
                         case PerformanceMeasureTargetValueTypeEnum.NoTarget:
                             reportingPeriod.TargetValue = null;
-                            reportingPeriod.TargetValueDescription = null;
+                            reportingPeriod.TargetValueLabel = null;
                             break;
                         case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                             reportingPeriod.TargetValue = OverallTargetValue;
-                            reportingPeriod.TargetValueDescription = OverallTargetValueDescription;
+                            reportingPeriod.TargetValueLabel = OverallTargetValueDescription;
                             break;
                         case PerformanceMeasureTargetValueTypeEnum.TargetPerReportingPeriod:
                             reportingPeriod.TargetValue = bulk.TargetValue;
-                            reportingPeriod.TargetValueDescription = bulk.TargetValueDescription;
+                            reportingPeriod.TargetValueLabel = bulk.TargetValueLabel;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     (x, y) =>
                     {
                         x.TargetValue = y.TargetValue;
-                        x.TargetValueDescription = y.TargetValueDescription;
+                        x.TargetValueLabel = y.TargetValueLabel;
                         x.PerformanceMeasureReportingPeriodLabel = y.PerformanceMeasureReportingPeriodLabel;
                     }, HttpRequestStorage.DatabaseEntities);
 

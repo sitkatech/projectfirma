@@ -71,7 +71,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
             PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
             PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
             TargetValue: $scope.AngularModel.OverallTargetValue,
-            TargetValueDescription: $scope.AngularModel.OverallTargetValueDescription,
+            TargetValueLabel: $scope.AngularModel.OverallTargetValueLabel,
             PerformanceMeasureReportingPeriodID: -1
         };
         return newBulk;
@@ -133,8 +133,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
 
     $scope.populateSimpleTargets = function () {
         _.forEach($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, function (value, key) {
-            if (!value.TargetValueDescription) {
-                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValueDescription = $scope.AngularModel.OverallTargetValueDescription;
+            if (!value.TargetValueLabel) {
+                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValueLabel = $scope.AngularModel.OverallTargetValueLabel;
             }
             if (!value.TargetValue) {
                 $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValue = $scope.AngularModel.OverallTargetValue;
@@ -150,10 +150,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
 
     if ($scope.AngularModel.PerformanceMeasureReportingPeriodSimples.length > 0) {
         $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
-        $scope.AngularModel.OverallTargetValueDescription = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueDescription;
+        $scope.AngularModel.OverallTargetValueLabel = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueLabel;
     }
-    if (!$scope.AngularModel.OverallTargetValueDescription) {
-        $scope.AngularModel.OverallTargetValueDescription = "Target";
+    if (!$scope.AngularModel.OverallTargetValueLabel) {
+        $scope.AngularModel.OverallTargetValueLabel = "Target";
     }
 
 

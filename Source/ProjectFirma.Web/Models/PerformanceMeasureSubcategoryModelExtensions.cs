@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Models
                 
                 if (hasToolTipWithTotal)
                 {
-                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, performanceMeasureReportingPeriod.TargetValue, performanceMeasureReportingPeriod.TargetValueDescription);
+                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, performanceMeasureReportingPeriod.TargetValue, performanceMeasureReportingPeriod.TargetValueLabel);
                     googleChartRowVs.Add(new GoogleChartRowV(null, formattedDataTooltip));
                 }
                 if (hasTargets)
@@ -140,12 +140,12 @@ namespace ProjectFirma.Web.Models
 
         private static string GetTargetColumnLabel(ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
         {
-            return GetTargetValueType(performanceMeasurePerformanceMeasureReportingPeriods) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasurePerformanceMeasureReportingPeriods.First().TargetValueDescription : "Target";
+            return GetTargetValueType(performanceMeasurePerformanceMeasureReportingPeriods) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasurePerformanceMeasureReportingPeriods.First().TargetValueLabel : "Target";
         }
 
         private static string GetFormattedTargetValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
-            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueDescription})";
+            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueLabel})";
         }
 
         public static PerformanceMeasureTargetValueType GetTargetValueType(this ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
@@ -155,7 +155,7 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureTargetValueType.NoTarget;
             }
 
-            if (performanceMeasureReportingPeriods.Select(x => $"{x.TargetValue}{x.TargetValueDescription}").Distinct().Count() == 1)
+            if (performanceMeasureReportingPeriods.Select(x => $"{x.TargetValue}{x.TargetValueLabel}").Distinct().Count() == 1)
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
