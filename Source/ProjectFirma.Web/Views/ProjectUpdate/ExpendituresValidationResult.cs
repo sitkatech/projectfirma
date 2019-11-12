@@ -68,35 +68,27 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             var fundingSources =
                 HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => fundingSourcesIDs.Contains(x.FundingSourceID));
 
-            if (!fundingSources.Any())
+            var missingFundingSourceYears = new Dictionary<ProjectFirmaModels.Models.FundingSource, IEnumerable<int>>();
+            foreach (var fundingSource in fundingSources)
             {
-                var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(expectedYears));
-                errors.Add($"Missing Expenditures for {string.Join(", ", yearsForErrorDisplay)}");
+                var currentFundingSource = fundingSource;
+                var missingYears =
+                    expectedYears
+                        .GetMissingYears(projectFundingSourceExpenditures
+                            .Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID)
+                            .Select(x => x.CalendarYear)).ToList();
+
+                if (missingYears.Any())
+                {
+                    missingFundingSourceYears.Add(currentFundingSource, missingYears);
+                }
             }
-            else
+
+            foreach (var fundingSource in missingFundingSourceYears)
             {
-                var missingFundingSourceYears = new Dictionary<ProjectFirmaModels.Models.FundingSource, IEnumerable<int>>();
-                foreach (var fundingSource in fundingSources)
-                {
-                    var currentFundingSource = fundingSource;
-                    var missingYears =
-                        expectedYears
-                            .GetMissingYears(projectFundingSourceExpenditures
-                                .Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID)
-                                .Select(x => x.CalendarYear)).ToList();
-
-                    if (missingYears.Any())
-                    {
-                        missingFundingSourceYears.Add(currentFundingSource, missingYears);
-                    }
-                }
-
-                foreach (var fundingSource in missingFundingSourceYears)
-                {
-                    var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(fundingSource.Value));
-                    errors.Add($"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
-                }
-            }         
+                var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(fundingSource.Value));
+                errors.Add($"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
+            }                    
 
             return errors;
         }
