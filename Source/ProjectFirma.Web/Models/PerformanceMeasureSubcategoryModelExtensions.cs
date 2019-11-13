@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Models
         public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues, string chartUniqueName)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
-            var performanceMeasureReportingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods;
+            var performanceMeasureReportingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.TargetValue.HasValue).ToList();
             var googleChartJsons = new List<GoogleChartJson>();
             foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart()))
             {
