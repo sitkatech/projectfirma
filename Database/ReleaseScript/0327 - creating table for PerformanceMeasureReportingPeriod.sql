@@ -43,7 +43,7 @@ alter table dbo.PerformanceMeasureActual
 add [PerformanceMeasureReportingPeriodID] [int] NULL;
 go
 
-ALTER TABLE [dbo].PerformanceMeasureActual  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] FOREIGN KEY([PerformanceMeasureReportingPeriodID])
+ALTER TABLE [dbo].PerformanceMeasureActual ADD CONSTRAINT [FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] FOREIGN KEY([PerformanceMeasureReportingPeriodID])
 REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReportingPeriodID])
 
 go
