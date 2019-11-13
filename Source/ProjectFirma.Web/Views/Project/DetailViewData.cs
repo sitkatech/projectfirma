@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
 
-
+        public string UpdateStatusUrl { get; set; }
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
@@ -143,7 +143,7 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
-
+            UpdateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();

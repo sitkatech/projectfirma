@@ -69,6 +69,7 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\ProjectProjectStatusController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -260,6 +261,10 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewData.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewModel.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditNoteViewModelTest.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
@@ -600,6 +605,7 @@
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
+    <Content Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
