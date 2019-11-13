@@ -83,6 +83,10 @@ namespace ProjectFirma.Web.Models
         public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(
             PerformanceMeasure performanceMeasure)
         {
+            if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            {
+                return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            }
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
                 new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
@@ -90,6 +94,20 @@ namespace ProjectFirma.Web.Models
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
                 googleChartAxisVerticals);
+            return defaultSubcategoryChartConfigurationJson;
+        }
+
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(
+            PerformanceMeasure performanceMeasure)
+        {
+            var googleChartType = GoogleChartType.ColumnChart;
+            var googleChartAxisHorizontal =
+                new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
+                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
+                googleChartAxisVerticals, null, chartSeries);
             return defaultSubcategoryChartConfigurationJson;
         }
 

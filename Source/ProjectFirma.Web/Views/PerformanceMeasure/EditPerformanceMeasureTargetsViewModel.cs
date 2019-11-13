@@ -26,8 +26,10 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using MoreLinq;
+using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -132,6 +134,16 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     }, HttpRequestStorage.DatabaseEntities);
 
 
+                if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+                {
+                    foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                    {
+                        var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                        tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+                        pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+                        pfSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    }
+                }
             }
         }
 
