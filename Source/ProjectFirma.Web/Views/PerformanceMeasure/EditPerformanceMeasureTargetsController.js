@@ -88,9 +88,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, rowToDelete);
     };
 
-    $scope.showRowValidationErrors = function (bulk) {
-        var hasValidationErrors = _.includes($scope.AngularModel.PerformanceMeasureTargetsWithValidationErrors, bulk.PerformanceMeasureReportingPeriodLabel);
-        return hasValidationErrors;
+
+    $scope.showDeleteYear = function (bulk) {
+        var hasActuals = _.includes($scope.AngularViewData.ReportingPeriodsWithActuals, bulk.PerformanceMeasureReportingPeriodID);
+        return !hasActuals;
     };
 
     $scope.getBulkOrder = function (bulk) { return new Date(bulk.PerformanceMeasureReportingPeriodCalendarYear); }

@@ -39,19 +39,22 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             ViewDataForAngular = viewDataForAngular;
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
+            
         }
     }
 
     public class EditPerformanceMeasureTargetsViewDataForAngular
     {
-        public readonly int? PerformanceMeasureSubcategoryID;
-        public readonly int DefaultReportingPeriodYear;
-        public readonly Dictionary<string, int> PerformanceMeasureTargetValueTypes;
+        public int? PerformanceMeasureSubcategoryID { get; }
+        public int DefaultReportingPeriodYear { get; }
+        public Dictionary<string, int> PerformanceMeasureTargetValueTypes { get; }
+        public List<int> ReportingPeriodsWithActuals { get; }
 
         public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, Dictionary<string, int> performanceMeasureTargetValueTypes)
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
+            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.PerformanceMeasureActualUpdates.Any()).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
         }
     }
 }

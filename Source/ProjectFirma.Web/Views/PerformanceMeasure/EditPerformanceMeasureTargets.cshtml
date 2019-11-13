@@ -127,20 +127,19 @@ Source code is available upon request via <support@sitkatech.com>.
     </table>
     <div ng-show="ShowPerReportingPeriodSection" style="max-height: 400px; overflow: auto">
         <hr />
+        <p class="systemText">You are not able to delete reporting years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
         <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
             <colgroup>
                 <col style="text-align: left; width: 20px">
-                <col style="text-align: left; width: 20px">
                 <col style="text-align: left; min-width: 200px">
-                <col style="text-align: left; min-width: 60px; border-left:1px solid black">
+                <col style="text-align: left; min-width: 60px;">
                 <col style="text-align: left; min-width: 100px">
                 <col width:auto />
             </colgroup>
             <thead>
                 <tr>
                     <th></th>
-                    <th></th>
-                    <th style="text-align: left">Reporting Period</th>
+                    <th>Reporting Year</th>
                     <th>Target</th>
                     <th>Target Description</th>
                     <th></th>
@@ -148,11 +147,9 @@ Source code is available upon request via <support@sitkatech.com>.
             </thead>
             <tbody>
                 <tr ng-repeat="bulk in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy: getBulkOrder : reverse">
+
                     <td>
-                        <span class="glyphicon glyphicon-warning-sign red" alt="" ng-show="showRowValidationErrors(bulk)"></span>
-                    </td>
-                    <td>
-                        <span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(bulk)" style="cursor: pointer"></span>
+                        <span ng-show="showDeleteYear(bulk)" class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(bulk)" style="cursor: pointer"></span>
                     </td>
                     <td>{{bulk.PerformanceMeasureReportingPeriodLabel}}</td>
 
