@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Models
             AddProjectFundingSourceExpenditureUpdates(projectFundingSourceExpenditureUpdates);
             // we need to fill in the other calendar years with blanks
             var usedCalendarYears = projectFundingSourceExpenditureUpdates.Select(x => x.CalendarYear).ToList();
-            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, null, true)));
+            CalendarYearExpenditures.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x)).ToList().Select(x => new CalendarYearMonetaryAmount(x, 0, true)));
         }
 
         private ProjectFundingSourceExpenditureBulk(int projectID, int fundingSourceID, int costTypeID,
