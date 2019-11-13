@@ -53,8 +53,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            var performanceMeasureReporteds = PerformanceMeasureReportedValue.MakeFromList(performanceMeasure.PerformanceMeasureActuals);
-            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasureReporteds);
+            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriods);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.PerformanceMeasureReportingPeriods.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
         }
 
@@ -69,7 +68,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
                 //if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
                 var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
-                var missingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID));
+                var missingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID) && (x.PerformanceMeasureActuals.Any() || x.PerformanceMeasureActualUpdates.Any()));
                 foreach (var missingReportingPeriod in missingPeriods)
                 {
                     switch (performanceMeasureTargetValueTypeEnum)

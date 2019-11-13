@@ -60,9 +60,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureID = performanceMeasureReportingPeriod.PerformanceMeasureID;
         }
 
-        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportedValue> performanceMeasureReportedValues)
+        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
         {
-            return performanceMeasureReportedValues.Select(x => x.PerformanceMeasureReportingPeriod).Distinct().Select(pmrv => new PerformanceMeasureReportingPeriodSimple(pmrv)).ToList();
+            return performanceMeasureReportingPeriods.Select(pmrp => new PerformanceMeasureReportingPeriodSimple(pmrp)).ToList();
         }
     }
 }
