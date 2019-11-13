@@ -49,18 +49,18 @@ namespace ProjectFirmaModels.Models
 
         public void SyncExpendituresYearsExemptionExplanation()
         {
-            NoExpendituresToReportExplanation = Project.NoExpendituresToReportExplanation;
+            ExpendituresNote = Project.ExpendituresNote;
         }
 
-        public void TickleLastUpdateDate(Person currentPerson)
+        public void TickleLastUpdateDate(FirmaSession currentFirmaSession)
         {
-            TickleLastUpdateDate(DateTime.Now, currentPerson);
+            TickleLastUpdateDate(DateTime.Now, currentFirmaSession);
         }
 
-        public void TickleLastUpdateDate(DateTime transitionDate, Person currentPerson)
+        public void TickleLastUpdateDate(DateTime transitionDate, FirmaSession currentFirmaSession)
         {
             LastUpdateDate = transitionDate;
-            LastUpdatePerson = currentPerson;
+            LastUpdatePerson = currentFirmaSession.Person;
         }
 
         public bool NewStageIsPlanningDesign() => ProjectUpdate.ProjectStage == ProjectStage.PlanningDesign;

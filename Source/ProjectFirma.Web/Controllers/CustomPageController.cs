@@ -48,25 +48,25 @@ namespace ProjectFirma.Web.Controllers
             {
                 throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
             }
-            new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
-            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
-            var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
+            new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentFirmaSession, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
         [FirmaPageViewListFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [FirmaPageViewListFeature]
         public GridJsonNetJObjectResult<CustomPage> IndexGridJsonData()
         {
-            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(CurrentPerson));
+            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(CurrentFirmaSession));
             var customPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
-                .Where(x => new CustomPageManageFeature().HasPermission(CurrentPerson, x).HasPermission)
+                .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession, x).HasPermission)
                 .OrderBy(x => x.CustomPageDisplayName)
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CustomPage>(customPages, gridSpec);
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

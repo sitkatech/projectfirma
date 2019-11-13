@@ -42,7 +42,8 @@
     <add key="KeystoneOrganizationEditUrl" value="${keystone-organization-edit-endpoint}" />
     <add key="KeystoneRegisterUrl" value="${keystone-register-endpoint}" />
     <add key="KeystoneOpenIDUrl" value="https://${keystone-base-url}/core" />
-    
+	<add key="ImpersonationAllowed" value="${impersonation-allowed}" />	
+	    
     <!-- projectfirma.com reCAPTCHA key, be sure to add domain names to reCAPTCHA admin control panel when adding new tenants with new domains -->
     <!-- reCAPTCHA domains as of 09/23/2019: clackamaspartnership.org, idaho.gov, peakstopeople.org, projectfirma.com, pugetsoundinfo.wa.gov, rcdprojects.org -->
     <add key="RecaptchaPublicKey" value="6LfZQQoUAAAAAIJ_2lD6ct0lBHQB9j5kv8p994SP" />
@@ -133,8 +134,8 @@
       </layout>
     </appender>
     <appender name="SmtpAppender" type="LtInfo.Common.SmtpAppenderWithPathAndExceptionTypeInSubject, LtInfo.Common">
-      <to value="AppAlerts-LT@sitkatech.com"/>
-      <from value="Application Alerts LT Info &lt;AppAlerts-LT@sitkatech.com&gt;"/>
+      <to value="AppAlerts-PF@sitkatech.com"/>
+      <from value="Application Alerts ProjectFirma &lt;AppAlerts-PF@sitkatech.com&gt;"/>
       <subject value="ProjectFirma Alert: ${environment} application error"/>
       <smtpHost value="${smtp-server}"/>
       <bufferSize value="1"/>

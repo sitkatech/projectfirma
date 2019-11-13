@@ -22,6 +22,7 @@ using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 
@@ -29,15 +30,24 @@ namespace ProjectFirma.Web.Views.User
 {
     public class IndexGridSpec : GridSpec<Person>
     {
-        public IndexGridSpec(Person currentPerson)
+        public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            var hasDeletePermission = new UserEditFeature().HasPermissionByPerson(currentPerson);
+            var hasDeletePermission = new UserEditFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasDeletePermission)
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, true),
                     30, DhtmlxGridColumnFilterType.None);
             }
+
+            // Impersonate link
+            bool impersonationIsAllowed = FirmaWebConfiguration.ImpersonationAllowedInEnvironment;
+            bool hasImpersonationPermission = new FirmaImpersonateUserFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            if (impersonationIsAllowed && hasImpersonationPermission)
+            {
+                Add("Imper. User", a => ImpersonateUserButton.MakeImpersonateSinglePageHtmlLink(a), 45, DhtmlxGridColumnFilterType.Html);
+            }
+
             Add("Last Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.LastName), 100, DhtmlxGridColumnFilterType.Html);
             Add("First Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.FirstName), 100, DhtmlxGridColumnFilterType.Html);
             Add("Email", a => a.Email, 200);

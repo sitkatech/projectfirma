@@ -28,9 +28,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EditContactsViewData EditContactsViewData;
 
-        public ContactsViewData(Person currentPerson,
+        public ContactsViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentPerson, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus, EditContactsViewData editContactsViewData) : base(currentFirmaSession, project, ProjectCreateSection.Contacts.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EditContactsViewData = editContactsViewData;
         }

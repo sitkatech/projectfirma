@@ -20,8 +20,6 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.ProjectCreate
-@using LtInfo.Common
-@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
 @inherits Expenditures
@@ -41,149 +39,119 @@
         jQuery(document).ready(function() { HookupCheckIfFormIsDirty(undefined, ".submitProject"); });
         // ]]>
     </script>
+    <style>
+        /* Make numbers in OL (used for automatic section numbering) bold */
+        ol {
+            counter-reset: item;
+        }
+        ol li {
+            display: block;
+        }
+        ol li:before {
+            content: counter(item) ". ";
+            counter-increment: item;
+            font-weight: bold;
+        }
+    </style>
 }
 
 To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s Planning / Design Start and @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel()
-(or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the current year). If your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() had no expenditures for a given year, enter zero "0" for that year for at least one of its @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()).
-@if (ViewDataTyped.Project.FundingTypeID.HasValue)
-{
-    <hr />
-    <div style="margin: 10px 0">
-        <p>
-            Other financial information for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that might be helpful:
-        </p>
+(or, if @FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel() isn't set, through the current year).
 
-        @if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
-        {
-        <div style="width: 300px">@FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()</span></div>
-        <div style="width: 300px">@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(): <span style="float: right; font-weight: bold">@ViewDataTyped.Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency()</span></div>
-        }
-        else if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID)
-        {
-        <table>
-            <tr>
-                <td style="width: 200px">
-                    @FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel():
-                </td>
-                <td>
-                    <span style="font-weight: bold">@ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Estimated Total Operating Cost:
-                </td>
-                @if (ViewDataTyped.Project.CanCalculateTotalRemainingOperatingCostInYearOfExpenditure())
-                {
-                    <td>
-                        <span style="font-weight: bold">@ViewDataTyped.TotalOperatingCostInYearOfExpenditure.ToStringCurrency()</span> (For years @ViewDataTyped.StartYearForTotalOperatingCostCalculation-@ViewDataTyped.Project.CompletionYear )
-                    </td>
-                }
-            </tr>
-        </table>
-        }
+<hr />
+
+
+<div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresController" style="overflow-x: auto">
+    <div class="form-group">
+        <label>1. Are there expenditures to enter?</label>
+        <label style="margin-right: 5px;"><input type="radio" name="@Html.NameFor(x => x.HasExpenditures)" ng-value="true" ng-model="AngularModel.HasExpenditures" /> Yes</label>
+        <label><input type="radio" name="@Html.NameFor(x => x.HasExpenditures)" ng-value="false" ng-model="AngularModel.HasExpenditures" /> No</label>
     </div>
-}
-@using (Html.BeginForm())
-{
-    @Html.HiddenFor(m => m.ProjectID);
-    <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresController" style="overflow-x: auto">
 
-        <hr />
-        <div style="margin-top: 5px">
-            <a style="font-weight: bold; cursor: pointer" ng-click="AngularViewData.ShowNoExpendituresExplanation = !AngularViewData.ShowNoExpendituresExplanation">
-                <i ng-class="AngularViewData.ShowNoExpendituresExplanation ? 'glyphicon glyphicon-chevron-up' : 'glyphicon glyphicon-chevron-down'"></i>
-                What if the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report?
-            </a>
-            <div ng-show="AngularViewData.ShowNoExpendituresExplanation">
-                Select the years for which you have no expenditures to report and provide a brief explanation.
-                <a style="cursor: pointer" ng-click="selectAllYears(true)">Select All</a> |
-                <a style="cursor: pointer" ng-click="selectAllYears(false)">Unselect All</a>
-                <div>
-                    <label ng-repeat="projectExemptYearUpdate in AngularModel.ProjectExemptReportingYears | orderBy:'-CalendarYear'" style="padding-right: 10px">
-                        <input type="checkbox" ng-model="projectExemptYearUpdate.IsExempt" /> <span ng-bind="projectExemptYearUpdate.CalendarYearDisplay"></span>
-                    </label>
-                </div>
-                @Html.TextAreaFor(x => x.Explanation, new Dictionary<string, object> { { "style", "width:100%" }, { "placeholder", "Explanation here" }, { "ng-model", "AngularModel.Explanation" }, { "class", "form-control" } })
 
+    <div ng-show="AngularModel.HasExpenditures">
+        <div class="form-group">
+            <label class="control-label">2. Identify the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized(). You can add more than one.</label>
+            <div class="input-group">
+                <select ng-model="FundingSourceIDToAdd"
+                        class="selectpicker"
+                        data-live-search="true"
+                        data-container="body"
+                        title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
+                        data-width="100%">
+                    <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
+                    <option ng-repeat="fundingSource in filteredFundingSources()"
+                            value="{{fundingSource.FundingSourceID}}"
+                            ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
+                            ng-bind="fundingSource.DisplayName"
+                            data-tokens="{{fundingSource.DisplayName}}  {{fundingSource.OrganizationFullName}} "></option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-firma" type="button" ng-click="addRow()">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                </span>
             </div>
-        </div>
-        <hr />
-
-        <div style="display: inline-block; margin-right: 5px; vertical-align: top">
-            @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add:
-        </div>
-        <br />
-        <div class="input-group">
-            <select ng-model="FundingSourceIDToAdd"
-                    class="selectpicker"
-                    data-live-search="true"
-                    data-container="body"
-                    title="Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add"
-                    data-width="70%">
-                <option value="null" disabled selected>Select a @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() to Add</option>
-                <option ng-repeat="fundingSource in filteredFundingSources()"
-                        value="{{fundingSource.FundingSourceID}}"
-                        ng-selected="FundingSourceIDToAdd == fundingSource.FundingSourceID"
-                        ng-bind="fundingSource.DisplayName"
-                        data-tokens="{{fundingSource.DisplayName}} {{fundingSource.OrganizationFullName}} "></option>
-            </select>
-            <button class="btn btn-firma" type="button" style="margin-left: 5px;" ng-click="addRow()">Add</button>
-            <span style="vertical-align: middle; display: inline-block; margin-left: 5px">
-                Not listed?
-                @ModalDialogFormHelper.ModalDialogFormLink("Contact support", ViewDataTyped.RequestFundingSourceUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)
-            </span>
             <br />
-
         </div>
-        <hr />
-        <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName, getProjectName]">
-            <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
-            <label ng-bind="getFundingSourceName(projectFundingSourceExpenditure)"></label>
+    </div>
+    
+    <div ng-show="AngularModel.HasExpenditures">
+        <div>
+            <label>3. Enter expenditures for each year and @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
+        </div>
+        @* Scroll container *@
+        <div style="overflow: auto; margin-bottom: 40px;">
+            <div ng-repeat="projectFundingSourceExpenditure in getRelevantProjectFundingSourceExpenditures() | orderBy:[getFundingSourceName, getProjectName]">
+                <span class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row" ng-click="deleteRow(projectFundingSourceExpenditure)" style="cursor: pointer"></span>
+                <label ng-bind="getFundingSourceName(projectFundingSourceExpenditure)"></label>
 
-            <table class="table table-responsive table-condensed dialogFormLayout"
-                   style="margin-bottom: 25px; display: block; overflow: auto; background-color: #f1f1f1">
-                <thead>
-                    <tr>
+                <table class="table table-condensed dialogFormLayout"
+                       style="margin-bottom: 25px; display: block;">
+                    <thead>
+                    <tr style="background-color: #f1f1f1">
                         <th></th>
                         <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$first && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                             <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$last" title="Add Next Year '{{calendarYear - 1}}'" alt="Add Next Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$last && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                         </th>
                         <th style="text-align: right">Total</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>Amount:</td>
-                        <td ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'-CalendarYear'">
-                            <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency />
+                        <td ng-repeat="calendarYearExpenditure in getRelevantCalendarYearExpenditures(projectFundingSourceExpenditure) | orderBy:'CalendarYear'">
+                            <input style="text-align: right" type="text" ng-model="calendarYearExpenditure.MonetaryAmount" class="sitkaCurrency form-control" style="width: 96px;" ng-currency ng-focus="onTextFocus($event)" />
                         </td>
                         <td style="text-align: right; font-weight: bold;">
                             {{getExpenditureTotalForRow(projectFundingSourceExpenditure) | currency:"$"}}
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        <div ng-show="AngularModel.ProjectFundingSourceExpenditures.length > 0">
-            <label>Total</label>
-            <table class="table table-responsive table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block; overflow: auto; background-color: #f1f1f1">
-                <thead>
+            <div ng-show="getRelevantProjectFundingSourceExpenditures().length > 0">
+                <label>Total</label>
+                <table class="table table-condensed dialogFormLayout" style="margin-bottom: 20px; display: block;">
+                    <thead>
                     <tr>
                         <th></th>
                         <th ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right; vertical-align: top">
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$first" title="Add Next Year '{{calendarYear + 1}}'" alt="Add Next Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear + 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$first && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                             <span ng-bind="formatCalendarYear(calendarYear)"></span>
-                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$last" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear + 1)" ng-show="$last" title="Add Next Year '{{calendarYear - 1}}'" alt="Add Next Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
+                            <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$last && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                         </th>
                         <th style="text-align: right">Total</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr style="font-weight: bold;">
                         <td>All @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel())s:</td>
                         <td ng-repeat="calendarYear in getCalendarYearRange()" style="text-align: right">
@@ -193,33 +161,44 @@ To enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s 
                             {{getExpenditureTotalForCalendarYear() | currency:"$"}}
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <hr/>
-        </div>
-
-        <div ng-repeat="projectFundingSourceExpenditure in AngularModel.ProjectFundingSourceExpenditures | orderBy:[getFundingSourceName]">
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.ProjectID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.FundingSourceID}}" />
-            <div ng-repeat="calendarYearExpenditure in projectFundingSourceExpenditure.CalendarYearExpenditures | orderBy:'CalendarYear'">
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].CalendarYear).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.CalendarYear}}" />
-                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}" />
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div ng-repeat="projectExemptYear in AngularModel.ProjectExemptReportingYears">
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYear}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].CalendarYearDisplay).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.CalendarYearDisplay}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].ProjectExemptReportingYearID).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.ProjectExemptReportingYearID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectExemptReportingYears[0].IsExempt).ToString().Replace("0", "{{$index}}")" value="{{projectExemptYear.IsExempt}}" />
+    </div>
+
+    <div class="form-group">
+        <label><span ng-bind="AngularModel.HasExpenditures ? '4.' : '2.'"></span> Expenditures Notes (required if no expenditures are entered)</label>
+        <div style="margin-left: 20px">
+            <textarea name="@Html.NameFor(x => x.ExpendituresNote)" placeholder="Expenditures notes" ng-model="AngularModel.ExpendituresNote" class="form-control"></textarea>
         </div>
+    </div>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(x => x.ProjectID)
+        <input type="hidden" name="@Html.NameFor(x => x.ExpendituresNote)" value="{{AngularModel.ExpendituresNote}}"/>
+        <input type="hidden" name="@Html.NameFor(x => x.HasExpenditures)" value="{{AngularModel.HasExpenditures}}"/>
+        <div ng-repeat="projectFundingSourceExpenditure in getRelevantProjectFundingSourceExpenditures() | orderBy:[getFundingSourceName, getProjectName]" ng-if="AngularModel.HasExpenditures">
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].ProjectID).ToString().Replace("0", "{{$index}}")" value="@ViewDataTyped.ProjectID"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].FundingSourceID).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.FundingSourceID}}"/>
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceExpenditure.IsRelevant}}"/>
+            <div ng-repeat="calendarYearExpenditure in getRelevantCalendarYearExpenditures(projectFundingSourceExpenditure) | orderBy:'CalendarYear'">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].CalendarYear).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.CalendarYear}}"/>
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].MonetaryAmount).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.MonetaryAmount}}"/>
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceExpenditures[0].CalendarYearExpenditures[1].IsRelevant).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearExpenditure.IsRelevant}}"/>
+            </div>
+        </div>
+
         <div class="row">
             <div style="text-align: right; white-space: nowrap">
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
                 <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
             </div>
         </div>
+    }
+</div>
 
-    </div>
-}
+
 

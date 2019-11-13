@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
             viewModel.TaxonomyTrunkName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.TaxonomyTrunkName), ProjectFirmaModels.Models.TaxonomyTrunk.FieldLengths.TaxonomyTrunkName);
 
             // Act
-            viewModel.UpdateModel(taxonomyTrunk, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(taxonomyTrunk, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(taxonomyTrunk.TaxonomyTrunkName, Is.EqualTo(viewModel.TaxonomyTrunkName));

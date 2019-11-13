@@ -38,12 +38,12 @@ namespace ProjectFirma.Web.Views.Project
 
         public string EditUrl { get; }
 
-        public FeaturedListViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) 
-                                    : base(currentPerson, firmaPage)
+        public FeaturedListViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) 
+                                    : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "featuredListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.FeaturedProjectsGridJsonData());
@@ -54,8 +54,8 @@ namespace ProjectFirma.Web.Views.Project
 
     public class FeaturesListProjectGridSpec : BasicProjectInfoGridSpec
     {
-        public FeaturesListProjectGridSpec(Person currentPerson)
-            : base(currentPerson, true)
+        public FeaturesListProjectGridSpec(FirmaSession firmaSession)
+            : base(firmaSession, true)
         {
             Add("# of Photos", x => x.ProjectImages.Count, 100);
             Add($"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", x => string.Join(", ", x.PerformanceMeasureActuals.Select(pm => pm.PerformanceMeasureID).Distinct().OrderBy(pmID => pmID)), 100);

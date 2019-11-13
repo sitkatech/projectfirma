@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         }
 
 
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType, FirmaSession currentFirmaSession)
         {
             projectCustomAttributeType.ProjectCustomAttributeTypeName = ProjectCustomAttributeTypeName;
             projectCustomAttributeType.ProjectCustomAttributeDataTypeID = ProjectCustomAttributeDataTypeID ?? ModelObjectHelpers.NotYetAssignedID;

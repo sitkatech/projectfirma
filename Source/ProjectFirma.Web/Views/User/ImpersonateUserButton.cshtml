@@ -1,0 +1,33 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ImpersonateUserButton.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.User.ImpersonateUserButton
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+@if (ViewDataTyped.ShouldShowButton)
+{
+    <form id="ImpersonateUserRequestForm" name="ImpersonateUserRequestForm" action="@ViewDataTyped.ImpersonateUserUrl" method="post">
+        <input id="ImpersonateUser@(ViewDataTyped.PersonToImpersonate.PersonID)Button" class="btn btn-sm btn-info" type="submit" value="@ViewDataTyped.SwitchUserVerb  User @ViewDataTyped.PersonToImpersonate.GetFullNameFirstLast()" name="ImpersonateUser@(ViewDataTyped.PersonToImpersonate.PersonID)"/>
+    </form>
+}

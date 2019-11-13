@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using NUnit.Framework;
@@ -31,7 +33,9 @@ namespace ProjectFirmaModels.Models
         public void TheSetUp()
         {
             HttpRequestStorage.StartContextForTest();
-            HttpRequestStorage.Person = HttpRequestStorage.DatabaseEntities.People.First();
+            var randomPerson = HttpRequestStorage.DatabaseEntities.People.First();
+            //HttpRequestStorage.Person = randomPerson;
+            HttpRequestStorage.FirmaSession = new FirmaSession(randomPerson);
         }
 
         [TearDown]

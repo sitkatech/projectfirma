@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Controllers
             var topLevelTaxonomyTierAsFancyTreeNodes = MultiTenantHelpers.GetTaxonomyLevel()
                 .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder)
                 .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
-                .Select(x => x.ToFancyTreeNode(CurrentPerson))
+                .Select(x => x.ToFancyTreeNode(CurrentFirmaSession))
                 .ToList();
-            var viewData = new TaxonomyViewData(CurrentPerson, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
+            var viewData = new TaxonomyViewData(CurrentFirmaSession, firmaPage, topLevelTaxonomyTierAsFancyTreeNodes);
             return RazorView<Taxonomy, TaxonomyViewData>(viewData);
         }
 
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ClassificationSystem(ClassificationSystemPrimaryKey classificationSystemPrimaryKey)
         {
             var classificationSystem = classificationSystemPrimaryKey.EntityObject;
-            var viewData = new ClassificationSystemViewData(CurrentPerson, classificationSystem);
+            var viewData = new ClassificationSystemViewData(CurrentFirmaSession, classificationSystem);
             return RazorView<Views.ProgramInfo.ClassificationSystem, ClassificationSystemViewData>(viewData);
         }
     }

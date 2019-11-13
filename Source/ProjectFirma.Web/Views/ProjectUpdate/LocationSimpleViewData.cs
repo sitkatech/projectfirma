@@ -33,14 +33,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string RefreshUrl { get; }
         public SectionCommentsViewData SectionCommentsViewData { get; }
 
-        public LocationSimpleViewData(Person currentPerson,
+        public LocationSimpleViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.ProjectUpdate projectUpdate,
             ProjectLocationSimpleViewData projectLocationSimpleViewData,
             ProjectLocationSummaryViewData projectLocationSummaryViewData,
-            LocationSimpleValidationResult locationSimpleValidationResult, ProjectUpdateStatus projectUpdateStatus) : base(
-            currentPerson, projectUpdate.ProjectUpdateBatch, projectUpdateStatus,
-            locationSimpleValidationResult.GetWarningMessages(),
-            ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName)
+            LocationSimpleValidationResult locationSimpleValidationResult, ProjectUpdateStatus projectUpdateStatus) 
+            : base(currentFirmaSession, projectUpdate.ProjectUpdateBatch, projectUpdateStatus,
+                    locationSimpleValidationResult.GetWarningMessages(),
+                    ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName)
         {
             ProjectLocationSimpleViewData = projectLocationSimpleViewData;
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;

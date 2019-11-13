@@ -15,9 +15,9 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public PermissionCheckResult HasPermission(Person person, FundingSource contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, FundingSource contextModelObject)
         {
-            if (!HasPermissionByPerson(person))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult($"You don't have permission to delete {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
@@ -25,9 +25,9 @@ namespace ProjectFirma.Web.Security
             return new PermissionCheckResult();
         }
 
-        public void DemandPermission(Person person, FundingSource contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, FundingSource contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
     }
 }

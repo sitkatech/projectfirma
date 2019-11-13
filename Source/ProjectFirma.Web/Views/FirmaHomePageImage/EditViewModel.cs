@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.FirmaHomePageImage
             SortOrder = firmaHomePageImage.SortOrder;
         }
 
-        public virtual void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, Person person)
+        public virtual void UpdateModel(ProjectFirmaModels.Models.FirmaHomePageImage firmaHomePageImage, FirmaSession currentFirmaSession)
         {
             firmaHomePageImage.Caption = Caption;
             firmaHomePageImage.SortOrder = SortOrder;

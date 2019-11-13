@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributes
             FundingSourceCustomAttributes = new ProjectFirmaModels.Models.FundingSourceCustomAttributes(fundingSource);
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, FirmaSession currentFirmaSession)
         {
-            FundingSourceCustomAttributes?.UpdateModel(fundingSource, currentPerson);
+            FundingSourceCustomAttributes?.UpdateModel(fundingSource, currentFirmaSession);
         }
     }
 }

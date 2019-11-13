@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.ReleaseNote
             Note = releaseNote.NoteHtmlString;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ReleaseNote releaseNote, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ReleaseNote releaseNote, FirmaSession currentFirmaSession)
         {
             releaseNote.NoteHtmlString = Note;
             if (releaseNote.CreateDate == default(DateTime))
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.ReleaseNote
             }
             else
             {
-                releaseNote.UpdatePersonID = currentPerson.PersonID;
+                releaseNote.UpdatePersonID = currentFirmaSession.PersonID;
                 releaseNote.UpdateDate = DateTime.Now;
             }
         }

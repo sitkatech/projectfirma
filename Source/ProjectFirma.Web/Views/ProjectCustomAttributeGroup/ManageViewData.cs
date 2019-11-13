@@ -17,8 +17,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string EditSortOrderUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ManageViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage)
-            : base(currentPerson, firmaPage)
+        public ManageViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentFirmaSession, firmaPage)
         {
             EntityName = "Attribute Group";
             PageTitle = $"Manage {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()} Groups";
@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             GridName = "projectCustomAttributeGroupGrid";
             GridDataUrl = SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(c => c.ProjectCustomAttributeGroupGridJsonData());
 
-            HasManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             EditSortOrderUrl = SitkaRoute<ProjectCustomAttributeGroupController>.BuildUrlFromExpression(x => x.EditSortOrder());
         }

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var goals = HttpRequestStorage.DatabaseEntities.AssessmentGoals.ToList();
-            var viewData = new ManageViewData(CurrentPerson, goals);
+            var viewData = new ManageViewData(CurrentFirmaSession, goals);
             return RazorView<Manage, ManageViewData>(viewData);
         }
 
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var goal = assessmentGoalPrimaryKey.EntityObject;
-            viewModel.UpdateModel(goal, CurrentPerson);
+            viewModel.UpdateModel(goal, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditSubGoal(viewModel);
             }
             var subGoal = assessmentSubGoalPrimaryKey.EntityObject;
-            viewModel.UpdateModel(subGoal, CurrentPerson);
+            viewModel.UpdateModel(subGoal, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -121,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditQuestion(viewModel);
             }
             var question = assessmentQuestionPrimaryKey.EntityObject;
-            viewModel.UpdateModel(question, CurrentPerson);
+            viewModel.UpdateModel(question, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -149,7 +149,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNewQuestion(viewModel);
             }
             var question = new AssessmentQuestion(viewModel.AssessmentSubGoalID, viewModel.AssessmentQuestionText);
-            viewModel.UpdateModel(question, CurrentPerson);
+            viewModel.UpdateModel(question, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllAssessmentQuestions.Add(question);
             return new ModalDialogFormJsonResult();
         }
@@ -157,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewNewQuestion(NewQuestionViewModel viewModel)
         {
             var subGoalsGroup = HttpRequestStorage.DatabaseEntities.AssessmentSubGoals.ToList().ToGroupedSelectList();
-            var viewData = new NewQuestionViewData(CurrentPerson, subGoalsGroup);
+            var viewData = new NewQuestionViewData(CurrentFirmaSession, subGoalsGroup);
             return RazorPartialView<NewQuestion, NewQuestionViewData, NewQuestionViewModel>(viewData, viewModel);
         }
 

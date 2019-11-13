@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Organization
             viewModel.OrganizationShortName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.OrganizationShortName), ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName);
 
             // Act
-            viewModel.UpdateModel(organization, TestFramework.TestPerson.Create());
+            viewModel.UpdateModel(organization, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(organization.OrganizationName, Is.EqualTo(viewModel.OrganizationName));

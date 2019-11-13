@@ -15,14 +15,14 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public PermissionCheckResult HasPermission(Person person, FundingSource contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, FundingSource contextModelObject)
         {
-            if (!HasPermissionByPerson(person))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult($"You don't have permission to edit {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
 
-            if (person.RoleID == Role.ProjectSteward.RoleID && contextModelObject.OrganizationID != person.OrganizationID)
+            if (firmaSession.Person.RoleID == Role.ProjectSteward.RoleID && contextModelObject.OrganizationID != firmaSession.Person.OrganizationID)
             {
                 return new PermissionCheckResult($"You don't have permission to edit {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it does not belong to your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}");
             }
@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Security
             return new PermissionCheckResult();
         }
 
-        public void DemandPermission(Person person, FundingSource contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, FundingSource contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
     }
 }

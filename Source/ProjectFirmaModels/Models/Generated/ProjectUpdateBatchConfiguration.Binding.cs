@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ExpectedFundingDiffLog).HasColumnName(@"ExpectedFundingDiffLog").HasColumnType("varchar").IsOptional();
             Property(x => x.OrganizationsComment).HasColumnName(@"OrganizationsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.OrganizationsDiffLog).HasColumnName(@"OrganizationsDiffLog").HasColumnType("varchar").IsOptional();
-            Property(x => x.NoExpendituresToReportExplanation).HasColumnName(@"NoExpendituresToReportExplanation").HasColumnType("varchar").IsOptional();
+            Property(x => x.ExpendituresNote).HasColumnName(@"ExpendituresNote").HasColumnType("varchar").IsOptional();
             Property(x => x.ExpectedPerformanceMeasuresComment).HasColumnName(@"ExpectedPerformanceMeasuresComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.TechnicalAssistanceRequestsComment).HasColumnName(@"TechnicalAssistanceRequestsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ContactsComment).HasColumnName(@"ContactsComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);

@@ -27,8 +27,8 @@ namespace ProjectFirma.Web.Views.Tenant
     public class EditTenantLogoViewData : FirmaViewData
     {
 
-        public EditTenantLogoViewData(Person currentPerson)
-            : base(currentPerson)
+        public EditTenantLogoViewData(FirmaSession currentFirmaSession)
+            : base(currentFirmaSession)
         {
 
         }

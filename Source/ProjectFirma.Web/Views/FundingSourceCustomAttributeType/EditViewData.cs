@@ -23,14 +23,14 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
 
         public bool IncludeInNtaGrids { get; }
 
-        public EditViewData(Person currentPerson,
+        public EditViewData(FirmaSession currentFirmaSession,
             IEnumerable<MeasurementUnitType> measurementUnitTypes,
             List<FundingSourceCustomAttributeDataType> fundingSourceCustomAttributeDataTypes,
             List<ProjectFirmaModels.Models.Role> roles,
             string submitUrl,
             ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
             ProjectFirmaModels.Models.FundingSourceCustomAttributeType fundingSourceCustomAttributeType)
-            : base(currentPerson)
+            : base(currentFirmaSession)
         {
             EntityName = "Attribute Type";
             PageTitle =
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.FundingSourceCustomAttributeType
                 SitkaRoute<FundingSourceCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentPerson);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
             ViewDataForAngular = new EditViewDataForAngular(fundingSourceCustomAttributeDataTypes);
         }

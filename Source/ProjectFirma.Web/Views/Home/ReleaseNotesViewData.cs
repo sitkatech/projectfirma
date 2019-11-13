@@ -30,7 +30,12 @@ namespace ProjectFirma.Web.Views.Home
         public string AddNoteUrl { get; }
         public bool CanEditNotes { get; }
 
-        public ReleaseNotesViewData(List<ProjectFirmaModels.Models.ReleaseNote> notes, string addNoteUrl, string entityName, bool canEditNotes, Person currentPerson) : base(currentPerson)
+        public ReleaseNotesViewData(FirmaSession currentFirmaSession,
+                                    List<ProjectFirmaModels.Models.ReleaseNote> notes,
+                                    string addNoteUrl,
+                                    string entityName,
+                                    bool canEditNotes) :
+                                    base(currentFirmaSession)
         {
             PageTitle = "Release Notes";
             Notes = notes;

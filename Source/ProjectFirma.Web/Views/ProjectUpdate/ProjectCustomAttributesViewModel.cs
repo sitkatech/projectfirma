@@ -45,9 +45,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Comments = projectUpdateBatch.CustomAttributesComment;
         }
 
-        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, Person currentPerson)
+        public void UpdateModel(ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            ProjectCustomAttributes?.UpdateModel(projectUpdateBatch.ProjectUpdate, currentPerson);
+            ProjectCustomAttributes?.UpdateModel(projectUpdateBatch.ProjectUpdate, currentFirmaSession);
         }
     }    
 }

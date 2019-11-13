@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public readonly ProjectUpdateBatch ProjectUpdateBatch;
 
-        public ProjectUpdateBatchDiffLogViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch)
+        public ProjectUpdateBatchDiffLogViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch)
         {
             ProjectUpdateBatch = projectUpdateBatch;
         }

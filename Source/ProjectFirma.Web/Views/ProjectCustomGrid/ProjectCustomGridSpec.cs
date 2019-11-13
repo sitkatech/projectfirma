@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        private void AddProjectCustomGridField(Person currentPerson, ProjectCustomGridConfiguration projectCustomGridConfiguration)
+        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
             {
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         150, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
-                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
+                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByFirmaSession(currentFirmaSession);
                     if (userHasEmailViewingPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
@@ -159,10 +159,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
         }
 
-    public ProjectCustomGridSpec(Person currentPerson, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
+    public ProjectCustomGridSpec(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
@@ -185,7 +185,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 if (projectCustomGridConfiguration.ProjectCustomAttributeType != null)
                 {
-                    if (projectCustomGridConfiguration.ProjectCustomAttributeType.HasViewPermission(currentPerson))
+                    if (projectCustomGridConfiguration.ProjectCustomAttributeType.HasViewPermission(currentFirmaSession))
                     {
                         AddProjectCustomGridCustomAttributeField(projectCustomGridConfiguration);
                     }
@@ -196,7 +196,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 }
                 else
                 {
-                    AddProjectCustomGridField(currentPerson, projectCustomGridConfiguration);
+                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration);
                 }
             }
 

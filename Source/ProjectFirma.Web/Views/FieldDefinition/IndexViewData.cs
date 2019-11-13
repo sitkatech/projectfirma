@@ -31,11 +31,11 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public string GridName { get; }
         public string GridDataUrl { get; }
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = "Manage Field Definitions";
 
-            GridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByPerson(currentPerson))
+            GridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ObjectNameSingular = "Field Definition",
                 ObjectNamePlural = "Field Definitions",

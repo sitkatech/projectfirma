@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -31,9 +30,9 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.TaxonomyLeaf>
     {
-        public IndexGridSpec(Person currentPerson)
+        public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            if (new TaxonomyLeafManageFeature().HasPermissionByPerson(currentPerson))
+            if (new TaxonomyLeafManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 Add(string.Empty,
                     x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()),
@@ -49,7 +48,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
                 Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.TaxonomyBranch.GetDetailUrl(), a.GetTaxonomyBranchCodeAndName()), 300);
             }
             Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetTaxonomyLeafCodeAndName()), 350, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentPerson).Count, 90);
+            Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetAssociatedProjects(currentFirmaSession).Count, 90);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.TaxonomyLeafPerformanceMeasures.Count, 90);
             Add("Sort Order", a => a.TaxonomyLeafSortOrder, 90, DhtmlxGridColumnFormatType.None);
             Add("Description", a => a.TaxonomyLeafDescription, 100);

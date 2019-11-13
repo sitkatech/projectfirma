@@ -41,11 +41,11 @@ namespace ProjectFirma.Web.Views.OrganizationTypeAndOrganizationRelationshipType
         public string NewOrganizationTypeUrl { get; }
         public string NewProjectAssociationUrl { get; }
 
-        public IndexViewData(Person currentPerson) : base(currentPerson)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Manage {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByPerson(currentPerson);
+            var hasManagePermissions = new OrganizationAndRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             OrganizationTypeGridSpec = new OrganizationTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             OrganizationTypeGridName = "organizationTypeGrid";

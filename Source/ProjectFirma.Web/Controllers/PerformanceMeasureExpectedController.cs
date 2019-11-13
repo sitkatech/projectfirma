@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList();
             var configurePerformanceMeasuresUrl = string.Empty;
-            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson))
+            if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession))
             {
                 configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
             }

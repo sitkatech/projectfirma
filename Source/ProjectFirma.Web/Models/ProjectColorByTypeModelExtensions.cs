@@ -12,9 +12,25 @@ namespace ProjectFirma.Web.Models
                 case ProjectColorByTypeEnum.TaxonomyTrunk:
                     return FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
                 case ProjectColorByTypeEnum.ProjectStage:
-                    return projectColorByType.ProjectColorByTypeDisplayName;
+                    return FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel();
                 case ProjectColorByTypeEnum.TaxonomyBranch:
                     return FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static FieldDefinition GetDisplayNameFieldDefinition(this ProjectColorByType projectColorByType)
+        {
+            switch (projectColorByType.ToEnum)
+            {
+                case ProjectColorByTypeEnum.TaxonomyTrunk:
+                    return FieldDefinitionEnum.TaxonomyTrunk.ToType();
+                case ProjectColorByTypeEnum.ProjectStage:
+                    return FieldDefinitionEnum.ProjectStage.ToType();
+                //                    return projectColorByType.ProjectColorByTypeDisplayName;
+                case ProjectColorByTypeEnum.TaxonomyBranch:
+                    return FieldDefinitionEnum.TaxonomyBranch.ToType();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

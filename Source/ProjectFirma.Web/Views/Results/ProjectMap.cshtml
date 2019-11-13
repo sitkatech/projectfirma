@@ -24,6 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Views.Shared
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Results.ProjectMap
 @section JavascriptAndStylesContent
@@ -163,7 +164,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <select id="ColorPropertyName" class="btn btn-sm mapCustomizationSingleSelect" data-width="auto" style="display:none">
             @foreach (var colorByType in ViewDataTyped.ProjectColorByTypes)
             {
-                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@colorByType.GetDisplayName()">@colorByType.GetDisplayName()</option>
+                <option value="@colorByType.ProjectColorByTypeNameWithIdentifier" data-colorby="@colorByType.ProjectColorByTypeName" data-displayname="@Html.LabelWithSugarFor(colorByType.GetDisplayNameFieldDefinition()).ToString()">@colorByType.GetDisplayName()</option>
             }
         </select>
 
@@ -383,7 +384,7 @@ Source code is available upon request via <support@sitkatech.com>.
         }
 
         jQuery(document).ready(function()
-        {           
+        {
             var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None)),
                 projectFirmaMap = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
             projectFirmaMap.initializeProjectLocations(projectLocationsMapInitJson);

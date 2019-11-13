@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectImage
             ExcludeFromFactSheet = projectImage.ExcludeFromFactSheet;
         }
 
-        public virtual void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, Person person)
+        public virtual void UpdateModel(ProjectFirmaModels.Models.ProjectImage projectImage, FirmaSession currentFirmaSession)
         {
             projectImage.Caption = Caption;
             projectImage.Credit = Credit;

@@ -36,14 +36,14 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            if (!HasPermissionByPerson(person))
+            if (!HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult($"You don't have permission to edit {contextModelObject.GetDisplayName()}");
             }
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has been rejected and can no longer be edited through this wizard.");
             }
 
-            var projectIsEditableByUser = contextModelObject.IsEditableToThisPerson(person);
+            var projectIsEditableByUser = contextModelObject.IsEditableToThisFirmaSession(firmaSession);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");

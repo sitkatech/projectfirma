@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Home
     {
        
 
-        public StyleGuideViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage) : base(currentPerson, firmaPageHomePage)
+        public StyleGuideViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPageHomePage) : base(currentFirmaSession, firmaPageHomePage)
         {
             PageTitle = "Style Guide";
 

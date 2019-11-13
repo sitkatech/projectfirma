@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
             }
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList().OrderBy(ap => ap.GetDisplayName()).ToList();
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
@@ -121,11 +121,11 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
-            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
-            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
-            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
+            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -137,8 +137,8 @@ namespace ProjectFirma.Web.Controllers
             var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
             var editReportedExpendituresUrl = reportFinancialsByCostType ?
-                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
-                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostType(project)) :
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpenditures(project));
             var editExpectedFundingUrl = reportFinancialsByCostType ?
                 SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
                 SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
@@ -159,19 +159,18 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             // Budget - conditional based on BudgetType
-            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, project);
-            var projectBudgetsAnnualViewData = !reportFinancialsByCostType ? new ProjectBudgetsAnnualViewData(CurrentPerson, project) : null;
-            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, project) : null;
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, project);
+            var projectBudgetsAnnualViewData = !reportFinancialsByCostType ? new ProjectBudgetsAnnualViewData(CurrentFirmaSession, project) : null;
+            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentFirmaSession, project) : null;
 
             // Expenditures - conditional based on BudgetType
             var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
             var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
-
-            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
+            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentPerson, project, canViewNotes, technicalAssistanceParameters);
-            var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentPerson);
+            var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentFirmaSession, project, canViewNotes, technicalAssistanceParameters);
+            var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
             var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(project.ProjectNotes),
                 SitkaRoute<ProjectNoteController>.BuildUrlFromExpression(x => x.New(project)),
@@ -199,14 +198,14 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
             var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
             
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
                 projectCustomAttributeTypes,
                 new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
                 projectCustomAttributeGroups);
-            var viewData = new DetailViewData(CurrentPerson,
+            var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
                 projectBasicsViewData,
@@ -254,11 +253,11 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
-        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, Project project)
+        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, Project project)
         {
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
             var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
-            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, project, projectFundingSourceCostTypeAmounts, project.ExpectedFundingUpdateNote);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentFirmaSession, project, projectFundingSourceCostTypeAmounts, project.ExpectedFundingUpdateNote);
             return projectBudgetsAnnualByCostTypeViewData;
         }
 
@@ -266,7 +265,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
-            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.ExpendituresNote, projectFundingSourceCostTypeExpenditureAmounts);
             return projectExpendituresByCostTypeDetailViewData;
         }
 
@@ -279,8 +278,7 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(
                 fromFundingSourcesAndCalendarYears,
                 calendarYearsForFundingSourceExpenditures.Select(x => new CalendarYearString(x)).ToList(),
-                FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear)),
-                project.NoExpendituresToReportExplanation);
+                project.ExpendituresNote);
             return projectExpendituresDetailViewData;
         }
 
@@ -297,15 +295,15 @@ namespace ProjectFirma.Web.Controllers
             return performanceMeasureReportedValuesGroupedViewData;
         }
 
-        private static ImageGalleryViewData BuildImageGalleryViewData(Project project, Person currentPerson)
+        private static ImageGalleryViewData BuildImageGalleryViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var userCanAddPhotosToThisProject = new ProjectEditAsAdminFeature().HasPermission(currentPerson, project).HasPermission;
+            var userCanAddPhotosToThisProject = new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission;
             var newPhotoForProjectUrl = SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.New(project));
             var selectKeyImageUrl = userCanAddPhotosToThisProject
                 ? SitkaRoute<ProjectImageController>.BuildUrlFromExpression(x => x.SetKeyPhoto(UrlTemplate.Parameter1Int))
                 : string.Empty;
             var galleryName = $"ProjectImage{project.ProjectID}";
-            var imageGalleryViewData = new ImageGalleryViewData(currentPerson,
+            var imageGalleryViewData = new ImageGalleryViewData(currentFirmaSession,
                 galleryName,
                 project.ProjectImages.Select(x => new FileResourcePhoto(x)),
                 userCanAddPhotosToThisProject,
@@ -356,7 +354,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
@@ -372,14 +370,14 @@ namespace ProjectFirma.Web.Controllers
                 googleChartType, googleChartDataTable, null);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+            var viewData = new BackwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
                 googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
         private ViewResult ViewForwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
-            new ProjectViewFeature().DemandPermission(CurrentPerson, project);
+            new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
@@ -397,7 +395,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 
-            var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
+            var viewData = new ForwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
                 googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
@@ -423,7 +421,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FullProjectList.GetFirmaPage();
             var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, projectCustomFullGridConfigurations);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, projectCustomFullGridConfigurations);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -432,15 +430,15 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Proposed()
         {
             var firmaPage = FirmaPageTypeEnum.Proposals.GetFirmaPage();
-            var viewData = new ProposedViewData(CurrentPerson, firmaPage);
+            var viewData = new ProposedViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Proposed, ProposedViewData>(viewData);
         }
 
         [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> ProposedGridJsonData()
         {
-            var gridSpec = new ProposalsGridSpec(CurrentPerson);
-            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
+            var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -450,17 +448,17 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Pending()
         {
             var firmaPage = FirmaPageTypeEnum.PendingProjects.GetFirmaPage();
-            var viewData = new PendingViewData(CurrentPerson, firmaPage);
+            var viewData = new PendingViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Pending, PendingViewData>(viewData);
         }
 
         [PendingProjectsViewListFeature]
         public GridJsonNetJObjectResult<Project> PendingGridJsonData()
         {
-            var gridSpec = new PendingGridSpec(CurrentPerson);
+            var gridSpec = new PendingGridSpec(CurrentFirmaSession);
             var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
             List<Project> filteredProposals;
-            if (CurrentPerson.Role == Role.Normal)
+            if (CurrentFirmaSession.Role == Role.Normal)
             {
                 filteredProposals = pendingProjects.Where(x =>
                         x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
@@ -487,7 +485,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return FullDatabaseExcelDownloadImpl(
                 HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                    .GetProposalsVisibleToUser(CurrentPerson),
+                    .GetProposalsVisibleToUser(CurrentFirmaSession),
                 FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized());
         }
 
@@ -644,7 +642,7 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(projectsFound.Single())));
             }
 
-            var viewData = new SearchResultsViewData(CurrentPerson, projectsFound, searchCriteria);
+            var viewData = new SearchResultsViewData(CurrentFirmaSession, projectsFound, searchCriteria);
             return RazorView<SearchResults, SearchResultsViewData>(viewData);
         }
 
@@ -670,7 +668,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FeaturedProjectList.GetFirmaPage();
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
-            var viewData = new FeaturedListViewData(CurrentPerson, firmaPage, projectCustomDefaultGridConfigurations);
+            var viewData = new FeaturedListViewData(CurrentFirmaSession, firmaPage, projectCustomDefaultGridConfigurations);
             return RazorView<FeaturedList, FeaturedListViewData>(viewData);
         }
 
@@ -714,7 +712,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.FullProjectListSimple.GetFirmaPage();
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects();
-            var viewData = new FullProjectListSimpleViewData(CurrentPerson, firmaPage, projects);
+            var viewData = new FullProjectListSimpleViewData(CurrentFirmaSession, firmaPage, projects);
             return RazorView<FullProjectListSimple, FullProjectListSimpleViewData>(viewData);
         }
 
@@ -821,17 +819,17 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var firmaPage = FirmaPageTypeEnum.MyOrganizationsProjects.GetFirmaPage();
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage, projectCustomDefaultGridConfigurations);
+            var viewData = new MyOrganizationsProjectsViewData(CurrentFirmaSession, firmaPage, projectCustomDefaultGridConfigurations);
             return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
 
         [ProjectsInProposalStageViewListFeature]
         public GridJsonNetJObjectResult<Project> MyOrganizationsProposalsGridJsonData()
         {
-            var gridSpec = new ProposalsGridSpec(CurrentPerson);
+            var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
 
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList()
-                .GetProposalsVisibleToUser(CurrentPerson)
+                .GetProposalsVisibleToUser(CurrentFirmaSession)
                 .Where(x => x.ProposingPerson.OrganizationID == CurrentPerson.OrganizationID)
                 .ToList();
 

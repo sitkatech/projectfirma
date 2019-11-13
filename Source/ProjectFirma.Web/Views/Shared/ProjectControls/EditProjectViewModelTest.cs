@@ -48,13 +48,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             // Arrange
             var project = TestFramework.TestProject.Create();
-            var person = TestFramework.TestPerson.Create();
             var viewModel = new EditProjectViewModel(project, false);
             viewModel.ProjectName = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectName), ProjectFirmaModels.Models.Project.FieldLengths.ProjectName);
             viewModel.ProjectDescription = TestFramework.MakeTestName(GeneralUtility.NameOf(() => viewModel.ProjectDescription), ProjectFirmaModels.Models.Project.FieldLengths.ProjectDescription);
 
             // Act
-            viewModel.UpdateModel(project, person);
+            viewModel.UpdateModel(project, TestFramework.TestFirmaSession.Create());
 
             // Assert
             Assert.That(project.ProjectName, Is.EqualTo(viewModel.ProjectName));

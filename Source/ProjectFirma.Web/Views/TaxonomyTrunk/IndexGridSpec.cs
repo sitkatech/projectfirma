@@ -33,16 +33,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
 {
     public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.TaxonomyTrunk>
     {
-        public IndexGridSpec(Person person)
+        public IndexGridSpec(FirmaSession firmaSession)
         {
-            if (new TaxonomyTrunkManageFeature().HasPermissionByPerson(person))
+            if (new TaxonomyTrunkManageFeature().HasPermissionByFirmaSession(firmaSession))
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, !x.HasDependentObjects()), 30, DhtmlxGridColumnFilterType.None);
             }
 
             Add(FieldDefinitionEnum.TaxonomyTrunk.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.TaxonomyTrunkName), 240);
             Add(FieldDefinitionEnum.TaxonomyBranch.ToType().ToGridHeaderString(), a => new HtmlString(string.Join("<br/>", a.TaxonomyBranches.SortByOrderThenName().Select(x => x.GetDisplayNameAsUrl()))), 340, DhtmlxGridColumnFilterType.Html);
-            Add("# of Projects", a => a.GetAssociatedProjects(person).Count, 90);
+            Add("# of Projects", a => a.GetAssociatedProjects(firmaSession.Person).Count, 90);
             Add("Sort Order", a => a.TaxonomyTrunkSortOrder, 90, DhtmlxGridColumnFormatType.None);
             Add(FieldDefinitionEnum.TaxonomyTrunkDescription.ToType().ToGridHeaderString(),
                 a => a.TaxonomyTrunkDescription, 200,

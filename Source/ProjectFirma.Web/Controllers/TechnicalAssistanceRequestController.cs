@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult TechnicalAssistanceReport()
         {
             var firmaPage = FirmaPageTypeEnum.TechnicalAssistanceReport.GetFirmaPage();
-            var viewData = new TechnicalAssistanceReportViewData(CurrentPerson, firmaPage);
+            var viewData = new TechnicalAssistanceReportViewData(CurrentFirmaSession, firmaPage);
             return RazorView<TechnicalAssistanceReport, TechnicalAssistanceReportViewData>(viewData);
         }
 
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<TechnicalAssistanceRequest> TechnicalAssistanceReportGridJsonData()
         {
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var gridSpec = new TechnicalAssistanceReportGridSpec(CurrentPerson, technicalAssistanceParameters);
+            var gridSpec = new TechnicalAssistanceReportGridSpec(CurrentFirmaSession, technicalAssistanceParameters);
             var technicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.OrderBy(x => x.Project.ProjectName).ThenByDescending(x => x.FiscalYear).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<TechnicalAssistanceRequest>(technicalAssistanceRequests, gridSpec);
             return gridJsonNetJObjectResult;
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.TechnicalAssistanceRequests.Load();
             var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
             var currentTechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
-            viewModel.UpdateModel(CurrentPerson, currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
+            viewModel.UpdateModel(CurrentFirmaSession, currentTechnicalAssistanceRequests, allTechnicalAssistanceRequests, project);
             return new ModalDialogFormJsonResult();
         }
 
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             var technicalAssistanceTypes = TechnicalAssistanceType.All;
             var fiscalYearStrings = FirmaDateUtilities.GetRangeOfYears(MultiTenantHelpers.GetMinimumYear(), FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 2).OrderByDescending(x => x).Select(x => new CalendarYearString(x)).ToList();
             var personDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.RoleID == Role.Admin.RoleID || x.RoleID == Role.ProjectSteward.RoleID).OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList().Select(x => new PersonSimple(x)).ToList();
-            var viewData = new EditTechnicalAssistanceRequestsViewData(CurrentPerson, firmaPage, project, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
+            var viewData = new EditTechnicalAssistanceRequestsViewData(CurrentFirmaSession, firmaPage, project, technicalAssistanceTypes, fiscalYearStrings, personDictionary);
             return RazorPartialView<EditTechnicalAssistanceRequests, EditTechnicalAssistanceRequestsViewData, EditTechnicalAssistanceRequestsViewModel>(viewData, viewModel);
         }
 

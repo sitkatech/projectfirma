@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.User
         public string CancelUrl { get; }
         public string IndexUrl { get; }
 
-        public InviteViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> organizations, ProjectFirmaModels.Models.FirmaPage psInfoPage, string userIndexUrl) : base(currentPerson, psInfoPage)
+        public InviteViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Organization> organizations, ProjectFirmaModels.Models.FirmaPage psInfoPage, string userIndexUrl) : base(currentFirmaSession, psInfoPage)
         {
             CancelUrl = userIndexUrl;
             PageTitle = "Invite User";

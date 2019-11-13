@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string PerformanceMeasuresUrl { get; }
         public ViewPageContentViewData InstructionsViewPageContentViewData { get; }
 
-        public InstructionsViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch,
-            ProjectUpdateStatus projectUpdateStatus, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), "Instructions")
+        public InstructionsViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch,
+            ProjectUpdateStatus projectUpdateStatus, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), "Instructions")
         {
             PerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Index());
-            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission);
+            InstructionsViewPageContentViewData = new ViewPageContentViewData(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission);
         }
     }
 }

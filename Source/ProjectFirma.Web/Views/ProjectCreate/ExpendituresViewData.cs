@@ -18,60 +18,52 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
     public class ExpendituresViewData : ProjectCreateViewData
     {
+        public int ProjectID { get; }
         public string RefreshUrl { get; }
         public string DiffUrl { get; }
-        public ProjectExpendituresDetailViewData ProjectExpendituresDetailViewData { get; }
         public string RequestFundingSourceUrl { get; }
         public ViewDataForAngularClass ViewDataForAngular { get; }
 
-        public decimal? TotalOperatingCostInYearOfExpenditure { get; }
-        public int? StartYearForTotalOperatingCostCalculation { get; }
-
-        public ExpendituresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
+            ViewDataForAngularClass viewDataForAngularClass,
+            ProposalSectionsStatus proposalSectionsStatus) : base(currentFirmaSession, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
+            ProjectID = project.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpenditures(project));
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
-            
-            TotalOperatingCostInYearOfExpenditure = project.CalculateTotalRemainingOperatingCost();
-            StartYearForTotalOperatingCostCalculation = project.StartYearForTotalCostCalculations();
         }
 
         public class ViewDataForAngularClass
         {
-            public List<int> CalendarYearRange { get; }
+            public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public int ProjectID { get; }
             public int MaxYear { get; }
             public bool UseFiscalYears { get; }
-            public bool ShowNoExpendituresExplanation { get; }
 
             public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
-                List<int> calendarYearRange, bool showNoExpendituresExplanation)
+                List<int> requiredCalendarYearRange)
             {
-                CalendarYearRange = calendarYearRange;
+                RequiredCalendarYearRange = requiredCalendarYearRange;
                 AllFundingSources = allFundingSources;
                 ProjectID = project.ProjectID;
                 
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
                 UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
-                ShowNoExpendituresExplanation = showNoExpendituresExplanation;
             }
         }
     }

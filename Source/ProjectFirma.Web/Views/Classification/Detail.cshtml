@@ -18,13 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using MoreLinq
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.PerformanceMeasure
+@using ProjectFirma.Web.Views.Shared.ProjectLocationControls
 @inherits ProjectFirma.Web.Views.Classification.Detail
 
 @section JavascriptAndStylesContent
@@ -76,6 +83,32 @@ Source code is available upon request via <support@sitkatech.com>.
     </style>
 }
 
+<script type="text/javascript">
+
+    jQuery(function() {
+        jQuery("#resultsTab").on("shown.bs.tab", function() {
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+        jQuery("#overviewTab").on("shown.bs.tab", function () {
+            var gridName = @(ViewDataTyped.ProjectCustomDefaultGridName.ToJS().ToHTMLFormattedString());
+            Sitka[gridName].resizeGridWidths();
+            _.forOwn(window.GoogleCharts.chartWrappers,
+                function (chartWrapper) {
+                    if (jQuery('#' + chartWrapper.getContainerId()).is(':visible')) {
+                        chartWrapper.getChart().clearChart();
+                        chartWrapper.draw();
+                    }
+                });
+        });
+    });
+</script>
+
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">@BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left") Back to all @ViewDataTyped.ClassificationDisplayNamePluralized</a>
 </div>
@@ -105,15 +138,130 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+<div class="container-fluid">
+    <div class="row">
+        <ul class="nav nav-tabs" id="classificationDetailsTabs" style="border-bottom: none;">
+            <li class="active">
+                <a href="#classificationOverview" aria-controls="classificationOverview" role="tab" id="overviewTab" data-toggle="tab">Overview</a>
+            </li>
+            <li>
+                <a href="#performanceMeasures" aria-controls="results" role="tab" data-toggle="tab" id="resultsTab">@MultiTenantHelpers.GetPerformanceMeasureNamePluralized()</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="classificationOverview">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Map</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    This map displays the location of any @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized() associated with this @ViewDataTyped.ClassificationDisplayName
+                                </p>
+                                <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="height: 320px; margin: 5px 0 5px 0">
+                                </div>
+                                <p style="font-size: 10px">To zoom, hold down Shift and drag a rectangle.</p>
+                                <div style="border-radius: 8px; background-color: white; margin: 5px 0 5px 0">
+                                    <div id="primaryLeafDataMap">
+                                        @{ ProjectLocationsMap.RenderPartialView(Html, ViewDataTyped.ProjectLocationsMapViewData); }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>Expenditures by @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel() and @FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.ViewGoogleChartViewData.HasData)
+                                {
+                                    <div style="border-radius: 8px; background-color: white; margin-right: auto; margin-left: auto;">
+                                        @{ ViewGoogleChart.RenderPartialView(Html, ViewDataTyped.ViewGoogleChartViewData); }
+                                    </div>
+                                    <p>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() can be associated with multiple @ViewDataTyped.ClassificationDisplayNamePluralized, therefore the @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized() shown here may also be accounted for in other @ViewDataTyped.ClassificationDisplayNamePluralized.</p>
+                                }
+                                else
+                                {
+                                    <p class="systemText">No @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel() data yet provided for this @ViewDataTyped.ClassificationDisplayName.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            <div role="tabpanel" class="tab-pane" id="performanceMeasures">
+
+                @if (ViewDataTyped.PerformanceMeasureChartViewDatas.Any())
+                {
+                <p>
+                    The reported @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() results for projects with this @ViewDataTyped.ClassificationDisplayName are charted here. Results are included for every @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() that is assigned to this @ViewDataTyped.ClassificationDisplayName. To see the full results for a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), click the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() name in the chart title
+                </p>
+                    foreach (var batch in ViewDataTyped.PerformanceMeasureChartViewDatas.Batch(2))
+                    {
+                        <div class="row">
+                            @foreach (var performanceMeasureChartViewData in batch)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                                    <div class="panel panelFirma">
+                                        <div class="panel-body">
+                                            <div style="width: 500px; margin: auto;">
+                                                @{ PerformanceMeasureChart.RenderPartialView(Html, performanceMeasureChartViewData); }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-center">
+                                There are no @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized() to report for this @ViewDataTyped.ClassificationDisplayName.
+                            </p>
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function()
+    {
+        var projectLocationsMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationsMapInitJson).ToString(Formatting.None));
+        var map = new ProjectFirmaMaps.Map(projectLocationsMapInitJson);
+        map.initializeProjectLocations(projectLocationsMapInitJson);
+
+        map.map.fitBounds(map.map.getBounds().pad(.25));
+        jQuery("#overviewTab").on("shown.bs.tab", function() {
+            map.map.invalidateSize();
+        });
+    });
+</script>

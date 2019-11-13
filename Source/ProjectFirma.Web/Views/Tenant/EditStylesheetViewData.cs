@@ -27,8 +27,8 @@ namespace ProjectFirma.Web.Views.Tenant
     public class EditStylesheetViewData : FirmaViewData
     {
         
-        public EditStylesheetViewData(Person currentPerson)
-            : base(currentPerson)
+        public EditStylesheetViewData(FirmaSession currentFirmaSession)
+            : base(currentFirmaSession)
         {
 
         }

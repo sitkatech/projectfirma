@@ -42,6 +42,7 @@ namespace LtInfo.Common
         private const string NotFoundStoredErrorKey = "NotFoundStoredErrorKey";
         protected const string DatabaseContextKey = "DatabaseContextKey";
         protected const string PersonKey = "PersonKey";
+        protected const string FirmaSessionKey = "FirmaSessionKey";
         protected const string TenantKey = "TenantKey";
 
         private static readonly List<string> BackingStoreKeysList = new List<string> { ShouldLogErrorFromApplicationEndKey, ShouldHandleCustomErrorsKey, WcfStoredErrorKey, NotFoundStoredErrorKey, DatabaseContextKey, PersonKey, TenantKey };

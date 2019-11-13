@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
 
         public bool IncludeInNtaGrids { get; }
 
-        public EditViewData(Person currentPerson,
+        public EditViewData(FirmaSession currentFirmaSession,
             IEnumerable<MeasurementUnitType> measurementUnitTypes,
             List<ProjectCustomAttributeDataType> projectCustomAttributeDataTypes,
             List<ProjectFirmaModels.Models.Role> roles,
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ProjectFirmaModels.Models.FirmaPage instructionsFirmaPage,
             ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType,
             List<ProjectFirmaModels.Models.ProjectCustomAttributeGroup> allProjectCustomAttributeGroups)
-            : base(currentPerson)
+            : base(currentFirmaSession)
         {
             EntityName = "Attribute Type";
             PageTitle =
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
                 SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Manage());
             SubmitUrl = submitUrl;
 
-            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentPerson);
+            ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
 
             ViewDataForAngular = new EditViewDataForAngular(projectCustomAttributeDataTypes);
         }

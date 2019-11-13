@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
         public string TaxonomyBranchDisplayName { get; }
         public bool IsNotTaxonomyLevelLeaf { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             var taxonomyBranchDisplayNamePluralized = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyBranchDisplayNamePluralized;
@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             // only let them sort tier two taxonomy if that's the highest level.
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelBranch();
 
-            HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(currentPerson);
+            HasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
 
             var taxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentPerson)
+            GridSpec = new IndexGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = taxonomyBranchDisplayName,
                 ObjectNamePlural = taxonomyBranchDisplayNamePluralized,

@@ -25,8 +25,8 @@ namespace ProjectFirma.Web.Views.Tenant
 {
     public class EditClassificationSystemsViewData : FirmaViewData
     {       
-        public EditClassificationSystemsViewData(Person currentPerson)
-            : base(currentPerson)
+        public EditClassificationSystemsViewData(FirmaSession currentFirmaSession)
+            : base(currentFirmaSession)
         {
         }
     }
