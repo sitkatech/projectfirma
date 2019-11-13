@@ -127,3 +127,5 @@ alter table dbo.PerformanceMeasureActualUpdate
 alter column [PerformanceMeasureReportingPeriodID] [int] NOT NULL;
 go
 
+alter table dbo.PerformanceMeasure
+drop column SwapChartAxes

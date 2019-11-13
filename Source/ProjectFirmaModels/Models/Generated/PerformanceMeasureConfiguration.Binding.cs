@@ -26,7 +26,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DataSourceText).HasColumnName(@"DataSourceText").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
             Property(x => x.ExternalDataSourceUrl).HasColumnName(@"ExternalDataSourceUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
             Property(x => x.ChartCaption).HasColumnName(@"ChartCaption").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
-            Property(x => x.SwapChartAxes).HasColumnName(@"SwapChartAxes").HasColumnType("bit").IsRequired();
             Property(x => x.PerformanceMeasureSortOrder).HasColumnName(@"PerformanceMeasureSortOrder").HasColumnType("int").IsOptional();
             Property(x => x.IsSummable).HasColumnName(@"IsSummable").HasColumnType("bit").IsRequired();
             Property(x => x.PerformanceMeasureDataSourceTypeID).HasColumnName(@"PerformanceMeasureDataSourceTypeID").HasColumnType("int").IsRequired();
