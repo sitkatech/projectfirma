@@ -2,11 +2,12 @@ CREATE TABLE [dbo].[ProjectProjectStatus](
 	[ProjectProjectStatusID] [int] IDENTITY(1,1) NOT NULL,
 	[ProjectID] [int] NOT NULL,
     [ProjectStatusID] [int] NOT NULL,
+    [ProjectProjectStatusUpdateDate] [datetime] NOT NULL,
 	[ProjectProjectStatusComment] varchar(2500) NOT NULL,
 	[ProjectProjectStatusCreatePersonID] [int] NOT NULL,
     [ProjectProjectStatusCreateDate] [datetime] NOT NULL,
-    [ProjectProjectStatusLastUpdatedPersonID] [int] NULL,
-    [ProjectProjectStatusLastUpdatedDate] [datetime] NULL
+    [ProjectProjectStatusLastEditedPersonID] [int] NULL,
+    [ProjectProjectStatusLastEditedDate] [datetime] NULL
  CONSTRAINT [PK_ProjectProjectStatus_ProjectProjectStatusID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectProjectStatusID] ASC
@@ -37,11 +38,11 @@ GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_PersonID]
 GO
 
-ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastUpdatedPersonID_PersonID] FOREIGN KEY([ProjectProjectStatusLastUpdatedPersonID])
+ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID] FOREIGN KEY([ProjectProjectStatusLastEditedPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 
-ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastUpdatedPersonID_PersonID]
+ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID]
 GO
 
 

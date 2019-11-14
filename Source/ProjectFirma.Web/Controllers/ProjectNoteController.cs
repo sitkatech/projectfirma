@@ -18,7 +18,11 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
+using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -34,10 +38,31 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [ProjectEditAsAdminFeature]
+        public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
+            return ViewEdit(viewModel, false);
+        }
+
+        [HttpPost]
+        [ProjectEditAsAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel, false);
+            }
+            return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
+        }
+
+
+        [HttpGet]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, true);
         }
 
         [HttpPost]
@@ -47,41 +72,49 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, true);
             }
+            return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
+        }
+
+        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey,
+            EditProjectProjectStatusViewModel viewModel)
+        {
             var project = projectPrimaryKey.EntityObject;
-            var projectProjectStatus = ProjectProjectStatus.CreateNewBlank(project, ProjectStatus.Green, CurrentFirmaSession.Person);
+            var projectStatusFromViewModel = ProjectStatus.AllLookupDictionary[viewModel.ProjectStatusID.Value];
+            var projectProjectStatus =
+                ProjectProjectStatus.CreateNewBlank(project, projectStatusFromViewModel, CurrentFirmaSession.Person);
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses.Add(projectProjectStatus);
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [ProjectNoteManageAsAdminFeature]
+        [ProjectEditAsAdminFeature]
         public PartialViewResult Edit(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
-            return ViewEdit(viewModel);
+            return ViewEdit(viewModel, true);
         }
 
         [HttpPost]
-        [ProjectNoteManageAsAdminFeature]
+        [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEdit(viewModel, true);
             }
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel)
+        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate)
         {
-            var viewData = new EditProjectProjectStatusViewData();
+            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 

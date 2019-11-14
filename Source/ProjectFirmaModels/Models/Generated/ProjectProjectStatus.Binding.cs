@@ -30,28 +30,30 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectProjectStatus(int projectProjectStatusID, int projectID, int projectStatusID, string projectProjectStatusComment, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate, int? projectProjectStatusLastUpdatedPersonID, DateTime? projectProjectStatusLastUpdatedDate) : this()
+        public ProjectProjectStatus(int projectProjectStatusID, int projectID, int projectStatusID, DateTime projectProjectStatusUpdateDate, string projectProjectStatusComment, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate, int? projectProjectStatusLastEditedPersonID, DateTime? projectProjectStatusLastEditedDate) : this()
         {
             this.ProjectProjectStatusID = projectProjectStatusID;
             this.ProjectID = projectID;
             this.ProjectStatusID = projectStatusID;
+            this.ProjectProjectStatusUpdateDate = projectProjectStatusUpdateDate;
             this.ProjectProjectStatusComment = projectProjectStatusComment;
             this.ProjectProjectStatusCreatePersonID = projectProjectStatusCreatePersonID;
             this.ProjectProjectStatusCreateDate = projectProjectStatusCreateDate;
-            this.ProjectProjectStatusLastUpdatedPersonID = projectProjectStatusLastUpdatedPersonID;
-            this.ProjectProjectStatusLastUpdatedDate = projectProjectStatusLastUpdatedDate;
+            this.ProjectProjectStatusLastEditedPersonID = projectProjectStatusLastEditedPersonID;
+            this.ProjectProjectStatusLastEditedDate = projectProjectStatusLastEditedDate;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectProjectStatus(int projectID, int projectStatusID, string projectProjectStatusComment, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate) : this()
+        public ProjectProjectStatus(int projectID, int projectStatusID, DateTime projectProjectStatusUpdateDate, string projectProjectStatusComment, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectProjectStatusID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.ProjectStatusID = projectStatusID;
+            this.ProjectProjectStatusUpdateDate = projectProjectStatusUpdateDate;
             this.ProjectProjectStatusComment = projectProjectStatusComment;
             this.ProjectProjectStatusCreatePersonID = projectProjectStatusCreatePersonID;
             this.ProjectProjectStatusCreateDate = projectProjectStatusCreateDate;
@@ -60,7 +62,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectProjectStatus(Project project, ProjectStatus projectStatus, string projectProjectStatusComment, Person projectProjectStatusCreatePerson, DateTime projectProjectStatusCreateDate) : this()
+        public ProjectProjectStatus(Project project, ProjectStatus projectStatus, DateTime projectProjectStatusUpdateDate, string projectProjectStatusComment, Person projectProjectStatusCreatePerson, DateTime projectProjectStatusCreateDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectProjectStatusID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -68,6 +70,7 @@ namespace ProjectFirmaModels.Models
             this.Project = project;
             project.ProjectProjectStatuses.Add(this);
             this.ProjectStatusID = projectStatus.ProjectStatusID;
+            this.ProjectProjectStatusUpdateDate = projectProjectStatusUpdateDate;
             this.ProjectProjectStatusComment = projectProjectStatusComment;
             this.ProjectProjectStatusCreatePersonID = projectProjectStatusCreatePerson.PersonID;
             this.ProjectProjectStatusCreatePerson = projectProjectStatusCreatePerson;
@@ -80,7 +83,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectProjectStatus CreateNewBlank(Project project, ProjectStatus projectStatus, Person projectProjectStatusCreatePerson)
         {
-            return new ProjectProjectStatus(project, projectStatus, default(string), projectProjectStatusCreatePerson, default(DateTime));
+            return new ProjectProjectStatus(project, projectStatus, default(DateTime), default(string), projectProjectStatusCreatePerson, default(DateTime));
         }
 
         /// <summary>
@@ -119,18 +122,19 @@ namespace ProjectFirmaModels.Models
         public int ProjectProjectStatusID { get; set; }
         public int ProjectID { get; set; }
         public int ProjectStatusID { get; set; }
+        public DateTime ProjectProjectStatusUpdateDate { get; set; }
         public string ProjectProjectStatusComment { get; set; }
         public int ProjectProjectStatusCreatePersonID { get; set; }
         public DateTime ProjectProjectStatusCreateDate { get; set; }
-        public int? ProjectProjectStatusLastUpdatedPersonID { get; set; }
-        public DateTime? ProjectProjectStatusLastUpdatedDate { get; set; }
+        public int? ProjectProjectStatusLastEditedPersonID { get; set; }
+        public DateTime? ProjectProjectStatusLastEditedDate { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectProjectStatusID; } set { ProjectProjectStatusID = value; } }
 
         public virtual Project Project { get; set; }
         public ProjectStatus ProjectStatus { get { return ProjectStatus.AllLookupDictionary[ProjectStatusID]; } }
         public virtual Person ProjectProjectStatusCreatePerson { get; set; }
-        public virtual Person ProjectProjectStatusLastUpdatedPerson { get; set; }
+        public virtual Person ProjectProjectStatusLastEditedPerson { get; set; }
 
         public static class FieldLengths
         {

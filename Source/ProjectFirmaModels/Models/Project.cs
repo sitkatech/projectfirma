@@ -175,5 +175,10 @@ namespace ProjectFirmaModels.Models
             return ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
         }
 
+        public ProjectStatus GetCurrentProjectStatus()
+        {
+            return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).LastOrDefault()?.ProjectStatus;
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration)
+        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
             {
@@ -126,6 +126,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
+                case ProjectCustomGridColumnEnum.ProjectStatus:
+                    Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                        , x => x.MakeProjectStatusAddLinkAndText(userHasEditProjectAsAdminPermissions)
+                        , 75
+                        , DhtmlxGridColumnFilterType.Html);
+                    break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
@@ -163,6 +169,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
@@ -196,7 +204,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 }
                 else
                 {
-                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration);
+                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration, userHasEditProjectAsAdminPermissions);
                 }
             }
 

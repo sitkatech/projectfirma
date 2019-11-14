@@ -19,17 +19,42 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
 @using (Html.BeginForm())
 {
+
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
+
+                <div class="form-group" style="@(ViewDataTyped.AllowEditUpdateDate ? "" : "display: none;")">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectStatusUpdateDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.ProjectStatusUpdateDate, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <div class="col-sm-2 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
-                    <div class="col-sm-10">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectStatusID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectStatuses, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.ProjectStatusID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
                         @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
                     </div>
                 </div>
@@ -37,3 +62,46 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+
+        var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
+
+        function mapOptionToColor(optionVal) {
+            return projectStatuses[optionVal].Color;
+        }
+
+
+        jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
+            var option = jQuery(this);
+            if (projectStatuses[option.val()] !== undefined) {
+                option.css(
+                    'color',
+                    mapOptionToColor(option.val())
+                );
+            }
+            else {
+                option.css('color', "#555");
+
+            }
+        });
+
+        jQuery("#@Html.IdFor(m => m.ProjectStatusID)").change(function() {
+            console.log('change');
+            var valOfSelection = jQuery(this).val();
+            console.log(valOfSelection);
+            if (valOfSelection !== undefined && valOfSelection != '' && valOfSelection != null) {
+                jQuery(this).css('color', mapOptionToColor(valOfSelection));
+            }
+            else {
+                jQuery(this).css('color', "#555");
+            }
+        });
+
+
+    });
+
+
+</script>
+
