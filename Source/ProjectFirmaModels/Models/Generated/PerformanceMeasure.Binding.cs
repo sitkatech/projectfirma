@@ -43,7 +43,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation, bool? canBeChartedCumulatively) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -60,6 +60,7 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
             this.Importance = importance;
             this.AdditionalInformation = additionalInformation;
+            this.CanBeChartedCumulatively = canBeChartedCumulatively;
         }
 
         /// <summary>
@@ -248,6 +249,7 @@ namespace ProjectFirmaModels.Models
             get { return AdditionalInformation == null ? null : new HtmlString(AdditionalInformation); }
             set { AdditionalInformation = value?.ToString(); }
         }
+        public bool? CanBeChartedCumulatively { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
