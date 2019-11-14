@@ -205,6 +205,10 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeTypes,
                 new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
                 projectCustomAttributeGroups);
+
+            var projectTimeline = new ProjectTimeline(project);
+            var projectTimelineViewData = new ProjectTimelineDisplayViewData(projectTimeline);
+
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -249,7 +253,9 @@ namespace ProjectFirma.Web.Controllers
                 geospatialAreaTypes, 
                 projectCustomAttributeTypesViewData,
                 projectContactsDetailViewData,
-                editContactsUrl, editExpectedFundingUrl);
+                editContactsUrl, 
+                editExpectedFundingUrl,
+                projectTimelineViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

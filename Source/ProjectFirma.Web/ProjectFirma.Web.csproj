@@ -155,6 +155,7 @@
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
@@ -334,6 +335,8 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -1583,6 +1586,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
