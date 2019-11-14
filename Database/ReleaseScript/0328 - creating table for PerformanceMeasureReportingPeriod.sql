@@ -1,8 +1,8 @@
 
 CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 	[PerformanceMeasureReportingPeriodID] [int] IDENTITY(1,1) NOT NULL,
-	[PerformanceMeasureID] [int] NOT NULL,
 	[TenantID] [int] NOT NULL,
+	[PerformanceMeasureID] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodCalendarYear] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodLabel] [varchar](100) NOT NULL,
 	[TargetValue] [float] NULL,
@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 	[PerformanceMeasureReportingPeriodCalendarYear] ASC,
 	[PerformanceMeasureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
-CONSTRAINT [AK_PerformanceMeasureReportingPeriod_Tenant_PerformanceMeasureReportingPeriodID_TenantID] UNIQUE NONCLUSTERED 
+CONSTRAINT AK_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID UNIQUE NONCLUSTERED 
 (
 	PerformanceMeasureReportingPeriodID ASC,
 	[TenantID] ASC
@@ -50,8 +50,8 @@ go
 
 insert into dbo.PerformanceMeasureReportingPeriod
     SELECT 
-		pma.PerformanceMeasureID as PerformanceMeasureID,
 		pma.TenantID as TenantID,
+		pma.PerformanceMeasureID as PerformanceMeasureID,
 		pma.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
 		pma.CalendarYear as PerformanceMeasureReportingPeriodLabel,
 		null as TargetValue,
@@ -91,8 +91,8 @@ go
 
 insert into dbo.PerformanceMeasureReportingPeriod
     SELECT 
-		pmau.PerformanceMeasureID as PerformanceMeasureID,
 		pmau.TenantID as TenantID,
+		pmau.PerformanceMeasureID as PerformanceMeasureID,
 		pmau.CalendarYear as PerformanceMeasureReportingPeriodCalendarYear,
 		pmau.CalendarYear as PerformanceMeasureReportingPeriodLabel,
 		null as TargetValue,
@@ -101,8 +101,8 @@ insert into dbo.PerformanceMeasureReportingPeriod
 		dbo.PerformanceMeasureActualUpdate as pmau
 	where
 		NOT EXISTS (SELECT 
-						pmrp.PerformanceMeasureID,
 						pmrp.TenantID,
+						pmrp.PerformanceMeasureID,
 						pmrp.PerformanceMeasureReportingPeriodCalendarYear,
 						pmrp.PerformanceMeasureReportingPeriodLabel
 					FROM dbo.PerformanceMeasureReportingPeriod as pmrp
@@ -129,3 +129,10 @@ go
 
 alter table dbo.PerformanceMeasure
 drop column SwapChartAxes
+
+
+alter table dbo.PerformanceMeasureActual add constraint FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID foreign key (PerformanceMeasureReportingPeriodID, TenantID) references dbo.PerformanceMeasureReportingPeriod(PerformanceMeasureReportingPeriodID, TenantID)
+
+alter table dbo.PerformanceMeasureActualUpdate add constraint FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID foreign key (PerformanceMeasureReportingPeriodID, TenantID) references dbo.PerformanceMeasureReportingPeriod(PerformanceMeasureReportingPeriodID, TenantID)
+
+alter table dbo.PerformanceMeasureReportingPeriod add constraint FK_PerformanceMeasureReportingPeriod_PerformanceMeasure_PerformanceMeasureID_TenantID foreign key (PerformanceMeasureID, TenantID) references dbo.PerformanceMeasure(PerformanceMeasureID, TenantID)

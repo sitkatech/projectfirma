@@ -126,8 +126,8 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int PerformanceMeasureReportingPeriodID { get; set; }
-        public int PerformanceMeasureID { get; set; }
         public int TenantID { get; set; }
+        public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureReportingPeriodCalendarYear { get; set; }
         public string PerformanceMeasureReportingPeriodLabel { get; set; }
         public double? TargetValue { get; set; }
@@ -137,8 +137,8 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
-        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
 
         public static class FieldLengths
         {
