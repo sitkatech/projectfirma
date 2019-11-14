@@ -51,10 +51,8 @@
     }
 }
 
-To enter your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s annual expenditures, add the appropriate
-@ViewDataTyped.FieldDefinitionForFundingSource.GetFieldDefinitionLabelPluralized() and then enter the amount contributed by each for the duration defined by your @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()'s Planning / Design Start and
-@ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel()
-(or, if @ViewDataTyped.FieldDefinitionForCompletionYear.GetFieldDefinitionLabel() isn't set, through the current year).
+Enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and then 
+    enter the amount contributed by year. If the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report in any year provide an explanation.
 
 <hr/>
 
@@ -73,7 +71,7 @@ else
 {
     using (Html.BeginForm())
     {
-    <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresController" style="overflow-x: auto">
+    <div ng-app="ProjectFirmaApp" id="EditFundingSourceExpendituresApp" ng-controller="ExpendituresController">
 
         <div class="form-group">
             <label>1. Are there expenditures to enter?</label>
@@ -84,7 +82,7 @@ else
         <div ng-show="AngularModel.HasExpenditures">
             <div class="form-group">
                 <label class="control-label">2. Identify the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized(). You can add more than one.</label>
-                <div class="input-group">
+                <div class="input-group" style="margin-left: 20px">
                     <select ng-model="FundingSourceIDToAdd"
                             class="selectpicker"
                             data-live-search="true"
@@ -108,9 +106,9 @@ else
             </div>
         </div>
 
-        <div ng-show="AngularModel.HasExpenditures" style="margin-bottom: 15px;">
+        <div ng-show="AngularModel.HasExpenditures" style="margin-bottom: 15px; overflow-x: auto">
             <div class="form-group">
-                <label>3. Enter your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s annual expenditures, add the appropriate @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized() and then enter the amount contributed by year. If the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has no expenditures to report in any year provide an explanation.</label>
+                <label>3. Enter expenditures for each year and @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel().</label>
             </div>
 
             <div style="margin-left: 20px">
