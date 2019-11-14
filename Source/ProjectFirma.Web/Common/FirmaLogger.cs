@@ -34,8 +34,9 @@ namespace ProjectFirma.Web.Common
                 return "User: Anonymous";
             }
             string organizationName = firmaSession.Person.Organization.OrganizationName;
+            string impersonatedByString = firmaSession.IsImpersonating() ? $"ImpersonatedBy: {firmaSession.OriginalPerson.Email}{Environment.NewLine}OriginalPersonID: {firmaSession.OriginalPersonID}{Environment.NewLine}" : string.Empty;
             return
-                $"User: {firmaSession.GetFullNameFirstLast()}{Environment.NewLine}LogonName: {firmaSession.Person.Email}{Environment.NewLine}PersonID: {firmaSession.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}";
+                $"User: {firmaSession.GetFullNameFirstLast()}{Environment.NewLine}LogonName: {firmaSession.Person.Email}{Environment.NewLine}PersonID: {firmaSession.PersonID}{Environment.NewLine}Organization: {organizationName}{Environment.NewLine}{impersonatedByString}";
         }
     }
 }

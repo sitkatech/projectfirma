@@ -134,8 +134,8 @@
       </layout>
     </appender>
     <appender name="SmtpAppender" type="LtInfo.Common.SmtpAppenderWithPathAndExceptionTypeInSubject, LtInfo.Common">
-      <to value="AppAlerts-LT@sitkatech.com"/>
-      <from value="Application Alerts LT Info &lt;AppAlerts-LT@sitkatech.com&gt;"/>
+      <to value="AppAlerts-PF@sitkatech.com"/>
+      <from value="Application Alerts ProjectFirma &lt;AppAlerts-PF@sitkatech.com&gt;"/>
       <subject value="ProjectFirma Alert: ${environment} application error"/>
       <smtpHost value="${smtp-server}"/>
       <bufferSize value="1"/>

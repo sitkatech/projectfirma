@@ -28,7 +28,7 @@ CREATE TABLE [dbo].[ProjectUpdateBatch](
 	[ExpectedFundingDiffLog] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationsDiffLog] [dbo].[html] NULL,
-	[NoExpendituresToReportExplanation] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ExpendituresNote] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExpectedPerformanceMeasuresComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TechnicalAssistanceRequestsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ContactsComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

@@ -137,8 +137,8 @@ namespace ProjectFirma.Web.Controllers
             var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
             var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
             var editReportedExpendituresUrl = reportFinancialsByCostType ?
-                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
-                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostType(project)) :
+                SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpenditures(project));
             var editExpectedFundingUrl = reportFinancialsByCostType ?
                 SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
                 SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
             var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
-            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.ExpendituresNote, projectFundingSourceCostTypeExpenditureAmounts);
             return projectExpendituresByCostTypeDetailViewData;
         }
 
@@ -278,8 +278,7 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresDetailViewData = new ProjectExpendituresDetailViewData(
                 fromFundingSourcesAndCalendarYears,
                 calendarYearsForFundingSourceExpenditures.Select(x => new CalendarYearString(x)).ToList(),
-                FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear)),
-                project.NoExpendituresToReportExplanation);
+                project.ExpendituresNote);
             return projectExpendituresDetailViewData;
         }
 

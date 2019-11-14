@@ -49,7 +49,7 @@ namespace ProjectFirmaModels.Models
 
         public void SyncExpendituresYearsExemptionExplanation()
         {
-            NoExpendituresToReportExplanation = Project.NoExpendituresToReportExplanation;
+            ExpendituresNote = Project.ExpendituresNote;
         }
 
         public void TickleLastUpdateDate(FirmaSession currentFirmaSession)

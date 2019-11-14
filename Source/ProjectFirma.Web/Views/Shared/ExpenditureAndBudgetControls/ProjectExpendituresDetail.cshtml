@@ -67,30 +67,20 @@ else
     <p class="systemText">No Expenditures have been reported for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
 }
 
+<hr />
+<table class="summaryLayout">
+    <tr>
+        <th>Note:</th>
+        @if (ViewDataTyped.ExpendituresNote == null)
+        {
+            <td style="font-style: italic">None provided</td>
+        }
+        else
+        {
+            <td>@Html.Raw(ViewDataTyped.ExpendituresNote.HtmlEncodeWithBreaks())</td>
+        }
+    </tr>
+</table>
 
-@if (ViewDataTyped.ExemptReportingYears.Any())
-{
-    <hr />
-    <table class="summaryLayout">
-        <tr>
-            <td colspan="2">The project was active for the following years, but no expenditures were reported:</td>
-        </tr>
-        <tr>
-            <th>Year(s):</th>
-            <td>@string.Join(", ", ViewDataTyped.ExemptReportingYears.OrderBy(x => x))</td>
-        </tr>
-        <tr>
-            <th>Comment:</th>
-            @if (ViewDataTyped.ExemptionExplanation == null)
-            {
-                <td style="font-style: italic">None provided</td>
-            }
-            else
-            {
-                <td>@Html.Raw(ViewDataTyped.ExemptionExplanation.HtmlEncodeWithBreaks())</td>
-            }
-        </tr>
-    </table>
-}
 
 
