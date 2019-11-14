@@ -19,12 +19,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
-            Property(x => x.CalendarYear).HasColumnName(@"CalendarYear").HasColumnType("int").IsRequired();
             Property(x => x.ActualValue).HasColumnName(@"ActualValue").HasColumnType("float").IsRequired();
+            Property(x => x.PerformanceMeasureReportingPeriodID).HasColumnName(@"PerformanceMeasureReportingPeriodID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.PerformanceMeasureActuals).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_PerformanceMeasureActual_Project_ProjectID
             HasRequired(a => a.PerformanceMeasure).WithMany(b => b.PerformanceMeasureActuals).HasForeignKey(c => c.PerformanceMeasureID).WillCascadeOnDelete(false); // FK_PerformanceMeasureActual_PerformanceMeasure_PerformanceMeasureID
+            HasRequired(a => a.PerformanceMeasureReportingPeriod).WithMany(b => b.PerformanceMeasureActuals).HasForeignKey(c => c.PerformanceMeasureReportingPeriodID).WillCascadeOnDelete(false); // FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID
         }
     }
 }

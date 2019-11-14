@@ -48,11 +48,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffReportedPerformanceMeasures(projectUpdateBatch.Project));
             var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates;
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
-                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureActualUpdates));
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualUpdates)));
             PerformanceMeasureReportedValuesSummaryViewData = new PerformanceMeasureReportedValuesSummaryViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
                 projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList(),
                 projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation,
-                performanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList());
+                performanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList());
             ViewDataForAngular = viewDataForAngularEditor;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ReportedPerformanceMeasuresComment, projectUpdateBatch.IsReturned());
             IsImplementationStartYearValid = projectUpdateBatch.ProjectUpdate.ImplementationStartYear.HasValue &&

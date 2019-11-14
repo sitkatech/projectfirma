@@ -57,6 +57,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public string TaxonomyTierDisplayNamePluralized { get; }
 
+        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
+        public string EditPerformanceMeasureTargetUrl { get; set; }
+        public bool UserHasEditPerformanceMeasureTargetPermission { get; }
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
@@ -105,16 +112,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
 
+            EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
+            UserHasEditPerformanceMeasureTargetPermission = new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission;
+
             FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
             FieldDefinitionForPerformanceMeasureSubcategoryOption = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
         }
 
-        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
     }
 }

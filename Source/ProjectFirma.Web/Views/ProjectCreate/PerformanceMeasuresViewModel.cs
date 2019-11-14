@@ -73,8 +73,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.PerformanceMeasureActualID.GetValueOrDefault(),
                         x.ProjectID.GetValueOrDefault(),
                         x.PerformanceMeasureID.GetValueOrDefault(),
-                        x.CalendarYear.GetValueOrDefault(),
-                        x.ActualValue.GetValueOrDefault());
+                        x.ActualValue.GetValueOrDefault(),
+                        x.PerformanceMeasureReportingPeriodID);
                     if (x.PerformanceMeasureActualSubcategoryOptions != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptions =
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 (x, y) => x.PerformanceMeasureActualID == y.PerformanceMeasureActualID,
                 (x, y) =>
                 {
-                    x.CalendarYear = y.CalendarYear;
+                    x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear = y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
                     x.ActualValue = y.ActualValue;
                 }, databaseEntities);
 
@@ -156,7 +156,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
             var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
                 .Where(x => !exemptYears.Contains(x)).ToList();
-            var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear.GetValueOrDefault()).Distinct();
+            var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
             var missingYears = yearsExpected.GetMissingYears(yearsEntered);
 
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
             var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
             var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
-            var performanceMeasureActualsWithExemptYear = performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear.GetValueOrDefault())).ToList();
+            var performanceMeasureActualsWithExemptYear = performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();
             return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
     }

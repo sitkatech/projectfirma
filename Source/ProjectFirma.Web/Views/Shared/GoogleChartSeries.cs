@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ProjectFirmaModels.Models;
 using Newtonsoft.Json;
 
@@ -58,6 +59,16 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(googleChartAxisType), googleChartAxisType, null);
             }
+        }
+
+        public static List<GoogleChartSeries> GetGoogleChartSeriesForChartsWithTargets()
+        {
+            var chartSeries = new List<GoogleChartSeries>
+            {
+                new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary),
+                new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary)
+            };
+            return chartSeries;
         }
     }
 }

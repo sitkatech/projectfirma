@@ -5,10 +5,9 @@ namespace ProjectFirmaModels.Models
 {
     public class PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue
     {
-        private PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(int calendarYear, double? reportedValue, int sortOrder, int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, string chartName)
+        private PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, double? reportedValue, int sortOrder, int performanceMeasureSubcategoryOptionID, PerformanceMeasureSubcategory performanceMeasureSubcategory, string performanceMeasureSubcategoryOptionName, string chartName)
         {
-            PerformanceMeasureReportingPeriod =
-                new PerformanceMeasureReportingPeriod(performanceMeasureSubcategory.PerformanceMeasure, new DateTime(calendarYear, 1, 1), calendarYear.ToString()) { PerformanceMeasureReportingPeriodID = calendarYear };
+            PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
             ReportedValue = reportedValue;
             SortOrder = sortOrder;
             PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOptionID;
@@ -21,9 +20,9 @@ namespace ProjectFirmaModels.Models
         public double? ReportedValue { get; set; }
         public int SortOrder { get; }
 
-        public PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(int calendarYear,
+        public PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod,
             PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, double? reportedValue) :
-            this(calendarYear, reportedValue, performanceMeasureSubcategoryOption.SortOrder ?? 0,
+            this(performanceMeasureReportingPeriod, reportedValue, performanceMeasureSubcategoryOption.SortOrder ?? 0,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategory,
                 performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionName,
@@ -31,10 +30,10 @@ namespace ProjectFirmaModels.Models
         {
         }
 
-        public PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(int calendarYear, double reportedValue,
+        public PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, double reportedValue,
             PerformanceMeasureSubcategory performanceMeasureSubcategory,
             string performanceMeasureSubcategoryOptionName) : 
-            this(calendarYear, reportedValue, ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, performanceMeasureSubcategoryOptionName)
+            this(performanceMeasureReportingPeriod, reportedValue, ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, performanceMeasureSubcategory, performanceMeasureSubcategoryOptionName, performanceMeasureSubcategoryOptionName)
         {
         }
 

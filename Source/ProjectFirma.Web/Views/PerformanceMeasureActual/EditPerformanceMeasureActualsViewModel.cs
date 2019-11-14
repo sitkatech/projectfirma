@@ -27,6 +27,7 @@ using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
@@ -93,14 +94,22 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 
             if (PerformanceMeasureActuals != null)
             {
+                var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
                 // Completely rebuild the list
-                foreach (var x in PerformanceMeasureActuals)
+                foreach (var performanceMeasureActualSimple in PerformanceMeasureActuals)
                 {
-                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.ProjectID.Value, x.PerformanceMeasureID.Value, x.CalendarYear.Value, x.ActualValue.Value);
-                    allPerformanceMeasureActuals.Add(performanceMeasureActual);
-                    if (x.PerformanceMeasureActualSubcategoryOptions != null)
+                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureID == performanceMeasureActualSimple.PerformanceMeasureID && pmrp.PerformanceMeasureReportingPeriodCalendarYear == performanceMeasureActualSimple.CalendarYear);
+                    if (performanceMeasureReportingPeriod == null)
                     {
-                        x.PerformanceMeasureActualSubcategoryOptions.ForEach(
+                        Check.EnsureNotNull(performanceMeasureActualSimple.PerformanceMeasureID, "We need to have a performance measure.");
+                        performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)performanceMeasureActualSimple.PerformanceMeasureID, performanceMeasureActualSimple.CalendarYear, performanceMeasureActualSimple.CalendarYear.ToString());
+                        performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                    }
+                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(performanceMeasureActualSimple.ProjectID.Value, performanceMeasureActualSimple.PerformanceMeasureID.Value, performanceMeasureActualSimple.ActualValue.Value, performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
+                    allPerformanceMeasureActuals.Add(performanceMeasureActual);
+                    if (performanceMeasureActualSimple.PerformanceMeasureActualSubcategoryOptions != null)
+                    {
+                        performanceMeasureActualSimple.PerformanceMeasureActualSubcategoryOptions.ForEach(
                             y =>
                                 allPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(
                                     performanceMeasureActual.PerformanceMeasureActualID,
@@ -134,13 +143,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 .ToList();
 
             var performanceMeasureActualsWithMissingDataDisplayNames = PerformanceMeasureActuals?.Where(x =>
-                    x.CalendarYear == null || x.ActualValue == null ||
+                    x.ActualValue == null ||
                     x.PerformanceMeasureActualSubcategoryOptions.Any(y =>
                         y.PerformanceMeasureSubcategoryOptionID == null))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
             var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
-                ?.Where(x => x.CalendarYear != null && exemptYears.Contains(x.CalendarYear.Value))
+                ?.Where(x => exemptYears.Contains(x.CalendarYear))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
             performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));

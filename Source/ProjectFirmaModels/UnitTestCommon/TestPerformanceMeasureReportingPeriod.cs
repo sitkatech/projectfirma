@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TestPerformanceMeasureActualUpdate.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="TestPerformanceMeasureReportingPeriod.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,28 +19,30 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Linq;
+using System;
+using System.Collections.Generic;
+using ApprovalUtilities.Utilities;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirmaModels.UnitTestCommon
 {
     public static partial class TestFramework
     {
-        public static class TestPerformanceMeasureActualUpdate
+        public static class TestPerformanceMeasureReportingPeriod
         {
-            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, int calendarYear)
+            public static PerformanceMeasureReportingPeriod Create(PerformanceMeasure performanceMeasure)
             {
-                var performanceMeasureActualUpdate = Create(projectUpdateBatch, calendarYear, null);
-                return performanceMeasureActualUpdate;
+                var performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(performanceMeasure, DateTime.Now.Year, DateTime.Now.Year.ToString());
+                return performanceMeasureReportingPeriod;
             }
 
-            public static PerformanceMeasureActualUpdate Create(ProjectUpdateBatch projectUpdateBatch, int calendarYear, double? actualValue)
+            public static PerformanceMeasureReportingPeriod Create(PerformanceMeasure performanceMeasure, int calendarYear)
             {
-                var performanceMeasure = TestPerformanceMeasure.Create();
-                var performanceMeasureReportingPeriod = TestPerformanceMeasureReportingPeriod.Create(performanceMeasure, calendarYear);
-                var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, performanceMeasureReportingPeriod) {ActualValue = actualValue};
-                return performanceMeasureActualUpdate;
+                var performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(performanceMeasure, calendarYear, calendarYear.ToString());
+                return performanceMeasureReportingPeriod;
             }
+
+
         }
     }
 }

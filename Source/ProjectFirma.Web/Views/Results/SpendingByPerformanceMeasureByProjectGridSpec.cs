@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.Results
             Add($"Other Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
                 a =>
                 {
-                    var reportedPerformanceMeasures = a.Project.GetReportedPerformanceMeasures().Where(x => a.PerformanceMeasureID != x.PerformanceMeasure.PerformanceMeasureID).ToList();
+                    var reportedPerformanceMeasures = a.Project.GetPerformanceMeasureReportedValues().Where(x => a.PerformanceMeasureID != x.PerformanceMeasure.PerformanceMeasureID).ToList();
                     var htmlStrings = reportedPerformanceMeasures.DistinctBy(x => x.PerformanceMeasureID).Select(x => UrlTemplate.MakeHrefString(x.PerformanceMeasure.GetSummaryUrl(), x.PerformanceMeasure.PerformanceMeasureID.ToString())).ToList();
                     return new HtmlString(string.Join(", ", htmlStrings));
                 },

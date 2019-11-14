@@ -83,6 +83,10 @@ namespace ProjectFirma.Web.Models
         public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(
             PerformanceMeasure performanceMeasure)
         {
+            if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            {
+                return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            }
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
                 new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
@@ -90,6 +94,20 @@ namespace ProjectFirma.Web.Models
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
                 googleChartAxisVerticals);
+            return defaultSubcategoryChartConfigurationJson;
+        }
+
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(
+            PerformanceMeasure performanceMeasure)
+        {
+            var googleChartType = GoogleChartType.ColumnChart;
+            var googleChartAxisHorizontal =
+                new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
+                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
+                googleChartAxisVerticals, null, chartSeries);
             return defaultSubcategoryChartConfigurationJson;
         }
 
@@ -154,11 +172,23 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project });
         }
 
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, ProjectUpdateBatch projectUpdateBatch)
+        {
+            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<ProjectUpdateBatch> { projectUpdateBatch });
+        }
+
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
             return performanceMeasureReportedValues;
         }
+
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<ProjectUpdateBatch> projectUpdateBatches)
+        {
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projectUpdateBatches);
+            return performanceMeasureReportedValues;
+        }
+
 
         public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
@@ -168,7 +198,7 @@ namespace ProjectFirma.Web.Models
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()
                 : performanceMeasureValues;
 
-            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
+            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.PerformanceMeasureReportingPeriod }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
             var projectPerformanceMeasureReportingPeriodValues = groupByProjectAndSubcategory.Select(reportedValuesGroup =>
             {
@@ -181,14 +211,14 @@ namespace ProjectFirma.Web.Models
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod, y.PerformanceMeasureSubcategoryOption,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0));
                         }
                         else
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0), y.PerformanceMeasureSubcategory, y.GetPerformanceMeasureSubcategoryOptionName());
                         }
                     }).ToList();

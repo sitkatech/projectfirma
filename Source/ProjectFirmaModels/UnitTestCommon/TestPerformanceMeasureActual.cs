@@ -31,21 +31,21 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var project = TestFramework.TestProject.Create();
                 var performanceMeasure = TestPerformanceMeasure.Create();
-                return Create(project, performanceMeasure);
+                var performanceMeasureReportingPeriod = TestPerformanceMeasureReportingPeriod.Create(performanceMeasure);
+                return Create(project, performanceMeasure, performanceMeasureReportingPeriod);
             }
 
-            public static PerformanceMeasureActual Create(Project project, PerformanceMeasure performanceMeasure)
+            public static PerformanceMeasureActual Create(Project project, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
             {
-                var performanceMeasureActual = PerformanceMeasureActual.CreateNewBlank(project, performanceMeasure);
+                var performanceMeasureActual = PerformanceMeasureActual.CreateNewBlank(project, performanceMeasure, performanceMeasureReportingPeriod);
                 return performanceMeasureActual;
             }
 
-            public static PerformanceMeasureActual Create(int performanceMeasureActualID, Project project, PerformanceMeasure performanceMeasure, double actualValue, int calendarYear)
+            public static PerformanceMeasureActual Create(int performanceMeasureActualID, Project project, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, double actualValue)
             {
-                var performanceMeasureActual = PerformanceMeasureActual.CreateNewBlank(project, performanceMeasure);
+                var performanceMeasureActual = PerformanceMeasureActual.CreateNewBlank(project, performanceMeasure, performanceMeasureReportingPeriod);
                 performanceMeasureActual.PerformanceMeasureActualID = performanceMeasureActualID;
                 performanceMeasureActual.ActualValue = actualValue;
-                performanceMeasureActual.CalendarYear = calendarYear;
                 return performanceMeasureActual;
             }
         }

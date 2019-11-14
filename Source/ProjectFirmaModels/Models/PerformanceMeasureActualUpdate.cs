@@ -25,7 +25,7 @@ using LtInfo.Common.Views;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class PerformanceMeasureActualUpdate : IPerformanceMeasureValue, IPerformanceMeasureReportedValue
+    public partial class PerformanceMeasureActualUpdate : IPerformanceMeasureValue
     {
         public List<IPerformanceMeasureValueSubcategoryOption> GetPerformanceMeasureSubcategoryOptions()
         {
@@ -37,9 +37,7 @@ namespace ProjectFirmaModels.Models
             return ActualValue;
         }
 
-        public string GetPerformanceMeasureName() => PerformanceMeasure.PerformanceMeasureDisplayName;
 
-        public MeasurementUnitType GetMeasurementUnitType() => PerformanceMeasure.MeasurementUnitType;
 
         public string GetPerformanceMeasureSubcategoriesAsString()
         {

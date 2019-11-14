@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
 {
     public partial class ProjectUpdate : IProject
     {
+
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
 

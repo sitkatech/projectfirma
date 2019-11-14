@@ -30,33 +30,33 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
+        public PerformanceMeasureActual(int performanceMeasureActualID, int projectID, int performanceMeasureID, double actualValue, int performanceMeasureReportingPeriodID) : this()
         {
             this.PerformanceMeasureActualID = performanceMeasureActualID;
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.CalendarYear = calendarYear;
             this.ActualValue = actualValue;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActual(int projectID, int performanceMeasureID, int calendarYear, double actualValue) : this()
+        public PerformanceMeasureActual(int projectID, int performanceMeasureID, double actualValue, int performanceMeasureReportingPeriodID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.CalendarYear = calendarYear;
             this.ActualValue = actualValue;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureActual(Project project, PerformanceMeasure performanceMeasure, int calendarYear, double actualValue) : this()
+        public PerformanceMeasureActual(Project project, PerformanceMeasure performanceMeasure, double actualValue, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,16 +66,18 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureActuals.Add(this);
-            this.CalendarYear = calendarYear;
             this.ActualValue = actualValue;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
+            this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
+            performanceMeasureReportingPeriod.PerformanceMeasureActuals.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureActual CreateNewBlank(Project project, PerformanceMeasure performanceMeasure)
+        public static PerformanceMeasureActual CreateNewBlank(Project project, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
         {
-            return new PerformanceMeasureActual(project, performanceMeasure, default(int), default(double));
+            return new PerformanceMeasureActual(project, performanceMeasure, default(double), performanceMeasureReportingPeriod);
         }
 
         /// <summary>
@@ -126,8 +128,8 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int CalendarYear { get; set; }
         public double ActualValue { get; set; }
+        public int PerformanceMeasureReportingPeriodID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
@@ -135,6 +137,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod { get; set; }
 
         public static class FieldLengths
         {
