@@ -533,7 +533,7 @@ namespace ProjectFirma.Web.Models
 
             // fill in the other years missing
             FirmaDateUtilities.GetRangeOfYears(projectUpdate.ImplementationStartYear.Value, projectUpdate.CompletionYear.Value)
-                .GetMissingYears(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().Select(x => x.CalendarYear)).ToList()
+                .GetMissingYears(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList()
                 .ForEach(x => TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, x));
             AssertPerformanceMeasures(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList(),
                 projectUpdate.ImplementationStartYear.Value,
@@ -680,7 +680,7 @@ namespace ProjectFirma.Web.Models
             var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
-            var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
+            var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
             var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
             var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";

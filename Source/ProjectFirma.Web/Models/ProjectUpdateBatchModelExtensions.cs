@@ -344,7 +344,7 @@ namespace ProjectFirma.Web.Models
             {
                 var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
                 var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
-                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
+                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
@@ -374,7 +374,7 @@ namespace ProjectFirma.Web.Models
                 return new HashSet<int>();
             }
             var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
-                .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
                 .Select(x => x)
@@ -391,7 +391,7 @@ namespace ProjectFirma.Web.Models
             }
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
 
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();            
+            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();            
 
             return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
@@ -766,5 +766,33 @@ namespace ProjectFirma.Web.Models
         {
             return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
         }
+
+
+        public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            List<PerformanceMeasureReportedValue> reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
+
+            // Idaho's special PM.
+            // There Might Be A Better Way To Do This™
+            PerformanceMeasure technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
+                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
+                    .PerformanceMeasureDataSourceTypeID);
+            if (technicalAssistanceValue != null)
+            {
+                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(projectUpdateBatch));
+            }
+
+            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+        public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            List<PerformanceMeasureReportedValue> performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
+                .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .SelectMany(x => x.GetReportedPerformanceMeasureValues(projectUpdateBatch)).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+
     }
 }

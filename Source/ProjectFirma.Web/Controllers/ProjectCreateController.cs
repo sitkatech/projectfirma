@@ -410,7 +410,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureActualSimples =
                 project.PerformanceMeasureActuals.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName())
-                    .ThenByDescending(x => x.CalendarYear)
+                    .ThenByDescending(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
                     .Select(x => new PerformanceMeasureActualSimple(x))
                     .ToList();
             var projectExemptReportingYears = project.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();

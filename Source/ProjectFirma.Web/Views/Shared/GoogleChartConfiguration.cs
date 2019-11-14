@@ -23,6 +23,7 @@ using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -108,7 +109,7 @@ namespace ProjectFirma.Web.Views.Shared
         }
 
         /// <summary>
-        /// This is the constuctor used by non-database-persisted charts <see cref="MonitoringStation.AverageDailyFlowAndCumulativePrecipitationSummaryGoogleChart()"/>
+        /// This is the constructor used by non-database-persisted charts <see cref="MonitoringStation.AverageDailyFlowAndCumulativePrecipitationSummaryGoogleChart()"/>
         /// </summary>
         public GoogleChartConfiguration(string chartTitle, bool isStacked, GoogleChartType googleChartType, GoogleChartDataTable googleChartDataTable, GoogleChartAxis googleChartAxisHorizontal, List<GoogleChartAxis> googleChartAxisVerticals)
         {
@@ -136,7 +137,7 @@ namespace ProjectFirma.Web.Views.Shared
         }
 
         /// <summary>
-        /// This is the constructor used by <see cref="IndicatorController.New()"/> for creating a default google chart configuation json for new indicators
+        /// This is the constructor used by <see cref="PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson()"/> for creating a default google chart configuration json for new performance measures
         /// </summary>
         public GoogleChartConfiguration(string chartTitle, bool isStacked, GoogleChartType googleChartType, GoogleChartAxis googleChartAxisHorizontal, List<GoogleChartAxis> googleChartAxisVerticals)
         {
@@ -153,6 +154,38 @@ namespace ProjectFirma.Web.Views.Shared
             SetChartMetaData(googleChartType);
 
             Annotations = new GoogleChartAnnotations();
+        }
+
+        /// <summary>
+        /// This is the constructor used by <see cref="PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson()"/> for creating a default google chart configuration json for new performance measures with targets
+        /// </summary>
+        public GoogleChartConfiguration(string chartTitle, bool isStacked, GoogleChartType googleChartType, GoogleChartAxis googleChartAxisHorizontal, List<GoogleChartAxis> googleChartAxisVerticals, string seriesType, object series)
+        {
+            Title = string.IsNullOrWhiteSpace(chartTitle) ? "[MISSING CHART TITLE]" : chartTitle;
+
+            Legend = new GoogleChartLegend();
+            HorizontalAxis = googleChartAxisHorizontal;
+            VerticalAxes = googleChartAxisVerticals;
+
+            BackgroundColor = new GoogleChartBackground("white");
+            IsStacked = isStacked;
+            LineWidth = 2;
+
+            SeriesType = seriesType;
+            Series = series;
+
+            SetChartMetaData(googleChartType);
+
+            Annotations = new GoogleChartAnnotations();
+        }
+
+        /// <summary>
+        /// static method for creating a GoogleChartConfiguration from a json object
+        /// </summary>
+        /// <param name="json">JSON object that stores a GoogleChartConfiguration</param>
+        public static GoogleChartConfiguration GetGoogleChartConfigurationFromJsonObject(string json)
+        {
+            return JsonConvert.DeserializeObject<GoogleChartConfiguration>(json);
         }
 
         private void SetChartMetaData(GoogleChartType googleChartType)

@@ -35,6 +35,7 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditPerformanceMeasureTargetsController.js")"></script>
 
     <style>
         th {
@@ -118,7 +119,10 @@
     <div class="col-lg-6 col-md-7">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>Accomplishments</h2>
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasEditPerformanceMeasureTargetPermission)
+                    Accomplishments
+                </h2>
             </div>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
@@ -209,7 +213,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>
-                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))</th>
+                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

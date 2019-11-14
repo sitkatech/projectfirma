@@ -30,6 +30,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -72,18 +73,27 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (PerformanceMeasureActualUpdates != null)
             {
+                var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
                 // Completely rebuild the list
-                performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(x =>
+                performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(pmaus =>
                 {
-                    var performanceMeasureActual = new PerformanceMeasureActualUpdate(x.PerformanceMeasureActualUpdateID,
-                        x.ProjectUpdateBatchID,
-                        x.PerformanceMeasureID,
-                        x.CalendarYear.Value,
-                        x.ActualValue);
-                    if (x.PerformanceMeasureActualSubcategoryOptionUpdates != null)
+                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureID == pmaus.PerformanceMeasureID && pmrp.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
+                    if (performanceMeasureReportingPeriod == null)
+                    {
+                        Check.EnsureNotNull(pmaus.PerformanceMeasureID, "We need to have a performance measure.");
+                        performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)pmaus.PerformanceMeasureID, pmaus.CalendarYear, pmaus.CalendarYear.ToString());
+                        performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                    }
+
+                    var performanceMeasureActual = new PerformanceMeasureActualUpdate(pmaus.PerformanceMeasureActualUpdateID,
+                        pmaus.ProjectUpdateBatchID,
+                        pmaus.PerformanceMeasureID,
+                        pmaus.ActualValue,
+                        performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
+                    if (pmaus.PerformanceMeasureActualSubcategoryOptionUpdates != null)
                     {
                         performanceMeasureActual.PerformanceMeasureActualSubcategoryOptionUpdates =
-                            x.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou =>
+                            pmaus.PerformanceMeasureActualSubcategoryOptionUpdates.Where(pmavsou =>
                                 ModelObjectHelpers.IsRealPrimaryKeyValue(pmavsou.PerformanceMeasureSubcategoryOptionID))
                             .Select(
                                 y =>
@@ -105,7 +115,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 (x, y) => x.PerformanceMeasureActualUpdateID == y.PerformanceMeasureActualUpdateID,
                 (x, y) =>
                 {
-                    x.CalendarYear = y.CalendarYear;
+                    x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
                     x.ActualValue = y.ActualValue;
                 }, databaseEntities);
 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -9,6 +10,11 @@ namespace ProjectFirma.Web.Views.Shared
         public GoogleChartAnnotations()
         {
             Style = "line";
+        }
+
+        public GoogleChartAnnotations(JToken annotation)
+        {
+            Style = (string)annotation["style"];
         }
     }
 }

@@ -19,7 +19,26 @@ namespace ProjectFirmaModels.Models
                     performanceMeasure.PerformanceMeasureActuals.Where(x => projectIDs.Contains(x.Project.ProjectID)).ToList();
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
-            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.ProjectName).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ToList();
         }
+
+
+        public virtual List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(PerformanceMeasure performanceMeasure, List<ProjectUpdateBatch> projectUpdateBatches)
+        {
+            List<PerformanceMeasureActualUpdate> performanceMeasureActualsFiltered;
+            if (projectUpdateBatches == null || !projectUpdateBatches.Any())
+            {
+                performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActualUpdates.ToList();
+            }
+            else
+            {
+                var projectIDs = projectUpdateBatches.Select(x => x.ProjectID).ToList();
+                performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActualUpdates.Where(x => projectIDs.Contains(x.ProjectUpdateBatch.ProjectID)).ToList();
+            }
+            var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ToList();
+        }
+
+
     }
 }
