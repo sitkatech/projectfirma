@@ -41,6 +41,11 @@ REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReporti
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActual] CHECK CONSTRAINT [FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID]
 GO
+ALTER TABLE [dbo].[PerformanceMeasureActual]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID] FOREIGN KEY([PerformanceMeasureReportingPeriodID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReportingPeriodID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActual] CHECK CONSTRAINT [FK_PerformanceMeasureActual_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID]
+GO
 ALTER TABLE [dbo].[PerformanceMeasureActual]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActual_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
