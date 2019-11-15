@@ -206,8 +206,9 @@ namespace ProjectFirma.Web.Controllers
                 new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
                 projectCustomAttributeGroups);
 
-            var projectTimeline = new ProjectTimeline(project);
-            var projectTimelineViewData = new ProjectTimelineDisplayViewData(projectTimeline);
+            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions);
+            var projectTimelineViewData = new ProjectTimelineDisplayViewData(project,projectTimeline);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,

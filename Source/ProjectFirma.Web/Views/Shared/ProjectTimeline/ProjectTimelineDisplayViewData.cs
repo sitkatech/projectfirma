@@ -21,6 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectContact
@@ -29,9 +33,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
     {
         public Models.ProjectTimeline ProjectTimeline { get; }
 
-        public ProjectTimelineDisplayViewData(Models.ProjectTimeline projectTimeline)
+        public HtmlString AddProjectProjectStatusButton { get; }
+
+        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,Models.ProjectTimeline projectTimeline)
         {
             ProjectTimeline = projectTimeline;
+
+            var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
+            AddProjectProjectStatusButton =
+                ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
         }
     }
 }

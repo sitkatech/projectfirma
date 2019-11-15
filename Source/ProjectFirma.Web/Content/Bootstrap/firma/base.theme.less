@@ -1917,7 +1917,7 @@ nav#wizardNav ul {
 
 
 .project-timeline-wrapper {
-    text-align:center;
+    text-align: center;
 
     .timeline-button {
         background: #ccc;
@@ -1926,42 +1926,49 @@ nav#wizardNav ul {
     }
 
     .timeline-year-group {
-        margin:15px 0;
+        margin: 15px 0;
     }
+
     .timeline-quarter-group {
-        margin:15px 0;
+        margin: 15px 0;
     }
 
     .timeline-day-group {
         position: relative;
-        margin:15px 0;
-        padding:15px 0;
+        margin: 15px 0;
+        padding: 15px 0;
 
         .timeline-day-group-label {
             position: absolute;
             background: @brand-primary;
-            color:#fff;
+            color: #fff;
             height: 50px;
             width: 50px;
             top: 50%;
             left: 50%;
             margin-top: -25px;
             margin-left: -25px;
-            text-align:center;
-            span {
-                display:block;
+            text-align: center;
 
+            span {
+                display: block;
             }
         }
     }
 
     .timeline-event-wrapper {
-        display:block;
-        width:100%;
-        float:left;
-        .timeline-event {
-            width:40%;
-            float:left;
+        display: block;
+        width: 100%;
+        float: left;
+
+        .timeline-event-left {
+            width: 40%;
+            float: left;
+        }
+
+        .timeline-event-right {
+            width: 40%;
+            float: right;
         }
     }
 }

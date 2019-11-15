@@ -37,6 +37,31 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, bool canEditProjectStatus)
+        {
+            var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if (canEditProjectStatus)
+            {
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(project.GetAddProjectProjectStatusFromGridUrl(), "Add Project Status Update:");
+            }
+
+            var projectStatusDisplayName = "no status";
+            var currentProjectStatus = project.GetCurrentProjectStatus();
+            if (currentProjectStatus != null)
+            {
+                var colorString = currentProjectStatus.ProjectStatusColor;
+                projectStatusDisplayName = $"<span style='color:{colorString}'>{currentProjectStatus.ProjectStatusDisplayName}</span>";
+            }
+
+
+            var returnString =
+                new HtmlString(
+                    $"{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}");
+            return returnString;
+
+        }
+
+
         private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
@@ -128,7 +153,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
                     Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
-                        , x => x.MakeProjectStatusAddLinkAndText(userHasEditProjectAsAdminPermissions)
+                        , x => MakeProjectStatusAddLinkAndText(x,userHasEditProjectAsAdminPermissions)
                         , 75
                         , DhtmlxGridColumnFilterType.Html);
                     break;

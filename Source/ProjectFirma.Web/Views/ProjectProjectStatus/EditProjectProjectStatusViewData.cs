@@ -43,8 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
                 .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
-            //UpdateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
-            //var newAddLink = ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.UpdateStatusUrl, "Create a new Status", true)
+
         }
     }
 

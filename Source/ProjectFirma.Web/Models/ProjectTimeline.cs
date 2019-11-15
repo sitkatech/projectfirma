@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using static LtInfo.Common.DateUtilities;
@@ -14,14 +16,32 @@ namespace ProjectFirma.Web.Models
 
         private List<IProjectTimelineEvent> TimelineEvents { get; }
 
-        public ProjectTimeline(Project project)
+        public ProjectTimeline(Project project, bool canEditProjectProjectStatus)
         {
             Project = project;
             TimelineEvents = new List<IProjectTimelineEvent>();
-            TimelineEvents.Add(GetTimelineCreateEvent(project));
-            TimelineEvents.Add(GetTimelineApprovalEvent(project));
-            TimelineEvents.AddRange(GetTimelineUpdateEvents(project));
-            GetGroupedTimelineEvents();
+            AddProjectCreateEventToTimelineIfExists();
+            AddProjectApprovalEventToTimelineIfExists();
+            TimelineEvents.AddRange(GetTimelineUpdateEvents(Project));
+            TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Project, canEditProjectProjectStatus));
+        }
+
+        private void AddProjectApprovalEventToTimelineIfExists()
+        {
+            var projectTimelineApprovalEvent = GetTimelineApprovalEvent(Project);
+            if (projectTimelineApprovalEvent != null)
+            {
+                TimelineEvents.Add(projectTimelineApprovalEvent);
+            }
+        }
+
+        private void AddProjectCreateEventToTimelineIfExists()
+        {
+            var projectTimelineCreateEvent = GetTimelineCreateEvent(Project);
+            if (projectTimelineCreateEvent != null)
+            {
+                TimelineEvents.Add(projectTimelineCreateEvent);
+            }
         }
 
         private ProjectTimelineCreateEvent GetTimelineCreateEvent(Project project)
@@ -38,7 +58,14 @@ namespace ProjectFirma.Web.Models
         {
             var approvedProjectUpdateBatches = project.ProjectUpdateBatches.Where(pub =>
                 pub.ProjectUpdateHistories.Any(pus => pus.ProjectUpdateState == ProjectUpdateState.Approved)).ToList();
-            return approvedProjectUpdateBatches.Any() ? approvedProjectUpdateBatches.Select(apub => new ProjectTimelineUpdateEvent(apub)).ToList() : null;
+            return approvedProjectUpdateBatches.Any() ? approvedProjectUpdateBatches.Select(apub => new ProjectTimelineUpdateEvent(apub)).ToList() : new List<ProjectTimelineUpdateEvent>();
+        }
+
+        private List<ProjectTimelineProjectStatusChangeEvent> GetTimelineProjectStatusChangeEvents(Project project, bool canEditProjecProjectStatus)
+        {
+            var projectStatusChangeEvents = project.ProjectProjectStatuses
+                .Select(x => new ProjectTimelineProjectStatusChangeEvent(x, canEditProjecProjectStatus)).ToList();
+            return projectStatusChangeEvents;
         }
 
         // this hopefully return some sort of grouped list for display
@@ -65,6 +92,16 @@ namespace ProjectFirma.Web.Models
             public int Year;
         }
 
+        public static HtmlString MakeProjectStatusEditLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus)
+        {
+            var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if (canEditProjectStatus)
+            {
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectProjectStatus.GetEditProjectProjectStatusUrl(), "Add Project Status Update Details:");
+            }
+            return editIconAsModalDialogLinkBootstrap;
+        }
+
     }
 
 
@@ -77,8 +114,9 @@ namespace ProjectFirma.Web.Models
         public string TimelineEventTypeDisplayName { get; }
         public string TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public string TimelineSide { get; }
+        public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
+        public HtmlString EditButton { get; }
 
         public ProjectTimelineCreateEvent(Project project)
         {
@@ -91,9 +129,36 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
             TimelineEventPersonDisplayName = project.ProposingPerson.GetFullNameFirstLast();
+            ProjectTimelineSide = ProjectTimelineSide.Left;
+            EditButton = new HtmlString(string.Empty);
 
         }
+    }
 
+
+    public class ProjectTimelineProjectStatusChangeEvent : IProjectTimelineEvent
+    {
+        public DateTime Date { get; }
+        public FiscalQuarter Quarter { get; }
+
+        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public string TimelineEventTypeDisplayName { get; }
+        public string TimelineEventPersonDisplayName { get; }
+        public string TimelineDetailsLink { get; }
+        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public string Color { get; }
+        public HtmlString EditButton { get; }
+
+        public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus)
+        {
+            Date = projectProjectStatus.ProjectProjectStatusUpdateDate;
+            Quarter = FirmaDateUtilities.CalculateFiscalQuarter((DateTime)Date);
+            ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
+            TimelineEventTypeDisplayName = "Status Updated";
+            TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
+            ProjectTimelineSide = ProjectTimelineSide.Right;
+            EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus);
+        }
     }
 
     public class ProjectTimelineApprovalEvent : IProjectTimelineEvent
@@ -105,8 +170,9 @@ namespace ProjectFirma.Web.Models
         public string TimelineEventTypeDisplayName { get; }
         public string TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public string TimelineSide { get; }
+        public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
+        public HtmlString EditButton { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
         {
@@ -119,6 +185,8 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
             TimelineEventPersonDisplayName = project.ReviewedByPerson.GetFullNameFirstLast();
+            ProjectTimelineSide = ProjectTimelineSide.Left;
+            EditButton = new HtmlString(string.Empty);
         }
 
     }
@@ -131,8 +199,9 @@ namespace ProjectFirma.Web.Models
         public string TimelineEventTypeDisplayName { get; }
         public string TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public string TimelineSide { get; }
+        public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
+        public HtmlString EditButton { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
         {
@@ -143,6 +212,8 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetFullNameFirstLast();
+            ProjectTimelineSide = ProjectTimelineSide.Left;
+            EditButton = new HtmlString(string.Empty);
         }
     }
 
@@ -156,15 +227,23 @@ namespace ProjectFirma.Web.Models
         string TimelineEventTypeDisplayName { get; }
         string TimelineEventPersonDisplayName { get; }
         string TimelineDetailsLink { get; }
-        string TimelineSide { get; }
+        ProjectTimelineSide ProjectTimelineSide { get; }
         string Color { get; }
+        HtmlString EditButton { get; }
     }
 
     public enum ProjectTimelineEventType
     {
         Create,
         Approve,
-        Update
+        Update,
+        ProjectStatusChange
+    }
+
+    public enum ProjectTimelineSide
+    {
+        Left,
+        Right
     }
 
     public class SitkaProjectTimelineException : Exception
@@ -173,5 +252,8 @@ namespace ProjectFirma.Web.Models
         {
         }
     }
+
+
+
 
 }

@@ -248,6 +248,7 @@ namespace ProjectFirmaModels.Models
         NumberOfProjectsWithSecuredFunds = 298,
         TotalProjectSecuredFunds = 299,
         TotalProjectTargetedFunds = 300,
-        ProjectStatus = 301
+        ProjectStatus = 301,
+        ProjectStatusUpdate = 302
     }
 }

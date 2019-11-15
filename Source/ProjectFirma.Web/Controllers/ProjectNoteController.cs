@@ -118,39 +118,37 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 
-        //[HttpGet]
-        //[ProjectNoteManageAsAdminFeature]
-        //public PartialViewResult DeleteProjectNote(ProjectNotePrimaryKey projectNotePrimaryKey)
-        //{
-        //    var projectNote = projectNotePrimaryKey.EntityObject;
-        //    var viewModel = new ConfirmDialogFormViewModel(projectNote.ProjectNoteID);
-        //    return ViewDeleteProjectNote(projectNote, viewModel);
-        //}
+        [HttpGet]
+        [ProjectEditAsAdminFeature]
+        public PartialViewResult DeleteProjectProjectStatus(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        {
+            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectProjectStatus.ProjectProjectStatusID);
+            return ViewDeleteProjectProjectStatus(projectProjectStatus, viewModel);
+        }
 
-        //private PartialViewResult ViewDeleteProjectNote(ProjectNote projectNote, ConfirmDialogFormViewModel viewModel)
-        //{
-        //    var canDelete = !projectNote.HasDependentObjects();
-        //    var confirmMessage = canDelete
-        //        ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectNote.Project.GetDisplayName()}'?"
-        //        : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabel()}");
+        private PartialViewResult ViewDeleteProjectProjectStatus(ProjectProjectStatus projectProjectStatus, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = !projectProjectStatus.HasDependentObjects();
+            var confirmMessage = canDelete
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
 
-        //    var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
-
-        //    return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        //}
-
-        //[HttpPost]
-        //[ProjectNoteManageAsAdminFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult DeleteProjectNote(ProjectNotePrimaryKey projectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
-        //{
-        //    var projectNote = projectNotePrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewDeleteProjectNote(projectNote, viewModel);
-        //    }
-        //    projectNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
-        //    return new ModalDialogFormJsonResult();
-        //}
+        [HttpPost]
+        [ProjectEditAsAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteProjectProjectStatus(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteProjectProjectStatus(projectProjectStatus, viewModel);
+            }
+            projectProjectStatus.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            return new ModalDialogFormJsonResult();
+        }
     }
 }

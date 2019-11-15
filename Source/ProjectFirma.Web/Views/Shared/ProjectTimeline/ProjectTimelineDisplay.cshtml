@@ -33,6 +33,10 @@
 
  @if (ViewDataTyped.ProjectTimeline != null)
  {
+     <div class="row pull-right">
+         <span style="margin-right: 15px;"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+        
+     </div>
      var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
      <div class="project-timeline-wrapper">
          @foreach (var yearGroup in groupedTimelineEvents)
@@ -54,7 +58,7 @@
                                  @foreach (var projectTimelineEvent in dayGroup)
                                  {
                                      <div class="timeline-event-wrapper">
-                                         <div class="timeline-event">
+                                         <div class="@(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")">
                                              <div class="timeline-event-header">
                                                  <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
                                                  <span class="timeline-event-date">@projectTimelineEvent.Date.ToString("MMM dd, yyyy h:mm tt")</span>

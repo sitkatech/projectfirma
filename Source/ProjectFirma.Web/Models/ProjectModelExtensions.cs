@@ -89,30 +89,6 @@ namespace ProjectFirma.Web.Models
             return AddProjectProjectStatusFromGridUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
-        public static HtmlString MakeProjectStatusAddLinkAndText(this Project project, bool canEditProjectStatus)
-        {
-            var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            if (canEditProjectStatus)
-            {
-                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(project.GetAddProjectProjectStatusFromGridUrl(), "Add Project Status Update:");
-            }
-                
-            var projectStatusDisplayName = "no status";
-            var currentProjectStatus = project.GetCurrentProjectStatus();
-            if (currentProjectStatus != null)
-            {
-                var colorString = currentProjectStatus.ProjectStatusColor;
-                projectStatusDisplayName = $"<span style='color:{colorString}'>{currentProjectStatus.ProjectStatusDisplayName}</span>";
-            }
-          
-            
-            var returnString =
-                new HtmlString(
-                    $"{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}");
-            return returnString;
-
-        }
-
         public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProjectProposal(UrlTemplate.Parameter1Int)));
         public static string GetDeleteProposalUrl(this Project project)
         {

@@ -153,6 +153,7 @@
     <Compile Include="Models\ProjectLocationFilterTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectTimeline.cs" />

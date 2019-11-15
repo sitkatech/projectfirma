@@ -1623,7 +1623,11 @@ nav#wizardNav ul li.workflowSection a:hover {
   width: 100%;
   float: left;
 }
-.project-timeline-wrapper .timeline-event-wrapper .timeline-event {
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event-left {
   width: 40%;
   float: left;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event-right {
+    width: 40%;
+    float: right;
 }
