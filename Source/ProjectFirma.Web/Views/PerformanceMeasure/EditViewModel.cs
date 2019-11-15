@@ -56,6 +56,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureIsSummable)]
         public bool? IsSummable { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively)]
+        public bool? CanBeChartedCumulatively { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -71,6 +75,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             MeasurementUnitTypeID = performanceMeasure.MeasurementUnitTypeID;
             PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
             IsSummable = performanceMeasure.IsSummable;
+            CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
@@ -80,6 +85,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             performanceMeasure.MeasurementUnitTypeID = MeasurementUnitTypeID;
             performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
             performanceMeasure.IsSummable = IsSummable.GetValueOrDefault(); // will never be null due to RequiredAttribute
+            performanceMeasure.CanBeChartedCumulatively = CanBeChartedCumulatively.GetValueOrDefault(); // will never be null due to RequiredAttribute
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -88,7 +88,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Name</div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>Name</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
                 </div>
                 <div class="row">
@@ -100,12 +100,16 @@
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
