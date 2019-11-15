@@ -367,7 +367,7 @@ namespace ProjectFirma.Web.Controllers
                 MeasurementUnitTypeEnum.Dollars, expenditureGooglePieChartSlices, googleChartType,
                 googleChartDataTable);
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
-                googleChartType, googleChartDataTable, null);
+                googleChartType, googleChartDataTable, null, false);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var viewData = new BackwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
@@ -391,7 +391,7 @@ namespace ProjectFirma.Web.Controllers
                 fundingSourceRequestAmountGooglePieChartSlices, googleChartType, googleChartDataTable) {PieSliceText = "value"};
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType,
-                googleChartDataTable, null);
+                googleChartDataTable, null, false);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 

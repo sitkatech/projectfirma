@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Models
                 new GoogleChartAxis(FieldDefinitionEnum.ReportingYear.ToType().GetFieldDefinitionLabel(), null, null),
                 new List<GoogleChartAxis> { googleChartAxis });
             var googleChart = new GoogleChartJson(chartTitle, chartContainerID, googleChartConfiguration,
-                googleChartType, googleChartDataTable, null);
+                googleChartType, googleChartDataTable, null, false);
             return googleChart;
         }
 

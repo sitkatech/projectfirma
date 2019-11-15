@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
                 
                 var googleChartJson = new GoogleChartJson(legendTitle, $"{chartUniqueName}{chartName}", chartConfiguration,
                     performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
-                    chartColumns, saveConfigurationUrl, resetConfigurationUrl);
+                    chartColumns, saveConfigurationUrl, resetConfigurationUrl, performanceMeasure.CanBeChartedCumulatively.GetValueOrDefault());
                 googleChartJsons.Add(googleChartJson);
             }
             return googleChartJsons;
