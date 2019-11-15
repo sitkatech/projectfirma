@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
+            var projects = GetProjectEnumerableWithIncludesForPerformance().ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -104,9 +104,22 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
+            var projects = GetProjectEnumerableWithIncludesForPerformance().ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
+        }
+
+        private static IQueryable<Project> GetProjectEnumerableWithIncludesForPerformance()
+        {
+            var projectEnum = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals)
+                .Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures)
+                .Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas)
+                .Include(x => x.ProjectOrganizations)
+                .Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues))
+                .Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag))
+                .Include(x => x.PrimaryContactPerson)
+                .Include(x => x.ProjectProjectStatuses);
+            return projectEnum;
         }
 
         // Projects where current user's organization is lead implementer or project steward for custom Default grid

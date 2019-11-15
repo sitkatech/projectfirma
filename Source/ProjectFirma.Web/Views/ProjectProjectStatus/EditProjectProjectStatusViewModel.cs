@@ -35,7 +35,11 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
 
         [Required]
         [DisplayName("Project Status")]
-        public int ProjectStatusID { get; set; }
+        public int? ProjectStatusID { get; set; }
+
+        [Required]
+        [DisplayName("Project Status Update Date")]
+        public DateTime? ProjectStatusUpdateDate { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -44,14 +48,27 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         {
         }
 
+        /// <summary>
+        /// Needed by the ModelBinder
+        /// </summary>
+        public EditProjectProjectStatusViewModel(DateTime projectStatusUpdateDate)
+        {
+            ProjectStatusUpdateDate = projectStatusUpdateDate;
+        }
+
 
         public EditProjectProjectStatusViewModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus)
         {
+            ProjectProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
+            ProjectStatusID = projectProjectStatus.ProjectStatusID;
+            ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
+            projectProjectStatus.ProjectStatusID = ProjectStatusID.Value;
+            projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
                 projectProjectStatus.ProjectProjectStatusCreateDate = DateTime.Now;
@@ -59,11 +76,9 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             }
             else
             {
-                projectProjectStatus.ProjectProjectStatusLastUpdatedDate = DateTime.Now;
-                projectProjectStatus.ProjectProjectStatusLastUpdatedPerson = currentFirmaSession.Person;
+                projectProjectStatus.ProjectProjectStatusLastEditedDate = DateTime.Now;
+                projectProjectStatus.ProjectProjectStatusLastEditedPerson = currentFirmaSession.Person;
             }
-
-            projectProjectStatus.ProjectProjectStatusID = ProjectStatusID;
         }
     }
 }

@@ -88,9 +88,6 @@
     @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
     {
         <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
-
-
-        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.UpdateStatusUrl, "Create a new Status", true)
         
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>

@@ -149,7 +149,6 @@ namespace ProjectFirma.Web.Views.Project
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
-            UpdateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();

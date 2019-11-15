@@ -18,9 +18,57 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
     public class EditProjectProjectStatusViewData : FirmaUserControlViewData
     {
+
+        public IEnumerable<SelectListItem> ProjectStatuses { get; }
+        public ProjectStatusJsonList ProjectStatusJsonList { get; }
+
+        public bool AllowEditUpdateDate { get; }
+
+        public EditProjectProjectStatusViewData(bool allowEditUpdateDate)
+        {
+
+            ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder)
+                .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
+            ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
+            AllowEditUpdateDate = allowEditUpdateDate;
+            //UpdateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
+            //var newAddLink = ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.UpdateStatusUrl, "Create a new Status", true)
+        }
+    }
+
+    public class ProjectStatusJsonList
+    {
+        public Dictionary<int,ProjectStatusJson> ProjectStatusJsons { get; set; }
+
+        public ProjectStatusJsonList(List<ProjectStatusJson> projectStatusJsons)
+        {
+            ProjectStatusJsons = projectStatusJsons.ToDictionary(x => x.ProjectStatusID, x=> x);
+        }
+    }
+
+    public class ProjectStatusJson
+    {
+        public string Color { get; set; }
+        public int ProjectStatusID { get; set; }
+        public string ProjectStatusDisplayName { get; set; }
+
+        public ProjectStatusJson(ProjectStatus projectStatus)
+        {
+            Color = projectStatus.ProjectStatusColor;
+            ProjectStatusID = projectStatus.ProjectStatusID;
+            ProjectStatusDisplayName = projectStatus.ProjectStatusDisplayName;
+        }
     }
 }

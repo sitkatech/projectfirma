@@ -130,24 +130,24 @@ namespace ProjectFirmaModels.Models
     public partial class ProjectStatusGreen : ProjectStatus
     {
         private ProjectStatusGreen(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
-        public static readonly ProjectStatusGreen Instance = new ProjectStatusGreen(1, @"Green", @"Green", 5, @"#dbbdff");
+        public static readonly ProjectStatusGreen Instance = new ProjectStatusGreen(1, @"Green", @"Green", 5, @"#04AF70");
     }
 
     public partial class ProjectStatusYellow : ProjectStatus
     {
         private ProjectStatusYellow(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
-        public static readonly ProjectStatusYellow Instance = new ProjectStatusYellow(2, @"Yellow", @"Yellow", 20, @"#80B2FF");
+        public static readonly ProjectStatusYellow Instance = new ProjectStatusYellow(2, @"Yellow", @"Yellow", 20, @"#D0B001");
     }
 
     public partial class ProjectStatusRed : ProjectStatus
     {
         private ProjectStatusRed(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
-        public static readonly ProjectStatusRed Instance = new ProjectStatusRed(3, @"Red", @"Red", 30, @"#1975FF");
+        public static readonly ProjectStatusRed Instance = new ProjectStatusRed(3, @"Red", @"Red", 30, @"#FF0000");
     }
 
     public partial class ProjectStatusOnHold : ProjectStatus
     {
         private ProjectStatusOnHold(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
-        public static readonly ProjectStatusOnHold Instance = new ProjectStatusOnHold(4, @"OnHold", @"On Hold", 50, @"#000066");
+        public static readonly ProjectStatusOnHold Instance = new ProjectStatusOnHold(4, @"OnHold", @"On Hold", 50, @"#800080");
     }
 }
