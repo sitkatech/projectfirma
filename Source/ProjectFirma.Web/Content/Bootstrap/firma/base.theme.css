@@ -44,13 +44,13 @@
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: local('EB Garamond Regular'), local('EBGaramond-Regular'), url(https://fonts.gstatic.com/s/ebgaramond/v11/SlGUmQSNjdsmc35JDF1K5GR1SDw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: local('EB Garamond Bold'), local('EBGaramond-Bold'), url(https://fonts.gstatic.com/s/ebgaramond/v11/SlGJmQSNjdsmc35JDF1K5GzObSwSQgs.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -1583,4 +1583,47 @@ nav#wizardNav ul li.workflowSection a:hover {
     border-left: 8px solid #3e72b0;
     z-index: 1000;
   }
+}
+.project-timeline-wrapper {
+  text-align: center;
+}
+.project-timeline-wrapper .timeline-button {
+  background: #ccc;
+  border: none;
+  padding: 10px 15px;
+}
+.project-timeline-wrapper .timeline-year-group {
+  margin: 15px 0;
+}
+.project-timeline-wrapper .timeline-quarter-group {
+  margin: 15px 0;
+}
+.project-timeline-wrapper .timeline-day-group {
+  position: relative;
+  margin: 15px 0;
+  padding: 15px 0;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label {
+  position: absolute;
+  background: #337ab7;
+  color: #fff;
+  height: 50px;
+  width: 50px;
+  top: 50%;
+  left: 50%;
+  margin-top: -25px;
+  margin-left: -25px;
+  text-align: center;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span {
+  display: block;
+}
+.project-timeline-wrapper .timeline-event-wrapper {
+  display: block;
+  width: 100%;
+  float: left;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event {
+  width: 40%;
+  float: left;
 }

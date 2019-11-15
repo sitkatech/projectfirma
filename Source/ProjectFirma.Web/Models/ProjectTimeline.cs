@@ -21,6 +21,7 @@ namespace ProjectFirma.Web.Models
             TimelineEvents.Add(GetTimelineCreateEvent(project));
             TimelineEvents.Add(GetTimelineApprovalEvent(project));
             TimelineEvents.AddRange(GetTimelineUpdateEvents(project));
+            GetGroupedTimelineEvents();
         }
 
         private ProjectTimelineCreateEvent GetTimelineCreateEvent(Project project)
@@ -41,16 +42,31 @@ namespace ProjectFirma.Web.Models
         }
 
         // this hopefully return some sort of grouped list for display
-        public void GetGroupedTimelineEvents()
+        public List<IGrouping<int, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
-            // Checking in here, need to figure out a way to return something useful to the view. Not sure about these anonymous types
-            var groupedTimelineEvents = TimelineEvents
-                .GroupBy(x => new { x.Date.Day, x.Quarter, x.Date.Year })
-                .GroupBy(y => new { y.Key.Quarter, y.Key.Year })
+            var timelineEventsGrouped = TimelineEvents
+                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year })
+                .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year })
                 .GroupBy(z => z.Key.Year).ToList();
+            return timelineEventsGrouped;
+        }
+
+        public struct DayGroup
+        {
+            public int Day;
+            public FiscalQuarter Quarter;
+            public int Month;
+            public int Year;
+        }
+
+        public struct QuarterGroup
+        {
+            public FiscalQuarter Quarter;
+            public int Year;
         }
 
     }
+
 
     public class ProjectTimelineCreateEvent : IProjectTimelineEvent
     {

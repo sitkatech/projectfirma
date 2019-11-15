@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using System.Globalization
 @using ProjectFirmaModels.Models
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
@@ -25,8 +26,49 @@
 @using ProjectFirma.Web.Views.Shared.ProjectTimeline
 @inherits ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
 
+ <style>
+     
+ </style>
+ 
+
  @if (ViewDataTyped.ProjectTimeline != null)
  {
-     <div class="test">Testing!</div>
-
+     var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
+     <div class="project-timeline-wrapper">
+         @foreach (var yearGroup in groupedTimelineEvents)
+         {
+             <div class="timeline-year-group">
+                 <button class="timeline-button"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>@yearGroup.Key</button>
+                 @foreach (var quarterGroup in yearGroup)
+                 {
+                     <div class="timeline-quarter-group">
+                         <button class="timeline-button"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>@quarterGroup.Key.Quarter Quarter</button>
+                         @foreach (var dayGroup in quarterGroup)
+                         {
+                             var dayGroupDateTime = new DateTime(dayGroup.Key.Year, dayGroup.Key.Month, dayGroup.Key.Day);
+                             <div class="timeline-day-group">
+                                 <div class="timeline-day-group-label">
+                                     <span class="timeline-day-group-label-day">@dayGroupDateTime.Day</span>
+                                     <span class="timeline-day-group-label-month">@dayGroupDateTime.ToString("MMM", CultureInfo.InvariantCulture)</span>
+                                 </div>
+                                 @foreach (var projectTimelineEvent in dayGroup)
+                                 {
+                                     <div class="timeline-event-wrapper">
+                                         <div class="timeline-event">
+                                             <div class="timeline-event-header">
+                                                 <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
+                                                 <span class="timeline-event-date">@projectTimelineEvent.Date.ToString("MMM dd, yyyy h:mm tt")</span>
+                                             </div>
+                                             
+                                             @projectTimelineEvent.TimelineEventPersonDisplayName
+                                         </div>
+                                     </div>
+                                 }
+                             </div>
+                         }
+                     </div>
+                 }
+             </div>
+         }
+     </div>
  }
