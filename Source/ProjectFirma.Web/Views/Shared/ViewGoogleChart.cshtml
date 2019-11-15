@@ -169,40 +169,70 @@
         <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data available</p>
     }
 </div>
+
 <script type="text/javascript">
     jQuery(document).ready(function()
     {
-        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+        // Onchange function for multiple possible chart selector dropdowns - not called if neither dropdown exists
+        function chartSelector()
+        {
+            var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+            var chartName = "@ViewDataTyped.ChartUniqueName";
+            // Used when no subcategory options are available
+            var firstChartContainerID = googleCharts[0].containerId;
 
+            var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+            var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+            jQuery(".chartGroup" + chartName).css("display", "none");
+            // If no subcategory options
+            if (templateDropdown.length === 0)
+            {
+                if (cumulativeToggle.prop("checked")) {
+                    jQuery("#" + (firstChartContainerID + "Cumulative_container")).css("display", "");
+                }
+                else
+                {
+                    jQuery("#" + (firstChartContainerID + "_container")).css("display", "");
+                }
+            }
+            // Multiple subcategory options
+            else
+            {
+                if (cumulativeToggle.length === 0 || !cumulativeToggle.prop("checked")) {
+                    jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
+                }
+                else
+                {
+                    jQuery("#" + (templateDropdown.val() + "Cumulative_container")).css("display", "");
+                }
+            }
+            GoogleCharts.drawCharts(googleCharts);
+        }
+
+        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
         var chartName = "@ViewDataTyped.ChartUniqueName";
         var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
-        var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
         var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
 
+        var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
         if (itemCount > 1)
         {
-            templateDropdown.change(function()
-            {
-                jQuery(".chartGroup" + chartName).css("display", "none");
-                jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
-                @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
-                GoogleCharts.drawCharts(googleCharts);
-            });
-            templateDropdown.trigger("change");
+            templateDropdown.change(chartSelector);
         }
         else
         {
+            // Hide dropdown if there's only one choice
             jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
         }
-
         if ("@ViewDataTyped.CanBeChartedCumulatively" === "True")
         {
-            cumulativeToggle.change();
+            cumulativeToggle.change(chartSelector);
         }
+        // Call function to show appropriate chart
+        chartSelector();
 
-        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
+
         GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
-        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
-        jQuery(window).resize(function() { GoogleCharts.drawCharts(googleCharts); });
+        jQuery(window).resize(function () { GoogleCharts.drawCharts(googleCharts); });
     });
 </script>

@@ -89,9 +89,8 @@ namespace ProjectFirma.Web.Views.Shared
             GoogleChartConfiguration googleChartConfiguration,
             GoogleChartType googleChartType,
             GoogleChartDataTable googleChartDataTable,
-            List<string> chartColumns,
-            bool isCumulativeChart) : this(legendTitle, chartContainerID, googleChartConfiguration, googleChartType,
-            googleChartDataTable, chartColumns, null, null, isCumulativeChart)
+            List<string> chartColumns) : this(legendTitle, chartContainerID, googleChartConfiguration, googleChartType,
+            googleChartDataTable, chartColumns, null, null, false)
         {
         }
 

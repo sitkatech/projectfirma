@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ContentResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID)
+        public ContentResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative)
         {
             return new ContentResult();
         }
@@ -201,7 +201,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, GoogleChartConfigurationViewModel viewModel)
+        public ActionResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative, GoogleChartConfigurationViewModel viewModel)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
 
@@ -211,14 +211,14 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID);
+                viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID, isCumulative);
             }
             return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
         }
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID)
+        public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(performanceMeasure.PerformanceMeasureID);
@@ -236,7 +236,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, ConfirmDialogFormViewModel viewModel)
+        public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative, ConfirmDialogFormViewModel viewModel)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -247,9 +247,17 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
-            performanceMeasureSubcategory.ChartConfigurationJson =
-                JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
-            performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+            if (isCumulative)
+            {
+                performanceMeasureSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+                performanceMeasureSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+            }
+            else
+            {
+                performanceMeasureSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+            }
+            
 
             return new ModalDialogFormJsonResult();
         }
@@ -308,7 +316,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID);
+            var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false);
             viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };

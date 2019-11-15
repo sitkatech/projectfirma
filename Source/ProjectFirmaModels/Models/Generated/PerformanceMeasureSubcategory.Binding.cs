@@ -34,13 +34,15 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, int? googleChartTypeID) : this()
+        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, int? googleChartTypeID, string cumulativeChartConfigurationJson, int? cumulativeGoogleChartTypeID) : this()
         {
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureSubcategoryDisplayName = performanceMeasureSubcategoryDisplayName;
             this.ChartConfigurationJson = chartConfigurationJson;
             this.GoogleChartTypeID = googleChartTypeID;
+            this.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+            this.CumulativeGoogleChartTypeID = cumulativeGoogleChartTypeID;
         }
 
         /// <summary>
@@ -146,6 +148,8 @@ namespace ProjectFirmaModels.Models
         public string PerformanceMeasureSubcategoryDisplayName { get; set; }
         public string ChartConfigurationJson { get; set; }
         public int? GoogleChartTypeID { get; set; }
+        public string CumulativeChartConfigurationJson { get; set; }
+        public int? CumulativeGoogleChartTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
@@ -156,6 +160,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public GoogleChartType CumulativeGoogleChartType { get { return CumulativeGoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[CumulativeGoogleChartTypeID.Value] : null; } }
         public GoogleChartType GoogleChartType { get { return GoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[GoogleChartTypeID.Value] : null; } }
 
         public static class FieldLengths

@@ -33,11 +33,10 @@ namespace ProjectFirma.Web.Models
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                     x.SaveChartConfiguration(performanceMeasure,
-                        performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
+                        performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
                 var resetConfigurationUrl =
                     SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
-                        x.ResetChartConfiguration(performanceMeasure,
-                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID));
+                        x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
                 var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
                 if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
                 {
@@ -46,9 +45,39 @@ namespace ProjectFirma.Web.Models
                 
                 var googleChartJson = new GoogleChartJson(legendTitle, $"{chartUniqueName}{chartName}", chartConfiguration,
                     performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
-                    chartColumns, saveConfigurationUrl, resetConfigurationUrl, performanceMeasure.CanBeChartedCumulatively.GetValueOrDefault());
+                    chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                 googleChartJsons.Add(googleChartJson);
             }
+
+            // Add Cumulative charts if appropriate
+            if (performanceMeasure.CanBeChartedCumulatively)
+            {
+                foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart()))
+                {
+                    var performanceMeasureSubcategory = groupedBySubcategory.Key;
+                    var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
+                    var subcategoryOptions = groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList();
+                    var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
+                    var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
+                    var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, subcategoryOptions, performanceMeasure.IsSummable, reverseTooltipOrder);
+                    var chartColumns = performanceMeasure.HasRealSubcategories() ? subcategoryOptions : new List<string> { performanceMeasure.GetDisplayName() };
+                    var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
+                    var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}Cumulative";
+                    var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                    var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                    var chartConfiguration = !string.IsNullOrEmpty(performanceMeasureSubcategory.CumulativeChartConfigurationJson) ? JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.CumulativeChartConfigurationJson) : GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(performanceMeasureSubcategory.ChartConfigurationJson);
+
+                    if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
+                    {
+                        chartConfiguration.Tooltip = new GoogleChartTooltip(true);
+                    }
+
+                    var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, performanceMeasureSubcategory.CumulativeGoogleChartType ?? GoogleChartType.ColumnChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, true);
+                    googleChartJsons.Add(googleChartJson);
+                }
+            }
+
+
             return googleChartJsons;
         }
 

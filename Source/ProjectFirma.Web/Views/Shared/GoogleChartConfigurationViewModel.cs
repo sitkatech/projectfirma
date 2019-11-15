@@ -35,14 +35,23 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "chartType")]
         public string ChartType { get; set; }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID, bool isCumulative)
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             var googleChartType = ConverChartTypeStringToGoogleChartType();
-            performanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : (int?)null;
-            performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
+            if (isCumulative)
+            {
+                performanceMeasureSubcategory.CumulativeGoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                performanceMeasureSubcategory.CumulativeChartConfigurationJson = chartConfigurationString;
+            }
+            else
+            {
+                performanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
+            }
+            
         }
 
         public string CleanAndSerializeChartJsonString(string json)

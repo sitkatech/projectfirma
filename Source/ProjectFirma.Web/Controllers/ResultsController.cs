@@ -524,7 +524,7 @@ namespace ProjectFirma.Web.Controllers
             var summaryConfiguration = new GooglePieChartConfiguration(summaryChartTitle, MeasurementUnitTypeEnum.Dollars, googlePieChartSlices, GoogleChartType.PieChart, googleChartDataTable) { PieSliceText = "value-and-percentage" };
             summaryConfiguration.ChartArea.Top = 60;
             var summaryGoogleChart = new GoogleChartJson(summaryChartTitle, summaryChartContainerID, summaryConfiguration,
-                GoogleChartType.PieChart, googleChartDataTable, null, false);
+                GoogleChartType.PieChart, googleChartDataTable, null);
             summaryGoogleChart.CanConfigureChart = false;
 
             // set up Funding by Owner Org Type column chart
@@ -540,7 +540,7 @@ namespace ProjectFirma.Web.Controllers
             orgTypeChartConfig.SetSeriesIgnoringNullGoogleChartSeries(orgTypeGoogleChartDataTable);
             orgTypeChartConfig.Tooltip = new GoogleChartTooltip(true);
             orgTypeChartConfig.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
-            var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList(), false);
+            var orgTypeGoogleChart = new GoogleChartJson(statusByOrgTypeChartTitle, orgTypeChartContainerID, orgTypeChartConfig, GoogleChartType.ColumnChart, orgTypeGoogleChartDataTable, orgTypeToAmounts.Keys.Select(x => x.OrganizationTypeName).ToList());
             orgTypeGoogleChart.CanConfigureChart = false;
 
             var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
