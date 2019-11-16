@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Models
             // Add Cumulative charts if appropriate
             if (performanceMeasure.CanBeChartedCumulatively)
             {
-                foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnChart()))
+                foreach (var groupedBySubcategory in performanceMeasureSubcategoryOptionReportedValues.Where(x => x.Key.ShowOnCumulativeChart()))
                 {
                     var performanceMeasureSubcategory = groupedBySubcategory.Key;
                     var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
