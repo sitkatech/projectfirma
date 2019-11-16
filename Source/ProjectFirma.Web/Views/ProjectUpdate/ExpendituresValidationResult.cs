@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             foreach (var fundingSource in missingFundingSourceYears)
             {
                 var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(fundingSource.Value));
-                errors.Add($"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
+                errors.Add($"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}. If there are no expenditures to report, save the form with zeros.");
             }                    
 
             return errors;
