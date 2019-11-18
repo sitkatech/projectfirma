@@ -13,10 +13,10 @@ namespace ProjectFirma.Web.Models
             return EditProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectID,projectProjectStatus.ProjectProjectStatusID);
         }
 
-        public static readonly UrlTemplate<int> DeleteProjectProjectStatusUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.DeleteProjectProjectStatus(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int,int> DeleteProjectProjectStatusUrlTemplate = new UrlTemplate<int,int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.DeleteProjectProjectStatus(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
         public static string GetDeleteProjectProjectStatusUrl(this ProjectProjectStatus projectProjectStatus)
         {
-            return DeleteProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectProjectStatusID);
+            return DeleteProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectID, projectProjectStatus.ProjectProjectStatusID);
         }
 
     }

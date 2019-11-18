@@ -69,7 +69,7 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
-    <Compile Include="Controllers\ProjectProjectStatusController.cs" />
+    <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -1039,7 +1039,7 @@
     <Compile Include="Controllers\ProjectImageController.cs" />
     <Compile Include="Controllers\ProjectImageUpdateController.cs" />
     <Compile Include="Controllers\ProjectLocationController.cs" />
-    <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectProjectStatusController.cs" />
     <Compile Include="Controllers\ProjectNoteUpdateController.cs" />
     <Compile Include="Controllers\ProjectOrganizationController.cs" />
     <Compile Include="Controllers\ProjectClassificationController.cs" />

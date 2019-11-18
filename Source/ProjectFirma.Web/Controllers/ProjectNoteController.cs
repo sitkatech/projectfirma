@@ -18,11 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System;
-using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -30,124 +26,96 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectProjectStatus;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class ProjectProjectStatusController : FirmaBaseController
+    public class ProjectNoteController : FirmaBaseController
     {
-        [HttpGet]
-        [ProjectEditAsAdminFeature]
-        public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
-            return ViewEdit(viewModel, false);
-        }
-
-        [HttpPost]
-        [ProjectEditAsAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewEdit(viewModel, false);
-            }
-            return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
-        }
-
-
         [HttpGet]
         [ProjectEditAsAdminFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
-            var viewModel = new EditProjectProjectStatusViewModel();
-            return ViewEdit(viewModel, true);
+            var viewModel = new EditNoteViewModel();
+            return ViewEdit(viewModel);
         }
 
         [HttpPost]
         [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
+        public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true);
+                return ViewEdit(viewModel);
             }
-            return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
-        }
-
-        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey,
-            EditProjectProjectStatusViewModel viewModel)
-        {
             var project = projectPrimaryKey.EntityObject;
-            var projectStatusFromViewModel = ProjectStatus.AllLookupDictionary[viewModel.ProjectStatusID.Value];
-            var projectProjectStatus =
-                ProjectProjectStatus.CreateNewBlank(project, projectStatusFromViewModel, CurrentFirmaSession.Person);
-            viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
-            HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses.Add(projectProjectStatus);
+            var projectNote = ProjectNote.CreateNewBlank(project);
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.AllProjectNotes.Add(projectNote);
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
-        public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        [ProjectNoteManageAsAdminFeature]
+        public PartialViewResult Edit(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
-            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
-            var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
-            return ViewEdit(viewModel, true);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            var viewModel = new EditNoteViewModel(projectNote.Note);
+            return ViewEdit(viewModel);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectNoteManageAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
+        public ActionResult Edit(ProjectNotePrimaryKey projectNotePrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true);
+                return ViewEdit(viewModel);
             }
-            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
-            viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            viewModel.UpdateModel(projectNote, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate)
+        private PartialViewResult ViewEdit(EditNoteViewModel viewModel)
         {
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate);
-            return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
+            var viewData = new EditNoteViewData();
+            return RazorPartialView<EditNote, EditNoteViewData, EditNoteViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
-        public PartialViewResult DeleteProjectProjectStatus(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        [ProjectNoteManageAsAdminFeature]
+        public PartialViewResult DeleteProjectNote(ProjectNotePrimaryKey projectNotePrimaryKey)
         {
-            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(projectProjectStatus.ProjectProjectStatusID);
-            return ViewDeleteProjectProjectStatus(projectProjectStatus, viewModel);
+            var projectNote = projectNotePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectNote.ProjectNoteID);
+            return ViewDeleteProjectNote(projectNote, viewModel);
         }
 
-        private PartialViewResult ViewDeleteProjectProjectStatus(ProjectProjectStatus projectProjectStatus, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteProjectNote(ProjectNote projectNote, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !projectProjectStatus.HasDependentObjects();
+            var canDelete = !projectNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectNote.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabel()}");
+
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectNoteManageAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteProjectProjectStatus(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteProjectNote(ProjectNotePrimaryKey projectNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            var projectNote = projectNotePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteProjectProjectStatus(projectProjectStatus, viewModel);
+                return ViewDeleteProjectNote(projectNote, viewModel);
             }
-            projectProjectStatus.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            projectNote.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }

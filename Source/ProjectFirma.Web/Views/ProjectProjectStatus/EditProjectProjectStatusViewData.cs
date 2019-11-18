@@ -35,14 +35,18 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public ProjectStatusJsonList ProjectStatusJsonList { get; }
 
         public bool AllowEditUpdateDate { get; }
+        public bool ShowCreatedBy { get; }
+        public string CreatedByPerson { get; }
 
-        public EditProjectProjectStatusViewData(bool allowEditUpdateDate)
+        public EditProjectProjectStatusViewData(bool allowEditUpdateDate, bool showCreatedBy, string createdByPerson)
         {
 
             ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder)
                 .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
+            ShowCreatedBy = showCreatedBy;
+            CreatedByPerson = createdByPerson;
 
         }
     }
