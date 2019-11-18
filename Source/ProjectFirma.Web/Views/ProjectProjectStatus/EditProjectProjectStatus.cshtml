@@ -24,12 +24,41 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
+
+
+
+
+
+
+<style>
+    
+    .deleteProjectProjectStatusRow .btn-firma .glyphicon {
+        color: white;
+    }
+
+    .deleteProjectProjectStatusRow .btn-firma {
+        margin-left: 15px;
+    }
+
+</style>
+
+
 @using (Html.BeginForm())
 {
 
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
+                
+                
+                <div class="form-group" style="@(ViewDataTyped.ShowCreatedBy ? "" : "display: none;")">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel("Project Status Update Created By")
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.CreatedByPerson
+                    </div>
+                </div>
 
                 <div class="form-group" style="@(ViewDataTyped.AllowEditUpdateDate ? "" : "display: none;")">
                     <div class="col-sm-4 control-label">
@@ -60,6 +89,13 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="pull-left deleteProjectProjectStatusRow">
+            @ViewDataTyped.DeleteButton
+        </div>
+
     </div>
 }
 

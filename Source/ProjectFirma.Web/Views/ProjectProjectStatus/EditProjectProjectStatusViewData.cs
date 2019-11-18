@@ -19,8 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
@@ -37,8 +39,12 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public bool AllowEditUpdateDate { get; }
         public bool ShowCreatedBy { get; }
         public string CreatedByPerson { get; }
+        public HtmlString DeleteButton { get; }
 
-        public EditProjectProjectStatusViewData(bool allowEditUpdateDate, bool showCreatedBy, string createdByPerson)
+        public EditProjectProjectStatusViewData(bool allowEditUpdateDate
+            , bool showCreatedBy
+            , string createdByPerson
+            , string deleteUrl)
         {
 
             ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder)
@@ -47,6 +53,12 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             AllowEditUpdateDate = allowEditUpdateDate;
             ShowCreatedBy = showCreatedBy;
             CreatedByPerson = createdByPerson;
+            DeleteButton = new HtmlString(string.Empty);
+            if (!string.IsNullOrEmpty(deleteUrl))
+            {
+                DeleteButton = ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, "Delete Status Update", true);
+            }
+            
 
         }
     }
