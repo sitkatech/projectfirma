@@ -81,18 +81,18 @@ namespace ProjectFirma.Web.Models
             }
             else if(performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
             {
-                //build chart for targets
+                //build chart for just for targets if there is no project data
                 var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.First();
                 var legendTitle = performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var chartConfiguration = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
                 var chartColumns = new List<string> { performanceMeasure.GetDisplayName() };
                 var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
-                var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, false);
+                var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, false, reverseTooltipOrder, false);
                 var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
                 var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
 
-                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, GoogleChartType.LineChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, true);
+                var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, GoogleChartType.LineChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                 googleChartJsons.Add(googleChartJson);
             }
 

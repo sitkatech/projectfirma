@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriods);
+            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.TargetValue.HasValue));
             PerformanceMeasureTargetValueTypeID = performanceMeasure.PerformanceMeasureReportingPeriods.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
         }
 

@@ -583,8 +583,8 @@ namespace ProjectFirma.Web.Controllers
                 : DateTime.Now.Year;
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
                 defaultReportingPeriodYear,
-                performanceMeasureTargetValueTypes.ToDictionary(x => x.PerformanceMeasureTargetValueTypeName, x => x.PerformanceMeasureTargetValueTypeID));
-            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular, performanceMeasureTargetValueTypes);
+                performanceMeasureTargetValueTypes);
+            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular);
             return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>(viewData, viewModel);
         }
 

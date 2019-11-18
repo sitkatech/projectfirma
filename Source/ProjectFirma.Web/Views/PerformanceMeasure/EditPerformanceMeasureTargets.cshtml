@@ -80,15 +80,14 @@ Source code is available upon request via <support@sitkatech.com>.
     <div>
         <div style="display: inline-block; width: 300px">
             <span>Set Targets by</span><br />
-            @foreach (var performanceMeasureTargetValueType in ViewDataTyped.PerformanceMeasureTargetValueTypes)
-            {
-                <div>
-                    <label>
-                        <input type="radio" name="targetType" ng-change="targetValueTypeChanged()" ng-model="AngularModel.PerformanceMeasureTargetValueTypeID" value="@performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeID" />
-                        @performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeDisplayName
-                    </label>
-                </div>
-            }
+
+            <div ng-repeat="performanceMeasureTargetValueType in AngularViewData.PerformanceMeasureTargetValueTypes">
+                <label ng-show="showTargetType(performanceMeasureTargetValueType)">
+                    <input type="radio" name="targetType" ng-change="targetValueTypeChanged()" ng-model="AngularModel.PerformanceMeasureTargetValueTypeID" value="{{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeID}}" />
+                    {{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeDisplayName}}
+                </label>
+            </div>
+            
         </div>
         <div ng-show="ShowOverallTargetInputs" style="display: inline-block; vertical-align: top">
             <span>Target: <input type="number" step="0.0001" ng-model="AngularModel.OverallTargetValue" /></span>
