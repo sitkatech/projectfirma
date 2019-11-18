@@ -7,10 +7,10 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectProjectStatusExtensions
     {
-        public static readonly UrlTemplate<int> EditProjectProjectStatusUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int,int> EditProjectProjectStatusUrlTemplate = new UrlTemplate<int,int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int,UrlTemplate.Parameter2Int)));
         public static string GetEditProjectProjectStatusUrl(this ProjectProjectStatus projectProjectStatus)
         {
-            return EditProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectProjectStatusID);
+            return EditProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectID,projectProjectStatus.ProjectProjectStatusID);
         }
 
         public static readonly UrlTemplate<int> DeleteProjectProjectStatusUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.DeleteProjectProjectStatus(UrlTemplate.Parameter1Int)));

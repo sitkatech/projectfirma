@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectEditAsAdminFeature]
-        public PartialViewResult Edit(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectEditAsAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
+        public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
