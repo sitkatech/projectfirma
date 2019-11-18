@@ -42,11 +42,11 @@
          @foreach (var yearGroup in groupedTimelineEvents)
          {
              <div class="timeline-year-group">
-                 <button class="timeline-button"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>@yearGroup.Key</button>
+                 <button class="timeline-button"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>@yearGroup.Key</button>
                  @foreach (var quarterGroup in yearGroup)
                  {
                      <div class="timeline-quarter-group">
-                         <button class="timeline-button"><span class="glyphicon glyphicon-resize-full" aria-hidden="true"></span>@quarterGroup.Key.Quarter Quarter</button>
+                         <button class="timeline-button"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>@quarterGroup.Key.Quarter Quarter</button>
                          @foreach (var dayGroup in quarterGroup)
                          {
                              var dayGroupDateTime = new DateTime(dayGroup.Key.Year, dayGroup.Key.Month, dayGroup.Key.Day);
@@ -58,14 +58,17 @@
                                  @foreach (var projectTimelineEvent in dayGroup)
                                  {
                                      <div class="timeline-event-wrapper">
-                                         <div class="@(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")">
+                                         <div class="timeline-event @(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color:@projectTimelineEvent.Color;">
                                              <div class="timeline-event-header">
-                                                 <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
+                                                 @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()))
+                                                 {
+                                                     <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
+                                                 }
                                                  <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
                                                  <span class="timeline-event-date">@projectTimelineEvent.Date.ToString("MMM dd, yyyy h:mm tt")</span>
                                              </div>
                                              
-                                             @projectTimelineEvent.TimelineEventPersonDisplayName
+                                             By @projectTimelineEvent.TimelineEventPersonDisplayName
                                          </div>
                                      </div>
                                  }
