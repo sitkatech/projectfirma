@@ -15,6 +15,7 @@ namespace ProjectFirma.Web.Models
         public Project Project { get; }
 
         private List<IProjectTimelineEvent> TimelineEvents { get; }
+        public const string DisplayClass = "open";
 
         public ProjectTimeline(Project project, bool canEditProjectProjectStatus)
         {
@@ -69,14 +70,15 @@ namespace ProjectFirma.Web.Models
         }
 
         // this hopefully return some sort of grouped list for display
-        public List<IGrouping<int, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
+        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
             var timelineEventsGrouped = TimelineEvents
                 .OrderByDescending(a => a.Date)
-                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year })
-                .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year })
-                .GroupBy(z => z.Key.Year)
+                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year }).ToList()
+                .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year }).ToList()
+                .GroupBy(z => new YearGroup {Year = z.Key.Year })
                 .ToList();
+
             return timelineEventsGrouped;
         }
 
@@ -93,6 +95,13 @@ namespace ProjectFirma.Web.Models
             public FiscalQuarter Quarter;
             public int Year;
         }
+
+        public struct YearGroup
+        {
+            public int Year;
+        }
+
+        
 
         public static HtmlString MakeProjectStatusEditLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus)
         {

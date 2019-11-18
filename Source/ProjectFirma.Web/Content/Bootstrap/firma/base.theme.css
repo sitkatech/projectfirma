@@ -1607,8 +1607,24 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-timeline-wrapper .timeline-button:focus {
   box-shadow: 0 0 0 0.2em #8dcdff;
 }
+.project-timeline-wrapper .timeline-button.open span {
+  transform: rotate(-90deg);
+}
 .project-timeline-wrapper .timeline-year-group {
   margin: 15px 0;
+}
+.project-timeline-wrapper .timeline-quarter-group-wrapper,
+.project-timeline-wrapper .timeline-year-group-wrapper {
+  max-height: 0;
+  float: left;
+  width: 100%;
+  overflow: hidden;
+  transition: max-height 0.25s;
+  -webkit-transition: max-height 0.25s;
+}
+.project-timeline-wrapper .timeline-quarter-group-wrapper.open,
+.project-timeline-wrapper .timeline-year-group-wrapper.open {
+  max-height: 8000px;
 }
 .project-timeline-wrapper .timeline-quarter-group {
   width: 100%;
@@ -1670,6 +1686,7 @@ nav#wizardNav ul li.workflowSection a:hover {
   display: block;
   width: 100%;
   float: left;
+  padding: 0 5px;
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event {
   padding: 10px;

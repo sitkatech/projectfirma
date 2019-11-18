@@ -1933,18 +1933,36 @@ nav#wizardNav ul {
             margin-right: 5px;
             font-size: 11px;
         }
+
+        &:hover {
+            background-color: #c8c8c8;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 .2em #8dcdff;
+        }
+
+        &.open span {
+            transform: rotate(-90deg)
+        }
     }
 
-    .timeline-button:hover {
-        background-color: #c8c8c8;
-    }
-
-    .timeline-button:focus {
-        box-shadow: 0 0 0 .2em #8dcdff;
-    }
 
     .timeline-year-group {
         margin: 15px 0;
+    }
+
+    .timeline-quarter-group-wrapper, .timeline-year-group-wrapper {
+        max-height: 0;
+        float: left;
+        width: 100%;
+        overflow: hidden;
+        transition: max-height .25s;
+        -webkit-transition: max-height .25s;
+
+        &.open {
+            max-height: 8000px;
+        }
     }
 
     .timeline-quarter-group {
@@ -1969,45 +1987,46 @@ nav#wizardNav ul {
             margin-left: -25px;
             text-align: center;
             line-height: 1;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
             span {
                 display: block;
             }
 
             span.timeline-day-group-label-day {
                 font-weight: 700;
-                font-size:24px;
+                font-size: 24px;
             }
 
             span.timeline-day-group-label-month {
-                font-weight:  200;
-                text-transform:uppercase;
+                font-weight: 200;
+                text-transform: uppercase;
             }
         }
-    }
 
-    .timeline-day-group:before {
-        content: '';
-        width: 2px;
-        position: absolute;
-        bottom: calc(50% + 30px);
-        top: 0;
-        background: #bbb;
-        left: 50%;
-        margin-left: -1px;
-    }
+        &:before {
+            content: '';
+            width: 2px;
+            position: absolute;
+            bottom: calc(50% + 30px);
+            top: 0;
+            background: #bbb;
+            left: 50%;
+            margin-left: -1px;
+        }
 
-    .timeline-day-group:after {
-        content: '';
-        width: 2px;
-        position: absolute;
-        top: calc(50% + 30px);
-        bottom: 0;
-        background: #bbb;
-        left: 50%;
-        margin-left: -1px;
+        &:after {
+            content: '';
+            width: 2px;
+            position: absolute;
+            top: calc(50% + 30px);
+            bottom: 0;
+            background: #bbb;
+            left: 50%;
+            margin-left: -1px;
+        }
     }
 
 
@@ -2016,7 +2035,7 @@ nav#wizardNav ul {
         display: block;
         width: 100%;
         float: left;
-
+        padding:0 5px;
         .timeline-event {
             padding: 10px;
             box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
