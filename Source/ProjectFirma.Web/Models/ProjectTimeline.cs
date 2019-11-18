@@ -105,9 +105,13 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
         {
-            var editIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.ModalDialogFormLink("Show Details",
-                projectProjectStatus.GetProjectProjectStatusDetailsUrl(), "Project Status Update Details", 900, "Save",
-                "Cancel", new List<string>(), null, null);
+            var editIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
+                "Show Details",
+                projectProjectStatus.GetProjectProjectStatusDetailsUrl()
+                , "Project Status Update Details"
+                , 900
+                ,"Close"
+                , new List<string>());
             return editIconAsModalDialogLinkBootstrap;
         }
 
