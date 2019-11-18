@@ -1586,22 +1586,38 @@ nav#wizardNav ul li.workflowSection a:hover {
 }
 .project-timeline-wrapper {
   text-align: center;
+  width: 100%;
+  float: left;
 }
 .project-timeline-wrapper .timeline-button {
-  background: #ccc;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  background: #F4F4F4;
   border: none;
-  padding: 10px 15px;
+  padding: 5px 15px;
+  margin: 5px 0;
+}
+.project-timeline-wrapper .timeline-button span {
+  margin-right: 5px;
+  font-size: 11px;
+}
+.project-timeline-wrapper .timeline-button:hover {
+  background-color: #c8c8c8;
+}
+.project-timeline-wrapper .timeline-button:focus {
+  box-shadow: 0 0 0 0.2em #8dcdff;
 }
 .project-timeline-wrapper .timeline-year-group {
   margin: 15px 0;
 }
 .project-timeline-wrapper .timeline-quarter-group {
-  margin: 15px 0;
+  width: 100%;
+  float: left;
 }
 .project-timeline-wrapper .timeline-day-group {
   position: relative;
-  margin: 15px 0;
-  padding: 15px 0;
+  width: 100%;
+  float: left;
 }
 .project-timeline-wrapper .timeline-day-group .timeline-day-group-label {
   position: absolute;
@@ -1614,20 +1630,75 @@ nav#wizardNav ul li.workflowSection a:hover {
   margin-top: -25px;
   margin-left: -25px;
   text-align: center;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .project-timeline-wrapper .timeline-day-group .timeline-day-group-label span {
   display: block;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span.timeline-day-group-label-day {
+  font-weight: 700;
+  font-size: 24px;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span.timeline-day-group-label-month {
+  font-weight: 200;
+  text-transform: uppercase;
+}
+.project-timeline-wrapper .timeline-day-group:before {
+  content: '';
+  width: 2px;
+  position: absolute;
+  bottom: calc(50% + 30px);
+  top: 0;
+  background: #bbb;
+  left: 50%;
+  margin-left: -1px;
+}
+.project-timeline-wrapper .timeline-day-group:after {
+  content: '';
+  width: 2px;
+  position: absolute;
+  top: calc(50% + 30px);
+  bottom: 0;
+  background: #bbb;
+  left: 50%;
+  margin-left: -1px;
 }
 .project-timeline-wrapper .timeline-event-wrapper {
   display: block;
   width: 100%;
   float: left;
 }
-.project-timeline-wrapper .timeline-event-wrapper .timeline-event-left {
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event {
+  padding: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   width: 40%;
-  float: left;
+  text-align: left;
+  margin: 10px 0;
 }
-.project-timeline-wrapper .timeline-event-wrapper .timeline-event-right {
-    width: 40%;
-    float: right;
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header {
+  float: left;
+  width: 100%;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-type {
+  float: left;
+  font-weight: bold;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-date {
+  opacity: 0.8;
+  float: right;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-edit-link {
+  float: left;
+  margin-right: 10px;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event.timeline-event-left {
+  float: left;
+  border-right: 5px solid #337ab7;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event.timeline-event-right {
+  float: right;
+  border-left: 5px solid #5bc0de;
 }
