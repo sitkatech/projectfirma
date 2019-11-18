@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using static LtInfo.Common.DateUtilities;
@@ -102,6 +103,17 @@ namespace ProjectFirma.Web.Models
             return editIconAsModalDialogLinkBootstrap;
         }
 
+        public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
+        {
+            var editIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.ModalDialogFormLink("Show Details",
+                projectProjectStatus.GetProjectProjectStatusDetailsUrl(), "Project Status Update Details", 900, "Save",
+                "Cancel", new List<string>(), null, null);
+            return editIconAsModalDialogLinkBootstrap;
+        }
+
+
+        
+
     }
 
 
@@ -117,6 +129,8 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString ShowDetailsLinkHtmlString { get; }
+
 
         public ProjectTimelineCreateEvent(Project project)
         {
@@ -131,6 +145,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = project.ProposingPerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
 
         }
     }
@@ -148,6 +163,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus)
         {
@@ -158,6 +174,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Right;
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus);
+            ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
         }
     }
 
@@ -173,6 +190,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
         {
@@ -187,6 +205,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = project.ReviewedByPerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
         }
 
     }
@@ -202,6 +221,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
+        public HtmlString ShowDetailsLinkHtmlString { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
         {
@@ -214,6 +234,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
+            ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
         }
     }
 
@@ -230,6 +251,7 @@ namespace ProjectFirma.Web.Models
         ProjectTimelineSide ProjectTimelineSide { get; }
         string Color { get; }
         HtmlString EditButton { get; }
+        HtmlString ShowDetailsLinkHtmlString { get; }
     }
 
     public enum ProjectTimelineEventType

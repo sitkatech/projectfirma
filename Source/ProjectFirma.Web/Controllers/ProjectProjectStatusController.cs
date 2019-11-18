@@ -150,5 +150,15 @@ namespace ProjectFirma.Web.Controllers
             projectProjectStatus.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
+
+
+        [HttpGet]
+        [ProjectViewFeature]
+        public PartialViewResult Details(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        {
+            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            var viewData = new ProjectProjectStatusDetailsViewData(projectProjectStatus);
+           return RazorPartialView<ProjectProjectStatusDetails, ProjectProjectStatusDetailsViewData>(viewData);
+        }
     }
 }

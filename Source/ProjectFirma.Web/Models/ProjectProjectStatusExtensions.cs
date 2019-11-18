@@ -19,5 +19,15 @@ namespace ProjectFirma.Web.Models
             return DeleteProjectProjectStatusUrlTemplate.ParameterReplace(projectProjectStatus.ProjectID, projectProjectStatus.ProjectProjectStatusID);
         }
 
+        public static readonly UrlTemplate<int, int> ProjectProjectStatusDetailsUrlTemplate = new UrlTemplate<int, int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.Details(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
+        public static string GetProjectProjectStatusDetailsUrl(this ProjectProjectStatus projectProjectStatus)
+        {
+            return ProjectProjectStatusDetailsUrlTemplate.ParameterReplace(projectProjectStatus.ProjectID, projectProjectStatus.ProjectProjectStatusID);
+        }
+
+
+
+        
+
     }
 }
