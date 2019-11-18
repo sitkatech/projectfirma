@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
-            return ViewEdit(viewModel, false, false, string.Empty);
+            return ViewEdit(viewModel, false, false, null, null);
         }
 
         [HttpPost]
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, false, false, string.Empty);
+                return ViewEdit(viewModel, false, false, null, null);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
-            return ViewEdit(viewModel, true, false, String.Empty);
+            return ViewEdit(viewModel, true, false, null, null);
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true, false, String.Empty);
+                return ViewEdit(viewModel, true, false, null, null);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
-            return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast());
+            return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl());
         }
 
         [HttpPost]
@@ -106,15 +106,15 @@ namespace ProjectFirma.Web.Controllers
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast());
+                return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl());
             }
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay)
+        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay, string deleteUrl)
         {
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay);
+            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 
