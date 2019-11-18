@@ -72,9 +72,11 @@ namespace ProjectFirma.Web.Models
         public List<IGrouping<int, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
             var timelineEventsGrouped = TimelineEvents
+                .OrderByDescending(a => a.Date)
                 .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year })
                 .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year })
-                .GroupBy(z => z.Key.Year).ToList();
+                .GroupBy(z => z.Key.Year)
+                .ToList();
             return timelineEventsGrouped;
         }
 
@@ -158,6 +160,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Right;
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus);
+            Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
         }
     }
 
