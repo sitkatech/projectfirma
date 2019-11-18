@@ -6,6 +6,7 @@ using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using static LtInfo.Common.DateUtilities;
 
@@ -126,8 +127,23 @@ namespace ProjectFirma.Web.Models
             return editIconAsModalDialogLinkBootstrap;
         }
 
+        public static HtmlString MakeProjectUpdateDetailsLinkButton(ProjectUpdateBatch projectUpdateBatch)
+        {
+            var url = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ProjectUpdateBatchDiff(projectUpdateBatch));
+            return ModalDialogFormHelper.ModalDialogFormLink("diff-link-id",
+                "Show Details",
+                url,
+                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Change Log",
+                1000,
+                "hidden-save-button",
+                string.Empty,
+                "Close",
+                null,
+                null,
+                null,
+                null);
+        }
 
-        
 
     }
 
@@ -250,7 +266,7 @@ namespace ProjectFirma.Web.Models
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
-            ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
+            ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
         }
     }
 
