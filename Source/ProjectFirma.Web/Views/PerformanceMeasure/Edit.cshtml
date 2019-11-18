@@ -61,10 +61,23 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-sm-3 control-label">
             @Html.LabelWithSugarFor(m => m.IsSummable)
         </div>
-        <div class="col-sm-9"><div class="radio-inline">
-                <label>@Html.RadioButtonFor(m=>m.IsSummable, true) Yes</label>
+        <div class="col-sm-9">
+            <div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.IsSummable, true) Yes</label>
             </div><div class="radio-inline">
-                <label>@Html.RadioButtonFor(m=>m.IsSummable, false) No</label>
+                <label>@Html.RadioButtonFor(m => m.IsSummable, false) No</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.CanBeChartedCumulatively)
+        </div>
+        <div class="col-sm-9">
+            <div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.CanBeChartedCumulatively, true) Yes</label>
+            </div><div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.CanBeChartedCumulatively, false) No</label>
             </div>
         </div>
     </div>

@@ -29,57 +29,83 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ViewGoogleChart
 
-    <form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
-        @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsons)
-        {
-            @Html.Hidden("GoogleChartJsons[]", JObject.FromObject(googleChartJson).ToString(Formatting.None))
-        }
-        @Html.Hidden("ExcelFilename", ViewDataTyped.ChartTitle)
-        @Html.Hidden("MainColumnLabel", ViewDataTyped.MainColumnLabel)
-    </form>
-    <div class="chartHeader" style="overflow-y: hidden; vertical-align: top; min-height: 30px;">
-        @* ReSharper disable once UnknownCssClass *@
-        @if (ViewDataTyped.ShowChartTitle)
-        {
-            <div class="chartTitle">
-                @if (ViewDataTyped.PerformanceMeasure != null && ViewDataTyped.HyperlinkPerformanceMeasureName)
-                {
-                    <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
-                          onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)">
-                    </span>
-                    <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
-                }
-                else
-                {
-                    <b>@ViewDataTyped.ChartTitle</b>
-                }
-            </div>
-        }
-        @if (ViewDataTyped.GoogleChartJsons.Count == 1)
-        {
-            if (!ViewDataTyped.ChartTitle.Equals(ViewDataTyped.GoogleChartJsons.Single().LegendTitle, StringComparison.InvariantCultureIgnoreCase))
+<style>
+
+
+    .toggle-on, .toggle-off {
+        font-size: 12px;
+    }
+
+    .toggle {
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-bottom: 0;
+    }
+</style>
+
+<script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
+<link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" />
+
+
+<form id="@(ViewDataTyped.ChartUniqueName)_downloadChartDataForm" action="@ViewDataTyped.DownloadChartDataUrl" method="post">
+    @foreach (var googleChartJson in ViewDataTyped.GoogleChartJsons)
+    {
+        @Html.Hidden("GoogleChartJsons[]", JObject.FromObject(googleChartJson).ToString(Formatting.None))
+    }
+    @Html.Hidden("ExcelFilename", ViewDataTyped.ChartTitle)
+    @Html.Hidden("MainColumnLabel", ViewDataTyped.MainColumnLabel)
+</form>
+<div class="chartHeader" style="overflow-y: hidden; vertical-align: top; min-height: 30px;">
+    @* ReSharper disable once UnknownCssClass *@
+    @if (ViewDataTyped.ShowChartTitle)
+    {
+        <div class="chartTitle">
+            @if (ViewDataTyped.PerformanceMeasure != null && ViewDataTyped.HyperlinkPerformanceMeasureName)
             {
-                <div>
-                    By: @ViewDataTyped.GoogleChartJsons.Single().LegendTitle
-                </div>
+                <span class="helpicon glyphicon glyphicon-question-sign blue" title="Click to get more info on this @MultiTenantHelpers.GetPerformanceMeasureName()"
+                      onmouseover="ProjectFirma.Views.Methods.addHelpTooltipPopup(jQuery(this), @ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName.ToJS(), @ViewDataTyped.PerformanceMeasure.GetDefinitionAndGuidanceUrl().ToJS(), 430)">
+                </span>
+                <a href="@ViewDataTyped.PerformanceMeasure.GetSummaryUrl()" class="chartHeader">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</a>
             }
-        }
-        else
+            else
+            {
+                <b>@ViewDataTyped.ChartTitle</b>
+            }
+        </div>
+    }
+    @if (ViewDataTyped.GoogleChartJsons.Count(x => !x.IsCumulativeChart) == 1)
+    {
+        if (!ViewDataTyped.ChartTitle.Equals(ViewDataTyped.GoogleChartJsons.Single(x => !x.IsCumulativeChart).LegendTitle, StringComparison.InvariantCultureIgnoreCase))
         {
-            <div class="subcategorySelector" id="subcategorySelectorFor@(ViewDataTyped.ChartUniqueName)">
-                By:
-                @if (ViewDataTyped.SortChartsByLegendTitle)
-                {
-                    var htmlAttributes = new Dictionary<string, object> {{"class", "btn-sm btn-light btn"}, {"style", "text-align: left;"}};
-                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
-                }
-                else
-                {
-                    @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.ToSelectList(x => x.ChartContainerID, x => x.LegendTitle))
-                }
+            <div>
+                By: @ViewDataTyped.GoogleChartJsons.Single().LegendTitle
             </div>
         }
-    </div>
+    }
+    else
+    {
+        <div class="subcategorySelector" id="subcategorySelectorFor@(ViewDataTyped.ChartUniqueName)">
+            By:
+            @if (ViewDataTyped.SortChartsByLegendTitle)
+            {
+                var htmlAttributes = new Dictionary<string, object> { { "class", "btn-sm btn-light btn" }, { "style", "text-align: left;" } };
+                @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.Where(x => !x.IsCumulativeChart).OrderBy(x => x.LegendTitle).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle), htmlAttributes)
+            }
+            else
+            {
+                @Html.DropDownList("subcategoryDropdownFor" + ViewDataTyped.ChartUniqueName, ViewDataTyped.GoogleChartJsons.Where(x => !x.IsCumulativeChart).ToSelectList(x => x.ChartContainerID, x => x.LegendTitle))
+            }
+        </div>
+    }
+    <!-- Toggle Cumulative Results / Results By Year-->
+    @if (ViewDataTyped.CanBeChartedCumulatively)
+    {
+        <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
+            <strong>Cumulative: </strong>
+            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" data-toggle="toggle" data-size="mini" checked />
+        </div>
+    }
+</div>
 <div class="chartBody" style="@("height: " + ViewDataTyped.ChartHeight + "px;")">
     @if (ViewDataTyped.HasData)
     {
@@ -128,7 +154,6 @@
                 <div id="@googleChartJson.ChartContainerID" class="googleChart" style="margin-top: @(ViewDataTyped.GoogleChartJsons.Count == 1 ? "9px" : "7px"); height: @(ViewDataTyped.ChartHeight)px;">
                     <!-- Actual chart goes here-->
                 </div>
-
                 @if (ViewDataTyped.LastUpdatedDate.HasValue)
                 {
                     <small style="font-weight: normal;" class="pull-right">
@@ -136,7 +161,6 @@
                         @ViewDataTyped.LastUpdatedDate.ToStringDate()
                     </small>
                 }
-
             </div>
         }
     }
@@ -145,33 +169,70 @@
         <p class="systemText" style="text-align: center; margin-top: 20px;">No reported data available</p>
     }
 </div>
+
 <script type="text/javascript">
     jQuery(document).ready(function()
     {
-        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+        // Onchange function for multiple possible chart selector dropdowns - not called if neither dropdown exists
+        function chartSelector()
+        {
+            var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+            var chartName = "@ViewDataTyped.ChartUniqueName";
+            // Used when no subcategory options are available
+            var firstChartContainerID = googleCharts[0].containerId;
 
+            var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+            var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+            jQuery(".chartGroup" + chartName).css("display", "none");
+            // If no subcategory options
+            if (templateDropdown.length === 0)
+            {
+                if (cumulativeToggle.prop("checked")) {
+                    jQuery("#" + (firstChartContainerID + "Cumulative_container")).css("display", "");
+                }
+                else
+                {
+                    jQuery("#" + (firstChartContainerID + "_container")).css("display", "");
+                }
+            }
+            // Multiple subcategory options
+            else
+            {
+                if (cumulativeToggle.length === 0 || !cumulativeToggle.prop("checked")) {
+                    jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
+                }
+                else
+                {
+                    jQuery("#" + (templateDropdown.val() + "Cumulative_container")).css("display", "");
+                }
+            }
+            GoogleCharts.drawCharts(googleCharts);
+        }
+
+        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
         var chartName = "@ViewDataTyped.ChartUniqueName";
         var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+        var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+
         var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
         if (itemCount > 1)
         {
-            templateDropdown.change(function()
-            {
-                jQuery(".chartGroup" + chartName).css("display", "none");
-                jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
-                @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
-                GoogleCharts.drawCharts(googleCharts);
-            });
-            templateDropdown.trigger("change");
+            templateDropdown.change(chartSelector);
         }
         else
         {
+            // Hide dropdown if there's only one choice
             jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
         }
-        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
+        if ("@ViewDataTyped.CanBeChartedCumulatively" === "True")
+        {
+            cumulativeToggle.change(chartSelector);
+        }
+        // Call function to show appropriate chart
+        chartSelector();
+
+
         GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
-        @* ReSharper disable once UseOfImplicitGlobalInFunctionScope *@
-        jQuery(window).resize(function() { GoogleCharts.drawCharts(googleCharts); });
+        jQuery(window).resize(function () { GoogleCharts.drawCharts(googleCharts); });
     });
 </script>
-    

@@ -39,7 +39,7 @@ namespace ProjectFirma.Api.Controllers
             }
             var performanceMeasure = new PerformanceMeasure(performanceMeasureDto.PerformanceMeasureDisplayName,
                 measurementUnitType.MeasurementUnitTypeID, performanceMeasureType.PerformanceMeasureTypeID,
-                performanceMeasureDto.IsSummable, performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID);
+                performanceMeasureDto.IsSummable, performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID, performanceMeasureDto.CanBeChartedCumulatively);
             performanceMeasure.CriticalDefinitions = performanceMeasureDto.CriticalDefinitions;
             performanceMeasure.PerformanceMeasureDefinition = performanceMeasureDto.PerformanceMeasureDefinition;
             performanceMeasure.ProjectReporting = performanceMeasureDto.ProjectReporting;

@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PerformanceMeasureDataSourceTypeID).HasColumnName(@"PerformanceMeasureDataSourceTypeID").HasColumnType("int").IsRequired();
             Property(x => x.Importance).HasColumnName(@"Importance").HasColumnType("varchar").IsOptional();
             Property(x => x.AdditionalInformation).HasColumnName(@"AdditionalInformation").HasColumnType("varchar").IsOptional();
+            Property(x => x.CanBeChartedCumulatively).HasColumnName(@"CanBeChartedCumulatively").HasColumnType("bit").IsRequired();
 
             // Foreign keys
 

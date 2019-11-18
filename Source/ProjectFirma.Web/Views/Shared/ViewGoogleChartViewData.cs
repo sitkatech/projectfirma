@@ -29,20 +29,21 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public class ViewGoogleChartViewData : FirmaUserControlViewData
     {
-        public readonly List<GoogleChartJson> GoogleChartJsons;
-        public readonly string DownloadChartDataUrl;
-        public readonly string ChartPopupUrl;
-        public readonly string ChartTitle;
-        public readonly string MainColumnLabel;
-        public readonly string ChartUniqueName;
-        public readonly int ChartHeight;
-        public readonly DateTime? LastUpdatedDate;
-        public readonly bool CanConfigureChart;
-        public readonly bool HasData;
-        public readonly bool ShowChartTitle;
-        public readonly bool SortChartsByLegendTitle;
-        public readonly ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure;
-        public readonly bool HyperlinkPerformanceMeasureName;
+        public List<GoogleChartJson> GoogleChartJsons { get; }
+        public string DownloadChartDataUrl { get; }
+        public string ChartPopupUrl { get; }
+        public string ChartTitle { get; }
+        public string MainColumnLabel { get; }
+        public string ChartUniqueName { get; }
+        public int ChartHeight { get; }
+        public DateTime? LastUpdatedDate { get; }
+        public bool CanConfigureChart { get; }
+        public bool HasData { get; }
+        public bool ShowChartTitle { get; }
+        public bool SortChartsByLegendTitle { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
+        public bool HyperlinkPerformanceMeasureName { get; }
+        public bool  CanBeChartedCumulatively { get; }
 
         public ViewGoogleChartViewData(GoogleChartJson googleChartJson, string chartTitle, int chartHeight, bool showChartTitle) : this(googleChartJson == null ? new List<GoogleChartJson>() : new List<GoogleChartJson> {googleChartJson},
             chartTitle,
@@ -103,6 +104,7 @@ namespace ProjectFirma.Web.Views.Shared
             SortChartsByLegendTitle = sortChartsByLegendTitle;
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
+            CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
         }
     }
 }

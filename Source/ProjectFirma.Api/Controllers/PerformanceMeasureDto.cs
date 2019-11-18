@@ -19,7 +19,8 @@ namespace ProjectFirma.Api.Controllers
             MeasurementUnitTypeName = performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
             PerformanceMeasureSubcategories = performanceMeasure.PerformanceMeasureSubcategories
                 .Select(x => new PerformanceMeasureSubcategoryDto(x)).ToList();
-
+            CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
+            IsSummable = performanceMeasure.IsSummable;
         }
 
         public PerformanceMeasureDto()
@@ -41,6 +42,7 @@ namespace ProjectFirma.Api.Controllers
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsSummable { get; set; }
         public string PerformanceMeasureDataSourceTypeName { get; set; }
+        public bool CanBeChartedCumulatively { get; set; }
 
         public List<PerformanceMeasureSubcategoryDto> PerformanceMeasureSubcategories { get; set; }
         public string Importance { get; set; }
