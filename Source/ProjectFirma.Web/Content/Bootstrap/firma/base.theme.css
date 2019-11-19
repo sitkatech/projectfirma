@@ -1588,6 +1588,18 @@ nav#wizardNav ul li.workflowSection a:hover {
   text-align: center;
   width: 100%;
   float: left;
+  position: relative;
+}
+.project-timeline-wrapper:after {
+  z-index: 1;
+  content: '';
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  width: 2px;
+  margin-left: -1px;
+  background: #bbb;
+  left: 50%;
 }
 .project-timeline-wrapper .timeline-button {
   transition: all 0.25s;
@@ -1595,23 +1607,50 @@ nav#wizardNav ul li.workflowSection a:hover {
   background: #F4F4F4;
   border: none;
   padding: 5px 15px;
-  margin: 5px 0;
+  z-index: 2;
+  position: relative;
+  border: 5px solid #fff;
+  margin: 15px 0;
 }
 .project-timeline-wrapper .timeline-button span {
   margin-right: 5px;
   font-size: 11px;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
 }
 .project-timeline-wrapper .timeline-button:hover {
   background-color: #c8c8c8;
 }
 .project-timeline-wrapper .timeline-button:focus {
-  box-shadow: 0 0 0 0.2em #8dcdff;
+  box-shadow: inset 0 0 0 0.2em #8dcdff;
 }
 .project-timeline-wrapper .timeline-button.open span {
   transform: rotate(-90deg);
 }
+.project-timeline-wrapper .timeline-button:after {
+  content: "\e234";
+  position: absolute;
+  left: 50%;
+  bottom: -35px;
+  margin-left: -15px;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  width: 30px;
+  text-align: center;
+  background: #fff;
+  font-size: 30px;
+  color: #bbb;
+  line-height: 20px;
+}
+.project-timeline-wrapper .timeline-button.open:after {
+  display: none;
+}
 .project-timeline-wrapper .timeline-year-group {
-  margin: 15px 0;
+  position: relative;
+  float: left;
+  width: 100%;
 }
 .project-timeline-wrapper .timeline-quarter-group-wrapper,
 .project-timeline-wrapper .timeline-year-group-wrapper {
@@ -1621,6 +1660,7 @@ nav#wizardNav ul li.workflowSection a:hover {
   overflow: hidden;
   transition: max-height 0.25s;
   -webkit-transition: max-height 0.25s;
+  margin: 5px 0;
 }
 .project-timeline-wrapper .timeline-quarter-group-wrapper.open,
 .project-timeline-wrapper .timeline-year-group-wrapper.open {
@@ -1629,6 +1669,10 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-timeline-wrapper .timeline-quarter-group {
   width: 100%;
   float: left;
+  position: relative;
+}
+.project-timeline-wrapper .timeline-quarter-group .timeline-quarter-group-wrapper {
+  position: relative;
 }
 .project-timeline-wrapper .timeline-day-group {
   position: relative;
@@ -1636,20 +1680,22 @@ nav#wizardNav ul li.workflowSection a:hover {
   float: left;
 }
 .project-timeline-wrapper .timeline-day-group .timeline-day-group-label {
+  z-index: 2;
   position: absolute;
   background: #337ab7;
   color: #fff;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   top: 50%;
   left: 50%;
-  margin-top: -25px;
-  margin-left: -25px;
+  margin-top: -30px;
+  margin-left: -30px;
   text-align: center;
   line-height: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border: 5px solid #fff;
 }
 .project-timeline-wrapper .timeline-day-group .timeline-day-group-label span {
   display: block;
@@ -1661,26 +1707,6 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-timeline-wrapper .timeline-day-group .timeline-day-group-label span.timeline-day-group-label-month {
   font-weight: 200;
   text-transform: uppercase;
-}
-.project-timeline-wrapper .timeline-day-group:before {
-  content: '';
-  width: 2px;
-  position: absolute;
-  bottom: calc(50% + 30px);
-  top: 0;
-  background: #bbb;
-  left: 50%;
-  margin-left: -1px;
-}
-.project-timeline-wrapper .timeline-day-group:after {
-  content: '';
-  width: 2px;
-  position: absolute;
-  top: calc(50% + 30px);
-  bottom: 0;
-  background: #bbb;
-  left: 50%;
-  margin-left: -1px;
 }
 .project-timeline-wrapper .timeline-event-wrapper {
   display: block;

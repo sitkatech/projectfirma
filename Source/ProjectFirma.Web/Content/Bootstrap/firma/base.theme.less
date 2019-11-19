@@ -1920,6 +1920,20 @@ nav#wizardNav ul {
     text-align: center;
     width: 100%;
     float: left;
+    position: relative;
+
+    &:after {
+        z-index: 1;
+        content: '';
+        position: absolute;
+        top: 15px;
+        bottom: 15px;
+        width: 2px;
+        margin-left: -1px;
+        background: #bbb;
+        left: 50%;
+    }
+
 
     .timeline-button {
         transition: all .25s;
@@ -1927,11 +1941,16 @@ nav#wizardNav ul {
         background: #F4F4F4;
         border: none;
         padding: 5px 15px;
-        margin: 5px 0;
+        z-index: 2;
+        position: relative;
+        border: 5px solid #fff;
+        margin: 15px 0;
 
         span {
             margin-right: 5px;
             font-size: 11px;
+            transition: all .25s;
+            -webkit-transition: all .25s;
         }
 
         &:hover {
@@ -1939,17 +1958,42 @@ nav#wizardNav ul {
         }
 
         &:focus {
-            box-shadow: 0 0 0 .2em #8dcdff;
+            box-shadow: inset 0 0 0 .2em #8dcdff;
         }
 
         &.open span {
             transform: rotate(-90deg)
         }
+
+        &:after {
+            content: "\e234";
+            position: absolute;
+            left: 50%;
+            bottom: -35px;
+            margin-left: -15px;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            width: 30px;
+            text-align: center;
+            background: #fff;
+            font-size: 30px;
+            color:    #bbb;
+            line-height: 20px;
+
+        }
+
+        &.open:after {
+            display: none;
+        }
     }
 
 
     .timeline-year-group {
-        margin: 15px 0;
+        position: relative;
+        float: left;
+        width: 100%;
     }
 
     .timeline-quarter-group-wrapper, .timeline-year-group-wrapper {
@@ -1959,6 +2003,7 @@ nav#wizardNav ul {
         overflow: hidden;
         transition: max-height .25s;
         -webkit-transition: max-height .25s;
+        margin:5px 0;
 
         &.open {
             max-height: 8000px;
@@ -1968,6 +2013,11 @@ nav#wizardNav ul {
     .timeline-quarter-group {
         width: 100%;
         float: left;
+        position: relative;
+
+        .timeline-quarter-group-wrapper {
+            position: relative;
+        }
     }
 
     .timeline-day-group {
@@ -1976,20 +2026,22 @@ nav#wizardNav ul {
         float: left;
 
         .timeline-day-group-label {
+            z-index: 2;
             position: absolute;
             background: @brand-primary;
             color: #fff;
-            height: 50px;
-            width: 50px;
+            height: 60px;
+            width: 60px;
             top: 50%;
             left: 50%;
-            margin-top: -25px;
-            margin-left: -25px;
+            margin-top: -30px;
+            margin-left: -30px;
             text-align: center;
             line-height: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border: 5px solid #fff;
 
             span {
                 display: block;
@@ -2005,28 +2057,6 @@ nav#wizardNav ul {
                 text-transform: uppercase;
             }
         }
-
-        &:before {
-            content: '';
-            width: 2px;
-            position: absolute;
-            bottom: calc(50% + 30px);
-            top: 0;
-            background: #bbb;
-            left: 50%;
-            margin-left: -1px;
-        }
-
-        &:after {
-            content: '';
-            width: 2px;
-            position: absolute;
-            top: calc(50% + 30px);
-            bottom: 0;
-            background: #bbb;
-            left: 50%;
-            margin-left: -1px;
-        }
     }
 
 
@@ -2035,7 +2065,8 @@ nav#wizardNav ul {
         display: block;
         width: 100%;
         float: left;
-        padding:0 5px;
+        padding: 0 5px;
+
         .timeline-event {
             padding: 10px;
             box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
