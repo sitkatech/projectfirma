@@ -37,7 +37,34 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration)
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, bool canEditProjectStatus)
+        {
+            var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if (canEditProjectStatus)
+            {
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
+                    project.GetAddProjectProjectStatusFromGridUrl()
+                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}:");
+            }
+
+            var projectStatusDisplayName = "no status";
+            var currentProjectStatus = project.GetCurrentProjectStatus();
+            if (currentProjectStatus != null)
+            {
+                var colorString = currentProjectStatus.ProjectStatusColor;
+                projectStatusDisplayName = $"<span style='color:{colorString}'>{currentProjectStatus.ProjectStatusDisplayName}</span>";
+            }
+
+
+            var returnString =
+                new HtmlString(
+                    $"{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}");
+            return returnString;
+
+        }
+
+
+        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
             {
@@ -126,6 +153,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
+                case ProjectCustomGridColumnEnum.ProjectStatus:
+                    Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                        , x => MakeProjectStatusAddLinkAndText(x,userHasEditProjectAsAdminPermissions)
+                        , 75
+                        , DhtmlxGridColumnFilterType.Html);
+                    break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
@@ -163,6 +196,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
@@ -196,7 +231,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 }
                 else
                 {
-                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration);
+                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration, userHasEditProjectAsAdminPermissions);
                 }
             }
 

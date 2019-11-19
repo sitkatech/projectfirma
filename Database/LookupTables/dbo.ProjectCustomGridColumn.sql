@@ -26,4 +26,5 @@ values
 (21, 'GeospatialAreaName', 'Geospatial Area Name', 1),
 (22, 'CustomAttribute', 'Custom Attribute', 1),
 (23, 'ProjectID', 'ProjectID', 1),
-(24, 'ProjectLastUpdated', 'Last Updated', 1)
+(24, 'ProjectLastUpdated', 'Last Updated', 1),
+(25, 'ProjectStatus', 'Status', 1)

@@ -123,4 +123,6 @@ VALUES
 (298, N'NumberOfProjectsWithSecuredFunds', N'# of Projects with Secured Funds', N'The number of projects that have secured funds from this funding source.'),
 (299, N'TotalProjectSecuredFunds', N'Total Project Secured Funds', N'Total amount provided by this funding source as "Secured" for all projects.'),
 (300, N'TotalProjectTargetedFunds', N'Total Project Targeted Funds', N'Total amount provided by this funding source as "Targeted" for all projects.'),
-(301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.')
+(301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.'),
+(302, N'ProjectStatus', N'Status', N'<p>The Status of a Project</p>'),
+(303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>')
