@@ -138,6 +138,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
@@ -353,6 +354,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
         public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectProjectStatus> ProjectProjectStatuses { get; set; }
         public virtual DbSet<ProjectRelevantCostType> AllProjectRelevantCostTypes { get; set; }
         public virtual IQueryable<ProjectRelevantCostType> ProjectRelevantCostTypes { get { return AllProjectRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostTypeUpdate> AllProjectRelevantCostTypeUpdates { get; set; }
@@ -823,6 +825,9 @@ namespace ProjectFirmaModels.Models
                 case "ProjectOrganizationUpdate":
                     return ProjectOrganizationUpdates.GetProjectOrganizationUpdate(primaryKey);
 
+                case "ProjectProjectStatus":
+                    return ProjectProjectStatuses.GetProjectProjectStatus(primaryKey);
+
                 case "ProjectRelevantCostTypeGroup":
                     var projectRelevantCostTypeGroup = ProjectRelevantCostTypeGroup.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectRelevantCostTypeGroup, "ProjectRelevantCostTypeGroup", primaryKey);
@@ -841,6 +846,11 @@ namespace ProjectFirmaModels.Models
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectStage, "ProjectStage", primaryKey);
                     return projectStage;
+
+                case "ProjectStatus":
+                    var projectStatus = ProjectStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectStatus, "ProjectStatus", primaryKey);
+                    return projectStatus;
 
                 case "ProjectStewardshipAreaType":
                     var projectStewardshipAreaType = ProjectStewardshipAreaType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
