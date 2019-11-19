@@ -19,13 +19,15 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.ProjectProjectStatusDetails
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Update Created By")
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Created By")
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast()
@@ -34,7 +36,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Update Date")
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Date")
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusUpdateDate.ToStringDate()
@@ -61,7 +63,7 @@
 
                 <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? string.Empty: "display: none;")">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Update Edited By")
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited By")
                     </div>
                     <div class="col-sm-8">
                         @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson.GetFullNameFirstLast() : string.Empty)
@@ -70,7 +72,7 @@
 
                 <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? string.Empty: "display: none;")">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Update Edited on")
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited on")
                     </div>
                     <div class="col-sm-8">
                         @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.ToStringDate() : string.Empty)

@@ -26,6 +26,7 @@ using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
@@ -46,20 +47,12 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             , string createdByPerson
             , string deleteUrl)
         {
-
-            ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder)
-                .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
+            ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
             ShowCreatedBy = showCreatedBy;
             CreatedByPerson = createdByPerson;
-            DeleteButton = new HtmlString(string.Empty);
-            if (!string.IsNullOrEmpty(deleteUrl))
-            {
-                DeleteButton = ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, "Delete Status Update", true);
-            }
-            
-
+            DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
         }
     }
 

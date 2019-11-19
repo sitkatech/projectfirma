@@ -18,11 +18,14 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
 @using LtInfo.Common.HtmlHelperExtensions
 @using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
 
 
@@ -45,15 +48,15 @@
 
 @using (Html.BeginForm())
 {
-
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
                 
-                
                 <div class="form-group" style="@(ViewDataTyped.ShowCreatedBy ? "" : "display: none;")">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Update Created By")
+                        <label>
+                            @FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() Created By
+                        </label>
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.CreatedByPerson
@@ -95,19 +98,19 @@
         <div class="pull-left deleteProjectProjectStatusRow">
             @ViewDataTyped.DeleteButton
         </div>
-
     </div>
 }
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-
         var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
+        var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
+        var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");
+        var defaultColorOfDropdownText = window.getComputedStyle(projectStatusInputElement, null).getPropertyValue("color");
 
         function mapOptionToColor(optionVal) {
             return projectStatuses[optionVal].Color;
         }
-
 
         jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
             var option = jQuery(this);
@@ -118,24 +121,26 @@
                 );
             }
             else {
-                option.css('color', "#555");
+                option.css('color', defaultColorOfDropdownText);
 
             }
         });
 
-        jQuery("#@Html.IdFor(m => m.ProjectStatusID)").change(function() {
-            console.log('change');
-            var valOfSelection = jQuery(this).val();
-            console.log(valOfSelection);
-            if (valOfSelection !== undefined && valOfSelection != '' && valOfSelection != null) {
-                jQuery(this).css('color', mapOptionToColor(valOfSelection));
+        function setColorOfStatusDropdown() {
+            var projectStatusId = projectStatusInput.val();
+            if (projectStatusId !== undefined && projectStatusId != '' && projectStatusId != null) {
+                projectStatusInput.css('color', mapOptionToColor(projectStatusId));
             }
             else {
-                jQuery(this).css('color', "#555");
+                projectStatusInput.css('color', defaultColorOfDropdownText);
             }
+        }
+
+        projectStatusInput.change(function() {
+            setColorOfStatusDropdown();
         });
 
-
+        setColorOfStatusDropdown();
     });
 
 
