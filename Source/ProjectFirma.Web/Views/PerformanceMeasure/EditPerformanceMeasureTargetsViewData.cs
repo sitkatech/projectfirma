@@ -29,15 +29,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     public class EditPerformanceMeasureTargetsViewData
     {        
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
-        public List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes { get; }
         public EditPerformanceMeasureTargetsViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition PerformanceMeasureFieldDefinition { get; }
 
-        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes)
+        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular)
         {
             PerformanceMeasure = performanceMeasure;
             ViewDataForAngular = viewDataForAngular;
-            PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
             
         }
@@ -47,14 +45,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
     {
         public int? PerformanceMeasureSubcategoryID { get; }
         public int DefaultReportingPeriodYear { get; }
-        public Dictionary<string, int> PerformanceMeasureTargetValueTypes { get; }
+        public List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes { get; }
         public List<int> ReportingPeriodsWithActuals { get; }
 
-        public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, Dictionary<string, int> performanceMeasureTargetValueTypes)
+        public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes)
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
-            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.PerformanceMeasureActualUpdates.Any()).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any()).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
         }
     }
 }
