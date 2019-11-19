@@ -72,7 +72,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
             PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
             TargetValue: $scope.AngularModel.OverallTargetValue,
             TargetValueLabel: $scope.AngularModel.OverallTargetValueLabel,
-            PerformanceMeasureReportingPeriodID: -1
+            PerformanceMeasureReportingPeriodID: -1,
+            PerformanceMeasureTargetID: -1
         };
         return newBulk;
     };

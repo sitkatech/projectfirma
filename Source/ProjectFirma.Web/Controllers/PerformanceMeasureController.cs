@@ -564,12 +564,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditPerformanceMeasureReportedValues(performanceMeasure, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            viewModel.UpdateModel(performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local,
-                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local,
-                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local);
+            viewModel.UpdateModel(performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureTargets.Local);
             
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();

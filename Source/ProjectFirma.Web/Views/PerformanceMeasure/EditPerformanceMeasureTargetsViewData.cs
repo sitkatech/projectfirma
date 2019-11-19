@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
-            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any()).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
         }
     }
 }

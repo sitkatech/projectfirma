@@ -284,5 +284,19 @@ namespace ProjectFirma.Web.Models
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
         }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
+        {
+            if (!performanceMeasure.PerformanceMeasureTargets.Any())
+            {
+                return PerformanceMeasureTargetValueType.NoTarget;
+            }
+
+            if (performanceMeasure.PerformanceMeasureTargets.Select(x => $"{x.PerformanceMeasureTargetValue}{x.PerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                return PerformanceMeasureTargetValueType.OverallTarget;
+            }
+            return PerformanceMeasureTargetValueType.TargetPerYear;
+        }
     }
 }

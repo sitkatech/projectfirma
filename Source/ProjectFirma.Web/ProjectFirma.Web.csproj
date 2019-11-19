@@ -122,6 +122,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
+    <Compile Include="Models\PerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
     <Compile Include="Models\FirmaSessionModelExtensions.cs" />
     <Compile Include="Models\PersonSimple.cs" />
