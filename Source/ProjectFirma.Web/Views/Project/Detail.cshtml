@@ -234,18 +234,6 @@
                         @{ ProjectOrganizationsDetail.RenderPartialView(Html, ViewDataTyped.ProjectOrganizationsDetailViewData); }
                     </div>
                 </div>
-                
-            
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h3 class="project-detail-heading">
-                            Project History
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
-                    </div>
-                </div>
 
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
@@ -403,7 +391,7 @@
                         @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
                     </div>
                 </div>
-                
+
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Notes</h3>
@@ -457,6 +445,19 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
+                    if (ViewDataTyped.UserHasProjectTimelinePermissions)
+                    {
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3 class="project-detail-heading">
+                                    @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
+                            </div>
+                        </div>
+                    }
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>System Communications</h3>
@@ -465,6 +466,7 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
+
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>Audit Log</h3>

@@ -124,6 +124,7 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
@@ -256,7 +257,8 @@ namespace ProjectFirma.Web.Controllers
                 projectContactsDetailViewData,
                 editContactsUrl, 
                 editExpectedFundingUrl,
-                projectTimelineViewData);
+                projectTimelineViewData,
+                userHasProjectTimelinePermissions);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
