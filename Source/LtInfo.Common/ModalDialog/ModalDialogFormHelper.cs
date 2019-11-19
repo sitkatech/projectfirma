@@ -72,6 +72,7 @@ namespace LtInfo.Common.ModalDialog
         /// <summary>
         ///  Creates a link that will open a jQuery UI dialog form.
         /// </summary>
+        /// <param name="linkID">Optional LinkID to be able to access it later on the page</param>
         /// <param name="linkText">The inner text of the anchor element</param>
         /// <param name="dialogContentUrl">The url that will return the content to be loaded into the dialog window</param>
         /// <param name="dialogTitle">The title to be displayed in the dialog window</param>
@@ -79,14 +80,16 @@ namespace LtInfo.Common.ModalDialog
         /// <param name="cancelButtonText">Text for the cancel button</param>
         /// <param name="extraCssClasses">Any extra css classes for the button</param>
         /// <returns></returns>
-        public static HtmlString ModalDialogFormLinkHiddenSave(string linkText,
+        public static HtmlString ModalDialogFormLinkHiddenSave(
+            string linkID,
+            string linkText,
             string dialogContentUrl,
             string dialogTitle,
             int? dialogWidth,
             string cancelButtonText,
             List<string> extraCssClasses)
         {
-            return ModalDialogFormLink(null,
+            return ModalDialogFormLink(linkID,
                 linkText,
                 dialogContentUrl,
                 dialogTitle,

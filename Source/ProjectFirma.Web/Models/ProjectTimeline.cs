@@ -119,31 +119,29 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
         {
-            var editIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
+            var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
+                null,
                 "Show Details",
                 projectProjectStatus.GetProjectProjectStatusDetailsUrl()
                 , $"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} Details"
                 , 900
                 ,"Close"
                 , new List<string>());
-            return editIconAsModalDialogLinkBootstrap;
+            return detailsLink;
         }
 
         public static HtmlString MakeProjectUpdateDetailsLinkButton(ProjectUpdateBatch projectUpdateBatch)
         {
             var url = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ProjectUpdateBatchDiff(projectUpdateBatch));
-            return ModalDialogFormHelper.ModalDialogFormLink("diff-link-id",
+            var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
+                "diff-link-id",
                 "Show Details",
-                url,
-                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Change Log",
-                1000,
-                "hidden-save-button",
-                string.Empty,
-                "Close",
-                null,
-                null,
-                null,
-                null);
+                url
+                , $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update Change Log"
+                , 1000
+                , "Close"
+                , new List<string>());
+            return detailsLink;
         }
 
 
