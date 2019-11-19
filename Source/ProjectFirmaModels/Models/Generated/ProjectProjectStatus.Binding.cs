@@ -70,6 +70,8 @@ namespace ProjectFirmaModels.Models
             this.Project = project;
             project.ProjectProjectStatuses.Add(this);
             this.ProjectStatusID = projectStatus.ProjectStatusID;
+            this.ProjectStatus = projectStatus;
+            projectStatus.ProjectProjectStatuses.Add(this);
             this.ProjectProjectStatusUpdateDate = projectProjectStatusUpdateDate;
             this.ProjectProjectStatusComment = projectProjectStatusComment;
             this.ProjectProjectStatusCreatePersonID = projectProjectStatusCreatePerson.PersonID;
@@ -132,7 +134,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ProjectProjectStatusID; } set { ProjectProjectStatusID = value; } }
 
         public virtual Project Project { get; set; }
-        public ProjectStatus ProjectStatus { get { return ProjectStatus.AllLookupDictionary[ProjectStatusID]; } }
+        public virtual ProjectStatus ProjectStatus { get; set; }
         public virtual Person ProjectProjectStatusCreatePerson { get; set; }
         public virtual Person ProjectProjectStatusLastEditedPerson { get; set; }
 

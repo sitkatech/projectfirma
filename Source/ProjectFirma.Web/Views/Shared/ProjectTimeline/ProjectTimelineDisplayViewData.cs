@@ -34,11 +34,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public Models.ProjectTimeline ProjectTimeline { get; }
 
         public HtmlString AddProjectProjectStatusButton { get; }
+        public bool UserHasProjectStatusUpdatePermissions { get; }
 
-        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,Models.ProjectTimeline projectTimeline)
+        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,Models.ProjectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions)
         {
             ProjectTimeline = projectTimeline;
-
+            UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions;
             var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             AddProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);

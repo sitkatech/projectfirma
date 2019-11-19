@@ -41,10 +41,12 @@
  @if (ViewDataTyped.ProjectTimeline != null)
  {
      var yearDisplayCount = 0;
-     
-     <div class="row pull-right">
-         <span style="margin-right: 15px;"> @ViewDataTyped.AddProjectProjectStatusButton</span>
-     </div>
+     if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+     {
+         <div class="row pull-right">
+             <span style="margin-right: 15px;"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+         </div>
+     }
      var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
      <div class="project-timeline-wrapper">
          @foreach (var yearGroup in groupedTimelineEvents)
@@ -73,7 +75,7 @@
                                              <div class="timeline-event-wrapper">
                                                  <div class="timeline-event @(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color:@projectTimelineEvent.Color;">
                                                      <div class="timeline-event-header">
-                                                         @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()))
+                                                         @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
                                                          {
                                                              <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
                                                          }

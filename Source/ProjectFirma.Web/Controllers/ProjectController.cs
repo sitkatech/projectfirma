@@ -208,8 +208,10 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeGroups);
 
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions);
-            var projectTimelineViewData = new ProjectTimelineDisplayViewData(project,projectTimeline);
+            var projectTimelineViewData =
+                new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
