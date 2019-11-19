@@ -26,6 +26,7 @@ using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
@@ -56,7 +57,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             DeleteButton = new HtmlString(string.Empty);
             if (!string.IsNullOrEmpty(deleteUrl))
             {
-                DeleteButton = ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, "Delete Status Update", true);
+                DeleteButton = ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
             }
             
 
