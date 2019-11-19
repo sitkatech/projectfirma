@@ -445,7 +445,7 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
-                    if (ViewDataTyped.UserHasProjectTimelinePermissions)
+                    if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
                     {
                         <div class="panel panelFirma">
                             <div class="panel-heading panelTitle">
