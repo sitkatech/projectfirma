@@ -78,12 +78,14 @@
                                                              <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
                                                          }
                                                          <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
-                                                         <span class="timeline-event-date">@projectTimelineEvent.Date.ToString("MMM dd, yyyy h:mm tt")</span>
+                                                         <span class="timeline-event-date">@projectTimelineEvent.DateDisplay</span>
                                                      </div>
 
                                                      By @projectTimelineEvent.TimelineEventPersonDisplayName
+                                                     <div class="timeline-event-footer">
+                                                         <span class="timeline-event-details-link">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
+                                                     </div>
                                                  </div>
-                                                 <span class="timeline-event-details-link">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
                                              </div>
                                          }
                                      </div>
