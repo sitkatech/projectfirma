@@ -74,14 +74,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         {
             var errors = new List<ValidationResult>();
             var noGeospatialAreasSelected = GeospatialAreaIDs == null || GeospatialAreaIDs.Count().Equals(0);
-            if (noGeospatialAreasSelected && string.IsNullOrWhiteSpace(ProjectGeospatialAreaNotes))
-            {
-                errors.Add(
-                    new SitkaValidationResult<EditProjectGeospatialAreasViewModel, string>(
-                        $"Select at least one geospatial area or provide explanatory information in the Notes section if there are no applicable geospatial areas for this Project.",
-                        x => x.ProjectGeospatialAreaNotes));
-            }
-
+ 
             return errors;
         }
     }
