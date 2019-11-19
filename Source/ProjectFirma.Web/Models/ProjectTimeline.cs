@@ -151,6 +151,7 @@ namespace ProjectFirma.Web.Models
     public class ProjectTimelineCreateEvent : IProjectTimelineEvent
     {
         public DateTime Date { get; }
+        public string DateDisplay { get; }
         public FiscalQuarter Quarter { get; }
      
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
@@ -170,6 +171,7 @@ namespace ProjectFirma.Web.Models
                 throw new SitkaProjectTimelineException("Cannot create a timeline create event with a project that does not have a submission date.");
             }
             Date = (DateTime)project.SubmissionDate;
+            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
             Quarter = FirmaDateUtilities.CalculateFiscalQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
@@ -185,8 +187,8 @@ namespace ProjectFirma.Web.Models
     public class ProjectTimelineProjectStatusChangeEvent : IProjectTimelineEvent
     {
         public DateTime Date { get; }
+        public string DateDisplay { get; }
         public FiscalQuarter Quarter { get; }
-
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public string TimelineEventPersonDisplayName { get; }
@@ -199,6 +201,7 @@ namespace ProjectFirma.Web.Models
         public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus)
         {
             Date = projectProjectStatus.ProjectProjectStatusUpdateDate;
+            DateDisplay = Date.ToString("MMM dd, yyyy");
             Quarter = FirmaDateUtilities.CalculateFiscalQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = "Status Updated";
@@ -213,6 +216,7 @@ namespace ProjectFirma.Web.Models
     public class ProjectTimelineApprovalEvent : IProjectTimelineEvent
     {
         public DateTime Date { get; }
+        public string DateDisplay { get; }
         public FiscalQuarter Quarter { get; }
         public int Year { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
@@ -231,6 +235,7 @@ namespace ProjectFirma.Web.Models
                 throw new SitkaProjectTimelineException("Cannot create a timeline approval event with a project that does not have an approval date.");
             }
             Date = (DateTime)project.ApprovalDate;
+            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
             Quarter = FirmaDateUtilities.CalculateFiscalQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
@@ -245,6 +250,7 @@ namespace ProjectFirma.Web.Models
     public class ProjectTimelineUpdateEvent : IProjectTimelineEvent
     {
         public DateTime Date { get; }
+        public string DateDisplay { get; }
         public FiscalQuarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
@@ -260,6 +266,7 @@ namespace ProjectFirma.Web.Models
             var approvedProjectUpdateHistory = projectUpdateBatch.ProjectUpdateHistories.First(x => x.ProjectUpdateState == ProjectUpdateState.Approved);
 
             Date = approvedProjectUpdateHistory.TransitionDate;
+            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
             Quarter = FirmaDateUtilities.CalculateFiscalQuarter(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
@@ -275,6 +282,7 @@ namespace ProjectFirma.Web.Models
     public interface IProjectTimelineEvent
     {
         DateTime Date { get; }
+        string DateDisplay { get; }
         DateUtilities.FiscalQuarter Quarter { get; }
         ProjectTimelineEventType ProjectTimelineEventType { get; }
         string TimelineEventTypeDisplayName { get; }
@@ -306,8 +314,6 @@ namespace ProjectFirma.Web.Models
         {
         }
     }
-
-
 
 
 }
