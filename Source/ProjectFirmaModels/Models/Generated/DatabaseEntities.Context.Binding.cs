@@ -94,6 +94,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureTargetConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardOrganizationConfiguration());
@@ -269,6 +270,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureTarget> AllPerformanceMeasureTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureTarget> PerformanceMeasureTargets { get { return AllPerformanceMeasureTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardGeospatialArea> AllPersonStewardGeospatialAreas { get; set; }
         public virtual IQueryable<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get { return AllPersonStewardGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
@@ -631,6 +634,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureSubcategoryOption":
                     return PerformanceMeasureSubcategoryOptions.GetPerformanceMeasureSubcategoryOption(primaryKey);
+
+                case "PerformanceMeasureTarget":
+                    return PerformanceMeasureTargets.GetPerformanceMeasureTarget(primaryKey);
 
                 case "PerformanceMeasureTargetValueType":
                     var performanceMeasureTargetValueType = PerformanceMeasureTargetValueType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

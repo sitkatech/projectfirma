@@ -578,8 +578,9 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
         {
             var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
-            var defaultReportingPeriodYear = performanceMeasure.PerformanceMeasureReportingPeriods.Any()
-                ? performanceMeasure.PerformanceMeasureReportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
+            var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
+            var defaultReportingPeriodYear = reportingPeriods.Any()
+                ? reportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
                 : DateTime.Now.Year;
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
                 defaultReportingPeriodYear,

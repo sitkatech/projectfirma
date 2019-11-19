@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Models
 
         public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
-            if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            if (performanceMeasure.PerformanceMeasureTargets.Any())
             {
                 return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
             }
@@ -268,6 +268,21 @@ namespace ProjectFirma.Web.Models
         public static double? TotalReportedValueWithNonZeroExpenditures(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+        }
+
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
         }
     }
 }

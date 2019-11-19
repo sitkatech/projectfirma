@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Models
         public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
-            var performanceMeasureReportingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.TargetValue.HasValue).ToList();
+            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
             var googleChartJsons = new List<GoogleChartJson>();
 
             if (performanceMeasureSubcategoryOptionReportedValues.Any())
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
                     }
                 }
             }
-            else if(performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            else if(performanceMeasure.PerformanceMeasureTargets.Any())
             {
                 //build chart for just for targets if there is no project data
                 var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.First();

@@ -50,19 +50,19 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
+        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureTarget performanceMeasureTarget)
         {
-            PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
-            PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
-            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
-            TargetValue = performanceMeasureReportingPeriod.TargetValue;
-            TargetValueLabel = performanceMeasureReportingPeriod.TargetValueLabel;
-            PerformanceMeasureID = performanceMeasureReportingPeriod.PerformanceMeasureID;
+            PerformanceMeasureReportingPeriodID = performanceMeasureTarget.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = performanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            TargetValue = performanceMeasureTarget.PerformanceMeasureTargetValue;
+            TargetValueLabel = performanceMeasureTarget.PerformanceMeasureTargetValueLabel;
+            PerformanceMeasureID = performanceMeasureTarget.PerformanceMeasureID;
         }
 
-        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
+        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureTarget> performanceMeasureTargets)
         {
-            return performanceMeasureReportingPeriods.Select(pmrp => new PerformanceMeasureReportingPeriodSimple(pmrp)).ToList();
+            return performanceMeasureTargets.Select(pmt => new PerformanceMeasureReportingPeriodSimple(pmt)).ToList();
         }
     }
 }
