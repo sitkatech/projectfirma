@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[ProjectStatus]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -15,112 +16,138 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectStatus] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ProjectStatus]")]
-    public partial class ProjectStatus : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class ProjectStatus : IHavePrimaryKey
     {
+        public static readonly ProjectStatusGreen Green = ProjectStatusGreen.Instance;
+        public static readonly ProjectStatusYellow Yellow = ProjectStatusYellow.Instance;
+        public static readonly ProjectStatusRed Red = ProjectStatusRed.Instance;
+        public static readonly ProjectStatusOnHold OnHold = ProjectStatusOnHold.Instance;
+
+        public static readonly List<ProjectStatus> All;
+        public static readonly ReadOnlyDictionary<int, ProjectStatus> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected ProjectStatus()
+        static ProjectStatus()
         {
-            this.ProjectProjectStatuses = new HashSet<ProjectProjectStatus>();
+            All = new List<ProjectStatus> { Green, Yellow, Red, OnHold };
+            AllLookupDictionary = new ReadOnlyDictionary<int, ProjectStatus>(All.ToDictionary(x => x.ProjectStatusID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public ProjectStatus(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : this()
+        protected ProjectStatus(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor)
         {
-            this.ProjectStatusID = projectStatusID;
-            this.ProjectStatusName = projectStatusName;
-            this.ProjectStatusDisplayName = projectStatusDisplayName;
-            this.ProjectStatusSortOrder = projectStatusSortOrder;
-            this.ProjectStatusColor = projectStatusColor;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public ProjectStatus(string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.ProjectStatusID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.ProjectStatusName = projectStatusName;
-            this.ProjectStatusDisplayName = projectStatusDisplayName;
-            this.ProjectStatusSortOrder = projectStatusSortOrder;
-            this.ProjectStatusColor = projectStatusColor;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static ProjectStatus CreateNewBlank()
-        {
-            return new ProjectStatus(default(string), default(string), default(int), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return ProjectProjectStatuses.Any();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectStatus).Name, typeof(ProjectProjectStatus).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.ProjectStatuses.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in ProjectProjectStatuses.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            ProjectStatusID = projectStatusID;
+            ProjectStatusName = projectStatusName;
+            ProjectStatusDisplayName = projectStatusDisplayName;
+            ProjectStatusSortOrder = projectStatusSortOrder;
+            ProjectStatusColor = projectStatusColor;
         }
 
         [Key]
-        public int ProjectStatusID { get; set; }
-        public string ProjectStatusName { get; set; }
-        public string ProjectStatusDisplayName { get; set; }
-        public int ProjectStatusSortOrder { get; set; }
-        public string ProjectStatusColor { get; set; }
+        public int ProjectStatusID { get; private set; }
+        public string ProjectStatusName { get; private set; }
+        public string ProjectStatusDisplayName { get; private set; }
+        public int ProjectStatusSortOrder { get; private set; }
+        public string ProjectStatusColor { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return ProjectStatusID; } set { ProjectStatusID = value; } }
+        public int PrimaryKey { get { return ProjectStatusID; } }
 
-        public virtual ICollection<ProjectProjectStatus> ProjectProjectStatuses { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(ProjectStatus other)
         {
-            public const int ProjectStatusName = 100;
-            public const int ProjectStatusDisplayName = 100;
-            public const int ProjectStatusColor = 20;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.ProjectStatusID == ProjectStatusID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ProjectStatus);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return ProjectStatusID;
+        }
+
+        public static bool operator ==(ProjectStatus left, ProjectStatus right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ProjectStatus left, ProjectStatus right)
+        {
+            return !Equals(left, right);
+        }
+
+        public ProjectStatusEnum ToEnum { get { return (ProjectStatusEnum)GetHashCode(); } }
+
+        public static ProjectStatus ToType(int enumValue)
+        {
+            return ToType((ProjectStatusEnum)enumValue);
+        }
+
+        public static ProjectStatus ToType(ProjectStatusEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case ProjectStatusEnum.Green:
+                    return Green;
+                case ProjectStatusEnum.OnHold:
+                    return OnHold;
+                case ProjectStatusEnum.Red:
+                    return Red;
+                case ProjectStatusEnum.Yellow:
+                    return Yellow;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum ProjectStatusEnum
+    {
+        Green = 1,
+        Yellow = 2,
+        Red = 3,
+        OnHold = 4
+    }
+
+    public partial class ProjectStatusGreen : ProjectStatus
+    {
+        private ProjectStatusGreen(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
+        public static readonly ProjectStatusGreen Instance = new ProjectStatusGreen(1, @"Green", @"Green", 5, @"#04AF70");
+    }
+
+    public partial class ProjectStatusYellow : ProjectStatus
+    {
+        private ProjectStatusYellow(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
+        public static readonly ProjectStatusYellow Instance = new ProjectStatusYellow(2, @"Yellow", @"Yellow", 20, @"#D0B001");
+    }
+
+    public partial class ProjectStatusRed : ProjectStatus
+    {
+        private ProjectStatusRed(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
+        public static readonly ProjectStatusRed Instance = new ProjectStatusRed(3, @"Red", @"Red", 30, @"#FF0000");
+    }
+
+    public partial class ProjectStatusOnHold : ProjectStatus
+    {
+        private ProjectStatusOnHold(int projectStatusID, string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : base(projectStatusID, projectStatusName, projectStatusDisplayName, projectStatusSortOrder, projectStatusColor) {}
+        public static readonly ProjectStatusOnHold Instance = new ProjectStatusOnHold(4, @"OnHold", @"On Hold", 50, @"#800080");
     }
 }

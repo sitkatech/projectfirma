@@ -495,8 +495,6 @@
     <Compile Include="Models\Generated\ProjectStage.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStatus.Binding.cs" />
-    <Compile Include="Models\Generated\ProjectStatus.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ProjectStatusConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStatusPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStewardshipAreaType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectStewardshipAreaTypePrimaryKey.Binding.cs" />

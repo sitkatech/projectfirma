@@ -141,7 +141,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
-            modelBuilder.Configurations.Add(new ProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
@@ -362,7 +361,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
@@ -850,7 +848,9 @@ namespace ProjectFirmaModels.Models
                     return projectStage;
 
                 case "ProjectStatus":
-                    return ProjectStatuses.GetProjectStatus(primaryKey);
+                    var projectStatus = ProjectStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectStatus, "ProjectStatus", primaryKey);
+                    return projectStatus;
 
                 case "ProjectStewardshipAreaType":
                     var projectStewardshipAreaType = ProjectStewardshipAreaType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
