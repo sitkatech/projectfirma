@@ -123,4 +123,5 @@ VALUES
 (298, N'NumberOfProjectsWithSecuredFunds', N'# of Projects with Secured Funds', N'The number of projects that have secured funds from this funding source.'),
 (299, N'TotalProjectSecuredFunds', N'Total Project Secured Funds', N'Total amount provided by this funding source as "Secured" for all projects.'),
 (300, N'TotalProjectTargetedFunds', N'Total Project Targeted Funds', N'Total amount provided by this funding source as "Targeted" for all projects.'),
-(301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.')
+(301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.'),
+(302, N'GeospatialArea', 'Geospatial Area', 'The term "geospatial data" refers to data or information that identifies the geographic location of features and boundaries on Earth. In simple terms, it is data that can be mapped.')

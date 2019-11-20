@@ -59,6 +59,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
@@ -188,6 +190,7 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
@@ -202,6 +205,7 @@
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
+    <Compile Include="Views\PerformanceMeasure\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />

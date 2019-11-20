@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaID).HasColumnName(@"GeospatialAreaID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureReportingPeriodID).HasColumnName(@"PerformanceMeasureReportingPeriodID").HasColumnType("int").IsRequired();
-            Property(x => x.GeospatialAreaPerformanceMeasureTargetValue).HasColumnName(@"GeospatialAreaPerformanceMeasureTargetValue").HasColumnType("float").IsRequired();
+            Property(x => x.GeospatialAreaPerformanceMeasureTargetValue).HasColumnName(@"GeospatialAreaPerformanceMeasureTargetValue").HasColumnType("float").IsOptional();
             Property(x => x.GeospatialAreaPerformanceMeasureTargetValueLabel).HasColumnName(@"GeospatialAreaPerformanceMeasureTargetValueLabel").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys

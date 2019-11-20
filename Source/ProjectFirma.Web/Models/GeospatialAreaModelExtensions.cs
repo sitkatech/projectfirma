@@ -42,8 +42,7 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(
-            this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
         {
             return project?.ProjectLocationPoint == null
                 ? new List<GeospatialArea>()
@@ -149,6 +148,34 @@ namespace ProjectFirma.Web.Models
             var geospatialAreaIndexGridSimplesNew = results.ToList();
             return geospatialAreaIndexGridSimplesNew;
         }
+
+
+        public static readonly UrlTemplate<int> DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this GeospatialArea geospatialArea)
+        {
+            return DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+        }
+
+        public static readonly UrlTemplate<int> EditGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
+        public static string GetEditUrl(this GeospatialArea geospatialArea)
+        {
+            return EditGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+        }
+
+        public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea)
+        {
+            if (!geospatialArea.GeospatialAreaPerformanceMeasureTargets.Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            {
+                return "No Target Set";
+            }
+
+            if (geospatialArea.GeospatialAreaPerformanceMeasureTargets.Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                return "THIS SHOULD BE THE OVERALL VALUE";//todo: return the overall value
+            }
+            return "Target by Year";
+        }
+
     }
 }
 

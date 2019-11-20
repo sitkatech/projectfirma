@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureTarget](
 	[GeospatialAreaID] [int] NOT NULL constraint FK_GeospatialAreaPerformanceMeasureTarget_GeospatialArea_GeospatialAreaID foreign key references dbo.GeospatialArea(GeospatialAreaID),
 	[PerformanceMeasureID] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
-	[GeospatialAreaPerformanceMeasureTargetValue] [float] NOT NULL,
+	[GeospatialAreaPerformanceMeasureTargetValue] [float] NULL,
 	[GeospatialAreaPerformanceMeasureTargetValueLabel] [varchar](100) NULL,
  CONSTRAINT [PK_GeospatialAreaPerformanceMeasureTarget_GeospatialAreaPerformanceMeasureTargetID] PRIMARY KEY CLUSTERED 
 (
