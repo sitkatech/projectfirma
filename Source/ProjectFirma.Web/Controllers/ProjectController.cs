@@ -124,6 +124,7 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
@@ -205,6 +206,13 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeTypes,
                 new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
                 projectCustomAttributeGroups);
+
+            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions);
+            var projectTimelineViewData =
+                new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions);
+
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -249,7 +257,10 @@ namespace ProjectFirma.Web.Controllers
                 geospatialAreaTypes, 
                 projectCustomAttributeTypesViewData,
                 projectContactsDetailViewData,
-                editContactsUrl, editExpectedFundingUrl);
+                editContactsUrl, 
+                editExpectedFundingUrl,
+                projectTimelineViewData,
+                userHasProjectTimelinePermissions);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

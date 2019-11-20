@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Project
         public bool UserHasProjectAdminPermissions { get; }
         public bool UserHasEditProjectPermissions { get; }
         public bool UserHasPerformanceMeasureActualManagePermissions { get; }
+        public bool UserHasProjectTimelinePermissions { get; }
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
@@ -112,9 +113,11 @@ namespace ProjectFirma.Web.Views.Project
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
+        public ProjectTimelineDisplayViewData ProjectTimelineDisplayViewData { get; }
 
-
-        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
+        public string UpdateStatusUrl { get; set; }
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
+            List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
             ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData,
@@ -124,32 +127,37 @@ namespace ProjectFirma.Web.Views.Project
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
             ProjectExpendituresByCostTypeDetailViewData projectExpendituresByCostTypeDetailViewData,
-            ImageGalleryViewData imageGalleryViewData, EntityNotesViewData projectNotesViewData, EntityNotesViewData internalNotesViewData,
+            ImageGalleryViewData imageGalleryViewData, EntityNotesViewData projectNotesViewData,
+            EntityNotesViewData internalNotesViewData,
             EntityExternalLinksViewData entityExternalLinksViewData,
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
             bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
-            string editProjectCustomAttributesUrl, 
+            string editProjectCustomAttributesUrl,
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
-            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, 
+            string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl,
             bool reportFinancialsByCostType, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
-            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData, List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
-            string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
-            ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl, string editExpectedFundingUrl)
+            ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData,
+            List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
+            string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes,
+            DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
+            ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
+            string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
+            bool userHasProjectTimelinePermissions)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
-
             ProjectStages = projectStages;
 
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectAdminPermissions = userHasProjectAdminPermissions;
             UserHasEditProjectPermissions = userHasEditProjectPermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
+            UserHasProjectTimelinePermissions = userHasProjectTimelinePermissions;
 
             var projectAlerts = new List<string>();
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
@@ -352,6 +360,8 @@ namespace ProjectFirma.Web.Views.Project
                 new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission,
                 project.GetAllAttachmentRelationshipTypes().ToList(),
                 currentFirmaSession);
+
+            ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;
         }
     }
 }

@@ -1,0 +1,85 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectProjectStatus.ProjectProjectStatusDetails
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Created By")
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast()
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Date")
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusUpdateDate.ToStringDate()
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel("Project Status")
+                    </div>
+                    <div class="col-sm-8" style="color: @(ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusColor);">
+                        @ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusDisplayName
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel("Project Status Comments")
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusComment
+                    </div>
+                </div>
+
+                <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? string.Empty: "display: none;")">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited By")
+                    </div>
+                    <div class="col-sm-8">
+                        @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson.GetFullNameFirstLast() : string.Empty)
+                    </div>
+                </div>
+
+                <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? string.Empty: "display: none;")">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited on")
+                    </div>
+                    <div class="col-sm-8">
+                        @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.ToStringDate() : string.Empty)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

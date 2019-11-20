@@ -49,3 +49,7 @@ ALTER TABLE [dbo].[OrganizationRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [FK_OrganizationRelationshipType_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[OrganizationRelationshipType]  WITH CHECK ADD  CONSTRAINT [CK_OrganizationRelationshipType_CanOnlyBeRelatedOnceToAProjectMustBeTrueIfIsPrimaryContact] CHECK  (([IsPrimaryContact]=(1) AND [CanOnlyBeRelatedOnceToAProject]=(1) OR [IsPrimaryContact]=(0)))
+GO
+ALTER TABLE [dbo].[OrganizationRelationshipType] CHECK CONSTRAINT [CK_OrganizationRelationshipType_CanOnlyBeRelatedOnceToAProjectMustBeTrueIfIsPrimaryContact]

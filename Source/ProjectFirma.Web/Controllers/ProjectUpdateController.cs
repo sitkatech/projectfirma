@@ -292,6 +292,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.BasicsComment = viewModel.Comments;
             }
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Basics successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Basics.ProjectUpdateSectionDisplayName);
         }
@@ -335,6 +336,7 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdateBatch.DeletePerformanceMeasuresProjectExemptReportingYearUpdates();
                 projectUpdateBatch.DeletePerformanceMeasureActualUpdates();
             }
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Basics successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -400,7 +402,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ReportedPerformanceMeasuresComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Reported Accomplishments successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.ReportedAccomplishments.ProjectUpdateSectionDisplayName);
         }
@@ -461,6 +463,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectExemptReportingYearUpdateModelExtensions.CreatePerformanceMeasuresExemptReportingYearsFromProject(projectUpdateBatch);
             PerformanceMeasureActualUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Reported Accomplishments successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -522,7 +525,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpectedPerformanceMeasuresComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expected Accomplishments successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.ExpectedAccomplishments.ProjectUpdateSectionDisplayName);
         }
@@ -568,6 +571,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh the data
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expected Accomplishments successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -620,7 +624,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpendituresComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
         }
@@ -672,6 +676,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -726,7 +731,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpendituresComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
         }
@@ -787,7 +792,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
         }
@@ -837,6 +842,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
 
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -893,7 +899,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
         }
@@ -959,6 +965,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             }
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1007,6 +1014,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.IsPhotosUpdated = false;
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Photos successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1056,7 +1064,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.LocationSimpleComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"Simple {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.LocationSimple.ProjectUpdateSectionDisplayName);
         }
@@ -1110,6 +1118,7 @@ namespace ProjectFirma.Web.Controllers
             }
             projectUpdate.LoadSimpleLocationFromProject(project);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"Simple {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1156,7 +1165,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.LocationDetailedComment = viewModel.Comments;
             }
-
+            SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.LocationDetailed.ProjectUpdateSectionDisplayName);
         }
 
@@ -1215,6 +1224,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh the data
             ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1386,14 +1396,13 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
             }
+            SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GeospatialAreaLayerName}s successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
 
         private ViewResult ViewGeospatialArea(Project project, ProjectUpdateBatch projectUpdateBatch, GeospatialAreaViewModel viewModel, GeospatialAreaType geospatialAreaType)
         {
             var projectUpdate = projectUpdateBatch.ProjectUpdate;
-
-            //            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
@@ -1444,7 +1453,6 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
         {
-            //            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdateBatch.ProjectUpdate);
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
 
@@ -1520,6 +1528,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
             ProjectGeospatialAreaTypeNoteUpdate.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($" {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Geospatial Area successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1572,6 +1581,7 @@ namespace ProjectFirma.Web.Controllers
             ProjectNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             ProjectAttachmentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments and Notes successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1740,7 +1750,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ProjectExternalLinkUpdates.Load();
             var allProjectExternalLinkUpdates = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinkUpdates.Local;
             viewModel.UpdateModel(currentProjectExternalLinkUpdates, allProjectExternalLinkUpdates);
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.ExternalLinks.ProjectUpdateSectionDisplayName);
         }
@@ -1783,6 +1793,7 @@ namespace ProjectFirma.Web.Controllers
             // finally create a new project update record, refreshing with the current project data at this point in time
             ProjectExternalLinkUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} External Links successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -1834,7 +1845,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectUpdateBatch.TechnicalAssistanceRequestsComment = viewModel.TechnicalAssistanceRequestsComment;
             }
-
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Technical Assistance Requests successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
                 ProjectUpdateSection.TechnicalAssistanceRequests.ProjectUpdateSectionDisplayName);
         }
@@ -1871,6 +1882,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh the data
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Technical Assistance Requests successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -3286,6 +3298,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh data
             ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Organizations successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -3467,6 +3480,7 @@ namespace ProjectFirma.Web.Controllers
             // refresh data
             ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Contacts successfully reverted.");
             return new ModalDialogFormJsonResult();
         }
 

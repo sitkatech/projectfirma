@@ -28,6 +28,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -74,6 +75,18 @@ namespace ProjectFirma.Web.Models
         public static string GetDeleteUrl(this Project project)
         {
             return DeleteUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static readonly UrlTemplate<int> AddProjectProjectStatusUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.New(UrlTemplate.Parameter1Int)));
+        public static string GetAddProjectProjectStatusUrl(this Project project)
+        {
+            return AddProjectProjectStatusUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static readonly UrlTemplate<int> AddProjectProjectStatusFromGridUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.NewFromGrid(UrlTemplate.Parameter1Int)));
+        public static string GetAddProjectProjectStatusFromGridUrl(this Project project)
+        {
+            return AddProjectProjectStatusFromGridUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
         public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProjectProposal(UrlTemplate.Parameter1Int)));

@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Views.Shared
             SortChartsByLegendTitle = sortChartsByLegendTitle;
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = hyperlinkPerformanceMeasureName;
-            CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
+            CanBeChartedCumulatively = performanceMeasure?.CanBeChartedCumulatively ?? false;
         }
     }
 }

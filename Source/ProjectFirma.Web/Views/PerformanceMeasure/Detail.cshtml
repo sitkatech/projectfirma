@@ -99,18 +99,21 @@
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
-                </div>
+                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                {
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
+                    </div>
+                }
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
@@ -124,7 +127,7 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasEditPerformanceMeasureTargetPermission)
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
                     Accomplishments
                 </h2>
             </div>
