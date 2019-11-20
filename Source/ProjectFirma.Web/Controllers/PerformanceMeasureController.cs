@@ -124,6 +124,20 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
+
+            if (performanceMeasure.CanBeChartedCumulatively)
+            {
+                foreach (var pmSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                {
+                    if (!pmSubcategory.ShowOnCumulativeChart())
+                    {
+                        var targetSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+                        pmSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(targetSubcategoryChartConfigurationJson).ToString();
+                        pmSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                    }
+                }
+            }
+
             return new ModalDialogFormJsonResult(performanceMeasure.GetSummaryUrl());
         }
 
@@ -322,6 +336,12 @@ namespace ProjectFirma.Web.Controllers
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
             var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
             defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+            if (performanceMeasure.CanBeChartedCumulatively)
+            {
+                var targetSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+                defaultSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(targetSubcategoryChartConfigurationJson).ToString();
+                defaultSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+            }
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
