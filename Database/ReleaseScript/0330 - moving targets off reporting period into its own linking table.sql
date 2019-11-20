@@ -73,7 +73,7 @@ ALTER TABLE [dbo].[PerformanceMeasureTarget] CHECK CONSTRAINT [FK_PerformanceMea
 GO
 
 
-
+alter table dbo.PerformanceMeasureTarget add constraint FK_PerformanceMeasureTarget_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID foreign key (PerformanceMeasureReportingPeriodID, TenantID) references dbo.PerformanceMeasureReportingPeriod(PerformanceMeasureReportingPeriodID, TenantID)
 
 
 INSERT INTO dbo.PerformanceMeasureTarget( TenantID, PerformanceMeasureID, PerformanceMeasureReportingPeriodID, PerformanceMeasureTargetValue, PerformanceMeasureTargetValueLabel )
