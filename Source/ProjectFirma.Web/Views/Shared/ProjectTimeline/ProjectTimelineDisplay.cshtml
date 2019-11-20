@@ -49,8 +49,16 @@
      }
      var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
      <div class="row project-timeline-header">
-         <div class="col-md-6"><h4>Update History</h4></div>
-         <div class="col-md-6"><h4>Status History</h4></div>
+         <div class="col-md-6">
+             <h4>
+                 @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectUpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectUpdateHistory.ToType().GetFieldDefinitionLabel()
+             </h4>
+         </div>
+         <div class="col-md-6">
+             <h4>
+                 @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectStatusHistory.ToType().GetFieldDefinitionLabel()
+             </h4>
+         </div>
      </div>
      <div class="project-timeline-wrapper">
          @foreach (var yearGroup in groupedTimelineEvents)
