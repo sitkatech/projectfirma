@@ -85,7 +85,8 @@ namespace ProjectFirma.Web.Controllers
             var projectProjectStatus =
                 ProjectProjectStatus.CreateNewBlank(project, projectStatusFromViewModel, CurrentFirmaSession.Person);
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
-            HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses.Add(projectProjectStatus);
+            project.ProjectProjectStatuses.Add(projectProjectStatus);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
             return new ModalDialogFormJsonResult();
         }
 

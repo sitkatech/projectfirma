@@ -239,7 +239,7 @@ namespace ProjectFirma.Web.Models
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
-            TimelineEventPersonDisplayName = project.ReviewedByPerson.GetFullNameFirstLast();
+            TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);

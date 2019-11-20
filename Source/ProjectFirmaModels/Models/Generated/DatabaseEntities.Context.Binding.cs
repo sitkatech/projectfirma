@@ -354,7 +354,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
         public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectProjectStatus> ProjectProjectStatuses { get; set; }
+        public virtual DbSet<ProjectProjectStatus> AllProjectProjectStatuses { get; set; }
+        public virtual IQueryable<ProjectProjectStatus> ProjectProjectStatuses { get { return AllProjectProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostType> AllProjectRelevantCostTypes { get; set; }
         public virtual IQueryable<ProjectRelevantCostType> ProjectRelevantCostTypes { get { return AllProjectRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostTypeUpdate> AllProjectRelevantCostTypeUpdates { get; set; }

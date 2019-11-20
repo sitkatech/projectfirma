@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ProjectProjectStatus]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -20,33 +19,5 @@ namespace ProjectFirmaModels.Models
             return projectProjectStatus;
         }
 
-        // Delete using an IDList (Firma style)
-        public static void DeleteProjectProjectStatus(this IQueryable<ProjectProjectStatus> projectProjectStatuses, List<int> projectProjectStatusIDList)
-        {
-            if(projectProjectStatusIDList.Any())
-            {
-                projectProjectStatuses.Where(x => projectProjectStatusIDList.Contains(x.ProjectProjectStatusID)).Delete();
-            }
-        }
-
-        // Delete using an object list (Firma style)
-        public static void DeleteProjectProjectStatus(this IQueryable<ProjectProjectStatus> projectProjectStatuses, ICollection<ProjectProjectStatus> projectProjectStatusesToDelete)
-        {
-            if(projectProjectStatusesToDelete.Any())
-            {
-                var projectProjectStatusIDList = projectProjectStatusesToDelete.Select(x => x.ProjectProjectStatusID).ToList();
-                projectProjectStatuses.Where(x => projectProjectStatusIDList.Contains(x.ProjectProjectStatusID)).Delete();
-            }
-        }
-
-        public static void DeleteProjectProjectStatus(this IQueryable<ProjectProjectStatus> projectProjectStatuses, int projectProjectStatusID)
-        {
-            DeleteProjectProjectStatus(projectProjectStatuses, new List<int> { projectProjectStatusID });
-        }
-
-        public static void DeleteProjectProjectStatus(this IQueryable<ProjectProjectStatus> projectProjectStatuses, ProjectProjectStatus projectProjectStatusToDelete)
-        {
-            DeleteProjectProjectStatus(projectProjectStatuses, new List<ProjectProjectStatus> { projectProjectStatusToDelete });
-        }
     }
 }
