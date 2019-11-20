@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
         public string EditPerformanceMeasureTargetUrl { get; set; }
-        public bool UserHasEditPerformanceMeasureTargetPermission { get; }
+
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
@@ -113,7 +113,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
-            UserHasEditPerformanceMeasureTargetPermission = new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission;
 
             FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
