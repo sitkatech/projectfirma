@@ -1,10 +1,15 @@
+drop table dbo.ProjectProjectStatus
+
+go
+
+
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ProjectProjectStatus](
 	[ProjectProjectStatusID] [int] IDENTITY(1,1) NOT NULL,
-	[TenantID] [int] NOT NULL,
+    [TenantID] int NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[ProjectStatusID] [int] NOT NULL,
 	[ProjectProjectStatusUpdateDate] [datetime] NOT NULL,
@@ -35,12 +40,14 @@ REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Project_ProjectID]
 GO
-ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
-REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
-GO
-ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID]
-GO
 ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Tenant_TenantID]
+GO
+
+
+ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
+REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
+GO
+ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID]
