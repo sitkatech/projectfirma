@@ -13,11 +13,19 @@ angular.module("ProjectFirmaApp")
                 return !$scope.AngularModel.GeospatialAreaIDs || $scope.AngularModel.GeospatialAreaIDs.length < 1;
             };
 
+            $scope.hasProjectLocationPoint = function () {
+                return $scope.AngularViewData.HasProjectLocationPoint;
+            };
+
+            $scope.projectLocationInstersectsGeospatialAreas = function () {
+                return $scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation.length > 0;
+            };
+
             $scope.canSetGeospatialAreaFromProjectLocation = function () {
                 return $scope.AngularViewData.HasProjectLocationPoint &&
                     $scope.AngularViewData.GeospatialAreaIDsContainingProjectSimpleLocation.length > 0;
             };
-
+            
             $scope.setSelectedGeospatialAreaTypeFromProjectLocation = function () {
                 $scope.AngularModel.GeospatialAreaIDs = [];
                 var geospatialAreaTypesSelected = [];

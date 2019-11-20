@@ -1453,7 +1453,6 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewBulkSetSpatialInformation(Project project, ProjectUpdateBatch projectUpdateBatch, BulkSetSpatialInformationViewModel viewModel)
         {
-            //            var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdateBatch.ProjectUpdate);
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
 
