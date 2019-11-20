@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("ProjectProjectStatus", schema);
             HasKey(x => x.ProjectProjectStatusID);
             Property(x => x.ProjectProjectStatusID).HasColumnName(@"ProjectProjectStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectStatusID).HasColumnName(@"ProjectStatusID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectProjectStatusUpdateDate).HasColumnName(@"ProjectProjectStatusUpdateDate").HasColumnType("datetime").IsRequired();
