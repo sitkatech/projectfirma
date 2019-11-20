@@ -51,3 +51,9 @@ ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_Project
 REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID]
+
+go
+
+alter table dbo.ProjectProjectStatus add constraint FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_TenantID foreign key (ProjectProjectStatusCreatePersonID, TenantID) references dbo.Person(PersonID, TenantID)
+alter table dbo.ProjectProjectStatus add constraint FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_TenantID foreign key (ProjectProjectStatusLastEditedPersonID, TenantID) references dbo.Person(PersonID, TenantID)
+alter table dbo.ProjectProjectStatus add constraint FK_ProjectProjectStatus_Project_ProjectID_TenantID foreign key (ProjectID, TenantID) references dbo.Project(ProjectID, TenantID)
