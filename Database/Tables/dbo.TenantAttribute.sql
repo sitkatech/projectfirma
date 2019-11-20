@@ -33,6 +33,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[CanManageCustomAttributes] [bit] NOT NULL,
 	[ExcludeTargetedFundingOrganizations] [bit] NOT NULL,
 	[GoogleAnalyticsTrackingCode] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[UseProjectTimeline] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

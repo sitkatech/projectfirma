@@ -193,6 +193,8 @@
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
+    <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />

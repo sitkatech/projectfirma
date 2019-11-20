@@ -1584,6 +1584,13 @@ nav#wizardNav ul li.workflowSection a:hover {
     z-index: 1000;
   }
 }
+.project-timeline-header {
+  margin: 15px 0;
+}
+.project-timeline-header h4 {
+  text-decoration: underline;
+  text-align: center;
+}
 .project-timeline-wrapper {
   text-align: center;
   width: 100%;

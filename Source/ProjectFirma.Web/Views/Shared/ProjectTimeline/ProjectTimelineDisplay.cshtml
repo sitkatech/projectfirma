@@ -41,11 +41,17 @@
  @if (ViewDataTyped.ProjectTimeline != null)
  {
      var yearDisplayCount = 0;
-     
-     <div class="row pull-right">
-         <span style="margin-right: 15px;"> @ViewDataTyped.AddProjectProjectStatusButton</span>
-     </div>
+     if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+     {
+         <div class="row">
+             <span class="pull-right" style="margin-right: 15px;"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+         </div>
+     }
      var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
+     <div class="row project-timeline-header">
+         <div class="col-md-6"><h4>Update History</h4></div>
+         <div class="col-md-6"><h4>Status History</h4></div>
+     </div>
      <div class="project-timeline-wrapper">
          @foreach (var yearGroup in groupedTimelineEvents)
          {
@@ -71,9 +77,9 @@
                                          @foreach (var projectTimelineEvent in dayGroup)
                                          {
                                              <div class="timeline-event-wrapper">
-                                                 <div class="timeline-event @(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color:@projectTimelineEvent.Color;">
+                                                 <div class="timeline-event @(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color: @projectTimelineEvent.Color;">
                                                      <div class="timeline-event-header">
-                                                         @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()))
+                                                         @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
                                                          {
                                                              <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
                                                          }

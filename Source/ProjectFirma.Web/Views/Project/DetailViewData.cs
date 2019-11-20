@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Project
         public bool UserHasProjectAdminPermissions { get; }
         public bool UserHasEditProjectPermissions { get; }
         public bool UserHasPerformanceMeasureActualManagePermissions { get; }
+        public bool UserHasProjectTimelinePermissions { get; }
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
@@ -144,7 +145,8 @@ namespace ProjectFirma.Web.Views.Project
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes,
             DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
-            string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData)
+            string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
+            bool userHasProjectTimelinePermissions)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -155,6 +157,7 @@ namespace ProjectFirma.Web.Views.Project
             UserHasProjectAdminPermissions = userHasProjectAdminPermissions;
             UserHasEditProjectPermissions = userHasEditProjectPermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
+            UserHasProjectTimelinePermissions = userHasProjectTimelinePermissions;
 
             var projectAlerts = new List<string>();
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
