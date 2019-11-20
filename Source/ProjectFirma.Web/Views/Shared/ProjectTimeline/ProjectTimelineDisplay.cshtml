@@ -86,8 +86,11 @@
                                                          <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
                                                          <span class="timeline-event-date">@projectTimelineEvent.DateDisplay</span>
                                                      </div>
-
-                                                     By @projectTimelineEvent.TimelineEventPersonDisplayName
+                                                     
+                                                     @if (!string.IsNullOrWhiteSpace(projectTimelineEvent.TimelineEventPersonDisplayName))
+                                                     {
+                                                         <span>By @projectTimelineEvent.TimelineEventPersonDisplayName</span>
+                                                     }
                                                      <div class="timeline-event-footer">
                                                          <span class="timeline-event-details-link pull-right">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
                                                      </div>
