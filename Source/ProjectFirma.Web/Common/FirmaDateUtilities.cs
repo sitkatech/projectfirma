@@ -84,7 +84,12 @@ namespace ProjectFirma.Web.Common
         {
             return ((DateUtilities.Month)dateTime.Month).GetFiscalQuarter();
         }
-        
+
+        public static DateUtilities.CalendarQuarter CalculateCalendarQuarter(DateTime dateTime)
+        {
+            return ((DateUtilities.Month)dateTime.Month).GetCalendarQuarter();
+        }
+
         public static int CalculateCurrentYearToUseForUpToAllowableInputInReporting()
         {
             var startDayOfReportingYear = MultiTenantHelpers.GetStartDayOfReportingYear();
