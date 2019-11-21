@@ -27,11 +27,12 @@ using System.Web.Mvc;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
-    public class EditProjectProjectStatusViewData : FirmaUserControlViewData
+    public class EditProjectProjectStatusViewData : FirmaViewData
     {
 
         public IEnumerable<SelectListItem> ProjectStatuses { get; }
@@ -41,11 +42,13 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public bool ShowCreatedBy { get; }
         public string CreatedByPerson { get; }
         public HtmlString DeleteButton { get; }
+        public ViewPageContentViewData ProjectStatusFirmaPage { get; }
 
         public EditProjectProjectStatusViewData(bool allowEditUpdateDate
             , bool showCreatedBy
             , string createdByPerson
-            , string deleteUrl)
+            , string deleteUrl, ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage,
+            FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
@@ -53,6 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             ShowCreatedBy = showCreatedBy;
             CreatedByPerson = createdByPerson;
             DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
+            ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
         }
     }
 
