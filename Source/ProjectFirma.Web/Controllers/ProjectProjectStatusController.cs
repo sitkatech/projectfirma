@@ -41,7 +41,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
-            return ViewEdit(viewModel, false, false, null, null);
+            var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
+            return ViewEdit(viewModel, false, false, null, null, projectStatusFirmaPage);
         }
 
         [HttpPost]
@@ -51,7 +52,8 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, false, false, null, null);
+                var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
+                return ViewEdit(viewModel, false, false, null, null, projectStatusFirmaPage);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -62,7 +64,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
-            return ViewEdit(viewModel, true, false, null, null);
+            var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
+            return ViewEdit(viewModel, true, false, null, null, projectStatusFirmaPage);
         }
 
         [HttpPost]
@@ -72,7 +75,8 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true, false, null, null);
+                var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
+                return ViewEdit(viewModel, true, false, null, null, projectStatusFirmaPage);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -96,7 +100,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
-            return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl());
+            var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
+            return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
         }
 
         [HttpPost]
@@ -107,15 +112,16 @@ namespace ProjectFirma.Web.Controllers
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl());
+                var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
+                return ViewEdit(viewModel, true, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
             }
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay, string deleteUrl)
+        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage)
         {
-            var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusDialog.GetFirmaPage();
+            var projectStatusFirmaPage = firmaPage;
             var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
