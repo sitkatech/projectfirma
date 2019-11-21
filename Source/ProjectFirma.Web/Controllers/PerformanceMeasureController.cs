@@ -32,6 +32,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -304,6 +305,17 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasureExpecteds = GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureExpected>(performanceMeasureExpecteds, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [PerformanceMeasureViewFeature]
+        public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        {
+            var performanceMeasureTargets = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasurePrimaryKey.PrimaryKeyValue);
+            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).ToList();
+
+            var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

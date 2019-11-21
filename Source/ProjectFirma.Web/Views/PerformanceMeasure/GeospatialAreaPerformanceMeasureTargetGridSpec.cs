@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             }
 
             Add("Geospatial Layer", x => x.GeospatialAreaType.GeospatialAreaTypeName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.GeospatialArea.ToType().ToGridHeaderString(), a => a.GetDisplayName(), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.GeospatialArea.ToType().ToGridHeaderString(), a =>  a.GetDisplayNameAsUrl(), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Target Value", a => a.GetTargetValueDisplayForGrid(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }

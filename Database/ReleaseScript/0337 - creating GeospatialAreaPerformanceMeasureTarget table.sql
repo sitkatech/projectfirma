@@ -12,8 +12,9 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureTarget](
 (
 	[GeospatialAreaPerformanceMeasureTargetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_GeospatialAreaPerformanceMeasureTarget_PerformanceMeasureReportingPeriodID_PerformanceMeasureID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_GeospatialAreaPerformanceMeasureTarget_GeospatialAreaID_PerformanceMeasureReportingPeriodID_PerformanceMeasureID] UNIQUE NONCLUSTERED 
 (
+	[GeospatialAreaID] ASC,
 	[PerformanceMeasureReportingPeriodID] ASC,
 	[PerformanceMeasureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
