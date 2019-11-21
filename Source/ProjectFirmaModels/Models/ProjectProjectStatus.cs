@@ -5,7 +5,7 @@
         public string GetAuditDescriptionString()
         {
             var projectStatusProjectStatusDisplayName =
-                ProjectStatus.AllLookupDictionary[ProjectStatusID].ProjectStatusDisplayName;
+                ProjectStatus.ProjectStatusDisplayName;
             var projectProjectName = ProjectID.ToString();
             return $"Project Status Update: Project Status - {projectStatusProjectStatusDisplayName}, Project - {projectProjectName}";
         }

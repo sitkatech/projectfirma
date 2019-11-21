@@ -1,0 +1,182 @@
+﻿@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared
+@inherits ProjectFirma.Web.Views.ProjectCustomAttributeType.Edit
+
+<script type="text/javascript" src="@Url.Content("~/Views/ProjectCustomAttributeType/EditProjectCustomAttributeTypeController.js")"></script>
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(function() {
+        angular.module("ProjectFirmaApp")
+            .factory("angularModelAndViewData",
+                function()
+                {
+                    return {
+                        AngularModel: @Html.Raw(JObject.FromObject(Model).ToString(Formatting.None)),
+                        AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular).ToString(Formatting.None))
+                    };
+                });
+        angular.bootstrap(jQuery("[ng-controller=\"EditProjectCustomAttributeTypeController\"]"), ["ProjectFirmaApp"]);
+    });
+    // ]]>
+</script>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
+
+<form method="POST" action="@ViewDataTyped.SubmitUrl" id="EditProjectCustomAttributeTypeControllerApp" name="customAttributeTypeForm"
+      ng-app="ProjectFirmaApp" ng-controller="EditProjectCustomAttributeTypeController" ng-submit="submit()" ng-cloak>
+    @Html.HiddenFor(m => m.ProjectCustomAttributeTypeID)
+    <input type="hidden" name="@Html.NameFor(m => m.ProjectCustomAttributeTypeOptionsSchema)" ng-value="AngularModel.ProjectCustomAttributeTypeOptionsSchema" />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="validationError">
+                @Html.ValidationSummary()
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeName)
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.ProjectCustomAttributeTypeName, new { @class = "form-control", style = "width:100%" })
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeGroupID)
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.ProjectCustomAttributeGroupID, ViewDataTyped.ProjectCustomAttributeGroups, new { style = "width: auto;", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeGroupID)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.IsRequired)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.IsRequired, ViewDataTyped.YesNos, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+                        @Html.ValidationMessageFor(m => m.IsRequired)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeDesription)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectCustomAttributeTypeDesription, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeTypeDesription)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeDataTypeID)
+                    </div>
+                    <div class="col-sm-9">
+                        <select class="form-control"
+                                style="width: auto"
+                                name="ProjectCustomAttributeDataTypeID"
+                                ng-model="ProjectCustomAttributeDataTypeID"
+                                ng-change="updateProjectCustomAttributeDataType()"
+                                ng-required="true">
+                            <option value="">&lt;Choose one&gt;</option>
+                            <option ng-repeat="customAttributeDataType in AngularViewData.ProjectCustomAttributeDataTypes"
+                                    ng-selected="AngularModel.ProjectCustomAttributeDataTypeID == customAttributeDataType.ID"
+                                    ng-value="customAttributeDataType.ID">
+                                {{customAttributeDataType.DisplayName}}
+                            </option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.ProjectCustomAttributeDataTypeID)
+                    </div>
+                </div>
+                <div ng-if="ProjectCustomAttributeDataTypeSelected == null">
+                    <div class="alert alert-warning" role="alert">
+                        Select a @FieldDefinitionEnum.ProjectCustomAttributeDataType.ToType().GetFieldDefinitionLabel() to enter the required information
+                    </div>
+                </div>
+                <div ng-if="ProjectCustomAttributeDataTypeSelected != null">
+                    <div ng-if="selectedProjectCustomAttributeDataTypeHasMeasurementUnit()">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">
+                                @Html.LabelWithSugarFor(m => m.MeasurementUnitTypeID, true)
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(x => x.MeasurementUnitTypeID, ViewDataTyped.MeasurementUnitTypes, new { style = "width: auto;", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.MeasurementUnitTypeID)
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="selectedProjectCustomAttributeDataTypeHasOptions()">
+                        <div class="form-group">
+                            <div class="col-sm-3 control-label">
+                                @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeTypeOptionsSchema, true)
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div ng-repeat="item in OptionsSchema track by $index" style="margin-bottom: 4px" class="col-xs-12 col-sm-4">
+                                        <div class="input-group input-group-sm">
+                                            <input class="form-control"
+                                                   ng-model="OptionsSchema[$index]"
+                                                   type="text"
+                                                   value="{{OptionsSchema[$index]}}"
+                                                   placeholder="e.g. Sand, Compost">
+                                            <div class="input-group-btn">
+                                                <a class="btn btn-firma"><span class="glyphicon glyphicon-remove" ng-click="removeInput($index)"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <button class="btn btn-firma btn-sm" type="button" ng-click="addInput()">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.ProjectCustomAttributeTypeEditableBy.ToType())
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(x => x.EditableByNormal) @Html.LabelFor(x => x.EditableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.EditableByProjectSteward) @Html.LabelFor(x => x.EditableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType())
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
+                        @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3 control-label">
+                        @Html.LabelWithSugarFor(m => m.IsViewableOnFactSheet)
+                    </div>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.IsViewableOnFactSheet, ViewDataTyped.YesNos, new Dictionary<string, object> { { "style", "width: auto" }, { "class", "form-control" } })
+                        @Html.ValidationMessageFor(m => m.IsViewableOnFactSheet)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

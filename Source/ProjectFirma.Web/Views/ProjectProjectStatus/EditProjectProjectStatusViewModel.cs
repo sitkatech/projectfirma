@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
 
         [Required]
         [DisplayName("Project Status")]
-        public int? ProjectStatusID { get; set; }
+        public int ProjectStatusID { get; set; }
 
         [Required]
         [DisplayName("Project Status Update Date")]
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
-            projectProjectStatus.ProjectStatusID = ProjectStatusID.Value;
+            projectProjectStatus.ProjectStatusID = ProjectStatusID;
             projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {

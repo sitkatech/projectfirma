@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
             EditProjectProjectStatusViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var projectStatusFromViewModel = ProjectStatus.AllLookupDictionary[viewModel.ProjectStatusID.Value];
+            var projectStatusFromViewModel = new ProjectStatusPrimaryKey(viewModel.ProjectStatusID).EntityObject;
             var projectProjectStatus =
                 ProjectProjectStatus.CreateNewBlank(project, projectStatusFromViewModel, CurrentFirmaSession.Person);
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
@@ -122,7 +122,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession);
+            var allProjectStatuses = HttpRequestStorage.DatabaseEntities.AllProjectStatuses.Local.ToList();
+            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 

@@ -48,10 +48,10 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             , bool showCreatedBy
             , string createdByPerson
             , string deleteUrl, ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage,
-            FirmaSession currentFirmaSession) : base(currentFirmaSession)
+            FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ProjectStatus> allProjectStatuses) : base(currentFirmaSession)
         {
-            ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
-            ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
+            ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
+            ProjectStatusJsonList = new ProjectStatusJsonList(allProjectStatuses.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
             ShowCreatedBy = showCreatedBy;
             CreatedByPerson = createdByPerson;
@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public int ProjectStatusID { get; set; }
         public string ProjectStatusDisplayName { get; set; }
 
-        public ProjectStatusJson(ProjectStatus projectStatus)
+        public ProjectStatusJson(ProjectFirmaModels.Models.ProjectStatus projectStatus)
         {
             Color = projectStatus.ProjectStatusColor;
             ProjectStatusID = projectStatus.ProjectStatusID;
