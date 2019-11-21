@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
                     project.GetAddProjectProjectStatusFromGridUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}:");
+                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
             }
 
             var projectStatusDisplayName = "no status";
