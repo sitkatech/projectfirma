@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaPerformanceMeasureTarget(int geospatialAreaPerformanceMeasureTargetID, int geospatialAreaID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double? geospatialAreaPerformanceMeasureTargetValue, string geospatialAreaPerformanceMeasureTargetValueLabel) : this()
+        public GeospatialAreaPerformanceMeasureTarget(int geospatialAreaPerformanceMeasureTargetID, int geospatialAreaID, int performanceMeasureID, int? performanceMeasureReportingPeriodID, double? geospatialAreaPerformanceMeasureTargetValue, string geospatialAreaPerformanceMeasureTargetValueLabel) : this()
         {
             this.GeospatialAreaPerformanceMeasureTargetID = geospatialAreaPerformanceMeasureTargetID;
             this.GeospatialAreaID = geospatialAreaID;
@@ -43,20 +43,19 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaPerformanceMeasureTarget(int geospatialAreaID, int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
+        public GeospatialAreaPerformanceMeasureTarget(int geospatialAreaID, int performanceMeasureID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaPerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.GeospatialAreaID = geospatialAreaID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public GeospatialAreaPerformanceMeasureTarget(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
+        public GeospatialAreaPerformanceMeasureTarget(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaPerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,17 +65,14 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Add(this);
-            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
-            this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
-            performanceMeasureReportingPeriod.GeospatialAreaPerformanceMeasureTargets.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static GeospatialAreaPerformanceMeasureTarget CreateNewBlank(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
+        public static GeospatialAreaPerformanceMeasureTarget CreateNewBlank(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            return new GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, performanceMeasureReportingPeriod);
+            return new GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure);
         }
 
         /// <summary>
@@ -116,7 +112,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int GeospatialAreaID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int PerformanceMeasureReportingPeriodID { get; set; }
+        public int? PerformanceMeasureReportingPeriodID { get; set; }
         public double? GeospatialAreaPerformanceMeasureTargetValue { get; set; }
         public string GeospatialAreaPerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]

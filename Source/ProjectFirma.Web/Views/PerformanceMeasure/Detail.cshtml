@@ -28,6 +28,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @inherits Detail
 
@@ -148,7 +149,12 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <p>The following areas have or should have projects that contribute results for this metric.  If an area has a target value it is displayed below.</p>
+                        <div class="rightFloatingInfo">
+                            @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
+                                ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
+                                new List<string> {"btn", "btn-firma"}, null, null)
+                        </div>
+                        <p>The following areas have or should have projects that contribute results for this metric. If an area has a target value it is displayed below.</p>
 
                         @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
 

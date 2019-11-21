@@ -207,6 +207,9 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
@@ -465,6 +468,7 @@
     </Content>
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
@@ -498,6 +502,7 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cshtml" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

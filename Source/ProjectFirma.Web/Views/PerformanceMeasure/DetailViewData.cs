@@ -28,6 +28,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using LtInfo.Common.BootstrapWrappers;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -67,6 +68,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public GeospatialAreaPerformanceMeasureTargetGridSpec GeospatialAreaPerformanceMeasureTargetGridSpec { get; }
         public string GeospatialAreaPerformanceMeasureTargetGridName { get; }
         public string GeospatialAreaPerformanceMeasureTargetGridDataUrl { get;  }
+        public string AddGeospatialAreaPerformanceMeasureTargetDialogTitle { get; }
+        public string AddGeospatialAreaPerformanceMeasureTargetText { get; }
+        public string AddGeospatialAreaPerformanceMeasureTargetUrl { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
@@ -125,6 +129,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             GeospatialAreaPerformanceMeasureTargetGridName = "geospatialAreaPerformanceMeasuresTargetsGrid";
             GeospatialAreaPerformanceMeasureTargetGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.GeospatialAreaPerformanceMeasureTargetsGridJsonData(performanceMeasure));
+            AddGeospatialAreaPerformanceMeasureTargetDialogTitle = $"Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()} to {performanceMeasure.GetDisplayName()}";
+            AddGeospatialAreaPerformanceMeasureTargetText = $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()}";
+            AddGeospatialAreaPerformanceMeasureTargetUrl = SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(x => x.AddGeospatialAreaToPerformanceMeasure());
 
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));

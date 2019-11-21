@@ -44,6 +44,13 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
+        public PartialViewResult AddGeospatialAreaToPerformanceMeasure()
+        {
+            throw new NotImplementedException("AddGeospatialAreaToPerformanceMeasure is not implemented");
+        }
+
+        [HttpGet]
+        [GeospatialAreaPerformanceMeasureTargetManageFeature]
         public PartialViewResult Delete(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
         {
             throw new NotImplementedException("Delete is not implemented");
