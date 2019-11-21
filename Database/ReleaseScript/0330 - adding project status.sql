@@ -32,7 +32,7 @@ INSERT INTO dbo.ProjectStatus (TenantID, ProjectStatusName, ProjectStatusDisplay
 select TenantID, 'Red', 'Red', null, 30, '#FF0000' from Tenant
 
 INSERT INTO dbo.ProjectStatus (TenantID, ProjectStatusName, ProjectStatusDisplayName, ProjectStatusDescription, ProjectStatusSortOrder, ProjectStatusColor)
-select TenantID, 'OnHold', 'On Hold', null, 50, '#04AF70' from Tenant
+select TenantID, 'OnHold', 'On Hold', null, 50, '#800080' from Tenant
 
 
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
