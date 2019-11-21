@@ -35,17 +35,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 {
-    public class AddGeospatialAreaToPerformanceMeasureViewModel : FormViewModel, IValidatableObject
+    public class AddGeospatialAreaToPerformanceMeasureViewModel : FormViewModel
     {
-
         [Required]
         public int PerformanceMeasureID { get; set; }
-
-        
-        public double? OverallTargetValue { get; set; }
-        public string OverallTargetValueDescription { get; set; }
-
-        public HashSet<string> PerformanceMeasureReportedsWithValidationErrors { get; private set; }
+        public int GeospatialAreaTypeID { get; set; }
+        public List<int> GeospatialAreas { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -56,25 +51,15 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 
         public AddGeospatialAreaToPerformanceMeasureViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-
+            PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, 
-                                ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods, 
-                                ICollection<PerformanceMeasureTarget> allPerformanceMeasureTargets)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-
+            
 
         }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var errors = new List<ValidationResult>();
-            PerformanceMeasureReportedsWithValidationErrors = new HashSet<string>();
-
-
-            return errors.DistinctBy(x => x.ErrorMessage);
-        }
 
 
 

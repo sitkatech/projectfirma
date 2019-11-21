@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             GeospatialAreaPerformanceMeasureTargetGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.GeospatialAreaPerformanceMeasureTargetsGridJsonData(performanceMeasure));
             AddGeospatialAreaPerformanceMeasureTargetDialogTitle = $"Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()} to {performanceMeasure.GetDisplayName()}";
             AddGeospatialAreaPerformanceMeasureTargetText = $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()}";
-            AddGeospatialAreaPerformanceMeasureTargetUrl = SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(x => x.AddGeospatialAreaToPerformanceMeasure());
+            AddGeospatialAreaPerformanceMeasureTargetUrl = SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(x => x.AddGeospatialAreaToPerformanceMeasure(performanceMeasure));
 
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));

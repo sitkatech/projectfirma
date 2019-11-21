@@ -104,6 +104,7 @@
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaTypeSimple.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
@@ -347,6 +348,7 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\GeospatialAreaTypeSimple.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />

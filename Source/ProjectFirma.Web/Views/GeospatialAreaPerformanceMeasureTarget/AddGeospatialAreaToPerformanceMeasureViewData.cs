@@ -20,7 +20,6 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -30,29 +29,24 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
     {        
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public AddGeospatialAreaToPerformanceMeasureViewDataForAngular ViewDataForAngular { get; }
-        public ProjectFirmaModels.Models.FieldDefinition PerformanceMeasureFieldDefinition { get; }
 
         public AddGeospatialAreaToPerformanceMeasureViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, AddGeospatialAreaToPerformanceMeasureViewDataForAngular viewDataForAngular)
         {
             PerformanceMeasure = performanceMeasure;
             ViewDataForAngular = viewDataForAngular;
-            PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
-            
+
         }
     }
 
     public class AddGeospatialAreaToPerformanceMeasureViewDataForAngular
     {
-        public int? PerformanceMeasureSubcategoryID { get; }
-        public int DefaultReportingPeriodYear { get; }
-        public List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes { get; }
-        public List<int> ReportingPeriodsWithActuals { get; }
+        public List<GeospatialAreaTypeSimple> GeospatialAreaTypeSimples { get; set; }
+        public List<GeospatialAreaSimple> GeospatialAreaSimples { get; set; }
 
-        public AddGeospatialAreaToPerformanceMeasureViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes)
+        public AddGeospatialAreaToPerformanceMeasureViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, List<GeospatialAreaTypeSimple> geospatialAreaTypeSimples, List<GeospatialAreaSimple> geospatialAreaSimples)
         {
-            PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
-            DefaultReportingPeriodYear = defaultReportingPeriodYear;
-            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+            GeospatialAreaTypeSimples = geospatialAreaTypeSimples;
+            GeospatialAreaSimples = geospatialAreaSimples;//todo: probably want this data coming from an AJAX call
         }
     }
 }

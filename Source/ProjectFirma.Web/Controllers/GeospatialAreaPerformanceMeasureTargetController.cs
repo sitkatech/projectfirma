@@ -37,6 +37,7 @@ using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
 using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.GeospatialArea.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.GeospatialArea.IndexViewData;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -44,9 +45,38 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
-        public PartialViewResult AddGeospatialAreaToPerformanceMeasure()
+        public PartialViewResult AddGeospatialAreaToPerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            throw new NotImplementedException("AddGeospatialAreaToPerformanceMeasure is not implemented");
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new AddGeospatialAreaToPerformanceMeasureViewModel(performanceMeasure);
+            return ViewAddGeospatialAreaToPerformanceMeasure(performanceMeasure, viewModel);
+        }
+
+        [HttpPost]
+        [AttachmentRelationshipTypeManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult AddGeospatialAreaToPerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewAddGeospatialAreaToPerformanceMeasure(performanceMeasure, viewModel);
+            }
+
+
+            viewModel.UpdateModel(performanceMeasure);
+
+            return new ModalDialogFormJsonResult();
+        }
+
+
+        private PartialViewResult ViewAddGeospatialAreaToPerformanceMeasure(PerformanceMeasure performanceMeasure, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
+        {
+            var geospatialAreaTypeSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().Select(x => new GeospatialAreaTypeSimple(x)).ToList();
+            var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
+            var viewDataForAngular = new AddGeospatialAreaToPerformanceMeasureViewDataForAngular(performanceMeasure, geospatialAreaTypeSimples, geospatialAreaSimples);
+            var viewData = new AddGeospatialAreaToPerformanceMeasureViewData(performanceMeasure, viewDataForAngular);
+            return RazorPartialView<AddGeospatialAreaToPerformanceMeasure, AddGeospatialAreaToPerformanceMeasureViewData, AddGeospatialAreaToPerformanceMeasureViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
