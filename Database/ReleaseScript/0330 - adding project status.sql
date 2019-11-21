@@ -19,3 +19,11 @@ CREATE TABLE [dbo].[ProjectStatus](
 ) ON [PRIMARY]
 GO
 
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values 
+(67, 'ProjectStatusDialog', 'Project Status Dialog', 2)
+GO
+
+insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
+select TenantID, 67, '<p>Adding a status update will add a new status history event with the date chosen to the project timeline. The status update with the most recent date will be used as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
+GO

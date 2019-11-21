@@ -48,4 +48,5 @@ values
 (63, 'FundingStatusFooter', 'Funding Status Footer', 1),
 (64, 'ManageProjectCustomGrids', 'Manage Project Custom Grids', 1),
 (65, 'ManageProjectCustomAttributeGroupInstructions', 'Manage Project Custom Attribute Group Instructions', 2),
-(66, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2)
+(66, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2),
+(67, 'ProjectStatusDialog', 'Project Status Dialog', 2)
