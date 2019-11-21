@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, bool showCreatedBy, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
-            var allProjectStatuses = HttpRequestStorage.DatabaseEntities.AllProjectStatuses.Local.ToList();
+            var allProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectStatuses.ToList();
             var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
