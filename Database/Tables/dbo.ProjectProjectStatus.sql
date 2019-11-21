@@ -25,20 +25,20 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_PersonID]
 GO
-ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_TenantID] FOREIGN KEY([ProjectProjectStatusCreatePersonID], [TenantID])
+ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_TenantID_PersonID_TenantID] FOREIGN KEY([ProjectProjectStatusCreatePersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_TenantID]
+ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID] FOREIGN KEY([ProjectProjectStatusLastEditedPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID]
 GO
-ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_TenantID] FOREIGN KEY([ProjectProjectStatusLastEditedPersonID], [TenantID])
+ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([ProjectProjectStatusLastEditedPersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_TenantID]
+ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])

@@ -42,9 +42,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
             if (canEditProjectStatus)
             {
-                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                     project.GetAddProjectProjectStatusFromGridUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}:");
+                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
             }
 
             var projectStatusDisplayName = "no status";

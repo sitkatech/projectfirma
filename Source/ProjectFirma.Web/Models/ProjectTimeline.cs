@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Models
                 throw new SitkaProjectTimelineException("Cannot create a timeline create event with a project that does not have a submission date.");
             }
             Date = (DateTime)project.SubmissionDate;
-            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
+            DateDisplay = Date.ToString("MMM dd, yyyy");
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
@@ -235,7 +235,7 @@ namespace ProjectFirma.Web.Models
                 throw new SitkaProjectTimelineException("Cannot create a timeline approval event with a project that does not have an approval date.");
             }
             Date = (DateTime)project.ApprovalDate;
-            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
+            DateDisplay = Date.ToString("MMM dd, yyyy");
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
@@ -266,7 +266,7 @@ namespace ProjectFirma.Web.Models
             var approvedProjectUpdateHistory = projectUpdateBatch.ProjectUpdateHistories.First(x => x.ProjectUpdateState == ProjectUpdateState.Approved);
 
             Date = approvedProjectUpdateHistory.TransitionDate;
-            DateDisplay = Date.ToString("MMM dd, yyyy h:mm tt");
+            DateDisplay = Date.ToString("MMM dd, yyyy");
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";

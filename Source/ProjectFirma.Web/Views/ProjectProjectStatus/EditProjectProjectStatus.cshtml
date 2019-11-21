@@ -20,21 +20,17 @@
     -----------------------------------------------------------------------*@
 @using System.Web.Mvc.Html
 @using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
 
 
-
-
-
-
 <style>
-    
+
     .deleteProjectProjectStatusRow .btn-firma .glyphicon {
         color: white;
     }
@@ -42,16 +38,14 @@
     .deleteProjectProjectStatusRow .btn-firma {
         margin-left: 15px;
     }
-
 </style>
 
-
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
 @using (Html.BeginForm())
 {
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
-                
                 <div class="form-group" style="@(ViewDataTyped.ShowCreatedBy ? "" : "display: none;")">
                     <div class="col-sm-4 control-label">
                         <label>
@@ -68,7 +62,7 @@
                         @Html.LabelWithSugarFor(m => m.ProjectStatusUpdateDate)
                     </div>
                     <div class="col-sm-8">
-                        @Html.EditorFor(m => m.ProjectStatusUpdateDate, new {@class = "form-control"})
+                        @Html.EditorFor(m => m.ProjectStatusUpdateDate, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
                     </div>
                 </div>
@@ -78,7 +72,7 @@
                         @Html.LabelWithSugarFor(m => m.ProjectStatusID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectStatuses, new {@class = "form-control"})
+                        @Html.DropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectStatuses, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ProjectStatusID)
                     </div>
                 </div>
@@ -86,7 +80,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
                     <div class="col-sm-8">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> {"form-control"})
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                         @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
                     </div>
                 </div>

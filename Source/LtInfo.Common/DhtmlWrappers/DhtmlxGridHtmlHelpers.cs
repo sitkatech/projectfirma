@@ -594,6 +594,14 @@ namespace LtInfo.Common.DhtmlWrappers
         }
 
         /// <summary>
+        /// For making a plus icon on the grid with an editor in a jquery ui dialog
+        /// </summary>
+        public static HtmlString MakePlusIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle)
+        {
+            return MakeModalDialogLink($"{PlusIconBootstrap}<span style=\"display:none\">Add</span>", editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
+        }
+
+        /// <summary>
         /// For making an edit icon on the grid with an editor in a jquery ui dialog
         /// </summary>
         public static HtmlString MakeLtInfoEditIconAsModalDialogLinkBootstrap(ModalDialogForm modalDialogForm)
