@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Models
 
         public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
-            if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            //override to catch any config setups for performance measures with targets
+            if (performanceMeasure.HasTargets())
             {
                 return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
             }
@@ -96,7 +97,7 @@ namespace ProjectFirma.Web.Models
             return defaultSubcategoryChartConfigurationJson;
         }
 
-        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(PerformanceMeasure performanceMeasure)
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
@@ -268,6 +269,13 @@ namespace ProjectFirma.Web.Models
         public static double? TotalReportedValueWithNonZeroExpenditures(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+        }
+
+        public static bool HasTargets(this PerformanceMeasure performanceMeasure)
+        {
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+
+            return hasTargets;
         }
     }
 }

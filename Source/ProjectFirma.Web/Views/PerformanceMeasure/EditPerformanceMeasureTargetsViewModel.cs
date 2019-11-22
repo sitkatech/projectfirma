@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         pfSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
                         if (performanceMeasure.CanBeChartedCumulatively)
                         {
-                            var cumulativeChartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                             pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
                             pfSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
                         }

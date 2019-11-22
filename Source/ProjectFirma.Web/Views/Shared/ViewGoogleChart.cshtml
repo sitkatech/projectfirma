@@ -78,7 +78,7 @@
         if (!ViewDataTyped.ChartTitle.Equals(ViewDataTyped.GoogleChartJsons.Single(x => !x.IsCumulativeChart).LegendTitle, StringComparison.InvariantCultureIgnoreCase))
         {
             <div>
-                By: @ViewDataTyped.GoogleChartJsons.Single().LegendTitle
+                By: @ViewDataTyped.GoogleChartJsons.Single(x => !x.IsCumulativeChart).LegendTitle
             </div>
         }
     }
