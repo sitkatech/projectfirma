@@ -27,9 +27,9 @@ namespace ProjectFirma.Web.Views.ProjectStatus
                 ObjectNameSingular = "Attribute Type",
                 ObjectNamePlural = "Attribute Types",
                 SaveFiltersInCookie = true
-        };
+            };
 
-            GridName = "projectCustomAttributeTypeGrid";
+            GridName = "projectStatusGrid";
             GridDataUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.ProjectStatusGridJsonData());
 
             EditSortOrderUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.EditSortOrder());

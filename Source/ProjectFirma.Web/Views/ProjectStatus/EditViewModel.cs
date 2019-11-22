@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.ProjectStatus
 
         [Required]
         [StringLength(ProjectFirmaModels.Models.ProjectStatus.FieldLengths.ProjectStatusDisplayName)]
-        [DisplayName("Name")]
+        [DisplayName("Display Name")]
         public string ProjectStatusDisplayName { get; set; }
 
         [Required]

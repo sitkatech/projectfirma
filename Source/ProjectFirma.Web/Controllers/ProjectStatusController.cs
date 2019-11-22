@@ -36,14 +36,7 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectStatus>(projectStatuses, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-        [HttpGet]
-        [AnonymousUnclassifiedFeature]
-        public ContentResult Description(ProjectCustomAttributeTypePrimaryKey projectCustomAttributeTypePrimaryKey)
-        {
-            return Content(projectCustomAttributeTypePrimaryKey.EntityObject.ProjectCustomAttributeTypeDescription);
-        }
-
+        
         [HttpGet]
         [FirmaAdminFeature]
         public PartialViewResult New()
@@ -65,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectStatus, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectStatuses.Add(projectStatus);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} {projectStatus.ProjectStatusDisplayName} successfully created.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\" successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -97,13 +90,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ProjectStatus projectStatus)
         {
-            var instructionsFirmaPage = FirmaPageTypeEnum.ProjectStatusListEditor.GetFirmaPage();
-
-            var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectStatusID)
-                ? SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectStatusID))
-                : SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.New());
-
-
+      
             var viewData = new EditViewData(CurrentFirmaSession);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
