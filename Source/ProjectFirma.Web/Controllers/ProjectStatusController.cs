@@ -152,7 +152,11 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(ProjectStatus projectStatus, ConfirmDialogFormViewModel viewModel)
         {
-            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"?", true);
+            var numberOfConnectedProjectProjectStatuses = projectStatus.ProjectProjectStatuses.Count;
+            var confirmMessage = numberOfConnectedProjectProjectStatuses > 0 
+                ? $"Are you sure you want to delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"? WARNING: This will delete {numberOfConnectedProjectProjectStatuses} project statuses already set." 
+                : $"Are you sure you want to delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 

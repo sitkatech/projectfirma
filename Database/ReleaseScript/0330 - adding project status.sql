@@ -60,5 +60,5 @@ values
 GO
 
 insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
-select TenantID, 69, '<p>Add or edit project statuses that can be applied to project''s from the Project Grid or within the Project Timeline on a project detail page.</p>' from Tenant t
+select TenantID, 69, '<p>Add or edit project statuses that can be applied to project''s from the Project Grid or within the Project Timeline on a project detail page. WARNING: Deleting a project status on this page will delete all of the status entries for projects that have the deleted status.</p>' from Tenant t
 GO

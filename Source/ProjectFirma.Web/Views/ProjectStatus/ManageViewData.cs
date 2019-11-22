@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectStatus
             GridName = "projectCustomAttributeTypeGrid";
             GridDataUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.ProjectStatusGridJsonData());
 
-            //EditSortOrderUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.EditSortOrder());
+            EditSortOrderUrl = SitkaRoute<ProjectStatusController>.BuildUrlFromExpression(x => x.EditSortOrder());
             
             HasManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
