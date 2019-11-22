@@ -28,7 +28,7 @@
 
 @if (ViewDataTyped.ProjectStatuses != null)
 {
-    <h5>@FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName Status Legend</h5>
+    <h5>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status Legend</h5>
     <div class="project-status-legend">
         <ul>
             @foreach (var status in ViewDataTyped.ProjectStatuses)
