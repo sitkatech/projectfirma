@@ -25,6 +25,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
 
@@ -91,6 +92,11 @@
     <div class="row">
         <div class="pull-left deleteProjectProjectStatusRow">
             @ViewDataTyped.DeleteButton
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @{ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
         </div>
     </div>
 }

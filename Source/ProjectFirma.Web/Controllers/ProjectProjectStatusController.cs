@@ -31,6 +31,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ProjectProjectStatus;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -123,7 +124,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectStatusFirmaPage = firmaPage;
             var allProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectStatuses.ToList();
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses);
+            var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
+            var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
+            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, showCreatedBy, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses, projectStatusLegendDisplayViewData);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 

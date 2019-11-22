@@ -28,6 +28,7 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
@@ -43,12 +44,14 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public string CreatedByPerson { get; }
         public HtmlString DeleteButton { get; }
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
+        public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
 
         public EditProjectProjectStatusViewData(bool allowEditUpdateDate
             , bool showCreatedBy
             , string createdByPerson
             , string deleteUrl, ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage,
-            FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ProjectStatus> allProjectStatuses) : base(currentFirmaSession)
+            FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ProjectStatus> allProjectStatuses,
+            ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData) : base(currentFirmaSession)
         {
             ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList(allProjectStatuses.Select(x => new ProjectStatusJson(x)).ToList());
@@ -57,6 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             CreatedByPerson = createdByPerson;
             DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
+            ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
         }
     }
 
