@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[ProjectStatus](
 	[ProjectStatusName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ProjectStatusDescription] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectStatusDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[ProjectStatusSortOrder] [int] NOT NULL,
+	[ProjectStatusSortOrder] [int] NULL,
 	[ProjectStatusColor] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_ProjectStatus_ProjectStatusID] PRIMARY KEY CLUSTERED 
 (

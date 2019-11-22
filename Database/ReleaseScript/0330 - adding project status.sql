@@ -4,7 +4,7 @@ CREATE TABLE [dbo].[ProjectStatus](
 	[ProjectStatusName] [varchar](100) NOT NULL,
     [ProjectStatusDescription] [varchar](100) NULL,
 	[ProjectStatusDisplayName] [varchar](100) NOT NULL,
-	[ProjectStatusSortOrder] [int] NOT NULL,
+	[ProjectStatusSortOrder] [int] NULL,
 	[ProjectStatusColor] [varchar](20) NOT NULL,
  CONSTRAINT [PK_ProjectStatus_ProjectStatusID] PRIMARY KEY CLUSTERED 
 (

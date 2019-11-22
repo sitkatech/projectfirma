@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectStatusName).HasColumnName(@"ProjectStatusName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ProjectStatusDescription).HasColumnName(@"ProjectStatusDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ProjectStatusDisplayName).HasColumnName(@"ProjectStatusDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.ProjectStatusSortOrder).HasColumnName(@"ProjectStatusSortOrder").HasColumnType("int").IsRequired();
+            Property(x => x.ProjectStatusSortOrder).HasColumnName(@"ProjectStatusSortOrder").HasColumnType("int").IsOptional();
             Property(x => x.ProjectStatusColor).HasColumnName(@"ProjectStatusColor").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(20);
 
             // Foreign keys

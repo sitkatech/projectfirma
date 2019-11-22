@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectStatus(int projectStatusID, string projectStatusName, string projectStatusDescription, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : this()
+        public ProjectStatus(int projectStatusID, string projectStatusName, string projectStatusDescription, string projectStatusDisplayName, int? projectStatusSortOrder, string projectStatusColor) : this()
         {
             this.ProjectStatusID = projectStatusID;
             this.ProjectStatusName = projectStatusName;
@@ -43,14 +43,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectStatus(string projectStatusName, string projectStatusDisplayName, int projectStatusSortOrder, string projectStatusColor) : this()
+        public ProjectStatus(string projectStatusName, string projectStatusDisplayName, string projectStatusColor) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectStatusID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectStatusName = projectStatusName;
             this.ProjectStatusDisplayName = projectStatusDisplayName;
-            this.ProjectStatusSortOrder = projectStatusSortOrder;
             this.ProjectStatusColor = projectStatusColor;
         }
 
@@ -60,7 +59,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectStatus CreateNewBlank()
         {
-            return new ProjectStatus(default(string), default(string), default(int), default(string));
+            return new ProjectStatus(default(string), default(string), default(string));
         }
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace ProjectFirmaModels.Models
         public string ProjectStatusName { get; set; }
         public string ProjectStatusDescription { get; set; }
         public string ProjectStatusDisplayName { get; set; }
-        public int ProjectStatusSortOrder { get; set; }
+        public int? ProjectStatusSortOrder { get; set; }
         public string ProjectStatusColor { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectStatusID; } set { ProjectStatusID = value; } }
