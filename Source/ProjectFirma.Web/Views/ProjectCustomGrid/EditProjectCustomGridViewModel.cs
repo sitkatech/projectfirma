@@ -52,6 +52,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf).ToList();
             }
+            // Remove the Project Status Column if Tenant doesn't use the timeline
+            if (!MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectStatus).ToList();
+            }
+
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {
                 if (projectCustomGridColumn == ProjectCustomGridColumnEnum.CustomAttribute)

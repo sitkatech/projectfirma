@@ -154,10 +154,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
-                        , x => MakeProjectStatusAddLinkAndText(x,userHasEditProjectAsAdminPermissions)
-                        , 75
-                        , DhtmlxGridColumnFilterType.Html);
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                    {
+                        Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                            , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
+                            , 75
+                            , DhtmlxGridColumnFilterType.Html);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;
