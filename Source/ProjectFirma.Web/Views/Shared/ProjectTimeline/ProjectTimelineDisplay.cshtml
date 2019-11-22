@@ -54,6 +54,7 @@
             }
         </div>
     </div>
+
     if (groupedTimelineEvents.Any())
     {
         <div class="row project-timeline-header">
@@ -123,4 +124,8 @@
             }
         </div>
     }
+        
+    {ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
+        
+    
 }
