@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public bool UserHasProjectStatusUpdatePermissions { get; }
 
         public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
+        public ProjectFirmaModels.Models.ProjectStatus CurrentProjectStatus { get; }
 
         public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,
             Models.ProjectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions,
@@ -47,6 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
             AddProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
             ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
+            CurrentProjectStatus = project.GetCurrentProjectStatus();
         }
     }
 }
