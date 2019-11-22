@@ -72,12 +72,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                             }).ToList();
                 var chartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                 performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
-                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                 if (performanceMeasure.CanBeChartedCumulatively)
                 {
                     var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                     performanceMeasureSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                 }
                 return performanceMeasureSubcategory;
             }).ToList();

@@ -134,7 +134,7 @@ namespace ProjectFirma.Web.Controllers
                     {
                         var targetSubcategoryChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
                         pmSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(targetSubcategoryChartConfigurationJson).ToString();
-                        pmSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                        pmSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                     }
                 }
             }
@@ -342,7 +342,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 var defaultPerformanceMeasureChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
                 defaultSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultPerformanceMeasureChartConfigurationJson).ToString();
-                defaultSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                defaultSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
             }
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);
