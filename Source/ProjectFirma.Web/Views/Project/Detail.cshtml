@@ -433,7 +433,20 @@
                         }
                     </div>
                 </div>
-
+                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                {
+                    <h2 class="sectionHeader">Timeline</h2> 
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3 class="project-detail-heading">
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
+                        </div>
+                    </div>
+                }
                 @if (ViewDataTyped.UserHasProjectAdminPermissions)
                 {
                     <h2 class="sectionHeader">Administrative</h2>
@@ -445,19 +458,6 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
-                    if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
-                    {
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h3 class="project-detail-heading">
-                                    @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
-                                </h3>
-                            </div>
-                            <div class="panel-body">
-                                @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
-                            </div>
-                        </div>
-                    }
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>System Communications</h3>
