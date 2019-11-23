@@ -18,17 +18,14 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using System.Globalization
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.Shared.ProjectTimeline
 @inherits ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectStatusLegendDisplay
 
 @if (ViewDataTyped.ProjectStatuses != null)
 {
-    <h5>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status Legend</h5>
+<h5>@FieldDefinitionEnum.ProjectStatusLegend.ToType().GetFieldDefinitionLabel() @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusLegend.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)</h5>
     <div class="project-status-legend">
         <ul>
             @foreach (var status in ViewDataTyped.ProjectStatuses)
