@@ -129,11 +129,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 foreach (var pmSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
+                    //Check for cumulative chart config and create if one doesn't exist
                     if (!pmSubcategory.ShowOnCumulativeChart())
                     {
-                        var targetSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+                        var targetSubcategoryChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
                         pmSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(targetSubcategoryChartConfigurationJson).ToString();
-                        pmSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                        pmSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                     }
                 }
             }
@@ -260,7 +261,8 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
-            var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            GoogleChartConfiguration defaultSubcategoryChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
+
             if (isCumulative)
             {
                 performanceMeasureSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
@@ -334,13 +336,13 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default") { GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID };
-            var defaultSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            var defaultSubcategoryChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
             defaultSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
             if (performanceMeasure.CanBeChartedCumulatively)
             {
-                var targetSubcategoryChartConfigurationJson = PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
-                defaultSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(targetSubcategoryChartConfigurationJson).ToString();
-                defaultSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                var defaultPerformanceMeasureChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
+                defaultSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultPerformanceMeasureChartConfigurationJson).ToString();
+                defaultSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
             }
             new PerformanceMeasureSubcategoryOption(defaultSubcategory, "Default", false);
             HttpRequestStorage.DatabaseEntities.AllPerformanceMeasures.Add(performanceMeasure);

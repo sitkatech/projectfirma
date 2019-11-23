@@ -141,12 +141,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                         var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
                         tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
                         pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
-                        pfSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                        pfSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                         if (performanceMeasure.CanBeChartedCumulatively)
                         {
-                            var cumulativeChartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                             pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                            pfSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                            pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                         }
                     }
                 }
