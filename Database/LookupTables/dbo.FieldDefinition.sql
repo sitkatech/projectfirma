@@ -127,4 +127,5 @@ VALUES
 (302, N'ProjectStatus', N'Status', N'<p>The Status of a Project</p>'),
 (303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>'),
 (304, N'ProjectStatusHistory', N'Project Status History', N'<p>The history of this project''s status over the lifetime of the project. These are manually added status updates to the project.</p>'),
-(305, N'ProjectUpdateHistory', N'Project Update History', N'<p>The history of major events over the lifetime of the project. The updates on this side of the timeline get added automatically as the project goes through the workflow.</p>')
+(305, N'ProjectUpdateHistory', N'Project Update History', N'<p>The history of major events over the lifetime of the project. The updates on this side of the timeline get added automatically as the project goes through the workflow.</p>'),
+(306, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>')

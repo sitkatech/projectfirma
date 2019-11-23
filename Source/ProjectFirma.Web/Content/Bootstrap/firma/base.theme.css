@@ -1585,7 +1585,7 @@ nav#wizardNav ul li.workflowSection a:hover {
   }
 }
 .project-timeline-header {
-  margin: 15px 0;
+  margin: 30px 0;
 }
 .project-timeline-header h4 {
   text-align: center;
@@ -1751,4 +1751,17 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event.timeline-event-right {
   float: right;
   border-left: 5px solid #5bc0de;
+}
+.project-status-legend ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.project-status-legend ul li {
+  border-left: 20px solid;
+  padding-left: 10px;
+  background: #f7f7f7;
+}
+.project-status-legend ul li + li {
+  margin-top: 5px;
 }

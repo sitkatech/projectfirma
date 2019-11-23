@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using System.Globalization
+@using System.Web.UI.WebControls
 @using ProjectFirmaModels.Models
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
@@ -47,13 +48,19 @@
             @if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
             {
                 <span class="pull-right"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+                if (ViewDataTyped.CurrentProjectStatus != null)
+                {
+                    <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current Project Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>
+                }
             }
+
             @if (!groupedTimelineEvents.Any())
             {
                 <p>There are no history events to display for this @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName.</p>
             }
         </div>
     </div>
+
     if (groupedTimelineEvents.Any())
     {
         <div class="row project-timeline-header">
@@ -123,4 +130,8 @@
             }
         </div>
     }
+        
+    {ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
+        
+    
 }

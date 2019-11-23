@@ -28,6 +28,7 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
@@ -39,24 +40,27 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public ProjectStatusJsonList ProjectStatusJsonList { get; }
 
         public bool AllowEditUpdateDate { get; }
-        public bool ShowCreatedBy { get; }
         public string CreatedByPerson { get; }
         public HtmlString DeleteButton { get; }
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
+        public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
+        
 
         public EditProjectProjectStatusViewData(bool allowEditUpdateDate
-            , bool showCreatedBy
             , string createdByPerson
             , string deleteUrl, ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage,
-            FirmaSession currentFirmaSession) : base(currentFirmaSession)
+            FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.ProjectStatus> allProjectStatuses,
+            ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData) : base(currentFirmaSession)
         {
-            ProjectStatuses = ProjectStatus.All.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
-            ProjectStatusJsonList = new ProjectStatusJsonList( ProjectStatus.All.Select(x => new ProjectStatusJson(x)).ToList());
+            ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
+            ProjectStatusJsonList = new ProjectStatusJsonList(allProjectStatuses.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
-            ShowCreatedBy = showCreatedBy;
-            CreatedByPerson = createdByPerson;
+            CreatedByPerson = !string.IsNullOrEmpty(createdByPerson)
+                ? createdByPerson
+                : currentFirmaSession.UserDisplayName;
             DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
+            ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
         }
     }
 
@@ -76,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public int ProjectStatusID { get; set; }
         public string ProjectStatusDisplayName { get; set; }
 
-        public ProjectStatusJson(ProjectStatus projectStatus)
+        public ProjectStatusJson(ProjectFirmaModels.Models.ProjectStatus projectStatus)
         {
             Color = projectStatus.ProjectStatusColor;
             ProjectStatusID = projectStatus.ProjectStatusID;

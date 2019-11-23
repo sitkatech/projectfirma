@@ -238,6 +238,10 @@ namespace ProjectFirma.Web.Views
             }
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomGridController>(c => c.ManageProjectCustomGrids()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids", "Group3"));
 
+            if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            {
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()} Customization", "Group3"));
+            }
 
             // Group 4 - Other
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentFirmaSession, "Internal Setup Notes", "Group4"));

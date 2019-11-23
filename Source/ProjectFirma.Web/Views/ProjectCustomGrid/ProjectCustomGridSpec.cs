@@ -47,20 +47,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
             }
 
-            var projectStatusDisplayName = "no status";
             var currentProjectStatus = project.GetCurrentProjectStatus();
-            if (currentProjectStatus != null)
-            {
-                var colorString = currentProjectStatus.ProjectStatusColor;
-                projectStatusDisplayName = $"<span style='color:{colorString}'>{currentProjectStatus.ProjectStatusDisplayName}</span>";
-            }
-
+            var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
+            var projectStatusDisplayName = currentProjectStatus != null ? currentProjectStatus.ProjectStatusDisplayName : "no status";
 
             var returnString =
                 new HtmlString(
-                    $"{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}");
+                    $"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
             return returnString;
-
         }
 
 
@@ -154,10 +148,13 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
-                        , x => MakeProjectStatusAddLinkAndText(x,userHasEditProjectAsAdminPermissions)
-                        , 75
-                        , DhtmlxGridColumnFilterType.Html);
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                    {
+                        Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                            , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
+                            , 100
+                            , DhtmlxGridColumnFilterType.Html);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;

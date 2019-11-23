@@ -20,12 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirmaModels.Models;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectContact
 {
@@ -36,13 +35,20 @@ namespace ProjectFirma.Web.Views.Shared.ProjectContact
         public HtmlString AddProjectProjectStatusButton { get; }
         public bool UserHasProjectStatusUpdatePermissions { get; }
 
-        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,Models.ProjectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions)
+        public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
+        public ProjectFirmaModels.Models.ProjectStatus CurrentProjectStatus { get; }
+
+        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,
+            Models.ProjectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions,
+            ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData)
         {
             ProjectTimeline = projectTimeline;
             UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions;
             var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             AddProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
+            ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
+            CurrentProjectStatus = project.GetCurrentProjectStatus();
         }
     }
 }
