@@ -43,8 +43,10 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -210,8 +212,10 @@ namespace ProjectFirma.Web.Controllers
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions);
+            var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
+            var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
             var projectTimelineViewData =
-                new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions);
+                new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions, projectStatusLegendDisplayViewData);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,

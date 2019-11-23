@@ -252,6 +252,7 @@ namespace ProjectFirmaModels.Models
         ProjectStatus = 302,
         ProjectStatusUpdate = 303,
         ProjectStatusHistory = 304,
-        ProjectUpdateHistory = 305
+        ProjectUpdateHistory = 305,
+        ProjectStatusLegend = 306
     }
 }

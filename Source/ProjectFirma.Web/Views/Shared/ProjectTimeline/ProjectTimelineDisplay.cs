@@ -33,5 +33,4 @@ namespace ProjectFirma.Web.Views.Shared.ProjectTimeline
             html.RenderRazorSitkaPartial<ProjectTimelineDisplay, ProjectTimelineDisplayViewData>(displayViewData);
         }
     }
-
 }

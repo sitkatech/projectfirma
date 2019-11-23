@@ -181,6 +181,7 @@ namespace ProjectFirmaModels.Models
         ManageProjectCustomAttributeGroupInstructions = 65,
         ManageProjectCustomAttributeGroupsList = 66,
         ProjectStatusFromTimelineDialog = 67,
-        ProjectStatusFromGridDialog = 68
+        ProjectStatusFromGridDialog = 68,
+        ProjectStatusListEditor = 69
     }
 }
