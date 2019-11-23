@@ -102,7 +102,7 @@
     {
         <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
             <strong>Cumulative: </strong>
-            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" data-toggle="toggle" data-size="mini" checked />
+            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ checked />
         </div>
     }
 </div>
@@ -171,18 +171,22 @@
 </div>
 
 <script type="text/javascript">
-    jQuery(document).ready(function()
-    {
-        // Onchange function for multiple possible chart selector dropdowns - not called if neither dropdown exists
-        function chartSelector()
+
+    var googleCharts_@(ViewDataTyped.ChartUniqueName) = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+
+      // Onchange function for multiple possible chart selector dropdowns - not called if neither dropdown exists
+        function chartSelector_@(ViewDataTyped.ChartUniqueName)()
         {
-            var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
+
             var chartName = "@ViewDataTyped.ChartUniqueName";
+            //console.log('Calling chartSelector for @ViewDataTyped.ChartUniqueName');
+            
             // Used when no subcategory options are available
-            var firstChartContainerID = googleCharts[0].containerId;
+            var firstChartContainerID = googleCharts_@(ViewDataTyped.ChartUniqueName)[0].containerId;
 
             var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
             var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+
             jQuery(".chartGroup" + chartName).css("display", "none");
             // If no subcategory options
             if (templateDropdown.length === 0)
@@ -206,33 +210,45 @@
                     jQuery("#" + (templateDropdown.val() + "Cumulative_container")).css("display", "");
                 }
             }
-            GoogleCharts.drawCharts(googleCharts);
+            GoogleCharts.drawCharts(googleCharts_@(ViewDataTyped.ChartUniqueName));
         }
 
-        var googleCharts = @Html.Raw(JsonConvert.SerializeObject(ViewDataTyped.GoogleChartJsons, new JavaScriptDateTimeConverter()));
-        var chartName = "@ViewDataTyped.ChartUniqueName";
-        var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
-        var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+    jQuery(document).ready(function()
+    {
 
-        var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
-        if (itemCount > 1)
+        function chartSetup_@(ViewDataTyped.ChartUniqueName)()
         {
-            templateDropdown.change(chartSelector);
-        }
-        else
-        {
-            // Hide dropdown if there's only one choice
-            jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
-        }
-        if ("@ViewDataTyped.CanBeChartedCumulatively" === "True")
-        {
-            cumulativeToggle.change(chartSelector);
-        }
-        // Call function to show appropriate chart
-        chartSelector();
+            //console.log('chartSetup_@(ViewDataTyped.ChartUniqueName) - top');
+            
+            var chartName = "@ViewDataTyped.ChartUniqueName";
+            var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+            var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
 
+            var itemCount = jQuery("#subcategoryDropdownFor" + chartName + " option").length;
+            if (itemCount > 1)
+            {
+                templateDropdown.change(chartSelector_@(ViewDataTyped.ChartUniqueName));
+            }
+            else
+            {
+                // Hide dropdown if there's only one choice
+                jQuery("#subcategorySelectorFor" + chartName).css("display", "none");
+            }
+            if ("@ViewDataTyped.CanBeChartedCumulatively" === "True")
+            {
+                cumulativeToggle.change(chartSelector_@(ViewDataTyped.ChartUniqueName));
+            }
+            // Call function to show appropriate chart
+            chartSelector_@(ViewDataTyped.ChartUniqueName)();
 
-        GoogleCharts.drawCharts(googleCharts); //height and width get set in javascript for enlarged charts
-        jQuery(window).resize(function () { GoogleCharts.drawCharts(googleCharts); });
+            GoogleCharts.drawCharts(googleCharts_@(ViewDataTyped.ChartUniqueName)); //height and width get set in javascript for enlarged charts
+            jQuery(window).resize(function ()
+            {
+                GoogleCharts.drawCharts(googleCharts_@(ViewDataTyped.ChartUniqueName));
+            });
+        }
+
+        // Do per-chart initialization
+        chartSetup_@(ViewDataTyped.ChartUniqueName)();
     });
 </script>
