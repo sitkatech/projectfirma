@@ -50,13 +50,13 @@
                 <span class="pull-right"> @ViewDataTyped.AddProjectProjectStatusButton</span>
                 if (ViewDataTyped.CurrentProjectStatus != null)
                 {
-                    <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current Project Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>
+                    <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>
                 }
             }
 
             @if (!groupedTimelineEvents.Any())
             {
-                <p>There are no history events to display for this @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName.</p>
+                <p>There are no history events to display for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
             }
         </div>
     </div>
