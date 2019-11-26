@@ -67,7 +67,9 @@ namespace ProjectFirma.Web.Models
         private List<ProjectTimelineProjectStatusChangeEvent> GetTimelineProjectStatusChangeEvents(Project project, bool canEditProjecProjectStatus)
         {
             var projectStatusChangeEvents = project.ProjectProjectStatuses
-                .Select(x => new ProjectTimelineProjectStatusChangeEvent(x, canEditProjecProjectStatus)).ToList();
+                .Select(x => new ProjectTimelineProjectStatusChangeEvent(x, canEditProjecProjectStatus))
+                .OrderByDescending(y => y.ProjectProjectStatus.ProjectProjectStatusID)
+                .ToList();
             return projectStatusChangeEvents;
         }
 
@@ -197,6 +199,7 @@ namespace ProjectFirma.Web.Models
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
+        public ProjectProjectStatus ProjectProjectStatus { get; }
 
         public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus)
         {
@@ -210,6 +213,7 @@ namespace ProjectFirma.Web.Models
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
+            ProjectProjectStatus = projectProjectStatus;
         }
     }
 
