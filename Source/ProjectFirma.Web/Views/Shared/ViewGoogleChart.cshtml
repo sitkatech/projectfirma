@@ -98,7 +98,7 @@
         </div>
     }
     <!-- Toggle Cumulative Results / Results By Year-->
-    @if (ViewDataTyped.CanBeChartedCumulatively)
+    @if (ViewDataTyped.CanBeChartedCumulatively && ViewDataTyped.HasData)
     {
         <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
             <strong>Cumulative: </strong>
