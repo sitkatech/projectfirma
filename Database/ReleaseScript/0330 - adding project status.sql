@@ -22,6 +22,15 @@ ALTER TABLE [dbo].[ProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectStatus_
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 
+/****** Object:  Index [AK_ProjectStatus_TenantID_ProjectStatusName]    Script Date: 11/25/2019 7:43:52 AM ******/
+ALTER TABLE [dbo].[ProjectStatus] ADD  CONSTRAINT [AK_ProjectStatus_ProjectStatusID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectStatusID] ASC,
+    [TenantID] ASC
+
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+
 INSERT INTO dbo.ProjectStatus (TenantID, ProjectStatusName, ProjectStatusDisplayName, ProjectStatusDescription, ProjectStatusSortOrder, ProjectStatusColor)
 select TenantID, 'Green', 'Green', null, 5, '#04AF70' from Tenant
 

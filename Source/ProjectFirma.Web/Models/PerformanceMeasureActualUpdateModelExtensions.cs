@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Models
             {
                 // when pre-filling, we intentionally set the reported value to null to prompt the user to fill that in
                 performanceMeasureActualUpdates.AddRange(
-                    performanceMeasureValuesToClone.Select(performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual, year, null)));
+                    performanceMeasureValuesToClone.Select(performanceMeasureValue => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureValue, year, null)));
             }
             return performanceMeasureActualUpdates;
         }
@@ -79,7 +79,11 @@ namespace ProjectFirma.Web.Models
             int newCalendarYear,
             double? actualValue)
         {
-            var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear);
+            var performanceMeasureReportingPeriod = performanceMeasureValueToClone.PerformanceMeasure.PerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == newCalendarYear);
+            if (performanceMeasureReportingPeriod == null)
+            {
+                performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear);
+            }
             var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, performanceMeasureReportingPeriod)
             {
                 ActualValue = actualValue

@@ -59,6 +59,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureType { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
@@ -114,7 +115,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
 
-            FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
+            FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure.ToType();
+            FieldDefinitionForPerformanceMeasureType = FieldDefinitionEnum.PerformanceMeasureType.ToType();
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
             FieldDefinitionForPerformanceMeasureSubcategoryOption = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
