@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         <label>
-                            @FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() Created By
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
                         </label>
                     </div>
                     <div class="col-sm-8">
@@ -60,7 +60,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(m => m.ProjectStatusUpdateDate)
+                        @Html.LabelWithSugarFor(x => x.ProjectStatusUpdateDate)
                     </div>
                     <div class="col-sm-8">
                         @if (ViewDataTyped.AllowEditUpdateDate)
