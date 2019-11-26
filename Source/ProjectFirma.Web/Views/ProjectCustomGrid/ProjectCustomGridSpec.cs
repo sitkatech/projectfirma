@@ -153,7 +153,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
                             , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
                             , 100
-                            , DhtmlxGridColumnFilterType.Html);
+                            , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
+                        );
                     }
                     break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
