@@ -57,11 +57,19 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public string TaxonomyTierDisplayNamePluralized { get; }
 
-        public DetailViewData(Person currentPerson,
+        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureType { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
+        public string EditPerformanceMeasureTargetUrl { get; set; }
+
+        public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureChartViewData performanceMeasureChartViewData,
             EntityNotesViewData entityNotesViewData,
-            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentPerson)
+            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentFirmaSession)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";
@@ -81,7 +89,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             IndexUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Index());
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
             TaxonomyTierDisplayNamePluralized = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabelPluralized();
-            UserHasTaxonomyTierPerformanceMeasureManagePermissions = new TaxonomyTierPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
+            UserHasTaxonomyTierPerformanceMeasureManagePermissions = new TaxonomyTierPerformanceMeasureManageFeature().HasPermission(currentFirmaSession, performanceMeasure).HasPermission;
             EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
 
@@ -105,16 +113,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
 
-            FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
+            EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
+
+            FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasure.ToType();
+            FieldDefinitionForPerformanceMeasureType = FieldDefinitionEnum.PerformanceMeasureType.ToType();
             FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
             FieldDefinitionForPerformanceMeasureSubcategoryOption = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
         }
 
-        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
     }
 }

@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Classification
             ThemeColor = classification.ThemeColor;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Classification classification, FirmaSession currentFirmaSession)
         {
             classification.DisplayName = DisplayName;
             classification.ClassificationDescription = ClassificationDescription;
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.Classification
 
             if (KeyImageFileResourceData != null)
             {
-                classification.KeyImageFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentPerson);
+                classification.KeyImageFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(KeyImageFileResourceData, currentFirmaSession);
             }
             classification.ThemeColor = ThemeColor;
 

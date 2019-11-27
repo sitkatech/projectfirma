@@ -63,6 +63,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
+            modelBuilder.Configurations.Add(new FirmaSessionConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
@@ -90,6 +91,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
@@ -136,8 +138,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
@@ -203,6 +207,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPage> AllFirmaPages { get; set; }
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
+        public virtual DbSet<FirmaSession> AllFirmaSessions { get; set; }
+        public virtual IQueryable<FirmaSession> FirmaSessions { get { return AllFirmaSessions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
         public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttributeTypeRole> AllFundingSourceCustomAttributeTypeRoles { get; set; }
@@ -257,6 +263,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureReportingPeriod> AllPerformanceMeasureReportingPeriods { get; set; }
+        public virtual IQueryable<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get { return AllPerformanceMeasureReportingPeriods.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
         public virtual IQueryable<PerformanceMeasure> PerformanceMeasures { get { return AllPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategory> AllPerformanceMeasureSubcategories { get; set; }
@@ -347,12 +355,16 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
         public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectProjectStatus> AllProjectProjectStatuses { get; set; }
+        public virtual IQueryable<ProjectProjectStatus> ProjectProjectStatuses { get { return AllProjectProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostType> AllProjectRelevantCostTypes { get; set; }
         public virtual IQueryable<ProjectRelevantCostType> ProjectRelevantCostTypes { get { return AllProjectRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostTypeUpdate> AllProjectRelevantCostTypeUpdates { get; set; }
         public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectStatus> AllProjectStatuses { get; set; }
+        public virtual IQueryable<ProjectStatus> ProjectStatuses { get { return AllProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
@@ -495,6 +507,9 @@ namespace ProjectFirmaModels.Models
                 case "FirmaPageType":
                     return FirmaPageTypes.GetFirmaPageType(primaryKey);
 
+                case "FirmaSession":
+                    return FirmaSessions.GetFirmaSession(primaryKey);
+
                 case "FundingSourceCustomAttributeDataType":
                     var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fundingSourceCustomAttributeDataType, "FundingSourceCustomAttributeDataType", primaryKey);
@@ -610,6 +625,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
+
+                case "PerformanceMeasureReportingPeriod":
+                    return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);
 
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
@@ -811,6 +829,9 @@ namespace ProjectFirmaModels.Models
                 case "ProjectOrganizationUpdate":
                     return ProjectOrganizationUpdates.GetProjectOrganizationUpdate(primaryKey);
 
+                case "ProjectProjectStatus":
+                    return ProjectProjectStatuses.GetProjectProjectStatus(primaryKey);
+
                 case "ProjectRelevantCostTypeGroup":
                     var projectRelevantCostTypeGroup = ProjectRelevantCostTypeGroup.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectRelevantCostTypeGroup, "ProjectRelevantCostTypeGroup", primaryKey);
@@ -829,6 +850,9 @@ namespace ProjectFirmaModels.Models
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectStage, "ProjectStage", primaryKey);
                     return projectStage;
+
+                case "ProjectStatus":
+                    return ProjectStatuses.GetProjectStatus(primaryKey);
 
                 case "ProjectStewardshipAreaType":
                     var projectStewardshipAreaType = ProjectStewardshipAreaType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

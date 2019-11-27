@@ -42,6 +42,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnCustomAttribute CustomAttribute = ProjectCustomGridColumnCustomAttribute.Instance;
         public static readonly ProjectCustomGridColumnProjectID ProjectID = ProjectCustomGridColumnProjectID.Instance;
         public static readonly ProjectCustomGridColumnProjectLastUpdated ProjectLastUpdated = ProjectCustomGridColumnProjectLastUpdated.Instance;
+        public static readonly ProjectCustomGridColumnProjectStatus ProjectStatus = ProjectCustomGridColumnProjectStatus.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -51,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -165,6 +166,8 @@ namespace ProjectFirmaModels.Models
                     return ProjectsStewardOrganizationRelationshipToProject;
                 case ProjectCustomGridColumnEnum.ProjectStage:
                     return ProjectStage;
+                case ProjectCustomGridColumnEnum.ProjectStatus:
+                    return ProjectStatus;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     return SecondaryTaxonomyLeaf;
                 case ProjectCustomGridColumnEnum.SecuredFunding:
@@ -202,7 +205,8 @@ namespace ProjectFirmaModels.Models
         GeospatialAreaName = 21,
         CustomAttribute = 22,
         ProjectID = 23,
-        ProjectLastUpdated = 24
+        ProjectLastUpdated = 24,
+        ProjectStatus = 25
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -347,5 +351,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomGridColumnProjectLastUpdated(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
         public static readonly ProjectCustomGridColumnProjectLastUpdated Instance = new ProjectCustomGridColumnProjectLastUpdated(24, @"ProjectLastUpdated", @"Last Updated", true);
+    }
+
+    public partial class ProjectCustomGridColumnProjectStatus : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnProjectStatus(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnProjectStatus Instance = new ProjectCustomGridColumnProjectStatus(25, @"ProjectStatus", @"Status", true);
     }
 }

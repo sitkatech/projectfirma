@@ -18,14 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DesignByContract;
+using Microsoft.Owin.Security;
 using ProjectFirma.Web.Models;
 using Person = ProjectFirmaModels.Models.Person;
 
@@ -46,13 +46,34 @@ namespace ProjectFirma.Web.Common
         public static IPrincipal GetHttpContextUserThroughOwin()
         {
             Check.EnsureNotNull(HttpContext.Current, "Null HttpContext.Current!");
-            return HttpContext.Current.GetOwinContext().Authentication.User;
+            return GetHttpContextAuthenticationThroughOwin().User;
         }
+
+        public static IAuthenticationManager GetHttpContextAuthenticationThroughOwin()
+        {
+            return HttpContext.Current.GetOwinContext().Authentication;
+        }
+
+        public static FirmaSession FirmaSession
+        {
+            get => GetValueOrDefault(FirmaSessionKey, FirmaSessionModelExtensions.GetAnonymousFirmaSession);
+            set => SetValue(FirmaSessionKey, value);
+        }
+
+        // Old way - accessed directly
+
+        //public static Person Person
+        //{
+        //    get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
+        //    set => SetValue(PersonKey, value);
+        //}
+
+        // New way - Accessed via current Session. Ultimately this may be able to be inlined
 
         public static Person Person
         {
-            get => GetValueOrDefault(PersonKey, PersonModelExtensions.GetAnonymousSitkaUser);
-            set => SetValue(PersonKey, value);
+            get => FirmaSession.Person;
+            //set => SetValue(PersonKey, value);
         }
 
         public static Tenant Tenant

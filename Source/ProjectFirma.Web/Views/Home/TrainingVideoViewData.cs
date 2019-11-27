@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Views.Home
 
         public List<ProjectFirmaModels.Models.TrainingVideo> TrainingVideos { get; }
 
-        public TrainingVideoViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos) : base(currentPerson, firmaPage)
+        public TrainingVideoViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.TrainingVideo> trainingVideos) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "Training";
             EntityName = "Stormwater Tools";

@@ -1,0 +1,137 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Globalization
+@using System.Web.UI.WebControls
+@using ProjectFirmaModels.Models
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@inherits ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
+
+<script>
+    jQuery(document).on('click',
+        '.timeline-button',
+        function () {
+            jQuery(this).toggleClass('open');
+            var childGroup = jQuery(this).siblings('div');
+            childGroup.toggleClass('open');
+
+        });
+</script>
+
+
+@if (ViewDataTyped.ProjectTimeline != null)
+{
+    var groupedTimelineEvents = ViewDataTyped.ProjectTimeline.GetGroupedTimelineEvents();
+    var yearDisplayCount = 0;
+    <div class="row">
+        <div class="col-md-12">
+            @if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+            {
+                <span class="pull-right"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+                if (ViewDataTyped.CurrentProjectStatus != null)
+                {
+                    <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>
+                }
+            }
+
+            @if (!groupedTimelineEvents.Any())
+            {
+                <p>There are no history events to display for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
+            }
+        </div>
+    </div>
+
+    if (groupedTimelineEvents.Any())
+    {
+        <div class="row project-timeline-header">
+            <div class="col-md-6">
+                <h4>
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectUpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectUpdateHistory.ToType().GetFieldDefinitionLabel()
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectStatusHistory.ToType().GetFieldDefinitionLabel()
+                </h4>
+            </div>
+        </div>
+        <div class="project-timeline-wrapper">
+            @foreach (var yearGroup in groupedTimelineEvents)
+            {
+                yearDisplayCount++;
+                var quarterDisplayCount = 0;
+                <div class="timeline-year-group">
+                    <button class="timeline-button @(yearDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@yearGroup.Key.Year</button>
+                    <div class="timeline-year-group-wrapper  @(yearDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)">
+                        @foreach (var quarterGroup in yearGroup)
+                        {
+                            quarterDisplayCount++;
+                            <div class="timeline-quarter-group">
+                                <button class="timeline-button @(quarterDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@quarterGroup.Key.Quarter Quarter</button>
+                                <div class="timeline-quarter-group-wrapper  @(quarterDisplayCount == 1 ? ProjectTimeline.DisplayClass : String.Empty)">
+                                    @foreach (var dayGroup in quarterGroup)
+                                    {
+                                        var dayGroupDateTime = new DateTime(dayGroup.Key.Year, dayGroup.Key.Month, dayGroup.Key.Day);
+                                        <div class="timeline-day-group">
+                                            <div class="timeline-day-group-label">
+                                                <span class="timeline-day-group-label-day">@dayGroupDateTime.Day</span>
+                                                <span class="timeline-day-group-label-month">@dayGroupDateTime.ToString("MMM", CultureInfo.InvariantCulture)</span>
+                                            </div>
+                                            @foreach (var projectTimelineEvent in dayGroup)
+                                            {
+                                                <div class="timeline-event-wrapper">
+                                                    <div class="timeline-event @(projectTimelineEvent.ProjectTimelineSide == ProjectTimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color: @projectTimelineEvent.Color;">
+                                                        <div class="timeline-event-header">
+                                                            @if (!string.IsNullOrEmpty(projectTimelineEvent.EditButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-edit-link">@projectTimelineEvent.EditButton</span>
+                                                            }
+                                                            <span class="timeline-event-type">@projectTimelineEvent.TimelineEventTypeDisplayName</span>
+                                                            <span class="timeline-event-date">@projectTimelineEvent.DateDisplay</span>
+                                                        </div>
+
+                                                        @if (!string.IsNullOrWhiteSpace(projectTimelineEvent.TimelineEventPersonDisplayName))
+                                                        {
+                                                            <span>By @projectTimelineEvent.TimelineEventPersonDisplayName</span>
+                                                        }
+                                                        <div class="timeline-event-footer">
+                                                            <span class="timeline-event-details-link pull-right">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+        
+    {ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
+        
+    
+}

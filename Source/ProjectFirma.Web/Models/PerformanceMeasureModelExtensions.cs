@@ -80,9 +80,13 @@ namespace ProjectFirma.Web.Models
             return $"PerformanceMeasure{performanceMeasure.PerformanceMeasureID}";
         }
 
-        public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(
-            PerformanceMeasure performanceMeasure)
+        public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
+            //override to catch any config setups for performance measures with targets
+            if (performanceMeasure.HasTargets())
+            {
+                return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
+            }
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
                 new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
@@ -90,6 +94,19 @@ namespace ProjectFirma.Web.Models
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
                 googleChartAxisVerticals);
+            return defaultSubcategoryChartConfigurationJson;
+        }
+
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
+        {
+            var googleChartType = GoogleChartType.ColumnChart;
+            var googleChartAxisHorizontal =
+                new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+            var googleChartAxisVerticals = new List<GoogleChartAxis>();
+            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
+                performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
+                googleChartAxisVerticals, null, chartSeries);
             return defaultSubcategoryChartConfigurationJson;
         }
 
@@ -120,10 +137,10 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranchPerformanceMeasureGroupedByLevel;
         }
 
-        public static List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues(Person currentPerson, PerformanceMeasure performanceMeasure)
+        public static List<PerformanceMeasureSubcategoriesTotalReportedValue> SubcategoriesTotalReportedValues(FirmaSession currentFirmaSession, PerformanceMeasure performanceMeasure)
         {
             var groupByProjectAndSubcategory =
-                performanceMeasure.GetReportedPerformanceMeasureValues(currentPerson)
+                performanceMeasure.GetReportedPerformanceMeasureValues(currentFirmaSession)
                     .Where(x => FirmaDateUtilities.DateIsInReportingRange(x.CalendarYear))
                     .GroupBy(x => new {x.Project, PerformanceMeasureSubcategoriesAsString = x.GetPerformanceMeasureSubcategoriesAsString()})
                     .ToList();
@@ -140,12 +157,12 @@ namespace ProjectFirma.Web.Models
         public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects, string chartUniqueName)
         {
             var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
-            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues, chartUniqueName);
+            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues);
         }
 
-        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Person currentPerson)
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            var projects = performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson);
+            var projects = performanceMeasure.GetAssociatedProjectsWithReportedValues(currentFirmaSession);
             return performanceMeasure.GetReportedPerformanceMeasureValues(projects);
         }
 
@@ -154,11 +171,23 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project });
         }
 
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, ProjectUpdateBatch projectUpdateBatch)
+        {
+            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<ProjectUpdateBatch> { projectUpdateBatch });
+        }
+
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
             return performanceMeasureReportedValues;
         }
+
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<ProjectUpdateBatch> projectUpdateBatches)
+        {
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projectUpdateBatches);
+            return performanceMeasureReportedValues;
+        }
+
 
         public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
@@ -168,7 +197,7 @@ namespace ProjectFirma.Web.Models
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()
                 : performanceMeasureValues;
 
-            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.CalendarYear }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
+            var groupByProjectAndSubcategory = performanceMeasureActualsFiltered.GroupBy(pirv => new { pirv.Project, PerformanceMeasureSubcategoriesAsString = pirv.GetPerformanceMeasureSubcategoriesAsString(), pirv.PerformanceMeasureReportingPeriod }).OrderBy(x => x.Key.PerformanceMeasureSubcategoriesAsString).ToList();
 
             var projectPerformanceMeasureReportingPeriodValues = groupByProjectAndSubcategory.Select(reportedValuesGroup =>
             {
@@ -181,14 +210,14 @@ namespace ProjectFirma.Web.Models
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear, y.PerformanceMeasureSubcategoryOption,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod, y.PerformanceMeasureSubcategoryOption,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0));
                         }
                         else
                         {
                             return new
                                 PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue(
-                                    reportedValuesGroup.Key.CalendarYear,
+                                    reportedValuesGroup.Key.PerformanceMeasureReportingPeriod,
                                     reportedValuesGroup.Sum(x => x.GetReportedValue() ?? 0), y.PerformanceMeasureSubcategory, y.GetPerformanceMeasureSubcategoryOptionName());
                         }
                     }).ToList();
@@ -199,14 +228,14 @@ namespace ProjectFirma.Web.Models
             return projectPerformanceMeasureReportingPeriodValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.Project.ProjectName).ToList();
         }
 
-        public static List<Project> GetAssociatedProjectsWithReportedValues(this PerformanceMeasure performanceMeasure, Person person)
+        public static List<Project> GetAssociatedProjectsWithReportedValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return performanceMeasure.PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return performanceMeasure.PerformanceMeasureActuals.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
         }
 
-        public static int ReportedProjectsCount(this PerformanceMeasure performanceMeasure, Person currentPerson)
+        public static int ReportedProjectsCount(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentPerson).Count;
+            return performanceMeasure.GetAssociatedProjectsWithReportedValues(currentFirmaSession).Count;
         }
 
         public static List<PerformanceMeasureSubcategory> GetPerformanceMeasureSubcategories(this PerformanceMeasure performanceMeasure)
@@ -222,24 +251,31 @@ namespace ProjectFirma.Web.Models
                 .SelectMany(x => x.PerformanceMeasureSubcategoryOptions).OrderBy(x => x.PerformanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName).ThenBy(x => x.SortOrder);
         }
 
-        public static decimal? TotalExpenditure(this PerformanceMeasure performanceMeasure, Person currentPerson)
+        public static decimal? TotalExpenditure(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return SubcategoriesTotalReportedValues(currentPerson, performanceMeasure).Sum(x => x.CalculateWeightedTotalExpenditure());
+            return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Sum(x => x.CalculateWeightedTotalExpenditure());
         }
 
-        public static decimal? TotalExpenditurePerPerformanceMeasureUnit(this PerformanceMeasure performanceMeasure, Person currentPerson)
+        public static decimal? TotalExpenditurePerPerformanceMeasureUnit(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            var totalReportedValues = SubcategoriesTotalReportedValues(currentPerson, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
+            var totalReportedValues = SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue ?? 0);
             if (Math.Abs(totalReportedValues) < Double.Epsilon)
             {
                 return null;
             }
-            return performanceMeasure.TotalExpenditure(currentPerson) / (decimal)totalReportedValues;
+            return performanceMeasure.TotalExpenditure(currentFirmaSession) / (decimal)totalReportedValues;
         }
 
-        public static double? TotalReportedValueWithNonZeroExpenditures(this PerformanceMeasure performanceMeasure, Person currentPerson)
+        public static double? TotalReportedValueWithNonZeroExpenditures(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
-            return SubcategoriesTotalReportedValues(currentPerson, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+            return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
+        }
+
+        public static bool HasTargets(this PerformanceMeasure performanceMeasure)
+        {
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+
+            return hasTargets;
         }
     }
 }

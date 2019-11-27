@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             var performanceMeasureSubcategoriesToUpdate = PerformanceMeasureSubcategorySimples.Select(x =>
             {
-                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID),
+                var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false),
                     x.PerformanceMeasureSubcategoryDisplayName);
                 performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
                 performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                     x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
                         (y, index) =>
                             new PerformanceMeasureSubcategoryOption(
-                                new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID), String.Empty),
+                                new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false), String.Empty),
                                 y.PerformanceMeasureSubcategoryOptionName,
                                 false)
                             {
@@ -70,9 +70,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                 SortOrder = index + 1,
                                 ShowOnFactSheet = y.ShowOnFactSheet
                             }).ToList();
-                var chartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                var chartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                 performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
-                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                if (performanceMeasure.CanBeChartedCumulatively)
+                {
+                    var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+                    performanceMeasureSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                }
                 return performanceMeasureSubcategory;
             }).ToList();
 

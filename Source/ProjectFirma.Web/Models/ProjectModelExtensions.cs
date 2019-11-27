@@ -28,6 +28,7 @@ using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
@@ -76,6 +77,18 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static readonly UrlTemplate<int> AddProjectProjectStatusUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.New(UrlTemplate.Parameter1Int)));
+        public static string GetAddProjectProjectStatusUrl(this Project project)
+        {
+            return AddProjectProjectStatusUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static readonly UrlTemplate<int> AddProjectProjectStatusFromGridUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(t => t.NewFromGrid(UrlTemplate.Parameter1Int)));
+        public static string GetAddProjectProjectStatusFromGridUrl(this Project project)
+        {
+            return AddProjectProjectStatusFromGridUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
         public static readonly UrlTemplate<int> DeleteProposalUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(t => t.DeleteProjectProposal(UrlTemplate.Parameter1Int)));
         public static string GetDeleteProposalUrl(this Project project)
         {
@@ -100,9 +113,9 @@ namespace ProjectFirma.Web.Models
             return ProjectMapSimplePopuUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
-        public static bool IsMyProject(this Project project, Person person)
+        public static bool IsMyProject(this Project project, FirmaSession currentFirmaSession)
         {
-            return !person.IsAnonymousUser() && (project.IsPersonThePrimaryContact(person) || person.Organization.IsMyProject(project) || person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
+            return !currentFirmaSession.IsAnonymousUser() && (project.IsPersonThePrimaryContact(currentFirmaSession.Person) || currentFirmaSession.Person.Organization.IsMyProject(project) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -121,12 +134,6 @@ namespace ProjectFirma.Web.Models
         {
             return project.ProjectExemptReportingYears
                 .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.PerformanceMeasures)
-                .OrderBy(x => x.CalendarYear).ToList();
-        }
-        public static List<ProjectExemptReportingYear> GetExpendituresExemptReportingYears(this Project project)
-        {
-            return project.ProjectExemptReportingYears
-                .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures)
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
@@ -302,7 +309,7 @@ namespace ProjectFirma.Web.Models
             return ViewUtilities.NaString;
         }
 
-        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasures(this Project project)
+        public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Project project)
         {
             var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
 
@@ -456,9 +463,9 @@ namespace ProjectFirma.Web.Models
                    && project.ProjectStage.IsStageIncludedInCostCalculations();
         }
 
-        public static bool IsEditableToThisPerson(this Project project, Person person)
+        public static bool IsEditableToThisFirmaSession(this Project project, FirmaSession firmaSession)
         {
-            return project.IsMyProject(person) || new ProjectApproveFeature().HasPermission(person, project).HasPermission;
+            return project.IsMyProject(firmaSession) || new ProjectApproveFeature().HasPermission(firmaSession, project).HasPermission;
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Project project) => UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName());
@@ -495,9 +502,14 @@ namespace ProjectFirma.Web.Models
                 : new List<Project>();
         }
 
-        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
+        //public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, Person currentPerson)
+        //{
+        //    return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
+        //}
+
+        public static List<Project> GetProposalsVisibleToUser(this IList<Project> projects, FirmaSession firmaSesssion)
         {
-            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(currentPerson, x).HasPermission).ToList();
+            return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(firmaSesssion, x).HasPermission).ToList();
         }
 
         public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)

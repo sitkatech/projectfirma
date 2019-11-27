@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Security;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
+using ProjectFirmaModels.UnitTestCommon;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirmaModels.Models
@@ -329,12 +330,26 @@ namespace ProjectFirmaModels.Models
 
         private static void TestExpectedUserPermission(Person user, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
         {
-            Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
+            // Hack - fudge up a fake Session
+            var tmpFirmaSession = TestFramework.TestFirmaSession.Create();
+            // Normally we don't allow deliberate setting of null Person in constructor, so we need to work around this in test context.
+            tmpFirmaSession.Person = user;
+            Assert.That(projectCheckingFeature.HasPermission(tmpFirmaSession, project).HasPermission == expectedPermission);
+        }
+
+        private static void TestExpectedUserPermission(FirmaSession firmaSession, Project project, IFirmaBaseFeatureWithContext<Project> projectCheckingFeature, bool expectedPermission)
+        {
+            Assert.That(projectCheckingFeature.HasPermission(firmaSession, project).HasPermission == expectedPermission);
         }
 
         private static void TestExpectedUserPermission(Person user, FirmaFeature projectCheckingFeature, bool expectedPermission)
         {
             Assert.That(projectCheckingFeature.HasPermissionByPerson(user) == expectedPermission);
+        }
+
+        private static void TestExpectedUserPermission(FirmaSession firmaSession, FirmaFeature projectCheckingFeature, bool expectedPermission)
+        {
+            Assert.That(projectCheckingFeature.HasPermissionByFirmaSession(firmaSession) == expectedPermission);
         }
 
         private static void TestExpectedUserPermissionWithUserInLeadImplementingOrg(Person user,
@@ -354,7 +369,9 @@ namespace ProjectFirmaModels.Models
                 user.OrganizationID = optionalOrganizationToMakeUserTemporaryMemberOf.OrganizationID;
             }
 
-            Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
+            // Temp fake Session
+            var tempFirmaSession = new FirmaSession(user);
+            Assert.That(projectCheckingFeature.HasPermission(tempFirmaSession, project).HasPermission == expectedPermission);
             project.ProjectOrganizations.Clear();
             user.Organization = originalUserOrg;
             user.OrganizationID = originalUserOrgID;
@@ -381,7 +398,9 @@ namespace ProjectFirmaModels.Models
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPerson = user;
             organizationToMakeUserTemporaryPrimaryContactOfImplementingOrg.PrimaryContactPersonID = user.PersonID;
 
-            Assert.That(projectCheckingFeature.HasPermission(user, project).HasPermission == expectedPermission);
+            // Temp fake Session
+            var tempFirmaSession = new FirmaSession(user);
+            Assert.That(projectCheckingFeature.HasPermission(tempFirmaSession, project).HasPermission == expectedPermission);
 
             user.Organization = originalUserOrg;
             user.OrganizationID = originalUserOrgID;

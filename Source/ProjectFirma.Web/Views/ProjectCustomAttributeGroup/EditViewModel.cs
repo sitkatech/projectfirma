@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         }
 
 
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup, FirmaSession currentFirmaSession)
         {
             projectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName;
             if (projectCustomAttributeGroup.SortOrder != null) return;

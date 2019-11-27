@@ -36,14 +36,14 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            var hasPermissionByPerson = HasPermissionByPerson(person);
+            var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
             if (!hasPermissionByPerson)
             {
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} is not updateable via the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update process");
             }
 
-            var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(person, contextModelObject).HasPermission || contextModelObject.IsMyProject(person);
+            var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
             if (!projectIsEditableByUser)
             {
                 return new PermissionCheckResult($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.ProjectID} is not editable by you.");

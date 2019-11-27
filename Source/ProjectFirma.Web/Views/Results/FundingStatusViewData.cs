@@ -29,9 +29,9 @@ namespace ProjectFirma.Web.Views.Results
         public readonly ViewGoogleChartViewData SummaryViewGoogleChartViewData;
         public readonly ViewGoogleChartViewData StatusByOwnerOrgTypeViewGoogleChartViewData;
 
-        public FundingStatusViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.FirmaPage fundingStatusFooter, GoogleChartJson summaryGoogleChart, GoogleChartJson orgTypeGoogleChart) : base(currentPerson, firmaPage)
+        public FundingStatusViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.FirmaPage fundingStatusFooter, GoogleChartJson summaryGoogleChart, GoogleChartJson orgTypeGoogleChart) : base(currentFirmaSession, firmaPage)
         {
-            FundingStatusFooterViewPageContentViewData = new ViewPageContentViewData(fundingStatusFooter, currentPerson);
+            FundingStatusFooterViewPageContentViewData = new ViewPageContentViewData(fundingStatusFooter, currentFirmaSession);
             SummaryViewGoogleChartViewData = new ViewGoogleChartViewData(summaryGoogleChart, summaryGoogleChart.GoogleChartConfiguration.Title, 350, true, true);
             StatusByOwnerOrgTypeViewGoogleChartViewData = new ViewGoogleChartViewData(orgTypeGoogleChart, orgTypeGoogleChart.GoogleChartConfiguration.Title, 400, true);
         }

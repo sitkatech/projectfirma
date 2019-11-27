@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
         public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
 
 
-        public TechnicalAssistanceRequestsDetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, bool canViewNotes, List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson)
+        public TechnicalAssistanceRequestsDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, bool canViewNotes, List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentFirmaSession)
         {
             var technicalAssistanceRequests = new List<ProjectFirmaModels.Models.TechnicalAssistanceRequest>();
             if (project.TechnicalAssistanceRequests != null)

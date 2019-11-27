@@ -32,14 +32,16 @@ namespace ProjectFirma.Web.Security
         {
         }
 
-        public override bool HasPermissionByPerson(Person person)
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
-            if (!base.HasPermissionByPerson(person))
+            if (!base.HasPermissionByFirmaSession(firmaSession))
             {
                 return false;
             }
 
-            return !(person.Role.RoleID == Role.ProjectSteward.RoleID && !person.IsPersonAProjectOwnerWhoCanStewardProjects());
+            var person = firmaSession.Person;
+            return !(firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.IsPersonAProjectOwnerWhoCanStewardProjects());
         }
+
     }
 }

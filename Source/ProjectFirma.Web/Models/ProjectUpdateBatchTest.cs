@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CreateProjectUpdateBatchAndLogTransitionTest()
         {
-            var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
-            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, person);
+            var firmaSession = TestFramework.TestFirmaSession.Create();
+            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, firmaSession);
             Assert.That(projectUpdateBatch, Is.Not.Null, "Should have created one");
             Assert.That(projectUpdateBatch.ProjectUpdateHistories.Count, Is.EqualTo(1), $"Should have created a Project update history record");
             var projectUpdateHistory = projectUpdateBatch.ProjectUpdateHistories.First();
@@ -55,9 +55,9 @@ namespace ProjectFirma.Web.Models
         [Ignore]
         public void ProjectUpdateBatchStatesTest()
         {
-            var person = TestFramework.TestPerson.Create();
+            var firmaSession = TestFramework.TestFirmaSession.Create();
             var project = TestFramework.TestProject.Create();
-            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, person);
+            var projectUpdateBatch = ProjectUpdateBatchModelExtensions.CreateProjectUpdateBatchAndLogTransition(project, firmaSession);
             var projectUpdate = TestFramework.TestProjectUpdate.Create(projectUpdateBatch);
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = currentYear;
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.IsCreated(), Is.True);
             Assert.That(projectUpdateBatch.InEditableState(), Is.True);
 
-            var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
+            var preconditionException = Assert.Catch<PreconditionException>(() => projectUpdateBatch.SubmitToReviewer(firmaSession, DateTime.Now.AddDays(1)), "Should not be allowed to submit yet");
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot submit a Project update that is not ready to be submitted"));
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear, 1000);
             var organization1 = TestFramework.TestOrganization.Create("Org1");
@@ -83,14 +83,14 @@ namespace ProjectFirma.Web.Models
             var projectGeospatialAreaTypeNoteUpdate = new ProjectGeospatialAreaTypeNoteUpdate(projectUpdateBatch, geospatialAreaType, TestFramework.MakeTestName("Notes"));
             projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.Add(projectGeospatialAreaTypeNoteUpdate);
 
-            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(1));
+            projectUpdateBatch.SubmitToReviewer(firmaSession, DateTime.Now.AddDays(1));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
             Assert.That(projectUpdateBatch.IsCreated(), Is.False);
             Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
-            projectUpdateBatch.RejectSubmission(person, DateTime.Now.AddDays(2));
+            projectUpdateBatch.RejectSubmission(firmaSession, DateTime.Now.AddDays(2));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.True);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Models
             preconditionException =
                 Assert.Catch<PreconditionException>(
                     () =>
-                        projectUpdateBatch.Approve(person,
+                        projectUpdateBatch.Approve(firmaSession,
                             DateTime.Now.AddDays(4),
                             new List<ProjectExemptReportingYear>(),
                             new List<ProjectRelevantCostType>(),
@@ -127,14 +127,14 @@ namespace ProjectFirma.Web.Models
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
 
             // we have to re submit to get to approve
-            projectUpdateBatch.SubmitToReviewer(person, DateTime.Now.AddDays(3));
+            projectUpdateBatch.SubmitToReviewer(firmaSession, DateTime.Now.AddDays(3));
             Assert.That(projectUpdateBatch.IsApproved(), Is.False);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.True);
             Assert.That(projectUpdateBatch.IsCreated(), Is.False);
             Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
-            projectUpdateBatch.Approve(person,
+            projectUpdateBatch.Approve(firmaSession,
                 DateTime.Now.AddDays(4),
                 new List<ProjectExemptReportingYear>(),
                 new List<ProjectRelevantCostType>(),
@@ -167,9 +167,9 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void GetNewOrCurrentNotApprovedProjectUpdateBatchForProjectNoneExistingTest()
         {
-            var person = TestFramework.TestPerson.Create();
             var project = TestFramework.TestProject.Create();
-            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
+            var firmaSession = TestFramework.TestFirmaSession.Create();
+            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, firmaSession);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned a new ProjectUpdateBatch");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated(), Is.True, "Should have returned a new ProjectUpdateBatch that is in draft");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectID, Is.EqualTo(project.ProjectID), "Should have returned a new ProjectUpdateBatch that is in draft for the given project");
@@ -178,24 +178,24 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void GetNewOrCurrentNotApprovedProjectUpdateBatchForProjectExistingTest()
         {
-            var person = TestFramework.TestPerson.Create();
+            var firmaSession = TestFramework.TestFirmaSession.Create();
             var project = TestFramework.TestProject.Create();
             var projectUpdateBatch = TestFramework.TestProjectUpdateBatch.Create(project);
-            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
+            var currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, firmaSession);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned the existing ProjectUpdateBatch");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectUpdateBatchID, Is.EqualTo(projectUpdateBatch.ProjectUpdateBatchID), "Should have returned the existing ProjectUpdateBatch");
 
             // flip it to submitted
-            TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Submitted, person, DateTime.Now.AddDays(1));
-            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
+            TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Submitted, firmaSession.Person, DateTime.Now.AddDays(1));
+            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, firmaSession);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned the existing ProjectUpdateBatch, even if it is submitted");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.ProjectUpdateBatchID,
                 Is.EqualTo(projectUpdateBatch.ProjectUpdateBatchID),
                 "Should have returned the existing ProjectUpdateBatch, even if it is submitted");
 
             // flip it to approved
-            TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Approved, person, DateTime.Now.AddDays(2));
-            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, person);
+            TestFramework.TestProjectUpdateHistory.Create(projectUpdateBatch, ProjectUpdateState.Approved, firmaSession.Person, DateTime.Now.AddDays(2));
+            currentNotApprovedProjectUpdateBatchForProject = project.GetLatestNotApprovedUpdateBatch() ?? ProjectUpdateBatchModelExtensions.CreateNewProjectUpdateBatchForProject(project, firmaSession);
             Assert.That(currentNotApprovedProjectUpdateBatchForProject, Is.Not.Null, "Should have returned a new ProjectUpdateBatch, since the existing one we had has now been Approved");
             Assert.That(currentNotApprovedProjectUpdateBatchForProject.IsCreated(),
                 Is.True,
@@ -533,7 +533,7 @@ namespace ProjectFirma.Web.Models
 
             // fill in the other years missing
             FirmaDateUtilities.GetRangeOfYears(projectUpdate.ImplementationStartYear.Value, projectUpdate.CompletionYear.Value)
-                .GetMissingYears(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().Select(x => x.CalendarYear)).ToList()
+                .GetMissingYears(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList()
                 .ForEach(x => TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, x));
             AssertPerformanceMeasures(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList(),
                 projectUpdate.ImplementationStartYear.Value,
@@ -680,7 +680,7 @@ namespace ProjectFirma.Web.Models
             var result = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(result.IsValid, Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
-            var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.CalendarYear).Distinct().ToList();
+            var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
             var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
             var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
             var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";

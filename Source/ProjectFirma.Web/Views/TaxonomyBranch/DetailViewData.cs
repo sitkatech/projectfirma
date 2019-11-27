@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
         public string EditChildrenSortOrderUrl { get; }
 
-        public DetailViewData(Person currentPerson,
+        public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.TaxonomyBranch taxonomyBranch,
             ProjectLocationsMapInitJson projectLocationsMapInitJson,
             ProjectLocationsMapViewData projectLocationsMapViewData, 
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             RelatedPerformanceMeasuresViewData relatedPerformanceMeasuresViewData, 
             List<PerformanceMeasureChartViewData> performanceMeasureChartViewDatas, 
             TaxonomyLevel taxonomyLevel,
-            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentPerson)
+            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentFirmaSession)
         {
             TaxonomyBranch = taxonomyBranch;
             ProjectLocationsMapViewData = projectLocationsMapViewData;
@@ -85,12 +85,12 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
 
             ProjectMapFilteredUrl = ProjectLocationsMapInitJson.ProjectMapCustomization.GetCustomizedUrl();
 
-            UserHasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByPerson(CurrentPerson);
+            UserHasTaxonomyBranchManagePermissions = new TaxonomyBranchManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditTaxonomyBranchUrl = SitkaRoute<TaxonomyBranchController>.BuildUrlFromExpression(c => c.Edit(taxonomyBranch.TaxonomyBranchID));
 
             IndexUrl = SitkaRoute<ProgramInfoController>.BuildUrlFromExpression(c => c.Taxonomy());
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentPerson, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "taxonomyBranchProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.TaxonomyBranchProjectsGridJsonData(taxonomyBranch));

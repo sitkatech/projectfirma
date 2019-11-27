@@ -24,12 +24,6 @@ namespace ProjectFirma.Web.Models
                 .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.PerformanceMeasures)
                 .OrderBy(x => x.CalendarYear).ToList();
         }
-        public static List<ProjectExemptReportingYearUpdate> GetExpendituresExemptReportingYears(this ProjectUpdateBatch project)
-        {
-            return project.ProjectExemptReportingYearUpdates
-                .Where(x => x.ProjectExemptReportingType == ProjectExemptReportingType.Expenditures)
-                .OrderBy(x => x.CalendarYear).ToList();
-        }
 
         public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch project)
         {
@@ -45,9 +39,8 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, FirmaSession currentFirmaSession)
         {
-            
             ProjectUpdateBatch projectUpdateBatch;
             if (project.GetLatestNotApprovedUpdateBatch() != null)
             {
@@ -55,15 +48,15 @@ namespace ProjectFirma.Web.Models
             }
             else
             {
-                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentPerson);
+                projectUpdateBatch = CreateNewProjectUpdateBatchForProject(project, currentFirmaSession);
             }
 
             return projectUpdateBatch;
         }
 
-        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, Person currentPerson)
+        public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNewAndSaveToDatabase(Project project, FirmaSession currentFirmaSession)
         {
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentPerson);
+            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, currentFirmaSession);
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID))
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -73,11 +66,11 @@ namespace ProjectFirma.Web.Models
 
         public static DateTime? GetLatestSubmittalDate(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.GetLatestProjectUpdateHistorySubmitted()?.TransitionDate;
 
-        public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, Person currentPerson)
+        public static ProjectUpdateBatch CreateNewProjectUpdateBatchForProject(Project project, FirmaSession currentFirmaSession)
         {
             Check.Require(project.ProjectUpdateBatches.All(x => x.ProjectUpdateState == ProjectUpdateState.Approved), "Cannot create a new Project Update Batch, there is already an active update for this project.");
 
-            var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentPerson);
+            var projectUpdateBatch = CreateProjectUpdateBatchAndLogTransition(project, currentFirmaSession);
 
             // basics & map
             projectUpdateBatch.CreateFromProject();
@@ -88,9 +81,6 @@ namespace ProjectFirma.Web.Models
             // project expenditures relevant cost types
             ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
             ProjectRelevantCostTypeUpdateModelExtensions.CreateBudgetsRelevantCostTypesFromProject(projectUpdateBatch);
-
-            // project expenditures exempt reporting years
-            ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
 
             // expenditures exempt explanation
             projectUpdateBatch.SyncExpendituresYearsExemptionExplanation();
@@ -152,12 +142,12 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Only public for unit testing
         /// </summary>
-        public static ProjectUpdateBatch CreateProjectUpdateBatchAndLogTransition(Project project, Person currentPerson)
+        public static ProjectUpdateBatch CreateProjectUpdateBatchAndLogTransition(Project project, FirmaSession currentFirmaSession)
         {
-            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, currentPerson, ProjectUpdateState.Created, false);
+            var projectUpdateBatch = new ProjectUpdateBatch(project, DateTime.Now, currentFirmaSession.Person, ProjectUpdateState.Created, false);
 
             // create a project update history record
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Created, currentPerson, DateTime.Now);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Created, currentFirmaSession, DateTime.Now);
             return projectUpdateBatch;
         }
 
@@ -212,16 +202,7 @@ namespace ProjectFirma.Web.Models
             {
                 projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
-            projectUpdateBatch.NoExpendituresToReportExplanation = null;
-        }
-
-        public static void DeleteExpendituresProjectExemptReportingYearUpdates(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            foreach (var projectExemptReportingYearUpdate in projectUpdateBatch.GetExpendituresExemptReportingYears())
-            {
-                projectExemptReportingYearUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            }
-            projectUpdateBatch.NoExpendituresToReportExplanation = null;
+            projectUpdateBatch.ExpendituresNote = null;
         }
 
         public static void DeleteExpendituresProjectRelevantCostTypeUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -363,7 +344,7 @@ namespace ProjectFirma.Web.Models
             {
                 var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
                 var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
-                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.CalendarYear).Distinct();
+                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
                 missingYears = yearsExpected.GetMissingYears(yearsEntered);
             }
             // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
@@ -393,7 +374,7 @@ namespace ProjectFirma.Web.Models
                 return new HashSet<int>();
             }
             var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
-                .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
+                .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
                 .Select(x => x)
@@ -410,7 +391,7 @@ namespace ProjectFirma.Web.Models
             }
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
 
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();            
+            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();            
 
             return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
@@ -445,8 +426,7 @@ namespace ProjectFirma.Web.Models
             {
                 // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
                 var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
-                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(
-                    projectUpdateBatch.GetExpendituresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList(), projectUpdateBatch.NoExpendituresToReportExplanation, yearsExpected, new List<IFundingSourceExpenditure>(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates));
+                var validateExpenditures = ExpendituresValidationResult.ValidateImpl(projectUpdateBatch.ExpendituresNote, yearsExpected, new List<IFundingSourceExpenditure>(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates));
                 return validateExpenditures;
             }
             return new List<string>();
@@ -471,7 +451,7 @@ namespace ProjectFirma.Web.Models
 
                 if (!projectFundingSourceExpenditures.Any())
                 {
-                    if (string.IsNullOrWhiteSpace(projectUpdateBatch.NoExpendituresToReportExplanation))
+                    if (string.IsNullOrWhiteSpace(projectUpdateBatch.ExpendituresNote))
                     {
                         errors.Add(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
                     }
@@ -576,20 +556,20 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType).IsValid;
         }
 
-        public static void SubmitToReviewer(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void SubmitToReviewer(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsReadyToSubmit(), $"You cannot submit a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that is not ready to be submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Submitted, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Submitted, currentFirmaSession, transitionDate);
         }
 
-        public static void Return(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void Return(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot return a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
         public static void Approve(
-            this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
+            this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
             IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
@@ -632,7 +612,7 @@ namespace ProjectFirma.Web.Models
                 allProjectCustomAttributeValues,
                 allTechnicalAssistanceRequests,
                 allProjectContacts);
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentFirmaSession, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
         }
 
@@ -684,7 +664,7 @@ namespace ProjectFirma.Web.Models
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
-            projectUpdateBatch.Project.NoExpendituresToReportExplanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
 
             // project relevant cost types
             ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
@@ -741,21 +721,22 @@ namespace ProjectFirma.Web.Models
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 
-        public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate)
+        public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), "You cannot reject a batch that has not been submitted!");
-            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentPerson, transitionDate);
+            projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
         /// <summary>
         /// Note, the saving is done by the controller
         /// </summary>
-        private static void CreateNewTransitionRecord(this ProjectUpdateBatch projectUpdateBatch, ProjectUpdateState projectUpdateState, Person currentPerson, DateTime transitionDate)
+        private static void CreateNewTransitionRecord(this ProjectUpdateBatch projectUpdateBatch, ProjectUpdateState projectUpdateState, FirmaSession currentFirmaSession, DateTime transitionDate)
         {
+            var currentPerson = currentFirmaSession.Person;
             var projectUpdateHistory = new ProjectUpdateHistory(projectUpdateBatch, projectUpdateState, currentPerson, transitionDate);
             HttpRequestStorage.DatabaseEntities.AllProjectUpdateHistories.Add(projectUpdateHistory);
             projectUpdateBatch.ProjectUpdateStateID = projectUpdateState.ProjectUpdateStateID;
-            projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentPerson);
+            projectUpdateBatch.TickleLastUpdateDate(transitionDate, currentFirmaSession);
         }
 
         public static bool AreAccomplishmentsRelevant(this ProjectUpdateBatch projectUpdateBatch)
@@ -785,5 +766,33 @@ namespace ProjectFirma.Web.Models
         {
             return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
         }
+
+
+        public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            List<PerformanceMeasureReportedValue> reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
+
+            // Idaho's special PM.
+            // There Might Be A Better Way To Do This™
+            PerformanceMeasure technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
+                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
+                    .PerformanceMeasureDataSourceTypeID);
+            if (technicalAssistanceValue != null)
+            {
+                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(projectUpdateBatch));
+            }
+
+            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+        public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            List<PerformanceMeasureReportedValue> performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
+                .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
+                .SelectMany(x => x.GetReportedPerformanceMeasureValues(projectUpdateBatch)).ToList();
+            return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+        }
+
+
     }
 }

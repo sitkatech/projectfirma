@@ -27,15 +27,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 
         public string AttachmentRelationshipTypesIndexUrl { get; }
 
-        public ProjectAttachmentsDetailViewData(List<EntityAttachment> attachments, string addAttachmentUrl, string projectName, bool canEditAttachments, List<ProjectFirmaModels.Models.AttachmentRelationshipType> attachmentRelationshipTypes, Person currentPerson)
+        public ProjectAttachmentsDetailViewData(List<EntityAttachment> attachments, string addAttachmentUrl, string projectName, bool canEditAttachments, List<ProjectFirmaModels.Models.AttachmentRelationshipType> attachmentRelationshipTypes, FirmaSession currentFirmaSession)
         {
-            CurrentPerson = currentPerson;
+            CurrentPerson = currentFirmaSession.Person;
             Attachments = attachments;
             AddAttachmentUrl = addAttachmentUrl;
             ProjectName = projectName;
             CanEditAttachments = canEditAttachments;
             ShowDownload = true;
-            AttachmentRelationshipTypesIndexUrl = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson) ? SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
+            AttachmentRelationshipTypesIndexUrl = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession) ? SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
             AttachmentRelationshipTypes = attachmentRelationshipTypes;
         }
 

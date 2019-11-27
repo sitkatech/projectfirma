@@ -1,0 +1,27 @@
+﻿@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.SortOrder
+@inherits ProjectFirma.Web.Views.ProjectStatus.Manage
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+@section RightOfPageTitle
+{
+    @if (ViewDataTyped.HasManagePermissions)
+    {
+       
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectStatusUrl, string.Format("Create New {0}", FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()), new List<string> { "btn btn-firma headerButtonText projectStatusButton" }, true)
+        <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, true)</div>
+        
+    }
+}
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+<div style="margin-top: 10px;">
+    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>

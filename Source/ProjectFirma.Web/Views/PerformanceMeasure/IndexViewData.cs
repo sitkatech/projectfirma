@@ -35,12 +35,13 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public bool HasPerformanceMeasureManagePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetPerformanceMeasureNamePluralized();
 
-            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson);
-            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentPerson) {
+            HasPerformanceMeasureManagePermissions = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            PerformanceMeasureGridSpec = new PerformanceMeasureGridSpec(currentFirmaSession)
+            {
                 ObjectNameSingular = MultiTenantHelpers.GetPerformanceMeasureName(),
                 ObjectNamePlural = MultiTenantHelpers.GetPerformanceMeasureNamePluralized(),
                 SaveFiltersInCookie = true

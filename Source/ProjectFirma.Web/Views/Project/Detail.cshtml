@@ -37,6 +37,7 @@
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @using ProjectFirma.Web.Views.TechnicalAssistanceRequest
 @using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
+@using ProjectTimeline = ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
 @inherits ProjectFirma.Web.Views.Project.Detail
 
 @section JavascriptAndStylesContent
@@ -87,6 +88,7 @@
     @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
     {
         <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
+        
     }
     <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
 }
@@ -389,7 +391,7 @@
                         @{ ProjectAttachmentsDetail.RenderPartialView(Html, ViewDataTyped.ProjectAttachmentsDetailViewData); }
                     </div>
                 </div>
-                
+
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3>Notes</h3>
@@ -431,7 +433,20 @@
                         }
                     </div>
                 </div>
-
+                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                {
+                    <h2 class="sectionHeader">Timeline</h2> 
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3 class="project-detail-heading">
+                                @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() History
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
+                        </div>
+                    </div>
+                }
                 @if (ViewDataTyped.UserHasProjectAdminPermissions)
                 {
                     <h2 class="sectionHeader">Administrative</h2>
@@ -451,6 +466,7 @@
                             @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
+
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>Audit Log</h3>

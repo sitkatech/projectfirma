@@ -19,14 +19,14 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ProjectAttachmentIndex()
         {
-            var viewData = new ProjectAttachmentIndexViewData(CurrentPerson);
+            var viewData = new ProjectAttachmentIndexViewData(CurrentFirmaSession);
             return RazorView<ProjectAttachmentIndex, ProjectAttachmentIndexViewData>(viewData);
         }
 
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<ProjectAttachment> ProjectAttachmentGridJsonData()
         {
-            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new ProjectAttachmentGridSpec(hasManagePermissions);
             var projectAttachments = HttpRequestStorage.DatabaseEntities.ProjectAttachments.ToList().OrderBy(x => x.DisplayName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectAttachment>(projectAttachments, gridSpec);
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewNew(viewModel, project);
             }
             
-            viewModel.UpdateModel(project, CurrentPerson);
+            viewModel.UpdateModel(project, CurrentFirmaSession);
 
             SetMessageForDisplay($"Successfully created new document \"{viewModel.DisplayName}\" for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{project.ProjectName}\".");
 

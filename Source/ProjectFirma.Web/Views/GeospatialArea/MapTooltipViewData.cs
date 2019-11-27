@@ -12,7 +12,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public readonly ProjectFirmaModels.Models.GeospatialArea GeospatialArea;
         public readonly HtmlString GeospatialAreaDetailLink;
 
-        public MapTooltipViewData(Person currentPerson, ProjectFirmaModels.Models.GeospatialArea geospatialArea) : base(currentPerson)
+        public MapTooltipViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.GeospatialArea geospatialArea) : base(currentFirmaSession)
         {
             GeospatialArea = geospatialArea;
             GeospatialAreaDetailLink = SitkaRoute<GeospatialAreaController>

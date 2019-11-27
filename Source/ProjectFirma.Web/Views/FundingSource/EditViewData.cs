@@ -21,19 +21,20 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ProjectFirma.Web.Views;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly IEnumerable<SelectListItem> Organizations;
-        public readonly ProjectFirmaModels.Models.Person CurrentPerson;
+        public readonly Person CurrentPerson;
         public readonly bool AllowPersonToSetOrganization;
 
-        public EditViewData(IEnumerable<SelectListItem> organizations, ProjectFirmaModels.Models.Person currentPerson)
+        public EditViewData(IEnumerable<SelectListItem> organizations, FirmaSession currentFirmaSession)
         {
             Organizations = organizations;
+            var currentPerson = currentFirmaSession.Person;
             CurrentPerson = currentPerson;
             AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
         }

@@ -10,11 +10,12 @@ namespace ProjectFirma.Web.Models
 {
     public static class SupportRequestLogModelExtensions
     {
-        public static SupportRequestLog Create(Person person)
+        public static SupportRequestLog Create(FirmaSession currentFirmaSession)
         {
             var supportRequest = SupportRequestLog.CreateNewBlank(SupportRequestType.Other);
-            if (person != null && !person.IsAnonymousUser())
+            if (!currentFirmaSession.IsAnonymousUser())
             {
+                var person = currentFirmaSession.Person;
                 supportRequest.RequestPerson = person;
                 supportRequest.RequestPersonID = person.PersonID;
                 supportRequest.RequestPersonName = person.GetFullNameFirstLast();

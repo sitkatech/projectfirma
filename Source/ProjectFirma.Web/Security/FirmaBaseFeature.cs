@@ -28,8 +28,8 @@ using ProjectFirma.Web.Controllers;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
-using Keystone.Common.OpenID;
 using ProjectFirma.Web.Models;
+
 
 namespace ProjectFirma.Web.Security
 {
@@ -51,15 +51,37 @@ namespace ProjectFirma.Web.Security
             _grantedRoles = grantedRoles;
         }
 
-        public override void OnAuthorization(AuthorizationContext filterContext)
+        // Is this called only on initial authorization? or every call? I think only first time, but let's be sure.
+        public override void OnAuthorization(System.Web.Mvc.AuthorizationContext filterContext)
         {
             Roles = CalculateRoleNameStringFromFeature();
 
-            // MR #321 - force reload of user roles onto IClaimsIdentity
-            KeystoneOpenIDUtilities.AddLocalUserAccountRolesToClaims(HttpRequestStorage.Person, HttpRequestStorage.GetHttpContextUserThroughOwin().Identity);
+            var userIdentity = HttpRequestStorage.GetHttpContextUserThroughOwin().Identity;
+            //if ()
+            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpRequestStorage.GetHttpContextAuthenticationThroughOwin(), HttpRequestStorage.Tenant);
+            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
+
+            AddLocalUserAccountRolesToClaims(HttpRequestStorage.FirmaSession, userIdentity);
 
             // This ends up making the calls into the RoleProvider
             base.OnAuthorization(filterContext);
+        }
+
+        public static void AddLocalUserAccountRolesToClaims(FirmaSession firmaSession, System.Security.Principal.IIdentity userIdentity)
+        {
+            // Is the incoming user authenticated? (We aren't dealing with the FirmaSession, we are in the process of *setting up* the FirmaSession)
+            if (!userIdentity.IsAuthenticated)
+            {
+                return;
+            }
+
+            if (userIdentity is System.Security.Claims.ClaimsIdentity claimsIdentity)
+            {
+                if (firmaSession.Person != null)
+                { 
+                    firmaSession.Person.RoleNames.ToList().ForEach(role => claimsIdentity.AddClaim(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role)));
+                }
+            }
         }
 
         internal string CalculateRoleNameStringFromFeature()
@@ -69,22 +91,40 @@ namespace ProjectFirma.Web.Security
 
         public string FeatureName => GetType().Name;
 
+        // Hoping this can be eliminated in favor of HasPermissionByFirmaSession, but here for the moment.
         public virtual bool HasPermissionByPerson(Person person)
         {
-            if (!MultiTenantHelpers.GetTenantAttribute().IsActive && person.IsAnonymousOrUnassigned())
+            bool personIsAnonymous = person == null;
+
+            // Inactive Tenants disallow anonymous/unassigned traffic
+            bool tenantIsActive = MultiTenantHelpers.GetTenantAttribute().IsActive;
+            if (!tenantIsActive && (personIsAnonymous || person.IsUnassigned()))
             {
                 return false;
             }
-            if (!_grantedRoles.Any()) // AnonymousUnclassifiedFeature case
+
+            // AnonymousUnclassifiedFeatures allow anyone, at all times
+            if (!_grantedRoles.Any())
             {
-                return true; 
+                return true;
             }
-            return person != null && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+
+            // for a Role-limited feature, user must be logged in (not anonymous) and have matching Role
+            bool hasMatchingRole = !personIsAnonymous && _grantedRoles.Any(x => x.RoleID == person.Role.RoleID);
+            return hasMatchingRole;
         }
+
+        // Eventually, usages like this should replace HasPermissionByPerson throughout
+        public virtual bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        {
+            Person firmaSessionPerson = firmaSession.Person;
+            return HasPermissionByPerson(firmaSessionPerson);
+        }
+
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            return HasPermissionByPerson(HttpRequestStorage.Person);
+            return HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
         }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
@@ -98,12 +138,12 @@ namespace ProjectFirma.Web.Security
             throw new SitkaRecordNotAuthorizedException($"You are not authorized for feature \"{FeatureName}\". Log out and log in as a different user or request additional permissions.");
         }
 
-        public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, Person currentPerson) where T : Controller
+        public static bool IsAllowed<T>(SitkaRoute<T> sitkaRoute, FirmaSession currentFirmaSession) where T : Controller
         {
             var firmaFeatureLookupAttribute = sitkaRoute.Body.Method.GetCustomAttributes(typeof(FirmaBaseFeature), true).Cast<FirmaBaseFeature>().SingleOrDefault();
             Check.RequireNotNull(firmaFeatureLookupAttribute, $"Could not find feature for {sitkaRoute.BuildUrlFromExpression()}");
             // ReSharper disable PossibleNullReferenceException
-            return firmaFeatureLookupAttribute.HasPermissionByPerson(currentPerson);
+            return firmaFeatureLookupAttribute.HasPermissionByFirmaSession(currentFirmaSession);
             // ReSharper restore PossibleNullReferenceException
         }
 

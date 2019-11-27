@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     {
         public BulkSetProjectSpatialInformationViewData BulkSetProjectSpatialInformationViewData { get; set; }
 
-        public BulkSetSpatialInformationViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, BulkSetProjectSpatialInformationViewData quickSetViewData) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.BulkSetSpatialInformation.ProjectUpdateSectionDisplayName)
+        public BulkSetSpatialInformationViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, BulkSetProjectSpatialInformationViewData quickSetViewData) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, new List<string>(), ProjectUpdateSection.BulkSetSpatialInformation.ProjectUpdateSectionDisplayName)
         {
             BulkSetProjectSpatialInformationViewData = quickSetViewData;
         }

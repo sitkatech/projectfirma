@@ -45,12 +45,12 @@ namespace ProjectFirma.Web.Views.Organization
         public string ShowOnlyActiveOrAll { get; }
 
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems)
-            : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems)
+            : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
-            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByPerson(currentPerson);
-            GridSpec = new IndexGridSpec(currentPerson, hasOrganizationManagePermissions)
+            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            GridSpec = new IndexGridSpec(currentFirmaSession, hasOrganizationManagePermissions)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Organization
             GridDataUrl = gridDataUrl;
 
             PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
-            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             HasOrganizationManagePermissions = hasOrganizationManagePermissions;
             NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
 

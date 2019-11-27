@@ -44,12 +44,12 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ReportingYearLabel { get; }
         public string ConfigurePerformanceMeasuresUrl { get; }
 
-        public PerformanceMeasuresViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
-            : base(currentPerson, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        public PerformanceMeasuresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, ViewDataForAngularEditor viewDataForAngularEditor, ProposalSectionsStatus proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshReportedPerformanceMeasures(project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffReportedPerformanceMeasures(project));
-            var performanceMeasureActuals = project.GetReportedPerformanceMeasures();
+            var performanceMeasureActuals = project.GetPerformanceMeasureReportedValues();
             var performanceMeasureSubcategoriesCalendarYearReportedValues =
                 PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureActuals));
             PerformanceMeasureReportedValuesSummaryViewData = new PerformanceMeasureReportedValuesSummaryViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             
             IsImplementationStartYearValid = project.ImplementationStartYear.HasValue && project.ImplementationStartYear < project.CompletionYear;
             ReportingYearLabel = "Year";
-            if (new PerformanceMeasureManageFeature().HasPermissionByPerson(currentPerson))
+            if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 ConfigurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.Manage());
             }

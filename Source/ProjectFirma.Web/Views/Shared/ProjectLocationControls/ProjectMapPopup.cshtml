@@ -24,7 +24,7 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ProjectMapPopup
 <style>
-    .row {
+    .popupRow {
         margin-bottom: 5px;
         padding-left: 10px;
     }
@@ -60,7 +60,7 @@
     </style>
     <div style="width:@(ViewDataTyped.KeyPhoto != null ? "425px": "300px")">
         <div style="font-weight: bold; border-bottom: 1px solid lightgray; margin-bottom: 10px">@ViewDataTyped.DisplayName</div>
-        <div class="row">
+        <div class="row popupRow">
             @if (ViewDataTyped.KeyPhoto != null)
             {
                 <div class="col-xs-4 text-center" style="padding: 0 5px">
@@ -97,7 +97,7 @@
                 </dl>
             </div>
         </div>
-        <div class="row">
+        <div class="row popupRow">
             <div class="col-xs-12 text-center">
                 <span>
                     @ViewDataTyped.DetailLinkDescriptor

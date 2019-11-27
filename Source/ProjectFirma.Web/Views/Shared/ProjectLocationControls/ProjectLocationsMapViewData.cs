@@ -20,19 +20,20 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
     public class ProjectLocationsMapViewData : FirmaUserControlViewData
     {        
         public string MapDivID { get; }
-        public string LegendTitle { get; }
+        public ProjectFirmaModels.Models.FieldDefinition LegendTitleFieldDefinition { get; }
         public Dictionary<string, List<ProjectMapLegendElement>> LegendFormats { get; }
 
-        public ProjectLocationsMapViewData(string mapDivID, string legendTitle, List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
+        public ProjectLocationsMapViewData(string mapDivID, ProjectFirmaModels.Models.FieldDefinition legendTitleFieldDefinition, List<TaxonomyTier> topLevelTaxonomyTiers, bool showProposals)
         {
             MapDivID = mapDivID;
-            LegendTitle = legendTitle;
+            LegendTitleFieldDefinition = legendTitleFieldDefinition;
             LegendFormats = ProjectMapLegendElement.BuildLegendFormatDictionary(topLevelTaxonomyTiers, showProposals);
         }
 

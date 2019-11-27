@@ -34,11 +34,11 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
         public string ProjectAttachmentGridDataUrl { get; }
         public bool HasManagePermissions { get; }
 
-        public ProjectAttachmentIndexViewData(Person currentPerson) : base(currentPerson)
+        public ProjectAttachmentIndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Manage Project Attachments";
 
-            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByPerson(currentPerson);
+            var hasManagePermissions = new ProjectAttachmentEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ProjectAttachmentGridSpec = new ProjectAttachmentGridSpec(hasManagePermissions) { ObjectNameSingular = $"Attachment", ObjectNamePlural = $"Attachments", SaveFiltersInCookie = true };
 

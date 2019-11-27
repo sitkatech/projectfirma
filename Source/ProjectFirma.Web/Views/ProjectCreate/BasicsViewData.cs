@@ -46,23 +46,23 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public IEnumerable<SelectListItem> ProjectStages = ProjectStage.All.Except(new List<ProjectStage>{ProjectStage.Proposal}).OrderBy(x => x.SortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), y => y.ProjectStageDisplayName);
 
-        public BasicsViewData(Person currentPerson, IEnumerable<FundingType> fundingTypes,
+        public BasicsViewData(FirmaSession currentFirmaSession, IEnumerable<FundingType> fundingTypes,
             IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs, bool showProjectStageDropDown, string instructionsPageUrl,
             TenantAttribute tenantAttribute)
-            : base(currentPerson, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, instructionsPageUrl)
+            : base(currentFirmaSession, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, instructionsPageUrl)
         {
             // This constructor is only used for the case where we're coming from the instructions, so we hide the dropdown if they clicked the button for proposing a new project.
             ShowProjectStageDropDown = showProjectStageDropDown;
             AssignParameters(taxonomyLeafs, fundingTypes, tenantAttribute);
         }
 
-        public BasicsViewData(Person currentPerson,
+        public BasicsViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<FundingType> fundingTypes,
             TenantAttribute tenantAttribute)
-            : base(currentPerson, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            : base(currentFirmaSession, project, ProjectCreateSection.Basics.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ShowProjectStageDropDown = project.ProjectStage != ProjectStage.Proposal;
             ProjectDisplayName = project.GetDisplayName();

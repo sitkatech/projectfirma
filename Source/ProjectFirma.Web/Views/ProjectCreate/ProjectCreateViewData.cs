@@ -59,17 +59,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public List<ProjectWorkflowSectionGrouping> ProjectWorkflowSectionGroupings { get; }
         public ProjectStage ProjectStage { get; set; }
 
-        protected ProjectCreateViewData(Person currentPerson,
+        protected ProjectCreateViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             string currentSectionDisplayName,
-            ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson, currentSectionDisplayName)
+            ProposalSectionsStatus proposalSectionsStatus) : this(currentFirmaSession, project, currentSectionDisplayName, false)
         {
             Check.Assert(project != null, "Project should be created in database by this point so it cannot be null.");
             Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase) ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
-            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
+            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
 
             Project = project;
             ProposalSectionsStatus = proposalSectionsStatus;
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
-        protected ProjectCreateViewData(Person currentPerson, string currentSectionDisplayName, string proposalInstructionsUrl) : this(null, currentPerson, currentSectionDisplayName)
+        protected ProjectCreateViewData(FirmaSession currentFirmaSession, string currentSectionDisplayName, string proposalInstructionsUrl) : this(currentFirmaSession, null, currentSectionDisplayName, false)
         {
             Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase));
 
@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             ProposalInstructionsUrl = proposalInstructionsUrl;
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));
-            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));            
+            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));
 
             CurrentPersonCanWithdraw = false;
 
@@ -127,13 +127,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         }
 
-        private ProjectCreateViewData(ProjectFirmaModels.Models.Project project, Person currentPerson, string currentSectionDisplayName) : base(currentPerson)
+        private ProjectCreateViewData(FirmaSession currentFirmaSession,
+                                      ProjectFirmaModels.Models.Project project,
+                                      string currentSectionDisplayName,
+                                      // This just here to distinguish this signature uniquely. This is a hack, and deserves fixing.
+                                      bool bogusParm) :
+                                      base(currentFirmaSession)
         {
             EntityName = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
-            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
-            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentPerson, project).HasPermission;
+            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             CurrentSectionDisplayName = currentSectionDisplayName;
         }

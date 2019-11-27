@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditOrganizations(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var viewModel = new EditOrganizationsViewModel(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentPerson);
+            var viewModel = new EditOrganizationsViewModel(project, project.ProjectOrganizations.OrderBy(x => x.Organization.OrganizationName).ToList(), CurrentFirmaSession);
             return ViewEditOrganizations(viewModel, project);
         }
 
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList().OrderBy(p => p.GetFullNameFirstLastAndOrg()).ToList();
-            if (!allPeople.Contains(CurrentPerson))
+            if (CurrentPerson != null && !allPeople.Contains(CurrentPerson))
             {
                 allPeople.Add(CurrentPerson);
             }

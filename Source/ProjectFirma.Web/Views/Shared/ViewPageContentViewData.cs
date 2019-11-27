@@ -32,26 +32,26 @@ namespace ProjectFirma.Web.Views.Shared
             EditPageContentUrl = SitkaRoute<CustomPageController>.BuildUrlFromExpression(t => t.EditInDialog(customPage));
         }
 
-        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, Person currentPerson)
+        public ViewPageContentViewData(GeospatialAreaType geospatialAreaType, FirmaSession currentFirmaSession)
         {
             FirmaPageContentHtmlString = geospatialAreaType.GetFirmaPageContentHtmlString();
             FirmaPageDisplayName = geospatialAreaType.GetFirmaPageDisplayName();
-            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
+            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             HasPageContent = geospatialAreaType.HasPageContent();
             EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditInDialog(geospatialAreaType));
         }
 
-        public ViewPageContentViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, Person currentPerson)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, FirmaSession currentFirmaSession)
         {
             FirmaPageContentHtmlString = geospatialArea.GetFirmaPageContentHtmlString();
             FirmaPageDisplayName = geospatialArea.GetFirmaPageDisplayName();
-            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByPerson(currentPerson);
+            ShowEditButton = new GeospatialAreaManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             HasPageContent = geospatialArea.HasPageContent();
             EditPageContentUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.EditDescriptionInDialog(geospatialArea));
         }
 
-        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, Person currentPerson)
-            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentPerson, firmaPage).HasPermission)
+        public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, FirmaSession currentFirmaSession)
+            : this(firmaPage, new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission)
         {
         }
     }

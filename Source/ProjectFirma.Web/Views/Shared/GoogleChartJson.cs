@@ -46,6 +46,7 @@ namespace ProjectFirma.Web.Views.Shared
         public bool CanConfigureChart { get; set; }
 
         public List<string> ChartColumns { get; set; }
+        public bool IsCumulativeChart { get; set; }
 
         public bool HasData()
         {
@@ -65,7 +66,8 @@ namespace ProjectFirma.Web.Views.Shared
             GoogleChartDataTable googleChartDataTable,
             List<string> chartColumns,
             string optionalSaveConfigurationUrl,
-            string optionalResetConfigurationUrl)
+            string optionalResetConfigurationUrl,
+            bool isCumulativeChart)
         {
             LegendTitle = legendTitle;
             ChartContainerID = chartContainerID;
@@ -78,6 +80,7 @@ namespace ProjectFirma.Web.Views.Shared
             GoogleChartDataTable = googleChartDataTable;
             SaveConfigurationUrl = optionalSaveConfigurationUrl;
             OptionalResetConfigurationUrl = optionalResetConfigurationUrl;
+            IsCumulativeChart = isCumulativeChart;
         }
 
         //Use this constructor when the chart display is not user-configurable
@@ -87,7 +90,7 @@ namespace ProjectFirma.Web.Views.Shared
             GoogleChartType googleChartType,
             GoogleChartDataTable googleChartDataTable,
             List<string> chartColumns) : this(legendTitle, chartContainerID, googleChartConfiguration, googleChartType,
-            googleChartDataTable, chartColumns, null, null)
+            googleChartDataTable, chartColumns, null, null, false)
         {
         }
 

@@ -45,18 +45,18 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             Note = note;
         }
 
-        public void UpdateModel(IEntityNote entityNote, Person currentPerson)
+        public void UpdateModel(IEntityNote entityNote, FirmaSession currentFirmaSession)
         {
             entityNote.Note = Note;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(entityNote.PrimaryKey))
             {
                 entityNote.CreateDate = DateTime.Now;
-                entityNote.CreatePerson = currentPerson;
+                entityNote.CreatePerson = currentFirmaSession.Person;
             }
             else
             {
                 entityNote.UpdateDate = DateTime.Now;
-                entityNote.UpdatePerson = currentPerson;
+                entityNote.UpdatePerson = currentFirmaSession.Person;
             }
         }
     }

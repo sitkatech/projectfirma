@@ -35,6 +35,11 @@ namespace ProjectFirmaModels.Models
     {
         public Person Person { get; set; }
 
+        public int SaveChanges(FirmaSession currentFirmaSession)
+        {
+            return SaveChanges(currentFirmaSession.Person);
+        }
+
         public int SaveChanges(Person userPerson)
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = IsolationLevel.Snapshot }))
@@ -118,7 +123,7 @@ namespace ProjectFirmaModels.Models
 
         private static void SetTenantIDForAllModifiedEntries(List<DbEntityEntry> dbEntityEntries, int tenantID)
         {
-/*
+            /*
              * This is where we are setting it to the TenantID of the current thread or HttpRequestStorage.Tenant;
              */
             foreach (var entry in dbEntityEntries.Where(entry =>

@@ -1,0 +1,156 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ProjectProjectStatus.EditProjectProjectStatus
+
+
+<style>
+
+    .deleteProjectProjectStatusRow .btn-firma .glyphicon {
+        color: white;
+    }
+
+    .deleteProjectProjectStatusRow .btn-firma {
+        margin-left: 15px;
+    }
+</style>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        <label>
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
+                        </label>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.CreatedByPerson
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(x => x.ProjectStatusUpdateDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @if (ViewDataTyped.AllowEditUpdateDate)
+                        {
+                            @Html.EditorFor(m => m.ProjectStatusUpdateDate, new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.ProjectStatusUpdateDate);
+                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly/>
+                        }
+                        @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectStatusID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectStatuses, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectStatusID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="pull-left deleteProjectProjectStatusRow">
+            @ViewDataTyped.DeleteButton
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @{ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
+        var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
+        var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");
+        var defaultColorOfDropdownText = window.getComputedStyle(projectStatusInputElement, null).getPropertyValue("color");
+
+        function mapOptionToColor(optionVal) {
+            return projectStatuses[optionVal].Color;
+        }
+
+        jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
+            var option = jQuery(this);
+            if (projectStatuses[option.val()] !== undefined) {
+                option.css(
+                    'color',
+                    mapOptionToColor(option.val())
+                );
+            }
+            else {
+                option.css('color', defaultColorOfDropdownText);
+
+            }
+        });
+
+        function setColorOfStatusDropdown() {
+            var projectStatusId = projectStatusInput.val();
+            if (projectStatusId !== undefined && projectStatusId != '' && projectStatusId != null) {
+                projectStatusInput.css('color', mapOptionToColor(projectStatusId));
+            }
+            else {
+                projectStatusInput.css('color', defaultColorOfDropdownText);
+            }
+        }
+
+        projectStatusInput.change(function() {
+            setColorOfStatusDropdown();
+        });
+
+        setColorOfStatusDropdown();
+    });
+
+
+</script>
+

@@ -14,12 +14,12 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[DataSourceText] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ExternalDataSourceUrl] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ChartCaption] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[SwapChartAxes] [bit] NOT NULL,
 	[PerformanceMeasureSortOrder] [int] NULL,
 	[IsSummable] [bit] NOT NULL,
 	[PerformanceMeasureDataSourceTypeID] [int] NOT NULL,
 	[Importance] [dbo].[html] NULL,
 	[AdditionalInformation] [dbo].[html] NULL,
+	[CanBeChartedCumulatively] [bit] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC

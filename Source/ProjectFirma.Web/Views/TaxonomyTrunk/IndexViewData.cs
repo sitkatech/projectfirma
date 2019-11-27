@@ -39,16 +39,16 @@ namespace ProjectFirma.Web.Views.TaxonomyTrunk
         public string NewUrl { get; }
         public string TaxonomyTrunkDisplayName { get; }
 
-        public IndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             var taxonomyTrunkPluralized = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = taxonomyTrunkPluralized;
 
-            HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByPerson(currentPerson);
+            HasTaxonomyTrunkManagePermissions = new TaxonomyTrunkManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             OfferEditSortOrder = MultiTenantHelpers.IsTaxonomyLevelTrunk() || MultiTenantHelpers.IsTaxonomyLevelTrunk();
             IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
             var taxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
-            GridSpec = new IndexGridSpec(currentPerson) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
+            GridSpec = new IndexGridSpec(currentFirmaSession) { ObjectNameSingular = taxonomyTrunkDisplayName, ObjectNamePlural = taxonomyTrunkPluralized, SaveFiltersInCookie = true };
 
             GridName = "taxonomyTrunksGrid";
             GridDataUrl = SitkaRoute<TaxonomyTrunkController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());

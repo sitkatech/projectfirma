@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.Organization
             OrganizationGuid = organization.OrganizationGuid;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession)
         {
             organization.OrganizationName = OrganizationName;
             organization.OrganizationShortName = OrganizationShortName;
@@ -100,10 +100,10 @@ namespace ProjectFirma.Web.Views.Organization
             organization.OrganizationUrl = OrganizationUrl;
             if (LogoFileResourceData != null)
             {
-                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentPerson);    
+                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
             }
 
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(currentPerson);
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (isSitkaAdmin)
             {
                 organization.OrganizationGuid = OrganizationGuid;
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Views.Organization
                 validationResults.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
             }
 
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(HttpRequestStorage.Person);
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
             if (OrganizationGuid.HasValue && isSitkaAdmin)
             {
                 var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == OrganizationGuid);

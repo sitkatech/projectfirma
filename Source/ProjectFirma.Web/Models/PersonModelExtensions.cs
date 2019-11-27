@@ -32,6 +32,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
+
     /// <summary>
     /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object
     /// </summary>
@@ -92,12 +93,16 @@ namespace ProjectFirma.Web.Models
             return person != null ? DetailUrlTemplate.ParameterReplace(person.PersonID) : null;
         }
 
-        public static bool IsAnonymousOrUnassigned(this Person person) => person.IsAnonymousUser() || person.Role == Role.Unassigned;
+        // Really you should prefer the equivalent function on FIrmaSession
+        [Obsolete]
+        public static bool IsAnonymous(this Person person) => person == null;
+
+        // The Anonymous (null) user has the Unassigned role
+        public static bool IsUnassigned(this Person person) => person == null || person.Role == Role.Unassigned;
 
         public static bool IsSitkaAdministrator(this Person person)
         {
             return person != null && person.Role == Role.SitkaAdmin;
-
         }
 
         public static bool IsAdministrator(this Person person)
@@ -112,48 +117,44 @@ namespace ProjectFirma.Web.Models
         
         public static bool ShouldReceiveNotifications(this Person person)
         {
-            return person.ReceiveSupportEmails;
+            return person != null && person.ReceiveSupportEmails;
         }
 
         public static string GetKeystoneEditLink(this Person person)
         {
+            if (person == null)
+            {
+                return "[No Keystone Edit Link]";
+            }
             return $"{FirmaWebConfiguration.KeystoneUserProfileUrl}{person.PersonGuid}";
-        }
-
-        /// <summary>
-        /// Needed for Keystone; basically <see cref="HttpRequestStorage.Person" /> is set to this fake
-        /// "Anonymous" person when we are not authenticated to not have to handle the null Person case.
-        /// Seems like MR and all the other RPs do this so following the pattern
-        /// </summary>
-        /// <returns></returns>
-        public static Person GetAnonymousSitkaUser()
-        {
-            var anonymousSitkaUser = new Person(Person.AnonymousPersonID, Guid.Empty, "Anonymous", "User", null, null, null, Role.Unassigned.RoleID, DateTime.Today, DateTime.Today, DateTime.Today, true, 2, false, null, null);
-            anonymousSitkaUser.TenantID = HttpRequestStorage.Tenant?.TenantID ?? 0;
-            // as we add new areas, we need to make sure we assign the anonymous user with the unassigned roles for each area
-            return anonymousSitkaUser;
         }
 
         /// <summary>
         /// List of Projects for which this Person is the primary contact
         /// </summary>
-        public static List<Project> GetPrimaryContactProjects(this Person person, Person currentPerson)
+        public static List<Project> GetPrimaryContactProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            var isPersonViewingThePrimaryContact = currentPerson.PersonID == person.PersonID;
+            var isPersonViewingThePrimaryContact = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
             if (isPersonViewingThePrimaryContact)
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
-            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals()).ToList();
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
         }
 
-        public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, Person currentPerson)
+        public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            return person.GetPrimaryContactProjects(currentPerson).Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
+            return person.GetPrimaryContactProjects(currentFirmaSession).Where(x => x.IsUpdatableViaProjectUpdateProcess()).ToList();
         }
 
         public static bool IsPersonAProjectOwnerWhoCanStewardProjects(this Person person)
         {
+            // If anonymous, definitely not Project owner or Steward
+            if (person == null)
+            {
+                return false;
+            }
+
             var canStewardProjectsOrganizationRelationship = MultiTenantHelpers.GetCanStewardProjectsOrganizationRelationship();
             if (MultiTenantHelpers.GetProjectStewardshipAreaType() == ProjectStewardshipAreaType.ProjectStewardingOrganizations)
             {
@@ -166,7 +167,7 @@ namespace ProjectFirma.Web.Models
             return Role.ProjectSteward.RoleID == person.RoleID;
         }
 
-        public static bool CanViewProposals(this Person person) => MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsAnonymousOrUnassigned();
+        public static bool CanViewProposals(this Person person) => person != null && MultiTenantHelpers.ShowProposalsToThePublic() || !person.IsUnassigned();
 
         public static List<HtmlString> GetProjectStewardshipAreaHtmlStringList(this Person person)
         {

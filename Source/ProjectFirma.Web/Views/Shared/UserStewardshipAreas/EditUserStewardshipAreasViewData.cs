@@ -32,19 +32,19 @@ namespace ProjectFirma.Web.Views.Shared.UserStewardshipAreas
 
         public bool Standalone { get; }
 
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.Organization> allOrganizations,  bool standalone)
-            : base(currentPerson)
+        public EditUserStewardshipAreasViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Organization> allOrganizations,  bool standalone)
+            : base(currentFirmaSession)
         {
             ViewDataForAngular = new EditViewDataForAngular(allOrganizations);
             Standalone = standalone;
         }
 
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.TaxonomyBranch> allTaxonomyBranches, bool standalone) : base(currentPerson)
+        public EditUserStewardshipAreasViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.TaxonomyBranch> allTaxonomyBranches, bool standalone) : base(currentFirmaSession)
         {
             ViewDataForAngular = new EditViewDataForAngular(allTaxonomyBranches);
             Standalone = standalone;
         }
-        public EditUserStewardshipAreasViewData(Person currentPerson, List<ProjectFirmaModels.Models.GeospatialArea> allGeospatialAreas, bool standalone) : base(currentPerson)
+        public EditUserStewardshipAreasViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.GeospatialArea> allGeospatialAreas, bool standalone) : base(currentFirmaSession)
         {
             ViewDataForAngular = new EditViewDataForAngular(allGeospatialAreas);
             Standalone = standalone;

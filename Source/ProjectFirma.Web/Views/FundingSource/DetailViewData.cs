@@ -53,14 +53,15 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string ProjectFundingSourceBudgetGridDataUrl { get; }
         public DisplayFundingSourceCustomAttributesViewData DisplayFundingSourceCustomAttributeTypesViewData { get; private set; }
 
-        public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) : base(currentPerson)
+        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) 
+            : base(currentFirmaSession)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
             FundingSource = fundingSource;
             PageTitle = fundingSource.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
-            UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(CurrentPerson, fundingSource).HasPermission;
-            UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+            UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
+            UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
 
             EditFundingSourceCustomAttributesUrl = SitkaRoute<FundingSourceCustomAttributesController>.BuildUrlFromExpression(c => c.EditFundingSourceCustomAttributesForFundingSource(fundingSource));

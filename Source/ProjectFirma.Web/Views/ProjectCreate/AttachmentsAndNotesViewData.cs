@@ -30,11 +30,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
 
-        public AttachmentsAndNotesViewData(Person currentPerson,
+        public AttachmentsAndNotesViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EntityNotesViewData entityNotesViewData,
-            ProjectAttachmentsDetailViewData projectAttachmentsDetailViewData) : base(currentPerson, project, ProjectCreateSection.AttachmentsAndNotes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProjectAttachmentsDetailViewData projectAttachmentsDetailViewData) : base(currentFirmaSession, project, ProjectCreateSection.AttachmentsAndNotes.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             EntityNotesViewData = entityNotesViewData;
             ProjectAttachmentsDetailViewData = projectAttachmentsDetailViewData;

@@ -37,7 +37,28 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        private void AddProjectCustomGridField(Person currentPerson, ProjectCustomGridConfiguration projectCustomGridConfiguration)
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, bool canEditProjectStatus)
+        {
+            var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
+            if (canEditProjectStatus)
+            {
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
+                    project.GetAddProjectProjectStatusFromGridUrl()
+                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+            }
+
+            var currentProjectStatus = project.GetCurrentProjectStatus();
+            var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
+            var projectStatusDisplayName = currentProjectStatus != null ? currentProjectStatus.ProjectStatusDisplayName : "no status";
+
+            var returnString =
+                new HtmlString(
+                    $"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
+            return returnString;
+        }
+
+
+        private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
             {
@@ -67,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         150, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectPrimaryContactEmail:
-                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByPerson(currentPerson);
+                    var userHasEmailViewingPermissions = new LoggedInAndNotUnassignedRoleUnclassifiedFeature().HasPermissionByFirmaSession(currentFirmaSession);
                     if (userHasEmailViewingPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectPrimaryContactEmail.ToType().ToGridHeaderString(),
@@ -126,6 +147,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
+                case ProjectCustomGridColumnEnum.ProjectStatus:
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                    {
+                        Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                            , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
+                            , 100
+                            , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
+                        );
+                    }
+                    break;
                 case ProjectCustomGridColumnEnum.GeospatialAreaName:
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
@@ -159,10 +190,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
         }
 
-    public ProjectCustomGridSpec(Person currentPerson, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
+    public ProjectCustomGridSpec(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
         {
-            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
-            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByPerson(currentPerson);
+            var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            
 
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
@@ -185,7 +218,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 if (projectCustomGridConfiguration.ProjectCustomAttributeType != null)
                 {
-                    if (projectCustomGridConfiguration.ProjectCustomAttributeType.HasViewPermission(currentPerson))
+                    if (projectCustomGridConfiguration.ProjectCustomAttributeType.HasViewPermission(currentFirmaSession))
                     {
                         AddProjectCustomGridCustomAttributeField(projectCustomGridConfiguration);
                     }
@@ -196,7 +229,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 }
                 else
                 {
-                    AddProjectCustomGridField(currentPerson, projectCustomGridConfiguration);
+                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration, userHasEditProjectAsAdminPermissions);
                 }
             }
 

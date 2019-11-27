@@ -31,14 +31,14 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
         public bool HasFundingSources { get; }
 
-        public ProjectBudgetSummaryViewData(Person currentPerson, ProjectFirmaModels.Models.Project project) : base(currentPerson)
+        public ProjectBudgetSummaryViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project) : base(currentFirmaSession)
         {
             Project = project;
             ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
             HasFundingSources = project.ProjectFundingSourceBudgets.Any();
         }
 
-        public ProjectBudgetSummaryViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch) : base(currentPerson)
+        public ProjectBudgetSummaryViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch) : base(currentFirmaSession)
         {
             Project = projectUpdateBatch.Project;
             ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(projectUpdateBatch);

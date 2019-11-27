@@ -36,6 +36,14 @@ namespace LtInfo.Common
             Fourth = 4
         }
 
+        public enum CalendarQuarter
+        {
+            First = 1,
+            Second = 2,
+            Third = 3,
+            Fourth = 4
+        }
+
         public enum Month
         {
             January = 1,
@@ -139,6 +147,28 @@ namespace LtInfo.Common
             }
             //else if (month >= Month.July && month <= Month.September)
             return FiscalQuarter.Fourth; // 4th Fiscal FiscalQuarter = July 1 to September 30
+        }
+
+        /// <summary>
+        /// A separate method to just get the calendar quarter instead of fiscal quarter
+        /// </summary>
+        /// <param name="month"></param>
+        /// <returns></returns>
+        public static CalendarQuarter GetCalendarQuarter(this Month month)
+        {
+            if (month <= Month.March)
+            {
+                return CalendarQuarter.First; // 1st CalendarQuarter = January 1 to  March 31
+            }
+            if (month >= Month.April && month <= Month.June)
+            {
+                return CalendarQuarter.Second; // 2nd CalendarQuarter = April 1 to June 30
+            }
+            if (month >= Month.July && month <= Month.September)
+            {
+                return CalendarQuarter.Third; // 3rd CalendarQuarter = July 1 to September 30
+            }
+            return CalendarQuarter.Fourth; // 4th CalendarQuarter = October 1 to end of year
         }
 
         public static FiscalQuarter GetCurrentFiscalQuarter()

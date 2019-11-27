@@ -34,12 +34,12 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public readonly string RefreshUrl;
         public readonly string DiffUrl;
 
-        public ProjectCustomAttributesViewData(Person currentPerson,
+        public ProjectCustomAttributesViewData(FirmaSession currentFirmaSession,
             ProjectUpdateBatch projectUpdateBatch,
             ProjectUpdateStatus projectUpdateStatus,
             List<string> validationWarnings,
             string sectionDisplayName,
-            EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentPerson, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
+            EditProjectCustomAttributesViewData editCustomAttributesViewData) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, validationWarnings, sectionDisplayName)
         {
             EditCustomAttributesViewData = editCustomAttributesViewData;
             SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.CustomAttributesComment, projectUpdateBatch.IsReturned());

@@ -40,11 +40,11 @@ namespace ProjectFirma.Web.Views.Results
         public string GridName { get; }
         public string GridDataUrl { get; }
 
-        public SpendingByPerformanceMeasureByProjectViewData(Person currentPerson,
+        public SpendingByPerformanceMeasureByProjectViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
             ProjectFirmaModels.Models.PerformanceMeasure selectedPerformanceMeasure,
-            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentPerson, firmaPage)
+            PerformanceMeasureChartViewData performanceMeasureChartViewData) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Spending by {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} for Selected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}";
 

@@ -16,6 +16,9 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
+
+            var currentFirmaSession = HttpRequestStorage.FirmaSession;
+
             switch (projectCreateSection.ToEnum)
             {
                 case ProjectCreateSectionEnum.Basics:
@@ -27,9 +30,9 @@ namespace ProjectFirma.Web.Models
                     var locationSimpleValidationResults = new LocationSimpleViewModel(project).GetValidationResults();
                     return !locationSimpleValidationResults.Any();
                 case ProjectCreateSectionEnum.Organizations:
-                    return !new OrganizationsViewModel(project, null).GetValidationResults().ToList().Any();
+                    return !new OrganizationsViewModel(project, currentFirmaSession).GetValidationResults().ToList().Any();
                 case ProjectCreateSectionEnum.Contacts:
-                    return !new ContactsViewModel(project, null).GetValidationResults().ToList().Any();
+                    return !new ContactsViewModel(project, currentFirmaSession).GetValidationResults().ToList().Any();
                 case ProjectCreateSectionEnum.LocationDetailed:
                     return true;
                 case ProjectCreateSectionEnum.ExpectedAccomplishments:
@@ -55,18 +58,17 @@ namespace ProjectFirma.Web.Models
 
                         // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
                         return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&
-                                string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation)) ||
+                                string.IsNullOrWhiteSpace(project.ExpendituresNote)) ||
                                (!project.ProjectFundingSourceExpenditures.Any() &&
-                                !string.IsNullOrWhiteSpace(project.NoExpendituresToReportExplanation));
+                                !string.IsNullOrWhiteSpace(project.ExpendituresNote));
                     }
                     else
                     {
                         var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditures,
-                                    projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project),
-                                    project,
-                                    project.GetExpendituresExemptReportingYears()
-                                        .Select(x => new ProjectExemptReportingYearSimple(x)).ToList())
+                        var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+                        var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditureBulks,
+                                    project)
                                 {ProjectID = project.ProjectID}
                             .GetValidationResults();
                         return !validationResults.Any();

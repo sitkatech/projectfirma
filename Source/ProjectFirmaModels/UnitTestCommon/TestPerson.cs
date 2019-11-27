@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var organization = TestOrganization.Create();
                 var person = Person.CreateNewBlank(Role.Normal, organization);
+                person.TenantID = Tenant.SitkaTechnologyGroup.TenantID;
                 person.Organization = organization;
                 person.Email = MakeTestEmail("email");
                 person.FirstName = MakeTestName("firstName", Person.FieldLengths.FirstName);
@@ -39,6 +40,17 @@ namespace ProjectFirmaModels.UnitTestCommon
 
                 return person;
             }
+
+            public static Person Create(Tenant tenant)
+            {
+                var person = Create();
+                person.TenantID = tenant.TenantID;
+                return person;
+            }
         }
+
+
+
+
     }
 }

@@ -35,6 +35,7 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditPerformanceMeasureTargetsController.js")"></script>
 
     <style>
         th {
@@ -87,25 +88,32 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Name</div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>Name</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureType)</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureType.PerformanceMeasureTypeDisplayName</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.MeasurementUnit.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName</div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
-                </div>
+                @if (ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                {
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.SignificantDigits.ToType().GetFieldDefinitionLabel()</label></div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.NumberOfSignificantDigits</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureIsSummable.ToType())</div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IsSummable.ToYesNo()</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
+                    </div>
+                }
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
                     <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
@@ -118,7 +126,10 @@
     <div class="col-lg-6 col-md-7">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>Accomplishments</h2>
+                <h2>
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureTargetUrl, string.Format("Edit {0} Targets", MultiTenantHelpers.GetPerformanceMeasureName()), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)
+                    Accomplishments
+                </h2>
             </div>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
                 @{ PerformanceMeasureChart.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureChartViewData); }
@@ -209,7 +220,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>
-                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))</th>
+                                    @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption, string.Format("{0}", ViewDataTyped.FieldDefinitionForPerformanceMeasureSubcategoryOption.GetFieldDefinitionLabelPluralized()))
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

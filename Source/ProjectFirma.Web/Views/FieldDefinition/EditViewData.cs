@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinition { get; }
         public string CancelUrl { get; }
 
-        public EditViewData(Person currentPerson, ProjectFirmaModels.Models.FieldDefinition fieldDefinition) : base(currentPerson)
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FieldDefinition fieldDefinition) : base(currentFirmaSession)
         {
             FieldDefinition = fieldDefinition;
             FileBrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForFieldDefinition(FieldDefinition, null));

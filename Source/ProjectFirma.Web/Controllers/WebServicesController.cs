@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
             var getWebServiceAccessTokenUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson));
-            var viewData = new IndexViewData(CurrentPerson, CurrentPerson.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl);
+            var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -79,10 +79,10 @@ namespace ProjectFirma.Web.Controllers
         [WebServiceDocumentationViewFeature]
         public ViewResult List()
         {
-            Check.RequireThrowNotAuthorized(CurrentPerson.WebServiceAccessToken.HasValue, "Person must have already received their access token before accessing web service list.");
+            Check.RequireThrowNotAuthorized(CurrentPerson?.WebServiceAccessToken != null, "Person must have already received their access token before accessing web service list.");
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
-            var viewData = new ListViewData(CurrentPerson, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList);
+            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList);
             return RazorView<List, ListViewData>(viewData);
         }
 

@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             FundingSourceAmount = fundingSource.FundingSourceAmount;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.FundingSource fundingSource, FirmaSession currentFirmaSession)
         {
             fundingSource.FundingSourceName = FundingSourceName;
             fundingSource.FundingSourceDescription = FundingSourceDescription;

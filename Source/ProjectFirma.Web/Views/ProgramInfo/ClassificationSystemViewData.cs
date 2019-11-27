@@ -39,12 +39,12 @@ namespace ProjectFirma.Web.Views.ProgramInfo
         public readonly bool ShowEditButton;
         public readonly string EditPageContentUrl;
 
-        public ClassificationSystemViewData(Person currentPerson, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentPerson)
+        public ClassificationSystemViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.ClassificationSystem classificationSystem) : base(currentFirmaSession)
         {
             PageTitle = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem);
             Classifications = classificationSystem.Classifications.SortByOrderThenName().ToList();
             ClassificationSystem = classificationSystem;
-            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentPerson, null).HasPermission;
+            ShowEditButton = new FirmaPageManageFeature().HasPermission(currentFirmaSession, null).HasPermission;
             EditPageContentUrl = SitkaRoute<ClassificationSystemController>.BuildUrlFromExpression(t => t.EditInDialog(classificationSystem));
         }
     }

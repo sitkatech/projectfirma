@@ -30,32 +30,32 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualUpdate(int performanceMeasureActualUpdateID, int projectUpdateBatchID, int performanceMeasureID, int calendarYear, double? actualValue) : this()
+        public PerformanceMeasureActualUpdate(int performanceMeasureActualUpdateID, int projectUpdateBatchID, int performanceMeasureID, double? actualValue, int performanceMeasureReportingPeriodID) : this()
         {
             this.PerformanceMeasureActualUpdateID = performanceMeasureActualUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.CalendarYear = calendarYear;
             this.ActualValue = actualValue;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualUpdate(int projectUpdateBatchID, int performanceMeasureID, int calendarYear) : this()
+        public PerformanceMeasureActualUpdate(int projectUpdateBatchID, int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.CalendarYear = calendarYear;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureActualUpdate(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure, int calendarYear) : this()
+        public PerformanceMeasureActualUpdate(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureActualUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -65,15 +65,17 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.PerformanceMeasureActualUpdates.Add(this);
-            this.CalendarYear = calendarYear;
+            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
+            this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
+            performanceMeasureReportingPeriod.PerformanceMeasureActualUpdates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureActualUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure)
+        public static PerformanceMeasureActualUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
         {
-            return new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, default(int));
+            return new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasure, performanceMeasureReportingPeriod);
         }
 
         /// <summary>
@@ -124,8 +126,8 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int CalendarYear { get; set; }
         public double? ActualValue { get; set; }
+        public int PerformanceMeasureReportingPeriodID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureActualUpdateID; } set { PerformanceMeasureActualUpdateID = value; } }
 
@@ -133,6 +135,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
+        public virtual PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod { get; set; }
 
         public static class FieldLengths
         {

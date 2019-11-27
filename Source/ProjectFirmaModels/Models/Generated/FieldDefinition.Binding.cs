@@ -247,6 +247,15 @@ namespace ProjectFirmaModels.Models
         TotalExpenditures = 297,
         NumberOfProjectsWithSecuredFunds = 298,
         TotalProjectSecuredFunds = 299,
-        TotalProjectTargetedFunds = 300
+        TotalProjectTargetedFunds = 300,
+        PerformanceMeasureCanBeChartedCumulatively = 301,
+        ProjectStatus = 302,
+        ProjectStatusUpdate = 303,
+        ProjectStatusHistory = 304,
+        ProjectUpdateHistory = 305,
+        ProjectStatusLegend = 306,
+        ProjectStatusUpdateCreatedBy = 307,
+        ProjectStatusUpdateDate = 308,
+        ProjectStatusComments = 309
     }
 }

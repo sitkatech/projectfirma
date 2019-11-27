@@ -47,14 +47,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string ReminderIntroPreviewUrl { get; }
         public string CloseOutIntroPreviewUrl { get; }
 
-        public ManageViewData(Person currentPerson,
+        public ManageViewData(FirmaSession currentFirmaSession,
                               ProjectFirmaModels.Models.FirmaPage firmaPage,
                               string customNotificationUrl,
                               ProjectUpdateStatusGridSpec projectsRequiringUpdateGridSpec,
                               string projectsRequiringUpdateGridDataUrl,
                               PeopleReceivingReminderGridSpec peopleReceivingReminderGridSpec,
                               string peopleReceivingReminderGridDataUrl, int projectsWithNoContactCount,
-                              ProjectUpdateSetting projectUpdateSetting) : base(currentPerson, firmaPage)
+                              ProjectUpdateSetting projectUpdateSetting) : base(currentFirmaSession, firmaPage)
         {
             var reportingYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             var fieldDefinitionLabelProject = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();

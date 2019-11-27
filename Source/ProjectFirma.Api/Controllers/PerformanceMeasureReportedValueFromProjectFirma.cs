@@ -31,10 +31,10 @@ namespace ProjectFirma.Api.Controllers
         public PerformanceMeasureReportedValueFromProjectFirma(PerformanceMeasureReportedValue performanceMeasureReportedValue)
         {
             PerformanceMeasureID = performanceMeasureReportedValue.PerformanceMeasureID;
-            PerformanceMeasureName = performanceMeasureReportedValue.GetPerformanceMeasureName();
+            PerformanceMeasureName = performanceMeasureReportedValue.PerformanceMeasure.PerformanceMeasureDisplayName;
             CalendarYear = performanceMeasureReportedValue.CalendarYear;
             ReportedValue = performanceMeasureReportedValue.GetReportedValue();
-            MeasurementUnitType = performanceMeasureReportedValue.GetMeasurementUnitType().MeasurementUnitTypeDisplayName;
+            MeasurementUnitType = performanceMeasureReportedValue.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName;
             ProjectStage = performanceMeasureReportedValue.Project.ProjectStage.ProjectStageDisplayName;
             LeadImplementer = performanceMeasureReportedValue.Project.GetPrimaryContactOrganization()?.OrganizationShortName;
             ProjectName = performanceMeasureReportedValue.Project.GetDisplayName();

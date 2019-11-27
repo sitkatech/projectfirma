@@ -7,8 +7,8 @@ CREATE TABLE [dbo].[PerformanceMeasureActualUpdate](
 	[TenantID] [int] NOT NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
-	[CalendarYear] [int] NOT NULL,
 	[ActualValue] [float] NULL,
+	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasureActualUpdate_PerformanceMeasureActualUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureActualUpdateID] ASC
@@ -35,6 +35,16 @@ ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [
 REFERENCES [dbo].[PerformanceMeasure] ([PerformanceMeasureID], [TenantID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActualUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasure_PerformanceMeasureID_TenantID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID] FOREIGN KEY([PerformanceMeasureReportingPeriodID])
+REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReportingPeriodID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID] FOREIGN KEY([PerformanceMeasureReportingPeriodID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureReportingPeriod] ([PerformanceMeasureReportingPeriodID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureActualUpdate] CHECK CONSTRAINT [FK_PerformanceMeasureActualUpdate_PerformanceMeasureReportingPeriod_PerformanceMeasureReportingPeriodID_TenantID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasureActualUpdate]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureActualUpdate_ProjectUpdateBatch_ProjectUpdateBatchID] FOREIGN KEY([ProjectUpdateBatchID])
 REFERENCES [dbo].[ProjectUpdateBatch] ([ProjectUpdateBatchID])

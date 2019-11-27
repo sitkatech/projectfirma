@@ -44,13 +44,13 @@
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 400;
-  src: local('EB Garamond Regular'), local('EBGaramond-Regular'), url(https://fonts.gstatic.com/s/ebgaramond/v11/SlGUmQSNjdsmc35JDF1K5GR1SDw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf) format('truetype');
 }
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
-  src: local('EB Garamond Bold'), local('EBGaramond-Bold'), url(https://fonts.gstatic.com/s/ebgaramond/v11/SlGJmQSNjdsmc35JDF1K5GzObSwSQgs.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNkBI96.ttf) format('truetype');
 }
 html,
 body {
@@ -1583,4 +1583,185 @@ nav#wizardNav ul li.workflowSection a:hover {
     border-left: 8px solid #3e72b0;
     z-index: 1000;
   }
+}
+.project-timeline-header {
+  margin: 30px 0;
+}
+.project-timeline-header h4 {
+  text-align: center;
+}
+.project-timeline-wrapper {
+  text-align: center;
+  width: 100%;
+  float: left;
+  position: relative;
+}
+.project-timeline-wrapper:after {
+  z-index: 1;
+  content: '';
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  width: 2px;
+  margin-left: -1px;
+  background: #bbb;
+  left: 50%;
+}
+.project-timeline-wrapper .timeline-button {
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  background: #F4F4F4;
+  border: none;
+  padding: 5px 15px;
+  z-index: 2;
+  position: relative;
+  border: 5px solid #fff;
+  margin: 15px 0;
+}
+.project-timeline-wrapper .timeline-button span {
+  margin-right: 5px;
+  font-size: 11px;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+}
+.project-timeline-wrapper .timeline-button:hover {
+  background-color: #c8c8c8;
+}
+.project-timeline-wrapper .timeline-button:focus {
+  box-shadow: inset 0 0 0 0.2em #8dcdff;
+  outline: none;
+}
+.project-timeline-wrapper .timeline-button.open span {
+  transform: rotate(-90deg);
+}
+.project-timeline-wrapper .timeline-button:after {
+  content: "\e234";
+  position: absolute;
+  left: 50%;
+  bottom: -35px;
+  margin-left: -16px;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  width: 30px;
+  text-align: center;
+  background: #fff;
+  font-size: 30px;
+  color: #bbb;
+  line-height: 20px;
+}
+.project-timeline-wrapper .timeline-button.open:after {
+  display: none;
+}
+.project-timeline-wrapper .timeline-year-group {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+.project-timeline-wrapper .timeline-quarter-group-wrapper,
+.project-timeline-wrapper .timeline-year-group-wrapper {
+  max-height: 0;
+  float: left;
+  width: 100%;
+  overflow: hidden;
+  transition: max-height 0.25s;
+  -webkit-transition: max-height 0.25s;
+  margin: 5px 0;
+}
+.project-timeline-wrapper .timeline-quarter-group-wrapper.open,
+.project-timeline-wrapper .timeline-year-group-wrapper.open {
+  max-height: 8000px;
+}
+.project-timeline-wrapper .timeline-quarter-group {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+.project-timeline-wrapper .timeline-quarter-group .timeline-quarter-group-wrapper {
+  position: relative;
+}
+.project-timeline-wrapper .timeline-day-group {
+  position: relative;
+  width: 100%;
+  float: left;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label {
+  z-index: 2;
+  position: absolute;
+  background: #337ab7;
+  color: #fff;
+  height: 60px;
+  width: 60px;
+  top: 50%;
+  left: 50%;
+  margin-top: -30px;
+  margin-left: -30px;
+  text-align: center;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 5px solid #fff;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span {
+  display: block;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span.timeline-day-group-label-day {
+  font-weight: 700;
+  font-size: 24px;
+}
+.project-timeline-wrapper .timeline-day-group .timeline-day-group-label span.timeline-day-group-label-month {
+  font-weight: 200;
+  text-transform: uppercase;
+}
+.project-timeline-wrapper .timeline-event-wrapper {
+  display: block;
+  width: 100%;
+  float: left;
+  padding: 0 5px;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event {
+  padding: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  width: 40%;
+  text-align: left;
+  margin: 10px 0;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header {
+  float: left;
+  width: 100%;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-type {
+  float: left;
+  font-weight: bold;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-date {
+  opacity: 0.8;
+  float: right;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .timeline-event-header .timeline-event-edit-link {
+  float: left;
+  margin-right: 10px;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event.timeline-event-left {
+  float: left;
+  border-right: 5px solid #337ab7;
+}
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event.timeline-event-right {
+  float: right;
+  border-left: 5px solid #5bc0de;
+}
+.project-status-legend ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.project-status-legend ul li {
+  border-left: 20px solid;
+  padding-left: 10px;
+  background: #f7f7f7;
+}
+.project-status-legend ul li + li {
+  margin-top: 5px;
 }

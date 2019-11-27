@@ -49,14 +49,14 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [ContactRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<ContactRelationshipType> ContactRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new ContactRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new ContactRelationshipTypeGridSpec(hasManagePermissions);
             var contactRelationshipTypes = HttpRequestStorage.DatabaseEntities.ContactRelationshipTypes.ToList().OrderBy(x => x.ContactRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ContactRelationshipType>(contactRelationshipTypes, gridSpec);

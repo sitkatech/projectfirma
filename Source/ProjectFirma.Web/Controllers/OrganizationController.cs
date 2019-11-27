@@ -69,15 +69,15 @@ namespace ProjectFirma.Web.Controllers
                 new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
             };
 
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [OrganizationViewFeature]
         public GridJsonNetJObjectResult<Organization> IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum organizationStatusFilterType)
         {
-            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByPerson(CurrentPerson);
-            var gridSpec = new IndexGridSpec(CurrentPerson, hasDeleteOrganizationPermission);
+            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var gridSpec = new IndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
             var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
 
             switch (organizationStatusFilterType)
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, true, null);
             }
             var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
-            viewModel.UpdateModel(organization, CurrentPerson);
+            viewModel.UpdateModel(organization, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Organization {organization.GetDisplayName()} successfully created.");
@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
             }
-            viewModel.UpdateModel(organization, CurrentPerson);
+            viewModel.UpdateModel(organization, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Controllers
             }
             var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
                 x => x.GetFullNameFirstLastAndOrg());
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByPerson(CurrentPerson);
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var organization = organizationPrimaryKey.EntityObject;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentPerson);
+            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentPerson, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -253,11 +253,11 @@ namespace ProjectFirma.Web.Controllers
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, Person currentPerson)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, FirmaSession currentFirmaSession)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
-            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentPerson).ToList();
+            var projects = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(currentFirmaSession.Person).ToList();
             var projectFundingSourceExpenditures = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization);
             
             var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";
@@ -314,7 +314,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProjectsIncludingLeadImplementingGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, false);            
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentFirmaSession, false);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllActiveProjects(CurrentPerson), gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -323,8 +323,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> ProposalsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetProposalsVisibleToUser(CurrentPerson), gridSpec);
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentFirmaSession, true);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetProposalsVisibleToUser(CurrentFirmaSession), gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -332,7 +332,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project> PendingProjectsGridJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentPerson, true);
+            var gridSpec = new ProjectsIncludingLeadImplementingGridSpec(organization, CurrentFirmaSession, true);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(organization.GetAllPendingProjects(CurrentPerson), gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -422,7 +422,7 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationManageFeature]
         public ViewResult EditBoundary(OrganizationPrimaryKey organizationPrimaryKey) {
             var viewModel = new EditBoundaryViewModel();
-            var viewData = new EditBoundaryViewData(CurrentPerson, organizationPrimaryKey.EntityObject);
+            var viewData = new EditBoundaryViewData(CurrentFirmaSession, organizationPrimaryKey.EntityObject);
             return RazorView<EditBoundary, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
         }
 
@@ -434,7 +434,7 @@ namespace ProjectFirma.Web.Controllers
             var organization = organizationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                var viewData = new EditBoundaryViewData(CurrentPerson, organization);
+                var viewData = new EditBoundaryViewData(CurrentFirmaSession, organization);
                 return RazorPartialView<EditBoundaryErrors, EditBoundaryViewData, EditBoundaryViewModel>(viewData, viewModel);
             }
 
@@ -478,7 +478,7 @@ namespace ProjectFirma.Web.Controllers
                 index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
             var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
-            var viewData = new ApproveUploadGisViewData(CurrentPerson, organization, mapInitJson);
+            var viewData = new ApproveUploadGisViewData(CurrentFirmaSession, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);
         }
 

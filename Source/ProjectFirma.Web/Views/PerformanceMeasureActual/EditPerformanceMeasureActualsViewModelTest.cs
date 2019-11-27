@@ -40,10 +40,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             var performanceMeasure4 = TestFramework.TestPerformanceMeasure.Create();
 
             var project = TestFramework.TestProject.Create();
-            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure1);
-            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure2);
-            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure3);
-            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure4);
+            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure1, TestFramework.TestPerformanceMeasureReportingPeriod.Create(performanceMeasure1));
+            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure2, TestFramework.TestPerformanceMeasureReportingPeriod.Create(performanceMeasure2));
+            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure3, TestFramework.TestPerformanceMeasureReportingPeriod.Create(performanceMeasure3));
+            TestFramework.TestPerformanceMeasureActual.Create(project, performanceMeasure4, TestFramework.TestPerformanceMeasureReportingPeriod.Create(performanceMeasure4));
 
             var allperformanceMeasures = new List<ProjectFirmaModels.Models.PerformanceMeasure> {performanceMeasure1, performanceMeasure2, performanceMeasure3, performanceMeasure4};
 

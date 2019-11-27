@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             PerformanceMeasureName = pm.PerformanceMeasureDisplayName;
             PerformanceMeasureUnits = pm.MeasurementUnitType.MeasurementUnitTypeDisplayName;
             PerformanceMeasureProjectValue = perfomanceMeasureActualValue.ActualValue;
-            PerformanceMeasureProjectYear = perfomanceMeasureActualValue.CalendarYear;
+            PerformanceMeasureProjectYear = perfomanceMeasureActualValue.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
 
             var currentPMSubcategoryIndex = 1;
             foreach (var perfomanceMeasureActualValueSubcategoryOption in perfomanceMeasureActualValue.PerformanceMeasureActualSubcategoryOptions)

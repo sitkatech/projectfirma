@@ -42,8 +42,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public SectionCommentsViewData SectionCommentsViewData { get; }
         public string FundingTypeDescriptionString { get; }
 
-        public ExpectedFundingViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectBudgetSummaryViewData projectBudgetSummaryViewData, ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
-            : base(currentPerson, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
+        public ExpectedFundingViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectBudgetSummaryViewData projectBudgetSummaryViewData, ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData, ProjectUpdateStatus projectUpdateStatus, ExpectedFundingValidationResult expectedFundingValidationResult)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFunding(projectUpdateBatch.Project));

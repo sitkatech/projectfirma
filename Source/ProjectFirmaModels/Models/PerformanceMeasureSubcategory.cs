@@ -30,5 +30,6 @@ namespace ProjectFirmaModels.Models
         }
 
         public bool ShowOnChart() => !String.IsNullOrWhiteSpace(ChartConfigurationJson);
+        public bool ShowOnCumulativeChart() => !String.IsNullOrWhiteSpace(CumulativeChartConfigurationJson);
     }
 }

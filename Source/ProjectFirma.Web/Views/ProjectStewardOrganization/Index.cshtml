@@ -65,13 +65,13 @@ Source code is available upon request via <support@sitkatech.com>.
                             @if (organization.LogoFileResource != null)
                             {
                                 <img class="img-responsive" src="@organization.LogoFileResource.GetFileResourceUrl()" style="max-width: 135px; max-height: 100px;" alt="Organization Logo">
-                            }                           
+                            }
                         </figure>
                     </div>
                     <div class="col-xs-7">
                         <h4 class="list-group-item-heading">@organization.OrganizationName</h4>
                         @{
-                            var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(ViewDataTyped.CurrentPerson).Count;
+                            var projectCount = organization.GetAllActiveProjectsAndProposalsWhereOrganizationIsStewardOrPrimaryContact(ViewDataTyped.CurrentFirmaSession.Person).Count;
                             var projectCountLabel = projectCount.Equals(1) ? FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() : FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized();
                         }
                         <p class="list-group-item-text">

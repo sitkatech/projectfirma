@@ -18,43 +18,46 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceExpenditure
 {
     public class EditProjectFundingSourceExpendituresViewData : FirmaUserControlViewData
     {
-        public List<int> CalendarYearRange { get; }
-        public List<FundingSourceSimple> AllFundingSources { get; }
-        public List<ProjectSimple> AllProjects { get; }
+
         public int? ProjectID { get; }
-        public int? FundingSourceID { get; }
-        public bool FromFundingSource { get; }
-        public bool UseFiscalYears { get; }
-        public bool ShowNoExpendituresExplanation { get; }
 
-        private EditProjectFundingSourceExpendituresViewData(List<ProjectSimple> allProjects,
-            List<FundingSourceSimple> allFundingSources, int? projectID, int? fundingSourceID,
-            List<int> calendarYearRange, bool showNoExpendituresExplanation)
+        public ViewDataForAngularClass ViewDataForAngularClass { get; }
+
+
+        public EditProjectFundingSourceExpendituresViewData( ViewDataForAngularClass viewDataForAngularClass)
         {
-            CalendarYearRange = calendarYearRange;
-            AllFundingSources = allFundingSources;
-            ProjectID = projectID;
-            FundingSourceID = fundingSourceID;
-            AllProjects = allProjects;
-            FromFundingSource = false;
-            UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
-            ShowNoExpendituresExplanation = showNoExpendituresExplanation;
+            ProjectID = viewDataForAngularClass.ProjectID;
+            ViewDataForAngularClass = viewDataForAngularClass;
         }
+    }
 
-        public EditProjectFundingSourceExpendituresViewData(ProjectSimple project,
-            List<FundingSourceSimple> allFundingSources, List<int> calendarYearRangeForExpenditures,
-            bool showNoExpendituresExplanation)
-            : this(new List<ProjectSimple> { project }, allFundingSources, project.ProjectID, null, calendarYearRangeForExpenditures, showNoExpendituresExplanation)
+    public class ViewDataForAngularClass
+    {
+        public List<int> RequiredCalendarYearRange { get; }
+        public List<FundingSourceSimple> AllFundingSources { get; }
+
+        public int ProjectID { get; }
+        public int MaxYear { get; }
+        public bool UseFiscalYears { get; }
+
+        public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
+            List<FundingSourceSimple> allFundingSources,
+            List<int> requiredCalendarYearRange)
         {
+            RequiredCalendarYearRange = requiredCalendarYearRange;
+            AllFundingSources = allFundingSources;
+            ProjectID = project.ProjectID;
+
+            MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+            UseFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
     }
 }

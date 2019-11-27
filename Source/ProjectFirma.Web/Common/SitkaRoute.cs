@@ -29,7 +29,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Common
 {
@@ -119,7 +118,6 @@ namespace ProjectFirma.Web.Common
             return BuildAbsoluteUrlFromExpressionImpl(routeExpression, "http");
         }
 
-
         private static string BuildAbsoluteUrlFromExpressionImpl(Expression<Action<T>> routeExpression, string protocol)
         {
             var relativeUrl = LinkBuilderBuildUrlFromExpressionImpl(routeExpression);
@@ -180,7 +178,7 @@ namespace ProjectFirma.Web.Common
         public static string BuildLinkFromExpression(Expression<Action<T>> routeExpression, string linkText)
         {
             return String.Format("<a href=\"{0}\">{1}</a>", BuildUrlFromExpression(routeExpression), linkText);
-        }        
+        }
         
         public static string BuildLinkFromExpression(Expression<Action<T>> routeExpression, string linkText, string titleText)
         {
@@ -188,7 +186,7 @@ namespace ProjectFirma.Web.Common
         }
 
         public static string BuildLinkFromExpression(Expression<Action<T>> routeExpression, string linkText, Dictionary<string, string> attributeDict)
-        {            
+        {
             return String.Format("<a href=\"{0}\" {2}>{1}</a>", BuildUrlFromExpression(routeExpression), linkText, BuildAttributeString(attributeDict));
         }
 

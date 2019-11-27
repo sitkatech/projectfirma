@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewDetail(IRole role, List<FeaturePermission> featurePermissions, string roleName)
         {
-            var viewData = new DetailViewData(CurrentPerson, role, featurePermissions, roleName);
+            var viewData = new DetailViewData(CurrentFirmaSession, role, featurePermissions, roleName);
             return RazorView<Detail, DetailViewData>(viewData);
         }
     }

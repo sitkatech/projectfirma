@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult UpdateFundingSourceCustomAttributes(EditFundingSourceCustomAttributesViewModel viewModel, FundingSource fundingSource)
         {
-            viewModel.UpdateModel(fundingSource, CurrentPerson);
+            viewModel.UpdateModel(fundingSource, CurrentFirmaSession);
 
             return new ModalDialogFormJsonResult();
         }
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditFundingSourceCustomAttributes(FundingSource fundingSource, EditFundingSourceCustomAttributesViewModel viewModel)
         {
 
-            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var viewData = new EditFundingSourceCustomAttributesViewData(
                 fundingSourceCustomAttributeTypes,

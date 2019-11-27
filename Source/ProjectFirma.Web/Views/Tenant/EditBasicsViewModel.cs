@@ -114,6 +114,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Google Analytics Tracking Code")]
         public string GoogleAnalyticsTrackingCode { get; set; }
 
+        [DisplayName("Use Project Timeline")]
+        public bool UseProjectTimeline { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -139,9 +142,10 @@ namespace ProjectFirma.Web.Views.Tenant
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
+            UseProjectTimeline = tenantAttribute.UseProjectTimeline;
         }
 
-        public void UpdateModel(TenantAttribute attribute, Person currentPerson)
+        public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
         {
             attribute.TenantShortDisplayName = TenantShortDisplayName;
             attribute.ToolDisplayName = ToolDisplayName;
@@ -152,6 +156,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.CanManageCustomAttributes = CanManageCustomAttributes;
             attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
             attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
+            attribute.UseProjectTimeline = UseProjectTimeline;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

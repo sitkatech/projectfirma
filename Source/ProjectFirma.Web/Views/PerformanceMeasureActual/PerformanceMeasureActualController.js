@@ -138,7 +138,8 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
             CalendarYear: null,
             ActualValue: null,
             MeasurementUnitTypeDisplayName: performanceMeasure.MeasurementUnitTypeDisplayName,
-            PerformanceMeasureActualSubcategoryOptions: $scope.createPerformanceMeasureValueSubcategoryOptionRows(performanceMeasure)
+            PerformanceMeasureActualSubcategoryOptions: $scope.createPerformanceMeasureValueSubcategoryOptionRows(performanceMeasure),
+            PerformanceMeasureReportingPeriodID: -1
         };
         return newPerformanceMeasureActual;
     };

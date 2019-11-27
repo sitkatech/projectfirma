@@ -45,10 +45,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             CheckForNotNullProjectId();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             CheckForNotNullProjectId();
-            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentPerson);
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
             var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
             {

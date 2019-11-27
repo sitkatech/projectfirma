@@ -69,9 +69,12 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
+    <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
@@ -116,11 +119,13 @@
     <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureReportingPeriodModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Models\FirmaSessionModelExtensions.cs" />
     <Compile Include="Models\PersonSimple.cs" />
     <Compile Include="Models\ProjectAttachmentModelExtensions.cs" />
     <Compile Include="Models\ProjectAttachmentUpdateModelExtensions.cs" />
@@ -149,8 +154,11 @@
     <Compile Include="Models\ProjectLocationFilterTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectStatusModelExtensions.cs" />
+    <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
@@ -163,6 +171,8 @@
     <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\ReportedValueForDisplay.cs" />
+    <Compile Include="Models\ReportingCategoryForDisplay.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -178,12 +188,15 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
+    <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
@@ -192,6 +205,10 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
+    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
+    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
+    <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />
@@ -257,6 +274,17 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
+    <Compile Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cs" />
+    <Compile Include="Views\ProjectProjectStatus\ProjectProjectStatusDetailsViewData.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewData.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Edit.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewData.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Manage.cs" />
+    <Compile Include="Views\ProjectStatus\ManageViewData.cs" />
+    <Compile Include="Views\ProjectStatus\ProjectStatusGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
@@ -319,6 +347,10 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -441,11 +473,13 @@
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
+    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
+    <Content Include="Views\ProjectStatus\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
@@ -469,6 +503,7 @@
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
+    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -597,6 +632,10 @@
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
+    <Content Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cshtml" />
+    <Content Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cshtml" />
+    <Content Include="Views\ProjectStatus\Edit.cshtml" />
+    <Content Include="Views\ProjectStatus\Manage.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1017,7 +1056,7 @@
     <Compile Include="Controllers\ProjectImageController.cs" />
     <Compile Include="Controllers\ProjectImageUpdateController.cs" />
     <Compile Include="Controllers\ProjectLocationController.cs" />
-    <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectProjectStatusController.cs" />
     <Compile Include="Controllers\ProjectNoteUpdateController.cs" />
     <Compile Include="Controllers\ProjectOrganizationController.cs" />
     <Compile Include="Controllers\ProjectClassificationController.cs" />
@@ -1450,6 +1489,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
+      <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\User\Invite.cs" />
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
@@ -1562,6 +1604,9 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
+    <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectContact\EditContacts.cshtml" />
@@ -1667,7 +1712,7 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
