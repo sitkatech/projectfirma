@@ -301,7 +301,7 @@ namespace ProjectFirma.Web.Models
         }
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+            bool hasTargets = performanceMeasure.PerformanceMeasureTargets.Any();
 
             return hasTargets;
         }
