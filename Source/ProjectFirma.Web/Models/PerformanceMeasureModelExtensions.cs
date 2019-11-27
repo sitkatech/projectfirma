@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Models
 
         public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
-            if (performanceMeasure.PerformanceMeasureTargets.Any())
+            //override to catch any config setups for performance measures with targets
+            if (performanceMeasure.HasTargets())
             {
                 return GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure);
             }
@@ -96,7 +97,7 @@ namespace ProjectFirma.Web.Models
             return defaultSubcategoryChartConfigurationJson;
         }
 
-        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(PerformanceMeasure performanceMeasure)
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
@@ -297,6 +298,12 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
             return PerformanceMeasureTargetValueType.TargetPerYear;
+        }
+        public static bool HasTargets(this PerformanceMeasure performanceMeasure)
+        {
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+
+            return hasTargets;
         }
     }
 }

@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectProjectStatuses).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Project_ProjectID
+            HasRequired(a => a.ProjectStatus).WithMany(b => b.ProjectProjectStatuses).HasForeignKey(c => c.ProjectStatusID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID
             HasRequired(a => a.ProjectProjectStatusCreatePerson).WithMany(b => b.ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson).HasForeignKey(c => c.ProjectProjectStatusCreatePersonID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Person_ProjectProjectStatusCreatePersonID_PersonID
             HasOptional(a => a.ProjectProjectStatusLastEditedPerson).WithMany(b => b.ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson).HasForeignKey(c => c.ProjectProjectStatusLastEditedPersonID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID
         }

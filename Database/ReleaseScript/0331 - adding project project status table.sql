@@ -1,5 +1,6 @@
 CREATE TABLE [dbo].[ProjectProjectStatus](
 	[ProjectProjectStatusID] [int] IDENTITY(1,1) NOT NULL,
+    [TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
     [ProjectStatusID] [int] NOT NULL,
     [ProjectProjectStatusUpdateDate] [datetime] NOT NULL,
@@ -21,7 +22,6 @@ GO
 
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Project_ProjectID]
 GO
-
 
 ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
 REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
@@ -45,4 +45,6 @@ GO
 ALTER TABLE [dbo].[ProjectProjectStatus] CHECK CONSTRAINT [FK_ProjectProjectStatus_Person_ProjectProjectStatusLastEditedPersonID_PersonID]
 GO
 
-
+ALTER TABLE [dbo].[ProjectProjectStatus]  WITH CHECK ADD  CONSTRAINT [FK_ProjectProjectStatus_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO

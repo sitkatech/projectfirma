@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Shared
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
-            var googleChartType = ConverChartTypeStringToGoogleChartType();
+            var googleChartType = ConvertChartTypeStringToGoogleChartType();
             if (isCumulative)
             {
                 performanceMeasureSubcategory.CumulativeGoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared
 
             //Ensure our new values can be parsed without exceptions. No need to store the values.
             JsonConvert.DeserializeObject<GoogleChartConfiguration>(ChartConfigurationJson);
-            var googleChartType = ConverChartTypeStringToGoogleChartType();
+            var googleChartType = ConvertChartTypeStringToGoogleChartType();
             if (googleChartType == null)
             {
                 validationResults.Add(new ValidationResult("Unknown chart type " + ChartType));
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Shared
             return validationResults;
         }
 
-        private GoogleChartType ConverChartTypeStringToGoogleChartType()
+        private GoogleChartType ConvertChartTypeStringToGoogleChartType()
         {
             return GoogleChartType.All.SingleOrDefault(x => x.GoogleChartTypeDisplayName == ChartType);
         }

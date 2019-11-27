@@ -71,6 +71,7 @@
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectStatusModelExtensions.cs" />
     <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
@@ -286,6 +288,12 @@
     <Compile Include="Views\ProjectProjectStatus\ProjectProjectStatusDetailsViewData.cs" />
     <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewData.cs" />
     <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Edit.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewData.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Manage.cs" />
+    <Compile Include="Views\ProjectStatus\ManageViewData.cs" />
+    <Compile Include="Views\ProjectStatus\ProjectStatusGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
@@ -349,6 +357,8 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\GeospatialAreaTypeSimple.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
@@ -480,6 +490,7 @@
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
+    <Content Include="Views\ProjectStatus\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
@@ -635,6 +646,8 @@
     <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
     <Content Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cshtml" />
     <Content Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cshtml" />
+    <Content Include="Views\ProjectStatus\Edit.cshtml" />
+    <Content Include="Views\ProjectStatus\Manage.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1604,6 +1617,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

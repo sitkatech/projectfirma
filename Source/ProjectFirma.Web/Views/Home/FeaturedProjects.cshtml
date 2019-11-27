@@ -71,10 +71,13 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <th>@FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()</th>
                                         <td>@featuredProject.TaxonomyLeaf.TaxonomyLeafName</td>
                                     </tr>
-                                    <tr>
-                                        <th>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</th>
-                                        <td>@featuredProject.GetPrimaryContactOrganization().OrganizationName</td>
-                                    </tr>
+                                    @if (featuredProject.GetPrimaryContactOrganization() != null)
+                                    {
+                                        <tr>
+                                            <th>@FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().GetFieldDefinitionLabel()</th>
+                                            <td>@featuredProject.GetPrimaryContactOrganization().OrganizationName</td>
+                                        </tr>
+                                    }
                                     <tr>
                                         <th>Other @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()</th>
                                         <td>@featuredProject.GetProjectOrganizationNamesForFactSheet()</td>

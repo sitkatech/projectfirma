@@ -177,7 +177,7 @@ namespace ProjectFirmaModels.Models
 
         public ProjectStatus GetCurrentProjectStatus()
         {
-            return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).LastOrDefault()?.ProjectStatus;
+            return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).ThenBy(x => x.ProjectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
 
     }

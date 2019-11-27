@@ -251,6 +251,12 @@ namespace ProjectFirmaModels.Models
         PerformanceMeasureCanBeChartedCumulatively = 301,
         ProjectStatus = 302,
         ProjectStatusUpdate = 303,
-        GeospatialArea = 304
+        ProjectStatusHistory = 304,
+        ProjectUpdateHistory = 305,
+        ProjectStatusLegend = 306,
+        ProjectStatusUpdateCreatedBy = 307,
+        ProjectStatusUpdateDate = 308,
+        ProjectStatusComments = 309,
+        GeospatialArea = 310
     }
 }

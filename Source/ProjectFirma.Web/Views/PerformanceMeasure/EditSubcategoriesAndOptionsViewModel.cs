@@ -70,14 +70,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                                 SortOrder = index + 1,
                                 ShowOnFactSheet = y.ShowOnFactSheet
                             }).ToList();
-                var chartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetDefaultPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                var chartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                 performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
-                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                 if (performanceMeasure.CanBeChartedCumulatively)
                 {
-                    var cumulativeChartConfigurationJson = JObject.FromObject(PerformanceMeasureModelExtensions.GetTargetsPerformanceMeasureChartConfigurationJson(performanceMeasure)).ToString();
+                    var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
                     performanceMeasureSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
+                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                 }
                 return performanceMeasureSubcategory;
             }).ToList();

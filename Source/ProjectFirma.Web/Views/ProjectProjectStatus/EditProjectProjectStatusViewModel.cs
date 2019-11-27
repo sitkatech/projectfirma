@@ -23,6 +23,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
@@ -30,15 +32,15 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
     {
         [Required]
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
-        [DisplayName("Project Status Comments")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusComments)]
         public string ProjectProjectStatusComment { get; set; }
 
         [Required]
-        [DisplayName("Project Status")]
-        public int? ProjectStatusID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatus)]
+        public int ProjectStatusID { get; set; }
 
         [Required]
-        [DisplayName("Project Status Update Date")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
-            projectProjectStatus.ProjectStatusID = ProjectStatusID.Value;
+            projectProjectStatus.ProjectStatusID = ProjectStatusID;
             projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
