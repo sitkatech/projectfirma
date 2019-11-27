@@ -58,13 +58,13 @@
         <div class="col-xs-12">
             @Html.LabelFor(m => m.GeospatialAreaTypeID)
             <div>
-                <select class="selectpicker" ng-model="GeospatialAreaTypeID" ng-change="RefreshSelectableGeospatialAreas()">
-                    <option ng-repeat="geospatialAreaType in getGeospatialAreaTypes()"
+                <select class="selectpicker" ng-model="SelectedGeospatialAreaTypeID">
+                    <option ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypeSimples"
                             ng-bind="geospatialAreaType.GeospatialAreaTypeName"
                             ng-value="geospatialAreaType.GeospatialAreaTypeID"></option>
                 </select>
                 <select class="selectpicker" ng-model="SelectedGeospatialAreaID">
-                    <option ng-repeat="geospatialArea in SelectableGeospatialAreas"
+                    <option ng-repeat="geospatialArea in refreshSelectableGeospatialAreas(SelectedGeospatialAreaTypeID)"
                             ng-bind="geospatialArea.GeospatialAreaName"
                             ng-value="geospatialArea.GeospatialAreaID"></option>
                 </select>

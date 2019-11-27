@@ -40,17 +40,19 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         return $scope.AngularViewData.GeospatialAreaTypeSimples;
     };
 
-    $scope.getSelectableGeospatialAreas = function () {
-        debugger;
-        var geospatialAreaTypeID = parseInt($scope.GeospatialAreaTypeID, 10);
+    $scope.getSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
+        //debugger;
+        var geospatialAreaTypeID = parseInt(selectedGeospatialAreaTypeID, 10);
         var geospatialAreas = _.where($scope.AngularViewData.GeospatialAreaSimples, { 'GeospatialAreaTypeID': geospatialAreaTypeID });
 
         return geospatialAreas;
     };
 
-    $scope.RefreshSelectableGeospatialAreas = function () {
-        //debugger;
-        $scope.SelectableGeospatialAreas = $scope.getSelectableGeospatialAreas();
+    $scope.refreshSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
+        debugger;
+        //$scope.SelectableGeospatialAreas 
+        jQuery(".selectpicker").selectpicker("refresh");
+        return $scope.getSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
     }
 
 
@@ -66,6 +68,6 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
     //debugger;
     if ($scope.GeospatialAreaTypeID) {
-        $scope.RefreshSelectableGeospatialAreas();
+        $scope.refreshSelectableGeospatialAreas();
     }
 });
