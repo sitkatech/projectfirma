@@ -598,7 +598,7 @@ namespace LtInfo.Common.DhtmlWrappers
         /// </summary>
         public static HtmlString MakePlusIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle)
         {
-            return MakeModalDialogLink($"{PlusIconBootstrap}<span style=\"display:none\">Add</span>", editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
+            return MakeModalDialogLink($"{PlusIconBootstrap}", editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
         }
 
         /// <summary>

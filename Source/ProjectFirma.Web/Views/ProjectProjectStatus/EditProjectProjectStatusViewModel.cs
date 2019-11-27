@@ -23,6 +23,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
@@ -30,15 +32,15 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
     {
         [Required]
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
-        [DisplayName("Project Status Comments")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusComments)]
         public string ProjectProjectStatusComment { get; set; }
 
         [Required]
-        [DisplayName("Project Status")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatus)]
         public int ProjectStatusID { get; set; }
 
         [Required]
-        [DisplayName("Project Status Update Date")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
         /// <summary>
