@@ -86,8 +86,8 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
     }
 
 
-    $scope.deleteRow = function (rowToDelete) {
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, rowToDelete);
+    $scope.deleteGeospatialArea = function (rowToDelete) {
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.SelectedGeospatialAreas, rowToDelete);
     };
 
 
