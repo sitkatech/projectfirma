@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.ProjectProjectStatusDetails
@@ -27,7 +28,7 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Created By")
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast()
@@ -36,7 +37,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Date")
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateDate.ToType())
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusUpdateDate.ToStringDate()
@@ -45,7 +46,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status")
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatus.ToType())
                     </div>
                     <div class="col-sm-8" style="color: @(ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusColor);">
                         @ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusDisplayName
@@ -54,7 +55,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelForModel("Project Status Comments")
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusComments.ToType())
                     </div>
                     <div class="col-sm-8">
                         @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusComment
