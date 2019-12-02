@@ -29,6 +29,13 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
 
         var geospatialAreaIdInt = parseInt(geospatialAreaID, 10);
+        var alreadyAdded = _.find($scope.AngularModel.SelectedGeospatialAreas, { GeospatialAreaID: geospatialAreaIdInt });
+        debugger;
+        if (_.isObject(alreadyAdded)) {
+            return;
+        }
+
+
         var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
         var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
 
