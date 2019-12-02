@@ -26,16 +26,31 @@
 </div>
 
 <div class="row">
+    <h3>Videos</h3>
     @foreach (var video in ViewDataTyped.TrainingVideos)
     {
 
         <div class="col-md-6" style="margin-bottom: 20px;">
-            <div style="background:#eee; border:1px solid #ccc; padding: 5px 10px;"><strong>@video.VideoName</strong></div>
-            <div style="background:#eee; border:1px solid #ccc; padding: 5px 10px">
+            <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;"><strong>@video.VideoName</strong></div>
+            <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px">
                 <iframe src="@video.VideoURL" allowfullscreen="" width="100%" height="344" frameborder="0"></iframe>
                 <p>@video.VideoDescription </p>
                 <p>Uploaded on @video.VideoUploadDate.ToShortDateString()</p>
             </div>
         </div>
     }
+</div>
+<div class="row">
+    <h3>Documents</h3>
+    <div class="col-md-4" style="margin-bottom: 20px;">
+        <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;"><strong>ProjectFirma Customization Guide</strong></div>
+        @* 12/02/2019 SMG - Displaying the document here like this for now to stay within budget, this should be changed to something in the future that is more robust ProjectFirma/#1934 *@
+        
+        <div style="background: #eee; border: 1px solid #ccc; padding: 5px 10px;">
+            <a href="/Content/Training/ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" target="_blank">
+                <img src="/Content/Training/projectfirma-customization-guide.jpg" class="img-responsive" alt="Training Document" style="margin-bottom: 5px;" />
+                <p>View/Download the ProjectFirma Customization Guide</p>
+            </a>
+        </div>
+    </div>
 </div>
