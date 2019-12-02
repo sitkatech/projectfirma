@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
     {
         public List<GeospatialAreaTypeSimple> GeospatialAreaTypeSimples { get; set; }
         public List<GeospatialAreaSimple> GeospatialAreaSimples { get; set; }
+        
 
         public AddGeospatialAreaToPerformanceMeasureViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, List<GeospatialAreaTypeSimple> geospatialAreaTypeSimples, List<GeospatialAreaSimple> geospatialAreaSimples)
         {

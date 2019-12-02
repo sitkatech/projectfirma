@@ -21,7 +21,10 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 {
@@ -30,7 +33,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
         [Required]
         public int PerformanceMeasureID { get; set; }
         public int GeospatialAreaTypeID { get; set; }
-        public List<int> GeospatialAreas { get; set; }
+        public List<GeospatialAreaSimple> GeospatialAreas { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -44,9 +47,30 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
             PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
+        public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            
+            foreach (var geospatialAreaSimple in GeospatialAreas)
+            {
+                var geospatialArea = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Single(x => x.GeospatialAreaID == geospatialAreaSimple.GeospatialAreaID);
+                if (geospatialArea == null)
+                {
+                    //bad geospatialAreaID from front-end
+                    continue;
+                }
+
+                if (HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Any(x =>
+                    x.GeospatialAreaID == geospatialAreaSimple.GeospatialAreaID &&
+                    x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID))
+                {
+                    //already have this item in the DB
+                    continue;
+                }
+
+                var newGeospatialAreaPerformanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure);
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Add(newGeospatialAreaPerformanceMeasureTarget);
+            }
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges(currentFirmaSession);
 
         }
 

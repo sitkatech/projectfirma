@@ -23,7 +23,7 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
 
     $scope.addGeospatialArea = function (geospatialAreaID, selectedGeospatialAreaTypeID) {
-        debugger;
+        //debugger;
         
         var geospatialAreaTypeIdInt = parseInt(selectedGeospatialAreaTypeID, 10);
         var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
@@ -32,8 +32,11 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
         var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
 
-        var newArea = { GeospatialAreaID: geospatialAreaID, GeospatialAreaName: combinedName };
+        var newArea = { GeospatialAreaID: geospatialAreaIdInt, GeospatialAreaName: combinedName };
         $scope.AngularModel.SelectedGeospatialAreas.push(newArea);
+        //todo: for some reason the area dropdown will update with the removal of the newly selected item, but angular isn't updating so the default selected item doesn't get added. it keeps adding the previously selected area. 
+        //jQuery(".selectpicker").selectpicker("refresh");
+        //$scope.refreshSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
     };
 
 
@@ -48,8 +51,9 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         var filteredGeospatialAreas = _.filter(geospatialAreas,
                                                 function(geospatialArea) {
                                                     var object = _.find($scope.AngularModel.SelectedGeospatialAreas,
-                                                        function(selectedGeospatialArea) {
-                                                            
+                                                        function (selectedGeospatialArea) {
+                                                            //console.log('geospatialSelected one' + JSON.stringify(selectedGeospatialArea));
+                                                            //console.log('geospatialArea.GeospatialAreaID:' + geospatialArea.GeospatialAreaID + ':VS:selectedGeospatialArea.GeospatialAreaID:');
                                                             return geospatialArea.GeospatialAreaID == selectedGeospatialArea.GeospatialAreaID;
                                                         });
                                                     return !_.isObject(object);
@@ -93,6 +97,7 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
+    $scope.SelectedGeospatialAreaID = "";
     $scope.AngularModel.SelectedGeospatialAreas = [];
 
     //$scope.SelectedGeospatialAreaTypeID = $scope.AngularModel.GeospatialAreaTypeID;

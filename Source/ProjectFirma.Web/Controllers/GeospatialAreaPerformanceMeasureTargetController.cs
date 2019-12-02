@@ -48,6 +48,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult AddGeospatialAreaToPerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+
             var viewModel = new AddGeospatialAreaToPerformanceMeasureViewModel(performanceMeasure);
             return ViewAddGeospatialAreaToPerformanceMeasure(performanceMeasure, viewModel);
         }
@@ -63,8 +64,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewAddGeospatialAreaToPerformanceMeasure(performanceMeasure, viewModel);
             }
 
-
-            viewModel.UpdateModel(performanceMeasure);
+            viewModel.UpdateModel(CurrentFirmaSession, performanceMeasure);
 
             return new ModalDialogFormJsonResult();
         }
@@ -73,7 +73,15 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewAddGeospatialAreaToPerformanceMeasure(PerformanceMeasure performanceMeasure, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
         {
             var geospatialAreaTypeSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().Select(x => new GeospatialAreaTypeSimple(x)).ToList();
+
+            //build list of geospatial areas and remove any we have already setup a connection to this performance measure
             var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
+            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialArea).ToList();
+            var selectedGeospatialAreaSimples = selectedGeospatialAreas.Select(x => new GeospatialAreaSimple(x)).ToList();
+            //this doesn't seem to work
+            var setToRemove = new HashSet<GeospatialAreaSimple>(selectedGeospatialAreaSimples);
+            geospatialAreaSimples.RemoveAll(x => setToRemove.Contains(x));
+
             var viewDataForAngular = new AddGeospatialAreaToPerformanceMeasureViewDataForAngular(performanceMeasure, geospatialAreaTypeSimples, geospatialAreaSimples);
             var viewData = new AddGeospatialAreaToPerformanceMeasureViewData(performanceMeasure, viewDataForAngular);
             return RazorPartialView<AddGeospatialAreaToPerformanceMeasure, AddGeospatialAreaToPerformanceMeasureViewData, AddGeospatialAreaToPerformanceMeasureViewModel>(viewData, viewModel);
