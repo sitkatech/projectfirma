@@ -151,13 +151,13 @@ namespace ProjectFirma.Web.Models
 
 
         public static readonly UrlTemplate<int> DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
-        public static string GetDeleteUrl(this GeospatialArea geospatialArea)
+        public static string GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea)
         {
             return DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
         }
 
         public static readonly UrlTemplate<int> EditGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
-        public static string GetEditUrl(this GeospatialArea geospatialArea)
+        public static string GetEditGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea)
         {
             return EditGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
         }
