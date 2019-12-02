@@ -112,7 +112,7 @@
             @if (ViewDataTyped.HasUpdateStarted)
             {
                 <li>
-                    @ModalDialogFormHelper.ModalDialogFormLink("Delete Entire Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete entire Update", new List<string>(),true)
+                    @ModalDialogFormHelper.ModalDialogFormLink("Delete Entire Update", ViewDataTyped.DeleteProjectUpdateUrl, "Delete entire Update", new List<string>(), true)
                 </li>
                 <li>
                     @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.ProjectUpdateHistoryUrl, "History", "Close", "Show Update History", new List<string>(), null)
@@ -120,6 +120,9 @@
             }
             <li>
                 <a href="@ViewDataTyped.ProjectUpdateMyProjectsUrl">Back to Update My Projects list</a>
+            </li>
+            <li>
+                <a href="@ViewDataTyped.TrainingUrl" target="_blank"><span class="glyphicon glyphicon-question-sign"></span> Need Help?</a>
             </li>
         </ul>
     </div>
