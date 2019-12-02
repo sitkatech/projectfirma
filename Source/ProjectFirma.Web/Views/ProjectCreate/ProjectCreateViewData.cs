@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -48,6 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ReturnUrl { get; }
         public string WithdrawUrl { get; }
         public string RejectUrl { get; }
+        public string TrainingUrl { get; }
         public bool CurrentPersonIsSubmitter { get; }
         public bool CurrentPersonIsApprover { get; }
         public ProposalSectionsStatus ProposalSectionsStatus { get; }
@@ -100,6 +102,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
             WithdrawUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Withdraw(project));
             RejectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Reject(project));
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
 
             ProjectStage = project.ProjectStage;
         }
@@ -124,7 +127,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = string.Empty;
             WithdrawUrl = string.Empty;
             RejectUrl = string.Empty;
-
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }
 
         private ProjectCreateViewData(FirmaSession currentFirmaSession,
@@ -141,6 +144,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             CurrentSectionDisplayName = currentSectionDisplayName;
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }
     }
 }
