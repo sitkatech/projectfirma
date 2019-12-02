@@ -76,9 +76,8 @@ namespace ProjectFirma.Web.Controllers
 
             //build list of geospatial areas and remove any we have already setup a connection to this performance measure
             var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
-            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialArea).ToList();
-            var selectedGeospatialAreaSimples = selectedGeospatialAreas.Select(x => new GeospatialAreaSimple(x)).ToList();
-            //this doesn't seem to work
+            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList();
+            var selectedGeospatialAreaSimples = geospatialAreaSimples.Where(x => selectedGeospatialAreas.Contains(x.GeospatialAreaID)).ToList();
             var setToRemove = new HashSet<GeospatialAreaSimple>(selectedGeospatialAreaSimples);
             geospatialAreaSimples.RemoveAll(x => setToRemove.Contains(x));
 

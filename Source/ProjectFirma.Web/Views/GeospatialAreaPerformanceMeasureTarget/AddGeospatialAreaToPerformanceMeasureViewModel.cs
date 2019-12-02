@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
         [Required]
         public int PerformanceMeasureID { get; set; }
         public int GeospatialAreaTypeID { get; set; }
-        public List<GeospatialAreaSimple> GeospatialAreas { get; set; }
+        public List<int> GeospatialAreas { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -49,9 +49,13 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 
         public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            foreach (var geospatialAreaSimple in GeospatialAreas)
+            if (GeospatialAreas == null || !GeospatialAreas.Any())
             {
-                var geospatialArea = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Single(x => x.GeospatialAreaID == geospatialAreaSimple.GeospatialAreaID);
+                return;
+            }
+            foreach (var geospatialAreaID in GeospatialAreas)
+            {
+                var geospatialArea = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Single(x => x.GeospatialAreaID == geospatialAreaID);
                 if (geospatialArea == null)
                 {
                     //bad geospatialAreaID from front-end
@@ -59,7 +63,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                 }
 
                 if (HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Any(x =>
-                    x.GeospatialAreaID == geospatialAreaSimple.GeospatialAreaID &&
+                    x.GeospatialAreaID == geospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID))
                 {
                     //already have this item in the DB
