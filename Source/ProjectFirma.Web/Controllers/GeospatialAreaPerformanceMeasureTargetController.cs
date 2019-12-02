@@ -88,36 +88,39 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
-        public PartialViewResult Delete(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
+        public PartialViewResult Delete(GeospatialAreaPerformanceMeasureTargetPrimaryKey geospatialAreaPerformanceMeasureTargetPrimaryKey)
         {
-            throw new NotImplementedException("Delete is not implemented");
+            //throw new NotImplementedException("Delete is not implemented");
+            var geospatialAreaPerformanceMeasureTarget = geospatialAreaPerformanceMeasureTargetPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetID);
+            return ViewDelete(geospatialAreaPerformanceMeasureTarget, viewModel);
         }
 
-        //private PartialViewResult ViewDeleteGeospatialArea(GeospatialArea geospatialArea, ConfirmDialogFormViewModel viewModel)
-        //{
-        //    var canDelete = !geospatialArea.HasDependentObjects();
-        //    var confirmMessage = canDelete
-        //        ? $"Are you sure you want to delete this {geospatialArea.GeospatialAreaType.GeospatialAreaTypeName} '{geospatialArea.GeospatialAreaName}'?"
-        //        : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialArea.GeospatialAreaType.GeospatialAreaTypeDefinition}", SitkaRoute<GeospatialAreaController>.BuildLinkFromExpression(x => x.Detail(geospatialArea), "here"));
+        private PartialViewResult ViewDelete(GeospatialAreaPerformanceMeasureTarget geospatialAreaPerformanceMeasureTarget, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = !geospatialAreaPerformanceMeasureTarget.HasDependentObjects();
+            var confirmMessage = canDelete
+                ? $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialAreaPerformanceMeasureTarget.GeospatialArea.GeospatialAreaName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialAreaPerformanceMeasureTarget.GeospatialArea.GeospatialAreaName}", SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(geospatialAreaPerformanceMeasureTarget.PerformanceMeasureID), "here"));
 
-        //    var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
-        //    return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        //}
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
 
-        //[HttpPost]
-        //[GeospatialAreaManageFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult DeleteGeospatialArea(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        //{
-        //    var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewDeleteGeospatialArea(geospatialArea, viewModel);
-        //    }
-        //    geospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
-        //    return new ModalDialogFormJsonResult();
-        //}
-      
+        [HttpPost]
+        [GeospatialAreaPerformanceMeasureTargetManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(GeospatialAreaPerformanceMeasureTargetPrimaryKey geospatialAreaPerformanceMeasureTargetPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var geospatialAreaPerformanceMeasureTarget = geospatialAreaPerformanceMeasureTargetPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(geospatialAreaPerformanceMeasureTarget, viewModel);
+            }
+            geospatialAreaPerformanceMeasureTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            return new ModalDialogFormJsonResult();
+        }
+
 
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
