@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireThrowNotAuthorized(CurrentPerson?.WebServiceAccessToken != null, "Person must have already received their access token before accessing web service list.");
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
-            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList);
+            var geospatialAreaTypeList = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList, geospatialAreaTypeList);
             return RazorView<List, ListViewData>(viewData);
         }
 
@@ -110,13 +111,13 @@ namespace ProjectFirma.Web.Controllers
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectsByOrganization");
         }
 
-        [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
-        {
-            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
-            var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
-            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
-        }
+        //[AnonymousUnclassifiedFeature]
+        //public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        //{
+        //    var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
+        //    var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
+        //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
+        //}
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
@@ -126,13 +127,13 @@ namespace ProjectFirma.Web.Controllers
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectDescription");
         }
 
-        [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
-        {
-            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
-            var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
-            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
-        }
+        //[AnonymousUnclassifiedFeature]
+        //public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        //{
+        //    var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
+        //    var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
+        //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
+        //}
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetPerformanceMeasures(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)

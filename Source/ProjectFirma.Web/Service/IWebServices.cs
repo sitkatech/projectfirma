@@ -42,18 +42,20 @@ namespace ProjectFirma.Web.Service
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of {0}s for the specified {1}.", FieldDefinitionEnum.Project, FieldDefinitionEnum.Organization)]
         List<WebServiceProject> GetProjectsByOrganization(string returnType, string webServiceToken, int organizationID);
-        
-        [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of {0} accomplishments for the specified {1}.", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.Project)]
-        List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID);
+
+        // 11/25/2019 SMG -- [projectfirma/#1963] Expose project web feature service: Commented out because not required for the time being
+        //[OperationContract]
+        //[WebServiceDocumentationAttribute("Provides the list of {0} accomplishments for the specified {1}.", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.Project)]
+        //List<WebServiceProjectAccomplishments> GetProjectAccomplishments(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the description of the specified {0}.", FieldDefinitionEnum.Project)]
         List<WebServiceProjectDescription> GetProjectDescription(string returnType, string webServiceToken, int projectID);
 
-        [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the URL to the key photo for the specified {0}.", FieldDefinitionEnum.Project)]
-        List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, int projectID);
+        // 11/25/2019 SMG -- [projectfirma/#1963] Expose project web feature service: Commented out because not required for the time being
+        //[OperationContract]
+        //[WebServiceDocumentationAttribute("Provides the URL to the key photo for the specified {0}.", FieldDefinitionEnum.Project)]
+        //List<WebServiceProjectKeyPhoto> GetProjectKeyPhoto(string returnType, string webServiceToken, int projectID);
 
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all {0}s, including their subcategories (aka dimensions) and the number of options in each {1}.", FieldDefinitionEnum.PerformanceMeasure, FieldDefinitionEnum.PerformanceMeasureSubcategory)]
