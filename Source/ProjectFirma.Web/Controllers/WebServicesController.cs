@@ -82,7 +82,8 @@ namespace ProjectFirma.Web.Controllers
             Check.RequireThrowNotAuthorized(CurrentPerson?.WebServiceAccessToken != null, "Person must have already received their access token before accessing web service list.");
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
-            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList);
+            var geospatialAreaTypeList = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList, geospatialAreaTypeList);
             return RazorView<List, ListViewData>(viewData);
         }
 

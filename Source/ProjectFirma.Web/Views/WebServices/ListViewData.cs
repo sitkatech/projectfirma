@@ -33,13 +33,16 @@ namespace ProjectFirma.Web.Views.WebServices
     {
         public readonly WebServiceToken WebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
+        public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
 
-        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
+        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken,
+            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList)
             : base(currentFirmaSession)
         {
             ServiceDocumentationList = serviceDocumentationList;
             WebServiceAccessToken = webServiceAccessToken;
             PageTitle = "List of Web Services";
+            GeospatialAreaTypeList = geospatialAreaTypeList;
         }
     }
 

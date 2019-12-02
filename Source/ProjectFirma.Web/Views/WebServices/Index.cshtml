@@ -38,7 +38,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.GetWebServiceAccessTokenUrl, "Web Service Access Token", "Close", "View Access Token", new List<string>(), null)
     </li>
     <li><a href="@ViewDataTyped.WebServicesListUrl">List of Web Services</a></li>
-    <li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>
+    @*<li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>*@
 </ul>
 
 <ul style="list-style: none; @(ViewDataTyped.WebServiceAccessToken.HasValue ? "display:none" : String.Empty)" id="notHaveWebServiceAccessTokenPanel">
@@ -46,5 +46,5 @@ Source code is available upon request via <support@sitkatech.com>.
         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.GetWebServiceAccessTokenUrl, "Web Service Access Token", "Close", "Get Access Token", new List<string>(), "enableWebServicesListLink")
     </li>
     <li id="webServicesListLink"><span class="disabled">List of Web Services<span class="alert"> (disabled; you must first request an Access Token)</span></span></li>
-    <li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>
+    @*<li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>*@
 </ul>
