@@ -42,20 +42,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
             var isUsersProject = project.IsMyProject(currentFirmaSession);
 
-            if (isUsersProject)
-            {
-                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
-                    project.GetAddProjectProjectStatusFromGridUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
-            }
+            var returnString = new HtmlString("");
+            if (!isUsersProject) return returnString;
+
+            editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
+                project.GetAddProjectProjectStatusFromGridUrl()
+                , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
 
             var currentProjectStatus = project.GetCurrentProjectStatus();
             var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
             var projectStatusDisplayName = currentProjectStatus != null ? currentProjectStatus.ProjectStatusDisplayName : "no status";
+            returnString = new HtmlString($"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
 
-            var returnString = isUsersProject ?
-                new HtmlString($"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>")
-                : new HtmlString("");
             return returnString;
         }
 
