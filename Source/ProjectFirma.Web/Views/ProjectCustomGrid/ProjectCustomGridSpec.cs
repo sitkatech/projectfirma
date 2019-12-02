@@ -37,10 +37,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, bool canEditProjectStatus)
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            if (canEditProjectStatus)
+            var isUsersProject = project.IsMyProject(currentFirmaSession);
+
+            if (isUsersProject)
             {
                 editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                     project.GetAddProjectProjectStatusFromGridUrl()
@@ -51,9 +53,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
             var projectStatusDisplayName = currentProjectStatus != null ? currentProjectStatus.ProjectStatusDisplayName : "no status";
 
-            var returnString =
-                new HtmlString(
-                    $"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
+            var returnString = isUsersProject ?
+                new HtmlString($"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>")
+                : new HtmlString("");
             return returnString;
         }
 
@@ -148,10 +150,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
-                            , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
+                            , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession)
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
                         );
