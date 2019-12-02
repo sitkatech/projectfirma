@@ -22,17 +22,18 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
 
 
-    $scope.addRow = function () {
-
+    $scope.addGeospatialArea = function (geospatialAreaID, selectedGeospatialAreaTypeID) {
+        debugger;
         
-        if ($scope.IsYearInUse) {
-            //console.log('Year is already in use');
-            return;
-        }
-        var newBulk = $scope.createNewBulkRow($scope.ReportingPeriodYearToAdd, $scope.ReportingPeriodLabelToAdd);
-        $scope.AngularModel.PerformanceMeasureReportingPeriodSimples.push(newBulk);
-        $scope.NextReportingPeriodYear = $scope.getNextReportingPeriodYear();
-        $scope.resetReportingPeriodToAdd();
+        var geospatialAreaTypeIdInt = parseInt(selectedGeospatialAreaTypeID, 10);
+        var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
+
+        var geospatialAreaIdInt = parseInt(geospatialAreaID, 10);
+        var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
+        var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
+
+        var newArea = { GeospatialAreaID: geospatialAreaID, GeospatialAreaName: combinedName };
+        $scope.AngularModel.SelectedGeospatialAreas.push(newArea);
     };
 
 
@@ -44,12 +45,37 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         //debugger;
         var geospatialAreaTypeID = parseInt(selectedGeospatialAreaTypeID, 10);
         var geospatialAreas = _.where($scope.AngularViewData.GeospatialAreaSimples, { 'GeospatialAreaTypeID': geospatialAreaTypeID });
+        var filteredGeospatialAreas = _.filter(geospatialAreas,
+                                                function(geospatialArea) {
+                                                    var object = _.find($scope.AngularModel.SelectedGeospatialAreas,
+                                                        function(selectedGeospatialArea) {
+                                                            
+                                                            return geospatialArea.GeospatialAreaID == selectedGeospatialArea.GeospatialAreaID;
+                                                        });
+                                                    return !_.isObject(object);
+                                                });
 
-        return geospatialAreas;
+        //var mappedGeospatialAreas = _.map(_.sortBy(filteredGeospatialAreas, 'GeospatialAreaName'), _.values);
+        //debugger;
+        return filteredGeospatialAreas.sort(function (a, b) {
+                                                                var nameA = a.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
+                                                                var nameB = b.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
+                                                                if (nameA < nameB) {
+                                                                    return -1;
+                                                                }
+                                                                if (nameA > nameB) {
+                                                                    return 1;
+                                                                }
+
+                                                                // names must be equal
+                                                                return 0;
+                                                            });
+
+        
     };
 
     $scope.refreshSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
-        debugger;
+        //debugger;
         //$scope.SelectableGeospatialAreas 
         jQuery(".selectpicker").selectpicker("refresh");
         return $scope.getSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
@@ -66,8 +92,12 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    //debugger;
-    if ($scope.GeospatialAreaTypeID) {
-        $scope.refreshSelectableGeospatialAreas();
-    }
+
+    $scope.AngularModel.SelectedGeospatialAreas = [];
+
+    //$scope.SelectedGeospatialAreaTypeID = $scope.AngularModel.GeospatialAreaTypeID;
+    //if ($scope.SelectedGeospatialAreaTypeID) {
+    //    $scope.refreshSelectableGeospatialAreas($scope.SelectedGeospatialAreaTypeID);
+    //}
+
 });

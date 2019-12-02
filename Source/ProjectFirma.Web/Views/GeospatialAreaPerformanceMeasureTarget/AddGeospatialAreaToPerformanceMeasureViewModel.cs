@@ -19,19 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using LtInfo.Common.Models;
-using MoreLinq;
-using Newtonsoft.Json.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Shared;
-using ProjectFirmaModels;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 {
