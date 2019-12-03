@@ -40,10 +40,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
         public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            var isUsersProject = project.IsMyProject(currentFirmaSession);
+            var isEditableToThisFirmaSession = project.IsEditableToThisFirmaSession(currentFirmaSession);
 
             var returnString = new HtmlString("");
-            if (!isUsersProject) return returnString;
+            if (!isEditableToThisFirmaSession) return returnString;
 
             editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                 project.GetAddProjectProjectStatusFromGridUrl()
