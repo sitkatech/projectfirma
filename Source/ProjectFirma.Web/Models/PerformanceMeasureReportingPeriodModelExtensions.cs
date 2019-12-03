@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class PerformanceMeasureReportingPeriodModelExtensions
     {
-        public static PerformanceMeasureReportingPeriod GetOrCreatePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, PerformanceMeasure performanceMeasure, int calendarYear)
+        public static PerformanceMeasureReportingPeriod GetOrCreatePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, int calendarYear)
         {
             var performanceMeasureReportingPeriod = performanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
 

@@ -102,9 +102,8 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                         case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure)
+                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, reportingPeriod)
                                 {
-                                    PerformanceMeasureReportingPeriodID = reportingPeriod.PerformanceMeasureReportingPeriodID,
                                     GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue,
                                     GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription
                                 };
@@ -118,9 +117,8 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                         case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure)
+                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, reportingPeriod)
                                 {
-                                    PerformanceMeasureReportingPeriodID = reportingPeriod.PerformanceMeasureReportingPeriodID,
                                     GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
                                     GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
                                 };

@@ -19,11 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
@@ -70,7 +72,9 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                     continue;
                 }
 
-                var newGeospatialAreaPerformanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure);
+                var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(performanceMeasure, DateTime.Now.Year);
+
+                var newGeospatialAreaPerformanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, performanceMeasureReportingPeriod);
                 HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Add(newGeospatialAreaPerformanceMeasureTarget);
             }
 

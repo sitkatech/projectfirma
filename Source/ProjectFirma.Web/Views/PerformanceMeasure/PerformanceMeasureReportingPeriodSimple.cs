@@ -87,18 +87,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget geospatialAreaPerformanceMeasureTarget)
         {
-            if (geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriodID.HasValue)
-            {
-                PerformanceMeasureReportingPeriodID = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriodID.Value;
-                PerformanceMeasureReportingPeriodLabel = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
-                PerformanceMeasureReportingPeriodCalendarYear = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
-            }
-            else
-            {
-                PerformanceMeasureReportingPeriodID = -1;
-                PerformanceMeasureReportingPeriodLabel = string.Empty;
-                PerformanceMeasureReportingPeriodCalendarYear = -1;
-            }
+
+            PerformanceMeasureReportingPeriodID = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = geospatialAreaPerformanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
 
             TargetValue = geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue;
             TargetValueLabel = geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;

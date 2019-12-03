@@ -296,7 +296,7 @@ namespace ProjectFirma.Web.Models
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals());
-            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID && x.PerformanceMeasureReportingPeriodID.HasValue).Select(x => x.PerformanceMeasureReportingPeriod));
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
         }
