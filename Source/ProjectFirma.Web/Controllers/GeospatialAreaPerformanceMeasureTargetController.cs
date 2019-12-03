@@ -88,20 +88,34 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
-        public PartialViewResult Delete(GeospatialAreaPerformanceMeasureTargetPrimaryKey geospatialAreaPerformanceMeasureTargetPrimaryKey)
+        public PartialViewResult Delete(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             //throw new NotImplementedException("Delete is not implemented");
-            var geospatialAreaPerformanceMeasureTarget = geospatialAreaPerformanceMeasureTargetPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetID);
-            return ViewDelete(geospatialAreaPerformanceMeasureTarget, viewModel);
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(geospatialArea.GeospatialAreaID);
+            return ViewDelete(geospatialArea, performanceMeasure, viewModel);
         }
 
-        private PartialViewResult ViewDelete(GeospatialAreaPerformanceMeasureTarget geospatialAreaPerformanceMeasureTarget, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDelete(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !geospatialAreaPerformanceMeasureTarget.HasDependentObjects();
+            var geospatialAreaPerformanceMeasureTargets =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x =>
+                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
+                    x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
+
+            var canDelete = true; //!geospatialArea.HasDependentObjects();
+            foreach (var geoTarget in geospatialAreaPerformanceMeasureTargets)
+            {
+                if (geoTarget.HasDependentObjects())
+                {
+                    canDelete = false;
+                    break;
+                }
+            }
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialAreaPerformanceMeasureTarget.GeospatialArea.GeospatialAreaName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialAreaPerformanceMeasureTarget.GeospatialArea.GeospatialAreaName}", SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(geospatialAreaPerformanceMeasureTarget.PerformanceMeasureID), "here"));
+                ? $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialArea.GeospatialAreaName}", SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure.PerformanceMeasureID), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
@@ -110,14 +124,24 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Delete(GeospatialAreaPerformanceMeasureTargetPrimaryKey geospatialAreaPerformanceMeasureTargetPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Delete(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var geospatialAreaPerformanceMeasureTarget = geospatialAreaPerformanceMeasureTargetPrimaryKey.EntityObject;
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDelete(geospatialAreaPerformanceMeasureTarget, viewModel);
+                return ViewDelete(geospatialArea, performanceMeasure, viewModel);
             }
-            geospatialAreaPerformanceMeasureTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            //geospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            var geospatialAreaPerformanceMeasureTargets =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x =>
+                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
+                    x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
+            foreach (var geoTarget in geospatialAreaPerformanceMeasureTargets)
+            {
+                geoTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+
             return new ModalDialogFormJsonResult();
         }
 

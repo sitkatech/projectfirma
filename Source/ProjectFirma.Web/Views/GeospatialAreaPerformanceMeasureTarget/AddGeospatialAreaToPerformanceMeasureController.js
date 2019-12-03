@@ -30,7 +30,7 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
         var geospatialAreaIdInt = parseInt(geospatialAreaID, 10);
         var alreadyAdded = _.find($scope.AngularModel.SelectedGeospatialAreas, { GeospatialAreaID: geospatialAreaIdInt });
-        debugger;
+        //debugger;
         if (_.isObject(alreadyAdded)) {
             return;
         }

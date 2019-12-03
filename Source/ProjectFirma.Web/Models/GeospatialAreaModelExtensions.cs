@@ -150,10 +150,11 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public static readonly UrlTemplate<int> DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
-        public static string GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea)
+        public static readonly UrlTemplate<int> DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
+        public static string GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            return DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+            //return DeleteGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+            return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
         }
 
         public static readonly UrlTemplate<int> EditGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
