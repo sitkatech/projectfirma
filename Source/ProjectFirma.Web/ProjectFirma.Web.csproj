@@ -213,6 +213,9 @@
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\EditPerformanceMeasureTargets.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\EditPerformanceMeasureTargetsViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
@@ -480,6 +483,7 @@
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\EditGeospatialAreaPerformanceMeasureTargetsController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
@@ -515,6 +519,7 @@
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cshtml" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\EditPerformanceMeasureTargets.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

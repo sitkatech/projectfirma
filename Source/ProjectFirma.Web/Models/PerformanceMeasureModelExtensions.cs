@@ -286,6 +286,21 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureReportingPeriods.Distinct().ToList();
         }
 
+        /// <summary>
+        /// This overload includes the PerformanceMeasureReportingPeriods tied to GeospatialArea Targets
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals());
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
         public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
         {
             if (!performanceMeasure.PerformanceMeasureTargets.Any())

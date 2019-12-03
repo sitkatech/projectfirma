@@ -157,10 +157,11 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
         }
 
-        public static readonly UrlTemplate<int> EditGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
-        public static string GetEditGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea)
+        public static readonly UrlTemplate<int> EditGeospatialAreaPerformanceMeasureTargetUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
+        public static string GetEditGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            return EditGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+            //return EditGeospatialAreaPerformanceMeasureTargetUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+            return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
         }
 
         public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea)

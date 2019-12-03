@@ -38,6 +38,7 @@ using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.GeospatialArea.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.GeospatialArea.IndexViewData;
 using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using System.Data.Entity;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -139,31 +140,49 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
-        public PartialViewResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
+        public ActionResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            throw new NotImplementedException("Edit has not been implemented");
+            //throw new NotImplementedException("Edit has not been implemented");
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var viewModel = new EditPerformanceMeasureTargetsViewModel(geospatialArea, performanceMeasure);
+            return ViewEdit(geospatialArea, performanceMeasure, viewModel);
         }
 
-        //[HttpPost]
-        //[GeospatialAreaManageFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult EditInDialog(GeospatialAreaTypePrimaryKey customPagePrimaryKey, EditGeospatialAreaTypeIntroTextViewModel viewModel)
-        //{
-        //    var customPage = customPagePrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewEditInDialog(viewModel);
-        //    }
-        //    viewModel.UpdateModel(customPage);
-        //    return new ModalDialogFormJsonResult();
-        //}
+        [HttpPost]
+        [GeospatialAreaPerformanceMeasureTargetManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, EditPerformanceMeasureTargetsViewModel viewModel)
+        {
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(geospatialArea, performanceMeasure, viewModel);
+            }
 
-        //private PartialViewResult ViewEditInDialog(EditGeospatialAreaTypeIntroTextViewModel viewModel)
-        //{
-        //    var ckEditorToolbar = CkEditorExtension.CkEditorToolbar.Minimal;
-        //    var viewData = new EditGeospatialAreaTypeIntroTextViewData(ckEditorToolbar);
-        //    return RazorPartialView<EditGeospatialAreaTypeIntroText, EditGeospatialAreaTypeIntroTextViewData, EditGeospatialAreaTypeIntroTextViewModel>(viewData, viewModel);
-        //}
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Load();
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
+            viewModel.UpdateModel(geospatialArea, performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Local);
+
+            SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private ActionResult ViewEdit(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
+        {
+            var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
+            var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(geospatialArea);
+            var defaultReportingPeriodYear = reportingPeriods.Any()
+                ? reportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
+                : DateTime.Now.Year;
+            var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
+                defaultReportingPeriodYear,
+                performanceMeasureTargetValueTypes);
+            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular);
+            return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>(viewData, viewModel);
+        }
+
 
     }
 }
