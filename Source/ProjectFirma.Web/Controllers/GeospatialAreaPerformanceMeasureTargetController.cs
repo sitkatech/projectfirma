@@ -104,20 +104,11 @@ namespace ProjectFirma.Web.Controllers
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
 
-            var canDelete = true; //!geospatialArea.HasDependentObjects();
-            foreach (var geoTarget in geospatialAreaPerformanceMeasureTargets)
-            {
-                if (geoTarget.HasDependentObjects())
-                {
-                    canDelete = false;
-                    break;
-                }
-            }
-            var confirmMessage = canDelete
-                ? $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{geospatialArea.GeospatialAreaName}", SitkaRoute<PerformanceMeasureController>.BuildLinkFromExpression(x => x.Detail(performanceMeasure.PerformanceMeasureID), "here"));
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            var confirmMessage =
+                $"Are you sure you want to delete all targets associated with this {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} '{geospatialArea.GeospatialAreaName}'?";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -132,7 +123,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewDelete(geospatialArea, performanceMeasure, viewModel);
             }
-            //geospatialArea.DeleteFull(HttpRequestStorage.DatabaseEntities);
+
             var geospatialAreaPerformanceMeasureTargets =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x =>
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
