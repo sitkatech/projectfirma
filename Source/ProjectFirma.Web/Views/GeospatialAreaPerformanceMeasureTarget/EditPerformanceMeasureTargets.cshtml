@@ -32,7 +32,7 @@ Source code is available upon request via <support@sitkatech.com>.
             AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
             };
     });
-    angular.bootstrap(jQuery("#EditGeospatialAreaPerformanceMeasureTargetsController"), ["ProjectFirmaApp"]);
+    angular.bootstrap(jQuery("#EditGeospatialAreaPerformanceMeasureTargetsApp"), ["ProjectFirmaApp"]);
     // ]]>
 </script>
 
@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @Html.ValidationSummary(false, string.Empty, new Dictionary<string, object>() { { "class", "sustainabilityDashboardError" }, { "style", "margin-bottom: 10px" } })
 
-<div ng-app="ProjectFirmaApp" id="EditPerformanceMeasureTargetsApp" ng-controller="EditGeospatialAreaPerformanceMeasureTargetsController" style="max-height: 600px">
+<div ng-app="ProjectFirmaApp" id="EditGeospatialAreaPerformanceMeasureTargetsApp" ng-controller="EditGeospatialAreaPerformanceMeasureTargetsController" style="max-height: 600px">
     <div>
         <span style="color: black; font-weight: bold">@ViewDataTyped.PerformanceMeasureFieldDefinition.GetFieldDefinitionLabel(): </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
         <hr />
