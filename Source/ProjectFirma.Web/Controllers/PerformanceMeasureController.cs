@@ -45,6 +45,7 @@ using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
 using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
+using MoreLinq;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -314,7 +315,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasureTargets = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasurePrimaryKey.PrimaryKeyValue);
-            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).ToList();
+            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);

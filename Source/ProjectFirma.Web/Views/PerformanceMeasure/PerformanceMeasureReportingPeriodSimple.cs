@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             TargetValue = null;
             TargetValueLabel = string.Empty;
             PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
-            PerformanceMeasureTargetID = -1;
+
         }
 
         public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget geospatialAreaPerformanceMeasureTarget)
