@@ -23,36 +23,45 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
 
     $scope.addGeospatialArea = function (geospatialAreaID, selectedGeospatialAreaTypeID) {
-        //debugger;
-        console.log('inside addGeospatialArea');
-        console.log('geospatialAreaID:' + geospatialAreaID);
-        console.log('selectedGeospatialAreaTypeID:' + selectedGeospatialAreaTypeID);
+        //console.log('inside addGeospatialArea');
+        //console.log('geospatialAreaID:' + geospatialAreaID);
+        //console.log('selectedGeospatialAreaTypeID:' + selectedGeospatialAreaTypeID);
         var geospatialAreaTypeIdInt = parseInt(selectedGeospatialAreaTypeID, 10);
         var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
 
+        if (!geospatialAreaID)
+        {
+            var firstItem = _.first($scope.GeospatialAreaDropdownOptions);
+            geospatialAreaID = firstItem.GeospatialAreaID;
+            //console.log('geospatialAreaID:' + geospatialAreaID);
+        }
         var geospatialAreaIdInt = parseInt(geospatialAreaID, 10);
+        //console.log('geospatialAreaIdInt:' + geospatialAreaIdInt);
         var alreadyAdded = _.find($scope.AngularModel.SelectedGeospatialAreas, { GeospatialAreaID: geospatialAreaIdInt });
-        //debugger;
+
         if (_.isObject(alreadyAdded)) {
-            console.log('alreadyAdded:' + JSON.stringify(alreadyAdded));
+            //console.log('alreadyAdded:' + JSON.stringify(alreadyAdded));
             return;
         }
 
-
         var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
         var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
-
         var newArea = { GeospatialAreaID: geospatialAreaIdInt, GeospatialAreaName: combinedName };
         $scope.AngularModel.SelectedGeospatialAreas.push(newArea);
-        //todo: for some reason the area dropdown will update with the removal of the newly selected item, but angular isn't updating so the default selected item doesn't get added. it keeps adding the previously selected area. 
-        //jQuery(".selectpicker").selectpicker("refresh");
-        //$scope.refreshSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
-        console.log('leaving addGeospatialArea');
     };
 
 
     $scope.getGeospatialAreaTypes = function () {
         return $scope.AngularViewData.GeospatialAreaTypeSimples;
+    };
+
+    $scope.isAddButtonDisabled = function () {
+        var returnValue = true;
+        if ($scope.GeospatialAreaDropdownOptions.length > 0) {
+            
+            returnValue = false;
+        }
+        return returnValue;
     };
 
     $scope.getSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
@@ -63,35 +72,30 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
                                                 function(geospatialArea) {
                                                     var object = _.find($scope.AngularModel.SelectedGeospatialAreas,
                                                         function (selectedGeospatialArea) {
-                                                            //console.log('geospatialSelected one' + JSON.stringify(selectedGeospatialArea));
-                                                            //console.log('geospatialArea.GeospatialAreaID:' + geospatialArea.GeospatialAreaID + ':VS:selectedGeospatialArea.GeospatialAreaID:');
                                                             return geospatialArea.GeospatialAreaID == selectedGeospatialArea.GeospatialAreaID;
                                                         });
                                                     return !_.isObject(object);
                                                 });
 
-        //var mappedGeospatialAreas = _.map(_.sortBy(filteredGeospatialAreas, 'GeospatialAreaName'), _.values);
-        //debugger;
-        return filteredGeospatialAreas.sort(function (a, b) {
-                                                                var nameA = a.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
-                                                                var nameB = b.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
-                                                                if (nameA < nameB) {
-                                                                    return -1;
-                                                                }
-                                                                if (nameA > nameB) {
-                                                                    return 1;
-                                                                }
+        $scope.GeospatialAreaDropdownOptions = filteredGeospatialAreas.sort(function (a, b) {
+                                                                                                var nameA = a.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
+                                                                                                var nameB = b.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
+                                                                                                if (nameA < nameB) {
+                                                                                                    return -1;
+                                                                                                }
+                                                                                                if (nameA > nameB) {
+                                                                                                    return 1;
+                                                                                                }
 
-                                                                // names must be equal
-                                                                return 0;
-                                                            });
+                                                                                                // names must be equal
+                                                                                                return 0;
+                                                                                            });
+        return $scope.GeospatialAreaDropdownOptions
 
         
     };
 
     $scope.refreshSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
-        //debugger;
-        //$scope.SelectableGeospatialAreas 
         jQuery(".selectpicker").selectpicker("refresh");
         return $scope.getSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
     }
@@ -110,10 +114,5 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
     $scope.SelectedGeospatialAreaID = "";
     $scope.AngularModel.SelectedGeospatialAreas = [];
-
-    //$scope.SelectedGeospatialAreaTypeID = $scope.AngularModel.GeospatialAreaTypeID;
-    //if ($scope.SelectedGeospatialAreaTypeID) {
-    //    $scope.refreshSelectableGeospatialAreas($scope.SelectedGeospatialAreaTypeID);
-    //}
 
 });
