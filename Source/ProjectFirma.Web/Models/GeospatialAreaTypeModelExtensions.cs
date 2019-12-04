@@ -18,7 +18,6 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString GetGeoJsonLinkHtmlString(this GeospatialAreaType geospatialAreaType)
         {
-
             var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl);
             mapServiceUri.Path = mapServiceUri.Path.Replace("/wms", "/ows");
 
@@ -28,6 +27,9 @@ namespace ProjectFirma.Web.Models
             queryString["request"] = "GetFeature";
             queryString["typeName"] = geospatialAreaType.GeospatialAreaLayerName;
             queryString["outputFormat"] = "application/json";
+            queryString["maxFeatures"] = "500";
+            queryString["sortBy"] = "PrimaryKey";
+            queryString["startIndex"] = "0";
             mapServiceUri.Query = queryString.ToString();
 
             return UrlTemplate.MakeHrefString(mapServiceUri.ToString(), mapServiceUri.ToString());

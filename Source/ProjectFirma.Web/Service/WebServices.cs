@@ -171,7 +171,7 @@ namespace ProjectFirma.Web.Service
                             WebServiceToken.WebServiceTokenForUnitTests
                             , sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
-                    , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
+                    , new List<string> {"Return Type", "Authorization Token", "Project Number"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
@@ -181,7 +181,7 @@ namespace ProjectFirma.Web.Service
                         c.GetProjects(WebServicesController.WebServiceReturnTypeEnum.CSV,
                             WebServiceToken.WebServiceTokenForUnitTests))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
-                    , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
+                    , new List<string> {"Return Type", "Authorization Token"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c => c.GetProjectsByOrganization(
