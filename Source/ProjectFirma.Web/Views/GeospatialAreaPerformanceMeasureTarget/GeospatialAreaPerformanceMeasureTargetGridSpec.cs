@@ -1,4 +1,5 @@
 ﻿using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -16,12 +17,12 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
             if (userHasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), true), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), $"Edit {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} Target for {performanceMeasure.GetDisplayName()}"), 30, DhtmlxGridColumnFilterType.None);
+                Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditGeospatialAreaPerformanceMeasureTargetUrl(performanceMeasure), $"Edit {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} Target for {x.GetDisplayName()}", 1000, true), 30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add("Geospatial Layer", x => x.GeospatialAreaType.GeospatialAreaTypeName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.GeospatialArea.ToType().ToGridHeaderString(), a =>  a.GetDisplayNameAsUrl(), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Target Value", a => a.GetTargetValueDisplayForGrid(performanceMeasure), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Geospatial Layer", x => x.GeospatialAreaType.GeospatialAreaTypeName, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.GeospatialArea.ToType().ToGridHeaderString(), a =>  a.GetDisplayNameAsUrl(), 400, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Target Value", a => a.GetTargetValueDisplayForGrid(performanceMeasure), 350, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
