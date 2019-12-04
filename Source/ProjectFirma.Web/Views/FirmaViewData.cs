@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
-            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession.Person))
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession))
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }
