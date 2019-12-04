@@ -37,23 +37,23 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
 
-        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, bool canEditProjectStatus)
+        public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            if (canEditProjectStatus)
-            {
-                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
-                    project.GetAddProjectProjectStatusFromGridUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
-            }
+            var isEditableToThisFirmaSession = project.IsEditableToThisFirmaSession(currentFirmaSession);
+
+            var returnString = new HtmlString("");
+            if (!isEditableToThisFirmaSession) return returnString;
+
+            editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
+                project.GetAddProjectProjectStatusFromGridUrl()
+                , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
 
             var currentProjectStatus = project.GetCurrentProjectStatus();
             var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
             var projectStatusDisplayName = currentProjectStatus != null ? currentProjectStatus.ProjectStatusDisplayName : "no status";
+            returnString = new HtmlString($"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
 
-            var returnString =
-                new HtmlString(
-                    $"<div style=\"border-left:10px solid {colorString}; padding-left:5px;\">{editIconAsModalDialogLinkBootstrap} {projectStatusDisplayName}</div>");
             return returnString;
         }
 
@@ -148,10 +148,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
-                            , x => MakeProjectStatusAddLinkAndText(x, userHasEditProjectAsAdminPermissions)
+                            , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession)
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
                         );

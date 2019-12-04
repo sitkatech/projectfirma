@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         /// <summary>
         /// The Unit Test GUID which can be used to make the web service token
         /// </summary>
-        public static readonly Guid WebServiceTokenGuidForUnitTests = new Guid("0677587B-2E44-42c2-8E2A-8CE3056B3FB3"); // corresponds to Ray Lee, PersonID = 3
+        public static readonly Guid WebServiceTokenGuidForUnitTests = new Guid("4B261809-3D67-4A6A-A807-06B0044E6665"); // corresponds to Stewart Gordon, PersonID = 5920
 
         static WebServiceToken()
         {
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Controllers
 
             if (IsValidAsUnitTestToken(_tokenGuid, isBeingCalledByStaticConstructor))
             {
-                _person = HttpRequestStorage.DatabaseEntities.People.GetPerson(3); // TODO: Ray Lee's ID; might want to make a system person?
+                _person = HttpRequestStorage.DatabaseEntities.People.GetPerson(5920); // TODO: Stewart Gordon's ID; might want to make a system person?
             }
             else
             {
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
 
         /// <summary>
         /// Returns the <see cref="ProjectFirmaModels.Models.Person.PersonID"/> associated with this <see cref="WebServiceToken"/>.
-        /// In unit test situation using <see cref="WebServiceTokenGuidForUnitTests"/> that would be Ray Lee's person ID for now
+        /// In unit test situation using <see cref="WebServiceTokenGuidForUnitTests"/> that would be Stewart Gordon's person ID for now
         /// Might want to introduce a system person at some point.
         /// </summary>
         public Person Person
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Controllers
 
         /// <summary>
         /// Throws an exception if the <see cref="Person"/> associated with this <see cref="WebServiceToken"/> does not have access to <see cref="FirmaBaseFeature" />
-        /// In a unit test using <see cref="WebServiceTokenGuidForUnitTests"/> this will always pass, and <see cref="Person"/> will return Ray Lee's person ID for now
+        /// In a unit test using <see cref="WebServiceTokenGuidForUnitTests"/> this will always pass, and <see cref="Person"/> will return Stewart Gordon's person ID for now
         /// Might want to introduce a system person at some point.
         /// </summary>
         /// <param name="feature"></param>

@@ -23,13 +23,23 @@ namespace ProjectFirmaModels.Models
 
         public override bool CanStewardProject(Person person, Project project)
         {
+            if (person == null)
+            {
+                // Can happen if we are evaluating an anonymous user
+                return false;
+            }
             var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
             return canStewardProjectsOrganizationForProject != null && GetPersonStewardOrganizations(person).Any(x => x.OrganizationID == canStewardProjectsOrganizationForProject.OrganizationID);
         }
 
         private List<PersonStewardOrganization> GetPersonStewardOrganizations(Person person)
         {
-            return person.PersonStewardOrganizations.OrderBy(x => x.Organization.GetDisplayName()).ToList();
+            List<PersonStewardOrganization> personStewartOrganizationsToReturn = new List<PersonStewardOrganization>();
+            if (person?.PersonStewardOrganizations != null)
+            {
+                personStewartOrganizationsToReturn.AddRange(person.PersonStewardOrganizations.OrderBy(x => x.Organization.GetDisplayName()).ToList());
+            }
+            return personStewartOrganizationsToReturn;
         }
     }
 

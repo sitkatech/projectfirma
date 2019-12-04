@@ -33,13 +33,16 @@ namespace ProjectFirma.Web.Views.WebServices
     {
         public readonly WebServiceToken WebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
+        public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
 
-        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
+        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken,
+            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList)
             : base(currentFirmaSession)
         {
             ServiceDocumentationList = serviceDocumentationList;
             WebServiceAccessToken = webServiceAccessToken;
             PageTitle = "List of Web Services";
+            GeospatialAreaTypeList = geospatialAreaTypeList;
         }
     }
 
@@ -93,7 +96,9 @@ namespace ProjectFirma.Web.Views.WebServices
 
             //TODO-MB: This should use a Route Template so that there's not one entry per ReturnType (this would also avert the repetition of _parameters assignment)
 
-            var csvRouteMap = Service.WebServices.WebServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.CSV);
+            var webServiceRouteMap = Service.WebServices.GetWebServiceRouteMap();
+
+            var csvRouteMap = webServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.CSV);
             if (csvRouteMap != null)
             {
                 _exampleCsvUrl = csvRouteMap.Route.BuildUrlFromExpression();
@@ -102,14 +107,13 @@ namespace ProjectFirma.Web.Views.WebServices
                     _parameters = csvRouteMap.Parameters;
                 }
             }
-
-            var jsonRouteMap = Service.WebServices.WebServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.JSON);
+            var jsonRouteMap = webServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.JSON);
             if (jsonRouteMap != null)
             {
                 _exampleJsonUrl = jsonRouteMap.Route.BuildUrlFromExpression();
                 if (_parameters == null)
                 {
-                    _parameters = csvRouteMap.Parameters;
+                    _parameters = jsonRouteMap.Parameters;
                 }
             }
         }

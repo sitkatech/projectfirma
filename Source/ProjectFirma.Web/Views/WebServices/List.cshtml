@@ -19,13 +19,40 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.Views
+@using ProjectFirma.Web.Models
 
 @inherits ProjectFirma.Web.Views.WebServices.List
 
 <p>
-    The objective of LT Info web services is to provide information about projects and other information within the Lake Tahoe region. These web services require a "token" which you need to request from the Web Services page. This token is associated with your user account, allowing us to proactively communicate with you and other consumers of our web services in the event we need to change or update our services. If you have a token, this page will display example CSV and JSON URLs using your token. Please note we also offer <a href="/WebServices.svc">SOAP Web Services</a> that return XML.
+    The objective of these web services is to provide information about projects and other information. These web services require a "token" which you need to request from the Web Services page. This token is associated with your user account, allowing us to proactively communicate with you and other consumers of our web services in the event we need to change or update our services. If you have a token, this page will display example CSV and JSON URLs using your token.
 </p>
 
+@if (ViewDataTyped.GeospatialAreaTypeList.Any())
+{
+    <h3>Geospatial Areas</h3>
+    <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Short Description / Simple Use Case / URL</th>
+        </tr>
+        @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypeList)
+        {
+            <tr>
+                <td class="term">@geospatialAreaType.GeospatialAreaTypeName</td>
+                <td>
+                    @geospatialAreaType.GeospatialAreaTypeDefinitionHtmlString
+                    <div style="margin-top: 5px; font-size: 11px">
+                        GeoJson:
+                        @geospatialAreaType.GetGeoJsonLinkHtmlString()
+                    </div>
+                
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<h3>Web Service Urls</h3>
 <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
     <tr>
         <th>Name</th>

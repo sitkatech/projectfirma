@@ -31,14 +31,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </script>    
 }
 
-<p>Web Services are functions that can be accessed over the web (using the http protocol), typically consumed by software or programs rather than humans. The services we provide here allow programmatic access to LT Info data such as list of Projects, details for a given Project, or the list of PerformanceMeasures. The intent of these web services is to facilitate coordination and information sharing between agencies, interested parties, and the public within and outside of the Lake Tahoe basin.</p>
+<p>Web Services are functions that can be accessed over the web (using the http protocol), typically consumed by software or programs rather than humans. The services we provide here allow programmatic access to data such as list of Projects, details for a given Project, or the list of PerformanceMeasures. The intent of these web services is to facilitate coordination and information sharing between agencies, interested parties, and the public.</p>
 
 <ul style="list-style: none; @(ViewDataTyped.WebServiceAccessToken.HasValue ? String.Empty : "display:none")" id="haveWebServiceAccessTokenPanel">
     <li>
         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.GetWebServiceAccessTokenUrl, "Web Service Access Token", "Close", "View Access Token", new List<string>(), null)
     </li>
     <li><a href="@ViewDataTyped.WebServicesListUrl">List of Web Services</a></li>
-    <li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>
+    @*<li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>*@
 </ul>
 
 <ul style="list-style: none; @(ViewDataTyped.WebServiceAccessToken.HasValue ? "display:none" : String.Empty)" id="notHaveWebServiceAccessTokenPanel">
@@ -46,5 +46,5 @@ Source code is available upon request via <support@sitkatech.com>.
         @BootstrapHtmlHelpers.MakeModalDialogAlertLinkFromUrl(ViewDataTyped.GetWebServiceAccessTokenUrl, "Web Service Access Token", "Close", "Get Access Token", new List<string>(), "enableWebServicesListLink")
     </li>
     <li id="webServicesListLink"><span class="disabled">List of Web Services<span class="alert"> (disabled; you must first request an Access Token)</span></span></li>
-    <li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>
+    @*<li><a href="/WebServices.svc?WSDL">Web Service WSDL</a></li>*@
 </ul>
