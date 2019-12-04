@@ -20,25 +20,18 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
-using LtInfo.Common.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.GeospatialArea;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Detail = ProjectFirma.Web.Views.GeospatialArea.Detail;
-using DetailViewData = ProjectFirma.Web.Views.GeospatialArea.DetailViewData;
-using Index = ProjectFirma.Web.Views.GeospatialArea.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.GeospatialArea.IndexGridSpec;
-using IndexViewData = ProjectFirma.Web.Views.GeospatialArea.IndexViewData;
-using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
-using System.Data.Entity;
 
 namespace ProjectFirma.Web.Controllers
 {

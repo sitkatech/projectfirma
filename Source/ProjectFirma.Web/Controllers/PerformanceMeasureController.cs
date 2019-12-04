@@ -46,6 +46,11 @@ using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
 using MoreLinq;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using EditPerformanceMeasureTargets = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargets;
+using EditPerformanceMeasureTargetsViewData = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewData;
+using EditPerformanceMeasureTargetsViewDataForAngular = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewDataForAngular;
+using EditPerformanceMeasureTargetsViewModel = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {

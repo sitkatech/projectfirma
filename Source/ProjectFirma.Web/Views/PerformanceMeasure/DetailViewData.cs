@@ -29,6 +29,7 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using LtInfo.Common.BootstrapWrappers;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {

@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+﻿using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasure
+namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 {
     public class GeospatialAreaPerformanceMeasureTargetGridSpec : GridSpec<ProjectFirmaModels.Models.GeospatialArea>
     {

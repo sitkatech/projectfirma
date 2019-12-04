@@ -18,7 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.PerformanceMeasure
+
+using ProjectFirma.Web.Views.PerformanceMeasure;
+
+namespace ProjectFirma.Web.Views.Shared
 {
     public abstract class EditPerformanceMeasureTargets : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>
     {

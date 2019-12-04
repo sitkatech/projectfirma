@@ -24,7 +24,7 @@ using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasure
+namespace ProjectFirma.Web.Views.Shared
 {
     public class EditPerformanceMeasureTargetsViewData
     {        
