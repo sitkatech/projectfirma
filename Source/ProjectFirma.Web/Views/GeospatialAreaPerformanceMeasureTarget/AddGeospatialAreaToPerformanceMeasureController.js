@@ -24,7 +24,9 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
 
     $scope.addGeospatialArea = function (geospatialAreaID, selectedGeospatialAreaTypeID) {
         //debugger;
-        
+        console.log('inside addGeospatialArea');
+        console.log('geospatialAreaID:' + geospatialAreaID);
+        console.log('selectedGeospatialAreaTypeID:' + selectedGeospatialAreaTypeID);
         var geospatialAreaTypeIdInt = parseInt(selectedGeospatialAreaTypeID, 10);
         var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
 
@@ -32,6 +34,7 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         var alreadyAdded = _.find($scope.AngularModel.SelectedGeospatialAreas, { GeospatialAreaID: geospatialAreaIdInt });
         //debugger;
         if (_.isObject(alreadyAdded)) {
+            console.log('alreadyAdded:' + JSON.stringify(alreadyAdded));
             return;
         }
 
@@ -44,6 +47,7 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
         //todo: for some reason the area dropdown will update with the removal of the newly selected item, but angular isn't updating so the default selected item doesn't get added. it keeps adding the previously selected area. 
         //jQuery(".selectpicker").selectpicker("refresh");
         //$scope.refreshSelectableGeospatialAreas(selectedGeospatialAreaTypeID);
+        console.log('leaving addGeospatialArea');
     };
 
 
