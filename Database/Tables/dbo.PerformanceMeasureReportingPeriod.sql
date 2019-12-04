@@ -15,6 +15,11 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriod](
 (
 	[PerformanceMeasureReportingPeriodID] ASC,
 	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_PerformanceMeasureReportingPeriod_TenantID_PerformanceMeasureReportingPeriodCalendarYear] UNIQUE NONCLUSTERED 
+(
+	[TenantID] ASC,
+	[PerformanceMeasureReportingPeriodCalendarYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
