@@ -47,10 +47,12 @@ namespace ProjectFirmaModels.Models
         {
             GeospatialAreaID = geospatialArea.GeospatialAreaID;
             GeospatialAreaName = geospatialArea.GeospatialAreaName;
+            GeospatialAreaTypeID = geospatialArea.GeospatialAreaTypeID;
         }
 
         public int GeospatialAreaID { get; set; }
         public string GeospatialAreaName { get; set; }
+        public int GeospatialAreaTypeID { get; set; }
         public string DisplayName
         {
             get { return GeospatialAreaName; }

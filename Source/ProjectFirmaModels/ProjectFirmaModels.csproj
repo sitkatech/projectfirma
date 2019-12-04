@@ -175,6 +175,10 @@
     <Compile Include="Models\Generated\GeospatialAreaImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureTarget.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureTarget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureTargetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaType.DatabaseContextExtensions.cs" />
@@ -276,6 +280,10 @@
     <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOptionConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureSubcategoryOptionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureSubcategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTarget.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTarget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTargetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureTargetValueType.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureTargetValueTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureType.Binding.cs" />
@@ -639,6 +647,7 @@
     <Compile Include="Models\FileResourceOrientation.cs" />
     <Compile Include="Models\FirmaPage.cs" />
     <Compile Include="Models\FundingSource.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
     <Compile Include="Models\IProjectContact.cs" />
@@ -648,6 +657,7 @@
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
+    <Compile Include="Models\PerformanceMeasureTarget.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />

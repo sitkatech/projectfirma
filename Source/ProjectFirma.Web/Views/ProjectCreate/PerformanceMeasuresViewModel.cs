@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
                 {
-                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureID == x.PerformanceMeasureID && pmrp.PerformanceMeasureReportingPeriodCalendarYear == x.CalendarYear);
+                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureReportingPeriodCalendarYear == x.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {
                         Check.EnsureNotNull(x.PerformanceMeasureID, "We need to have a performance measure.");
