@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         {
         }
 
-        [AnonymousUnclassifiedFeature]
+        [LoggedInUnclassifiedFeature]
         public ViewResult Index()
         {
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
