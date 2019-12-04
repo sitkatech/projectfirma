@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Shared
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
-            PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
+            PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, 

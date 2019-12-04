@@ -314,6 +314,21 @@ namespace ProjectFirma.Web.Models
             }
             return PerformanceMeasureTargetValueType.TargetPerYear;
         }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            if (!performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            {
+                return PerformanceMeasureTargetValueType.NoTarget;
+            }
+
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                return PerformanceMeasureTargetValueType.OverallTarget;
+            }
+            return PerformanceMeasureTargetValueType.TargetPerYear;
+        }
+
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
             bool hasTargets = performanceMeasure.PerformanceMeasureTargets.Any();

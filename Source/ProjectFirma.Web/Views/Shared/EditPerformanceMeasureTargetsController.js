@@ -116,8 +116,9 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.PerYearTargetID;
     }
 
-    $scope.targetValueTypeChanged = function()
+    $scope.targetValueTypeChanged = function ()
     {
+        //debugger;
         if ($scope.isPerformanceMeasureTargetValueTypeNoTarget())
         {
             $scope.ShowPerReportingPeriodSection = false;
