@@ -314,7 +314,8 @@ namespace ProjectFirma.Web.Controllers
         [PerformanceMeasureViewFeature]
         public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            var performanceMeasureTargets = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasurePrimaryKey.PrimaryKeyValue);
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets;
             var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
