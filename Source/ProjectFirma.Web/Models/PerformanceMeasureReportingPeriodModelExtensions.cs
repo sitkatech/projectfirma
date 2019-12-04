@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Models
     {
         public static PerformanceMeasureReportingPeriod GetOrCreatePerformanceMeasureReportingPeriod(this IQueryable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods, int calendarYear)
         {
-            var performanceMeasureReportingPeriod = performanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
+            var performanceMeasureReportingPeriod = performanceMeasureReportingPeriods.FirstOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);//todo: change to SingleOrDefault once bad data is removed
 
             return performanceMeasureReportingPeriod ?? new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
         }

@@ -69,7 +69,8 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
             {
                 var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
                 List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
-                List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget> geospatialAreaPerformanceMeasureTargets = new List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget>();
+                //we need to start the updated list with the Targets not tied to the current GeospatialArea, so we don't accidentally delete them in the merge below
+                List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget> updatedGeospatialAreaPerformanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID != geospatialArea.GeospatialAreaID).ToList();
 
                 // if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
                 var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
@@ -134,13 +135,13 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                                 $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
                     }
 
-                    geospatialAreaPerformanceMeasureTargets.Add(performanceMeasureTarget);
+                    updatedGeospatialAreaPerformanceMeasureTargets.Add(performanceMeasureTarget);
                     
                 }
 
                 // Merge just PerformanceMeasureTarget
                 performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Merge(
-                    geospatialAreaPerformanceMeasureTargets,
+                    updatedGeospatialAreaPerformanceMeasureTargets,
                     allGeospatialAreaPerformanceMeasureTargets,
                     (x,y) => x.GeospatialAreaPerformanceMeasureTargetID == y.GeospatialAreaPerformanceMeasureTargetID,
                     (x, y) =>
