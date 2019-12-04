@@ -810,10 +810,10 @@ namespace ProjectFirma.Web.Models
             return noFundingSourceAmount;
         }
 
-        public static Dictionary<OrganizationType, List<decimal>> GetFundingForAllProjectsByOwnerOrgType(Person currentPerson)
+        public static Dictionary<OrganizationType, List<decimal>> GetFundingForAllProjectsByOwnerOrgType(FirmaSession currentFirmaSession)
         {
             var ownerOrgRelationshipType =
-                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact && x.TenantID == currentPerson.TenantID);
+                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.SingleOrDefault(x => x.IsPrimaryContact && x.TenantID == currentFirmaSession.TenantID);
             var projectOwnerOrganizationsOld =
                 HttpRequestStorage.DatabaseEntities.ProjectOrganizations
                     .Where(x => x.OrganizationRelationshipTypeID ==
