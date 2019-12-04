@@ -271,9 +271,67 @@ namespace ProjectFirma.Web.Models
             return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
         }
 
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// This overload includes the PerformanceMeasureReportingPeriods tied to GeospatialArea Targets
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals());
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
+        {
+            if (!performanceMeasure.PerformanceMeasureTargets.Any())
+            {
+                return PerformanceMeasureTargetValueType.NoTarget;
+            }
+
+            if (performanceMeasure.PerformanceMeasureTargets.Select(x => $"{x.PerformanceMeasureTargetValue}{x.PerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                return PerformanceMeasureTargetValueType.OverallTarget;
+            }
+            return PerformanceMeasureTargetValueType.TargetPerYear;
+        }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            if (!performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            {
+                return PerformanceMeasureTargetValueType.NoTarget;
+            }
+
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                return PerformanceMeasureTargetValueType.OverallTarget;
+            }
+            return PerformanceMeasureTargetValueType.TargetPerYear;
+        }
+
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+            bool hasTargets = performanceMeasure.PerformanceMeasureTargets.Any();
 
             return hasTargets;
         }

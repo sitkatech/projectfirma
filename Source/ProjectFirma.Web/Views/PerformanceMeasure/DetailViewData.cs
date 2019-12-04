@@ -21,12 +21,15 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Linq.Expressions;
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using LtInfo.Common.BootstrapWrappers;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
 
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
@@ -64,6 +67,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
         public string EditPerformanceMeasureTargetUrl { get; set; }
+        public GeospatialAreaPerformanceMeasureTargetGridSpec GeospatialAreaPerformanceMeasureTargetGridSpec { get; }
+        public string GeospatialAreaPerformanceMeasureTargetGridName { get; }
+        public string GeospatialAreaPerformanceMeasureTargetGridDataUrl { get;  }
+        public string AddGeospatialAreaPerformanceMeasureTargetDialogTitle { get; }
+        public string AddGeospatialAreaPerformanceMeasureTargetText { get; }
+        public string AddGeospatialAreaPerformanceMeasureTargetUrl { get; }
 
         public DetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
@@ -112,6 +121,20 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
             PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
+
+            GeospatialAreaPerformanceMeasureTargetGridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(currentFirmaSession, performanceMeasure)
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target for {performanceMeasure.GetDisplayName()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Targets for {performanceMeasure.GetDisplayName()}",
+                SaveFiltersInCookie = true
+            };
+
+            GeospatialAreaPerformanceMeasureTargetGridName = "geospatialAreaPerformanceMeasuresTargetsGrid";
+            GeospatialAreaPerformanceMeasureTargetGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.GeospatialAreaPerformanceMeasureTargetsGridJsonData(performanceMeasure));
+            AddGeospatialAreaPerformanceMeasureTargetDialogTitle = $"Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()} to {performanceMeasure.GetDisplayName()}";
+            AddGeospatialAreaPerformanceMeasureTargetText = $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()}";
+            AddGeospatialAreaPerformanceMeasureTargetUrl = SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(x => x.AddGeospatialAreaToPerformanceMeasure(performanceMeasure));
+
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
 

@@ -32,6 +32,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -44,6 +45,12 @@ using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
 using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 using Index = ProjectFirma.Web.Views.PerformanceMeasure.Index;
 using IndexViewData = ProjectFirma.Web.Views.PerformanceMeasure.IndexViewData;
+using MoreLinq;
+using ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget;
+using EditPerformanceMeasureTargets = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargets;
+using EditPerformanceMeasureTargetsViewData = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewData;
+using EditPerformanceMeasureTargetsViewDataForAngular = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewDataForAngular;
+using EditPerformanceMeasureTargetsViewModel = ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargetsViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -306,6 +313,18 @@ namespace ProjectFirma.Web.Controllers
         {
             var performanceMeasureExpecteds = GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasureExpected>(performanceMeasureExpecteds, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [PerformanceMeasureViewFeature]
+        public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        {
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets;
+            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
+
+            var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -586,12 +605,10 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEditPerformanceMeasureReportedValues(performanceMeasure, viewModel);
             }
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
+
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            viewModel.UpdateModel(performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local,
-                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local,
-                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local);
+            viewModel.UpdateModel(performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureTargets.Local);
             
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();
@@ -600,8 +617,9 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
         {
             var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
-            var defaultReportingPeriodYear = performanceMeasure.PerformanceMeasureReportingPeriods.Any()
-                ? performanceMeasure.PerformanceMeasureReportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
+            var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
+            var defaultReportingPeriodYear = reportingPeriods.Any()
+                ? reportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
                 : DateTime.Now.Year;
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
                 defaultReportingPeriodYear,

@@ -59,6 +59,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -102,7 +103,9 @@
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaTypeSimple.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
+    <Compile Include="Models\PerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
     <Compile Include="Models\FirmaSessionModelExtensions.cs" />
     <Compile Include="Models\PersonSimple.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
@@ -205,9 +210,12 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewData.cs" />
-    <Compile Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsViewModel.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
@@ -296,6 +304,7 @@
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Results\FundingStatus.cs" />
     <Compile Include="Views\Results\FundingStatusViewData.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
@@ -472,10 +481,11 @@
     </Content>
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
-    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargetsController.js" />
+    <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
@@ -505,7 +515,8 @@
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
-    <Content Include="Views\PerformanceMeasure\EditPerformanceMeasureTargets.cshtml" />
+    <Content Include="Views\Shared\EditPerformanceMeasureTargets.cshtml" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

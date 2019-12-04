@@ -131,4 +131,5 @@ VALUES
 (306, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>'),
 (307, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By', N'<p>The person attributed to creating this update status.</p>'),
 (308, N'ProjectStatusUpdateDate', N'Project Status Update Date', N'<p>The date that will be displayed for this status update.</p>'),
-(309, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>')
+(309, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>'),
+(310, N'GeospatialArea', 'Geospatial Area', 'The term "geospatial data" refers to data or information that identifies the geographic location of features and boundaries on Earth. In simple terms, it is data that can be mapped.')

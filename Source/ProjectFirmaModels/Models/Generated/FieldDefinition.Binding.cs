@@ -256,6 +256,7 @@ namespace ProjectFirmaModels.Models
         ProjectStatusLegend = 306,
         ProjectStatusUpdateCreatedBy = 307,
         ProjectStatusUpdateDate = 308,
-        ProjectStatusComments = 309
+        ProjectStatusComments = 309,
+        GeospatialArea = 310
     }
 }
