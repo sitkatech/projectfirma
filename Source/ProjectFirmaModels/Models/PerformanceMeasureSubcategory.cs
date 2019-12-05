@@ -32,4 +32,11 @@ namespace ProjectFirmaModels.Models
         public bool ShowOnChart() => !String.IsNullOrWhiteSpace(ChartConfigurationJson);
         public bool ShowOnCumulativeChart() => !String.IsNullOrWhiteSpace(CumulativeChartConfigurationJson);
     }
+
+    public enum PerformanceMeasureSubcategoryChartConfiguration
+    {
+        ChartConfiguration = 1,
+        CumulativeConfiguration = 2,
+        GeospatialAreaConfiguration = 3
+    }
 }

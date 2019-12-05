@@ -35,23 +35,26 @@ namespace ProjectFirma.Web.Views.Shared
         [JsonProperty(PropertyName = "chartType")]
         public string ChartType { get; set; }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID, bool isCumulative)
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int performanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration chartConfiguration)
         {            
             //Remove certain properties that we don't want saved to the DB
             var chartConfigurationString = CleanAndSerializeChartJsonString(ChartConfigurationJson);
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             var googleChartType = ConvertChartTypeStringToGoogleChartType();
-            if (isCumulative)
+
+            switch (chartConfiguration)
             {
-                performanceMeasureSubcategory.CumulativeGoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                performanceMeasureSubcategory.CumulativeChartConfigurationJson = chartConfigurationString;
+                case PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration:
+                    performanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
+                    break;
+                case PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration:
+                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    performanceMeasureSubcategory.CumulativeChartConfigurationJson = chartConfigurationString;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid PerformanceMeasureSubcategoryChartConfiguration: '{chartConfiguration}'");
             }
-            else
-            {
-                performanceMeasureSubcategory.GoogleChartTypeID = googleChartType != null ? googleChartType.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationString;
-            }
-            
         }
 
         public string CleanAndSerializeChartJsonString(string json)
