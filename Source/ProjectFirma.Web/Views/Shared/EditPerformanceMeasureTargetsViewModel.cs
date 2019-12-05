@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Shared
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
-            PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
+            PerformanceMeasureTargetValueTypeID = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, 
@@ -255,7 +255,7 @@ namespace ProjectFirma.Web.Views.Shared
 
                 }
 
-                // Merge just PerformanceMeasureTarget
+                // Merge just GeospatialAreaPerformanceMeasureTarget
                 performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Merge(
                     updatedGeospatialAreaPerformanceMeasureTargets,
                     allGeospatialAreaPerformanceMeasureTargets,
@@ -269,22 +269,22 @@ namespace ProjectFirma.Web.Views.Shared
 
 
                 // Google Chart Configuration
-                //if (performanceMeasure.PerformanceMeasureTargets.Any())
-                //{
-                //    foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
-                //    {
-                //        var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
-                //        tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
-                //        pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
-                //        pfSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                //        if (performanceMeasure.CanBeChartedCumulatively)
-                //        {
-                //            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-                //            pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                //            pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                //        }
-                //    }
-                //}
+                if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Any())
+                {
+                    foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                    {
+                        var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                        tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+                        pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+                        pfSubcategory.GoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                        if (performanceMeasure.CanBeChartedCumulatively)
+                        {
+                            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+                            pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                            pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                        }
+                    }
+                }
             }
         }
 

@@ -45,17 +45,18 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
-            int height,
-            FirmaSession currentFirmaSession,
-            bool showLastUpdatedDate,
-            bool fromPerformanceMeasureDetailPage,
-            List<ProjectFirmaModels.Models.Project> projects,
-            string chartUniqueName)
+                                               int height,
+                                               FirmaSession currentFirmaSession,
+                                               bool showLastUpdatedDate,
+                                               bool fromPerformanceMeasureDetailPage,
+                                               List<ProjectFirmaModels.Models.Project> projects,
+                                               string chartUniqueName,
+                                               ProjectFirmaModels.Models.GeospatialArea geospatialArea)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects, chartUniqueName);
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(geospatialArea, projects, chartUniqueName);
 
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
@@ -86,9 +87,23 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             showLastUpdatedDate,
             false, 
             projects,
-            performanceMeasure.GetJavascriptSafeChartUniqueName())
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            null)
         {
         }
+
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
+            performanceMeasure,
+            DefaultHeight,
+            currentFirmaSession,
+            showLastUpdatedDate,
+            false,
+            projects,
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            geospatialArea)
+        {
+        }
+
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
@@ -99,7 +114,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             showLastUpdatedDate,
             false,
             projects,
-            chartUniqueName)
+            chartUniqueName,
+            null)
         {
         }
 
@@ -110,8 +126,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             showLastUpdatedDate,
             showConfigureOption, 
             projects,
-            performanceMeasure.GetJavascriptSafeChartUniqueName())
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            null)
         {
         }
+
+
     }
 }
