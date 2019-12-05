@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, int? googleChartTypeID, string cumulativeChartConfigurationJson, int? cumulativeGoogleChartTypeID) : this()
+        public PerformanceMeasureSubcategory(int performanceMeasureSubcategoryID, int performanceMeasureID, string performanceMeasureSubcategoryDisplayName, string chartConfigurationJson, int? googleChartTypeID, string cumulativeChartConfigurationJson, int? cumulativeGoogleChartTypeID, string geospatialAreaTargetChartConfigurationJson, int? geospatialAreaTargetGoogleChartTypeID) : this()
         {
             this.PerformanceMeasureSubcategoryID = performanceMeasureSubcategoryID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -43,6 +43,8 @@ namespace ProjectFirmaModels.Models
             this.GoogleChartTypeID = googleChartTypeID;
             this.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
             this.CumulativeGoogleChartTypeID = cumulativeGoogleChartTypeID;
+            this.GeospatialAreaTargetChartConfigurationJson = geospatialAreaTargetChartConfigurationJson;
+            this.GeospatialAreaTargetGoogleChartTypeID = geospatialAreaTargetGoogleChartTypeID;
         }
 
         /// <summary>
@@ -150,6 +152,8 @@ namespace ProjectFirmaModels.Models
         public int? GoogleChartTypeID { get; set; }
         public string CumulativeChartConfigurationJson { get; set; }
         public int? CumulativeGoogleChartTypeID { get; set; }
+        public string GeospatialAreaTargetChartConfigurationJson { get; set; }
+        public int? GeospatialAreaTargetGoogleChartTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureSubcategoryID; } set { PerformanceMeasureSubcategoryID = value; } }
 
@@ -161,6 +165,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public GoogleChartType CumulativeGoogleChartType { get { return CumulativeGoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[CumulativeGoogleChartTypeID.Value] : null; } }
+        public GoogleChartType GeospatialAreaTargetGoogleChartType { get { return GeospatialAreaTargetGoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[GeospatialAreaTargetGoogleChartTypeID.Value] : null; } }
         public GoogleChartType GoogleChartType { get { return GoogleChartTypeID.HasValue ? GoogleChartType.AllLookupDictionary[GoogleChartTypeID.Value] : null; } }
 
         public static class FieldLengths

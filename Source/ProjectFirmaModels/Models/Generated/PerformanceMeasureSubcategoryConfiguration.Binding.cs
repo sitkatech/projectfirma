@@ -23,6 +23,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GoogleChartTypeID).HasColumnName(@"GoogleChartTypeID").HasColumnType("int").IsOptional();
             Property(x => x.CumulativeChartConfigurationJson).HasColumnName(@"CumulativeChartConfigurationJson").HasColumnType("varchar").IsOptional();
             Property(x => x.CumulativeGoogleChartTypeID).HasColumnName(@"CumulativeGoogleChartTypeID").HasColumnType("int").IsOptional();
+            Property(x => x.GeospatialAreaTargetChartConfigurationJson).HasColumnName(@"GeospatialAreaTargetChartConfigurationJson").HasColumnType("varchar").IsOptional();
+            Property(x => x.GeospatialAreaTargetGoogleChartTypeID).HasColumnName(@"GeospatialAreaTargetGoogleChartTypeID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.PerformanceMeasure).WithMany(b => b.PerformanceMeasureSubcategories).HasForeignKey(c => c.PerformanceMeasureID).WillCascadeOnDelete(false); // FK_PerformanceMeasureSubcategory_PerformanceMeasure_PerformanceMeasureID

@@ -1,0 +1,6 @@
+alter table dbo.PerformanceMeasureSubcategory
+add GeospatialAreaTargetChartConfigurationJson varchar(max) null,
+GeospatialAreaTargetGoogleChartTypeID int null constraint FK_PerformanceMeasureSubcategory_GoogleChartType_GeospatialAreaTargetGoogleChartTypeID_GoogleChartTypeID foreign key references dbo.GoogleChartType(GoogleChartTypeID)
+
+go
+
