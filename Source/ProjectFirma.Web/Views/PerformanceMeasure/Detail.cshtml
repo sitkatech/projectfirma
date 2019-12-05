@@ -153,10 +153,13 @@
                         <p>The following areas have or should have projects that contribute results for this metric. If an area has a target value it is displayed below.</p>
                     </div>
                     <div class="col-xs-4">
-                        <div style="float:right">
-                            @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
-                                ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
-                                new List<string> {"btn", "btn-firma"}, null, null)
+                        <div style="float: right">
+                            @if (ViewDataTyped.CanAddGeospatialArea)
+                            {
+                                @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
+                                    ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
+                                    new List<string> {"btn", "btn-firma"}, null, null)
+                            }
                         </div>
                     </div>
                     <div class="col-xs-12">

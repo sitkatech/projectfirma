@@ -58,6 +58,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string PerformanceMeasureExpectedsGridName { get; }
         public string PerformanceMeasureExpectedsGridDataUrl { get; }
 
+        public bool CanAddGeospatialArea { get; }
+
         public string TaxonomyTierDisplayNamePluralized { get; }
 
         public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
@@ -102,6 +104,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
 
+            CanAddGeospatialArea = new GeospatialAreaPerformanceMeasureTargetManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.ReportedValue.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
@@ -134,7 +138,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             AddGeospatialAreaPerformanceMeasureTargetDialogTitle = $"Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()} to {performanceMeasure.GetDisplayName()}";
             AddGeospatialAreaPerformanceMeasureTargetText = $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Add {FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()}";
             AddGeospatialAreaPerformanceMeasureTargetUrl = SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(x => x.AddGeospatialAreaToPerformanceMeasure(performanceMeasure));
-
 
             EditPerformanceMeasureTargetUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(pmc => pmc.EditPerformanceMeasureReportedValues(performanceMeasure));
 
