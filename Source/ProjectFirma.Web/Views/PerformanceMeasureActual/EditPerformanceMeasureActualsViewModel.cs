@@ -47,9 +47,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         {
         }
 
-        public EditPerformanceMeasureActualsViewModel(List<PerformanceMeasureActualSimple> performanceMeasureActuals) : this(performanceMeasureActuals, null, null)
-        {
-        }
 
         public EditPerformanceMeasureActualsViewModel(List<PerformanceMeasureActualSimple> performanceMeasureActuals,
             string explanation,
@@ -63,9 +60,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
-            ProjectFirmaModels.Models.Project project)
+
+            ProjectFirmaModels.Models.Project project,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
-            UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions);
+
+            UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods);
             var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
@@ -82,7 +82,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 
         private void UpdateModelImpl(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions)
+
+            IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
             // Remove all existing associations
             currentPerformanceMeasureActuals.ForEach(pmav =>
@@ -98,12 +100,14 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 // Completely rebuild the list
                 foreach (var performanceMeasureActualSimple in PerformanceMeasureActuals)
                 {
-                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureID == performanceMeasureActualSimple.PerformanceMeasureID && pmrp.PerformanceMeasureReportingPeriodCalendarYear == performanceMeasureActualSimple.CalendarYear);
+
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == performanceMeasureActualSimple.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {
                         Check.EnsureNotNull(performanceMeasureActualSimple.PerformanceMeasureID, "We need to have a performance measure.");
                         performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)performanceMeasureActualSimple.PerformanceMeasureID, performanceMeasureActualSimple.CalendarYear, performanceMeasureActualSimple.CalendarYear.ToString());
                         performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                        HttpRequestStorage.DatabaseEntities.SaveChanges();
                     }
                     var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(performanceMeasureActualSimple.ProjectID.Value, performanceMeasureActualSimple.PerformanceMeasureID.Value, performanceMeasureActualSimple.ActualValue.Value, performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
