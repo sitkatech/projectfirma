@@ -27,17 +27,26 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Shared
 {
     public class EditPerformanceMeasureTargetsViewData
-    {        
+    {
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public EditPerformanceMeasureTargetsViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition PerformanceMeasureFieldDefinition { get; }
+        public bool ShowGeoSpatialAreaInstructions { get;}
 
-        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular)
+        public enum PerformanceMeasureTargetType
+        {
+            TargetByYear,
+            TargetByGeospatialArea
+        }
+
+        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+                                                     EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular,
+                                                     PerformanceMeasureTargetType performanceMeasureTargetType)
         {
             PerformanceMeasure = performanceMeasure;
             ViewDataForAngular = viewDataForAngular;
             PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
-            
+            ShowGeoSpatialAreaInstructions = performanceMeasureTargetType == PerformanceMeasureTargetType.TargetByGeospatialArea;
         }
     }
 

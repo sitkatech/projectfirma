@@ -73,6 +73,14 @@ Source code is available upon request via <support@sitkatech.com>.
 @Html.ValidationSummary(false, string.Empty, new Dictionary<string, object>() { { "class", "sustainabilityDashboardError" }, { "style", "margin-bottom: 10px" } })
 
 <div ng-app="ProjectFirmaApp" id="EditPerformanceMeasureTargetsApp" ng-controller="EditPerformanceMeasureTargetsController" style="max-height: 600px">
+    @if (ViewDataTyped.ShowGeoSpatialAreaInstructions)
+    {
+        <div>
+            This editor allows you to set a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() target specific to this @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel(). To set an overall target for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), do so through the Accomplishments chart on the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page.
+        </div>
+        <div>&nbsp;</div>
+    }
+
     <div>
         <span style="color: black; font-weight: bold">@ViewDataTyped.PerformanceMeasureFieldDefinition.GetFieldDefinitionLabel(): </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
         <hr />
