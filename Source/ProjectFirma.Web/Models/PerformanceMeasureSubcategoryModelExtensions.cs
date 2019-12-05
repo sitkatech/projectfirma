@@ -43,18 +43,29 @@ namespace ProjectFirma.Web.Models
                     var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                     var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                         x.SaveChartConfiguration(performanceMeasure,
-                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
+                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration));
                     var resetConfigurationUrl =
                         SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
-                            x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
-                    var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                            x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration));
+                    GoogleChartConfiguration chartConfiguration;
+                    GoogleChartType chartType;
+                    if (hasGeospatialAreaTargets)
+                    {
+                        chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.GeospatialAreaTargetChartConfigurationJson);
+                        chartType = performanceMeasureSubcategory.GeospatialAreaTargetGoogleChartType;
+                    }
+                    else
+                    {
+                        chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                        chartType = performanceMeasureSubcategory.GoogleChartType;
+                    }
                     if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
                     {
                         chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                     }
                     
                     var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration,
-                        performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
+                        chartType, googleChartDataTable,
                         chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                     googleChartJsons.Add(googleChartJson);
                 }
@@ -72,8 +83,8 @@ namespace ProjectFirma.Web.Models
                         var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, hasGeospatialAreaTargets, geospatialArea, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, true);
                         var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                         var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}Cumulative";
-                        var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
-                        var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                        var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
+                        var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
                         var chartConfiguration = !string.IsNullOrEmpty(performanceMeasureSubcategory.CumulativeChartConfigurationJson) ? JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.CumulativeChartConfigurationJson) : GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(performanceMeasureSubcategory.ChartConfigurationJson);
 
                         if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
@@ -96,8 +107,8 @@ namespace ProjectFirma.Web.Models
                 var chartColumns = new List<string> { performanceMeasure.GetDisplayName() };
                 var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
                 var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, false, null, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, false, reverseTooltipOrder, false);
-                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
-                var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
+                var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
 
                 var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, GoogleChartType.LineChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                 googleChartJsons.Add(googleChartJson);
