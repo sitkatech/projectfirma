@@ -58,6 +58,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string PerformanceMeasureExpectedsGridName { get; }
         public string PerformanceMeasureExpectedsGridDataUrl { get; }
 
+        public bool ShowGeoSpatialAreaPanel { get; }
         public bool CanAddGeospatialArea { get; }
 
         public string TaxonomyTierDisplayNamePluralized { get; }
@@ -93,7 +94,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
-                
+
             EditCriticalDefinitionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions));
             EditProjectReportingUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting));
 
@@ -104,6 +105,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
 
+            // Hide GeoSpatialArea panel on tenants where performance measures are externally sourced
+            ShowGeoSpatialAreaPanel = !HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced;
             CanAddGeospatialArea = new GeospatialAreaPerformanceMeasureTargetManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
