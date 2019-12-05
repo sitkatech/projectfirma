@@ -125,19 +125,27 @@ namespace ProjectFirma.Web.Models
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
                 var firstReportingPeriod = performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear).First();
+                var targetValue = performanceMeasureReportingPeriod.GetTargetValue(performanceMeasure);
+                var geospatialAreaTargetValue = hasGeospatialAreaTargets ? performanceMeasureReportingPeriod.GetGeospatialAreaTargetValue(performanceMeasure, geospatialArea) : null;
+
                 if (hasToolTipWithTotal)
                 {
-                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, performanceMeasureReportingPeriod.GetTargetValue(performanceMeasure), performanceMeasureReportingPeriod.GetTargetValueLabel(performanceMeasure), showCumulativeResults, firstReportingPeriod);
+                    var targetValueDescription = performanceMeasureReportingPeriod.GetTargetValueLabel(performanceMeasure);
+                    var geospatialAreaTargetValueDescription = performanceMeasureReportingPeriod.GetGeospatialAreaTargetValueLabel(performanceMeasure, geospatialArea);
+
+                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, targetValue, targetValueDescription, geospatialAreaTargetValue, geospatialAreaTargetValueDescription, showCumulativeResults, firstReportingPeriod);
+
                     googleChartRowVs.Add(new GoogleChartRowV(null, formattedDataTooltip));
                 }
                 if (hasTargets)
                 {
-                    googleChartRowVs.Add(new GoogleChartRowV(performanceMeasureReportingPeriod.GetTargetValue(performanceMeasure), GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
+                    googleChartRowVs.Add(new GoogleChartRowV(targetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
                 }
 
                 if (hasGeospatialAreaTargets)
                 {
-                    googleChartRowVs.Add(new GoogleChartRowV(performanceMeasureReportingPeriod.GetGeospatialAreaTargetValue(performanceMeasure, geospatialArea), GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure, geospatialArea)));
+                    
+                    googleChartRowVs.Add(new GoogleChartRowV(geospatialAreaTargetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure, geospatialArea)));
                 }
 
                 googleChartRowVs.AddRange(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x =>
@@ -216,6 +224,8 @@ namespace ProjectFirma.Web.Models
                                                   bool reverseTooltipOrder,
                                                   double? targetValue,
                                                   string targetValueDescription,
+                                                  double? geospatialAreaTargetValue,
+                                                  string geospatialAreaTargetValueDescription,
                                                   bool showCumulativeResults,
                                                   PerformanceMeasureReportingPeriod initialPerformanceMeasureReportingPeriod)
         {
@@ -265,6 +275,11 @@ namespace ProjectFirma.Web.Models
             {
                 var formattedTarget = targetValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
                 html += $"<tr class='googleTooltipTableTotalRow'><td>{targetValueDescription}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTarget} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            }
+            if (geospatialAreaTargetValue.HasValue && !string.IsNullOrWhiteSpace(geospatialAreaTargetValueDescription))
+            {
+                var formattedTarget = geospatialAreaTargetValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
+                html += $"<tr class='googleTooltipTableTotalRow'><td>{geospatialAreaTargetValueDescription}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTarget} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
             }
             html += "</table></div>";
 

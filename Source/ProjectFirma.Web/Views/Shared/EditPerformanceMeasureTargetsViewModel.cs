@@ -275,14 +275,14 @@ namespace ProjectFirma.Web.Views.Shared
                     {
                         var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
                         tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
-                        pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
-                        pfSubcategory.GoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                        if (performanceMeasure.CanBeChartedCumulatively)
-                        {
-                            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-                            pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                            pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                        }
+                        pfSubcategory.GeospatialAreaTargetChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+                        pfSubcategory.GeospatialAreaTargetGoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                        //if (performanceMeasure.CanBeChartedCumulatively)
+                        //{
+                        //    var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+                        //    pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                        //    pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                        //}
                     }
                 }
             }
