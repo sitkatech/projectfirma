@@ -77,7 +77,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 // Completely rebuild the list
                 performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(pmaus =>
                 {
-//                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
                     var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {

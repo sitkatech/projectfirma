@@ -60,7 +60,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
-            ProjectFirmaModels.Models.Project project)
+            ProjectFirmaModels.Models.Project project,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
             var currentPerformanceMeasureActualSubcategoryOptions =
                 currentPerformanceMeasureActuals.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptions).ToList();
@@ -72,12 +73,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
                 {
-                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureReportingPeriodCalendarYear == x.CalendarYear);
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(y => y.PerformanceMeasureReportingPeriodCalendarYear == x.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {
                         Check.EnsureNotNull(x.PerformanceMeasureID, "We need to have a performance measure.");
                         performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)x.PerformanceMeasureID, x.CalendarYear, x.CalendarYear.ToString());
                         performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                        HttpRequestStorage.DatabaseEntities.SaveChanges();
                     }
 
                     var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.PerformanceMeasureActualID.GetValueOrDefault(),
