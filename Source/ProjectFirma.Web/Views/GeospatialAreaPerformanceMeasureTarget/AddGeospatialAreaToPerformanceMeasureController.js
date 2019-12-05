@@ -90,9 +90,9 @@ angular.module("ProjectFirmaApp").controller("AddGeospatialAreaToPerformanceMeas
                                                                                                 // names must be equal
                                                                                                 return 0;
                                                                                             });
-        return $scope.GeospatialAreaDropdownOptions
+        return $scope.GeospatialAreaDropdownOptions;
 
-        
+
     };
 
     $scope.refreshSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {

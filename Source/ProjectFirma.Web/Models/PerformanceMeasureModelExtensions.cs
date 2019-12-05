@@ -154,10 +154,10 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
         }
 
-        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects, string chartUniqueName)
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName)
         {
             var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
-            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues);
+            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, geospatialArea, reportedValues);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Models
         }
 
         /// <summary>
-        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates)
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates and GeospatialAreaPerformanceMeasureTargets)
         /// </summary>
         /// <param name="performanceMeasure"></param>
         /// <returns></returns>
@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         /// <param name="performanceMeasure"></param>
         /// <returns></returns>
-        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActualsAndGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
@@ -315,7 +315,7 @@ namespace ProjectFirma.Web.Models
             return PerformanceMeasureTargetValueType.TargetPerYear;
         }
 
-        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
             if (!performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
             {
@@ -332,6 +332,13 @@ namespace ProjectFirma.Web.Models
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
             bool hasTargets = performanceMeasure.PerformanceMeasureTargets.Any();
+
+            return hasTargets;
+        }
+
+        public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Any();
 
             return hasTargets;
         }

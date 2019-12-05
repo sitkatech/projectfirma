@@ -165,7 +165,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult ViewEdit(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
         {
             var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
-            var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(geospatialArea);
+            var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActualsAndGeospatialAreaTargets(geospatialArea);
             var defaultReportingPeriodYear = reportingPeriods.Any()
                 ? reportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
                 : DateTime.Now.Year;
