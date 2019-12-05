@@ -162,7 +162,9 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private ActionResult ViewEdit(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
+        private ActionResult ViewEdit(GeospatialArea geospatialArea,
+                                      PerformanceMeasure performanceMeasure,
+                                      EditPerformanceMeasureTargetsViewModel viewModel)
         {
             var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
             var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActualsAndGeospatialAreaTargets(geospatialArea);
@@ -172,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
                 defaultReportingPeriodYear,
                 performanceMeasureTargetValueTypes);
-            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular);
+            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular, EditPerformanceMeasureTargetsViewData.PerformanceMeasureTargetType.TargetByGeospatialArea);
             return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>(viewData, viewModel);
         }
 
