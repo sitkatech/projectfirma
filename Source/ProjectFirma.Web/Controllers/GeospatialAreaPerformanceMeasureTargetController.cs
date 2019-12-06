@@ -130,6 +130,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+
         [HttpGet]
         [GeospatialAreaPerformanceMeasureTargetManageFeature]
         public ActionResult Edit(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey, PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
@@ -155,14 +156,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes.Load();
-
-        viewModel.UpdateModel(this.CurrentFirmaSession, 
-                                  geospatialArea, 
-                                  performanceMeasure, 
-                                  HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, 
-                                  HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Local,
-                                  HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes.Local);
+            viewModel.UpdateModel(geospatialArea, performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Local);
 
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();

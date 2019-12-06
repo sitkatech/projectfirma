@@ -25,7 +25,6 @@ namespace ProjectFirmaModels.Models
         protected GeospatialArea()
         {
             this.GeospatialAreaImages = new HashSet<GeospatialAreaImage>();
-            this.GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes = new HashSet<GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueType>();
             this.GeospatialAreaPerformanceMeasureTargets = new HashSet<GeospatialAreaPerformanceMeasureTarget>();
             this.PersonStewardGeospatialAreas = new HashSet<PersonStewardGeospatialArea>();
             this.ProjectGeospatialAreas = new HashSet<ProjectGeospatialArea>();
@@ -83,13 +82,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreaImages.Any() || GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes.Any() || GeospatialAreaPerformanceMeasureTargets.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any();
+            return GeospatialAreaImages.Any() || GeospatialAreaPerformanceMeasureTargets.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueType).Name, typeof(GeospatialAreaPerformanceMeasureTarget).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaPerformanceMeasureTarget).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
 
 
         /// <summary>
@@ -115,11 +114,6 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in GeospatialAreaImages.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -162,7 +156,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return GeospatialAreaID; } set { GeospatialAreaID = value; } }
 
         public virtual ICollection<GeospatialAreaImage> GeospatialAreaImages { get; set; }
-        public virtual ICollection<GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueType> GeospatialAreaPerformanceMeasurePerformanceMeasureTargetValueTypes { get; set; }
         public virtual ICollection<GeospatialAreaPerformanceMeasureTarget> GeospatialAreaPerformanceMeasureTargets { get; set; }
         public virtual ICollection<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialArea> ProjectGeospatialAreas { get; set; }
