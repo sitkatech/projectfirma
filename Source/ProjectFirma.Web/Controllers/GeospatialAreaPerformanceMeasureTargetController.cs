@@ -118,6 +118,27 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(geospatialArea, performanceMeasure, viewModel);
             }
 
+            // no target
+            var geospatialAreaPerformanceMeasureNoTargets =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureNoTargets.Where(x =>
+                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
+                    x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
+            foreach (var noTarget in geospatialAreaPerformanceMeasureNoTargets)
+            {
+                noTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+
+            // overall target
+            var geospatialAreaPerformanceMeasureOverallTargets =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Where(x =>
+                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
+                    x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
+            foreach (var overallTarget in geospatialAreaPerformanceMeasureOverallTargets)
+            {
+                overallTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+
+            // target per year
             var geospatialAreaPerformanceMeasureTargets =
                 HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x =>
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
@@ -154,9 +175,19 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(geospatialArea, performanceMeasure, viewModel);
             }
 
-            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            viewModel.UpdateModel(geospatialArea, performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Local);
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureNoTargets.Load();
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Load();
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Load();
+
+            viewModel.UpdateModel(
+                geospatialArea, 
+                performanceMeasure, 
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, 
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureNoTargets.Local,
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureOverallTargets.Local,
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Local
+                );
 
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();

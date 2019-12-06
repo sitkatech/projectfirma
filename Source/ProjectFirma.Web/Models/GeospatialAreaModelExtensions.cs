@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -158,6 +159,7 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
         }
 
+        /*
         public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
             if (!performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
@@ -177,6 +179,28 @@ namespace ProjectFirma.Web.Models
             }
             return "Target by Year";
         }
+        */
+
+        public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
+        {
+            //PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[performanceMeasure].ToEnum;
+            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = performanceMeasure.GetPerformanceMeasureTargetValueType();
+
+            switch (performanceMeasureTargetValueTypeEnum)
+            {
+                case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+                    return "No Target";
+                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+                    return "Overall Target";
+                case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
+                    return "Reporting Period Target";
+                default:
+                    throw new NotImplementedException("There should never be a valid target value type here");
+            }
+
+        }
+
+
 
     }
 }

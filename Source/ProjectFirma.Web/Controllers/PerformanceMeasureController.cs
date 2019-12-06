@@ -322,12 +322,20 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            // QUESTIONABLE
-            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets;
-            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
+
+            // Get all three possible target types
+            var noTargets = performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets;
+            var overallTargets = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets;
+            var reportingPeriodTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets;
+
+            var allRelevantGeoSpatialAreasWithTargets = new List<GeospatialArea>();
+
+            allRelevantGeoSpatialAreasWithTargets.AddRange(noTargets.Select(nt => nt.GeospatialArea));
+            allRelevantGeoSpatialAreasWithTargets.AddRange(overallTargets.Select(nt => nt.GeospatialArea));
+            allRelevantGeoSpatialAreasWithTargets.AddRange(reportingPeriodTargets.Select(nt => nt.GeospatialArea));
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(allRelevantGeoSpatialAreasWithTargets, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

@@ -655,6 +655,8 @@
     <Compile Include="Models\FileResourceOrientation.cs" />
     <Compile Include="Models\FirmaPage.cs" />
     <Compile Include="Models\FundingSource.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTarget.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTarget.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
