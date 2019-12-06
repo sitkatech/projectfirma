@@ -322,7 +322,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets;
+            // QUESTIONABLE
+            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets;
             var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);

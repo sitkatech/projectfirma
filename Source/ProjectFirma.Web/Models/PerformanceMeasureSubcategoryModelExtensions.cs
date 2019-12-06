@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Models
 
         private static string GetGeospatialAreaTargetColumnLabel(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            return performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasure.GeospatialAreaPerformanceMeasureTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel : "Geospatial Area Target";
+            return performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel : "Geospatial Area Target";
         }
 
         private static string GetFormattedTargetValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)

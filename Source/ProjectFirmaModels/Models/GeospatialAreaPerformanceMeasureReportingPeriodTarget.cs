@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirmaModels.Models
 {
-    public partial class GeospatialAreaPerformanceMeasureTarget : IAuditableEntity
+    public partial class GeospatialAreaPerformanceMeasureReportingPeriodTarget : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {

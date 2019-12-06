@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                     continue;
                 }
 
-                if (HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Any(x =>
+                if (HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x =>
                     x.GeospatialAreaID == geospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID))
                 {
@@ -74,8 +74,8 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
 
                 var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(DateTime.Now.Year);
 
-                var newGeospatialAreaPerformanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, performanceMeasureReportingPeriod);
-                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Add(newGeospatialAreaPerformanceMeasureTarget);
+                var newGeospatialAreaPerformanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, performanceMeasureReportingPeriod);
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Add(newGeospatialAreaPerformanceMeasureTarget);
             }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentFirmaSession);

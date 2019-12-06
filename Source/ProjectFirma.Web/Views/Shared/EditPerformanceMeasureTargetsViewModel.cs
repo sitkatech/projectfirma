@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
+            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
         }
 
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Views.Shared
         public void UpdateModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea,
                                 ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
                                 ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods,
-                                ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget> allGeospatialAreaPerformanceMeasureTargets)
+                                ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> allGeospatialAreaPerformanceMeasureReportingPeriodTargets)
         {
 
             if (PerformanceMeasureReportingPeriodSimples != null)
@@ -186,7 +186,7 @@ namespace ProjectFirma.Web.Views.Shared
                 var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
                 List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
                 //we need to start the updated list with the Targets not tied to the current GeospatialArea, so we don't accidentally delete them in the merge below
-                List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget> updatedGeospatialAreaPerformanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID != geospatialArea.GeospatialAreaID).ToList();
+                List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID != geospatialArea.GeospatialAreaID).ToList();
 
                 // if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
                 var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
@@ -210,7 +210,8 @@ namespace ProjectFirma.Web.Views.Shared
                     performanceMeasureReportingPeriodsUpdated.Add(reportingPeriod);
 
 
-                    var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureTargetID == reportingPeriodSimple.GeospatialAreaPerformanceMeasureTargetID);
+                    // WARNING-- WRONG ---
+                    var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == reportingPeriodSimple.GeospatialAreaPerformanceMeasureTargetID);
                     switch (performanceMeasureTargetValueTypeEnum)
                     {
                         case PerformanceMeasureTargetValueTypeEnum.NoTarget:
@@ -219,7 +220,7 @@ namespace ProjectFirma.Web.Views.Shared
                         case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, reportingPeriod)
+                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
                                 {
                                     GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue,
                                     GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription
@@ -234,7 +235,7 @@ namespace ProjectFirma.Web.Views.Shared
                         case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureTarget(geospatialArea, performanceMeasure, reportingPeriod)
+                                performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
                                 {
                                     GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
                                     GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
@@ -251,15 +252,15 @@ namespace ProjectFirma.Web.Views.Shared
                                 $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
                     }
 
-                    updatedGeospatialAreaPerformanceMeasureTargets.Add(performanceMeasureTarget);
+                    updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets.Add(performanceMeasureTarget);
 
                 }
 
                 // Merge just GeospatialAreaPerformanceMeasureTarget
-                performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Merge(
-                    updatedGeospatialAreaPerformanceMeasureTargets,
-                    allGeospatialAreaPerformanceMeasureTargets,
-                    (x, y) => x.GeospatialAreaPerformanceMeasureTargetID == y.GeospatialAreaPerformanceMeasureTargetID,
+                performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Merge(
+                    updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets,
+                    allGeospatialAreaPerformanceMeasureReportingPeriodTargets,
+                    (x, y) => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == y.GeospatialAreaPerformanceMeasureReportingPeriodTargetID,
                     (x, y) =>
                     {
                         x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
@@ -269,7 +270,7 @@ namespace ProjectFirma.Web.Views.Shared
 
 
                 // Google Chart Configuration
-                if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Any())
+                if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
                 {
                     foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                     {

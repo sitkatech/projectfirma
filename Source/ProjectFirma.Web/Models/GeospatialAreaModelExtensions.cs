@@ -160,15 +160,15 @@ namespace ProjectFirma.Web.Models
 
         public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            if (!performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            if (!performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
             {
                 return "No Target Set";
             }
 
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
             {
                 //we know all targetValues are the same so just get the first geospatial target
-                var geospatialAreaPerformanceMeasureTarget = performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).First(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue);
+                var geospatialAreaPerformanceMeasureTarget = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).First(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue);
                 Check.EnsureNotNull(geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue, "geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue != null");
                 var targetValue = geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue.Value.ToString();
                 var performanceMeasureMeasurementUnitType = geospatialAreaPerformanceMeasureTarget.PerformanceMeasure.MeasurementUnitType;

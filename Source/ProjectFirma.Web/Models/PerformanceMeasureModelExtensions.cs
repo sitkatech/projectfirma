@@ -296,7 +296,7 @@ namespace ProjectFirma.Web.Models
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals());
-            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
         }
@@ -317,12 +317,12 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            if (!performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            if (!performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
             {
                 return PerformanceMeasureTargetValueType.NoTarget;
             }
 
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
@@ -338,7 +338,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets.Any();
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any();
 
             return hasTargets;
         }

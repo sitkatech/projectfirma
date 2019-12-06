@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Controllers
 
             //build list of geospatial areas and remove any we have already setup a connection to this performance measure
             var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
-            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList();
+            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList();
             var selectedGeospatialAreaSimples = geospatialAreaSimples.Where(x => selectedGeospatialAreas.Contains(x.GeospatialAreaID)).ToList();
             var setToRemove = new HashSet<GeospatialAreaSimple>(selectedGeospatialAreaSimples);
             geospatialAreaSimples.RemoveAll(x => setToRemove.Contains(x));
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDelete(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, ConfirmDialogFormViewModel viewModel)
         {
             var geospatialAreaPerformanceMeasureTargets =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x =>
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x =>
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
 
@@ -119,7 +119,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var geospatialAreaPerformanceMeasureTargets =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Where(x =>
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x =>
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
             foreach (var geoTarget in geospatialAreaPerformanceMeasureTargets)
@@ -154,9 +154,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(geospatialArea, performanceMeasure, viewModel);
             }
 
-            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureTargets.Load();
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
-            viewModel.UpdateModel(geospatialArea, performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureTargets.Local);
+            viewModel.UpdateModel(geospatialArea, performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Local);
 
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();
