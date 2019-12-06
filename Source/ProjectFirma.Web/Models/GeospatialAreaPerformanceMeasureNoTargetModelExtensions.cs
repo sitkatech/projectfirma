@@ -4,7 +4,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class GeospatialAreaPerformancePeriodNoTargetModelExtensions
+    public static class GeospatialAreaPerformanceMeasureNoTargetModelExtensions
     {
         public static GeospatialAreaPerformanceMeasureNoTarget GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
@@ -16,8 +16,5 @@ namespace ProjectFirma.Web.Models
 
             return noTarget;
         }
-
-
-
     }
 }

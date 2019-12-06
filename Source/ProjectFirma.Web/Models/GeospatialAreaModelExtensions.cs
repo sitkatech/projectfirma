@@ -183,8 +183,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            //PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[performanceMeasure].ToEnum;
-            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = performanceMeasure.GetPerformanceMeasureTargetValueType();
+            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = performanceMeasure.GetPerformanceMeasureTargetValueType(geospatialArea);
 
             switch (performanceMeasureTargetValueTypeEnum)
             {

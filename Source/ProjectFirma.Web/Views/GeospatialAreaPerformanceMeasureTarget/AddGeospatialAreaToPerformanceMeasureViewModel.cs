@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget
                 }
 
                 // Default to a "No Target"
-                var noTarget = GeospatialAreaPerformancePeriodNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
+                var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
                 HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureNoTargets.Add(noTarget);
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentFirmaSession);

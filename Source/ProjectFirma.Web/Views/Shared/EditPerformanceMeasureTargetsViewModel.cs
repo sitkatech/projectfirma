@@ -174,6 +174,30 @@ namespace ProjectFirma.Web.Views.Shared
         }
 
 
+        public void DeleteOtherPerformanceMeasureTargetValueTypes(
+            ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+            ProjectFirmaModels.Models.GeospatialArea geospatialArea,
+            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum)
+        {
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.NoTarget)
+            {
+                var noTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
+                noTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            }
+
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.OverallTarget)
+            {
+                var overallTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
+                overallTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            }
+
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget)
+            {
+                var reportingPeriodTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
+                reportingPeriodTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            }
+        }
+
 
         public void UpdateModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea,
                                 ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
@@ -182,48 +206,22 @@ namespace ProjectFirma.Web.Views.Shared
                                 ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureOverallTarget> allGeospatialAreaPerformanceMeasureOverallTargets,
                                 ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> allGeospatialAreaPerformanceMeasureReportingPeriodTargets)
         {
+
+
             var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
+            DeleteOtherPerformanceMeasureTargetValueTypes(performanceMeasure, geospatialArea, performanceMeasureTargetValueTypeEnum);
+
             switch (performanceMeasureTargetValueTypeEnum)
             {
                 case PerformanceMeasureTargetValueTypeEnum.NoTarget:
-                    
-                    // Clean up any existing Overall objects
-                    // -------------------------------------
-                    var overallsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.ToList();
-                    overallsToDelete.ForEach(oa => oa.Delete(HttpRequestStorage.DatabaseEntities));
-                    performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Clear();
-
-                    // Clean up Reporting Period target objects
-                    // ----------------------------------------
-                    var reportingPeriodTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList();
-                    reportingPeriodTargetsToDelete.ForEach(oa => oa.Delete(HttpRequestStorage.DatabaseEntities));
-                    performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Clear();
-
                     // Make a "no target" object.
-                    var noTarget = allGeospatialAreaPerformanceMeasureNoTargets.SingleOrDefault(x =>
-                        x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
-                        x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
-                    if (noTarget == null)
-                    {
-                        noTarget = new GeospatialAreaPerformanceMeasureNoTarget(geospatialArea, performanceMeasure);
-                    }
-
+                    var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
                     break;
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    //if (performanceMeasureTarget == null)
-                    //{
-                    //    performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
-                    //    {
-                    //        GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue,
-                    //        GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription
-                    //    };
-                    //}
-                    //else
-                    //{
-                    //    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue.Value;
-                    //    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
-                    //}
-                    //break;
+                    var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea);
+                    overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue;
+                    overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
+                    break;
                 case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
                     //if (performanceMeasureTarget == null)
                     //{
@@ -240,8 +238,7 @@ namespace ProjectFirma.Web.Views.Shared
                     //}
                     //break;
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
+                    throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
             }
 
 

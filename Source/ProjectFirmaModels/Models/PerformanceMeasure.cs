@@ -44,11 +44,11 @@ namespace ProjectFirmaModels.Models
         public int? GetSortOrder() => PerformanceMeasureSortOrder;
         public int GetID() => PerformanceMeasureID;
 
-        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType()
+        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType(GeospatialArea geospatialArea)
         {
-            bool hasNoTarget = this.GeospatialAreaPerformanceMeasureNoTargets.Any();
-            bool hasOverallTarget = this.GeospatialAreaPerformanceMeasureOverallTargets.Any();
-            bool hasReportingPeriodTarget = this.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any();
+            bool hasNoTarget = this.GeospatialAreaPerformanceMeasureNoTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasOverallTarget = this.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasReportingPeriodTarget = this.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
 
             // NOTE that the unset case (all false) is NOT yet handled! Need to think about this.
             Check.Ensure((hasNoTarget && !hasOverallTarget && !hasReportingPeriodTarget) ||
