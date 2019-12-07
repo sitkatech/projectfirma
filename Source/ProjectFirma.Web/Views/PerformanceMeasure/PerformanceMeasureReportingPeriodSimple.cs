@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         /// <summary>
         /// Only used for GeospatialAreaPerformanceMeasureTargets
         /// </summary>
-        public int? GeospatialAreaPerformanceMeasureTargetID { get; set; }
+        public int? GeospatialAreaPerformanceMeasureReportingPeriodTargetID { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -87,7 +87,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget geospatialAreaPerformanceMeasureReportingPeriodTarget)
         {
-
             PerformanceMeasureReportingPeriodID = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodID;
             PerformanceMeasureReportingPeriodLabel = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
             PerformanceMeasureReportingPeriodCalendarYear = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
@@ -95,7 +94,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             TargetValue = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureTargetValue;
             TargetValueLabel = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
             PerformanceMeasureID = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureID;
-            GeospatialAreaPerformanceMeasureTargetID = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureReportingPeriodTargetID;
+            GeospatialAreaPerformanceMeasureReportingPeriodTargetID = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureReportingPeriodTargetID;
             GeospatialAreaID = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaID;
         }
 

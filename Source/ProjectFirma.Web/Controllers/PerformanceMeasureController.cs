@@ -332,7 +332,8 @@ namespace ProjectFirma.Web.Controllers
 
             allRelevantGeoSpatialAreasWithTargets.AddRange(noTargets.Select(nt => nt.GeospatialArea));
             allRelevantGeoSpatialAreasWithTargets.AddRange(overallTargets.Select(nt => nt.GeospatialArea));
-            allRelevantGeoSpatialAreasWithTargets.AddRange(reportingPeriodTargets.Select(nt => nt.GeospatialArea));
+            List<GeospatialArea> temp = reportingPeriodTargets.DistinctBy(rpt => $"{rpt.GeospatialAreaID}_{rpt.PerformanceMeasureID}").Select(nt => nt.GeospatialArea).ToList();
+            allRelevantGeoSpatialAreasWithTargets.AddRange(temp);
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(allRelevantGeoSpatialAreasWithTargets, gridSpec);

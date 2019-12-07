@@ -83,8 +83,6 @@ namespace ProjectFirma.Web.Views.Shared
 
                 foreach (var reportingPeriodSimple in PerformanceMeasureReportingPeriodSimples)
                 {
-                    
-
                     // Reporting Period
                     // ----------------
 
@@ -217,26 +215,47 @@ namespace ProjectFirma.Web.Views.Shared
                     // Make a "no target" object.
                     var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
                     break;
+
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea);
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue;
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
                     break;
+
                 case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
-                    //if (performanceMeasureTarget == null)
-                    //{
-                    //    performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
-                    //    {
-                    //        GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
-                    //        GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
-                    //    };
-                    //}
-                    //else
-                    //{
-                    //    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue.Value;
-                    //    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel;
-                    //}
-                    //break;
+
+                    //var reportingPeriodTargets = new List<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
+
+                    foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
+                    {
+                        // Reporting Period
+                        // ----------------
+                        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == pmrpSimple.PerformanceMeasureReportingPeriodID);
+                        if (reportingPeriod == null)
+                        {
+                            reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear,
+                                                                                    pmrpSimple.PerformanceMeasureReportingPeriodLabel);
+                        }
+
+                        var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == pmrpSimple.GeospatialAreaPerformanceMeasureReportingPeriodTargetID);
+                        if (performanceMeasureTarget == null)
+                        {
+                            performanceMeasureTarget = new GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
+                                {
+                                    GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue,
+                                    GeospatialAreaPerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel
+                                };
+                        }
+                        else
+                        {
+                            performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue.Value;
+                            performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
+                        }
+                    }
+
+                    break;
+
+
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
             }
