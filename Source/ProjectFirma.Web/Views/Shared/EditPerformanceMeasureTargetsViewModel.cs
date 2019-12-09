@@ -238,7 +238,7 @@ namespace ProjectFirma.Web.Views.Shared
                     {
                         // Reporting Period
                         // ----------------
-                        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == pmrpSimple.PerformanceMeasureReportingPeriodID);
+                        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear);
                         if (reportingPeriod == null)
                         {
                             reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear,
