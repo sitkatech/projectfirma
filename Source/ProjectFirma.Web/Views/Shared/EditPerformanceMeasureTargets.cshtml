@@ -177,7 +177,7 @@ Source code is available upon request via <support@sitkatech.com>.
         
         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
         <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValue)" value="{{AngularModel.OverallTargetValue}}" />
-        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueDescription)" value="{{AngularModel.OverallTargetValueLabel}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueLabel)" value="{{AngularModel.OverallTargetValueLabel}}" />
         <div ng-repeat="performanceMeasureReportingPeriodSimple in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear}}" />
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodLabel}}" />

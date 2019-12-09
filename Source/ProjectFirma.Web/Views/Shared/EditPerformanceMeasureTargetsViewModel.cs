@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Shared
         [Required]
         public int PerformanceMeasureTargetValueTypeID { get; set; }
         public double? OverallTargetValue { get; set; }
-        public string OverallTargetValueDescription { get; set; }
+        public string OverallTargetValueLabel { get; set; }
 
         public HashSet<string> PerformanceMeasureReportedsWithValidationErrors { get; private set; }
 
@@ -69,6 +69,8 @@ namespace ProjectFirma.Web.Views.Shared
                 OverallTargetValue =
                     performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x =>
                         x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValue;
+                OverallTargetValueLabel = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x =>
+                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel;
             }
 
         }
@@ -115,13 +117,13 @@ namespace ProjectFirma.Web.Views.Shared
                             {
                                 performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod, OverallTargetValue.Value)
                                 {
-                                    PerformanceMeasureTargetValueLabel = OverallTargetValueDescription
+                                    PerformanceMeasureTargetValueLabel = OverallTargetValueLabel
                                 };
                             }
                             else
                             {
                                 performanceMeasureTarget.PerformanceMeasureTargetValue = OverallTargetValue.Value;
-                                performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
+                                performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
                             }
                             break;
                         case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
@@ -228,7 +230,7 @@ namespace ProjectFirma.Web.Views.Shared
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea);
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue;
-                    overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
+                    overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
