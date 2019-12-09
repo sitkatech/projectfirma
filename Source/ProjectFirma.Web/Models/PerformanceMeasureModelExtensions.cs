@@ -317,15 +317,16 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            if (!performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets.Any())
             {
                 return PerformanceMeasureTargetValueType.NoTarget;
             }
 
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any())
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
+            
             return PerformanceMeasureTargetValueType.TargetPerYear;
         }
 

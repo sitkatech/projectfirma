@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
                     return NoTarget;
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     return OverallTarget;
-                case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                     return TargetPerYear;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
@@ -116,7 +116,7 @@ namespace ProjectFirmaModels.Models
     {
         NoTarget = 1,
         OverallTarget = 2,
-        ReportingPeriodTarget = 3
+        TargetPerYear = 3
     }
 
     public partial class PerformanceMeasureTargetValueTypeNoTarget : PerformanceMeasureTargetValueType

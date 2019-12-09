@@ -68,7 +68,7 @@ namespace ProjectFirmaModels.Models
 
             if (hasReportingPeriodTarget)
             {
-                return PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget;
+                return PerformanceMeasureTargetValueTypeEnum.TargetPerYear;
             }
 
             throw(new NotImplementedException("Not expecting to reach here; what's the problem?"));

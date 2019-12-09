@@ -115,7 +115,7 @@ namespace ProjectFirma.Web.Views.Shared
                                 performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
                             }
                             break;
-                        case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
+                        case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                             if (performanceMeasureTarget == null)
                             {
                                 performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod, reportingPeriodSimple.TargetValue.Value)
@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Views.Shared
                 overallTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
 
-            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget)
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.TargetPerYear)
             {
                 var reportingPeriodTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
                 reportingPeriodTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
@@ -222,7 +222,7 @@ namespace ProjectFirma.Web.Views.Shared
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
                     break;
 
-                case PerformanceMeasureTargetValueTypeEnum.ReportingPeriodTarget:
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
 
                     //var reportingPeriodTargets = new List<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
 

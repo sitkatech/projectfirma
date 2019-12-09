@@ -177,9 +177,7 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     if (!$scope.AngularModel.OverallTargetValueLabel) {
         $scope.AngularModel.OverallTargetValueLabel = "Target";
     }
-
-
-
+    
     $scope.populateSimpleTargets();
     $scope.targetValueTypeChanged();
     $scope.resetReportingPeriodToAdd();
