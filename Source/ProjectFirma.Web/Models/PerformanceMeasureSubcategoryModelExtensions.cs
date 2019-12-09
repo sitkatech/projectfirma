@@ -230,7 +230,6 @@ namespace ProjectFirma.Web.Models
             return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.GetGeospatialAreaTargetValue(performanceMeasure, geospatialArea), performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.GetGeospatialAreaTargetValueLabel(performanceMeasure, geospatialArea)})";
         }
 
-
         public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, 
                                                   PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, 
                                                   MeasurementUnitType performanceMeasureMeasurementUnitType, 

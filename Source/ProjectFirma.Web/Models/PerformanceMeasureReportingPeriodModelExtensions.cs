@@ -20,6 +20,12 @@ namespace ProjectFirma.Web.Models
 
         public static double? GetGeospatialAreaTargetValue(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
+            var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.FirstOrDefault(x =>
+                x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            if (overallTarget != null)
+            {
+                return overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
+            }
             return performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID && x.GeospatialAreaID == geospatialArea.GeospatialAreaID)?.GeospatialAreaPerformanceMeasureTargetValue;
         }
 
@@ -30,6 +36,12 @@ namespace ProjectFirma.Web.Models
 
         public static string GetGeospatialAreaTargetValueLabel(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
+            var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.FirstOrDefault(x =>
+                x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            if (overallTarget != null)
+            {
+                return overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
+            }
             return performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID && x.GeospatialAreaID == geospatialArea.GeospatialAreaID)?.GeospatialAreaPerformanceMeasureTargetValueLabel;
         }
     }
