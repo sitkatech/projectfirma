@@ -317,17 +317,17 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets.Any())
-            {
-                return PerformanceMeasureTargetValueType.NoTarget;
-            }
-
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any())
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
-            
-            return PerformanceMeasureTargetValueType.TargetPerYear;
+
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x =>
+                x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
+            {
+                return PerformanceMeasureTargetValueType.TargetPerYear;
+            }
+            return PerformanceMeasureTargetValueType.NoTarget;
         }
 
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
@@ -339,7 +339,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any();
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any();
 
             return hasTargets;
         }

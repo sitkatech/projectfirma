@@ -223,9 +223,6 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
-
-                    //var reportingPeriodTargets = new List<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
-
                     foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
                     {
                         // Reporting Period
@@ -236,7 +233,6 @@ namespace ProjectFirma.Web.Views.Shared
                             reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear,
                                                                                     pmrpSimple.PerformanceMeasureReportingPeriodLabel);
                         }
-
                         var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == pmrpSimple.GeospatialAreaPerformanceMeasureReportingPeriodTargetID);
                         if (performanceMeasureTarget == null)
                         {
@@ -252,122 +248,30 @@ namespace ProjectFirma.Web.Views.Shared
                             performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
                         }
                     }
-
                     break;
-
 
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
+
             }
 
-
-
-            //if (PerformanceMeasureReportingPeriodSimples != null)
-            //{
-            //    var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
-            //    List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
-            //    //we need to start the updated list with the Targets not tied to the current GeospatialArea, so we don't accidentally delete them in the merge below
-            //    List<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID != geospatialArea.GeospatialAreaID).ToList();
-
-            //    // if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
-            //    var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
-            //    List<PerformanceMeasureReportingPeriod> missingPeriods = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
-            //    missingPeriods.AddRange(performanceMeasure.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)));
-            //    performanceMeasureReportingPeriodsUpdated.AddRange(missingPeriods);
-
-            //    foreach (var reportingPeriodSimple in PerformanceMeasureReportingPeriodSimples)
-            //    {
-
-
-            //        // Reporting Period
-            //        // ----------------
-
-            //        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == reportingPeriodSimple.PerformanceMeasureReportingPeriodID);
-            //        if (reportingPeriod == null)
-            //        {
-            //            reportingPeriod = new PerformanceMeasureReportingPeriod(reportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear, reportingPeriodSimple.PerformanceMeasureReportingPeriodLabel);
-            //        }
-
-            //        performanceMeasureReportingPeriodsUpdated.Add(reportingPeriod);
-
-
-            //        // WARNING-- WRONG ---
-            //        var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == reportingPeriodSimple.GeospatialAreaPerformanceMeasureTargetID);
-            //        switch (performanceMeasureTargetValueTypeEnum)
-            //        {
-            //            case PerformanceMeasureTargetValueTypeEnum.NoTarget:
-            //                performanceMeasureTarget = null; //just to make sure we don't do anything with this.
-            //                break;
-            //            case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-            //                if (performanceMeasureTarget == null)
-            //                {
-            //                    performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
-            //                    {
-            //                        GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue,
-            //                        GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription
-            //                    };
-            //                }
-            //                else
-            //                {
-            //                    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue.Value;
-            //                    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueDescription;
-            //                }
-            //                break;
-            //            case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
-            //                if (performanceMeasureTarget == null)
-            //                {
-            //                    performanceMeasureTarget = new ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
-            //                    {
-            //                        GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
-            //                        GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
-            //                    };
-            //                }
-            //                else
-            //                {
-            //                    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue.Value;
-            //                    performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel;
-            //                }
-            //                break;
-            //            default:
-            //                throw new ArgumentOutOfRangeException(
-            //                    $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
-            //        }
-
-            //        updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets.Add(performanceMeasureTarget);
-
-            //    }
-
-            //    // Merge just GeospatialAreaPerformanceMeasureTarget
-            //    performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Merge(
-            //        updatedGeospatialAreaPerformanceMeasureReportingPeriodTargets,
-            //        allGeospatialAreaPerformanceMeasureReportingPeriodTargets,
-            //        (x, y) => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == y.GeospatialAreaPerformanceMeasureReportingPeriodTargetID,
-            //        (x, y) =>
-            //        {
-            //            x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
-            //            x.GeospatialAreaPerformanceMeasureTargetValue = y.GeospatialAreaPerformanceMeasureTargetValue;
-            //            x.GeospatialAreaPerformanceMeasureTargetValueLabel = y.GeospatialAreaPerformanceMeasureTargetValueLabel;
-            //        }, HttpRequestStorage.DatabaseEntities);
-
-
-            //    // Google Chart Configuration
-            //    if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
-            //    {
-            //        foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
-            //        {
-            //            var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
-            //            tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
-            //            pfSubcategory.GeospatialAreaTargetChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
-            //            pfSubcategory.GeospatialAreaTargetGoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-            //            //if (performanceMeasure.CanBeChartedCumulatively)
-            //            //{
-            //            //    var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-            //            //    pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-            //            //    pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-            //            //}
-            //        }
-            //    }
-            //}
+            //Google Chart Configuration
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any())
+            {
+                foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                {
+                    var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                    tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+                    pfSubcategory.GeospatialAreaTargetChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+                    pfSubcategory.GeospatialAreaTargetGoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    if (performanceMeasure.CanBeChartedCumulatively)
+                    {
+                        var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+                        pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                        pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    }
+                }
+            }
         }
 
 
@@ -381,11 +285,8 @@ namespace ProjectFirma.Web.Views.Shared
                 return errors;
             }
 
-
             return errors.DistinctBy(x => x.ErrorMessage);
         }
-
-
-
+        
     }
 }
