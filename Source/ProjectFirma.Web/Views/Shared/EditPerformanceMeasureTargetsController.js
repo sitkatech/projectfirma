@@ -170,10 +170,11 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.NextReportingPeriodYear = $scope.AngularViewData.DefaultReportingPeriodYear;
     $scope.ReportingPeriodYearToAdd = $scope.AngularViewData.DefaultReportingPeriodYear;
 
-    if ($scope.AngularModel.PerformanceMeasureReportingPeriodSimples.length > 0) {
+    if ($scope.AngularModel.PerformanceMeasureTargetValueTypeID == $scope.PerYearTargetID && $scope.AngularModel.PerformanceMeasureReportingPeriodSimples.length > 0) {
         $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
         $scope.AngularModel.OverallTargetValueLabel = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueLabel;
     }
+
     if (!$scope.AngularModel.OverallTargetValueLabel) {
         $scope.AngularModel.OverallTargetValueLabel = "Target";
     }
