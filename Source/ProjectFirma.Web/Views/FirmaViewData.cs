@@ -258,8 +258,11 @@ namespace ProjectFirma.Web.Views
                 configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()} Customization", "Group1"));
             }
 
-            // Group 2 - Funding source
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
+            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
+            {
+                // Group 2 - Funding source
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
+            }
 
             // Group 3 - Attachments
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, "Attachment Relationship Type Configuration", "Group3"));
