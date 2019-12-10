@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
                     }
                 }
             }
-            else if(performanceMeasure.PerformanceMeasureTargets.Any())
+            else if(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
             {
                 //build chart for just for targets if there is no project data
                 var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.First();
@@ -210,7 +210,9 @@ namespace ProjectFirma.Web.Models
 
         private static string GetTargetColumnLabel(PerformanceMeasure performanceMeasure)
         {
-            return performanceMeasure.GetTargetValueType() == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasure.PerformanceMeasureTargets.First().PerformanceMeasureTargetValueLabel : "Target";
+            var isOverallTarget = performanceMeasure.GetTargetValueType() ==
+                                  PerformanceMeasureTargetValueType.OverallTarget;
+            return isOverallTarget ? performanceMeasure.PerformanceMeasureOverallTargets.First().PerformanceMeasureTargetValueLabel : "Target";
         }
 
         private static string GetGeospatialAreaTargetColumnLabel(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)

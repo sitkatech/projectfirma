@@ -44,7 +44,27 @@ namespace ProjectFirmaModels.Models
         public int? GetSortOrder() => PerformanceMeasureSortOrder;
         public int GetID() => PerformanceMeasureID;
 
-        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType(GeospatialArea geospatialArea)
+        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType()
+        {
+            bool hasOverallTarget = PerformanceMeasureOverallTargets.Any();
+            bool hasReportingPeriodTarget = PerformanceMeasureReportingPeriodTargets.Any();
+
+            Check.Ensure((hasOverallTarget && !hasReportingPeriodTarget) || (!hasOverallTarget && hasReportingPeriodTarget));
+
+            if (hasOverallTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.OverallTarget;
+            }
+
+            if (hasReportingPeriodTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.TargetPerYear;
+            }
+
+            throw (new NotImplementedException("Not expecting to reach here; what's the problem?"));
+        }
+
+        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueTypeForGeospatialArea(GeospatialArea geospatialArea)
         {
             bool hasNoTarget = this.GeospatialAreaPerformanceMeasureNoTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             bool hasOverallTarget = this.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);

@@ -280,7 +280,7 @@ namespace ProjectFirma.Web.Models
         {
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
-            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Select(x => x.PerformanceMeasureReportingPeriod));
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
@@ -303,16 +303,16 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
         {
-            if (!performanceMeasure.PerformanceMeasureTargets.Any())
+            if (performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
             {
-                return PerformanceMeasureTargetValueType.NoTarget;
+                return PerformanceMeasureTargetValueType.TargetPerYear;
+                
             }
-
-            if (performanceMeasure.PerformanceMeasureTargets.Select(x => $"{x.PerformanceMeasureTargetValue}{x.PerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            if (performanceMeasure.PerformanceMeasureOverallTargets.Any())
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
-            return PerformanceMeasureTargetValueType.TargetPerYear;
+            return PerformanceMeasureTargetValueType.NoTarget;
         }
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
@@ -332,7 +332,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureTargets.Any();
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any();
 
             return hasTargets;
         }

@@ -122,6 +122,7 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureOverallTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />

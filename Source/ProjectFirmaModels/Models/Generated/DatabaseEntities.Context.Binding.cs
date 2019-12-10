@@ -94,10 +94,11 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureOverallTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
-            modelBuilder.Configurations.Add(new PerformanceMeasureTargetConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new PersonStewardOrganizationConfiguration());
@@ -273,16 +274,18 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureOverallTarget> AllPerformanceMeasureOverallTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureOverallTarget> PerformanceMeasureOverallTargets { get { return AllPerformanceMeasureOverallTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureReportingPeriod> AllPerformanceMeasureReportingPeriods { get; set; }
         public virtual IQueryable<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get { return AllPerformanceMeasureReportingPeriods.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureReportingPeriodTarget> AllPerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureReportingPeriodTarget> PerformanceMeasureReportingPeriodTargets { get { return AllPerformanceMeasureReportingPeriodTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
         public virtual IQueryable<PerformanceMeasure> PerformanceMeasures { get { return AllPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategory> AllPerformanceMeasureSubcategories { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get { return AllPerformanceMeasureSubcategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategoryOption> AllPerformanceMeasureSubcategoryOptions { get; set; }
         public virtual IQueryable<PerformanceMeasureSubcategoryOption> PerformanceMeasureSubcategoryOptions { get { return AllPerformanceMeasureSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PerformanceMeasureTarget> AllPerformanceMeasureTargets { get; set; }
-        public virtual IQueryable<PerformanceMeasureTarget> PerformanceMeasureTargets { get { return AllPerformanceMeasureTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardGeospatialArea> AllPersonStewardGeospatialAreas { get; set; }
         public virtual IQueryable<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get { return AllPersonStewardGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PersonStewardOrganization> AllPersonStewardOrganizations { get; set; }
@@ -647,8 +650,14 @@ namespace ProjectFirmaModels.Models
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
 
+                case "PerformanceMeasureOverallTarget":
+                    return PerformanceMeasureOverallTargets.GetPerformanceMeasureOverallTarget(primaryKey);
+
                 case "PerformanceMeasureReportingPeriod":
                     return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);
+
+                case "PerformanceMeasureReportingPeriodTarget":
+                    return PerformanceMeasureReportingPeriodTargets.GetPerformanceMeasureReportingPeriodTarget(primaryKey);
 
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
@@ -658,9 +667,6 @@ namespace ProjectFirmaModels.Models
 
                 case "PerformanceMeasureSubcategoryOption":
                     return PerformanceMeasureSubcategoryOptions.GetPerformanceMeasureSubcategoryOption(primaryKey);
-
-                case "PerformanceMeasureTarget":
-                    return PerformanceMeasureTargets.GetPerformanceMeasureTarget(primaryKey);
 
                 case "PerformanceMeasureTargetValueType":
                     var performanceMeasureTargetValueType = PerformanceMeasureTargetValueType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

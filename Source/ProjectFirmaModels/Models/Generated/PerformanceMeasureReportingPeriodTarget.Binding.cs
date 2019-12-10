@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[PerformanceMeasureTarget]
+//  Source Table: [dbo].[PerformanceMeasureReportingPeriodTarget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PerformanceMeasureTarget] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[PerformanceMeasureTarget]")]
-    public partial class PerformanceMeasureTarget : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[PerformanceMeasureReportingPeriodTarget] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[PerformanceMeasureReportingPeriodTarget]")]
+    public partial class PerformanceMeasureReportingPeriodTarget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected PerformanceMeasureTarget()
+        protected PerformanceMeasureReportingPeriodTarget()
         {
 
         }
@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureTargetID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
+        public PerformanceMeasureReportingPeriodTarget(int performanceMeasureReportingPeriodTargetID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
         {
-            this.PerformanceMeasureTargetID = performanceMeasureTargetID;
+            this.PerformanceMeasureReportingPeriodTargetID = performanceMeasureReportingPeriodTargetID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
             this.PerformanceMeasureTargetValue = performanceMeasureTargetValue;
@@ -42,10 +42,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
+        public PerformanceMeasureReportingPeriodTarget(int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureReportingPeriodTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
@@ -54,24 +54,24 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureTarget(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
+        public PerformanceMeasureReportingPeriodTarget(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureReportingPeriodTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
-            performanceMeasure.PerformanceMeasureTargets.Add(this);
+            performanceMeasure.PerformanceMeasureReportingPeriodTargets.Add(this);
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
             this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
-            performanceMeasureReportingPeriod.PerformanceMeasureTargets.Add(this);
+            performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodTargets.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureTarget CreateNewBlank(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
+        public static PerformanceMeasureReportingPeriodTarget CreateNewBlank(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
         {
-            return new PerformanceMeasureTarget(performanceMeasure, performanceMeasureReportingPeriod);
+            return new PerformanceMeasureReportingPeriodTarget(performanceMeasure, performanceMeasureReportingPeriod);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureTarget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriodTarget).Name};
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllPerformanceMeasureTargets.Remove(this);
+            dbContext.AllPerformanceMeasureReportingPeriodTargets.Remove(this);
         }
         
         /// <summary>
@@ -107,14 +107,14 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int PerformanceMeasureTargetID { get; set; }
+        public int PerformanceMeasureReportingPeriodTargetID { get; set; }
         public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureReportingPeriodID { get; set; }
         public double? PerformanceMeasureTargetValue { get; set; }
         public string PerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return PerformanceMeasureTargetID; } set { PerformanceMeasureTargetID = value; } }
+        public int PrimaryKey { get { return PerformanceMeasureReportingPeriodTargetID; } set { PerformanceMeasureReportingPeriodTargetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }

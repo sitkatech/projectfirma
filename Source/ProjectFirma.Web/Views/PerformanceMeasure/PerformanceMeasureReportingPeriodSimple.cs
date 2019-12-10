@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         /// <summary>
         /// Only used for PerformanceMeasureTargets
         /// </summary>
-        public int? PerformanceMeasureTargetID { get; set; }
+        public int? PerformanceMeasureReportingPeriodTargetID { get; set; }
 
         /// <summary>
         /// Only used for GeospatialAreaPerformanceMeasureTargets
@@ -63,15 +63,15 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureTarget performanceMeasureTarget)
+        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureReportingPeriodTarget performanceMeasureReportingPeriodTarget)
         {
-            PerformanceMeasureReportingPeriodID = performanceMeasureTarget.PerformanceMeasureReportingPeriodID;
-            PerformanceMeasureReportingPeriodLabel = performanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
-            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
-            TargetValue = performanceMeasureTarget.PerformanceMeasureTargetValue;
-            TargetValueLabel = performanceMeasureTarget.PerformanceMeasureTargetValueLabel;
-            PerformanceMeasureID = performanceMeasureTarget.PerformanceMeasureID;
-            PerformanceMeasureTargetID = performanceMeasureTarget.PerformanceMeasureTargetID;
+            PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            TargetValue = performanceMeasureReportingPeriodTarget.PerformanceMeasureTargetValue;
+            TargetValueLabel = performanceMeasureReportingPeriodTarget.PerformanceMeasureTargetValueLabel;
+            PerformanceMeasureID = performanceMeasureReportingPeriodTarget.PerformanceMeasureID;
+            PerformanceMeasureReportingPeriodTargetID = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodTargetID;
         }
 
         public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.PerformanceMeasureActual performanceMeasureActual)
@@ -98,10 +98,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         }
 
 
-        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureTarget> performanceMeasureTargets, 
+        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportingPeriodTarget> performanceMeasureReportingPeriodTargets, 
                                                                                  IEnumerable<ProjectFirmaModels.Models.PerformanceMeasureActual> performanceMeasureActuals)
         {
-            var reportingPeriodSimples = performanceMeasureTargets.Select(pmt => new PerformanceMeasureReportingPeriodSimple(pmt)).ToList();
+            var reportingPeriodSimples = performanceMeasureReportingPeriodTargets.Select(pmt => new PerformanceMeasureReportingPeriodSimple(pmt)).ToList();
             reportingPeriodSimples.AddRange(performanceMeasureActuals.Select(pma => new PerformanceMeasureReportingPeriodSimple(pma)));
 
             List<PerformanceMeasureReportingPeriodSimple> finalSimples = new List<PerformanceMeasureReportingPeriodSimple>();
