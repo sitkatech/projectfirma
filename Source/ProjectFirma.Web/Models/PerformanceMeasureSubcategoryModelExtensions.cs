@@ -210,7 +210,9 @@ namespace ProjectFirma.Web.Models
 
         private static string GetTargetColumnLabel(PerformanceMeasure performanceMeasure)
         {
-            return performanceMeasure.GetTargetValueType() == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasure.PerformanceMeasureReportingPeriodTargets.First().PerformanceMeasureTargetValueLabel : "Target";
+            var isOverallTarget = performanceMeasure.GetTargetValueType() ==
+                                  PerformanceMeasureTargetValueType.OverallTarget;
+            return isOverallTarget ? performanceMeasure.PerformanceMeasureOverallTargets.First().PerformanceMeasureTargetValueLabel : "Target";
         }
 
         private static string GetGeospatialAreaTargetColumnLabel(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)

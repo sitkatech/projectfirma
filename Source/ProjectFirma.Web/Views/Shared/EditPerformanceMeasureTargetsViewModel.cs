@@ -98,8 +98,6 @@ namespace ProjectFirma.Web.Views.Shared
                                 ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods, 
                                 ICollection<PerformanceMeasureReportingPeriodTarget> allPerformanceMeasureReportingPeriodTargets)
         {
-
-
             var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
             DeleteOtherPerformanceMeasureTargetValueTypes(performanceMeasure, performanceMeasureTargetValueTypeEnum);
 
@@ -145,7 +143,6 @@ namespace ProjectFirma.Web.Views.Shared
 
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
-
             }
 
             //Google Chart Configuration
@@ -165,11 +162,6 @@ namespace ProjectFirma.Web.Views.Shared
                     }
                 }
             }
-
-
-
-
-
 
             //if (PerformanceMeasureReportingPeriodSimples != null)
             //{

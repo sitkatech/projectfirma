@@ -303,16 +303,16 @@ namespace ProjectFirma.Web.Models
 
         public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
         {
-            if (!performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
+            if (performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
             {
-                return PerformanceMeasureTargetValueType.NoTarget;
+                return PerformanceMeasureTargetValueType.TargetPerYear;
+                
             }
-
-            if (performanceMeasure.PerformanceMeasureReportingPeriodTargets.Select(x => $"{x.PerformanceMeasureTargetValue}{x.PerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            if (performanceMeasure.PerformanceMeasureOverallTargets.Any())
             {
                 return PerformanceMeasureTargetValueType.OverallTarget;
             }
-            return PerformanceMeasureTargetValueType.TargetPerYear;
+            return PerformanceMeasureTargetValueType.NoTarget;
         }
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
