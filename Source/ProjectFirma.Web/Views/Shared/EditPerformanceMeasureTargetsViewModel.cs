@@ -56,6 +56,13 @@ namespace ProjectFirma.Web.Views.Shared
         {
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriodTargets, performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
+            if (performanceMeasure.GetTargetValueType() ==
+                PerformanceMeasureTargetValueType.OverallTarget)
+            {
+                var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.First();
+                OverallTargetValue = overallTarget.PerformanceMeasureTargetValue;
+                OverallTargetValueLabel = overallTarget.PerformanceMeasureTargetValueLabel;
+            }
         }
 
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
@@ -66,13 +73,10 @@ namespace ProjectFirma.Web.Views.Shared
             if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) ==
                 PerformanceMeasureTargetValueType.OverallTarget)
             {
-                OverallTargetValue =
-                    performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x =>
-                        x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValue;
-                OverallTargetValueLabel = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x =>
-                    x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel;
+                var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+                OverallTargetValue = overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
+                OverallTargetValueLabel = overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
             }
-
         }
 
 
