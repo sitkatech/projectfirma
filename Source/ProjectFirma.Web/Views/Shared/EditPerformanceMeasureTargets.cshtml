@@ -73,6 +73,14 @@ Source code is available upon request via <support@sitkatech.com>.
 @Html.ValidationSummary(false, string.Empty, new Dictionary<string, object>() { { "class", "sustainabilityDashboardError" }, { "style", "margin-bottom: 10px" } })
 
 <div ng-app="ProjectFirmaApp" id="EditPerformanceMeasureTargetsApp" ng-controller="EditPerformanceMeasureTargetsController" style="max-height: 600px">
+    @if (ViewDataTyped.ShowGeoSpatialAreaInstructions)
+    {
+        <div>
+            This editor allows you to set a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() target specific to this @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel(). To set an overall target for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), do so through the Accomplishments chart on the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page.
+        </div>
+        <div>&nbsp;</div>
+    }
+
     <div>
         <span style="color: black; font-weight: bold">@ViewDataTyped.PerformanceMeasureFieldDefinition.GetFieldDefinitionLabel(): </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
         <hr />
@@ -80,14 +88,12 @@ Source code is available upon request via <support@sitkatech.com>.
     <div>
         <div style="display: inline-block; width: 300px">
             <span>Set Targets by</span><br />
-
             <div ng-repeat="performanceMeasureTargetValueType in AngularViewData.PerformanceMeasureTargetValueTypes">
                 <label ng-show="showTargetType(performanceMeasureTargetValueType)">
                     <input type="radio" name="targetType" ng-change="targetValueTypeChanged()" ng-model="AngularModel.PerformanceMeasureTargetValueTypeID" value="{{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeID}}" />
                     {{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeDisplayName}}
                 </label>
             </div>
-            
         </div>
         <div ng-show="ShowOverallTargetInputs" style="display: inline-block; vertical-align: top">
             <span>Target: <input type="number" step="0.0001" ng-model="AngularModel.OverallTargetValue" /></span>
@@ -169,7 +175,7 @@ Source code is available upon request via <support@sitkatech.com>.
         
         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
         <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValue)" value="{{AngularModel.OverallTargetValue}}" />
-        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueDescription)" value="{{AngularModel.OverallTargetValueLabel}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueLabel)" value="{{AngularModel.OverallTargetValueLabel}}" />
         <div ng-repeat="performanceMeasureReportingPeriodSimple in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear}}" />
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodLabel}}" />
@@ -178,6 +184,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureTargetID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureTargetID}}" />
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].GeospatialAreaID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.GeospatialAreaID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].GeospatialAreaPerformanceMeasureReportingPeriodTargetID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.GeospatialAreaPerformanceMeasureReportingPeriodTargetID}}" />
         </div>
     }
 </div>

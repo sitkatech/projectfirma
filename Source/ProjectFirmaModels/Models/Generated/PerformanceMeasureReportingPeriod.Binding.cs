@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PerformanceMeasureReportingPeriod()
         {
-            this.GeospatialAreaPerformanceMeasureTargets = new HashSet<GeospatialAreaPerformanceMeasureTarget>();
+            this.GeospatialAreaPerformanceMeasureReportingPeriodTargets = new HashSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.PerformanceMeasureTargets = new HashSet<PerformanceMeasureTarget>();
@@ -67,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreaPerformanceMeasureTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureTargets.Any();
+            return GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureTargets.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureTarget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureTarget).Name};
 
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in GeospatialAreaPerformanceMeasureTargets.ToList())
+            foreach(var x in GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -127,7 +127,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureReportingPeriodID; } set { PerformanceMeasureReportingPeriodID = value; } }
 
-        public virtual ICollection<GeospatialAreaPerformanceMeasureTarget> GeospatialAreaPerformanceMeasureTargets { get; set; }
+        public virtual ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureTarget> PerformanceMeasureTargets { get; set; }

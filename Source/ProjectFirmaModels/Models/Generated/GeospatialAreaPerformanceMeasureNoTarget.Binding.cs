@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[PerformanceMeasureTarget]
+//  Source Table: [dbo].[GeospatialAreaPerformanceMeasureNoTarget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PerformanceMeasureTarget] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[PerformanceMeasureTarget]")]
-    public partial class PerformanceMeasureTarget : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[GeospatialAreaPerformanceMeasureNoTarget] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[GeospatialAreaPerformanceMeasureNoTarget]")]
+    public partial class GeospatialAreaPerformanceMeasureNoTarget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected PerformanceMeasureTarget()
+        protected GeospatialAreaPerformanceMeasureNoTarget()
         {
 
         }
@@ -30,48 +30,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureTargetID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
+        public GeospatialAreaPerformanceMeasureNoTarget(int geospatialAreaPerformanceMeasureNoTargetID, int geospatialAreaID, int performanceMeasureID) : this()
         {
-            this.PerformanceMeasureTargetID = performanceMeasureTargetID;
+            this.GeospatialAreaPerformanceMeasureNoTargetID = geospatialAreaPerformanceMeasureNoTargetID;
+            this.GeospatialAreaID = geospatialAreaID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
-            this.PerformanceMeasureTargetValue = performanceMeasureTargetValue;
-            this.PerformanceMeasureTargetValueLabel = performanceMeasureTargetValueLabel;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
+        public GeospatialAreaPerformanceMeasureNoTarget(int geospatialAreaID, int performanceMeasureID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.GeospatialAreaPerformanceMeasureNoTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.GeospatialAreaID = geospatialAreaID;
             this.PerformanceMeasureID = performanceMeasureID;
-            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureTarget(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
+        public GeospatialAreaPerformanceMeasureNoTarget(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.GeospatialAreaPerformanceMeasureNoTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.GeospatialAreaID = geospatialArea.GeospatialAreaID;
+            this.GeospatialArea = geospatialArea;
+            geospatialArea.GeospatialAreaPerformanceMeasureNoTargets.Add(this);
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
-            performanceMeasure.PerformanceMeasureTargets.Add(this);
-            this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
-            this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
-            performanceMeasureReportingPeriod.PerformanceMeasureTargets.Add(this);
+            performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureTarget CreateNewBlank(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
+        public static GeospatialAreaPerformanceMeasureNoTarget CreateNewBlank(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            return new PerformanceMeasureTarget(performanceMeasure, performanceMeasureReportingPeriod);
+            return new GeospatialAreaPerformanceMeasureNoTarget(geospatialArea, performanceMeasure);
         }
 
         /// <summary>
@@ -86,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureTarget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaPerformanceMeasureNoTarget).Name};
 
 
         /// <summary>
@@ -94,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllPerformanceMeasureTargets.Remove(this);
+            dbContext.AllGeospatialAreaPerformanceMeasureNoTargets.Remove(this);
         }
         
         /// <summary>
@@ -107,22 +105,20 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int PerformanceMeasureTargetID { get; set; }
+        public int GeospatialAreaPerformanceMeasureNoTargetID { get; set; }
         public int TenantID { get; set; }
+        public int GeospatialAreaID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public int PerformanceMeasureReportingPeriodID { get; set; }
-        public double? PerformanceMeasureTargetValue { get; set; }
-        public string PerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return PerformanceMeasureTargetID; } set { PerformanceMeasureTargetID = value; } }
+        public int PrimaryKey { get { return GeospatialAreaPerformanceMeasureNoTargetID; } set { GeospatialAreaPerformanceMeasureNoTargetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual GeospatialArea GeospatialArea { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
-        public virtual PerformanceMeasureReportingPeriod PerformanceMeasureReportingPeriod { get; set; }
 
         public static class FieldLengths
         {
-            public const int PerformanceMeasureTargetValueLabel = 100;
+
         }
     }
 }

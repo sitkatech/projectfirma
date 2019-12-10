@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureID).HasColumnName(@"PerformanceMeasureID").HasColumnType("int").IsRequired();
             Property(x => x.PerformanceMeasureReportingPeriodID).HasColumnName(@"PerformanceMeasureReportingPeriodID").HasColumnType("int").IsRequired();
-            Property(x => x.PerformanceMeasureTargetValue).HasColumnName(@"PerformanceMeasureTargetValue").HasColumnType("float").IsRequired();
+            Property(x => x.PerformanceMeasureTargetValue).HasColumnName(@"PerformanceMeasureTargetValue").HasColumnType("float").IsOptional();
             Property(x => x.PerformanceMeasureTargetValueLabel).HasColumnName(@"PerformanceMeasureTargetValueLabel").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys

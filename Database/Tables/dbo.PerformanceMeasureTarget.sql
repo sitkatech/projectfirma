@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[PerformanceMeasureTarget](
 	[TenantID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
 	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
-	[PerformanceMeasureTargetValue] [float] NOT NULL,
+	[PerformanceMeasureTargetValue] [float] NULL,
 	[PerformanceMeasureTargetValueLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_PerformanceMeasureTarget_PerformanceMeasureTargetID] PRIMARY KEY CLUSTERED 
 (

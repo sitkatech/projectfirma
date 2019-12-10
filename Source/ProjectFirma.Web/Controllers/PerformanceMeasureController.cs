@@ -215,7 +215,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public ContentResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative)
+        public ContentResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration chartConfiguration)
         {
             return new ContentResult();
         }
@@ -223,7 +223,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative, GoogleChartConfigurationViewModel viewModel)
+        public ActionResult SaveChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration chartConfiguration, GoogleChartConfigurationViewModel viewModel)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
 
@@ -233,14 +233,14 @@ namespace ProjectFirma.Web.Controllers
             }
             else
             {
-                viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID, isCumulative);
+                viewModel.UpdateModel(performanceMeasure, performanceMeasureSubcategoryID, chartConfiguration);
             }
             return RedirectToAction(new SitkaRoute<PerformanceMeasureController>(x => x.Detail(performanceMeasure)));
         }
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative)
+        public PartialViewResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration chartConfiguration)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(performanceMeasure.PerformanceMeasureID);
@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, bool isCumulative, ConfirmDialogFormViewModel viewModel)
+        public ActionResult ResetChartConfiguration(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, int performanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration chartConfiguration, ConfirmDialogFormViewModel viewModel)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
@@ -270,17 +270,19 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.Single(x => x.PerformanceMeasureSubcategoryID == performanceMeasureSubcategoryID);
             GoogleChartConfiguration defaultSubcategoryChartConfigurationJson = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
 
-            if (isCumulative)
+            switch (chartConfiguration)
             {
-                performanceMeasureSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
-                performanceMeasureSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                case PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration:
+                    performanceMeasureSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+                    performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    break;
+                case PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration:
+                    performanceMeasureSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
+                    performanceMeasureSubcategory.CumulativeGoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid PerformanceMeasureSubcategoryChartConfiguration: '{chartConfiguration}'");
             }
-            else
-            {
-                performanceMeasureSubcategory.ChartConfigurationJson = JObject.FromObject(defaultSubcategoryChartConfigurationJson).ToString();
-                performanceMeasureSubcategory.GoogleChartTypeID = GoogleChartType.ColumnChart.GoogleChartTypeID;
-            }
-            
 
             return new ModalDialogFormJsonResult();
         }
@@ -320,11 +322,21 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<GeospatialArea> GeospatialAreaPerformanceMeasureTargetsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var performanceMeasureTargets = performanceMeasure.GeospatialAreaPerformanceMeasureTargets;
-            var geospatialAreas = performanceMeasureTargets.Select(x => x.GeospatialArea).AsEnumerable().DistinctBy(x => x.GeospatialAreaID).ToList();
+
+            // Get all three possible target types
+            var noTargets = performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets;
+            var overallTargets = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets;
+            var reportingPeriodTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets;
+
+            var allRelevantGeoSpatialAreasWithTargets = new List<GeospatialArea>();
+
+            allRelevantGeoSpatialAreasWithTargets.AddRange(noTargets.Select(nt => nt.GeospatialArea));
+            allRelevantGeoSpatialAreasWithTargets.AddRange(overallTargets.Select(nt => nt.GeospatialArea));
+            List<GeospatialArea> temp = reportingPeriodTargets.DistinctBy(rpt => $"{rpt.GeospatialAreaID}_{rpt.PerformanceMeasureID}").Select(nt => nt.GeospatialArea).ToList();
+            allRelevantGeoSpatialAreasWithTargets.AddRange(temp);
 
             var gridSpec = new GeospatialAreaPerformanceMeasureTargetGridSpec(CurrentFirmaSession, performanceMeasurePrimaryKey.EntityObject);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(geospatialAreas, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<GeospatialArea>(allRelevantGeoSpatialAreasWithTargets, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -609,12 +621,13 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureTargets.Load();
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
             viewModel.UpdateModel(performanceMeasure, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureTargets.Local);
-            
+
             SetMessageForDisplay($"Successfully saved {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Targets");
             return new ModalDialogFormJsonResult();
         }
 
-        private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewModel viewModel)
+        private ActionResult ViewEditPerformanceMeasureReportedValues(PerformanceMeasure performanceMeasure,
+                                                                      EditPerformanceMeasureTargetsViewModel viewModel)
         {
             var performanceMeasureTargetValueTypes = PerformanceMeasureTargetValueType.All.ToList();
             var reportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
@@ -624,7 +637,7 @@ namespace ProjectFirma.Web.Controllers
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
                 defaultReportingPeriodYear,
                 performanceMeasureTargetValueTypes);
-            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular);
+            var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular, EditPerformanceMeasureTargetsViewData.PerformanceMeasureTargetType.TargetByYear);
             return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData, EditPerformanceMeasureTargetsViewModel>(viewData, viewModel);
         }
 
