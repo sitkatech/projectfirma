@@ -15,6 +15,11 @@ namespace ProjectFirma.Web.Models
 
         public static double? GetTargetValue(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
+            var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.FirstOrDefault();
+            if (overallTarget != null)
+            {
+                return overallTarget.PerformanceMeasureTargetValue;
+            }
             return performanceMeasure.PerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID)?.PerformanceMeasureTargetValue;
         }
 
@@ -31,6 +36,11 @@ namespace ProjectFirma.Web.Models
 
         public static string GetTargetValueLabel(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
+            var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.FirstOrDefault();
+            if (overallTarget != null)
+            {
+                return overallTarget.PerformanceMeasureTargetValueLabel;
+            }
             return performanceMeasure.PerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID)?.PerformanceMeasureTargetValueLabel;
         }
 
