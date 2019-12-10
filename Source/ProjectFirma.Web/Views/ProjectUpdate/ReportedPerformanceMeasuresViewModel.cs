@@ -65,7 +65,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public void UpdateModel(List<PerformanceMeasureActualUpdate> currentPerformanceMeasureActualUpdates,
             IList<PerformanceMeasureActualUpdate> allPerformanceMeasureActualUpdates,
             IList<PerformanceMeasureActualSubcategoryOptionUpdate> allPerformanceMeasureActualSubcategoryOptionUpdates,
-            ProjectUpdateBatch projectUpdateBatch)
+            ProjectUpdateBatch projectUpdateBatch,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
             var currentPerformanceMeasureActualSubcategoryOptionUpdates =
                 currentPerformanceMeasureActualUpdates.SelectMany(x => x.PerformanceMeasureActualSubcategoryOptionUpdates).ToList();
@@ -73,16 +74,16 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
             if (PerformanceMeasureActualUpdates != null)
             {
-                var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
                 // Completely rebuild the list
                 performanceMeasureActualUpdatesUpdated = PerformanceMeasureActualUpdates.Select(pmaus =>
                 {
-                    var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(pmrp => pmrp.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmaus.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {
                         Check.EnsureNotNull(pmaus.PerformanceMeasureID, "We need to have a performance measure.");
                         performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)pmaus.PerformanceMeasureID, pmaus.CalendarYear, pmaus.CalendarYear.ToString());
-                        performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                        allPerformanceMeasureReportingPeriods.Add(performanceMeasureReportingPeriod);
+                        HttpRequestStorage.DatabaseEntities.SaveChanges();
                     }
 
                     var performanceMeasureActual = new PerformanceMeasureActualUpdate(pmaus.PerformanceMeasureActualUpdateID,

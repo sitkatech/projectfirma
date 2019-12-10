@@ -72,7 +72,7 @@
                             ng-value="geospatialArea.GeospatialAreaID"></option>
                 </select>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addGeospatialArea(SelectedGeospatialAreaID, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                    <button type="button" class="btn btn-sm btn-firma" ng-disabled="isAddButtonDisabled()" ng-click="addGeospatialArea(SelectedGeospatialAreaID, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
             </div>
         </div>

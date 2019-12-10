@@ -444,7 +444,9 @@ namespace ProjectFirma.Web.Controllers
             var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
             var performanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
-            viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project);
+            HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
+            var allPerformanceMeasureReportingPeriods = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
+            viewModel.UpdateModel(performanceMeasureActuals, allPerformanceMeasureActuals, performanceMeasureActualSubcategoryOptions, project, allPerformanceMeasureReportingPeriods);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()} successfully saved.");
             return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedAccomplishments.ProjectCreateSectionDisplayName);
         }

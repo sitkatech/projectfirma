@@ -113,6 +113,7 @@ namespace ProjectFirma.Web.Views
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentFirmaSession));
+            TopLevelLtInfoMenuItems.Add(BuildConfigureMenu(currentFirmaSession));
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -122,6 +123,7 @@ namespace ProjectFirma.Web.Views
                 ModalDialogFormHelper.ModalDialogFormLink("Request Support", RequestSupportUrl, "Request Support", 800,
                     "Submit Request", "Cancel", new List<string>(), null, null).ToString(), "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c=>c.Training()), currentFirmaSession, "Training", "ToolHelp"));
+            HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentFirmaSession, "Internal Setup Notes", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ReleaseNotes()), currentFirmaSession, "Release Notes", "ToolHelp"));
             HelpMenu.AddMenuItem(LtInfoMenuItem.MakeItem("About ProjectFirma",
                 @"<a href='http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/' target='_blank'>About ProjectFirma <span class='glyphicon glyphicon-new-window'></span></a>", "ExternalHelp"));
@@ -176,12 +178,14 @@ namespace ProjectFirma.Web.Views
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<GeospatialAreaController>(c => c.Index(geospatialAreaType)), currentFirmaSession, $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", "Group2"));
             }
+
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStewardOrganizationController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectStewardOrganizationDisplayName.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             }
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
+
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WebServicesController>(c => c.Index()), currentFirmaSession, $"Web Services", "Group4"));
             
             return programInfoMenu;
@@ -202,6 +206,7 @@ namespace ProjectFirma.Web.Views
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyBranchController>(c => c.Manage()), currentFirmaSession, FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
             }
+
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TaxonomyLeafController>(c => c.Manage()), currentFirmaSession, FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
             MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
             {
@@ -212,41 +217,20 @@ namespace ProjectFirma.Web.Views
             MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentFirmaSession, "Group1");
 
             // Group 2 - System Config stuff
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentFirmaSession, $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group2"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ManageHomePageImages()), currentFirmaSession, "Homepage Configuration", "Group2"));
-            
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentFirmaSession, "Custom About Pages", "Group2"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentFirmaSession, "Custom Labels & Definitions", "Group2"));
 
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
-                new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession,
-                "Attachment Relationship Type Configuration", "Group2"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
-                new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentFirmaSession,
-                "Full Attachments List", "Group2"));
+            // Group 3
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group3"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group3"));
 
-            // Group 3 - Content Editing stuff
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentFirmaSession, "Custom Labels & Definitions", "Group3"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentFirmaSession, "Custom About Pages", "Group3"));
-            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
-            {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
-                    new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession,
-                    $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeGroupController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
-            }
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomGridController>(c => c.ManageProjectCustomGrids()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids", "Group3"));
+            // Group 4
 
-            if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
-            {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()} Customization", "Group3"));
-            }
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
 
             // Group 4 - Other
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentFirmaSession, "Internal Setup Notes", "Group4"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentFirmaSession, "Style Guide", "Group4"));
 
             // Group 5 - Project Firma Configuration stuff
             if (HttpRequestStorage.Tenant == ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup)
@@ -254,31 +238,69 @@ namespace ProjectFirma.Web.Views
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.DemoScript()), currentFirmaSession, "Demo Script", "Group5")); // TODO: poor man's hack until we do tenant specific menu and features
             }
             
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group5"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ContactRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized(), "Group5"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentFirmaSession, "Tenant Configuration", "Group5"));
+            return manageMenu;
+        }
 
-            // The Site Monitor (Health Check) page is deliberately Anonymous to allow Nagios to hit it easily, but we don't want to advertise it to non-admins.
-            if (currentFirmaSession.IsAdministrator())
+        private static LtInfoMenuItem BuildConfigureMenu(FirmaSession currentFirmaSession)
+        {
+            var configureMenu = new LtInfoMenuItem("Configure");
+
+            // Group 1 - Projects
+            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SiteMonitorController>(c => c.SiteMonitor()), currentFirmaSession, "Site Monitor (Health Checks)", "Group6"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomAttributeGroupController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+            }
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomGridController>(c => c.ManageProjectCustomGrids()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids", "Group1"));
+
+            if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            {
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()} Customization", "Group1"));
             }
 
-            return manageMenu;
+            if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)
+            {
+                // Group 2 - Funding source
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
+            }
+
+            // Group 3 - Attachments
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, "Attachment Relationship Type Configuration", "Group3"));
+
+            // Group 4 - Sitka admins only
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ContactRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentFirmaSession, "Tenant Configuration", "Group4"));
+            if (currentFirmaSession.IsSitkaAdministrator())
+            {
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentFirmaSession, "Style Guide", "Group4"));
+
+                // The Site Monitor (Health Check) page is deliberately Anonymous to allow Nagios to hit it easily, but we don't want to advertise it to non-admins.
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SiteMonitorController>(c => c.SiteMonitor()), currentFirmaSession, "Site Monitor (Health Checks)", "Group4"));
+            }
+
+            return configureMenu;
         }
 
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)
         {
             var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
+
+            // Group 1 - Project map
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map", "Group1"));
+
+            // Group 2 - Project list and organization's projects
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Index()), currentFirmaSession, $"Full {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} List", "Group2"));            
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.MyOrganizationsProjects()), currentFirmaSession, $"My {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}'s {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
-            //projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.MyProjectsRequiringAnUpdate()), currentPerson, "Update My Project(s)", "Group3"));
-            //var projectUpdateStatusMenuItemName = string.Format("{0} Status of Project Updates", FirmaDateUtilities.CalculateCurrentYearToUseForReporting());
-            //projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.ProjectUpdateStatus()), currentPerson, projectUpdateStatusMenuItemName, "Group3"));
+
+            // Group 3 - Proposals and pending projects
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Proposed()), currentFirmaSession, $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Pending()), currentFirmaSession, $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
+
+            // Group 4 - Attachments
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentFirmaSession, "Full Attachments List", "Group4"));
+
             return projectsMenu;
         }
 

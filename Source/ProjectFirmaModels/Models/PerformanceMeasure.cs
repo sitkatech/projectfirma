@@ -19,7 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
 {
@@ -41,5 +43,55 @@ namespace ProjectFirmaModels.Models
         public void SetSortOrder(int? value) => PerformanceMeasureSortOrder = value;
         public int? GetSortOrder() => PerformanceMeasureSortOrder;
         public int GetID() => PerformanceMeasureID;
+
+        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType()
+        {
+            bool hasOverallTarget = PerformanceMeasureOverallTargets.Any();
+            bool hasReportingPeriodTarget = PerformanceMeasureReportingPeriodTargets.Any();
+
+            Check.Ensure((hasOverallTarget && !hasReportingPeriodTarget) || (!hasOverallTarget && hasReportingPeriodTarget));
+
+            if (hasOverallTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.OverallTarget;
+            }
+
+            if (hasReportingPeriodTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.TargetPerYear;
+            }
+
+            throw (new NotImplementedException("Not expecting to reach here; what's the problem?"));
+        }
+
+        public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueTypeForGeospatialArea(GeospatialArea geospatialArea)
+        {
+            bool hasNoTarget = this.GeospatialAreaPerformanceMeasureNoTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasOverallTarget = this.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasReportingPeriodTarget = this.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+
+            // NOTE that the unset case (all false) is NOT yet handled! Need to think about this.
+            Check.Ensure((hasNoTarget && !hasOverallTarget && !hasReportingPeriodTarget) ||
+                                (!hasNoTarget && hasOverallTarget && !hasReportingPeriodTarget) ||
+                                (!hasNoTarget && !hasOverallTarget && hasReportingPeriodTarget)
+            );
+
+            if (hasNoTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.NoTarget;
+            }
+
+            if (hasOverallTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.OverallTarget;
+            }
+
+            if (hasReportingPeriodTarget)
+            {
+                return PerformanceMeasureTargetValueTypeEnum.TargetPerYear;
+            }
+
+            throw(new NotImplementedException("Not expecting to reach here; what's the problem?"));
+        }
     }
 }
