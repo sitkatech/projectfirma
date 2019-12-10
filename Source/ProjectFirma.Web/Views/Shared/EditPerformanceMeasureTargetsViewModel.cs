@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.Shared
 
             if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.TargetPerYear)
             {
-                var reportingPeriodTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList();
+                var reportingPeriodTargetsToDelete = performanceMeasure.PerformanceMeasureReportingPeriodTargets.ToList();
                 reportingPeriodTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
         }
