@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaPerformanceMeasureOverallTarget(int geospatialAreaPerformanceMeasureOverallTargetID, int geospatialAreaID, int performanceMeasureID, double? geospatialAreaPerformanceMeasureTargetValue, string geospatialAreaPerformanceMeasureTargetValueLabel) : this()
+        public GeospatialAreaPerformanceMeasureOverallTarget(int geospatialAreaPerformanceMeasureOverallTargetID, int geospatialAreaID, int performanceMeasureID, double geospatialAreaPerformanceMeasureTargetValue, string geospatialAreaPerformanceMeasureTargetValueLabel) : this()
         {
             this.GeospatialAreaPerformanceMeasureOverallTargetID = geospatialAreaPerformanceMeasureOverallTargetID;
             this.GeospatialAreaID = geospatialAreaID;
@@ -42,19 +42,20 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaPerformanceMeasureOverallTarget(int geospatialAreaID, int performanceMeasureID) : this()
+        public GeospatialAreaPerformanceMeasureOverallTarget(int geospatialAreaID, int performanceMeasureID, double geospatialAreaPerformanceMeasureTargetValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaPerformanceMeasureOverallTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.GeospatialAreaID = geospatialAreaID;
             this.PerformanceMeasureID = performanceMeasureID;
+            this.GeospatialAreaPerformanceMeasureTargetValue = geospatialAreaPerformanceMeasureTargetValue;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public GeospatialAreaPerformanceMeasureOverallTarget(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure) : this()
+        public GeospatialAreaPerformanceMeasureOverallTarget(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure, double geospatialAreaPerformanceMeasureTargetValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaPerformanceMeasureOverallTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -64,6 +65,7 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
             performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Add(this);
+            this.GeospatialAreaPerformanceMeasureTargetValue = geospatialAreaPerformanceMeasureTargetValue;
         }
 
         /// <summary>
@@ -71,7 +73,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static GeospatialAreaPerformanceMeasureOverallTarget CreateNewBlank(GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
         {
-            return new GeospatialAreaPerformanceMeasureOverallTarget(geospatialArea, performanceMeasure);
+            return new GeospatialAreaPerformanceMeasureOverallTarget(geospatialArea, performanceMeasure, default(double));
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int GeospatialAreaID { get; set; }
         public int PerformanceMeasureID { get; set; }
-        public double? GeospatialAreaPerformanceMeasureTargetValue { get; set; }
+        public double GeospatialAreaPerformanceMeasureTargetValue { get; set; }
         public string GeospatialAreaPerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaPerformanceMeasureOverallTargetID; } set { GeospatialAreaPerformanceMeasureOverallTargetID = value; } }

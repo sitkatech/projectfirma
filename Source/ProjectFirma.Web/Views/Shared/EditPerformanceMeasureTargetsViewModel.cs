@@ -115,28 +115,30 @@ namespace ProjectFirma.Web.Views.Shared
                         case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod, OverallTargetValue.Value)
+                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
                                 {
+                                    PerformanceMeasureTargetValue = OverallTargetValue,
                                     PerformanceMeasureTargetValueLabel = OverallTargetValueLabel
                                 };
                             }
                             else
                             {
-                                performanceMeasureTarget.PerformanceMeasureTargetValue = OverallTargetValue.Value;
+                                performanceMeasureTarget.PerformanceMeasureTargetValue = OverallTargetValue;
                                 performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
                             }
                             break;
                         case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                             if (performanceMeasureTarget == null)
                             {
-                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod, reportingPeriodSimple.TargetValue.Value)
+                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
                                 {
+                                    PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
                                     PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
                                 };
                             }
                             else
                             {
-                                performanceMeasureTarget.PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue.Value;
+                                performanceMeasureTarget.PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue;
                                 performanceMeasureTarget.PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel;
                             }
                             break;
@@ -224,12 +226,12 @@ namespace ProjectFirma.Web.Views.Shared
             {
                 case PerformanceMeasureTargetValueTypeEnum.NoTarget:
                     // Make a "no target" object.
+                    // ReSharper disable once UnusedVariable
                     var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea);
-                    overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue;
+                    var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea, OverallTargetValue.Value);
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
                     break;
 
@@ -247,6 +249,7 @@ namespace ProjectFirma.Web.Views.Shared
                         var performanceMeasureTarget = allGeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == pmrpSimple.GeospatialAreaPerformanceMeasureReportingPeriodTargetID);
                         if (performanceMeasureTarget == null)
                         {
+                            // ReSharper disable once RedundantAssignment
                             performanceMeasureTarget = new GeospatialAreaPerformanceMeasureReportingPeriodTarget(geospatialArea, performanceMeasure, reportingPeriod)
                                 {
                                     GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue,
@@ -255,7 +258,7 @@ namespace ProjectFirma.Web.Views.Shared
                         }
                         else
                         {
-                            performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue.Value;
+                            performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue;
                             performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
                         }
                     }
@@ -289,14 +292,27 @@ namespace ProjectFirma.Web.Views.Shared
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            PerformanceMeasureReportedsWithValidationErrors = new HashSet<string>();
+            var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
 
-            if (PerformanceMeasureReportingPeriodSimples == null)
+            switch (performanceMeasureTargetValueTypeEnum)
             {
-                return errors;
+                case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+                    break;
+                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+                    if (!OverallTargetValue.HasValue)
+                    {
+                        errors.Add(new ValidationResult("If you are submitting an overall target, you must set a target value. Otherwise choose \"No Target\"."));
+                    }
+
+                    break;
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
-            return errors.DistinctBy(x => x.ErrorMessage);
+            return errors;
+
         }
         
     }

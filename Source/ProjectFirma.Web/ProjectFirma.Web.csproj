@@ -104,7 +104,6 @@
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.cs" />
-    <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeSimple.cs" />

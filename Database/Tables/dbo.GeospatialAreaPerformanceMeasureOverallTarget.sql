@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureOverallTarget](
 	[TenantID] [int] NOT NULL,
 	[GeospatialAreaID] [int] NOT NULL,
 	[PerformanceMeasureID] [int] NOT NULL,
-	[GeospatialAreaPerformanceMeasureTargetValue] [float] NULL,
+	[GeospatialAreaPerformanceMeasureTargetValue] [float] NOT NULL,
 	[GeospatialAreaPerformanceMeasureTargetValueLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_GeospatialAreaPerformanceMeasureOverallTarget_GeospatialAreaPerformanceMeasureOverallTargetID] PRIMARY KEY CLUSTERED 
 (

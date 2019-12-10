@@ -79,7 +79,6 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
             PerformanceMeasureReportingPeriodLabel = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
             PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
-            TargetValue = null;
             TargetValueLabel = string.Empty;
             PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
 
@@ -110,14 +109,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var calendarYearGroups = reportingPeriodSimples.GroupBy(x => x.PerformanceMeasureReportingPeriodCalendarYear);
             foreach (var currentGroup in calendarYearGroups)
             {
-                // If there are multiple per calendar year, prefer the one with a TargetValue
-                PerformanceMeasureReportingPeriodSimple reportingPeriodSimpleToAdd = currentGroup.FirstOrDefault(g => g.TargetValue.HasValue);
-                if (reportingPeriodSimpleToAdd == null)
-                {
-                    // Otherwise, if no target value, take the first one available.
-                    reportingPeriodSimpleToAdd = currentGroup.First();
-                }
-
+                // If there are multiple per calendar year, take first one available
+                var reportingPeriodSimpleToAdd = currentGroup.First();
                 finalSimples.Add(reportingPeriodSimpleToAdd);
             }
 
@@ -135,14 +128,8 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             var calendarYearGroups = reportingPeriodSimples.GroupBy(x => x.PerformanceMeasureReportingPeriodCalendarYear);
             foreach (var currentGroup in calendarYearGroups)
             {
-                // If there are multiple per calendar year, prefer the one with a TargetValue
-                PerformanceMeasureReportingPeriodSimple reportingPeriodSimpleToAdd = currentGroup.FirstOrDefault(g => g.TargetValue.HasValue);
-                if (reportingPeriodSimpleToAdd == null)
-                {
-                    // Otherwise, if no target value, take the first one available.
-                    reportingPeriodSimpleToAdd = currentGroup.First();
-                }
-
+                // If there are multiple per calendar year, take first one available
+                var reportingPeriodSimpleToAdd = currentGroup.First();
                 finalSimples.Add(reportingPeriodSimpleToAdd);
             }
 

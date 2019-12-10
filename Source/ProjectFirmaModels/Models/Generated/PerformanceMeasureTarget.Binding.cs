@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureTargetID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
+        public PerformanceMeasureTarget(int performanceMeasureTargetID, int performanceMeasureID, int performanceMeasureReportingPeriodID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
         {
             this.PerformanceMeasureTargetID = performanceMeasureTargetID;
             this.PerformanceMeasureID = performanceMeasureID;
@@ -42,20 +42,19 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureTarget(int performanceMeasureID, int performanceMeasureReportingPeriodID, double performanceMeasureTargetValue) : this()
+        public PerformanceMeasureTarget(int performanceMeasureID, int performanceMeasureReportingPeriodID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
-            this.PerformanceMeasureTargetValue = performanceMeasureTargetValue;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureTarget(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, double performanceMeasureTargetValue) : this()
+        public PerformanceMeasureTarget(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -65,7 +64,6 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
             this.PerformanceMeasureReportingPeriod = performanceMeasureReportingPeriod;
             performanceMeasureReportingPeriod.PerformanceMeasureTargets.Add(this);
-            this.PerformanceMeasureTargetValue = performanceMeasureTargetValue;
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static PerformanceMeasureTarget CreateNewBlank(PerformanceMeasure performanceMeasure, PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
         {
-            return new PerformanceMeasureTarget(performanceMeasure, performanceMeasureReportingPeriod, default(double));
+            return new PerformanceMeasureTarget(performanceMeasure, performanceMeasureReportingPeriod);
         }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureReportingPeriodID { get; set; }
-        public double PerformanceMeasureTargetValue { get; set; }
+        public double? PerformanceMeasureTargetValue { get; set; }
         public string PerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureTargetID; } set { PerformanceMeasureTargetID = value; } }
