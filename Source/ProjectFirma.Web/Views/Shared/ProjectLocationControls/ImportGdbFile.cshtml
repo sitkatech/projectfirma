@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ImportGdbFile
@@ -28,18 +29,9 @@ Source code is available upon request via <support@sitkatech.com>.
     <tr>
         <td style="width: 350px">
             <p>
-                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location. Requirements:
-                <ul>
-                    <li>A single ArcGIS file geodatabase containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()</li>
-                    <li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li>
-                    <li>The zip file must contain one and only file geodatabase and no other data</li>
-                    <li>Version 10.1+ file geodatabases are supported </li>
-                    <li>
-                        Layers with elevation (z values) or route (m values) data are not supported.
-                        If your data has z or m values, please
-                        <a href="http://support.esri.com/es/knowledgebase/techarticles/detail/35818" target="_blank">remove them prior to importing</a>.
-                    </li>
-                </ul>
+                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location by uploading an @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase.GetFieldDefinitionLabel()</strong>
+                or a @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForKMLFile, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForKMLFile.GetFieldDefinitionLabel()</strong>. Please upload a single file containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().
+
             </p>
             <p>
                 After you upload your file you will be able to preview and verify the uploaded data. Note that once you accept

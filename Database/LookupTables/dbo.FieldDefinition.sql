@@ -132,4 +132,6 @@ VALUES
 (307, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By', N'<p>The person attributed to creating this update status.</p>'),
 (308, N'ProjectStatusUpdateDate', N'Project Status Update Date', N'<p>The date that will be displayed for this status update.</p>'),
 (309, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>'),
-(310, N'GeospatialArea', 'Geospatial Area', 'The term "geospatial data" refers to data or information that identifies the geographic location of features and boundaries on Earth. In simple terms, it is data that can be mapped.')
+(310, N'GeospatialArea', 'Geospatial Area', 'The term "geospatial data" refers to data or information that identifies the geographic location of features and boundaries on Earth. In simple terms, it is data that can be mapped.'),
+(311, N'ArcGISFileGeodatabase', 'ArcGIS File Geodatabase', '<p>Requirements for .gdb:</p><ul><li>The file geodatabase (.gdb) must be contained within a compressed zip file (.zip)</li><li>The zip file must contain one and only file geodatabase and no other data</li><li>Version 10.1+ file geodatabases are supported </li><li>Layers with elevation (z values) or route (m values) data are not supported. If your data has z or m values, please <a href="http://support.esri.com/es/knowledgebase/techarticles/detail/35818" target="_blank">remove them prior to importing</a>.</li></ul>'),
+(312, N'KMLFile', 'KML File', 'KML Files may be saved using Google Earth')

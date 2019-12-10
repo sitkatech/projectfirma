@@ -31,13 +31,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string ApproveGisUploadUrl;
         public readonly MapInitJson MapInitJson;
         public readonly string MapFormID;
+        public readonly bool ShowFeatureClassColumn;
 
-        public ApproveGisUploadViewData(List<IProjectLocationStaging> projectLocationStagings, MapInitJson mapInitJson, string mapFormID, string approveGisUploadUrl)
+        public ApproveGisUploadViewData(List<IProjectLocationStaging> projectLocationStagings, MapInitJson mapInitJson, string mapFormID, string approveGisUploadUrl, bool showFeatureClassColumn)
         {
             ProjectLocationStagings = projectLocationStagings;
             MapInitJson = mapInitJson;
             MapFormID = mapFormID;
             ApproveGisUploadUrl = approveGisUploadUrl;
+            ShowFeatureClassColumn = showFeatureClassColumn;
         }
     }
 }

@@ -153,16 +153,25 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
-            var fileEnding = ".gdb.zip";
+            var isKml = httpPostedFileBase.FileName.EndsWith(".kml");
+            var fileEnding = isKml ? ".kml" : ".gdb.zip";
             using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
             {
-                var gdbFile = disposableTempFile.FileInfo;
-                httpPostedFileBase.SaveAs(gdbFile.FullName);
+                var gdbOrKmlFile = disposableTempFile.FileInfo;
+                httpPostedFileBase.SaveAs(gdbOrKmlFile.FullName);
                 foreach (var projectLocationStaging in project.ProjectLocationStagings.ToList())
                 {
                     projectLocationStaging.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
-                ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+
+                if (isKml)
+                {
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromKml(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                }
+                else
+                {
+                    ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(gdbOrKmlFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
+                }
             }
             return ApproveGisUpload(project);
         }
@@ -187,6 +196,7 @@ namespace ProjectFirma.Web.Controllers
                             FirmaHelpers.DefaultColorRange[i],
                             1,
                             LayerInitialVisibility.Show)).ToList();
+            var showFeatureClassColumn = projectLocationStagings.Any(x => x.FeatureClassName.Length > 0);
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
@@ -194,7 +204,7 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(((IProject)project).GetEntityID());
             var approveGisUploadUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
-            var viewData = new ApproveGisUploadViewData(new List<IProjectLocationStaging>(projectLocationStagings), mapInitJson, mapFormID, approveGisUploadUrl);
+            var viewData = new ApproveGisUploadViewData(new List<IProjectLocationStaging>(projectLocationStagings), mapInitJson, mapFormID, approveGisUploadUrl, showFeatureClassColumn);
             return RazorPartialView<ApproveGisUpload, ApproveGisUploadViewData, ProjectLocationDetailViewModel>(viewData, viewModel);
         }
 

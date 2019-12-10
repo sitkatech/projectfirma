@@ -257,6 +257,8 @@ namespace ProjectFirmaModels.Models
         ProjectStatusUpdateCreatedBy = 307,
         ProjectStatusUpdateDate = 308,
         ProjectStatusComments = 309,
-        GeospatialArea = 310
+        GeospatialArea = 310,
+        ArcGISFileGeodatabase = 311,
+        KMLFile = 312
     }
 }
