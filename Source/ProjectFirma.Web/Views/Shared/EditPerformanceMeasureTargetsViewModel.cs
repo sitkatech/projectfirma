@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Shared
 
         public EditPerformanceMeasureTargetsViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
         {
-            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureTargets, performanceMeasure.PerformanceMeasureActuals);
+            PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriodTargets, performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
         }
 
@@ -75,117 +75,208 @@ namespace ProjectFirma.Web.Views.Shared
 
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, 
-                                ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods, 
-                                ICollection<PerformanceMeasureTarget> allPerformanceMeasureTargets)
+
+        public void DeleteOtherPerformanceMeasureTargetValueTypes(
+            ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum)
         {
-
-            if (PerformanceMeasureReportingPeriodSimples != null)
+            
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.OverallTarget)
             {
-                var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
-                List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
-                List<PerformanceMeasureTarget> performanceMeasureTargetsUpdated = new List<PerformanceMeasureTarget>();
+                var overallTargetsToDelete = performanceMeasure.PerformanceMeasureOverallTargets.ToList();
+                overallTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
+            }
 
-                // if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
-                var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
-                List<PerformanceMeasureReportingPeriod> missingPeriods = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
-                missingPeriods.AddRange(performanceMeasure.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)));
-                performanceMeasureReportingPeriodsUpdated.AddRange(missingPeriods);
-
-                foreach (var reportingPeriodSimple in PerformanceMeasureReportingPeriodSimples)
-                {
-                    // Reporting Period
-                    // ----------------
-
-                    var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == reportingPeriodSimple.PerformanceMeasureReportingPeriodID);
-                    if(reportingPeriod == null)
-                    { 
-                        reportingPeriod = new PerformanceMeasureReportingPeriod(reportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear, reportingPeriodSimple.PerformanceMeasureReportingPeriodLabel);
-                    }
-
-                    performanceMeasureReportingPeriodsUpdated.Add(reportingPeriod);
-
-
-                    var performanceMeasureTarget = allPerformanceMeasureTargets.SingleOrDefault(x => x.PerformanceMeasureTargetID == reportingPeriodSimple.PerformanceMeasureTargetID);
-                    switch (performanceMeasureTargetValueTypeEnum)
-                    {
-                        case PerformanceMeasureTargetValueTypeEnum.NoTarget:
-                            performanceMeasureTarget = null; //just to make sure we don't do anything with this.
-                            break;
-                        case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                            if (performanceMeasureTarget == null)
-                            {
-                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
-                                {
-                                    PerformanceMeasureTargetValue = OverallTargetValue,
-                                    PerformanceMeasureTargetValueLabel = OverallTargetValueLabel
-                                };
-                            }
-                            else
-                            {
-                                performanceMeasureTarget.PerformanceMeasureTargetValue = OverallTargetValue;
-                                performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
-                            }
-                            break;
-                        case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
-                            if (performanceMeasureTarget == null)
-                            {
-                                performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
-                                {
-                                    PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
-                                    PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
-                                };
-                            }
-                            else
-                            {
-                                performanceMeasureTarget.PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue;
-                                performanceMeasureTarget.PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel;
-                            }
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(
-                                $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
-                    }
-
-                    performanceMeasureTargetsUpdated.Add(performanceMeasureTarget);
-                    
-                }
-
-                // Merge just PerformanceMeasureTarget
-                performanceMeasure.PerformanceMeasureTargets.Merge(
-                    performanceMeasureTargetsUpdated,
-                    allPerformanceMeasureTargets,
-                    (x,y) => x.PerformanceMeasureTargetID == y.PerformanceMeasureTargetID,
-                    (x, y) =>
-                    {
-                        x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
-                        x.PerformanceMeasureTargetValue = y.PerformanceMeasureTargetValue;
-                        x.PerformanceMeasureTargetValueLabel = y.PerformanceMeasureTargetValueLabel;
-                    }, HttpRequestStorage.DatabaseEntities);
-
-
-                // Google Chart Configuration
-                if (performanceMeasure.PerformanceMeasureTargets.Any())
-                {
-                    foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
-                    {
-                        var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
-                        tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
-                        pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
-                        pfSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                        if (performanceMeasure.CanBeChartedCumulatively)
-                        {
-                            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-                            pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-                            pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-                        }
-                    }
-                }
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.TargetPerYear)
+            {
+                var reportingPeriodTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList();
+                reportingPeriodTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
         }
 
+        public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, 
+                                ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods, 
+                                ICollection<PerformanceMeasureReportingPeriodTarget> allPerformanceMeasureReportingPeriodTargets)
+        {
 
-        public void DeleteOtherPerformanceMeasureTargetValueTypes(
+
+            var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
+            DeleteOtherPerformanceMeasureTargetValueTypes(performanceMeasure, performanceMeasureTargetValueTypeEnum);
+
+            switch (performanceMeasureTargetValueTypeEnum)
+            {
+                case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+                    // Nothing to do here, there are no "No Targets" to be saved in this case. But we still need this so that the ArgumentOutOfRange validation works
+                    break;
+
+                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+                    var overallTarget = PerformanceMeasureOverallTargetModelExtensions.GetOrCreatePerformanceMeasureOverallTarget(performanceMeasure, OverallTargetValue.Value);
+                    overallTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
+                    break;
+
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
+                    {
+                        // Reporting Period
+                        // ----------------
+                        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear);
+                        if (reportingPeriod == null)
+                        {
+                            reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear,
+                                                                                    pmrpSimple.PerformanceMeasureReportingPeriodLabel);
+                        }
+                        var performanceMeasureTarget = allPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodTargetID == pmrpSimple.PerformanceMeasureReportingPeriodTargetID);
+                        if (performanceMeasureTarget == null)
+                        {
+                            // ReSharper disable once RedundantAssignment
+                            performanceMeasureTarget = new PerformanceMeasureReportingPeriodTarget(performanceMeasure, reportingPeriod)
+                            {
+                                PerformanceMeasureTargetValue = pmrpSimple.TargetValue,
+                                PerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel
+                            };
+                        }
+                        else
+                        {
+                            performanceMeasureTarget.PerformanceMeasureTargetValue = pmrpSimple.TargetValue;
+                            performanceMeasureTarget.PerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
+                        }
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
+
+            }
+
+            //Google Chart Configuration
+            if (performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
+            {
+                foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+                {
+                    var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                    tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+                    pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+                    pfSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    if (performanceMeasure.CanBeChartedCumulatively)
+                    {
+                        var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+                        pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                        pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+                    }
+                }
+            }
+
+
+
+
+
+
+            //if (PerformanceMeasureReportingPeriodSimples != null)
+            //{
+            //    var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
+            //    List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsUpdated = new List<PerformanceMeasureReportingPeriod>();
+            //    List<PerformanceMeasureReportingPeriodTarget> performanceMeasureTargetsUpdated = new List<PerformanceMeasureReportingPeriodTarget>();
+
+            //    // if a reporting period doesn't come back from the front end we want to make sure it doesn't accidentally get deleted in the merge below.
+            //    var updatedIDs = PerformanceMeasureReportingPeriodSimples.Select(x => x.PerformanceMeasureReportingPeriodID);
+            //    List<PerformanceMeasureReportingPeriod> missingPeriods = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
+            //    missingPeriods.AddRange(performanceMeasure.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod).Where(x => !updatedIDs.Contains(x.PerformanceMeasureReportingPeriodID)));
+            //    performanceMeasureReportingPeriodsUpdated.AddRange(missingPeriods);
+
+            //    foreach (var reportingPeriodSimple in PerformanceMeasureReportingPeriodSimples)
+            //    {
+            //        // Reporting Period
+            //        // ----------------
+
+            //        var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == reportingPeriodSimple.PerformanceMeasureReportingPeriodID);
+            //        if(reportingPeriod == null)
+            //        { 
+            //            reportingPeriod = new PerformanceMeasureReportingPeriod(reportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear, reportingPeriodSimple.PerformanceMeasureReportingPeriodLabel);
+            //        }
+
+            //        performanceMeasureReportingPeriodsUpdated.Add(reportingPeriod);
+
+
+            //        var performanceMeasureTarget = allPerformanceMeasureTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodTargetID == reportingPeriodSimple.PerformanceMeasureTargetID);
+            //        switch (performanceMeasureTargetValueTypeEnum)
+            //        {
+            //            case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+            //                performanceMeasureTarget = null; //just to make sure we don't do anything with this.
+            //                break;
+            //            case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+            //                if (performanceMeasureTarget == null)
+            //                {
+            //                    performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
+            //                    {
+            //                        PerformanceMeasureTargetValue = OverallTargetValue,
+            //                        PerformanceMeasureTargetValueLabel = OverallTargetValueLabel
+            //                    };
+            //                }
+            //                else
+            //                {
+            //                    performanceMeasureTarget.PerformanceMeasureTargetValue = OverallTargetValue;
+            //                    performanceMeasureTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
+            //                }
+            //                break;
+            //            case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+            //                if (performanceMeasureTarget == null)
+            //                {
+            //                    performanceMeasureTarget = new PerformanceMeasureTarget(performanceMeasure, reportingPeriod)
+            //                    {
+            //                        PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue,
+            //                        PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel
+            //                    };
+            //                }
+            //                else
+            //                {
+            //                    performanceMeasureTarget.PerformanceMeasureTargetValue = reportingPeriodSimple.TargetValue;
+            //                    performanceMeasureTarget.PerformanceMeasureTargetValueLabel = reportingPeriodSimple.TargetValueLabel;
+            //                }
+            //                break;
+            //            default:
+            //                throw new ArgumentOutOfRangeException(
+            //                    $"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
+            //        }
+
+            //        performanceMeasureTargetsUpdated.Add(performanceMeasureTarget);
+
+            //    }
+
+            //    // Merge just PerformanceMeasureTarget
+            //    performanceMeasure.PerformanceMeasureTargets.Merge(
+            //        performanceMeasureTargetsUpdated,
+            //        allPerformanceMeasureTargets,
+            //        (x,y) => x.PerformanceMeasureTargetID == y.PerformanceMeasureTargetID,
+            //        (x, y) =>
+            //        {
+            //            x.PerformanceMeasureReportingPeriodID = y.PerformanceMeasureReportingPeriodID;
+            //            x.PerformanceMeasureTargetValue = y.PerformanceMeasureTargetValue;
+            //            x.PerformanceMeasureTargetValueLabel = y.PerformanceMeasureTargetValueLabel;
+            //        }, HttpRequestStorage.DatabaseEntities);
+
+
+            //    // Google Chart Configuration
+            //    if (performanceMeasure.PerformanceMeasureTargets.Any())
+            //    {
+            //        foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
+            //        {
+            //            var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+            //            tempChartConfig.Series = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            //            pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
+            //            pfSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+            //            if (performanceMeasure.CanBeChartedCumulatively)
+            //            {
+            //                var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
+            //                pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+            //                pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
+            //            }
+            //        }
+            //    }
+            //}
+        }
+
+
+        public void DeleteOtherGeospatialAreaPerformanceMeasureTargetValueTypes(
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             ProjectFirmaModels.Models.GeospatialArea geospatialArea,
             PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum)
@@ -220,7 +311,7 @@ namespace ProjectFirma.Web.Views.Shared
 
 
             var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
-            DeleteOtherPerformanceMeasureTargetValueTypes(performanceMeasure, geospatialArea, performanceMeasureTargetValueTypeEnum);
+            DeleteOtherGeospatialAreaPerformanceMeasureTargetValueTypes(performanceMeasure, geospatialArea, performanceMeasureTargetValueTypeEnum);
 
             switch (performanceMeasureTargetValueTypeEnum)
             {
