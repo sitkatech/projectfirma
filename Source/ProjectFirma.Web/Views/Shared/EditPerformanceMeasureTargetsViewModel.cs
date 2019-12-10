@@ -110,6 +110,7 @@ namespace ProjectFirma.Web.Views.Shared
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     var overallTarget = PerformanceMeasureOverallTargetModelExtensions.GetOrCreatePerformanceMeasureOverallTarget(performanceMeasure, OverallTargetValue.Value);
                     overallTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
+                    overallTarget.PerformanceMeasureTargetValue = OverallTargetValue;
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
@@ -316,6 +317,7 @@ namespace ProjectFirma.Web.Views.Shared
                 case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
                     var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea, OverallTargetValue.Value);
                     overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
+                    overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue.Value;
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
