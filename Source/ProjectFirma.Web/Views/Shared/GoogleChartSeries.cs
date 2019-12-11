@@ -70,5 +70,16 @@ namespace ProjectFirma.Web.Views.Shared
             };
             return chartSeries;
         }
+
+        public static List<GoogleChartSeries> GetGoogleChartSeriesForChartsWithTwoTargets()
+        {
+            var chartSeries = new List<GoogleChartSeries>
+            {
+                new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary),
+                new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary),
+                new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary)
+            };
+            return chartSeries;
+        }
     }
 }

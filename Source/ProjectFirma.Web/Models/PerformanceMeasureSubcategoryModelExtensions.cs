@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
             var googleChartJsons = new List<GoogleChartJson>();
 
-            bool hasTargets = performanceMeasure.GetTargetValueType() != PerformanceMeasureTargetValueType.NoTarget;
+            bool hasTargets = performanceMeasure.HasTargets();
             bool hasGeospatialAreaTargets = false;
             if (geospatialArea != null)
             {
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Models
                     }
                 }
             }
-            else if(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
+            else if(performanceMeasure.HasTargets())
             {
                 //build chart for just for targets if there is no project data
                 var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.First();

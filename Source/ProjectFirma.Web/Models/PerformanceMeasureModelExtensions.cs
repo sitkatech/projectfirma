@@ -332,15 +332,13 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any();
-
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.PerformanceMeasureOverallTargets.Any();
             return hasTargets;
         }
 
         public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
             bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any();
-
             return hasTargets;
         }
     }
