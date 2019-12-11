@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[Classification](
 	[TenantID] [int] NOT NULL,
 	[ClassificationDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[DisplayName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[DisplayName] [varchar](75) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GoalStatement] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[KeyImageFileResourceID] [int] NULL,
 	[ClassificationSystemID] [int] NOT NULL,
