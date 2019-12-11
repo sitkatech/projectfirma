@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public HttpPostedFileBase UploadedFile { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectAttachmentRelationshipType)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.AttachmentType)]
         public int AttachmentRelationshipTypeID { get; set; }
 
         [Required]

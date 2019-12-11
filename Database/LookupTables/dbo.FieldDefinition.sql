@@ -113,7 +113,7 @@ VALUES
 (288, N'IsDefaultContactType', N'Is Default Contact Type?', 'Contacts that are automatically added to the list when a new user logs in must be given a Contact Type. This field identifies which Contact Type to use as the default. Only one Contact Type can be the default (e.g. IsDefaultContactType=1 for only one).'),
 (289, N'ProjectContactRelationshipType', N'Project Contact Relationship Type', N'<p>A categorization of a relationship between a contact and a project, e.g. Technical Lead, Project Manager, Landowner.</p>'),
 (290, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.'),
-(291, N'ProjectAttachmentRelationshipType', N'Project Attachment Relationship Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>'),
+(291, N'AttachmentType', N'Attachment Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>'),
 (292, N'ProjectID', N'ProjectID', N'<p>The unique identifier for a project.</p>'),
 (293, N'ExcludeTargetedFundingOrganizations', N'Exclude Targeted Funding Organizations from List of Funders?', N'<p>When this option is set to Yes, the "Funders" field will not display the targeted funders on the forward looking fact sheet and project detail page (under Organizations). When set to No, both the secured and targeted funders will display in the "Funders" field</p>'),
 (294, N'ProjectCustomAttributeGroup', N'Project Custom Attribute Group', N'<p>The group that is assigned to a project custom attribute type.</p>'),

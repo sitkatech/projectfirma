@@ -265,7 +265,7 @@ namespace ProjectFirma.Web.Views
             }
 
             // Group 3 - Attachments
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, "Attachment Types", "Group3"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized(), "Group3"));
 
             // Group 4 - Sitka admins only
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
