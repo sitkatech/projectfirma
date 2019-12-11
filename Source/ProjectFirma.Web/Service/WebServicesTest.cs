@@ -34,6 +34,7 @@ using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.UnitTestCommon;
+using AssertCustom = LtInfo.Common.AssertCustom;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Service
@@ -179,32 +180,30 @@ namespace ProjectFirma.Web.Service
 
         [Test]
         [Description("We have had prior issues with web services not working on particular tenants, so this test ensures we have consistent access")]
-        public async Task CanRetrieveWebServiceListForAllTenants()
+        public void CanRetrieveWebServiceListForAllTenants()
         {
-            List<string> allTenantCanonicalHostnames = ProjectFirmaModels.Models.Tenant.All.Select(t => t.CanonicalHostNameLocal).ToList();
-            string projectFirmaLocalhostCanonicalHostname = ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup.CanonicalHostNameLocal;
-            List<string> failedMessages = new List<string>();
+            AssertCustom.IgnoreUntil(DateTime.Parse("01/10/2020 12:00"),"Test added by SLG and SMG 12/10/2019 is not working, may not be able to make it work properly as written. Tests attempt to see web services urls but that requires login through Keystone which is not easy to do. May be able to re-write as a controller test. Ignoring for now. -MF");
+            var allTenantCanonicalHostnames = ProjectFirmaModels.Models.Tenant.All.Select(t => t.CanonicalHostNameLocal).ToList();
+            var sitkaTenantCanonicalHostName = ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup.CanonicalHostNameLocal;
+            var testUrlForSitkaTenant = SitkaRoute<WebServicesController>.BuildAbsoluteUrlFromExpression(wsc => wsc.List());
+            var failedMessages = new List<string>();
 
-            foreach (string currentTenantCanonicalHostname in allTenantCanonicalHostnames)
+            foreach (var currentTenantCanonicalHostname in allTenantCanonicalHostnames)
             {
                 // build the url
-                var testUrl = SitkaRoute<WebServicesController>.BuildAbsoluteUrlFromExpression(wsc => wsc.List());
-                string currentTestUrl = testUrl.Replace(projectFirmaLocalhostCanonicalHostname, currentTenantCanonicalHostname);
+                var currentTestUrl = testUrlForSitkaTenant.Replace(sitkaTenantCanonicalHostName, currentTenantCanonicalHostname);
                 try
                 {
-                    var client = new HttpClient();
-                    var response = await client.GetAsync(currentTestUrl);
-                    if (response.StatusCode != HttpStatusCode.OK)
-                    {
-                        failedMessages.Add($"Received HttpStatusCode of \"{response.StatusCode.ToString()}\" retrieving URL {currentTestUrl} for {currentTenantCanonicalHostname}.");
-                    }
+                    var responseText = HttpHelper.GetUrl(currentTestUrl);
+                    Assert.That(!responseText.Contains("<title>Sitka Keystone", StringComparison.InvariantCultureIgnoreCase), "Test Precondition - hoping to end up on the service site not on the keystone website");
+                    Assert.That(responseText, Is.StringContaining("service"));
                 }
                 catch (Exception e)
                 {
-                    failedMessages.Add($"Problem retrieving URL {currentTestUrl} for {currentTenantCanonicalHostname}. Exception: {e.Message}.");
+                    failedMessages.Add($"Url: {currentTestUrl}, unexpected exception: {e}");
                 }
             }
-            Assert.That(!failedMessages.Any(), $"Received the following errors: {string.Join(",", failedMessages)}");
+            Assert.That(!failedMessages.Any(), $"Received the following errors: {string.Join("\r\n", failedMessages)}");
         }
     }//EOC
 }//EON
