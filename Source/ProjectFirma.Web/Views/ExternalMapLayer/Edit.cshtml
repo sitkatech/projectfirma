@@ -1,0 +1,135 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using LtInfo.Common.Mvc
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ExternalMapLayer.Edit
+@using (Html.BeginForm())
+{
+    if (ViewDataTyped.IsInKeystone)
+    {
+        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is managed in Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
+    }
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.OrganizationName)
+            </div>
+            <div class="col-sm-9">
+                @if (ViewDataTyped.IsInKeystone)
+                {
+                    @Model.OrganizationName
+                    @Html.HiddenFor(x => x.OrganizationName)
+                }
+                else
+                {
+                    @Html.TextBoxFor(m => m.OrganizationName, new { @class="form-control", style = "width:100%" })
+                    @Html.ValidationMessageFor(m => m.OrganizationName)
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.OrganizationShortName)
+            </div>
+            <div class="col-sm-9">
+               @Html.TextBoxFor(m => m.OrganizationShortName, new { @class="form-control", style = "width:100%" })
+            @Html.ValidationMessageFor(m => m.OrganizationShortName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { @class="form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.OrganizationTypeID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
+            </div>
+            <div class="col-sm-9">
+                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
+                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.OrganizationUrl)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.OrganizationUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.LogoFileResourceData)
+            </div>
+            <div class="col-sm-9">
+                @Html.EditorFor(x => x.LogoFileResourceData)
+                <span class="smallExplanationText">
+                    Allowed Extensions: @Model.GetFileExtensions(x => x.LogoFileResourceData)
+                </span>
+                @Html.ValidationMessageFor(x => x.LogoFileResourceData)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.IsActive)
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.IsActive)
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </div>
+        </div>
+        @if (ViewDataTyped.IsSitkaAdmin)
+        {
+            <hr/>
+            <h3>Sitka Admin Only</h3>
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    @Html.LabelWithSugarFor(m => m.OrganizationGuid)
+                </div>
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.OrganizationGuid, new { @class="form-control", style="width:100%"})
+                    @Html.ValidationMessageFor(m => m.OrganizationGuid)
+                </div>
+            </div>
+
+        }
+        
+    </div>
+    @Html.HiddenFor(m => m.OrganizationID)
+}
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function ()
+    {
+        HookupCheckIfFormIsDirty(undefined, ".submitProject");
+    });
+</script>
