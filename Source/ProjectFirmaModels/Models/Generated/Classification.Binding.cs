@@ -151,7 +151,7 @@ namespace ProjectFirmaModels.Models
         {
             public const int ClassificationDescription = 300;
             public const int ThemeColor = 7;
-            public const int DisplayName = 50;
+            public const int DisplayName = 75;
             public const int GoalStatement = 200;
         }
     }
