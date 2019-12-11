@@ -11,6 +11,8 @@ CREATE TABLE [dbo].[PerformanceMeasureSubcategory](
 	[GoogleChartTypeID] [int] NULL,
 	[CumulativeChartConfigurationJson] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[CumulativeGoogleChartTypeID] [int] NULL,
+	[GeospatialAreaTargetChartConfigurationJson] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[GeospatialAreaTargetGoogleChartTypeID] [int] NULL,
  CONSTRAINT [PK_PerformanceMeasureSubcategory_PerformanceMeasureSubcategoryID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureSubcategoryID] ASC
@@ -32,6 +34,11 @@ ALTER TABLE [dbo].[PerformanceMeasureSubcategory]  WITH CHECK ADD  CONSTRAINT [F
 REFERENCES [dbo].[GoogleChartType] ([GoogleChartTypeID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasureSubcategory] CHECK CONSTRAINT [FK_PerformanceMeasureSubcategory_GoogleChartType_CumulativeGoogleChartTypeID_GoogleChartTypeID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasureSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureSubcategory_GoogleChartType_GeospatialAreaTargetGoogleChartTypeID_GoogleChartTypeID] FOREIGN KEY([GeospatialAreaTargetGoogleChartTypeID])
+REFERENCES [dbo].[GoogleChartType] ([GoogleChartTypeID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasureSubcategory] CHECK CONSTRAINT [FK_PerformanceMeasureSubcategory_GoogleChartType_GeospatialAreaTargetGoogleChartTypeID_GoogleChartTypeID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasureSubcategory]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasureSubcategory_GoogleChartType_GoogleChartTypeID] FOREIGN KEY([GoogleChartTypeID])
 REFERENCES [dbo].[GoogleChartType] ([GoogleChartTypeID])
