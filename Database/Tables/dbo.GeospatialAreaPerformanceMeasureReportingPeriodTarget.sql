@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureReportingPeriodTarget](
 	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
 	[GeospatialAreaPerformanceMeasureTargetValue] [float] NULL,
 	[GeospatialAreaPerformanceMeasureTargetValueLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureTargetID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureReportingPeriodTargetID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaPerformanceMeasureReportingPeriodTargetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
@@ -20,7 +20,7 @@ CREATE TABLE [dbo].[GeospatialAreaPerformanceMeasureReportingPeriodTarget](
 	[PerformanceMeasureReportingPeriodID] ASC,
 	[PerformanceMeasureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureTargetID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_GeospatialAreaPerformanceMeasureReportingPeriodTarget_GeospatialAreaPerformanceMeasureReportingPeriodTargetID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[GeospatialAreaPerformanceMeasureReportingPeriodTargetID] ASC,
 	[TenantID] ASC
