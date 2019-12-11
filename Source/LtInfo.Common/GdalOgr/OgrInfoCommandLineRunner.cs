@@ -51,6 +51,29 @@ namespace LtInfo.Common.GdalOgr
             return featureClassesFromFileGdb.Select(x => x.Split(' ').Skip(1).First()).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ogrInfoExecutableFileInfo">Path to the ogrinfo.exe executable</param>
+        /// <param name="kmlFileInfo"></param>
+        /// <param name="originalFilename">This is the original name of the file as it appeared on the users file system. It is provided just for error messaging purposes.</param>
+        /// <param name="totalMilliseconds"></param>
+        /// <returns></returns>
+        public static List<string> GetFeatureClassNamesFromFileKml(FileInfo ogrInfoExecutableFileInfo, FileInfo kmlFileInfo, string originalFilename, double totalMilliseconds)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var gdalDataDirectory = new DirectoryInfo(Path.Combine(ogrInfoExecutableFileInfo.DirectoryName, "gdal-data"));
+            var commandLineArguments = BuildOgrInfoCommandLineArgumentsToListFeatureClassesKml(kmlFileInfo, gdalDataDirectory);
+            var processUtilityResult = ProcessUtility.ShellAndWaitImpl(ogrInfoExecutableFileInfo.DirectoryName, ogrInfoExecutableFileInfo.FullName, commandLineArguments, true, Convert.ToInt32(totalMilliseconds));
+            if (processUtilityResult.ReturnCode != 0)
+            {
+                throw new SitkaDisplayErrorException($"{ogrInfoExecutableFileInfo.FullName} unable to open KML file {kmlFileInfo.FullName} - original filename {originalFilename}.");
+            }
+
+            var featureClassesFromFileKml = processUtilityResult.StdOut.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return featureClassesFromFileKml.Select(x => x.Split(new[] { ' ' }, 2).Skip(1).First()).ToList();
+        }
+
         public static Tuple<double, double, double, double> GetExtentFromGeoJson(FileInfo ogrInfoFileInfo, string geoJson, double totalMilliseconds)
         {
             using (var geoJsonFile = DisposableTempFile.MakeDisposableTempFileEndingIn(".json"))
@@ -94,6 +117,23 @@ namespace LtInfo.Common.GdalOgr
 
             return commandLineArguments;
         }
+
+        public static List<string> BuildOgrInfoCommandLineArgumentsToListFeatureClassesKml(FileInfo inputKmlFile, DirectoryInfo gdalDataDirectoryInfo)
+        {
+            var commandLineArguments = new List<string>
+            {
+                "--config",
+                "GDAL_DATA",
+                gdalDataDirectoryInfo.FullName,
+                "-ro",
+                "-so",
+                "-q",
+                inputKmlFile.FullName
+            };
+
+            return commandLineArguments;
+        }
+
         public static List<string> BuildOgrInfoCommandLineArgumentsGetExtent(FileInfo inputGdbFile, DirectoryInfo gdalDataDirectoryInfo)
         {
             var commandLineArguments =  new List<string>
