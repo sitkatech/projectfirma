@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 MakeDailyUtcCronJobStringFromLocalTime(1,23),
                 recurringJobIds);
 
-            // Remove any jobs we haven't explicity scheduled
+            // Remove any jobs we haven't explicitly scheduled
             RemoveExtraneousJobs(recurringJobIds);
         }
 

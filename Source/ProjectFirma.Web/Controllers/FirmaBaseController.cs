@@ -42,9 +42,17 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                if (DateTime.Now - (CurrentFirmaSession.Person.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 3, 0))
+                var currentDateTime = DateTime.Now;
+
+                // Log Last Activity times to both FirmaSession and Person if enough time has passed since last activity
+                // (RL tells me this is truly needed, and that performance will suffer without it. --SLG)
+                var minimumTimeSpanForActivityLogging = new TimeSpan(0, 3, 0);
+                if (currentDateTime - (CurrentFirmaSession.LastActivityDate ?? new DateTime()) > minimumTimeSpanForActivityLogging)
                 {
-                    CurrentFirmaSession.Person.LastActivityDate = DateTime.Now;
+                    // It's arguably better to have activity logged only on the FirmaSession, but we'll keep it in 
+                    // both places for the moment. -- SLG
+                    CurrentFirmaSession.LastActivityDate = currentDateTime;
+                    CurrentFirmaSession.Person.LastActivityDate = currentDateTime;
                     HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
                     HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
                 }

@@ -9,6 +9,7 @@ CREATE TABLE [dbo].[FirmaSession](
 	[PersonID] [int] NULL,
 	[OriginalPersonID] [int] NULL,
 	[CreateDate] [datetime] NOT NULL,
+	[LastActivityDate] [datetime] NULL,
  CONSTRAINT [PK_FirmaSession_FirmaSessionID] PRIMARY KEY CLUSTERED 
 (
 	[FirmaSessionID] ASC
