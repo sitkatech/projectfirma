@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
                 basicsColumnGroupCount += 2;
             }
 
-            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentRelationshipTypeName, 240);
-            Add($"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentRelationshipTypeDescription, 240);
+            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentRelationshipTypeName, 240);
+            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentRelationshipTypeDescription, 240);
             Add($"Allowed File Types", a => a.AttachmentRelationshipTypeFileResourceMimeTypes.GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(), 240);
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {

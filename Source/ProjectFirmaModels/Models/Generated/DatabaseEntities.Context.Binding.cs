@@ -613,7 +613,7 @@ namespace ProjectFirmaModels.Models
                     return OrganizationTypes.GetOrganizationType(primaryKey);
 
                 case "Person":
-                    return People.GetPerson(primaryKey, true);
+                    return People.GetPerson(primaryKey);
 
                 case "PerformanceMeasureActual":
                     return PerformanceMeasureActuals.GetPerformanceMeasureActual(primaryKey);
