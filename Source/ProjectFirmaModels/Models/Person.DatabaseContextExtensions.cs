@@ -1,7 +1,3 @@
-//  IMPORTANT:
-//  This file is generated. Your changes will be lost.
-//  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[Person]
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
@@ -12,12 +8,14 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Person GetPerson(this IQueryable<Person> people, int personID)
+        public static Person GetPerson(this IQueryable<Person> people, int personID, bool throwIfNotFound)
         {
             var person = people.SingleOrDefault(x => x.PersonID == personID);
-            Check.RequireNotNullThrowNotFound(person, "Person", personID);
+            if (throwIfNotFound)
+            {
+                Check.RequireNotNullThrowNotFound(person, "Person", personID);
+            }
             return person;
         }
-
     }
 }
