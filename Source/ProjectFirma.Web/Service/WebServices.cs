@@ -28,6 +28,7 @@ using System.ServiceModel.Activation;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Service.ServiceModels;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 
@@ -159,16 +160,19 @@ namespace ProjectFirma.Web.Service
             var sampleProjectID = HttpRequestStorage.DatabaseEntities.Projects.First().ProjectID;
             var sampleOrganizationID = HttpRequestStorage.DatabaseEntities.Organizations.First().OrganizationID;
 
+            Check.EnsureNotNull(WebServiceToken.WebServiceTokenGuidForParameterizedReplacement);
+            Check.EnsureNotNull(WebServiceToken.WebServiceTokenForParameterizedReplacements);
+
             var webServiceRouteMap = new List<SampleRouteEntry>
             {
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetProject(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                             , sampleProjectID)),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetProject(WebServicesController.WebServiceReturnTypeEnum.CSV,
-                            WebServiceToken.WebServiceTokenForUnitTests
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements
                             , sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token", "Project Number"}
@@ -176,20 +180,20 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetProjects(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetProjects(WebServicesController.WebServiceReturnTypeEnum.CSV,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c => c.GetProjectsByOrganization(
                         WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                        WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                        WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                         , sampleOrganizationID)),
                     new SitkaRoute<WebServicesController>(c => c.GetProjectsByOrganization(
-                        WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests
+                        WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForParameterizedReplacements
                         , sampleOrganizationID))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token", "OrganizationID"}
@@ -197,10 +201,10 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c => c.GetProjectDescription(
                         WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                        WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                        WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                         , sampleProjectID)),
                     new SitkaRoute<WebServicesController>(c => c.GetProjectDescription(
-                        WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForUnitTests
+                        WebServicesController.WebServiceReturnTypeEnum.CSV, WebServiceToken.WebServiceTokenForParameterizedReplacements
                         , sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token", "Project Number"}
@@ -208,31 +212,31 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.CSV,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.CSV.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.CSV,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.CSV
                     , new List<string> {"Return Type", "Authorization Token"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetProject(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                             , sampleProjectID)),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetProject(WebServicesController.WebServiceReturnTypeEnum.JSON,
-                            WebServiceToken.WebServiceTokenForUnitTests
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements
                             , sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
@@ -240,20 +244,20 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetProjects(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetProjects(WebServicesController.WebServiceReturnTypeEnum.JSON,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token", "(optional) Project Number"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c => c.GetProjectsByOrganization(
                         WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                        WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                        WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                         , sampleOrganizationID)),
                     new SitkaRoute<WebServicesController>(c => c.GetProjectsByOrganization(
-                        WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForUnitTests
+                        WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForParameterizedReplacements
                         , sampleOrganizationID))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token", "OrganizationID"}
@@ -261,10 +265,10 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c => c.GetProjectDescription(
                         WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                        WebServiceToken.WebServiceTokenGuidForUnitTests.ToString()
+                        WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString()
                         , sampleProjectID)),
                     new SitkaRoute<WebServicesController>(c => c.GetProjectDescription(
-                        WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForUnitTests
+                        WebServicesController.WebServiceReturnTypeEnum.JSON, WebServiceToken.WebServiceTokenForParameterizedReplacements
                         , sampleProjectID))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token", "Project Number"}
@@ -272,20 +276,20 @@ namespace ProjectFirma.Web.Service
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetPerformanceMeasures(WebServicesController.WebServiceReturnTypeEnum.JSON,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token"}
                 ),
                 new SampleRouteEntry(
                     MethodNameFromExpression(c =>
                         c.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.JSON.ToString(),
-                            WebServiceToken.WebServiceTokenGuidForUnitTests.ToString())),
+                            WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString())),
                     new SitkaRoute<WebServicesController>(c =>
                         c.GetOrganizations(WebServicesController.WebServiceReturnTypeEnum.JSON,
-                            WebServiceToken.WebServiceTokenForUnitTests))
+                            WebServiceToken.WebServiceTokenForParameterizedReplacements))
                     , WebServicesController.WebServiceReturnTypeEnum.JSON
                     , new List<string> {"Return Type", "Authorization Token"}
                 )

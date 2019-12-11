@@ -83,21 +83,30 @@ namespace ProjectFirma.Web.Controllers
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
             var geospatialAreaTypeList = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList, geospatialAreaTypeList);
+            var webServiceAccessToken = new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString());
+            var viewData = new ListViewData(CurrentFirmaSession, webServiceAccessToken, serviceDocumentationList, geospatialAreaTypeList);
             return RazorView<List, ListViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProject(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Project");
         }
 
+        private void EnsureThatWebServiceTokenIsValidForUse(WebServiceToken webServiceToken)
+        {
+            Check.EnsureNotNull(webServiceToken);
+            Check.Ensure(!webServiceToken.IsWebServiceTokenForParameterizedReplacement, "The Parameterized Replacement GUID is only used for route creation, and needs to be replaced before actually being used");
+        }
+
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjects(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProjects();
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Projects");
@@ -106,6 +115,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectsByOrganization(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, OrganizationPrimaryKey organizationPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProjectsByOrganization(organizationPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectsByOrganization");
@@ -114,6 +124,7 @@ namespace ProjectFirma.Web.Controllers
         //[AnonymousUnclassifiedFeature]
         //public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         //{
+        //    EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
         //    var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
         //    var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
         //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
@@ -122,6 +133,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProjectDescription.GetProjectDescription(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectDescriptionGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectDescription");
@@ -130,6 +142,7 @@ namespace ProjectFirma.Web.Controllers
         //[AnonymousUnclassifiedFeature]
         //public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         //{
+        //    EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
         //    var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
         //    var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
         //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
@@ -138,6 +151,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetPerformanceMeasures(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var performanceMeasures = WebServicePerformanceMeasure.GetPerformanceMeasures();
             var gridSpec = new WebServicePerformanceMeasureGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, performanceMeasures, gridSpec, "PerformanceMeasures");
@@ -146,6 +160,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetOrganizations(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var organizations = WebServiceOrganization.GetOrganizations();
             var gridSpec = new WebServiceOrganizationGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, organizations, gridSpec, "Organizations");

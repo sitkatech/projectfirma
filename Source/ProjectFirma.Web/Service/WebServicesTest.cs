@@ -20,13 +20,20 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.ServiceModel;
+using System.Threading.Tasks;
+using ApprovalTests.Reporters;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using NUnit.Framework;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirmaModels.UnitTestCommon;
 using SitkaController = ProjectFirma.Web.Common.SitkaController;
 
 namespace ProjectFirma.Web.Service
@@ -168,6 +175,36 @@ namespace ProjectFirma.Web.Service
         {
             var methodFullNames = methods.Select(x => String.Format("{0}.{1}()", x.DeclaringType.Name, x.Name));
             return string.Join("\r\n", methodFullNames.ToArray());
+        }
+
+        [Test]
+        [Description("We have had prior issues with web services not working on particular tenants, so this test ensures we have consistent access")]
+        public async Task CanRetrieveWebServiceListForAllTenants()
+        {
+            List<string> allTenantCanonicalHostnames = ProjectFirmaModels.Models.Tenant.All.Select(t => t.CanonicalHostNameLocal).ToList();
+            string projectFirmaLocalhostCanonicalHostname = ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup.CanonicalHostNameLocal;
+            List<string> failedMessages = new List<string>();
+
+            foreach (string currentTenantCanonicalHostname in allTenantCanonicalHostnames)
+            {
+                // build the url
+                var testUrl = SitkaRoute<WebServicesController>.BuildAbsoluteUrlFromExpression(wsc => wsc.List());
+                string currentTestUrl = testUrl.Replace(projectFirmaLocalhostCanonicalHostname, currentTenantCanonicalHostname);
+                try
+                {
+                    var client = new HttpClient();
+                    var response = await client.GetAsync(currentTestUrl);
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        failedMessages.Add($"Received HttpStatusCode of \"{response.StatusCode.ToString()}\" retrieving URL {currentTestUrl} for {currentTenantCanonicalHostname}.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    failedMessages.Add($"Problem retrieving URL {currentTestUrl} for {currentTenantCanonicalHostname}. Exception: {e.Message}.");
+                }
+            }
+            Assert.That(!failedMessages.Any(), $"Received the following errors: {string.Join(",", failedMessages)}");
         }
     }//EOC
 }//EON

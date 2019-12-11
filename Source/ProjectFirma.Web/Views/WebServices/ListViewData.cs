@@ -31,16 +31,16 @@ namespace ProjectFirma.Web.Views.WebServices
 {
     public class ListViewData : FirmaViewData
     {
-        public readonly WebServiceToken WebServiceAccessToken;
+        public readonly WebServiceToken UserWebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
         public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
 
-        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken,
+        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken userWebServiceAccessToken,
             List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList)
             : base(currentFirmaSession)
         {
             ServiceDocumentationList = serviceDocumentationList;
-            WebServiceAccessToken = webServiceAccessToken;
+            UserWebServiceAccessToken = userWebServiceAccessToken;
             PageTitle = "List of Web Services";
             GeospatialAreaTypeList = geospatialAreaTypeList;
         }
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.WebServices
                 return String.Empty;
             }
 
-            return _exampleCsvUrl.Replace(WebServiceToken.WebServiceTokenGuidForUnitTests.ToString(), userToken.ToString());
+            return _exampleCsvUrl.Replace(WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString(), userToken.ToString());
         }
 
         public string GetExampleJsonUrl(WebServiceToken userToken)
@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.WebServices
                 return String.Empty;
             }
 
-            return _exampleJsonUrl.Replace(WebServiceToken.WebServiceTokenGuidForUnitTests.ToString(), userToken.ToString());
+            return _exampleJsonUrl.Replace(WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString(), userToken.ToString());
         }
 
         public string GetParameters(WebServiceToken userToken)
@@ -95,7 +95,6 @@ namespace ProjectFirma.Web.Views.WebServices
             Name = methodInfo.Name;
 
             //TODO-MB: This should use a Route Template so that there's not one entry per ReturnType (this would also avert the repetition of _parameters assignment)
-
             var webServiceRouteMap = Service.WebServices.GetWebServiceRouteMap();
 
             var csvRouteMap = webServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.CSV);
