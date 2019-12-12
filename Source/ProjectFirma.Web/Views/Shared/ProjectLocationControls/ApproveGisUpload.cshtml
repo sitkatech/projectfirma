@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.GeoJson
+@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ApproveGisUpload
@@ -89,6 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var projectLocationStagingIDs = @Html.Raw(JArray.FromObject(ViewDataTyped.ProjectLocationStagings.Select(x => x.PrimaryKey)).ToString(Formatting.None));
         var updateFeatureCollectionJson = function()
         {
+            var disableSaveButton = true;
             var gisDataToPost = jQuery("#gisDataToPost");
             gisDataToPost.html("");
             var hiddens = [];
@@ -96,8 +98,8 @@ Source code is available upon request via <support@sitkatech.com>.
             for (var j = 0; j < projectLocationStagingIDs.length; ++j)
             {
                 var projectLocationStagingId = projectLocationStagingIDs[j];
-                if (jQuery("#ShouldImport_" + projectLocationStagingId).is(":checked"))
-                {
+                if (jQuery("#ShouldImport_" + projectLocationStagingId).is(":checked")) {
+                    disableSaveButton = false;
                     var currentFeatureClassName = jQuery("#FeatureClassName_" + projectLocationStagingId).val();
                     var currentLayer = _.find(mapInitJson.Layers, function(f) { return f.LayerName == currentFeatureClassName; });
                     var geoJson = currentLayer.GeoJsonFeatureCollection;
@@ -112,6 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
             gisDataToPost.html(hiddens.join("\r\n"));
+            jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", disableSaveButton);
         };
         updateFeatureCollectionJson();
         for (var j = 0; j < projectLocationStagingIDs.length; ++j)
