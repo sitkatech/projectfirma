@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
             var googleChartAxisHorizontal =
                 new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
-            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var chartSeries = GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
                 googleChartAxisVerticals, null, chartSeries);
@@ -338,7 +338,11 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any();
+            if (geospatialArea == null)
+            {
+                return false;
+            }
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
     }

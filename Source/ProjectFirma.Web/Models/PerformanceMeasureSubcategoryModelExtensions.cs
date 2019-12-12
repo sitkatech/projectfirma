@@ -63,7 +63,11 @@ namespace ProjectFirma.Web.Models
                     {
                         chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                     }
-                    
+
+                    chartConfiguration.Series =
+                        GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                            performanceMeasure, geospatialArea);
+
                     var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration,
                         chartType, googleChartDataTable,
                         chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
@@ -92,6 +96,10 @@ namespace ProjectFirma.Web.Models
                             chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                         }
 
+                        chartConfiguration.Series =
+                            GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                                performanceMeasure, geospatialArea);
+                        
                         var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, performanceMeasureSubcategory.CumulativeGoogleChartType ?? GoogleChartType.ColumnChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, true);
                         googleChartJsons.Add(googleChartJson);
                     }
@@ -104,6 +112,9 @@ namespace ProjectFirma.Web.Models
                 var legendTitle = performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var chartConfiguration = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
+                chartConfiguration.Series =
+                    GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                        performanceMeasure, geospatialArea);
                 var chartColumns = new List<string> { performanceMeasure.GetDisplayName() };
                 var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
                 var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, false, null, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, false, reverseTooltipOrder, false);
