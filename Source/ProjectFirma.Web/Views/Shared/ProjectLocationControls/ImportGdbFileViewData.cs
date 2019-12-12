@@ -20,6 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -30,6 +32,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly string MapFormID;
         public readonly string NewGisUploadUrl;
         public readonly string ApproveGisUploadUrl;
+        
+        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForArcGISFileGeodatabase;
+        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForKMLFile;
 
         public ImportGdbFileViewData(string mapFormID, string newGisUploadUrl, string approveGisUploadUrl)
         {
@@ -37,8 +42,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             NewGisUploadUrl = newGisUploadUrl;
             ApproveGisUploadUrl = approveGisUploadUrl;
 
-            SupportedFileExtensions = new List<string> {"zip"};
+            SupportedFileExtensions = new List<string> {"zip", "kml"};
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
+            FieldDefinitionForArcGISFileGeodatabase = FieldDefinitionEnum.ArcGISFileGeodatabase.ToType();
+            FieldDefinitionForKMLFile = FieldDefinitionEnum.KMLFile.ToType();
         }
     }
 }

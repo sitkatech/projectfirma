@@ -66,17 +66,30 @@ namespace ProjectFirmaModels.Models
     {
         public override List<PersonStewardshipAreaSimple> GetPersonStewardshipAreaSimples(Person person)
         {
+            if (person == null)
+            {
+                return new List<PersonStewardshipAreaSimple>();
+            }
             return GetPersonStewardGeospatialAreas(person).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
         }
 
         public override bool CanStewardProject(Person person, Project project)
         {
+            if (person == null)
+            {
+                // Anonymous persons can't Steward projects
+                return false;
+            }
             var canStewardProjectsGeospatialAreasForProject = project.GetCanStewardProjectsGeospatialAreas().Select(x => x.GeospatialAreaID).ToList();
             return GetPersonStewardGeospatialAreas(person).Any(x => canStewardProjectsGeospatialAreasForProject.Contains(x.GeospatialAreaID));
         }
 
         private List<PersonStewardGeospatialArea> GetPersonStewardGeospatialAreas(Person person)
         {
+            if (person == null)
+            {
+                return new List<PersonStewardGeospatialArea>();
+            }
             return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).ToList();
         }
     }

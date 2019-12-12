@@ -6,8 +6,6 @@ namespace ProjectFirmaModels.Models
 {
     public partial class FirmaSession : IAuditableEntity
     {
-        //protected static readonly ILog Logger = LogManager.GetLogger(typeof(SitkaHttpApplication));
-
         public Role Role
         {
             get
@@ -34,7 +32,9 @@ namespace ProjectFirmaModels.Models
             // I'd prefer just to write this as a real constructor, but it's already in EF generated code, so we resort to this.
             var newFirmaSession = new FirmaSession();
             newFirmaSession.FirmaSessionGuid = Guid.NewGuid();
-            newFirmaSession.CreateDate = DateTime.Now;
+            var currentDateTime = DateTime.Now;
+            newFirmaSession.CreateDate = currentDateTime;
+            newFirmaSession.LastActivityDate = currentDateTime;
             newFirmaSession.TenantID = tenant.TenantID;
 
             return newFirmaSession;
@@ -51,7 +51,9 @@ namespace ProjectFirmaModels.Models
             Check.EnsureNotNull(person.Tenant, "Person does not have a Tenant set");
 
             FirmaSessionGuid = Guid.NewGuid();
-            CreateDate = DateTime.Now;
+            var currentDateTime = DateTime.Now;
+            CreateDate = currentDateTime;
+            LastActivityDate = currentDateTime;
             Person = person;
 
             TenantID = person.Tenant.TenantID;
@@ -116,7 +118,7 @@ namespace ProjectFirmaModels.Models
 
             impersonationStatusWarning = null;
             string currentImpersonationString = string.Empty;
-            // Keep track of who we started as -- unless we are *already* impersonating, 
+            // Keep track of who we started as -- unless we are *already* impersonating,
             // in which case we keep our original identity through each new impersonation.
             if (OriginalPerson == null)
             {

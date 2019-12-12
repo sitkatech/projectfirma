@@ -78,6 +78,17 @@ namespace LtInfo.Common.GdalOgr
             return processUtilityResult.StdOut;
         }
 
+        public string ImportFileKmlToGeoJson(FileInfo inputKmlFile, bool explodeCollections)
+        {
+            Check.Require(inputKmlFile.FullName.ToLower().EndsWith(".kml"),
+                $"Input filename for KML input must end with .kml. Filename passed is {inputKmlFile.FullName}");
+            Check.RequireFileExists(inputKmlFile, "Can't find input File KML for import with ogr2ogr");
+
+            var commandLineArguments = BuildCommandLineArgumentsForFileKmlToGeoJson(inputKmlFile, _gdalDataPath, _coordinateSystemId, explodeCollections);
+            var processUtilityResult = ExecuteOgr2OgrCommand(commandLineArguments);
+            return processUtilityResult.StdOut;
+        }
+
         private ProcessUtilityResult ExecuteOgr2OgrCommand(List<string> commandLineArguments)
         {
             var processUtilityResult = ProcessUtility.ShellAndWaitImpl(_ogr2OgrExecutable.DirectoryName, _ogr2OgrExecutable.FullName, commandLineArguments, true, Convert.ToInt32(_totalMilliseconds));
@@ -149,6 +160,31 @@ namespace LtInfo.Common.GdalOgr
                 "/dev/stdout",
                 inputGdbFile.FullName,
                 $"\"{sourceLayerName}\"",
+                "-dim",
+                "2"
+            };
+
+            return commandLineArguments.Where(x => x != null).ToList();
+        }
+
+        /// <summary>
+        /// Produces the command line arguments for ogr2ogr.exe to run the KML File import.
+        /// <example>"C:\Program Files\GDAL\ogr2ogr.exe" -preserve_fid --config GDAL_DATA "C:\\Program Files\\GDAL\\gdal-data" -t_srs EPSG:4326 -f GeoJSON /dev/stdout "C:\\svn\\sitkatech\\trunk\\Corral\\Source\\ProjectFirma.Web\\Models\\GdalOgr\\SampleFileKml.kml"</example>
+        /// </summary>
+        internal static List<string> BuildCommandLineArgumentsForFileKmlToGeoJson(FileInfo inputKmlFile, DirectoryInfo gdalDataDirectoryInfo, int coordinateSystemId, bool explodeCollections)
+        {
+            var commandLineArguments = new List<string>
+            {
+                "--config",
+                "GDAL_DATA",
+                gdalDataDirectoryInfo.FullName,
+                "-t_srs",
+                GetMapProjection(coordinateSystemId),
+                explodeCollections ? "-explodecollections" : null,
+                "-f",
+                "GeoJSON",
+                "/dev/stdout",
+                inputKmlFile.FullName,
                 "-dim",
                 "2"
             };

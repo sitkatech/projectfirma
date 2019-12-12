@@ -30,5 +30,19 @@ namespace LtInfo.Common.GeoJson
         {
             return featureCollection.Features.First().Properties.Keys.ToList();
         }
+
+        public static List<string> GetFeaturePropertyNamesNoNullValues(this FeatureCollection featureCollection)
+        {
+            var propertiesDictionary = featureCollection.Features.First().Properties;
+            var properties = new List<string>();
+            foreach (var key in propertiesDictionary.Keys.ToList())
+            {
+                if (propertiesDictionary[key] != null)
+                {
+                    properties.Add(key);
+                }
+            }
+            return properties;
+        }
     }
 }
