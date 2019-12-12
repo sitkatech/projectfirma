@@ -63,6 +63,14 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        private List<int> GetSelectedGeospatialAreasFromPerformanceMeasure(PerformanceMeasure performanceMeasure)
+        {
+            var geospatialAreaIDs = new List<int>();
+            geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
+            geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureNoTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
+            geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
+            return geospatialAreaIDs;
+        }
 
         private PartialViewResult ViewAddGeospatialAreaToPerformanceMeasure(PerformanceMeasure performanceMeasure, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
         {
@@ -70,7 +78,7 @@ namespace ProjectFirma.Web.Controllers
 
             //build list of geospatial areas and remove any we have already setup a connection to this performance measure
             var geospatialAreaSimples = HttpRequestStorage.DatabaseEntities.GeospatialAreas.ToList().Select(x => new GeospatialAreaSimple(x)).ToList();//todo: probably want this data coming from an AJAX call
-            var selectedGeospatialAreas = HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList();
+            var selectedGeospatialAreas = GetSelectedGeospatialAreasFromPerformanceMeasure(performanceMeasure);
             var selectedGeospatialAreaSimples = geospatialAreaSimples.Where(x => selectedGeospatialAreas.Contains(x.GeospatialAreaID)).ToList();
             var setToRemove = new HashSet<GeospatialAreaSimple>(selectedGeospatialAreaSimples);
             geospatialAreaSimples.RemoveAll(x => setToRemove.Contains(x));
