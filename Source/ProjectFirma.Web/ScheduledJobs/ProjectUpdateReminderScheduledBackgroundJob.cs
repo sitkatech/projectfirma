@@ -9,9 +9,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 {
     public class ProjectUpdateReminderScheduledBackgroundJob : ScheduledBackgroundJobBase
     {
-        public ProjectUpdateReminderScheduledBackgroundJob(string jobName) : base()
-        {
-        }
+        public new const string JobName = "Project Update Reminders";
 
         public override List<FirmaEnvironmentType> RunEnvironments => new List<FirmaEnvironmentType>
         {

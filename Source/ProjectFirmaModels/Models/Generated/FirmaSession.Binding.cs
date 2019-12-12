@@ -30,13 +30,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FirmaSession(int firmaSessionID, Guid firmaSessionGuid, int? personID, int? originalPersonID, DateTime createDate) : this()
+        public FirmaSession(int firmaSessionID, Guid firmaSessionGuid, int? personID, int? originalPersonID, DateTime createDate, DateTime? lastActivityDate) : this()
         {
             this.FirmaSessionID = firmaSessionID;
             this.FirmaSessionGuid = firmaSessionGuid;
             this.PersonID = personID;
             this.OriginalPersonID = originalPersonID;
             this.CreateDate = createDate;
+            this.LastActivityDate = lastActivityDate;
         }
 
         /// <summary>
@@ -99,6 +100,7 @@ namespace ProjectFirmaModels.Models
         public int? PersonID { get; set; }
         public int? OriginalPersonID { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime? LastActivityDate { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FirmaSessionID; } set { FirmaSessionID = value; } }
 
