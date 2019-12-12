@@ -7,8 +7,15 @@
     {
         public static void RunProjectUpdateKickoffReminderScheduledBackgroundJob()
         {
-            var projectUpdateReminderScheduledBackgroundJob = new ProjectUpdateReminderScheduledBackgroundJob("Project Update Reminders");
+            var projectUpdateReminderScheduledBackgroundJob = new ProjectUpdateReminderScheduledBackgroundJob();
             projectUpdateReminderScheduledBackgroundJob.RunJob();
         }
+
+        public static void RunCleanUpStaleFirmaSessionsScheduledBackgroundJob()
+        {
+            var cleanUpStaleFirmaSessionsJob = new CleanUpStaleFirmaSessionsJob();
+            cleanUpStaleFirmaSessionsJob.RunJob();
+        }
+
     }
 }

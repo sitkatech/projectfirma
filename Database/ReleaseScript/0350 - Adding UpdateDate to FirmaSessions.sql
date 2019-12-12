@@ -84,4 +84,9 @@ GO
 ALTER TABLE dbo.FirmaSession SET (LOCK_ESCALATION = TABLE)
 GO
 
+update dbo.FirmaSession
+set LastActivityDate = CreateDate
+where LastActivityDate is null and CreateDate is not null
+GO
+
 --rollback tran
