@@ -116,6 +116,8 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    var performanceMeasureReportingPeriodTargetsUpdated =
+                        new List<PerformanceMeasureReportingPeriodTarget>();
                     foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
                     {
                         // Reporting Period
@@ -141,9 +143,18 @@ namespace ProjectFirma.Web.Views.Shared
                             performanceMeasureTarget.PerformanceMeasureTargetValue = pmrpSimple.TargetValue;
                             performanceMeasureTarget.PerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
                         }
+                        performanceMeasureReportingPeriodTargetsUpdated.Add(performanceMeasureTarget);
                     }
-                    break;
 
+                    performanceMeasure.PerformanceMeasureReportingPeriodTargets.Merge(
+                        performanceMeasureReportingPeriodTargetsUpdated, 
+                        allPerformanceMeasureReportingPeriodTargets, 
+                        (x, y) => x.PerformanceMeasureReportingPeriodTargetID == y.PerformanceMeasureReportingPeriodTargetID, 
+                        (x, y) =>
+                        {
+                            x.PerformanceMeasureReportingPeriodTargetID = y.PerformanceMeasureReportingPeriodTargetID;
+                        }, HttpRequestStorage.DatabaseEntities);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
             }
@@ -242,6 +253,8 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    var geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated =
+                        new List<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
                     foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
                     {
                         // Reporting Period
@@ -267,9 +280,19 @@ namespace ProjectFirma.Web.Views.Shared
                             performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue = pmrpSimple.TargetValue;
                             performanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = pmrpSimple.TargetValueLabel;
                         }
+                        geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated.Add(performanceMeasureTarget);
                     }
-                    break;
 
+                    // Perform the merge, which deletes the ones that haven't been submitted
+                    performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Merge(geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated,
+                        allGeospatialAreaPerformanceMeasureReportingPeriodTargets,
+                        (x, y) => x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID == y.GeospatialAreaPerformanceMeasureReportingPeriodTargetID,
+                        (x, y) =>
+                        {
+                            x.GeospatialAreaPerformanceMeasureReportingPeriodTargetID = y.GeospatialAreaPerformanceMeasureReportingPeriodTargetID;
+                        }, HttpRequestStorage.DatabaseEntities);
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException($"Invalid Target Value Type {performanceMeasureTargetValueTypeEnum}");
 
