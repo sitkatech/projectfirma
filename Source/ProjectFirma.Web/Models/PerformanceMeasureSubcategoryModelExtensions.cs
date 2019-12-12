@@ -17,7 +17,8 @@ namespace ProjectFirma.Web.Models
         public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
-            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals();
+            // This was changed to only use the performance measure reporting period from the actuals. Requested in PF#1901: https://projects.sitkatech.com/projects/projectfirma/cards/1901
+            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
             var googleChartJsons = new List<GoogleChartJson>();
 
             bool hasTargets = performanceMeasure.HasTargets();
@@ -125,9 +126,6 @@ namespace ProjectFirma.Web.Models
                 googleChartJsons.Add(googleChartJson);
             }
 
-
-
-
             return googleChartJsons;
         }
 
@@ -143,6 +141,7 @@ namespace ProjectFirma.Web.Models
                                            bool showCumulativeResults)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
+
             foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };

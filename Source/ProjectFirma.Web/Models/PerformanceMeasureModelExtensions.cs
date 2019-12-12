@@ -280,7 +280,21 @@ namespace ProjectFirma.Web.Models
         {
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals());
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates and GeospatialAreaPerformanceMeasureTargets)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
