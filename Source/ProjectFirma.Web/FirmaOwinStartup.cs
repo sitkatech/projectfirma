@@ -187,6 +187,9 @@ namespace ProjectFirma.Web
             var sendNewOrganizationNotification = false;
             var person = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUserClaims.UserGuid);
 
+            // It can be useful to have the EXACT same time when looking for/at records later.
+            var currentDateTime = DateTime.Now;
+
             if (person == null)
             {
                 // new user - provision with limited role
@@ -198,7 +201,7 @@ namespace ProjectFirma.Web
                     keystoneUserClaims.LastName,
                     keystoneUserClaims.Email,
                     Role.Unassigned.RoleID,
-                    DateTime.Now,
+                    currentDateTime,
                     true,
                     unknownOrganization.OrganizationID,
                     false,
@@ -256,8 +259,8 @@ namespace ProjectFirma.Web
                 //Assign user to magic Unknown Organization ID
             }
 
-            person.UpdateDate = DateTime.Now;
-            person.LastActivityDate = DateTime.Now;
+            person.UpdateDate = currentDateTime;
+            person.LastActivityDate = currentDateTime;
 
             // Find existing FirmaSession if we can for this user
             var firmaSessionsForPerson = HttpRequestStorage.DatabaseEntities.FirmaSessions.GetFirmaSessionsByPersonID(person.PersonID, false);
@@ -266,6 +269,9 @@ namespace ProjectFirma.Web
             {
                 // For now, we just give them the last session. This is NOT a long term solution. -- SLG
                 HttpRequestStorage.FirmaSession = firmaSessionsForPerson.Last();
+                Check.EnsureNotNull(HttpRequestStorage.FirmaSession);
+                // Update the FirmaSession to have an update corresponding to the last access by the user
+                HttpRequestStorage.FirmaSession.LastActivityDate = currentDateTime;
             }
             else
             {

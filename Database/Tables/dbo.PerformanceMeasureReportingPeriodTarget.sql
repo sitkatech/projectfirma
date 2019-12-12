@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriodTarget](
 	[PerformanceMeasureReportingPeriodID] [int] NOT NULL,
 	[PerformanceMeasureTargetValue] [float] NULL,
 	[PerformanceMeasureTargetValueLabel] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_PerformanceMeasureReportingPeriodTarget_PerformanceMeasureTargetID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_PerformanceMeasureReportingPeriodTarget_PerformanceMeasureReportingPeriodTargetID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureReportingPeriodTargetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
@@ -18,7 +18,7 @@ CREATE TABLE [dbo].[PerformanceMeasureReportingPeriodTarget](
 	[PerformanceMeasureReportingPeriodID] ASC,
 	[PerformanceMeasureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_PerformanceMeasureReportingPeriodTarget_PerformanceMeasureTargetID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_PerformanceMeasureReportingPeriodTarget_PerformanceMeasureReportingPeriodTargetID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[PerformanceMeasureReportingPeriodTargetID] ASC,
 	[TenantID] ASC

@@ -21,6 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsOptional();
             Property(x => x.OriginalPersonID).HasColumnName(@"OriginalPersonID").HasColumnType("int").IsOptional();
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
+            Property(x => x.LastActivityDate).HasColumnName(@"LastActivityDate").HasColumnType("datetime").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.Person).WithMany(b => b.FirmaSessions).HasForeignKey(c => c.PersonID).WillCascadeOnDelete(false); // FK_FirmaSession_Person_PersonID

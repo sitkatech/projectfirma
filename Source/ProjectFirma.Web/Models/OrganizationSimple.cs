@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Models
             OrganizationShortName = organizationShortName;
             OrganizationTypeID = organizationTypeId;
             PrimaryContactPersonID = primaryContactPersonID;
-            PrimaryContactPersonDisplayName = primaryContactPersonID != null ? HttpRequestStorage.DatabaseEntities.People.GetPerson(primaryContactPersonID.Value).GetFullNameFirstLastAndOrgShortName() : "nobody";
+            PrimaryContactPersonDisplayName = primaryContactPersonID != null ? HttpRequestStorage.DatabaseEntities.People.GetPerson(primaryContactPersonID.Value, true).GetFullNameFirstLastAndOrgShortName() : "nobody";
             IsActive = isActive;
             URL = url;
             DetailUrl = detailUrl;

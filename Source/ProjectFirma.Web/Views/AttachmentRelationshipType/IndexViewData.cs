@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 
             var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            AttachmentRelationshipTypeGridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            AttachmentRelationshipTypeGridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             AttachmentRelationshipTypeGridName = "relationshipTypeGrid";
             AttachmentRelationshipTypeGridDataUrl = SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(otc => otc.AttachmentRelationshipTypeGridJsonData());

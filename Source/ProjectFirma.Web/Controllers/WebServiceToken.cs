@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -42,15 +43,22 @@ namespace ProjectFirma.Web.Controllers
         /// </summary>
         public static readonly WebServiceToken WebServiceTokenForUnitTests;
 
+        public static readonly WebServiceToken WebServiceTokenForParameterizedReplacements;
+
         /// <summary>
         /// The Unit Test GUID which can be used to make the web service token
         /// </summary>
         public static readonly Guid WebServiceTokenGuidForUnitTests = new Guid("4B261809-3D67-4A6A-A807-06B0044E6665"); // corresponds to Stewart Gordon, PersonID = 5920
 
+        public static readonly Guid WebServiceTokenGuidForParameterizedReplacement = new Guid("11111222-3344-5566-7777-888889999999"); 
+
         static WebServiceToken()
         {
             const bool isBeingCalledByStaticConstructor = true;
+            // this can be null in run-time depending on tenant, but we should only be using it for unit tests
             WebServiceTokenForUnitTests = new WebServiceToken(WebServiceTokenGuidForUnitTests.ToString(), isBeingCalledByStaticConstructor);
+            // this should always be available, but it's also not a real web service token, we only use it for replacements
+            WebServiceTokenForParameterizedReplacements = new WebServiceToken(WebServiceTokenGuidForParameterizedReplacement.ToString(), isBeingCalledByStaticConstructor);
         }
 
         /// <summary>
@@ -59,6 +67,14 @@ namespace ProjectFirma.Web.Controllers
         private static bool IsValidAsUnitTestToken(Guid tokenGuidToCheck, bool isBeingCalledByStaticConstructor)
         {
             return (tokenGuidToCheck == WebServiceTokenGuidForUnitTests && (isBeingCalledByStaticConstructor || FirmaWebConfiguration.FirmaEnvironment.IsUnitTestWebServiceTokenOkInThisEnvironment));
+        }
+
+        /// <summary>
+        /// Indicates if the token is valid in these circumstances as a parameter replacement token, has to be the same GUID as <see cref="WebServiceTokenGuidForParameterizedReplacement"/>
+        /// </summary>
+        private static bool IsValidAsParameterizedReplacementToken(Guid tokenGuidToCheck)
+        {
+            return (tokenGuidToCheck == WebServiceTokenGuidForParameterizedReplacement);
         }
 
         /// <summary>
@@ -72,12 +88,21 @@ namespace ProjectFirma.Web.Controllers
                 , WebServiceTokenModelBinder.WebServiceTokenParameterName
                 , allegedWebServiceToken));
 
+            // Token is valid if we are in a unit-test type situation
             if (IsValidAsUnitTestToken(tokenGuid, isBeingCalledByStaticConstructor))
             {
                 return tokenGuid;
             }
 
+            // Parameterzied replacement tokens are valid too (although they result in a WebServiceToken that is deliberately half-baked and person-less. This should be OK
+            // since we don't really want to use it for anything, just immediately replace it after we've generated routes and method signatures.
+            if (IsValidAsParameterizedReplacementToken(tokenGuid))
+            {
+                return tokenGuid;
+            }
+
             Check.Require(tokenGuid != WebServiceTokenGuidForUnitTests, "Code appears to be trying to use the unit test web service token inappropriately, check environments and callers - that GUID is restricted use.");
+            //Check.Require(tokenGuid != WebServiceTokenGuidForParameterizedReplacements, "Code appears to be trying to use the parameterized replacement web service token inappropriately, check environments and callers - that GUID is restricted use.");
 
             Check.RequireNotNull(HttpRequestStorage.DatabaseEntities.People.GetPersonByWebServiceAccessToken(tokenGuid), string.Format("The provided token {0} = \"{1}\" is not associated with a person."
                 , WebServiceTokenModelBinder.WebServiceTokenParameterName
@@ -100,13 +125,22 @@ namespace ProjectFirma.Web.Controllers
 
             if (IsValidAsUnitTestToken(_tokenGuid, isBeingCalledByStaticConstructor))
             {
-                _person = HttpRequestStorage.DatabaseEntities.People.GetPerson(5920); // TODO: Stewart Gordon's ID; might want to make a system person?
+                _person = HttpRequestStorage.DatabaseEntities.People.GetPerson(5920, false); // TODO: Stewart Gordon's ID; might want to make a system person?
             }
             else
             {
                 _person = HttpRequestStorage.DatabaseEntities.People.GetPersonByWebServiceAccessToken(_tokenGuid);
             }
-            Check.EnsureNotNull(_person, string.Format("Could not find valid person for WebServiceToken {0}", _tokenGuid));
+            Debugger.Log(0, null,$"Creating WebServiceToken for \"{allegedWebServiceToken}\"");
+
+            // Don't enforce person if this is for parameterized replacements
+            // It also OK if person is null for the unit test one when running as a normal web site.
+            // We only need the Unit Test one to work in actual unit test context. 
+            // Unfortunately, there's no way (yet) to determine which way we are running, normal web site or unit tests -- SLG & SG
+            if (!IsValidAsParameterizedReplacementToken(_tokenGuid) && !IsValidAsUnitTestToken(_tokenGuid, isBeingCalledByStaticConstructor))
+            {
+                Check.EnsureNotNull(_person, $"Could not find valid person for WebServiceToken {_tokenGuid}");
+            }
         }
 
         /// <summary>
@@ -122,6 +156,11 @@ namespace ProjectFirma.Web.Controllers
         public bool IsWebServiceTokenForUnitTests
         {
             get { return _tokenGuid == WebServiceTokenGuidForUnitTests; }
+        }
+
+        public bool IsWebServiceTokenForParameterizedReplacement
+        {
+            get { return _tokenGuid == WebServiceTokenGuidForParameterizedReplacement; }
         }
 
         public override string ToString()
