@@ -61,18 +61,14 @@
         <div class="col-xs-12 control-label"><strong>1. Add @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
         <div class="col-xs-12">
             <div>
-                <select class="selectpicker" ng-model="SelectedGeospatialAreaTypeID">
+                <select class="selectpicker" ng-model="SelectedGeospatialAreaTypeID" ng-change="refreshSelectableGeospatialAreas()">
                     <option ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypeSimples"
                             ng-bind="geospatialAreaType.GeospatialAreaTypeName"
                             ng-value="geospatialAreaType.GeospatialAreaTypeID"></option>
                 </select>
-                <select class="selectpicker" ng-model="SelectedGeospatialAreaID">
-                    <option ng-repeat="geospatialArea in refreshSelectableGeospatialAreas(SelectedGeospatialAreaTypeID)"
-                            ng-bind="geospatialArea.GeospatialAreaName"
-                            ng-value="geospatialArea.GeospatialAreaID"></option>
-                </select>
+                <select class="selectpicker" ng-model="SelectedGeospatialArea" ng-options="geospatialArea.GeospatialAreaName for geospatialArea in selectableGeospatialAreas track by geospatialArea.GeospatialAreaID" data-container="body"></select>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-firma" ng-disabled="isAddButtonDisabled()" ng-click="addGeospatialArea(SelectedGeospatialAreaID, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                    <button type="button" class="btn btn-sm btn-firma" ng-disabled="isAddButtonDisabled()" ng-click="addGeospatialArea(SelectedGeospatialArea, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
             </div>
         </div>

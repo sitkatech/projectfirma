@@ -103,7 +103,7 @@ namespace ProjectFirma.Web.Models
             var googleChartAxisHorizontal =
                 new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
-            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var chartSeries = GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
                 googleChartAxisVerticals, null, chartSeries);
@@ -280,7 +280,21 @@ namespace ProjectFirma.Web.Models
         {
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
 
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals());
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates and GeospatialAreaPerformanceMeasureTargets)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
             performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
 
             return performanceMeasureReportingPeriods.Distinct().ToList();
@@ -332,15 +346,17 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any();
-
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.PerformanceMeasureOverallTargets.Any();
             return hasTargets;
         }
 
         public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any();
-
+            if (geospatialArea == null)
+            {
+                return false;
+            }
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
     }
