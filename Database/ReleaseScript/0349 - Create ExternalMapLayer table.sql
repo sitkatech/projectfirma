@@ -1,4 +1,5 @@
 
+-- New table for External Map Layers
 create table dbo.ExternalMapLayer(
 	ExternalMapLayerID int not null identity(1,1) constraint PK_ExternalMapLayer_ExternalMapLayerID primary key,
 	TenantID int not null constraint FK_ExternalMapLayer_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
@@ -9,4 +10,25 @@ create table dbo.ExternalMapLayer(
 	LayerIsOnByDefault bit not null,
 	IsActive bit not null
 );
+
+
+-- Add Firma Page content to External map layers page
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values
+(70, 'ExternalMapLayers', 'External Map Layers', 1)
+
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+values
+(1, 70, '<p>External map layers to add to maps.</p>'),
+(2, 70, '<p>External map layers to add to maps.</p>'),
+(3, 70, '<p>External map layers to add to maps.</p>'),
+(4, 70, '<p>External map layers to add to maps.</p>'),
+(5, 70, '<p>External map layers to add to maps.</p>'),
+(6, 70, '<p>External map layers to add to maps.</p>'),
+(7, 70, '<p>External map layers to add to maps.</p>'),
+(8, 70, '<p>External map layers to add to maps.</p>'),
+(9, 70, '<p>External map layers to add to maps.</p>'),
+(11, 70, '<p>External map layers to add to maps.</p>')
+
+select * from FirmaPage order by FirmaPageID desc
 
