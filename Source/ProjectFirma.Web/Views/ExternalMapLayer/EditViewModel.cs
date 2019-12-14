@@ -20,56 +20,47 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using LtInfo.Common.Models;
+using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.KeystoneDataService;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExternalMapLayer
 {
     public class EditViewModel : FormViewModel, IValidatableObject
     {
-        public int OrganizationID { get; set; }
+        public int ExternalMapLayerID { get; set; }
 
         [Required]
-        [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationName)]
+        [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.DisplayName)]
         [DisplayName("Name")]
-        public string OrganizationName { get; set; }
+        public string DisplayName { get; set; }
 
         [Required]
-        [StringLength(ProjectFirmaModels.Models.Organization.FieldLengths.OrganizationShortName)]
-        [DisplayName("Short Name")]
-        public string OrganizationShortName { get; set; }
+        [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.LayerUrl)]
+        [DisplayName("Url")]
+        public string LayerUrl { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationType)]
         [Required]
-        public int? OrganizationTypeID { get; set; }
+        [DisplayName("Display on all maps?")]
+        public bool DisplayOnAllProjectMaps { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.OrganizationPrimaryContact)]
-        public int? PrimaryContactPersonID { get; set; }
+        [Required]
+        [DisplayName("Layer is on by default?")]
+        public bool LayerIsOnByDefault { get; set; }
 
-        [Url]
-        [DisplayName("Home Page")]
-        public string OrganizationUrl { get; set; }
-
-        [DisplayName("Is Active")]
+        [Required]
+        [DisplayName("Is Active?")]
         public bool IsActive { get; set; }
 
-        [DisplayName("Logo")]
-        [SitkaFileExtensions("jpg|jpeg|gif|png")]
-        public HttpPostedFileBase LogoFileResourceData { get; set; }
+        [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.LayerDescription)]
+        [DisplayName("Layer Description")]
+        public string LayerDescription { get; set; }
 
-        [DisplayName("Keystone Organization Guid")]
-        public Guid? OrganizationGuid { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -78,75 +69,40 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         {
         }
 
-        public EditViewModel(ProjectFirmaModels.Models.Organization organization)
+        public EditViewModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
         {
-            OrganizationID = organization.OrganizationID;
-            OrganizationName = organization.OrganizationName;
-            OrganizationShortName = organization.OrganizationShortName;
-            OrganizationTypeID = organization.OrganizationTypeID;
-            PrimaryContactPersonID = organization.PrimaryContactPerson?.PersonID;
-            OrganizationUrl = organization.OrganizationUrl;
-
-            IsActive = organization.IsActive;
-            OrganizationGuid = organization.OrganizationGuid;
+            DisplayName = externalMapLayer.DisplayName;
+            LayerUrl = externalMapLayer.LayerUrl;
+            DisplayOnAllProjectMaps = externalMapLayer.DisplayOnAllProjectMaps;
+            LayerIsOnByDefault = externalMapLayer.LayerIsOnByDefault;
+            IsActive = externalMapLayer.IsActive;
+            LayerDescription = externalMapLayer.LayerDescription;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Organization organization, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
         {
-            organization.OrganizationName = OrganizationName;
-            organization.OrganizationShortName = OrganizationShortName;
-            organization.OrganizationTypeID = OrganizationTypeID.Value;
-            organization.IsActive = IsActive;
-            organization.PrimaryContactPersonID = PrimaryContactPersonID;
-            organization.OrganizationUrl = OrganizationUrl;
-            if (LogoFileResourceData != null)
-            {
-                organization.LogoFileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(LogoFileResourceData, currentFirmaSession);
-            }
-
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            if (isSitkaAdmin)
-            {
-                organization.OrganizationGuid = OrganizationGuid;
-            }
+            externalMapLayer.DisplayName = DisplayName;
+            externalMapLayer.LayerUrl = LayerUrl;
+            externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllProjectMaps;
+            externalMapLayer.LayerIsOnByDefault = LayerIsOnByDefault;
+            externalMapLayer.IsActive = IsActive;
+            externalMapLayer.LayerDescription = LayerDescription;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-
-            if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
+            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.DisplayName == DisplayName))
             {
-                var errorMessage = $"Logo is too large - must be less than {FileUtility.FormatBytes(MaxLogoSizeInBytes)}. Your logo was {FileUtility.FormatBytes(LogoFileResourceData.ContentLength)}.";
-                validationResults.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Display Name is already associated with an External Map Layer", x => x.DisplayName));
             }
-
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
-            if (OrganizationGuid.HasValue && isSitkaAdmin)
+            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.LayerUrl == LayerUrl))
             {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.OrganizationGuid == OrganizationGuid);
-                if (organization != null && organization.OrganizationID != OrganizationID)
-                {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("This Guid is already associated with an Organization", x => x.OrganizationGuid));
-                }
-                else
-                {
-                    try
-                    {
-                        var keystoneClient = new KeystoneDataClient();
-                        var keystoneOrganization = keystoneClient.GetOrganization(OrganizationGuid.Value);
-                    }
-                    catch (Exception)
-                    {
-                        validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.OrganizationGuid));
-                    }
-                    
-                }
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Url is already associated with an External Map Layer", x => x.LayerUrl));
             }
 
             return validationResults;
         }
 
-        public const int MaxLogoSizeInBytes = 1024 * 200;
     }
 }

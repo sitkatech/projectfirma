@@ -40,120 +40,86 @@ using ProjectFirma.Web.Views.ExternalMapLayer;
 using ProjectFirma.Web.Views.Shared;
 
 
+
 namespace ProjectFirma.Web.Controllers
 {
     public class ExternalMapLayerController : FirmaBaseController
     {
+
         [AnonymousUnclassifiedFeature]
         public ViewResult Index()
         {
-            return ViewIndex(SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.IndexGridJsonData()));
+            var firmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
+            var gridDataUrl = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.IndexGridJsonData());
+            var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
 
-        }
-
-        [AnonymousUnclassifiedFeature]
-        public ViewResult ViewIndex(string gridDataUrl)
-        {
-            var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
-            List<SelectListItem> activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
-                new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
-            };
-
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, userCanManage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<ExternalMapLayer> IndexGridJsonData()
         {
-            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new IndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var gridSpec = new IndexGridSpec();
+            var externalMapLayers = HttpRequestStorage.DatabaseEntities.ExternalMapLayers.OrderBy(x => x.DisplayName).ToList();
 
-            switch (organizationStatusFilterType)
-            {
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations:
-                    organizations = organizations.Where(x => x.IsActive).ToList();
-                    break;
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("organizationStatusFilterType", organizationStatusFilterType,
-                        null);
-            }
-
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations.OrderBy(x => x.GetDisplayName()).ToList(), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ExternalMapLayer>(externalMapLayers, gridSpec);
             return gridJsonNetJObjectResult;
         }
-//
-//        [HttpGet]
-//        [OrganizationManageFeature]
-//        public PartialViewResult New()
-//        {
-//            var viewModel = new EditViewModel {IsActive = true};
-//            return ViewEdit(viewModel, false, null);
-//        }
-//
-//        [HttpPost]
-//        [OrganizationManageFeature]
-//        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-//        public ActionResult New(EditViewModel viewModel)
-//        {
-//            if (!ModelState.IsValid)
-//            {
-//                return ViewEdit(viewModel, true, null);
-//            }
-//            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
-//            viewModel.UpdateModel(organization, CurrentFirmaSession);
-//            HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
-//            HttpRequestStorage.DatabaseEntities.SaveChanges();
-//            SetMessageForDisplay($"Organization {organization.GetDisplayName()} successfully created.");
-//
-//            return new ModalDialogFormJsonResult();
-//        }
-//
-//        [HttpGet]
-//        [OrganizationManageFeature]
-//        public PartialViewResult Edit(OrganizationPrimaryKey organizationPrimaryKey)
-//        {
-//            var organization = organizationPrimaryKey.EntityObject;
-//            var viewModel = new EditViewModel(organization);
-//            return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
-//        }
-//
-//        [HttpPost]
-//        [OrganizationManageFeature]
-//        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-//        public ActionResult Edit(OrganizationPrimaryKey organizationPrimaryKey, EditViewModel viewModel)
-//        {
-//            var organization = organizationPrimaryKey.EntityObject;
-//            if (!ModelState.IsValid)
-//            {
-//                return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
-//            }
-//            viewModel.UpdateModel(organization, CurrentFirmaSession);
-//            return new ModalDialogFormJsonResult();
-//        }
-//
-//        private PartialViewResult ViewEdit(EditViewModel viewModel, bool isInKeystone, Person currentPrimaryContactPerson)
-//        {
-//            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes
-//                .OrderBy(x => x.OrganizationTypeName)
-//                .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
-//                    x => x.OrganizationTypeName);
-//            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-//            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
-//            {
-//                activePeople.Add(currentPrimaryContactPerson);
-//            }
-//            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
-//                x => x.GetFullNameFirstLastAndOrg());
-//            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-//            var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
-//            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
-//        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult New()
+        {
+            var externalMapLayer = new ExternalMapLayer(string.Empty, string.Empty, true, true, true);
+            var viewModel = new EditViewModel(externalMapLayer);
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            var externalMapLayer = ExternalMapLayer.CreateNewBlank();
+            viewModel.UpdateModel(externalMapLayer);
+            HttpRequestStorage.DatabaseEntities.AllExternalMapLayers.Add(externalMapLayer);
+            SetMessageForDisplay($"External map layer {externalMapLayer.DisplayName} successfully created.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        //        [HttpGet]
+        //        [FirmaAdminFeature]
+        //        public PartialViewResult Edit(OrganizationPrimaryKey organizationPrimaryKey)
+        //        {
+        //            var organization = organizationPrimaryKey.EntityObject;
+        //            var viewModel = new EditViewModel(organization);
+        //            return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
+        //        }
+        //
+        //        [HttpPost]
+        //        [FirmaAdminFeature]
+        //        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //        public ActionResult Edit(OrganizationPrimaryKey organizationPrimaryKey, EditViewModel viewModel)
+        //        {
+        //            var organization = organizationPrimaryKey.EntityObject;
+        //            if (!ModelState.IsValid)
+        //            {
+        //                return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
+        //            }
+        //            viewModel.UpdateModel(organization, CurrentFirmaSession);
+        //            return new ModalDialogFormJsonResult();
+        //        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        {
+            var viewData = new EditViewData();
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
 //
 //        [OrganizationViewFeature]
 //        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)

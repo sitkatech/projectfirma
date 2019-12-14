@@ -32,25 +32,14 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @section RightOfPageTitle
 {
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasOrganizationManagePermissions)
-    @ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserIsSitkaAdmin)
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanManage)
 }
 
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 
-<div>
-    Show:
-    @Html.DropDownList("ShowOnlyActiveOrBothActiveAndInactive", ViewDataTyped.ActiveOrAllOrganizationsSelectListItems, new { id = @ViewDataTyped.ShowOnlyActiveOrAll, onchange = "changeGridUrl()", })
-</div>
 
 <div style="margin-top: 10px;">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
-
-<script>
-    var changeGridUrl = function () {
-        Sitka.@(ViewDataTyped.GridName).load(jQuery("#@ViewDataTyped.ShowOnlyActiveOrAll").val());
-    }
-</script>

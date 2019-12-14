@@ -19,13 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Web;
-using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExternalMapLayer
@@ -35,10 +31,10 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         public IndexGridSpec()
         {
 
-            Add("Display Name", x => x.DisplayName, 150);
+            Add(FieldDefinitionEnum.ExternalMapLayer.ToType().ToGridHeaderString(), x => x.DisplayName, 150);
             Add("Layer Url", x => x.LayerUrl, 250);
             Add("Layer Description", x => x.LayerDescription, 400);
-            Add("Display on all " + FieldDefinitionEnum.Project.ToType().ToGridHeaderString() + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 150);
+            Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 150);
             Add("On by Default?", x => x.LayerIsOnByDefault ? "Yes" : "No", 90);
             Add("Is Active?", x => x.IsActive ? "Yes" : "No", 90);
         }

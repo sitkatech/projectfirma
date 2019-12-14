@@ -10,7 +10,13 @@ create table dbo.ExternalMapLayer(
 	LayerIsOnByDefault bit not null,
 	IsActive bit not null
 );
+go
 
+alter table dbo.ExternalMapLayer
+add constraint AK_ExternalMapLayer_TenantID_DisplayName unique(TenantID, DisplayName)
+
+alter table dbo.ExternalMapLayer
+add constraint AK_ExternalMapLayer_TenantID_LayerUrl unique(TenantID, LayerUrl)
 
 -- Add Firma Page content to External map layers page
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)

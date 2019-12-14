@@ -18,83 +18,54 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
-@using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
-@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ExternalMapLayer.Edit
 @using (Html.BeginForm())
 {
-    if (ViewDataTyped.IsInKeystone)
-    {
-        <p class="systemText">This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() is managed in Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s name, please send an @ModalDialogFormHelper.ModalDialogFormLink("email to support", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null)</p>
-    }
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationName)
+                @Html.LabelWithSugarFor(m => m.DisplayName)
             </div>
             <div class="col-sm-9">
-                @if (ViewDataTyped.IsInKeystone)
-                {
-                    @Model.OrganizationName
-                    @Html.HiddenFor(x => x.OrganizationName)
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.OrganizationName, new { @class="form-control", style = "width:100%" })
-                    @Html.ValidationMessageFor(m => m.OrganizationName)
-                }
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.DisplayName)
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationShortName)
+                @Html.LabelWithSugarFor(m => m.LayerUrl)
             </div>
             <div class="col-sm-9">
-               @Html.TextBoxFor(m => m.OrganizationShortName, new { @class="form-control", style = "width:100%" })
-            @Html.ValidationMessageFor(m => m.OrganizationShortName)
+                @Html.TextBoxFor(m => m.LayerUrl, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LayerUrl)
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationTypeID)
+                @Html.LabelWithSugarFor(m => m.LayerDescription)
             </div>
             <div class="col-sm-9">
-                @Html.DropDownListFor(m => m.OrganizationTypeID, ViewDataTyped.OrganizationTypes, new { @class="form-control", style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.OrganizationTypeID)
+                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LayerDescription)
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.PrimaryContactPersonID)
+                @Html.LabelWithSugarFor(m => m.DisplayOnAllProjectMaps)
             </div>
             <div class="col-sm-9">
-                @Html.SearchableDropDownListFor(m => m.PrimaryContactPersonID, ViewDataTyped.People)
-                @Html.ValidationMessageFor(m => m.PrimaryContactPersonID)
+                @Html.CheckBoxFor(m => m.DisplayOnAllProjectMaps)
+                @Html.ValidationMessageFor(m => m.DisplayOnAllProjectMaps)
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationUrl)
+                @Html.LabelWithSugarFor(m => m.LayerIsOnByDefault)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.OrganizationUrl, new { @class="form-control", style = "width:100%" })
-                @Html.ValidationMessageFor(m => m.OrganizationUrl)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.LogoFileResourceData)
-            </div>
-            <div class="col-sm-9">
-                @Html.EditorFor(x => x.LogoFileResourceData)
-                <span class="smallExplanationText">
-                    Allowed Extensions: @Model.GetFileExtensions(x => x.LogoFileResourceData)
-                </span>
-                @Html.ValidationMessageFor(x => x.LogoFileResourceData)
+                @Html.CheckBoxFor(m => m.LayerIsOnByDefault)
+                @Html.ValidationMessageFor(m => m.LayerIsOnByDefault)
             </div>
         </div>
         <div class="form-group">
@@ -106,30 +77,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.IsActive)
             </div>
         </div>
-        @if (ViewDataTyped.IsSitkaAdmin)
-        {
-            <hr/>
-            <h3>Sitka Admin Only</h3>
-            <div class="form-group">
-                <div class="col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.OrganizationGuid)
-                </div>
-                <div class="col-sm-9">
-                    @Html.TextBoxFor(m => m.OrganizationGuid, new { @class="form-control", style="width:100%"})
-                    @Html.ValidationMessageFor(m => m.OrganizationGuid)
-                </div>
-            </div>
-
-        }
-        
     </div>
-    @Html.HiddenFor(m => m.OrganizationID)
+    @Html.HiddenFor(m => m.ExternalMapLayerID)
 }
 
-
-<script type="text/javascript">
-    jQuery(document).ready(function ()
-    {
-        HookupCheckIfFormIsDirty(undefined, ".submitProject");
-    });
-</script>

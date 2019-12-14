@@ -31,41 +31,29 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 {
     public class IndexViewData : FirmaViewData
     {
-        public Organization.IndexGridSpec GridSpec { get; }
+        public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
-        public string PullOrganizationFromKeystoneUrl { get; }
-        public bool UserIsSitkaAdmin { get; }
-        public bool HasOrganizationManagePermissions { get; }
         public string NewUrl { get; }
-
-        public Organization.IndexGridSpec.OrganizationStatusFilterTypeEnum OrganizationStatusFilterType { get; }
-        public List<SelectListItem> ActiveOrAllOrganizationsSelectListItems { get; }
-        public string ShowOnlyActiveOrAll { get; }
+        public bool UserCanManage { get; }
 
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, bool userCanManage)
             : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}";
             var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            GridSpec = new Organization.IndexGridSpec(currentFirmaSession, hasOrganizationManagePermissions)
+            GridSpec = new IndexGridSpec()
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}",
                 SaveFiltersInCookie = true
             };
-
-            GridName = "organizationsGrid";
+            GridName = "externalMapLayersGrid";
             GridDataUrl = gridDataUrl;
+            NewUrl = SitkaRoute<ExternalMapLayerController>.BuildUrlFromExpression(x => x.New());
+            UserCanManage = userCanManage;
 
-            PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
-            UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            HasOrganizationManagePermissions = hasOrganizationManagePermissions;
-            NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
-
-            ActiveOrAllOrganizationsSelectListItems = activeOrAllOrganizationsSelectListItems;
-            ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";
         }
     }
 }

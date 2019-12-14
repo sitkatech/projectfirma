@@ -26,19 +26,10 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 {
     public class EditViewData : FirmaUserControlViewData
     {
-        public readonly IEnumerable<SelectListItem> OrganizationTypes;
-        public readonly IEnumerable<SelectListItem> People;
-        public readonly bool IsInKeystone;
-        public readonly string RequestOrganizationChangeUrl;
-        public readonly bool IsSitkaAdmin;
 
-        public EditViewData(IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin)
+        public EditViewData()
         {
-            OrganizationTypes = organizationTypes;
-            People = people;
-            IsInKeystone = isInKeystone;
-            RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
-            IsSitkaAdmin = isSitkaAdmin;
+
         }
     }
 }
