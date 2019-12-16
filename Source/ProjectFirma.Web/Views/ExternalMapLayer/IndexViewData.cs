@@ -42,8 +42,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}";
-            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            GridSpec = new IndexGridSpec()
+            GridSpec = new IndexGridSpec(userCanManage)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized()}",

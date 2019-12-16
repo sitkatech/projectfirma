@@ -60,7 +60,8 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<ExternalMapLayer> IndexGridJsonData()
         {
-            var gridSpec = new IndexGridSpec();
+            var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;
+            var gridSpec = new IndexGridSpec(userCanManage);
             var externalMapLayers = HttpRequestStorage.DatabaseEntities.ExternalMapLayers.OrderBy(x => x.DisplayName).ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ExternalMapLayer>(externalMapLayers, gridSpec);
@@ -92,52 +93,68 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        //        [HttpGet]
-        //        [FirmaAdminFeature]
-        //        public PartialViewResult Edit(OrganizationPrimaryKey organizationPrimaryKey)
-        //        {
-        //            var organization = organizationPrimaryKey.EntityObject;
-        //            var viewModel = new EditViewModel(organization);
-        //            return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
-        //        }
-        //
-        //        [HttpPost]
-        //        [FirmaAdminFeature]
-        //        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //        public ActionResult Edit(OrganizationPrimaryKey organizationPrimaryKey, EditViewModel viewModel)
-        //        {
-        //            var organization = organizationPrimaryKey.EntityObject;
-        //            if (!ModelState.IsValid)
-        //            {
-        //                return ViewEdit(viewModel, organization.IsInKeystone(), organization.PrimaryContactPerson);
-        //            }
-        //            viewModel.UpdateModel(organization, CurrentFirmaSession);
-        //            return new ModalDialogFormJsonResult();
-        //        }
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult Edit(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey)
+        {
+            var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
+            var viewModel = new EditViewModel(externalMapLayer);
+            return ViewEdit(viewModel);
+        }
+        
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey, EditViewModel viewModel)
+        {
+            var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            viewModel.UpdateModel(externalMapLayer);
+            return new ModalDialogFormJsonResult();
+        }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
             var viewData = new EditViewData();
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
-//
-//        [OrganizationViewFeature]
-//        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
-//        {
-//            var organization = organizationPrimaryKey.EntityObject;
-//            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-//            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
-//
-//            var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
-//
-//            var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
-//                .SelectMany(x => x.PerformanceMeasureActuals)
-//                .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
-//                .OrderBy(x => x.PerformanceMeasureDisplayName)
-//                .ToList();
-//
-//            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
-//            return RazorView<Detail, DetailViewData>(viewData);
-//        }
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult Delete(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey)
+        {
+            var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(externalMapLayer.ExternalMapLayerID);
+            return ViewDelete(externalMapLayer, viewModel);
+        }
+
+        private PartialViewResult ViewDelete(ExternalMapLayer externalMapLayer, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage = $"Are you sure you want to delete external map layer {externalMapLayer.DisplayName}?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(ExternalMapLayerPrimaryKey externalMapLayerPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var externalMapLayer = externalMapLayerPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(externalMapLayer, viewModel);
+            }
+            var message = $"External Map Layer \"{externalMapLayer.DisplayName}\" successfully deleted.";
+            externalMapLayer.Delete(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay(message);
+
+            return new ModalDialogFormJsonResult();
+        }
+
     }
 }
