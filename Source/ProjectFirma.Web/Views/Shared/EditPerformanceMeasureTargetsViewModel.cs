@@ -177,6 +177,7 @@ namespace ProjectFirma.Web.Views.Shared
             foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
             {
                 var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                tempChartConfig.SeriesType = "bars";
                 if (performanceMeasure.HasTargets())
                 {
                     tempChartConfig.Series = GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
@@ -190,8 +191,9 @@ namespace ProjectFirma.Web.Views.Shared
                 pfSubcategory.ChartConfigurationJson = JObject.FromObject(tempChartConfig).ToString();
                 if (performanceMeasure.CanBeChartedCumulatively)
                 {
-                    var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-                    pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                    var cumulativeChartConfigurationJson = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                    cumulativeChartConfigurationJson.SeriesType = "bars";
+                    pfSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(cumulativeChartConfigurationJson).ToString();
                     pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                 }
 
@@ -199,6 +201,7 @@ namespace ProjectFirma.Web.Views.Shared
                 if (geospatialAreasWithTargets.Any())
                 {
                     var tempGeospatialChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                    tempGeospatialChartConfig.SeriesType = "bars";
                     tempGeospatialChartConfig.Series = performanceMeasure.HasTargets() ? GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTwoTargets() : GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
                     pfSubcategory.GeospatialAreaTargetChartConfigurationJson = JObject.FromObject(tempGeospatialChartConfig).ToString();
                     pfSubcategory.GeospatialAreaTargetGoogleChartTypeID = GoogleChartType.ComboChart.GoogleChartTypeID;
@@ -311,7 +314,7 @@ namespace ProjectFirma.Web.Views.Shared
                 foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
                     var tempChartConfig = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
-
+                    tempChartConfig.SeriesType = "bars";
                     tempChartConfig.Series =
                         performanceMeasure.HasGeospatialAreaTargets(geospatialArea) && performanceMeasure.HasTargets()
                             ? GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTwoTargets()
@@ -321,8 +324,9 @@ namespace ProjectFirma.Web.Views.Shared
                     pfSubcategory.GeospatialAreaTargetGoogleChartTypeID = performanceMeasure.HasGeospatialAreaTargets(geospatialArea) ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                     if (performanceMeasure.CanBeChartedCumulatively)
                     {
-                        var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-                        pfSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
+                        var cumulativeChartConfigurationJson = GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(pfSubcategory.ChartConfigurationJson);
+                        cumulativeChartConfigurationJson.SeriesType = "bars";
+                        pfSubcategory.CumulativeChartConfigurationJson = JObject.FromObject(cumulativeChartConfigurationJson).ToString();
                         pfSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
                     }
                 }
