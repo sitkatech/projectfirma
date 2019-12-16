@@ -103,7 +103,9 @@ namespace ProjectFirma.Web.Views.Shared
                 return chartSeries;
             }
 
-            var deserializedChartSeries = JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString());
+            var isListOfGoogleChartSeries = currentChartSeries is List<GoogleChartSeries>;
+
+            var deserializedChartSeries = !isListOfGoogleChartSeries ? JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString()) : (List<GoogleChartSeries>) currentChartSeries;
             if (performanceMeasure.HasTargets() || performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
             {
                 for (int i = 0; i < deserializedChartSeries.Count; i++)
