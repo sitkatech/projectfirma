@@ -89,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div style="display: inline-block; width: 300px">
             <span>Set Targets by</span><br />
             <div ng-repeat="performanceMeasureTargetValueType in AngularViewData.PerformanceMeasureTargetValueTypes">
-                <label ng-show="showTargetType(performanceMeasureTargetValueType)">
+                <label>
                     <input type="radio" name="targetType" ng-change="targetValueTypeChanged()" ng-model="AngularModel.PerformanceMeasureTargetValueTypeID" value="{{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeID}}" />
                     {{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeDisplayName}}
                 </label>

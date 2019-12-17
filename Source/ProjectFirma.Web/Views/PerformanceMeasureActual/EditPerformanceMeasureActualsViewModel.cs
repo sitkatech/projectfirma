@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         {
         }
 
+
         public EditPerformanceMeasureActualsViewModel(List<PerformanceMeasureActualSimple> performanceMeasureActuals,
             string explanation,
             List<ProjectExemptReportingYearSimple> projectExemptReportingYears)
@@ -59,9 +60,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
+
             ProjectFirmaModels.Models.Project project,
             IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
+
             UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods);
             var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
@@ -79,6 +82,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
 
         private void UpdateModelImpl(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
+
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
             IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
@@ -96,6 +100,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                 // Completely rebuild the list
                 foreach (var performanceMeasureActualSimple in PerformanceMeasureActuals)
                 {
+
                     var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == performanceMeasureActualSimple.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {
