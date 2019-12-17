@@ -19,9 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Web.Mvc;
-
 namespace ProjectFirma.Web.Views.ExternalMapLayer
 {
     public class EditViewData : FirmaUserControlViewData

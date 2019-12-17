@@ -19,25 +19,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using GeoJSON.Net.Feature;
-using LtInfo.Common;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ExternalMapLayer;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
+using System.Linq;
+using System.Web.Mvc;
 
 
 
@@ -46,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
     public class ExternalMapLayerController : FirmaBaseController
     {
 
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.ExternalMapLayers.GetFirmaPage();
@@ -57,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<ExternalMapLayer> IndexGridJsonData()
         {
             var userCanManage = new FirmaAdminFeature().HasPermission(CurrentFirmaSession).HasPermission;

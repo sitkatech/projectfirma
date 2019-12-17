@@ -133,7 +133,7 @@ ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, o
     var featureLayer = L.esri.featureLayer({ url: layerConfig.LayerUrl });
     if (layerConfig.FeatureNameField) {
         featureLayer.bindPopup(function (evt) {
-            var latlng = this._latlng;
+            var latlng = this.getLatLng();
             if (evt.feature.properties[layerConfig.FeatureNameField]) {
                 return L.Util.template('<strong>' + layerConfig.DisplayName + ': </strong> {' + layerConfig.FeatureNameField + '}<br \><strong>Location: </strong>' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4), evt.feature.properties);
             }
