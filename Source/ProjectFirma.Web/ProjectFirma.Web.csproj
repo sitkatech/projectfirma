@@ -59,6 +59,7 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
@@ -215,6 +216,9 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\Evaluation\Index.cs" />
+    <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
+    <Compile Include="Views\Evaluation\IndexViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
@@ -533,6 +537,7 @@
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
     <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
     <Content Include="Views\ExternalMapLayer\Index.cshtml" />
+    <Content Include="Views\Evaluation\Index.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
