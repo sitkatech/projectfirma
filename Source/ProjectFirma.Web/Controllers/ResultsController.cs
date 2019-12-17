@@ -280,7 +280,7 @@ namespace ProjectFirma.Web.Controllers
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                initialCustomization, "ProjectLocationsMap");
+                initialCustomization, "ProjectLocationsMap", true);
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 

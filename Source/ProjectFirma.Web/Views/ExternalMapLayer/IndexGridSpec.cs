@@ -38,10 +38,12 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             }
             Add(FieldDefinitionEnum.ExternalMapLayer.ToType().ToGridHeaderString(), x => x.DisplayName, 150);
             Add("Layer Url", x => x.LayerUrl, 250);
-            Add("Layer Description", x => x.LayerDescription, 400);
+            Add("Layer Description", x => x.LayerDescription, 300);
+            Add("Feature Name Field", x => x.FeatureNameField, 150);
             Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
             Add("On by Default?", x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
             Add("Is Active?", x => x.IsActive ? "Yes" : "No", 75);
+            Add("Is a Tiled Map Service?", x => x.IsTiledMapService ? "Yes" : "No", 75);
         }
     }
 }

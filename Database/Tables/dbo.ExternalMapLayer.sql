@@ -8,9 +8,11 @@ CREATE TABLE [dbo].[ExternalMapLayer](
 	[DisplayName] [varchar](75) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[LayerUrl] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[LayerDescription] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[FeatureNameField] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[DisplayOnAllProjectMaps] [bit] NOT NULL,
 	[LayerIsOnByDefault] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
+	[IsTiledMapService] [bit] NOT NULL,
  CONSTRAINT [PK_ExternalMapLayer_ExternalMapLayerID] PRIMARY KEY CLUSTERED 
 (
 	[ExternalMapLayerID] ASC

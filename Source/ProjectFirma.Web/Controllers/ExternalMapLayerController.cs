@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult New()
         {
-            var externalMapLayer = new ExternalMapLayer(string.Empty, string.Empty, true, true, true);
+            var externalMapLayer = new ExternalMapLayer(string.Empty, string.Empty, true, true, true, false);
             var viewModel = new EditViewModel(externalMapLayer);
             return ViewEdit(viewModel);
         }

@@ -419,8 +419,11 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>

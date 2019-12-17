@@ -57,6 +57,14 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         [DisplayName("Is Active?")]
         public bool IsActive { get; set; }
 
+        [Required]
+        [DisplayName("Is a Tiled Map Service?")]
+        public bool IsTiledMapService { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.FeatureNameField)]
+        [DisplayName("Field to use as source for feature names")]
+        public string FeatureNameField { get; set; }
+
         [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.LayerDescription)]
         [DisplayName("Layer Description")]
         public string LayerDescription { get; set; }
@@ -71,11 +79,14 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 
         public EditViewModel(ProjectFirmaModels.Models.ExternalMapLayer externalMapLayer)
         {
+            ExternalMapLayerID = externalMapLayer.ExternalMapLayerID;
             DisplayName = externalMapLayer.DisplayName;
             LayerUrl = externalMapLayer.LayerUrl;
             DisplayOnAllProjectMaps = externalMapLayer.DisplayOnAllProjectMaps;
             LayerIsOnByDefault = externalMapLayer.LayerIsOnByDefault;
             IsActive = externalMapLayer.IsActive;
+            IsTiledMapService = externalMapLayer.IsTiledMapService;
+            FeatureNameField = externalMapLayer.FeatureNameField;
             LayerDescription = externalMapLayer.LayerDescription;
         }
 
@@ -86,21 +97,26 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllProjectMaps;
             externalMapLayer.LayerIsOnByDefault = LayerIsOnByDefault;
             externalMapLayer.IsActive = IsActive;
+            externalMapLayer.IsTiledMapService = IsTiledMapService;
+            externalMapLayer.FeatureNameField = FeatureNameField;
             externalMapLayer.LayerDescription = LayerDescription;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.DisplayName == DisplayName))
+            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.DisplayName == DisplayName && x.ExternalMapLayerID != ExternalMapLayerID))
             {
                 validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Display Name is already associated with an External Map Layer", x => x.DisplayName));
             }
-            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.LayerUrl == LayerUrl))
+            if (HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Any(x => x.LayerUrl == LayerUrl && x.ExternalMapLayerID != ExternalMapLayerID))
             {
                 validationResults.Add(new SitkaValidationResult<EditViewModel, string>("This Url is already associated with an External Map Layer", x => x.LayerUrl));
             }
-
+            if (IsTiledMapService && !string.IsNullOrWhiteSpace(FeatureNameField))
+            {
+                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("Feature popups are not supported for tiled map services, please do not provide a feature name field.", x => x.FeatureNameField));
+            }
             return validationResults;
         }
 

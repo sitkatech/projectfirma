@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
-            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectGeospatialAreaController>.BuildUrlFromExpression(c => c.EditProjectGeospatialAreas(project, geospatialAreaType, null));

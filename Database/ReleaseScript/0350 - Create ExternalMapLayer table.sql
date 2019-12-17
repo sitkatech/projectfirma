@@ -6,9 +6,11 @@ create table dbo.ExternalMapLayer(
 	DisplayName varchar(75) not null,
 	LayerUrl varchar(500) not null,
 	LayerDescription varchar(2000) null,
+	FeatureNameField varchar(100) null,
 	DisplayOnAllProjectMaps bit not null,
 	LayerIsOnByDefault bit not null,
-	IsActive bit not null
+	IsActive bit not null,
+	IsTiledMapService bit not null
 );
 go
 

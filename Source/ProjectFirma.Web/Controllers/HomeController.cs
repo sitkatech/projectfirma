@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
             var projectMapCustomization = ProjectMapCustomization.CreateDefaultCustomization(projectsToShow, currentPersonCanViewProposals);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabelPluralized()}", projectsToShow.MappedPointsToGeoJsonFeatureCollection(false, true), "red", 1, LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                projectMapCustomization, "ProjectLocationsMap")
+                projectMapCustomization, "ProjectLocationsMap", false)
                 {
                     AllowFullScreen = false,
                     Layers = HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson().Where(x => x.LayerInitialVisibility == LayerInitialVisibility.Show).ToList()

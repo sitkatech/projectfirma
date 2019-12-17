@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
                     taxonomyTrunkProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1,
                     LayerInitialVisibility.Show);
             var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                projectMapCustomization, "TaxonomyTrunkProjectMap");
+                projectMapCustomization, "TaxonomyTrunkProjectMap", false);
 
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),

@@ -109,9 +109,9 @@ namespace ProjectFirma.Web.Controllers
                     secondaryTaxonomyLeafProjects.MappedPointsToGeoJsonFeatureCollection(true, false), "red", 1,
                     LayerInitialVisibility.Show);
             var primaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(primaryProjectLocationsLayerGeoJson,
-                primaryProjectMapCustomization, "TaxonomyLeafProjectMap");
+                primaryProjectMapCustomization, "TaxonomyLeafProjectMap", false);
             var secondaryProjectLocationsMapInitJson = new ProjectLocationsMapInitJson(secondaryProjectLocationsLayerGeoJson,
-                secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap");
+                secondaryProjectMapCustomization, "SecondaryTaxonomyLeafProjectMap", false);
             var primaryProjectLocationsMapViewData = new ProjectLocationsMapViewData(primaryProjectLocationsMapInitJson.MapDivID,
                 ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(),
                 CurrentPerson.CanViewProposals());
