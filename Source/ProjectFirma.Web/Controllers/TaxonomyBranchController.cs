@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyBranch, new List<int> {taxonomyBranch.TaxonomyBranchID}, ProjectColorByType.ProjectStage);
             var projectLocationsLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}", taxonomyBranchProjects.MappedPointsToGeoJsonFeatureCollection(true, true), "red", 1, LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyBranchProjectMap");
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, projectMapCustomization, "TaxonomyBranchProjectMap", false);
             var projectLocationsMapViewData = new ProjectLocationsMapViewData(projectLocationsMapInitJson.MapDivID, ProjectColorByType.ProjectStage.GetDisplayNameFieldDefinition(), MultiTenantHelpers.GetTopLevelTaxonomyTiers(), CurrentPerson.CanViewProposals());
 
             var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();

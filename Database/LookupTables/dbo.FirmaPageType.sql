@@ -51,4 +51,5 @@ values
 (66, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2),
 (67, 'ProjectStatusFromTimelineDialog', 'Project Status Timeline Dialog', 2),
 (68, 'ProjectStatusFromGridDialog', 'Project Status Grid Dialog', 2),
-(69, 'ProjectStatusListEditor', 'Project Status List Editor', 2)
+(69, 'ProjectStatusListEditor', 'Project Status List Editor', 2),
+(70, 'ExternalMapLayers', 'External Map Layers', 1)

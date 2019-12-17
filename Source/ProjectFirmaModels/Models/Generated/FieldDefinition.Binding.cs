@@ -259,6 +259,7 @@ namespace ProjectFirmaModels.Models
         ProjectStatusComments = 309,
         GeospatialArea = 310,
         ArcGISFileGeodatabase = 311,
-        KMLFile = 312
+        KMLFile = 312,
+        ExternalMapLayer = 313
     }
 }

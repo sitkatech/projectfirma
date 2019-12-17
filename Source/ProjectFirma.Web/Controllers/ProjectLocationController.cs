@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectLocationSummaryPoint(Project project, ProjectLocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide);
-            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true};
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var mapPostUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox)
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
             {
                 AllowFullScreen = false,
                 DisablePopups = true
@@ -200,7 +200,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) { AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox, false) { AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(((IProject)project).GetEntityID());
             var approveGisUploadUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
@@ -290,7 +290,7 @@ namespace ProjectFirma.Web.Controllers
                 layerGeoJsons.Add(geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#90C3D4", 0.1m, LayerInitialVisibility.Hide));
             }
             var boundingBox = BoundingBox.MakeBoundingBoxFromProject(project);
-            var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, boundingBox)
+            var mapInitJson = new MapInitJson("EditProjectBoundingBoxMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox)
             {
                 AllowFullScreen = false,
                 DisablePopups = true
