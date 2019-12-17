@@ -55,6 +55,11 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriterionConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriterionValueConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationStatusConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationVisibilityConfiguration());
             modelBuilder.Configurations.Add(new ExternalMapLayerConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
@@ -199,6 +204,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriterion> AllEvaluationCriterions { get; set; }
+        public virtual IQueryable<EvaluationCriterion> EvaluationCriterions { get { return AllEvaluationCriterions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriterionValue> AllEvaluationCriterionValues { get; set; }
+        public virtual IQueryable<EvaluationCriterionValue> EvaluationCriterionValues { get { return AllEvaluationCriterionValues.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Evaluation> AllEvaluations { get; set; }
+        public virtual IQueryable<Evaluation> Evaluations { get { return AllEvaluations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationStatus> EvaluationStatuses { get; set; }
+        public virtual DbSet<EvaluationVisibility> EvaluationVisibilities { get; set; }
         public virtual DbSet<ExternalMapLayer> AllExternalMapLayers { get; set; }
         public virtual IQueryable<ExternalMapLayer> ExternalMapLayers { get { return AllExternalMapLayers.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
@@ -490,6 +503,21 @@ namespace ProjectFirmaModels.Models
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
+
+                case "EvaluationCriterion":
+                    return EvaluationCriterions.GetEvaluationCriterion(primaryKey);
+
+                case "EvaluationCriterionValue":
+                    return EvaluationCriterionValues.GetEvaluationCriterionValue(primaryKey);
+
+                case "Evaluation":
+                    return Evaluations.GetEvaluation(primaryKey);
+
+                case "EvaluationStatus":
+                    return EvaluationStatuses.GetEvaluationStatus(primaryKey);
+
+                case "EvaluationVisibility":
+                    return EvaluationVisibilities.GetEvaluationVisibility(primaryKey);
 
                 case "ExternalMapLayer":
                     return ExternalMapLayers.GetExternalMapLayer(primaryKey);
