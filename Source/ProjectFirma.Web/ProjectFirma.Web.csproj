@@ -60,6 +60,7 @@
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
     <Compile Include="Models\NotificationTypeModelExtensions.cs" />
+    <Compile Include="Models\ExternalMapLayerModelExtensions.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureActualSimple.cs" />
@@ -217,6 +219,12 @@
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\Edit.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewData.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewModel.cs" />
+    <Compile Include="Views\ExternalMapLayer\Index.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -411,8 +419,11 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
@@ -520,6 +531,8 @@
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargets.cshtml" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Index.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

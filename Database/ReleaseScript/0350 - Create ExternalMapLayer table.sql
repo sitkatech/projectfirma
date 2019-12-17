@@ -39,6 +39,5 @@ values
 (11, 70, '<p>External map layers to add to maps.</p>'),
 (12, 70, '<p>External map layers to add to maps.</p>')
 
-
 select * from FirmaPage order by FirmaPageID desc
 
