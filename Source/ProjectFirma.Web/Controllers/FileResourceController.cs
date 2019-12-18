@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -29,7 +30,10 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
+using MoreLinq;
 using ProjectFirma.Web.Models;
+using SharpDocx;
+using ImageHelper = LtInfo.Common.ImageHelper;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -296,5 +300,40 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllGeospatialAreaImages.Add(ppImage);
             return Content(viewModel.GetCkEditorJavascriptContentToReturn(fileResource));
         }
+
+
+        [CrossAreaRoute]
+        [HttpGet]
+        public ContentResult TestDocxTemplate()
+        {
+
+            var templatePath =
+                "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\model-testing.docx";
+            var compilePath = "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\compiled.docx";
+
+
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+
+            var projectModelList = new List<DocxProjectModel>();
+
+            for (int i = 0; i < projects.Count(); i++)
+            {
+                projectModelList.Add(new DocxProjectModel(projects[i]));
+            }
+
+
+            var model = new DocxTemplateModel()
+            {
+                Projects = projectModelList
+            };
+
+
+            var document = DocumentFactory.Create(templatePath, model);
+            document.Generate(compilePath);
+
+
+            return Content(String.Empty);
+        }
+
     }
 }

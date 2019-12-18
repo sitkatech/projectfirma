@@ -88,6 +88,7 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\DocxProjectModel.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
@@ -424,6 +425,7 @@
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
     <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
+    <Content Include="Content\document-templates\model-testing.docx" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
@@ -3341,6 +3343,10 @@
     <ProjectReference Include="..\ProjectFirmaModels\ProjectFirmaModels.csproj">
       <Project>{5c78ffe9-5dd5-4a8e-882c-f49549f6fbf8}</Project>
       <Name>ProjectFirmaModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDocx\SharpDocx.csproj">
+      <Project>{AAA8EEDE-DD3D-42D2-81CC-DB534C19D7FB}</Project>
+      <Name>SharpDocx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
