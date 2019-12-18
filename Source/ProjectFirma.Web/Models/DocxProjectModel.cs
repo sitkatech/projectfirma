@@ -8,12 +8,14 @@ namespace ProjectFirma.Web.Models
 
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
+        public List<string> StringList { get; set; }
 
 
         public DocxProjectModel(Project project)
         {
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
+            StringList = new List<string>() {"test", "test2"};
         }
 
     }
@@ -21,6 +23,7 @@ namespace ProjectFirma.Web.Models
     public class DocxTemplateModel
     {
         public List<DocxProjectModel> Projects { get; set; }
+        public string Title { get; set; }
 
     }
 

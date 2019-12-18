@@ -324,6 +324,7 @@ namespace ProjectFirma.Web.Controllers
 
             var model = new DocxTemplateModel()
             {
+                Title = "Testing title",
                 Projects = projectModelList
             };
 
