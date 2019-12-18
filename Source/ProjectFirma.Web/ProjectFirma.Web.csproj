@@ -3352,7 +3352,7 @@
       <Name>ProjectFirmaModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpDocx\SharpDocx.csproj">
-      <Project>{AAA8EEDE-DD3D-42D2-81CC-DB534C19D7FB}</Project>
+      <Project>{29BFD080-D805-4848-B5E1-C6B9C3D24B95}</Project>
       <Name>SharpDocx</Name>
     </ProjectReference>
   </ItemGroup>
