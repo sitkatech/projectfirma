@@ -91,20 +91,24 @@ namespace ProjectFirma.Web.Views.Shared
             if (currentChartSeries == null)
             {
                 var chartSeries = new List<GoogleChartSeries>();
+
+                //add series for the PM targets
                 if (performanceMeasure.HasTargets())
                 {
                     chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
                 }
+                //add another series for the Geospatial targets
                 if (performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
                 {
                     chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
                 }
+                //add final series to have rest of the data default to bar(column)
                 chartSeries.Add(new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary));
                 return chartSeries;
             }
 
             var isListOfGoogleChartSeries = currentChartSeries is List<GoogleChartSeries>;
-
+            //todo: TK this codeblock seems odd
             var deserializedChartSeries = !isListOfGoogleChartSeries ? JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString()) : (List<GoogleChartSeries>) currentChartSeries;
             if (performanceMeasure.HasTargets() || performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
             {
