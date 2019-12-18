@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ExternalMapLayer.Edit
 @using (Html.BeginForm())
 {
@@ -48,7 +50,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.LayerDescription)
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%" })
+                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%", placeholder = "Add helpful background information for other administrators (E.g who to contact if there is a problem with this external map service in the future)." })
                 @Html.ValidationMessageFor(m => m.LayerDescription)
             </div>
         </div>
@@ -65,11 +67,11 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.DisplayOnAllProjectMaps)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.DisplayOnAllMaps.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<label>@FieldDefinitionEnum.DisplayOnAllMaps.ToType().GetFieldDefinitionLabel()</label>
             </div>
             <div class="col-sm-9">
-                @Html.CheckBoxFor(m => m.DisplayOnAllProjectMaps)
-                @Html.ValidationMessageFor(m => m.DisplayOnAllProjectMaps)
+                @Html.CheckBoxFor(m => m.DisplayOnAllMaps)
+                @Html.ValidationMessageFor(m => m.DisplayOnAllMaps)
             </div>
         </div>
         <div class="form-group">
@@ -92,7 +94,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.IsTiledMapService)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.IsATiledMapService.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<label>@FieldDefinitionEnum.IsATiledMapService.ToType().GetFieldDefinitionLabel()</label>
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsTiledMapService)

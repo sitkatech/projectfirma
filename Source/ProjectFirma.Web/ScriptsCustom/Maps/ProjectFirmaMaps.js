@@ -82,7 +82,7 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
     for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
         var layerConfig = mapInitJson.ExternalMapLayers[i];
         if (!layerConfig.IsTiledMapService) {
-            this.addVectorLayerFromAGOL(layerConfig, overlayLayers);
+            this.addVectorLayerFromAGOL(layerConfig, overlayLayers, mapInitJson.RequestSupportUrl);
         }
     }
 
@@ -129,7 +129,7 @@ ProjectFirmaMaps.Map.prototype.addTiledLayerFromAGOL = function (layerConfig, ov
     }
 }
 
-ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, overlayLayers) {
+ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, overlayLayers, requestSupportUrl) {
     var featureLayer = L.esri.featureLayer({ url: layerConfig.LayerUrl });
     if (layerConfig.FeatureNameField) {
         featureLayer.bindPopup(function (evt) {
@@ -137,7 +137,7 @@ ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, o
             if (evt.feature.properties[layerConfig.FeatureNameField]) {
                 return L.Util.template('<strong>' + layerConfig.DisplayName + ': </strong> {' + layerConfig.FeatureNameField + '}<br \><strong>Location: </strong>' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4), evt.feature.properties);
             }
-            return L.Util.template('<div class="alert alert-danger">The configured Feature Name Field was not found in this feature.</div>', evt.feature.properties);
+            return L.Util.template('<div class="alert alert-danger">The configured Feature Name was not found. <a href="' + requestSupportUrl + '" target="_blank">Request Support</a> to notify Administrators</div>', evt.feature.properties);
         });
     }
     overlayLayers[layerConfig.DisplayName] = featureLayer;
