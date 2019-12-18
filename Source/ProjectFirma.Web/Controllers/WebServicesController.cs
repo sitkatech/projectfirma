@@ -166,6 +166,15 @@ namespace ProjectFirma.Web.Controllers
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, organizations, gridSpec, "Organizations");
         }
 
+        [AnonymousUnclassifiedFeature]
+        public ActionResult GetProjectGeometries(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+            var projectGeometries = WebServiceProjectGeometry.GetProjectGeometries(projectPK.PrimaryKeyValue);
+            var gridSpec = new WebServiceProjectGeometryGridSpec();
+            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projectGeometries, gridSpec, "ProjectGeometries");
+        }
+
         private ActionResult GetResultsAsCsvDowloadOrJsonResult<T>(WebServiceReturnTypeEnum webServiceReturnTypeEnum, IEnumerable<T> results, GridSpec<T> gridSpec, string downloadFileDescriptorPrefix)
         {
             switch (webServiceReturnTypeEnum)
