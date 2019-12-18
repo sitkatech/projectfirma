@@ -88,7 +88,8 @@ namespace ProjectFirma.Web.Views.Shared
         {
             // this was needed to ensure that the graphs on the geospatial detail page display appropriately for performance measure targets. 
             // It attempts to be as friendly as we can to the current chart series that the user/tenant might have set
-            if (currentChartSeries == null)
+            // this is also here to catch situations where there are PM targets and Geospatial targets exists(specifically for cumulative charts on geospatial pages)
+            if (currentChartSeries == null || (performanceMeasure.HasTargets() && performanceMeasure.HasGeospatialAreaTargets(geospatialArea)))
             {
                 var chartSeries = new List<GoogleChartSeries>();
 
@@ -108,27 +109,8 @@ namespace ProjectFirma.Web.Views.Shared
             }
 
             var isListOfGoogleChartSeries = currentChartSeries is List<GoogleChartSeries>;
-            //todo: TK this codeblock seems odd
             var deserializedChartSeries = !isListOfGoogleChartSeries ? JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString()) : (List<GoogleChartSeries>) currentChartSeries;
-            if (performanceMeasure.HasTargets() || performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
-            {
-                for (int i = 0; i < deserializedChartSeries.Count; i++)
-                {
-                    if (i < deserializedChartSeries.Count - 1)
-                    {
-                        deserializedChartSeries[i].Type = "line";
-                    }
-                }
-            }
 
-            if (performanceMeasure.HasTargets() && performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
-            {
-                // Just in case you're wondering. Not a fan of this myself... SMG
-                if (deserializedChartSeries.Count < 3)
-                {
-                    deserializedChartSeries.Insert(0, new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
-                }
-            }
 
             return deserializedChartSeries;
         }
