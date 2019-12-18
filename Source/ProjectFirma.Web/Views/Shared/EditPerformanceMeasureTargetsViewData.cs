@@ -57,11 +57,14 @@ namespace ProjectFirma.Web.Views.Shared
         public List<PerformanceMeasureTargetValueType> PerformanceMeasureTargetValueTypes { get; }
         public List<int> ReportingPeriodsWithActuals { get; }
 
-        public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes)
+        public string DefaultTargetLabel { get; }
+
+        public EditPerformanceMeasureTargetsViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, int defaultReportingPeriodYear, List<PerformanceMeasureTargetValueType> performanceMeasureTargetValueTypes, bool isGeospatialAreaTarget)
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
             ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+            DefaultTargetLabel = isGeospatialAreaTarget ? $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target" : $"P.M. Target";
         }
     }
 }

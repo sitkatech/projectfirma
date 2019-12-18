@@ -70,8 +70,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
 
-            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) ==
-                PerformanceMeasureTargetValueType.OverallTarget)
+            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget)
             {
                 var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
                 OverallTargetValue = overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
