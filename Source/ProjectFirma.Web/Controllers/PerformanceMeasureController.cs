@@ -738,8 +738,9 @@ namespace ProjectFirma.Web.Controllers
                 ? reportingPeriods.Max(x => x.PerformanceMeasureReportingPeriodCalendarYear) + 1
                 : DateTime.Now.Year;
             var viewDataForAngular = new EditPerformanceMeasureTargetsViewDataForAngular(performanceMeasure,
-                defaultReportingPeriodYear,
-                performanceMeasureTargetValueTypes);
+                                                                                         defaultReportingPeriodYear,
+                                                                                         performanceMeasureTargetValueTypes,
+                                                                                         false);
             var viewData = new EditPerformanceMeasureTargetsViewData(performanceMeasure, viewDataForAngular,
                 EditPerformanceMeasureTargetsViewData.PerformanceMeasureTargetType.TargetByYear);
             return RazorPartialView<EditPerformanceMeasureTargets, EditPerformanceMeasureTargetsViewData,
