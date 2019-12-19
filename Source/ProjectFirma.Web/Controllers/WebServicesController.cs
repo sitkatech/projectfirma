@@ -35,6 +35,7 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -56,9 +57,10 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInUnclassifiedFeature]
         public ViewResult Index()
         {
+            var firmaPage = FirmaPageTypeEnum.WebServicesIndex.GetFirmaPage();
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
             var getWebServiceAccessTokenUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson));
-            var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl);
+            var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -80,11 +82,12 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult List()
         {
             Check.RequireThrowNotAuthorized(CurrentPerson?.WebServiceAccessToken != null, "Person must have already received their access token before accessing web service list.");
+            var firmaPage = FirmaPageTypeEnum.WebServicesList.GetFirmaPage();
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
             var geospatialAreaTypeList = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var webServiceAccessToken = new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString());
-            var viewData = new ListViewData(CurrentFirmaSession, webServiceAccessToken, serviceDocumentationList, geospatialAreaTypeList);
+            var viewData = new ListViewData(CurrentFirmaSession, webServiceAccessToken, serviceDocumentationList, geospatialAreaTypeList, firmaPage);
             return RazorView<List, ListViewData>(viewData);
         }
 
