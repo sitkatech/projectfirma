@@ -318,5 +318,19 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttribute().GoogleAnalyticsTrackingCode;
         }
 
+        public static bool UsesEvaluations()
+        {
+            return GetTenantAttribute().EnableEvaluations;
+        }
+        public static void AddEvaluationsMenuItem(LtInfoMenuItem manageMenu, FirmaSession currentFirmaSession, string menuGroupName)
+        {
+            if (UsesEvaluations() && new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
+            {
+
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<EvaluationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
+            }
+        }
+
+
     }
 }

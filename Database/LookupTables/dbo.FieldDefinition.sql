@@ -137,4 +137,5 @@ VALUES
 (312, N'KMLFile', 'KML File', 'KML Files may be saved using Google Earth'),
 (313, N'ExternalMapLayer', 'External Map Layer', 'An administrator can add a connection to a web service link (feature service) provided by ESRI ArcGIS Online to pull in spatial information that is stored in ArcGIS Online. Once the connection is added the reference layer will be available on maps throughout the system.'),
 (314, N'DisplayOnAllMaps', 'Display on all maps?', 'When this option is set, the external map layer on various maps throughout the site similar to geospatial areas (e.g watersheds). When not set, the external map layer will only appear on the Project Map.'),
-(315, N'IsATiledMapService', 'Is a Tiled Map Service', 'Please turn on this setting if the external map layer is a tiled layer (raster). Note: Pop-ups will not appear on maps for tiled layers.')
+(315, N'IsATiledMapService', 'Is a Tiled Map Service', 'Please turn on this setting if the external map layer is a tiled layer (raster). Note: Pop-ups will not appear on maps for tiled layers.'),
+(316, N'Evaluation', 'Evaluation', N'')

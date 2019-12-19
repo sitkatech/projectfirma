@@ -19,26 +19,26 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Web.Mvc;
+using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Evaluation;
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Controllers
 {
     public class EvaluationController : FirmaBaseController
     {
 
-        //[GeospatialAreaViewFeature]
-        //public ViewResult Index(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
-        //{
-        //    var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
-        //    var layerGeoJsons = new List<LayerGeoJson>();
-        //    layerGeoJsons = new List<LayerGeoJson>
-        //    {
-        //        geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
-        //    };
+        //[EvaluationManageFeature]
+        [FirmaAdminFeature]
+        public ViewResult Index()
+        {
 
-        //    var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox());
-
-        //    var viewData = new IndexViewData(CurrentFirmaSession, geospatialAreaType, mapInitJson);
-        //    return RazorView<Index, IndexViewData>(viewData);
-        //}
+            var viewData = new IndexViewData(CurrentFirmaSession);
+            return RazorView<Index, IndexViewData>(viewData);
+        }
 
         public void IndexGridJsonData()
         {

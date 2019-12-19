@@ -262,6 +262,7 @@ namespace ProjectFirmaModels.Models
         KMLFile = 312,
         ExternalMapLayer = 313,
         DisplayOnAllMaps = 314,
-        IsATiledMapService = 315
+        IsATiledMapService = 315,
+        Evaluation = 316
     }
 }

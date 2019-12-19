@@ -28,18 +28,16 @@ namespace ProjectFirma.Web.Views.Evaluation
 {
     public class IndexViewData : FirmaViewData
     {
-        public MapInitJson MapInitJson { get; }
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-            PageTitle = $"Evaluations";
-            MapInitJson = mapInitJson;
-            GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = $"Evaluation", ObjectNamePlural = $"Evaluations", SaveFiltersInCookie = true};
+            PageTitle = $"Manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized()}";
+            GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true};
             GridName = "evaluationsGrid";
-            GridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            //GridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
         }
     }
 }

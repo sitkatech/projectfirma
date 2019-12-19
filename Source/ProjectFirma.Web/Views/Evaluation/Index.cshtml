@@ -23,6 +23,8 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.DhtmlWrappers
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.Index
 @section JavascriptAndStylesContent
 {
@@ -39,10 +41,10 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
-                    <h2>Evaluations</h2>
+                    <h2>@FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized()</h2>
                 </div>
                 <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    @*@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)*@
                 </div>
             </div>
         </div>

@@ -199,6 +199,7 @@
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
+    <Compile Include="Security\EvaluationManageFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
