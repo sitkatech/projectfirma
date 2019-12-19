@@ -167,13 +167,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     }
 
     if (!$scope.AngularModel.OverallTargetValueLabel) {
-        $scope.AngularModel.OverallTargetValueLabel = "Target";
+        $scope.AngularModel.OverallTargetValueLabel = $scope.AngularViewData.DefaultTargetLabel;
     }
 
-    if ($scope.isPerformanceMeasureTargetValueTypeOverallTarget()) {
-        $scope.populateSimpleTargets();
-    }
-
+    $scope.populateSimpleTargets();
     $scope.showAndHideDependingOnTargetValueType();
     $scope.resetReportingPeriodToAdd();
     $scope.CheckForYearInUse();

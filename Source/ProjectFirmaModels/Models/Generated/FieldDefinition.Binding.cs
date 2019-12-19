@@ -260,6 +260,8 @@ namespace ProjectFirmaModels.Models
         GeospatialArea = 310,
         ArcGISFileGeodatabase = 311,
         KMLFile = 312,
-        ExternalMapLayer = 313
+        ExternalMapLayer = 313,
+        DisplayOnAllMaps = 314,
+        IsATiledMapService = 315
     }
 }

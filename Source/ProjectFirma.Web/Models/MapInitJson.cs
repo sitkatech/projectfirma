@@ -24,6 +24,7 @@ using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -40,6 +41,7 @@ namespace ProjectFirma.Web.Models
         public readonly bool TurnOnFeatureIdentify;
         public bool AllowFullScreen = true;
         public bool DisablePopups = false;
+        public string RequestSupportUrl;
 
         public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayer> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {
@@ -49,6 +51,7 @@ namespace ProjectFirma.Web.Models
             ExternalMapLayers = externalMapLayers;
             BoundingBox = boundingBox;
             TurnOnFeatureIdentify = turnOnFeatureIdentify;
+            RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestSupport());
         }
 
         /// <summary>

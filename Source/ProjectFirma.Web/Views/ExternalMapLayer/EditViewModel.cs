@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 
         [Required]
         [DisplayName("Display on all maps?")]
-        public bool DisplayOnAllProjectMaps { get; set; }
+        public bool DisplayOnAllMaps { get; set; }
 
         [Required]
         [DisplayName("Layer is on by default?")]
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             ExternalMapLayerID = externalMapLayer.ExternalMapLayerID;
             DisplayName = externalMapLayer.DisplayName;
             LayerUrl = externalMapLayer.LayerUrl;
-            DisplayOnAllProjectMaps = externalMapLayer.DisplayOnAllProjectMaps;
+            DisplayOnAllMaps = externalMapLayer.DisplayOnAllProjectMaps;
             LayerIsOnByDefault = externalMapLayer.LayerIsOnByDefault;
             IsActive = externalMapLayer.IsActive;
             IsTiledMapService = externalMapLayer.IsTiledMapService;
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         {
             externalMapLayer.DisplayName = DisplayName;
             externalMapLayer.LayerUrl = LayerUrl;
-            externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllProjectMaps;
+            externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllMaps;
             externalMapLayer.LayerIsOnByDefault = LayerIsOnByDefault;
             externalMapLayer.IsActive = IsActive;
             externalMapLayer.IsTiledMapService = IsTiledMapService;

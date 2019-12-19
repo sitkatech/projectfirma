@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
             }
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
-                new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
+                new GoogleChartAxis("Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
@@ -101,12 +101,12 @@ namespace ProjectFirma.Web.Models
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
-                new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
             var chartSeries = GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
-                googleChartAxisVerticals, null, chartSeries);
+                googleChartAxisVerticals, "bars", chartSeries);
             return defaultSubcategoryChartConfigurationJson;
         }
 
