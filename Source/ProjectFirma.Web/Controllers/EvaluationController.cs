@@ -23,6 +23,23 @@ namespace ProjectFirma.Web.Controllers
 {
     public class EvaluationController : FirmaBaseController
     {
+
+        //[GeospatialAreaViewFeature]
+        //public ViewResult Index(GeospatialAreaTypePrimaryKey geospatialAreaTypePrimaryKey)
+        //{
+        //    var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
+        //    var layerGeoJsons = new List<LayerGeoJson>();
+        //    layerGeoJsons = new List<LayerGeoJson>
+        //    {
+        //        geospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.2m, LayerInitialVisibility.Show)
+        //    };
+
+        //    var mapInitJson = new MapInitJson("geospatialAreaIndex", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox());
+
+        //    var viewData = new IndexViewData(CurrentFirmaSession, geospatialAreaType, mapInitJson);
+        //    return RazorView<Index, IndexViewData>(viewData);
+        //}
+
         public void IndexGridJsonData()
         {
             throw new System.NotImplementedException();

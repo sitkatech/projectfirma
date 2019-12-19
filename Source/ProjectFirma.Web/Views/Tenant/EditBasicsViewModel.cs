@@ -117,6 +117,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Use Project Timeline")]
         public bool UseProjectTimeline { get; set; }
 
+        [DisplayName("Enable Evaluations")]
+        public bool EnableEvaluations { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -143,6 +146,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
+            EnableEvaluations = tenantAttribute.EnableEvaluations;
         }
 
         public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
@@ -170,6 +174,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.BudgetTypeID = BudgetTypeID;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+            attribute.EnableEvaluations = EnableEvaluations;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)
