@@ -64,5 +64,9 @@ namespace ProjectFirma.Web.Service
         [OperationContract]
         [WebServiceDocumentationAttribute("Provides the list of all {0}s within the platform. Most {0}s in this list are local jurisdictions, agencies, associations, or private firms, however this list will also include {0}s of any person who as requested an account.", FieldDefinitionEnum.Organization)]
         List<WebServiceOrganization> GetOrganizations(string returnType, string webServiceToken);
+
+        [OperationContract]
+        [WebServiceDocumentationAttribute("Provides the list of all {0} geometries for the specified {1}. ", FieldDefinitionEnum.ProjectLocation, FieldDefinitionEnum.Project)]
+        List<WebServiceProjectGeometry> GetProjectGeometries(string returnType, string webServiceToken, int projectID);
     }
 }

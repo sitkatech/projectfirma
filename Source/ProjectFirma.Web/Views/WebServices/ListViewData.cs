@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.WebServices
         public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
 
         public ListViewData(FirmaSession currentFirmaSession, WebServiceToken userWebServiceAccessToken,
-            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList)
-            : base(currentFirmaSession)
+            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentFirmaSession, firmaPage)
         {
             ServiceDocumentationList = serviceDocumentationList;
             UserWebServiceAccessToken = userWebServiceAccessToken;

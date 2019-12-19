@@ -20,16 +20,17 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 
 @inherits ProjectFirma.Web.Views.WebServices.List
 
-<p>
-    The objective of these web services is to provide information about projects and other information. These web services require a "token" which you need to request from the Web Services page. This token is associated with your user account, allowing us to proactively communicate with you and other consumers of our web services in the event we need to change or update our services. If you have a token, this page will display example CSV and JSON URLs using your token.
-</p>
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
 
 @if (ViewDataTyped.GeospatialAreaTypeList.Any())
 {
-    <h3>Geospatial Areas</h3>
+    <h3>Geospatial Services</h3>
     <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
         <tr>
             <th>Name</th>
@@ -52,7 +53,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </table>
 }
 
-<h3>Web Service Urls</h3>
+<h3>Tabular Services</h3>
 <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
     <tr>
         <th>Name</th>

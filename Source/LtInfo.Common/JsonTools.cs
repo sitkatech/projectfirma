@@ -34,6 +34,11 @@ namespace LtInfo.Common
             return JsonConvert.SerializeObject(objectGraph, Formatting.Indented);
         }
 
+        public static string SerializeObject(object objectGraph, Formatting formatting)
+        {
+            return JsonConvert.SerializeObject(objectGraph, formatting);
+        }
+
         /// <summary>
         /// see Taurus.js Taurus.Methods.decryptObfuscatedUrls- that is the inverse of this function for the javascript side.
         /// </summary>

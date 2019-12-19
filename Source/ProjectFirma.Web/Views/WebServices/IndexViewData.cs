@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.WebServices
         public readonly string WebServicesListUrl;
         public readonly string GetWebServiceAccessTokenUrl;
 
-        public IndexViewData(FirmaSession currentFirmaSession, Guid? webServiceAccessToken, string webServicesListUrl, string getWebServiceAccessTokenUrl) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession, Guid? webServiceAccessToken, string webServicesListUrl, string getWebServiceAccessTokenUrl, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             WebServiceAccessToken = webServiceAccessToken;
             PageTitle = "Web Services";
