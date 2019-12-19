@@ -10,12 +10,18 @@ namespace ProjectFirma.Web.Models
         public string ProjectDescription { get; set; }
         public List<string> StringList { get; set; }
 
+        public string ProjectImageUrl { get; set; }
+
 
         public DocxProjectModel(Project project)
         {
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
             StringList = new List<string>() {"test", "test2"};
+            if (project.GetKeyPhoto() != null)
+            {
+                ProjectImageUrl = project.GetKeyPhoto().GetPhotoUrlScaledForPrint();
+            }
         }
 
     }

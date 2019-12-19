@@ -311,7 +311,7 @@ namespace ProjectFirma.Web.Controllers
             var compilePath = "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\compiled.docx";
 
 
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectID == 12914).ToList();
 
             var projectModelList = new List<DocxProjectModel>();
 
