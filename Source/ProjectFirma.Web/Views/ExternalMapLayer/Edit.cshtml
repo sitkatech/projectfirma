@@ -27,7 +27,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.DisplayName)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDisplayName.ToType())<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", style = "width:100%" })
@@ -36,38 +36,34 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.LayerUrl)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerUrl.ToType())<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.LayerUrl, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.LayerUrl)
             </div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-9 systemText">E.g. https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/3 (National 6-digit HUC boundaries)</div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.LayerDescription)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDescription.ToType())
             </div>
             <div class="col-sm-9">
-                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%", placeholder = "Add helpful background information for other administrators (E.g who to contact if there is a problem with this external map service in the future)." })
+                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.LayerDescription)
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.FeatureNameField)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerFeatureNameField.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.FeatureNameField, new { @class = "form-control", style = "width:100%" })
                 @Html.ValidationMessageFor(m => m.FeatureNameField)
             </div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-9 systemText">Case-sensitive. E.g. Name or NAME</div>
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(@FieldDefinitionEnum.DisplayOnAllMaps.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<label>@FieldDefinitionEnum.DisplayOnAllMaps.ToType().GetFieldDefinitionLabel()</label>
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDisplayOnAllMaps.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.DisplayOnAllMaps)
@@ -76,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.LayerIsOnByDefault)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerLayerIsOnByDefault.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.LayerIsOnByDefault)
@@ -85,7 +81,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.IsActive)
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerIsActive.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsActive)
@@ -94,7 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(@FieldDefinitionEnum.IsATiledMapService.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<label>@FieldDefinitionEnum.IsATiledMapService.ToType().GetFieldDefinitionLabel()</label>
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerIsATiledMapService.ToType())
             </div>
             <div class="col-sm-9">
                 @Html.CheckBoxFor(m => m.IsTiledMapService)
