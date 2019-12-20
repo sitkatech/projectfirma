@@ -7,7 +7,7 @@ create table dbo.EvaluationVisibility(
 
 insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('OnlyMe','Only Me')
 insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('AdminsFromMyOrganizationOnly','Admins from my Org only')
-insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('AllAdmins','AllAdmins')
+insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('AllAdmins','All Admins')
 
 
 create table dbo.EvaluationStatus(
@@ -18,7 +18,7 @@ create table dbo.EvaluationStatus(
 
 insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Draft','Draft')
 insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Planned','Planned')
-insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('InProgress','InProgress')
+insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('InProgress','In Progress')
 insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Completed','Completed')
 
 

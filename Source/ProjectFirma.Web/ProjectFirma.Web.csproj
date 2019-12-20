@@ -217,6 +217,9 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\Evaluation\Edit.cs" />
+    <Compile Include="Views\Evaluation\EditViewData.cs" />
+    <Compile Include="Views\Evaluation\EditViewModel.cs" />
     <Compile Include="Views\Evaluation\Index.cs" />
     <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
     <Compile Include="Views\Evaluation\IndexViewData.cs" />
@@ -539,6 +542,7 @@
     <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
     <Content Include="Views\ExternalMapLayer\Index.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
+    <Content Include="Views\Evaluation\Edit.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

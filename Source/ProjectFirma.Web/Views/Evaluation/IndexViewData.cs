@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
@@ -31,6 +32,8 @@ namespace ProjectFirma.Web.Views.Evaluation
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public bool HasEvaluationManagePermissions { get; set; }
+        public string NewUrl { get; set; }
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
@@ -38,6 +41,8 @@ namespace ProjectFirma.Web.Views.Evaluation
             GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true};
             GridName = "evaluationsGrid";
             //GridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            HasEvaluationManagePermissions = new EvaluationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            NewUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(x => x.New());
         }
     }
 }

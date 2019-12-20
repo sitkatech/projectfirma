@@ -19,8 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Evaluation;
@@ -44,5 +52,75 @@ namespace ProjectFirma.Web.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult New()
+        {
+            Check.EnsureNotNull(CurrentFirmaSession.PersonID, "You must be logged in to create a new Evaluation");
+            var viewModel = new EditViewModel
+            {
+                // default create person and create date
+                CreatePersonID = CurrentFirmaSession.PersonID.Value,
+                CreateDate = DateTime.Now
+            };
+
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+
+            var evaluation = new Evaluation(viewModel.EvaluationVisibilityID, viewModel.EvaluationStatusID, viewModel.CreatePersonID, viewModel.EvaluationName, viewModel.EvaluationDefinition, viewModel.CreateDate);
+
+            viewModel.UpdateModel(evaluation, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.AllEvaluations.Add(evaluation);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"{FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {evaluation.EvaluationName} successfully created.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult Edit(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            var viewModel = new EditViewModel(evaluation);
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(EvaluationPrimaryKey evaluationPrimaryKey, EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            viewModel.UpdateModel(evaluation, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        {
+            var evaluationStatuses = HttpRequestStorage.DatabaseEntities.EvaluationStatuses.ToSelectListWithEmptyFirstRow(v => v.EvaluationStatusID.ToString(), t => t.EvaluationStatusDisplayName);
+            var evaluationVisibilities = HttpRequestStorage.DatabaseEntities.EvaluationVisibilities.ToSelectListWithEmptyFirstRow(v => v.EvaluationVisibilityID.ToString(), t => t.EvaluationVisibilityDisplayName);
+            var viewData = new EditViewData(evaluationStatuses.ToList(), evaluationVisibilities.ToList());
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+
+
     }
 }
