@@ -11,7 +11,6 @@ select
     pl.ProjectID,
     p.ProjectName,
     pl.ProjectLocationGeometry,
-    pl.ProjectLocationGeometry as Ogr_Geometry,
     pl.TenantID,
     t.TenantName
 

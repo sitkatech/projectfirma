@@ -10,7 +10,6 @@ select
     p.ProjectID as PrimaryKey,
     p.ProjectName,
     p.ProjectLocationPoint,
-    p.ProjectLocationPoint as Ogr_Geometry,
     p.TenantID,
     t.TenantName
 from
