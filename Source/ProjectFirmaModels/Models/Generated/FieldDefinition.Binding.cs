@@ -261,8 +261,14 @@ namespace ProjectFirmaModels.Models
         ArcGISFileGeodatabase = 311,
         KMLFile = 312,
         ExternalMapLayer = 313,
-        DisplayOnAllMaps = 314,
-        IsATiledMapService = 315,
-        Evaluation = 316
+        ExternalMapLayerDisplayName = 314,
+        ExternalMapLayerUrl = 315,
+        ExternalMapLayerDescription = 316,
+        ExternalMapLayerFeatureNameField = 317,
+        ExternalMapLayerDisplayOnAllMaps = 318,
+        ExternalMapLayerLayerIsOnByDefault = 319,
+        ExternalMapLayerIsActive = 320,
+        ExternalMapLayerIsATiledMapService = 321,
+        Evaluation = 322
     }
 }

@@ -70,8 +70,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         var newBulk = {
             PerformanceMeasureReportingPeriodCalendarYear: reportingPeriodCalendarYear,
             PerformanceMeasureReportingPeriodLabel: reportingPeriodLabel,
-            TargetValue: $scope.AngularModel.OverallTargetValue,
-            TargetValueLabel: $scope.AngularModel.OverallTargetValueLabel,
+            TargetValue: $scope.AngularModel.FixedTargetValue,
+            TargetValueLabel: $scope.AngularModel.FixedTargetValueLabel,
             PerformanceMeasureReportingPeriodID: -1,
             PerformanceMeasureTargetID: -1
         };
@@ -101,8 +101,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.NoTargetID;
     }
 
-    $scope.isPerformanceMeasureTargetValueTypeOverallTarget = function () {
-        return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.OverallTargetID;
+    $scope.isPerformanceMeasureTargetValueTypeFixedTarget = function () {
+        return parseInt($scope.AngularModel.PerformanceMeasureTargetValueTypeID) === $scope.FixedTargetID;
     }
 
     $scope.isPerformanceMeasureTargetValueTypeTargetPerYear = function () {
@@ -112,16 +112,16 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.showAndHideDependingOnTargetValueType = function() {
         if ($scope.isPerformanceMeasureTargetValueTypeNoTarget()) {
             $scope.ShowPerReportingPeriodSection = false;
-            $scope.ShowOverallTargetInputs = false;
+            $scope.ShowFixedTargetInputs = false;
         }
-        else if ($scope.isPerformanceMeasureTargetValueTypeOverallTarget()) {
+        else if ($scope.isPerformanceMeasureTargetValueTypeFixedTarget()) {
             $scope.ShowPerReportingPeriodSection = false;
-            $scope.ShowOverallTargetInputs = true;
+            $scope.ShowFixedTargetInputs = true;
             
         }
         else if ($scope.isPerformanceMeasureTargetValueTypeTargetPerYear()) {
             $scope.ShowPerReportingPeriodSection = true;
-            $scope.ShowOverallTargetInputs = false;
+            $scope.ShowFixedTargetInputs = false;
         }
         else {
             console.error("Unknown target type: " + $scope.AngularModel.PerformanceMeasureTargetValueTypeID);
@@ -135,10 +135,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.populateSimpleTargets = function () {
         _.forEach($scope.AngularModel.PerformanceMeasureReportingPeriodSimples, function (value, key) {
             if (!value.TargetValueLabel) {
-                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValueLabel = $scope.AngularModel.OverallTargetValueLabel;
+                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValueLabel = $scope.AngularModel.FixedTargetValueLabel;
             }
             if (!value.TargetValue) {
-                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValue = $scope.AngularModel.OverallTargetValue;
+                $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[key].TargetValue = $scope.AngularModel.FixedTargetValue;
             }
         });
     }
@@ -150,8 +150,8 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return pmtvt.PerformanceMeasureTargetValueTypeName == "NoTarget";
     }).PerformanceMeasureTargetValueTypeID;
 
-    $scope.OverallTargetID = _.find($scope.AngularViewData.PerformanceMeasureTargetValueTypes, function (pmtvt) {
-        return pmtvt.PerformanceMeasureTargetValueTypeName == "OverallTarget";
+    $scope.FixedTargetID = _.find($scope.AngularViewData.PerformanceMeasureTargetValueTypes, function (pmtvt) {
+        return pmtvt.PerformanceMeasureTargetValueTypeName == "FixedTarget";
     }).PerformanceMeasureTargetValueTypeID;
 
     $scope.PerYearTargetID = _.find($scope.AngularViewData.PerformanceMeasureTargetValueTypes, function (pmtvt) {
@@ -162,12 +162,12 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     $scope.ReportingPeriodYearToAdd = $scope.AngularViewData.DefaultReportingPeriodYear;
 
     if ($scope.AngularModel.PerformanceMeasureTargetValueTypeID == $scope.PerYearTargetID && $scope.AngularModel.PerformanceMeasureReportingPeriodSimples.length > 0) {
-        $scope.AngularModel.OverallTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
-        $scope.AngularModel.OverallTargetValueLabel = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueLabel;
+        $scope.AngularModel.FixedTargetValue = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValue;
+        $scope.AngularModel.FixedTargetValueLabel = $scope.AngularModel.PerformanceMeasureReportingPeriodSimples[0].TargetValueLabel;
     }
 
-    if (!$scope.AngularModel.OverallTargetValueLabel) {
-        $scope.AngularModel.OverallTargetValueLabel = $scope.AngularViewData.DefaultTargetLabel;
+    if (!$scope.AngularModel.FixedTargetValueLabel) {
+        $scope.AngularModel.FixedTargetValueLabel = $scope.AngularViewData.DefaultTargetLabel;
     }
 
     $scope.populateSimpleTargets();

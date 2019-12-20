@@ -36,14 +36,15 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), "Edit External Map Layer"), 30, DhtmlxGridColumnFilterType.None);
             }
-            Add(FieldDefinitionEnum.ExternalMapLayer.ToType().ToGridHeaderString(), x => x.DisplayName, 150);
-            Add("Layer Url", x => x.LayerUrl, 250);
-            Add("Layer Description", x => x.LayerDescription, 300);
-            Add("Feature Name Field", x => x.FeatureNameField, 150);
-            Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
-            Add("On by Default?", x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
-            Add("Is Active?", x => x.IsActive ? "Yes" : "No", 75);
-            Add("Is a Tiled Map Service?", x => x.IsTiledMapService ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerDisplayName.ToType().ToGridHeaderString(), x => x.DisplayName, 150);
+            Add(FieldDefinitionEnum.ExternalMapLayerUrl.ToType().ToGridHeaderString(), x => x.LayerUrl, 250);
+            Add(FieldDefinitionEnum.ExternalMapLayerDescription.ToType().ToGridHeaderString(), x => x.LayerDescription, 300);
+            Add(FieldDefinitionEnum.ExternalMapLayerFeatureNameField.ToType().ToGridHeaderString(), x => x.FeatureNameField, 150);
+//            Add("Display on all " + FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName + " maps?", x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerDisplayOnAllMaps.ToType().ToGridHeaderString(), x => x.DisplayOnAllProjectMaps ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerLayerIsOnByDefault.ToType().ToGridHeaderString(), x => x.LayerIsOnByDefault ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerIsActive.ToType().ToGridHeaderString(), x => x.IsActive ? "Yes" : "No", 75);
+            Add(FieldDefinitionEnum.ExternalMapLayerIsATiledMapService.ToType().ToGridHeaderString(), x => x.IsTiledMapService ? "Yes" : "No", 75);
         }
     }
 }

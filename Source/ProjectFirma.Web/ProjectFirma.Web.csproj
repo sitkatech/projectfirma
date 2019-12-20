@@ -105,7 +105,7 @@
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
-    <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureFixedTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeSimple.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
-    <Compile Include="Models\PerformanceMeasureOverallTargetModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureFixedTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
@@ -211,6 +211,7 @@
     <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />

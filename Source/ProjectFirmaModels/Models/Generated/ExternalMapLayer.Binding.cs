@@ -120,7 +120,7 @@ namespace ProjectFirmaModels.Models
         {
             public const int DisplayName = 75;
             public const int LayerUrl = 500;
-            public const int LayerDescription = 2000;
+            public const int LayerDescription = 200;
             public const int FeatureNameField = 100;
         }
     }

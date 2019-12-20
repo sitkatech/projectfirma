@@ -40,8 +40,8 @@ namespace ProjectFirma.Web.Views.Shared
 
         [Required]
         public int PerformanceMeasureTargetValueTypeID { get; set; }
-        public double? OverallTargetValue { get; set; }
-        public string OverallTargetValueLabel { get; set; }
+        public double? FixedTargetValue { get; set; }
+        public string FixedTargetValueLabel { get; set; }
 
         public HashSet<string> PerformanceMeasureReportedsWithValidationErrors { get; private set; }
 
@@ -56,12 +56,11 @@ namespace ProjectFirma.Web.Views.Shared
         {
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.PerformanceMeasureReportingPeriodTargets, performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetTargetValueType().PerformanceMeasureTargetValueTypeID;
-            if (performanceMeasure.GetTargetValueType() ==
-                PerformanceMeasureTargetValueType.OverallTarget)
+            if (performanceMeasure.GetTargetValueType() == PerformanceMeasureTargetValueType.FixedTarget)
             {
-                var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.First();
-                OverallTargetValue = overallTarget.PerformanceMeasureTargetValue;
-                OverallTargetValueLabel = overallTarget.PerformanceMeasureTargetValueLabel;
+                var fixedTarget = performanceMeasure.PerformanceMeasureFixedTargets.First();
+                FixedTargetValue = fixedTarget.PerformanceMeasureTargetValue;
+                FixedTargetValueLabel = fixedTarget.PerformanceMeasureTargetValueLabel;
             }
         }
 
@@ -70,11 +69,11 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
 
-            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget)
+            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.FixedTarget)
             {
-                var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-                OverallTargetValue = overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
-                OverallTargetValueLabel = overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
+                var fixedTarget = performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+                FixedTargetValue = fixedTarget.GeospatialAreaPerformanceMeasureTargetValue;
+                FixedTargetValueLabel = fixedTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
             }
         }
 
@@ -82,9 +81,9 @@ namespace ProjectFirma.Web.Views.Shared
             ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
             PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum)
         {
-            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.OverallTarget)
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.FixedTarget)
             {
-                var overallTargetsToDelete = performanceMeasure.PerformanceMeasureOverallTargets.ToList();
+                var overallTargetsToDelete = performanceMeasure.PerformanceMeasureFixedTargets.ToList();
                 overallTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
 
@@ -112,10 +111,10 @@ namespace ProjectFirma.Web.Views.Shared
 
                     break;
 
-                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    var overallTarget = PerformanceMeasureOverallTargetModelExtensions.GetOrCreatePerformanceMeasureOverallTarget(performanceMeasure, OverallTargetValue.Value);
-                    overallTarget.PerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
-                    overallTarget.PerformanceMeasureTargetValue = OverallTargetValue;
+                case PerformanceMeasureTargetValueTypeEnum.FixedTarget:
+                    var fixedTarget = PerformanceMeasureFixedTargetModelExtensions.GetOrCreatePerformanceMeasureFixedTarget(performanceMeasure, FixedTargetValue.Value);
+                    fixedTarget.PerformanceMeasureTargetValueLabel = FixedTargetValueLabel;
+                    fixedTarget.PerformanceMeasureTargetValue = FixedTargetValue;
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
@@ -167,7 +166,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum)
         {
             var geospatialAreasWithTargets = new List<ProjectFirmaModels.Models.GeospatialArea>();
-            geospatialAreasWithTargets.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Select(x => x.GeospatialArea));
+            geospatialAreasWithTargets.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Select(x => x.GeospatialArea));
             geospatialAreasWithTargets.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Select(x => x.GeospatialArea));
             
             //Google Chart Configuration for the Performance Measure
@@ -217,9 +216,9 @@ namespace ProjectFirma.Web.Views.Shared
                 noTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
 
-            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.OverallTarget)
+            if (performanceMeasureTargetValueTypeEnum != PerformanceMeasureTargetValueTypeEnum.FixedTarget)
             {
-                var overallTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
+                var overallTargetsToDelete = performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).ToList();
                 overallTargetsToDelete.ForEach(oa => oa.DeleteFull(HttpRequestStorage.DatabaseEntities));
             }
 
@@ -233,9 +232,9 @@ namespace ProjectFirma.Web.Views.Shared
         public void UpdateModel(ProjectFirmaModels.Models.GeospatialArea geospatialArea,
                                 ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
                                 ICollection<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods,
-                                ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureNoTarget> allGeospatialAreaPerformanceMeasureNoTargets,
-                                ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureOverallTarget> allGeospatialAreaPerformanceMeasureOverallTargets,
-                                ICollection<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> allGeospatialAreaPerformanceMeasureReportingPeriodTargets)
+                                ICollection<GeospatialAreaPerformanceMeasureNoTarget> allGeospatialAreaPerformanceMeasureNoTargets,
+                                ICollection<GeospatialAreaPerformanceMeasureFixedTarget> allGeospatialAreaPerformanceMeasureFixedTargets,
+                                ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> allGeospatialAreaPerformanceMeasureReportingPeriodTargets)
         {
 
             var performanceMeasureTargetValueTypeEnum = PerformanceMeasureTargetValueType.AllLookupDictionary[PerformanceMeasureTargetValueTypeID].ToEnum;
@@ -249,10 +248,10 @@ namespace ProjectFirma.Web.Views.Shared
                     var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
                     break;
 
-                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    var overallTarget = GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureOverallTarget(performanceMeasure, geospatialArea, OverallTargetValue.Value);
-                    overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = OverallTargetValueLabel;
-                    overallTarget.GeospatialAreaPerformanceMeasureTargetValue = OverallTargetValue.Value;
+                case PerformanceMeasureTargetValueTypeEnum.FixedTarget:
+                    var fixedTarget = performanceMeasure.GetOrCreateGeospatialAreaPerformanceMeasureFixedTarget(geospatialArea, FixedTargetValue.Value);
+                    fixedTarget.GeospatialAreaPerformanceMeasureTargetValueLabel = FixedTargetValueLabel;
+                    fixedTarget.GeospatialAreaPerformanceMeasureTargetValue = FixedTargetValue.Value;
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
@@ -309,7 +308,7 @@ namespace ProjectFirma.Web.Views.Shared
         public void SetGoogleChartConfigurationForGeospatialAreaPerformanceMeasure(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ProjectFirmaModels.Models.GeospatialArea geospatialArea)
         {
             // Google Chart Configuration
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any())
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any())
             {
                 foreach (var pfSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
@@ -343,8 +342,8 @@ namespace ProjectFirma.Web.Views.Shared
             {
                 case PerformanceMeasureTargetValueTypeEnum.NoTarget:
                     break;
-                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    if (!OverallTargetValue.HasValue)
+                case PerformanceMeasureTargetValueTypeEnum.FixedTarget:
+                    if (!FixedTargetValue.HasValue)
                     {
                         errors.Add(new ValidationResult("If you are submitting an overall target, you must set a target value. Otherwise choose \"No Target\"."));
                     }

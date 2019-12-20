@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 
         [Required]
         [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.DisplayName)]
-        [DisplayName("Name")]
+        [DisplayName("Display Name")]
         public string DisplayName { get; set; }
 
         [Required]
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         public string FeatureNameField { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.LayerDescription)]
-        [DisplayName("Layer Description")]
+        [DisplayName("Internal Layer Description")]
         public string LayerDescription { get; set; }
 
 

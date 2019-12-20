@@ -322,18 +322,18 @@ namespace ProjectFirma.Web.Models
                 return PerformanceMeasureTargetValueType.TargetPerYear;
                 
             }
-            if (performanceMeasure.PerformanceMeasureOverallTargets.Any())
+            if (performanceMeasure.PerformanceMeasureFixedTargets.Any())
             {
-                return PerformanceMeasureTargetValueType.OverallTarget;
+                return PerformanceMeasureTargetValueType.FixedTarget;
             }
             return PerformanceMeasureTargetValueType.NoTarget;
         }
 
         public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            if (performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
             {
-                return PerformanceMeasureTargetValueType.OverallTarget;
+                return PerformanceMeasureTargetValueType.FixedTarget;
             }
 
             if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x =>
@@ -346,7 +346,7 @@ namespace ProjectFirma.Web.Models
 
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.PerformanceMeasureOverallTargets.Any();
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.PerformanceMeasureFixedTargets.Any();
             return hasTargets;
         }
 
@@ -356,7 +356,7 @@ namespace ProjectFirma.Web.Models
             {
                 return false;
             }
-            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
     }
