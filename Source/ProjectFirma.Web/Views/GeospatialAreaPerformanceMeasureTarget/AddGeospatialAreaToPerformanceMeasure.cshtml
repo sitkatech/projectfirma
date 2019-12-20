@@ -95,7 +95,7 @@
     {
 
         @*<input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValue)" value="{{AngularModel.OverallTargetValue}}" />*@
+            <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValue)" value="{{AngularModel.FixedTargetValue}}" />*@
         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureID)" value="{{AngularModel.PerformanceMeasureID}}" />
         <div ng-repeat="GeospatialArea in AngularModel.SelectedGeospatialAreas">
             <input type="hidden" name="@Html.NameFor(x => x.GeospatialAreas[0]).ToString().Replace("0", "{{$index}}")" value="{{GeospatialArea.GeospatialAreaID}}" />
