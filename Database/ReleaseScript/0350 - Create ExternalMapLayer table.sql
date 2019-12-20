@@ -5,7 +5,7 @@ create table dbo.ExternalMapLayer(
 	TenantID int not null constraint FK_ExternalMapLayer_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	DisplayName varchar(75) not null,
 	LayerUrl varchar(500) not null,
-	LayerDescription varchar(2000) null,
+	LayerDescription varchar(200) null,
 	FeatureNameField varchar(100) null,
 	DisplayOnAllProjectMaps bit not null,
 	LayerIsOnByDefault bit not null,
@@ -27,17 +27,17 @@ values
 
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 values
-(1, 70, '<p>External map layers to add to maps.</p>'),
-(2, 70, '<p>External map layers to add to maps.</p>'),
-(3, 70, '<p>External map layers to add to maps.</p>'),
-(4, 70, '<p>External map layers to add to maps.</p>'),
-(5, 70, '<p>External map layers to add to maps.</p>'),
-(6, 70, '<p>External map layers to add to maps.</p>'),
-(7, 70, '<p>External map layers to add to maps.</p>'),
-(8, 70, '<p>External map layers to add to maps.</p>'),
-(9, 70, '<p>External map layers to add to maps.</p>'),
-(11, 70, '<p>External map layers to add to maps.</p>'),
-(12, 70, '<p>External map layers to add to maps.</p>')
+(1, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(2, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(3, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(4, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(5, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(6, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(7, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(8, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(9, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(11, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>'),
+(12, 70, '<p>Use this page to add a connection between ProjectFirma and an external map web service hosted by ArcGIS Online or ArcServer. The system supports integration with both feature and tiled layers. After an external map layer connection is added, then the layer will appear on various maps throughout the system with the symbology provided by the service.</p>')
 
 select * from FirmaPage order by FirmaPageID desc
 

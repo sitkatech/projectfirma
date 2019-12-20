@@ -120,11 +120,11 @@ Source code is available upon request via <support@sitkatech.com>.
                     <input type="number" ng-onchange="CheckForYearInUse" ng-model="ReportingPeriodYearToAdd" />
                 </td>
                 <td>
-                    <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Reporting Year</button>
+                    <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Year</button>
                 </td>
                 <td>
                     <div class="alert alert-danger" ng-show="IsYearInUse">
-                        The year you entered is already being reported. Please enter a different year.
+                        The year you entered is already in use. Please enter a different year.
                     </div>
                 </td>
             </tr>
@@ -132,7 +132,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </table>
     <div ng-show="ShowPerReportingPeriodSection" style="max-height: 400px; overflow: auto">
         <hr />
-        <p class="systemText">You are not able to delete reporting years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
+        <p class="systemText">You are not able to delete years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
         <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
             <colgroup>
                 <col style="text-align: left; width: 20px">
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <thead>
                 <tr>
                     <th></th>
-                    <th>Reporting Year</th>
+                    <th>Year</th>
                     <th>Target</th>
                     <th>Target Description</th>
                     <th></th>

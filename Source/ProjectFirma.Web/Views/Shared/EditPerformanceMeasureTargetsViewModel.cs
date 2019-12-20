@@ -70,8 +70,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureReportingPeriodSimples = PerformanceMeasureReportingPeriodSimple.MakeFromList(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID), performanceMeasure.PerformanceMeasureActuals);
             PerformanceMeasureTargetValueTypeID = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea).PerformanceMeasureTargetValueTypeID;
 
-            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) ==
-                PerformanceMeasureTargetValueType.OverallTarget)
+            if (performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget)
             {
                 var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
                 OverallTargetValue = overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
@@ -120,8 +119,7 @@ namespace ProjectFirma.Web.Views.Shared
                     break;
 
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
-                    var performanceMeasureReportingPeriodTargetsUpdated =
-                        new List<PerformanceMeasureReportingPeriodTarget>();
+                    var performanceMeasureReportingPeriodTargetsUpdated = new List<PerformanceMeasureReportingPeriodTarget>();
                     foreach (var pmrpSimple in PerformanceMeasureReportingPeriodSimples)
                     {
                         // Reporting Period
@@ -129,8 +127,7 @@ namespace ProjectFirma.Web.Views.Shared
                         var reportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear);
                         if (reportingPeriod == null)
                         {
-                            reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear,
-                                                                                    pmrpSimple.PerformanceMeasureReportingPeriodLabel);
+                            reportingPeriod = new PerformanceMeasureReportingPeriod(pmrpSimple.PerformanceMeasureReportingPeriodCalendarYear, pmrpSimple.PerformanceMeasureReportingPeriodLabel);
                         }
                         var performanceMeasureTarget = allPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodTargetID == pmrpSimple.PerformanceMeasureReportingPeriodTargetID);
                         if (performanceMeasureTarget == null)
@@ -288,6 +285,9 @@ namespace ProjectFirma.Web.Views.Shared
                         }
                         geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated.Add(performanceMeasureTarget);
                     }
+
+                    // we need to preserve any Geospatial Area targets for geospatial areas that are not the current one we are editing.
+                    geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated.AddRange(allGeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID != geospatialArea.GeospatialAreaID));
 
                     // Perform the merge, which deletes the ones that haven't been submitted
                     performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Merge(geospatialAreaPerformanceMeasureReportingPeriodTargetsUpdated,

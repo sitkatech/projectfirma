@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.DisplayName).HasColumnName(@"DisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(75);
             Property(x => x.LayerUrl).HasColumnName(@"LayerUrl").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(500);
-            Property(x => x.LayerDescription).HasColumnName(@"LayerDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
+            Property(x => x.LayerDescription).HasColumnName(@"LayerDescription").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(200);
             Property(x => x.FeatureNameField).HasColumnName(@"FeatureNameField").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
             Property(x => x.DisplayOnAllProjectMaps).HasColumnName(@"DisplayOnAllProjectMaps").HasColumnType("bit").IsRequired();
             Property(x => x.LayerIsOnByDefault).HasColumnName(@"LayerIsOnByDefault").HasColumnType("bit").IsRequired();
