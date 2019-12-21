@@ -19,7 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
@@ -28,7 +31,14 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
-            
+
+            Add("Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.EvaluationName), 300, DhtmlxGridColumnFilterType.Html);
+            Add("Definition", a => a.EvaluationDefinition, 65, DhtmlxGridColumnFilterType.Text);
+            Add("Status", a => a.GetEvaluationStatusDisplayName(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Start Date", a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 65);
+            Add("End Date", a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 65);
+            Add("Criteria", a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 65, DhtmlxGridColumnFilterType.Text);
+            Add("Visibility", a => a.GetEvaluationVisibilityDisplayName(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

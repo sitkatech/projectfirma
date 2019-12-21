@@ -91,6 +91,7 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
+    <Compile Include="Models\EvaluationModelExtensions.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
     <Compile Include="Models\FileResourceModelExtensions.cs" />
     <Compile Include="Models\FileResourcePhoto.cs" />
@@ -218,6 +219,8 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\Evaluation\Detail.cs" />
+    <Compile Include="Views\Evaluation\DetailViewData.cs" />
     <Compile Include="Views\Evaluation\Edit.cs" />
     <Compile Include="Views\Evaluation\EditViewData.cs" />
     <Compile Include="Views\Evaluation\EditViewModel.cs" />
@@ -544,6 +547,7 @@
     <Content Include="Views\ExternalMapLayer\Index.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
+    <Content Include="Views\Evaluation\Detail.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

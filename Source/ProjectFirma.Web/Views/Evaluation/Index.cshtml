@@ -48,7 +48,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="pull-right">
                         @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasEvaluationManagePermissions)
                     </div>
-                    @*@Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)*@
+                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                 </div>
             </div>
         </div>

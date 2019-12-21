@@ -61,8 +61,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         [DisplayName("Visibility")]
         public int EvaluationVisibilityID { get; set; }
 
-        public int CreatePersonID { get; set; }
-        public DateTime CreateDate { get; set; }
+
 
 
         /// <summary>
@@ -81,8 +80,6 @@ namespace ProjectFirma.Web.Views.Evaluation
             EvaluationEndDate = evaluation.EvaluationEndDate;
             EvaluationStatusID = evaluation.EvaluationStatusID;
             EvaluationVisibilityID = evaluation.EvaluationVisibilityID;
-            CreatePersonID = evaluation.CreatePersonID;
-            CreateDate = evaluation.CreateDate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Evaluation evaluation, FirmaSession currentFirmaSession)
@@ -93,9 +90,6 @@ namespace ProjectFirma.Web.Views.Evaluation
             evaluation.EvaluationEndDate = EvaluationEndDate;
             evaluation.EvaluationStatusID = EvaluationStatusID;
             evaluation.EvaluationVisibilityID = EvaluationVisibilityID;
-            evaluation.CreatePersonID = CreatePersonID;
-            evaluation.CreateDate = CreateDate;
-
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
