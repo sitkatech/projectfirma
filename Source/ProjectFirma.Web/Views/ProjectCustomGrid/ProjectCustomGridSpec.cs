@@ -209,8 +209,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             }
 
-            Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() + $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30, DhtmlxGridColumnFilterType.None);
-            //
+            Add(string.Empty, p => GetFactSheetLinkHtml(currentFirmaSession, p), 30, DhtmlxGridColumnFilterType.None);
 
             // Implement configured fields here
             //
@@ -238,7 +237,18 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, DhtmlxGridColumnFilterType.Html);
             }
-            //
+            
+        }
+
+        private static HtmlString GetFactSheetLinkHtml(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project)
+        {
+            // Fact Sheets may not always be available
+            if (OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project))
+            {
+                return UrlTemplate.MakeHrefString(project.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon + $"<span class=\"sr-only\">Download the Fact Sheet for {project.ProjectName}</span>");
+            }
+
+            return new HtmlString(string.Empty);
         }
     }
 }

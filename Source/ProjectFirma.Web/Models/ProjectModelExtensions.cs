@@ -681,10 +681,17 @@ namespace ProjectFirma.Web.Models
                     .Select(x => x.Organization.OrganizationName));
         }
 
-        public static FancyTreeNode ToFancyTreeNode(this Project project)
+        public static FancyTreeNode ToFancyTreeNode(this Project project, FirmaSession currentFirmaSession)
         {
-            var fancyTreeNode = new FancyTreeNode(
-                $"{UrlTemplate.MakeHrefString(project.GetFactSheetUrl(), project.ProjectName, project.ProjectName)}", project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
+            bool shouldOfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
+            HtmlString titleHtml = new HtmlString(project.ProjectName);
+            if (shouldOfferFactSheetLink)
+            {
+                string factSheetUrl = project.GetFactSheetUrl();
+                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName);
+            }
+
+            var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 

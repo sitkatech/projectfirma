@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Security
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Home.FeaturedProjects
 
@@ -52,16 +53,24 @@ Source code is available upon request via <support@sitkatech.com>.
                 <div class="item@((index == 0) ? " active" : String.Empty)">
                     <div style="width: 95%" class="summaryLayout">
                         <div>
-                            <a href="@featuredProject.GetFactSheetUrl()" style="font-weight: bold">@featuredProject.ProjectName</a>
+                            @* It doesn't seem likely you'd make a Terminated project a featured one, but you never know... *@
+                            @if (OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(ViewDataTyped.CurrentFirmaSession, featuredProject))
+                            {
+                                <a href="@featuredProject.GetFactSheetUrl()" style="font-weight: bold">@featuredProject.ProjectName</a>
+                            }
+                            else
+                            {
+                                <div style="font-weight: bold">@featuredProject.ProjectName</div>
+                            }
                         </div>
                         <div class="row">
                             @if (featuredProject.GetKeyPhoto() != null)
                             {
                                 <div class="col-sm-6">
                                     <a class="gallery" href="@featuredProject.GetKeyPhoto().GetPhotoUrl()" title="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" data-caption="@Html.Raw(featuredProject.GetKeyPhoto().GetCaptionOnFullView().HtmlEncodeWithBreaks())">
-                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.GetFileResourceUrlScaledForPrint()" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()" />
+                                        <img style="width: 100%" src="@featuredProject.GetKeyPhoto().FileResource.GetFileResourceUrlScaledForPrint()" alt="@featuredProject.GetKeyPhoto().GetCaptionOnFullView()"/>
                                     </a>
-                                    <br />
+                                    <br/>
                                     <div>@featuredProject.GetKeyPhoto().Caption</div>
                                 </div>
                             }
@@ -95,7 +104,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                     @Html.Raw(featuredProject.ProjectDescription.HtmlEncodeWithBreaks().ToEllipsifiedStringClean(700))
                                 </div>
                                 <div class="pull-right">
-                                    <a href="@featuredProject.GetFactSheetUrl()">View More</a>
+                                    @if (OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(ViewDataTyped.CurrentFirmaSession, featuredProject))
+                                    {
+                                        <a href="@featuredProject.GetFactSheetUrl()">View More</a>
+                                    }
                                 </div>
                             </div>
                         </div>

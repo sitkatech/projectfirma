@@ -714,6 +714,7 @@
     <Compile Include="UnitTestCommon\TestFirmaSession.cs" />
     <Compile Include="UnitTestCommon\TestFramework.cs" />
     <Compile Include="UnitTestCommon\TestFundingSource.cs" />
+    <Compile Include="UnitTestCommon\TestGeoserverConfig.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialArea.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialAreaType.cs" />
     <Compile Include="UnitTestCommon\TestImageFile.cs" />

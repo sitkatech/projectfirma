@@ -25,6 +25,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
@@ -49,8 +50,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public TaxonomyLevel TaxonomyLevel { get; }
 
         public bool ShowDetailedInformation { get; }
+        public bool OfferFactSheetLink { get; }
 
-        public ProjectMapPopupViewData(ProjectFirmaModels.Models.Project project, bool showDetailedInformation)
+        public ProjectMapPopupViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, bool showDetailedInformation)
         {
             //Project = project;
             DisplayName = project.GetDisplayName();
@@ -64,6 +66,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             project.ProjectClassifications.Select(x => x.Classification.ClassificationSystem).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.ClassificationSystem>()).ToList().ForEach(x => dict.Add(x, string.Join(", ", project.ProjectClassifications.Select(y => y.Classification).Where(y => y.ClassificationSystem == x).Select(y => y.GetDisplayName()).ToList())));
             ClassificationsBySystem = dict;
 
+            OfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
             FactSheetUrl = project.GetFactSheetUrl();
             DetailLinkDescriptor = project.IsProposal() ? $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is a proposal. For description and expected results, see the" : $"For {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} expenditures & results, see the";
             InitializeDisplayNames();
