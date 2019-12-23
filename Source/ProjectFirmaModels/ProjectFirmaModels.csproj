@@ -680,6 +680,7 @@
     <Compile Include="Models\PerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
