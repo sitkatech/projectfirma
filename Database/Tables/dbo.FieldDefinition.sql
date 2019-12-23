@@ -6,7 +6,6 @@ CREATE TABLE [dbo].[FieldDefinition](
 	[FieldDefinitionID] [int] NOT NULL,
 	[FieldDefinitionName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[FieldDefinitionDisplayName] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[DefaultDefinition] [dbo].[html] NOT NULL,
  CONSTRAINT [PK_FieldDefinition_FieldDefinitionID] PRIMARY KEY CLUSTERED 
 (
 	[FieldDefinitionID] ASC
@@ -19,4 +18,4 @@ CREATE TABLE [dbo].[FieldDefinition](
 (
 	[FieldDefinitionName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]

@@ -29,12 +29,14 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public string FileBrowserImageUploadUrl { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinition { get; }
         public string CancelUrl { get; }
+        public bool IsSitkaAdministrator { get; }
 
         public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FieldDefinition fieldDefinition) : base(currentFirmaSession)
         {
             FieldDefinition = fieldDefinition;
             FileBrowserImageUploadUrl = SitkaRoute<FileResourceController>.BuildUrlFromExpression(x => x.CkEditorUploadFileResourceForFieldDefinition(FieldDefinition, null));
             CancelUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.Index());
+            IsSitkaAdministrator = currentFirmaSession.IsSitkaAdministrator();
         }
     }
 }
