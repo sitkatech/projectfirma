@@ -46,62 +46,51 @@ namespace ProjectFirma.Web.Views.Evaluation
             EvaluationCriterionSimples = evaluation.EvaluationCriterions.Select(x => new EvaluationCriterionSimple(x)).ToList();
         }
 
-        //public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
-        //{
-        //    var performanceMeasureSubcategoriesFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategories.Local;
-        //    var performanceMeasureSubcategoryOptionsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureSubcategoryOptions.Local;
+        public void UpdateModel(ProjectFirmaModels.Models.Evaluation evaluation)
+        {
+            var allEvaluationCriteriaFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Local;
+            var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
 
-        //    var performanceMeasureSubcategoriesToUpdate = EvaluationCriterionSimples.Select(x =>
-        //    {
-        //        var performanceMeasureSubcategory = new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false),
-        //            x.PerformanceMeasureSubcategoryDisplayName);
-        //        performanceMeasureSubcategory.PerformanceMeasure = performanceMeasure;
-        //        performanceMeasureSubcategory.PerformanceMeasureSubcategoryID = x.PerformanceMeasureSubcategoryID;
-        //        performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions =
-        //            x.PerformanceMeasureSubcategoryOptions.OrderBy(y => y.SortOrder).Select(
-        //                (y, index) =>
-        //                    new PerformanceMeasureSubcategoryOption(
-        //                        new PerformanceMeasureSubcategory(new ProjectFirmaModels.Models.PerformanceMeasure(String.Empty, default(int), default(int), false, PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false), String.Empty),
-        //                        y.PerformanceMeasureSubcategoryOptionName,
-        //                        false)
-        //                    {
-        //                        PerformanceMeasureSubcategory =
-        //                            performanceMeasure.PerformanceMeasureSubcategories.SingleOrDefault(z => z.PerformanceMeasureSubcategoryID == x.PerformanceMeasureSubcategoryID),
-        //                        PerformanceMeasureSubcategoryOptionID = y.PerformanceMeasureSubcategoryOptionID,
-        //                        SortOrder = index + 1,
-        //                        ShowOnFactSheet = y.ShowOnFactSheet
-        //                    }).ToList();
-        //        var chartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-        //        performanceMeasureSubcategory.ChartConfigurationJson = chartConfigurationJson;
-        //        performanceMeasureSubcategory.GoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-        //        if (performanceMeasure.CanBeChartedCumulatively)
-        //        {
-        //            var cumulativeChartConfigurationJson = JObject.FromObject(performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson()).ToString();
-        //            performanceMeasureSubcategory.CumulativeChartConfigurationJson = cumulativeChartConfigurationJson;
-        //            performanceMeasureSubcategory.CumulativeGoogleChartTypeID = performanceMeasure.HasTargets() ? GoogleChartType.ComboChart.GoogleChartTypeID : GoogleChartType.ColumnChart.GoogleChartTypeID;
-        //        }
-        //        return performanceMeasureSubcategory;
-        //    }).ToList();
+            var evaluationCriteriaToUpdate = EvaluationCriterionSimples.Select(x =>
+            {
+                var evaluationCriterion = new EvaluationCriterion(evaluation, x.EvaluationCriterionName, x.EvaluationCriterionDefinition);
 
-        //    var performanceMeasureSubcategoryOptionsToUpdate = performanceMeasureSubcategoriesToUpdate.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList();
-        //    performanceMeasure.PerformanceMeasureSubcategories.SelectMany(x => x.PerformanceMeasureSubcategoryOptions).ToList().Merge(
-        //        performanceMeasureSubcategoryOptionsToUpdate,
-        //        performanceMeasureSubcategoryOptionsFromDatabase,
-        //        (x, y) => x.PerformanceMeasureSubcategoryOptionID == y.PerformanceMeasureSubcategoryOptionID,
-        //        (x, y) =>
-        //        {
-        //            x.PerformanceMeasureSubcategoryOptionName = y.PerformanceMeasureSubcategoryOptionName;
-        //            x.SortOrder = y.SortOrder;
-        //            x.ShowOnFactSheet = y.ShowOnFactSheet;
-        //        }, HttpRequestStorage.DatabaseEntities);
+                evaluationCriterion.EvaluationCriterionID = x.EvaluationCriterionID;
+                evaluationCriterion.EvaluationCriterionValues =
+                    x.EvaluationCriterionValues.OrderBy(y => y.SortOrder).Select(
+                        (y, index) =>
+                            new EvaluationCriterionValue(
+                                new EvaluationCriterion(evaluation, x.EvaluationCriterionName, x.EvaluationCriterionDefinition),
+                                y.EvaluationCriterionValueRating,
+                                y.EvaluationCriterionValueDescription)
+                            {
+                                EvaluationCriterionValueID = y.EvaluationCriterionValueID
+                                //SortOrder = index + 1
+                            }).ToList();
 
-        //    performanceMeasure.PerformanceMeasureSubcategories.Merge(performanceMeasureSubcategoriesToUpdate,
-        //        performanceMeasureSubcategoriesFromDatabase,
-        //        (x, y) => x.PerformanceMeasureSubcategoryID == y.PerformanceMeasureSubcategoryID,
-        //        (x, y) =>
-        //        {
-        //            x.PerformanceMeasureSubcategoryDisplayName = y.PerformanceMeasureSubcategoryDisplayName;
-        //        }, HttpRequestStorage.DatabaseEntities);
-        //}
+                return evaluationCriterion;
+            }).ToList();
+
+            var evaluationCriterionValuesToUpdate = evaluationCriteriaToUpdate.SelectMany(x => x.EvaluationCriterionValues).ToList();
+            evaluation.EvaluationCriterions.SelectMany(x => x.EvaluationCriterionValues).ToList().Merge(
+                evaluationCriterionValuesToUpdate,
+                allEvaluationCriteriaValuesFromDatabase,
+                (x, y) => x.EvaluationCriterionValueID == y.EvaluationCriterionValueID,
+                (x, y) =>
+                {
+                    x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
+                    x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
+                    //x.SortOrder = y.SortOrder;
+                }, HttpRequestStorage.DatabaseEntities);
+
+            evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
+                allEvaluationCriteriaFromDatabase,
+                (x, y) => x.EvaluationCriterionID == y.EvaluationCriterionID,
+                (x, y) =>
+                {
+                    x.EvaluationCriterionName = y.EvaluationCriterionName;
+                    x.EvaluationCriterionDescription = x.EvaluationCriterionDescription;
+                }, HttpRequestStorage.DatabaseEntities);
+        }
     }
 }

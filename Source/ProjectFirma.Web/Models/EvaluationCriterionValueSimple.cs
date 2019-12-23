@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
             EvaluationCriterionID = evaluationCriterionValue.EvaluationCriterionID;
             EvaluationCriterionValueRating = evaluationCriterionValue.EvaluationCriterionValueRating;
             EvaluationCriterionValueDescription = evaluationCriterionValue.EvaluationCriterionValueDescription;
-            SortOrder = evaluationCriterionValue.SortOrder;
+            //SortOrder = evaluationCriterionValue.SortOrder;
             HasAssociatedActuals = evaluationCriterionValue.HasDependentObjects();
         }
 
