@@ -6,6 +6,10 @@ GO
 
 -- Seed current values for the GeoServerNamespace column
 UPDATE dbo.TenantAttribute
+SET GeoServerNamespace = 'ProjectFirma'
+WHERE TenantID = 1
+
+UPDATE dbo.TenantAttribute
 SET GeoServerNamespace = 'ClackamasPartnership'
 WHERE TenantID = 2
 
