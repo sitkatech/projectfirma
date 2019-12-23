@@ -72,8 +72,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaImageConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureFixedTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureNoTargetConfiguration());
-            modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureOverallTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
@@ -93,9 +93,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureFixedTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
-            modelBuilder.Configurations.Add(new PerformanceMeasureOverallTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
@@ -229,10 +229,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaImage> AllGeospatialAreaImages { get; set; }
         public virtual IQueryable<GeospatialAreaImage> GeospatialAreaImages { get { return AllGeospatialAreaImages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaPerformanceMeasureFixedTarget> AllGeospatialAreaPerformanceMeasureFixedTargets { get; set; }
+        public virtual IQueryable<GeospatialAreaPerformanceMeasureFixedTarget> GeospatialAreaPerformanceMeasureFixedTargets { get { return AllGeospatialAreaPerformanceMeasureFixedTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaPerformanceMeasureNoTarget> AllGeospatialAreaPerformanceMeasureNoTargets { get; set; }
         public virtual IQueryable<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get { return AllGeospatialAreaPerformanceMeasureNoTargets.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<GeospatialAreaPerformanceMeasureOverallTarget> AllGeospatialAreaPerformanceMeasureOverallTargets { get; set; }
-        public virtual IQueryable<GeospatialAreaPerformanceMeasureOverallTarget> GeospatialAreaPerformanceMeasureOverallTargets { get { return AllGeospatialAreaPerformanceMeasureOverallTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget> AllGeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual IQueryable<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get { return AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
@@ -273,12 +273,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOptionUpdate> PerformanceMeasureExpectedSubcategoryOptionUpdates { get { return AllPerformanceMeasureExpectedSubcategoryOptionUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedUpdate> AllPerformanceMeasureExpectedUpdates { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get { return AllPerformanceMeasureExpectedUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureFixedTarget> AllPerformanceMeasureFixedTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureFixedTarget> PerformanceMeasureFixedTargets { get { return AllPerformanceMeasureFixedTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureImage> AllPerformanceMeasureImages { get; set; }
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<PerformanceMeasureOverallTarget> AllPerformanceMeasureOverallTargets { get; set; }
-        public virtual IQueryable<PerformanceMeasureOverallTarget> PerformanceMeasureOverallTargets { get { return AllPerformanceMeasureOverallTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureReportingPeriod> AllPerformanceMeasureReportingPeriods { get; set; }
         public virtual IQueryable<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get { return AllPerformanceMeasureReportingPeriods.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureReportingPeriodTarget> AllPerformanceMeasureReportingPeriodTargets { get; set; }
@@ -564,11 +564,11 @@ namespace ProjectFirmaModels.Models
                 case "GeospatialAreaImage":
                     return GeospatialAreaImages.GetGeospatialAreaImage(primaryKey);
 
+                case "GeospatialAreaPerformanceMeasureFixedTarget":
+                    return GeospatialAreaPerformanceMeasureFixedTargets.GetGeospatialAreaPerformanceMeasureFixedTarget(primaryKey);
+
                 case "GeospatialAreaPerformanceMeasureNoTarget":
                     return GeospatialAreaPerformanceMeasureNoTargets.GetGeospatialAreaPerformanceMeasureNoTarget(primaryKey);
-
-                case "GeospatialAreaPerformanceMeasureOverallTarget":
-                    return GeospatialAreaPerformanceMeasureOverallTargets.GetGeospatialAreaPerformanceMeasureOverallTarget(primaryKey);
 
                 case "GeospatialAreaPerformanceMeasureReportingPeriodTarget":
                     return GeospatialAreaPerformanceMeasureReportingPeriodTargets.GetGeospatialAreaPerformanceMeasureReportingPeriodTarget(primaryKey);
@@ -650,14 +650,14 @@ namespace ProjectFirmaModels.Models
                 case "PerformanceMeasureExpectedUpdate":
                     return PerformanceMeasureExpectedUpdates.GetPerformanceMeasureExpectedUpdate(primaryKey);
 
+                case "PerformanceMeasureFixedTarget":
+                    return PerformanceMeasureFixedTargets.GetPerformanceMeasureFixedTarget(primaryKey);
+
                 case "PerformanceMeasureImage":
                     return PerformanceMeasureImages.GetPerformanceMeasureImage(primaryKey);
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
-
-                case "PerformanceMeasureOverallTarget":
-                    return PerformanceMeasureOverallTargets.GetPerformanceMeasureOverallTarget(primaryKey);
 
                 case "PerformanceMeasureReportingPeriod":
                     return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);

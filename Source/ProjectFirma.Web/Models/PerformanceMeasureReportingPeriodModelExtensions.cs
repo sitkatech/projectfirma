@@ -15,42 +15,42 @@ namespace ProjectFirma.Web.Models
 
         public static double? GetTargetValue(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
-            var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.FirstOrDefault();
-            if (overallTarget != null)
+            var fixedTarget = performanceMeasure.PerformanceMeasureFixedTargets.FirstOrDefault();
+            if (fixedTarget != null)
             {
-                return overallTarget.PerformanceMeasureTargetValue;
+                return fixedTarget.PerformanceMeasureTargetValue;
             }
             return performanceMeasure.PerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID)?.PerformanceMeasureTargetValue;
         }
 
         public static double? GetGeospatialAreaTargetValue(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.FirstOrDefault(x =>
+            var fixedTarget = performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.FirstOrDefault(x =>
                 x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-            if (overallTarget != null)
+            if (fixedTarget != null)
             {
-                return overallTarget.GeospatialAreaPerformanceMeasureTargetValue;
+                return fixedTarget.GeospatialAreaPerformanceMeasureTargetValue;
             }
             return performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID && x.GeospatialAreaID == geospatialArea.GeospatialAreaID)?.GeospatialAreaPerformanceMeasureTargetValue;
         }
 
         public static string GetTargetValueLabel(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
-            var overallTarget = performanceMeasure.PerformanceMeasureOverallTargets.FirstOrDefault();
-            if (overallTarget != null)
+            var fixedTarget = performanceMeasure.PerformanceMeasureFixedTargets.FirstOrDefault();
+            if (fixedTarget != null)
             {
-                return overallTarget.PerformanceMeasureTargetValueLabel;
+                return fixedTarget.PerformanceMeasureTargetValueLabel;
             }
             return performanceMeasure.PerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID)?.PerformanceMeasureTargetValueLabel;
         }
 
         public static string GetGeospatialAreaTargetValueLabel(this PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            var overallTarget = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.FirstOrDefault(x =>
+            var fixedTarget = performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.FirstOrDefault(x =>
                 x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-            if (overallTarget != null)
+            if (fixedTarget != null)
             {
-                return overallTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
+                return fixedTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
             }
             return performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodID == performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID && x.GeospatialAreaID == geospatialArea.GeospatialAreaID)?.GeospatialAreaPerformanceMeasureTargetValueLabel;
         }

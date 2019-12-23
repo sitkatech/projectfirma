@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[PerformanceMeasureOverallTarget]
+//  Source Table: [dbo].[PerformanceMeasureFixedTarget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PerformanceMeasureOverallTarget] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[PerformanceMeasureOverallTarget]")]
-    public partial class PerformanceMeasureOverallTarget : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[PerformanceMeasureFixedTarget] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[PerformanceMeasureFixedTarget]")]
+    public partial class PerformanceMeasureFixedTarget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected PerformanceMeasureOverallTarget()
+        protected PerformanceMeasureFixedTarget()
         {
 
         }
@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureOverallTarget(int performanceMeasureOverallTargetID, int performanceMeasureID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
+        public PerformanceMeasureFixedTarget(int performanceMeasureFixedTargetID, int performanceMeasureID, double? performanceMeasureTargetValue, string performanceMeasureTargetValueLabel) : this()
         {
-            this.PerformanceMeasureOverallTargetID = performanceMeasureOverallTargetID;
+            this.PerformanceMeasureFixedTargetID = performanceMeasureFixedTargetID;
             this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureTargetValue = performanceMeasureTargetValue;
             this.PerformanceMeasureTargetValueLabel = performanceMeasureTargetValueLabel;
@@ -41,10 +41,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureOverallTarget(int performanceMeasureID) : this()
+        public PerformanceMeasureFixedTarget(int performanceMeasureID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureOverallTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureFixedTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.PerformanceMeasureID = performanceMeasureID;
         }
@@ -52,21 +52,21 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasureOverallTarget(PerformanceMeasure performanceMeasure) : this()
+        public PerformanceMeasureFixedTarget(PerformanceMeasure performanceMeasure) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureOverallTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.PerformanceMeasureFixedTargetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
             this.PerformanceMeasure = performanceMeasure;
-            performanceMeasure.PerformanceMeasureOverallTargets.Add(this);
+            performanceMeasure.PerformanceMeasureFixedTargets.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureOverallTarget CreateNewBlank(PerformanceMeasure performanceMeasure)
+        public static PerformanceMeasureFixedTarget CreateNewBlank(PerformanceMeasure performanceMeasure)
         {
-            return new PerformanceMeasureOverallTarget(performanceMeasure);
+            return new PerformanceMeasureFixedTarget(performanceMeasure);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureOverallTarget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureFixedTarget).Name};
 
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllPerformanceMeasureOverallTargets.Remove(this);
+            dbContext.AllPerformanceMeasureFixedTargets.Remove(this);
         }
         
         /// <summary>
@@ -102,13 +102,13 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int PerformanceMeasureOverallTargetID { get; set; }
+        public int PerformanceMeasureFixedTargetID { get; set; }
         public int TenantID { get; set; }
         public int PerformanceMeasureID { get; set; }
         public double? PerformanceMeasureTargetValue { get; set; }
         public string PerformanceMeasureTargetValueLabel { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return PerformanceMeasureOverallTargetID; } set { PerformanceMeasureOverallTargetID = value; } }
+        public int PrimaryKey { get { return PerformanceMeasureFixedTargetID; } set { PerformanceMeasureFixedTargetID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
