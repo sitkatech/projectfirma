@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirmaModels.Models
 {
-    public partial class PerformanceMeasureOverallTarget : IAuditableEntity
+    public partial class PerformanceMeasureFixedTarget : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {

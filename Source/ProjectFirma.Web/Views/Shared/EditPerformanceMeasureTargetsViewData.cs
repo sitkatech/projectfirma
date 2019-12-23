@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Shared
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
             ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
-            DefaultTargetLabel = isGeospatialAreaTarget ? $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target" : $"P.M. Target";
+            DefaultTargetLabel = isGeospatialAreaTarget ? $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target" : $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Target";
         }
     }
 }

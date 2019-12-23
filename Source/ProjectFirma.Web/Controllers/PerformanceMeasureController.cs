@@ -378,7 +378,7 @@ namespace ProjectFirma.Web.Controllers
 
             // Get all three possible target types
             var noTargets = performanceMeasure.GeospatialAreaPerformanceMeasureNoTargets;
-            var overallTargets = performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets;
+            var overallTargets = performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets;
             var reportingPeriodTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets;
 
             var allRelevantGeoSpatialAreasWithTargets = new List<GeospatialArea>();

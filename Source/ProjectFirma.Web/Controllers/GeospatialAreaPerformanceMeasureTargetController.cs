@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaIDs = new List<int>();
             geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
             geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureNoTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
-            geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
+            geospatialAreaIDs.AddRange(HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureFixedTargets.Where(x => x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID).Select(x => x.GeospatialAreaID).ToList());
             return geospatialAreaIDs;
         }
 
@@ -136,12 +136,12 @@ namespace ProjectFirma.Web.Controllers
                 noTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
 
-            // overall target
-            var geospatialAreaPerformanceMeasureOverallTargets =
-                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Where(x =>
+            // fixed target
+            var areaPerformanceMeasureFixedTargets =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureFixedTargets.Where(x =>
                     x.GeospatialAreaID == geospatialArea.GeospatialAreaID &&
                     x.PerformanceMeasureID == performanceMeasure.PerformanceMeasureID);
-            foreach (var overallTarget in geospatialAreaPerformanceMeasureOverallTargets)
+            foreach (var overallTarget in areaPerformanceMeasureFixedTargets)
             {
                 overallTarget.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
@@ -185,7 +185,7 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Load();
             HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureNoTargets.Load();
-            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureOverallTargets.Load();
+            HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureFixedTargets.Load();
             HttpRequestStorage.DatabaseEntities.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Load();
 
             viewModel.UpdateModel(
@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasure, 
                 HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local, 
                 HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureNoTargets.Local,
-                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureOverallTargets.Local,
+                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureFixedTargets.Local,
                 HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Local
                 );
 

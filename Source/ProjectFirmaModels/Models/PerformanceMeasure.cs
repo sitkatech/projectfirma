@@ -46,14 +46,14 @@ namespace ProjectFirmaModels.Models
 
         public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueType()
         {
-            bool hasOverallTarget = PerformanceMeasureOverallTargets.Any();
+            bool hasFixedTarget = PerformanceMeasureFixedTargets.Any();
             bool hasReportingPeriodTarget = PerformanceMeasureReportingPeriodTargets.Any();
 
-            Check.Ensure((hasOverallTarget && !hasReportingPeriodTarget) || (!hasOverallTarget && hasReportingPeriodTarget));
+            Check.Ensure((hasFixedTarget && !hasReportingPeriodTarget) || (!hasFixedTarget && hasReportingPeriodTarget));
 
-            if (hasOverallTarget)
+            if (hasFixedTarget)
             {
-                return PerformanceMeasureTargetValueTypeEnum.OverallTarget;
+                return PerformanceMeasureTargetValueTypeEnum.FixedTarget;
             }
 
             if (hasReportingPeriodTarget)
@@ -67,13 +67,13 @@ namespace ProjectFirmaModels.Models
         public PerformanceMeasureTargetValueTypeEnum GetPerformanceMeasureTargetValueTypeForGeospatialArea(GeospatialArea geospatialArea)
         {
             bool hasNoTarget = this.GeospatialAreaPerformanceMeasureNoTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-            bool hasOverallTarget = this.GeospatialAreaPerformanceMeasureOverallTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            bool hasFixedTarget = this.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             bool hasReportingPeriodTarget = this.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
 
             // NOTE that the unset case (all false) is NOT yet handled! Need to think about this.
-            Check.Ensure((hasNoTarget && !hasOverallTarget && !hasReportingPeriodTarget) ||
-                                (!hasNoTarget && hasOverallTarget && !hasReportingPeriodTarget) ||
-                                (!hasNoTarget && !hasOverallTarget && hasReportingPeriodTarget)
+            Check.Ensure((hasNoTarget && !hasFixedTarget && !hasReportingPeriodTarget) ||
+                                (!hasNoTarget && hasFixedTarget && !hasReportingPeriodTarget) ||
+                                (!hasNoTarget && !hasFixedTarget && hasReportingPeriodTarget)
             );
 
             if (hasNoTarget)
@@ -81,9 +81,9 @@ namespace ProjectFirmaModels.Models
                 return PerformanceMeasureTargetValueTypeEnum.NoTarget;
             }
 
-            if (hasOverallTarget)
+            if (hasFixedTarget)
             {
-                return PerformanceMeasureTargetValueTypeEnum.OverallTarget;
+                return PerformanceMeasureTargetValueTypeEnum.FixedTarget;
             }
 
             if (hasReportingPeriodTarget)

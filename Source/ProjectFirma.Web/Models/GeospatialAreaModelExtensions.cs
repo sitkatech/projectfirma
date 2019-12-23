@@ -189,14 +189,14 @@ namespace ProjectFirma.Web.Models
             {
                 case PerformanceMeasureTargetValueTypeEnum.NoTarget:
                     return "No Target";
-                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    var geospatialAreaPerformanceMeasureOverallTarget =
-                        performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.SingleOrDefault(x =>
+                case PerformanceMeasureTargetValueTypeEnum.FixedTarget:
+                    var areaPerformanceMeasureFixedTarget =
+                        performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.SingleOrDefault(x =>
                             x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-                    Check.EnsureNotNull(geospatialAreaPerformanceMeasureOverallTarget);
-                    Check.EnsureNotNull(geospatialAreaPerformanceMeasureOverallTarget.GeospatialAreaPerformanceMeasureTargetValue, "geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue != null");
-                    var targetValue = geospatialAreaPerformanceMeasureOverallTarget.GeospatialAreaPerformanceMeasureTargetValue.ToString();
-                    var performanceMeasureMeasurementUnitType = geospatialAreaPerformanceMeasureOverallTarget.PerformanceMeasure.MeasurementUnitType;
+                    Check.EnsureNotNull(areaPerformanceMeasureFixedTarget);
+                    Check.EnsureNotNull(areaPerformanceMeasureFixedTarget.GeospatialAreaPerformanceMeasureTargetValue, "geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue != null");
+                    var targetValue = areaPerformanceMeasureFixedTarget.GeospatialAreaPerformanceMeasureTargetValue.ToString();
+                    var performanceMeasureMeasurementUnitType = areaPerformanceMeasureFixedTarget.PerformanceMeasure.MeasurementUnitType;
                     var measurementUnit = performanceMeasureMeasurementUnitType == MeasurementUnitType.Number ? "" : performanceMeasureMeasurementUnitType.LegendDisplayName;
                     return $"{targetValue} {measurementUnit}";
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
