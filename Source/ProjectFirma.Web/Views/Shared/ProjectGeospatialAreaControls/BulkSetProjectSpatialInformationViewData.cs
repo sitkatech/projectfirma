@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation.Select(x => x.GeospatialAreaID).ToList();
 
             MapInitJson = mapInitJson;
-            MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl;
+            MapServiceUrl = geospatialAreaTypes.FirstOrDefault().MapServiceUrl();
             HasProjectLocationPoint = hasProjectLocationPoint;
         }
     }

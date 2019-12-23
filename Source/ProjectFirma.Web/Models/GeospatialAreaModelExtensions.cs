@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Models
             LayerInitialVisibility layerInitialVisibility)
         {
             return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized,
-                geospatialAreaType.MapServiceUrl,
+                geospatialAreaType.MapServiceUrl(),
                 geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor,
                 layerOpacity,
                 layerInitialVisibility);

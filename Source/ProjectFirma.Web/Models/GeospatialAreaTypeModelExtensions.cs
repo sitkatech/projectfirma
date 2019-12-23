@@ -16,9 +16,15 @@ namespace ProjectFirma.Web.Models
                 x.EditProjectGeospatialAreas(project.ProjectID, geospatialAreaType.GeospatialAreaTypeID));
         }
 
+        public static string MapServiceUrl(this GeospatialAreaType geospatialAreaType)
+        {
+            var geoServerNamespace = MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace;
+            return $"{FirmaWebConfiguration.GeoServerUrl}{geoServerNamespace}/wms";
+        }
+
         public static HtmlString GetGeoJsonLinkHtmlString(this GeospatialAreaType geospatialAreaType)
         {
-            var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl);
+            var mapServiceUri = new UriBuilder(geospatialAreaType.MapServiceUrl());
             mapServiceUri.Path = mapServiceUri.Path.Replace("/wms", "/ows");
 
             NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
