@@ -178,5 +178,40 @@ namespace ProjectFirma.Web.Controllers
 
 
 
+        [HttpGet]
+        [EvaluationManageFeature]
+        public PartialViewResult EditEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            var viewModel = new EditEvaluationCriterionViewModel(evaluation);
+            return ViewEditEvaluationCriterion(viewModel);
+        }
+
+        [HttpPost]
+        [EvaluationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriterionViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditEvaluationCriterion(viewModel);
+            }
+
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            viewModel.UpdateModel(evaluation);
+
+            SetMessageForDisplay(
+                $"Successfully updated {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} '{evaluation.EvaluationName}'!");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditEvaluationCriterion(EditEvaluationCriterionViewModel viewModel)
+        {
+            var viewData = new EditEvaluationCriterionViewData();
+            return RazorPartialView<EditEvaluationCriterion, EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel>(viewData, viewModel);
+        }
+
+
+
     }
 }

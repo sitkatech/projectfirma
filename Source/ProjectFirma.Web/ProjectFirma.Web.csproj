@@ -91,6 +91,8 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
+    <Compile Include="Models\EvaluationCriterionSimple.cs" />
+    <Compile Include="Models\EvaluationCriterionValueSimple.cs" />
     <Compile Include="Models\EvaluationModelExtensions.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
     <Compile Include="Models\FileResourceModelExtensions.cs" />
@@ -222,6 +224,9 @@
     <Compile Include="Views\Evaluation\Detail.cs" />
     <Compile Include="Views\Evaluation\DetailViewData.cs" />
     <Compile Include="Views\Evaluation\Edit.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriterion.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriterionViewData.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriterionViewModel.cs" />
     <Compile Include="Views\Evaluation\EditViewData.cs" />
     <Compile Include="Views\Evaluation\EditViewModel.cs" />
     <Compile Include="Views\Evaluation\Index.cs" />
@@ -506,6 +511,7 @@
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
+    <Content Include="Views\Evaluation\EditEvaluationCriterionController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
@@ -548,6 +554,7 @@
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
     <Content Include="Views\Evaluation\Detail.cshtml" />
+    <Content Include="Views\Evaluation\EditEvaluationCriterion.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
