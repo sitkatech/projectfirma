@@ -38,19 +38,15 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>*@
 
 <div class="container-fluid">
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-md-12">
+            @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasEvaluationManagePermissions)
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>@FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized()</h2>
-                </div>
-                <div class="panel-body">
-                    <div class="pull-right">
-                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasEvaluationManagePermissions)
-                    </div>
-                    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-                </div>
-            </div>
+            @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+
         </div>
     </div>
 </div>

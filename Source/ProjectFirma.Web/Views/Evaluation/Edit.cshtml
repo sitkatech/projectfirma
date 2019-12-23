@@ -43,7 +43,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.EvaluationDefinition)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.EvaluationDefinition, new { style = "width:100%", @class = "form-control" })
+                @Html.TextAreaWithMaxLengthFor(m => m.EvaluationDefinition, new TextAreaForExtensions.TextAreaDimensions(null, 4), null,  new List<string>{ "form-control" })
                 @Html.ValidationMessageFor(m => m.EvaluationDefinition)
             </div>
         </div>

@@ -32,13 +32,13 @@ namespace ProjectFirma.Web.Views.Evaluation
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
 
-            Add("Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.EvaluationName), 300, DhtmlxGridColumnFilterType.Html);
-            Add("Definition", a => a.EvaluationDefinition, 65, DhtmlxGridColumnFilterType.Text);
-            Add("Status", a => a.GetEvaluationStatusDisplayName(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Start Date", a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 65);
-            Add("End Date", a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 65);
-            Add("Criteria", a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 65, DhtmlxGridColumnFilterType.Text);
-            Add("Visibility", a => a.GetEvaluationVisibilityDisplayName(), 65, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Name", a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.EvaluationName), 220, DhtmlxGridColumnFilterType.Html);
+            Add("Definition", a => a.EvaluationDefinition, 220, DhtmlxGridColumnFilterType.Text);
+            Add("Status", a => a.GetEvaluationStatusDisplayName(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Start Date", a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 70);
+            Add("End Date", a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 70);
+            Add("Criteria", a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
+            Add("Visibility", a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
