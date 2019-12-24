@@ -559,11 +559,43 @@ namespace ProjectFirma.Web.Controllers
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
             workSheets.Add(wsPerformanceMeasureActuals);
 
+            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
+            var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
-            var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec(fundingSourceCustomAttributeTypes);
+
+            var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
             var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
             workSheets.Add(wsProjectFundingSourceExpenditures);
+
+            var projectFundingSourceBudgetExcelSpec = new ProjectFundingSourceBudgetExcelSpec(fundingSourceCustomAttributeTypes, reportFinancialsByCostType);
+            // add ProjectFundingSourceBudgets and ProjectNoFundingSourceIdentifieds for "varies by year"
+            var projectBudgetFinancialsForExcels = projects.Where(p => p.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID).SelectMany(p => p.ProjectFundingSourceBudgets.Select(y => new ProjectBudgetFinancialsForExcel(y, reportFinancialsByCostType, null))).ToList();
+            projectBudgetFinancialsForExcels.AddRange(projects.SelectMany(p => p.ProjectNoFundingSourceIdentifieds.Select(y => new ProjectBudgetFinancialsForExcel(y))).ToList());
+            // add ProjectFundingSourceBudgets for "same each year"
+            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
+            {
+                var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                {
+                    budgetFinancialsForExcels.AddRange(p.ProjectFundingSourceBudgets.Select(pfsb => new ProjectBudgetFinancialsForExcel(pfsb, reportFinancialsByCostType, i)).ToList());
+                }
+                return budgetFinancialsForExcels;
+            }).ToList());
+            // add no funding source identified for "same each year"
+            projectBudgetFinancialsForExcels.AddRange(projects.Where(p => p.FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID).SelectMany(p =>
+            {
+                var budgetFinancialsForExcels = new List<ProjectBudgetFinancialsForExcel>();
+                for (var i = p.ImplementationStartYear ?? DateTime.Now.Year; i <= (p.CompletionYear ?? DateTime.Now.Year); i++)
+                {
+                    budgetFinancialsForExcels.Add(new ProjectBudgetFinancialsForExcel(p, i));
+                }
+                return budgetFinancialsForExcels;
+            }).ToList());
+            projectBudgetFinancialsForExcels = projectBudgetFinancialsForExcels.OrderBy(x => x.Project.ProjectID)
+                .ThenBy(x => x.FundingSource).ThenBy(x => x.CalendarYear).ToList();
+            var wsProjectFundingSourceBudgets = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet("Budgets", projectFundingSourceBudgetExcelSpec, projectBudgetFinancialsForExcels);
+            workSheets.Add(wsProjectFundingSourceBudgets);
 
             var projectGeospatialAreaSpec = new ProjectGeospatialAreaExcelSpec();
             var projectGeospatialAreas = projects.SelectMany(p => p.ProjectGeospatialAreas).ToList();
