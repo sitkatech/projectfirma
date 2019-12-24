@@ -59,6 +59,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
+            modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
             modelBuilder.Configurations.Add(new FileResourceConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
@@ -207,6 +208,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
@@ -503,6 +505,9 @@ namespace ProjectFirmaModels.Models
 
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
+
+                case "FieldDefinitionDefault":
+                    return FieldDefinitionDefaults.GetFieldDefinitionDefault(primaryKey);
 
                 case "FieldDefinition":
                     return FieldDefinitions.GetFieldDefinition(primaryKey);

@@ -65,8 +65,10 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public ViewResult Edit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
         {
-            var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);            
-            var viewModel = new EditViewModel(fieldDefinitionData);
+            var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);
+//            var fieldDefinitionDefault = fieldDefinitionData.FieldDefinition.FieldDefinitionDefault;
+            var fieldDefinitionDefault = HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey);            
+            var viewModel = new EditViewModel(fieldDefinitionData, fieldDefinitionDefault);
             return ViewEdit(fieldDefinitionPrimaryKey, viewModel);
         }
 
@@ -87,7 +89,9 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDatas.Add(fieldDefinitionData);
             }
 
-            viewModel.UpdateModel(fieldDefinitionData);
+            var fieldDefinitionDefault = CurrentFirmaSession.IsSitkaAdministrator() ? HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey) : null;
+
+            viewModel.UpdateModel(fieldDefinitionData, fieldDefinitionDefault);
             SetMessageForDisplay("Field Definition successfully saved.");
             return RedirectToAction(new SitkaRoute<FieldDefinitionController>(x => x.Edit(fieldDefinitionData.FieldDefinition)));
         }
@@ -107,7 +111,7 @@ namespace ProjectFirma.Web.Controllers
             var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
             var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentFirmaSession, fieldDefinition).HasPermission;
             var editUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(fieldDefinition));
-            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
+            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.FieldDefinitionDefault.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
 
