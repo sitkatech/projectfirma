@@ -169,6 +169,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -423,6 +425,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
+        public virtual DbSet<vGeoServerProjectDetailedLocations> vGeoServerProjectDetailedLocations { get; set; }
+        public virtual DbSet<vGeoServerProjectSimpleLocations> vGeoServerProjectSimpleLocations { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {

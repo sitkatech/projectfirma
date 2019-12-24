@@ -1,0 +1,1 @@
+ALTER TABLE dbo.GeospatialAreaType DROP COLUMN MapServiceUrl

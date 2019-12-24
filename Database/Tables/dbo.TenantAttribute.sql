@@ -34,6 +34,7 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[ExcludeTargetedFundingOrganizations] [bit] NOT NULL,
 	[GoogleAnalyticsTrackingCode] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[UseProjectTimeline] [bit] NOT NULL,
+	[GeoServerNamespace] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC

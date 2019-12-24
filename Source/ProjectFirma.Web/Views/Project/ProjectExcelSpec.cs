@@ -24,6 +24,7 @@ using System.Linq;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 
@@ -162,7 +163,7 @@ namespace ProjectFirma.Web.Views.Project
 
     public class ProjectFundingSourceExpenditureExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>
     {
-        public ProjectFundingSourceExpenditureExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
+        public ProjectFundingSourceExpenditureExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes, bool reportFinancialsByCostType)
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
@@ -175,7 +176,36 @@ namespace ProjectFirma.Web.Views.Project
                     a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
             }
             AddColumn("Calendar Year", x => x.CalendarYear);
+            if (reportFinancialsByCostType)
+            {
+                AddColumn("Cost Type", x => x.CostType != null ? x.CostType.CostTypeName : ViewUtilities.NaString);
+            }
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
+        }
+    }
+
+    public class ProjectFundingSourceBudgetExcelSpec : ExcelWorksheetSpec<ProjectBudgetFinancialsForExcel>
+    {
+        public ProjectFundingSourceBudgetExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes, bool reportFinancialsByCostType)
+        {
+            AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
+            AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
+            AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.FundingSourceName);
+            AddColumn($"Funding {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource?.Organization.OrganizationName);
+            AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.FundingSource?.Organization.OrganizationType?.OrganizationTypeName);
+            foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes)
+            {
+                AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
+                    a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
+            }
+            AddColumn("Calendar Year", x => x.CalendarYear);
+            if (reportFinancialsByCostType)
+            {
+                AddColumn("Cost Type", x => x.CostTypeName);
+            }
+            AddColumn($"{FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()} Amount", x => x.SecuredAmount);
+            AddColumn($"{FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()} Amount", x => x.TargetedAmount);
+            AddColumn($"{FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()} Amount", x => x.NoFundingSourceIdentifiedAmount);
         }
     }
 
