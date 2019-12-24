@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[EvaluationCriterion](
 	[TenantID] [int] NOT NULL,
 	[EvaluationID] [int] NOT NULL,
 	[EvaluationCriterionName] [varchar](120) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[EvaluationCriterionDescription] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[EvaluationCriterionDefinition] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_EvaluationCriterion_EvaluationCriterionID] PRIMARY KEY CLUSTERED 
 (
 	[EvaluationCriterionID] ASC

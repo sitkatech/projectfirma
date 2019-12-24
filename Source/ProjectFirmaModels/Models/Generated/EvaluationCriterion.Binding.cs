@@ -30,31 +30,31 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterion(int evaluationCriterionID, int evaluationID, string evaluationCriterionName, string evaluationCriterionDescription) : this()
+        public EvaluationCriterion(int evaluationCriterionID, int evaluationID, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
         {
             this.EvaluationCriterionID = evaluationCriterionID;
             this.EvaluationID = evaluationID;
             this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDescription = evaluationCriterionDescription;
+            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterion(int evaluationID, string evaluationCriterionName, string evaluationCriterionDescription) : this()
+        public EvaluationCriterion(int evaluationID, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.EvaluationCriterionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.EvaluationID = evaluationID;
             this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDescription = evaluationCriterionDescription;
+            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public EvaluationCriterion(Evaluation evaluation, string evaluationCriterionName, string evaluationCriterionDescription) : this()
+        public EvaluationCriterion(Evaluation evaluation, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.EvaluationCriterionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -62,7 +62,7 @@ namespace ProjectFirmaModels.Models
             this.Evaluation = evaluation;
             evaluation.EvaluationCriterions.Add(this);
             this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDescription = evaluationCriterionDescription;
+            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int EvaluationID { get; set; }
         public string EvaluationCriterionName { get; set; }
-        public string EvaluationCriterionDescription { get; set; }
+        public string EvaluationCriterionDefinition { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return EvaluationCriterionID; } set { EvaluationCriterionID = value; } }
 
@@ -132,7 +132,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int EvaluationCriterionName = 120;
-            public const int EvaluationCriterionDescription = 1000;
+            public const int EvaluationCriterionDefinition = 1000;
         }
     }
 }

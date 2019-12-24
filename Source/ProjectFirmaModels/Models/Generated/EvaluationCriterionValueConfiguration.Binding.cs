@@ -20,6 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.EvaluationCriterionID).HasColumnName(@"EvaluationCriterionID").HasColumnType("int").IsRequired();
             Property(x => x.EvaluationCriterionValueRating).HasColumnName(@"EvaluationCriterionValueRating").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(60);
             Property(x => x.EvaluationCriterionValueDescription).HasColumnName(@"EvaluationCriterionValueDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.EvaluationCriterion).WithMany(b => b.EvaluationCriterionValues).HasForeignKey(c => c.EvaluationCriterionID).WillCascadeOnDelete(false); // FK_EvaluationCriterionValue_EvaluationCriterion_EvaluationCriterionID

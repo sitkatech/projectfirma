@@ -64,8 +64,8 @@ namespace ProjectFirma.Web.Views.Evaluation
                                 y.EvaluationCriterionValueRating,
                                 y.EvaluationCriterionValueDescription)
                             {
-                                EvaluationCriterionValueID = y.EvaluationCriterionValueID
-                                //SortOrder = index + 1
+                                EvaluationCriterionValueID = y.EvaluationCriterionValueID,
+                                SortOrder = index + 1
                             }).ToList();
 
                 return evaluationCriterion;
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.Evaluation
                 {
                     x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
                     x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
-                    //x.SortOrder = y.SortOrder;
+                    x.SortOrder = y.SortOrder;
                 }, HttpRequestStorage.DatabaseEntities);
 
             evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Views.Evaluation
                 (x, y) =>
                 {
                     x.EvaluationCriterionName = y.EvaluationCriterionName;
-                    x.EvaluationCriterionDescription = x.EvaluationCriterionDescription;
+                    x.EvaluationCriterionDefinition = x.EvaluationCriterionDefinition;
                 }, HttpRequestStorage.DatabaseEntities);
         }
     }

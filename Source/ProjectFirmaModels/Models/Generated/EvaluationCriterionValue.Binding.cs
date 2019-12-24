@@ -30,12 +30,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterionValue(int evaluationCriterionValueID, int evaluationCriterionID, string evaluationCriterionValueRating, string evaluationCriterionValueDescription) : this()
+        public EvaluationCriterionValue(int evaluationCriterionValueID, int evaluationCriterionID, string evaluationCriterionValueRating, string evaluationCriterionValueDescription, int? sortOrder) : this()
         {
             this.EvaluationCriterionValueID = evaluationCriterionValueID;
             this.EvaluationCriterionID = evaluationCriterionID;
             this.EvaluationCriterionValueRating = evaluationCriterionValueRating;
             this.EvaluationCriterionValueDescription = evaluationCriterionValueDescription;
+            this.SortOrder = sortOrder;
         }
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace ProjectFirmaModels.Models
         public int EvaluationCriterionID { get; set; }
         public string EvaluationCriterionValueRating { get; set; }
         public string EvaluationCriterionValueDescription { get; set; }
+        public int? SortOrder { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return EvaluationCriterionValueID; } set { EvaluationCriterionValueID = value; } }
 

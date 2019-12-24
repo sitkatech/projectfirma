@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
             EvaluationCriterionID = evaluationCriterion.EvaluationCriterionID;
             EvaluationID = evaluationCriterion.EvaluationID;
             EvaluationCriterionName = evaluationCriterion.EvaluationCriterionName;
-            EvaluationCriterionDefinition = evaluationCriterion.EvaluationCriterionDescription;
+            EvaluationCriterionDefinition = evaluationCriterion.EvaluationCriterionDefinition;
             EvaluationCriterionValues = evaluationCriterion.EvaluationCriterionValues.Select(x => new EvaluationCriterionValueSimple(x)).ToList();
         }
 

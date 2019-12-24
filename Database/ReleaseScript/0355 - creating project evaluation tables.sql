@@ -52,7 +52,7 @@ CREATE TABLE [dbo].EvaluationCriterion(
 	[TenantID] [int] NOT NULL constraint FK_EvaluationCriterion_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	EvaluationID int not null constraint FK_EvaluationCriterion_Evaluation_EvaluationID foreign key references dbo.Evaluation(EvaluationID),
 	EvaluationCriterionName varchar(120) NOT NULL,
-	EvaluationCriterionDescription varchar(1000) NOT NULL,
+	EvaluationCriterionDefinition varchar(1000) NOT NULL,
 
  CONSTRAINT [AK_EvaluationCriterion_EvaluationCriterionID_TenantID] UNIQUE NONCLUSTERED 
 (
@@ -75,7 +75,7 @@ CREATE TABLE [dbo].EvaluationCriterionValue(
 	EvaluationCriterionID int not null constraint FK_EvaluationCriterionValue_EvaluationCriterion_EvaluationCriterionID foreign key references dbo.EvaluationCriterion(EvaluationCriterionID),
 	EvaluationCriterionValueRating varchar(60) NOT NULL,
 	EvaluationCriterionValueDescription varchar(500) NOT NULL,
-
+	SortOrder int null,
  CONSTRAINT [AK_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[EvaluationCriterionValueID] ASC,

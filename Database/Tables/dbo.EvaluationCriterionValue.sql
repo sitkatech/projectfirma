@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[EvaluationCriterionValue](
 	[EvaluationCriterionID] [int] NOT NULL,
 	[EvaluationCriterionValueRating] [varchar](60) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[EvaluationCriterionValueDescription] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_EvaluationCriterionValue_EvaluationCriterionValueID] PRIMARY KEY CLUSTERED 
 (
 	[EvaluationCriterionValueID] ASC

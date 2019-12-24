@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.EvaluationID).HasColumnName(@"EvaluationID").HasColumnType("int").IsRequired();
             Property(x => x.EvaluationCriterionName).HasColumnName(@"EvaluationCriterionName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(120);
-            Property(x => x.EvaluationCriterionDescription).HasColumnName(@"EvaluationCriterionDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.EvaluationCriterionDefinition).HasColumnName(@"EvaluationCriterionDefinition").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasRequired(a => a.Evaluation).WithMany(b => b.EvaluationCriterions).HasForeignKey(c => c.EvaluationID).WillCascadeOnDelete(false); // FK_EvaluationCriterion_Evaluation_EvaluationID
