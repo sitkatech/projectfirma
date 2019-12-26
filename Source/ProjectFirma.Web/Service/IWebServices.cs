@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Service
         List<WebServicePerformanceMeasure> GetPerformanceMeasures(string returnType, string webServiceToken);
 
         [OperationContract]
-        [WebServiceDocumentationAttribute("Provides the list of all {0}s within the platform. Most {0}s in this list are local jurisdictions, agencies, associations, or private firms, however this list will also include {0}s of any person who as requested an account.", FieldDefinitionEnum.Organization)]
+        [WebServiceDocumentationAttribute("Provides the list of all {0}s within the platform.", FieldDefinitionEnum.Organization)]
         List<WebServiceOrganization> GetOrganizations(string returnType, string webServiceToken);
 
         [OperationContract]

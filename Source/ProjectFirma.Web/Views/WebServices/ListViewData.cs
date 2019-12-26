@@ -46,12 +46,13 @@ namespace ProjectFirma.Web.Views.WebServices
             GeospatialAreaTypeList = geospatialAreaTypeList;
             GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
             {
-                new GeoServerServiceDocumentation("WMS 1.1.0",
-                    "This WMS endpoint can be used in geospatial applications such as ArcGis or QGIS to view geospatial information related to this ProjectFirma application like the geospatial areas, project simple locations and project detailed locations.",
-                    "wms"),
                 new GeoServerServiceDocumentation("WFS 1.1.0",
-                    "This WFS endpoint can be used in geospatial applications such as ArcGis or QGIS to view geospatial information related to this ProjectFirma application like the geospatial areas, project simple locations and project detailed locations.",
-                    "wfs")
+                    "Provides project simple locations, project detailed locations, and geospatial area features in vector format and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wfs"),
+                new GeoServerServiceDocumentation("WMS 1.1.0",
+                    "Provides project simple locations, project detailed locations, and geospatial area features and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wms")
+                
             };
         }
     }
