@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Views.Project
                 AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
                     a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
             }
-            AddColumn("Calendar Year", x => x.CalendarYear);
+            AddColumn(MultiTenantHelpers.UseFiscalYears() ? "Fiscal Year" : "Calendar Year", x => x.CalendarYear);
             if (reportFinancialsByCostType)
             {
                 AddColumn("Cost Type", x => x.CostType != null ? x.CostType.CostTypeName : ViewUtilities.NaString);
@@ -198,7 +198,7 @@ namespace ProjectFirma.Web.Views.Project
                 AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
                     a => a.FundingSource?.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
             }
-            AddColumn("Calendar Year", x => x.CalendarYear);
+            AddColumn(MultiTenantHelpers.UseFiscalYears() ? "Fiscal Year" : "Calendar Year", x => x.CalendarYear);
             if (reportFinancialsByCostType)
             {
                 AddColumn("Cost Type", x => x.CostTypeName);
