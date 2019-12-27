@@ -18,14 +18,14 @@ else
 {
     <div class="row">
         <div class="alert alert-danger" role="alert">
-            There are no @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured.
+            There are no @FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized() configured.
             @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentRelationshipTypesIndexUrl))
             {
-                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
+                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
             }
             else
             {
-                <span>Please contact your admin to have @FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabelPluralized() configured for your instance.</span>
+                <span>Please contact your admin to have @FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized() configured for your instance.</span>
             }
         </div>
     </div>
@@ -92,7 +92,7 @@ else
 
             @if (!thisAttachmentList.Any())
             {
-                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()).</p>
+                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
             }
         </div>
     </div>

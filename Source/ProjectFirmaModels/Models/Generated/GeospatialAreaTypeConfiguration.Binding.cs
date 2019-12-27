@@ -21,7 +21,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaTypeNamePluralized).HasColumnName(@"GeospatialAreaTypeNamePluralized").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.GeospatialAreaIntroContent).HasColumnName(@"GeospatialAreaIntroContent").HasColumnType("varchar").IsOptional();
             Property(x => x.GeospatialAreaTypeDefinition).HasColumnName(@"GeospatialAreaTypeDefinition").HasColumnType("varchar").IsOptional();
-            Property(x => x.MapServiceUrl).HasColumnName(@"MapServiceUrl").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.GeospatialAreaLayerName).HasColumnName(@"GeospatialAreaLayerName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
 
             // Foreign keys

@@ -58,6 +58,8 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         attributionControl: false,
         fullscreenControl: mapInitJson.AllowFullScreen ? { pseudoFullscreen: true } : false
     };
+
+    // Initialize the map
     this.map = L.map(this.MapDivId, options);
 
     if (streetLayerGroup != null)
@@ -65,9 +67,27 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
         streetLayerGroup.addTo(this.map);
     }
 
+    // Add external tile layers from ArcGIS Online
+    for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
+        var layerConfig = mapInitJson.ExternalMapLayers[i];
+        if (layerConfig.IsTiledMapService) {
+            this.addTiledLayerFromAGOL(layerConfig, overlayLayers);
+        }
+    }
+
     // add vector layers
     this.vectorLayers = [];
 
+    // Add external vector layers from ArcGIS Online 
+    for (var i = 0; i < mapInitJson.ExternalMapLayers.length; ++i) {
+        var layerConfig = mapInitJson.ExternalMapLayers[i];
+        if (!layerConfig.IsTiledMapService) {
+            this.addVectorLayerFromAGOL(layerConfig, overlayLayers, mapInitJson.RequestSupportUrl);
+        }
+    }
+
+
+    // Add main layers from geojson
     for (var i = 0; i < mapInitJson.Layers.length; ++i) {
         var currentLayer = mapInitJson.Layers[i];
         switch (currentLayer.LayerType) {
@@ -99,6 +119,33 @@ ProjectFirmaMaps.Map = function (mapInitJson, initialBaseLayerShown)
      
     self.setMapBounds(mapInitJson);
 };
+
+ProjectFirmaMaps.Map.prototype.addTiledLayerFromAGOL = function (layerConfig, overlayLayers) {
+    var tileLayer = L.esri.tiledMapLayer({ url: layerConfig.LayerUrl });
+    overlayLayers[layerConfig.DisplayName] = tileLayer;
+    // Add to map if layer is on by default
+    if (layerConfig.LayerIsOnByDefault) {
+        tileLayer.addTo(this.map);
+    }
+}
+
+ProjectFirmaMaps.Map.prototype.addVectorLayerFromAGOL = function (layerConfig, overlayLayers, requestSupportUrl) {
+    var featureLayer = L.esri.featureLayer({ url: layerConfig.LayerUrl });
+    if (layerConfig.FeatureNameField) {
+        featureLayer.bindPopup(function (evt) {
+            var latlng = this.getLatLng();
+            if (evt.feature.properties[layerConfig.FeatureNameField]) {
+                return L.Util.template('<strong>' + layerConfig.DisplayName + ': </strong> {' + layerConfig.FeatureNameField + '}<br \><strong>Location: </strong>' + latlng.lat.toFixed(4) + ', ' + latlng.lng.toFixed(4), evt.feature.properties);
+            }
+            return L.Util.template('<div class="alert alert-danger">The configured Feature Name was not found. <a href="' + requestSupportUrl + '" target="_blank">Request Support</a> to notify Administrators</div>', evt.feature.properties);
+        });
+    }
+    overlayLayers[layerConfig.DisplayName] = featureLayer;
+    // Add to map if layer is on by default
+    if (layerConfig.LayerIsOnByDefault) {
+        featureLayer.addTo(this.map);
+    }
+}
 
 ProjectFirmaMaps.Map.prototype.addVectorLayer = function (currentLayer, overlayLayers) {
     var self = this;

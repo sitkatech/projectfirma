@@ -1,0 +1,105 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="AddGeospatialAreaToPerformanceMeasure.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.GeospatialAreaPerformanceMeasureTarget.AddGeospatialAreaToPerformanceMeasure
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+        };
+    });
+        
+    jQuery(document).ready(function () {
+        angular.bootstrap(jQuery("#AddGeospatialAreaToPerformanceMeasureApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+
+    });
+    // ]]>
+</script>
+
+<style>
+    #AddGeospatialAreaToPerformanceMeasureApp{ min-height: 400px;}
+</style>
+
+
+
+@Html.ValidationSummary()
+
+<div ng-app="ProjectFirmaApp" id="AddGeospatialAreaToPerformanceMeasureApp" ng-controller="AddGeospatialAreaToPerformanceMeasureController" style="max-height: 600px">
+
+    <p>
+        This editor allows you to select @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() which contribute or should contribute results for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(). @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() targets for a @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() can be set through the related editor on the Targets by @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() grid.
+    </p>
+    <hr />
+    <div class="form-group">
+        <div class="col-xs-12 control-label"><strong>1. Add @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+        <div class="col-xs-12">
+            <div>
+                <select class="selectpicker" ng-model="SelectedGeospatialAreaTypeID" ng-change="refreshSelectableGeospatialAreas()">
+                    <option ng-repeat="geospatialAreaType in AngularViewData.GeospatialAreaTypeSimples"
+                            ng-bind="geospatialAreaType.GeospatialAreaTypeName"
+                            ng-value="geospatialAreaType.GeospatialAreaTypeID"></option>
+                </select>
+                <select class="selectpicker" ng-model="SelectedGeospatialArea" ng-options="geospatialArea.GeospatialAreaName for geospatialArea in selectableGeospatialAreas track by geospatialArea.GeospatialAreaID" data-container="body"></select>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-firma" ng-disabled="isAddButtonDisabled()" ng-click="addGeospatialArea(SelectedGeospatialArea, SelectedGeospatialAreaTypeID)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12 control-label" style="margin-top: 80px;"><strong>2. Review and confirm selected areas</strong></div>
+        <div class="col-xs-12">
+            <div class="col-md-4" ng-repeat="selectedGeospatialArea in AngularModel.SelectedGeospatialAreas">
+                <span>
+                    <a href="#" ng-click="deleteGeospatialArea(selectedGeospatialArea); $event.preventDefault();">
+                        <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                    </a>
+                </span>
+
+                <span ng-bind="selectedGeospatialArea.GeospatialAreaName"></span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @using (Html.BeginForm())
+    {
+
+        @*<input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValue)" value="{{AngularModel.FixedTargetValue}}" />*@
+        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureID)" value="{{AngularModel.PerformanceMeasureID}}" />
+        <div ng-repeat="GeospatialArea in AngularModel.SelectedGeospatialAreas">
+            <input type="hidden" name="@Html.NameFor(x => x.GeospatialAreas[0]).ToString().Replace("0", "{{$index}}")" value="{{GeospatialArea.GeospatialAreaID}}" />
+        </div>
+    }
+</div>
+

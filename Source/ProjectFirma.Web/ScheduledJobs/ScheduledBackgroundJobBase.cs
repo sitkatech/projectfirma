@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.ScheduledJobs
         /// </summary>
         public static readonly object ScheduledBackgroundJobLock = new object();
 
-        public const string JobName = "Project Update Reminders";
+        public string JobName = "(ScheduledBackgroundJobBaseName)";
         protected ILog Logger { get; }
         protected DatabaseEntities DbContext;
 

@@ -31,15 +31,45 @@ namespace ProjectFirma.Web.Views.WebServices
 {
     public class ListViewData : FirmaViewData
     {
-        public readonly WebServiceToken WebServiceAccessToken;
+        public readonly WebServiceToken UserWebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
+        public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
+        public readonly List<GeoServerServiceDocumentation> GeoServerServiceDocumentationList;
 
-        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken webServiceAccessToken, List<WebServiceDocumentation> serviceDocumentationList)
-            : base(currentFirmaSession)
+        public ListViewData(FirmaSession currentFirmaSession, WebServiceToken userWebServiceAccessToken,
+            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentFirmaSession, firmaPage)
         {
             ServiceDocumentationList = serviceDocumentationList;
-            WebServiceAccessToken = webServiceAccessToken;
+            UserWebServiceAccessToken = userWebServiceAccessToken;
             PageTitle = "List of Web Services";
+            GeospatialAreaTypeList = geospatialAreaTypeList;
+            GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
+            {
+                new GeoServerServiceDocumentation("WFS 1.1.0",
+                    "Provides project simple locations, project detailed locations, and geospatial area features in vector format and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wfs"),
+                new GeoServerServiceDocumentation("WMS 1.1.0",
+                    "Provides project simple locations, project detailed locations, and geospatial area features and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wms")
+                
+            };
+        }
+    }
+
+    public class GeoServerServiceDocumentation
+    {
+        public string ServiceName;
+        public string ServiceDescription;
+        public string ServiceUrl;
+
+        public GeoServerServiceDocumentation(string serviceName, string serviceDescription, string geoServerServiceEndpoint)
+        {
+            ServiceName = serviceName;
+            ServiceDescription = serviceDescription;
+            var geoServerNamespace = MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace;
+            var geoServerUrl = FirmaWebConfiguration.GeoServerUrl;
+            ServiceUrl = $"{geoServerUrl}{geoServerNamespace}/{geoServerServiceEndpoint}";
         }
     }
 
@@ -58,7 +88,7 @@ namespace ProjectFirma.Web.Views.WebServices
                 return String.Empty;
             }
 
-            return _exampleCsvUrl.Replace(WebServiceToken.WebServiceTokenGuidForUnitTests.ToString(), userToken.ToString());
+            return _exampleCsvUrl.Replace(WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString(), userToken.ToString());
         }
 
         public string GetExampleJsonUrl(WebServiceToken userToken)
@@ -68,7 +98,7 @@ namespace ProjectFirma.Web.Views.WebServices
                 return String.Empty;
             }
 
-            return _exampleJsonUrl.Replace(WebServiceToken.WebServiceTokenGuidForUnitTests.ToString(), userToken.ToString());
+            return _exampleJsonUrl.Replace(WebServiceToken.WebServiceTokenGuidForParameterizedReplacement.ToString(), userToken.ToString());
         }
 
         public string GetParameters(WebServiceToken userToken)
@@ -92,8 +122,9 @@ namespace ProjectFirma.Web.Views.WebServices
             Name = methodInfo.Name;
 
             //TODO-MB: This should use a Route Template so that there's not one entry per ReturnType (this would also avert the repetition of _parameters assignment)
+            var webServiceRouteMap = Service.WebServices.GetWebServiceRouteMap();
 
-            var csvRouteMap = Service.WebServices.WebServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.CSV);
+            var csvRouteMap = webServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.CSV);
             if (csvRouteMap != null)
             {
                 _exampleCsvUrl = csvRouteMap.Route.BuildUrlFromExpression();
@@ -102,14 +133,13 @@ namespace ProjectFirma.Web.Views.WebServices
                     _parameters = csvRouteMap.Parameters;
                 }
             }
-
-            var jsonRouteMap = Service.WebServices.WebServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.JSON);
+            var jsonRouteMap = webServiceRouteMap.FirstOrDefault(x => x.MethodName == methodInfo.Name && x.WebServiceReturnTypeEnum == WebServicesController.WebServiceReturnTypeEnum.JSON);
             if (jsonRouteMap != null)
             {
                 _exampleJsonUrl = jsonRouteMap.Route.BuildUrlFromExpression();
                 if (_parameters == null)
                 {
-                    _parameters = csvRouteMap.Parameters;
+                    _parameters = jsonRouteMap.Parameters;
                 }
             }
         }

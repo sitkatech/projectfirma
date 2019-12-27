@@ -9,7 +9,6 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 	[GeospatialAreaTypeNamePluralized] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GeospatialAreaIntroContent] [dbo].[html] NULL,
 	[GeospatialAreaTypeDefinition] [dbo].[html] NULL,
-	[MapServiceUrl] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GeospatialAreaLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_GeospatialAreaType_GeospatialAreaTypeID] PRIMARY KEY CLUSTERED 
 (

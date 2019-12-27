@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using MoreLinq;
 using ProjectFirmaModels.Models;
 using Newtonsoft.Json;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.Shared
 {
@@ -61,7 +63,7 @@ namespace ProjectFirma.Web.Views.Shared
             }
         }
 
-        public static List<GoogleChartSeries> GetGoogleChartSeriesForChartsWithTargets()
+        public static List<GoogleChartSeries> GetDefaultGoogleChartSeriesForChartsWithTargets()
         {
             var chartSeries = new List<GoogleChartSeries>
             {
@@ -69,6 +71,48 @@ namespace ProjectFirma.Web.Views.Shared
                 new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary)
             };
             return chartSeries;
+        }
+
+        public static List<GoogleChartSeries> GetDefaultGoogleChartSeriesForChartsWithTwoTargets()
+        {
+            var chartSeries = new List<GoogleChartSeries>
+            {
+                new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary),
+                new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary),
+                new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary)
+            };
+            return chartSeries;
+        }
+        
+        public static List<GoogleChartSeries> CalculateChartSeriesFromCurrentChartSeries(object currentChartSeries, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, ProjectFirmaModels.Models.GeospatialArea geospatialArea)
+        {
+            // this was needed to ensure that the graphs on the geospatial detail page display appropriately for performance measure targets. 
+            // It attempts to be as friendly as we can to the current chart series that the user/tenant might have set
+            // this is also here to catch situations where there are PM targets and Geospatial targets exists(specifically for cumulative charts on geospatial pages)
+            if (currentChartSeries == null || (performanceMeasure.HasTargets() && performanceMeasure.HasGeospatialAreaTargets(geospatialArea)))
+            {
+                var chartSeries = new List<GoogleChartSeries>();
+
+                //add series for the PM targets
+                if (performanceMeasure.HasTargets())
+                {
+                    chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
+                }
+                //add another series for the Geospatial targets
+                if (performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
+                {
+                    chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
+                }
+                //add final series to have rest of the data default to bar(column)
+                chartSeries.Add(new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary));
+                return chartSeries;
+            }
+
+            var isListOfGoogleChartSeries = currentChartSeries is List<GoogleChartSeries>;
+            var deserializedChartSeries = !isListOfGoogleChartSeries ? JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString()) : (List<GoogleChartSeries>) currentChartSeries;
+
+
+            return deserializedChartSeries;
         }
     }
 }

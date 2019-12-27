@@ -229,7 +229,7 @@ namespace ProjectFirma.Web.Controllers
             //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
             layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
 
-            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, boundingBox);
+            return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
         private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(Organization organization)
@@ -476,7 +476,7 @@ namespace ProjectFirma.Web.Controllers
                 x.FeatureClassName, x.ToGeoJsonFeatureCollection(),
                 FirmaHelpers.DefaultColorRange[index], 0.8m,
                 index == 0 ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide)).ToList();
-            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
+            var mapInitJson = new MapInitJson("organizationBoundaryApproveUploadGisMap", 10, layers, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers));
 
             var viewData = new ApproveUploadGisViewData(CurrentFirmaSession, organization, mapInitJson);
             return RazorPartialView<ApproveUploadGis, ApproveUploadGisViewData, ApproveUploadGisViewModel>(viewData, viewModel);

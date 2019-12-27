@@ -28,6 +28,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @inherits Detail
 
@@ -35,7 +36,8 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditPerformanceMeasureTargetsController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/Shared/EditPerformanceMeasureTargetsController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/GeospatialAreaPerformanceMeasureTarget/AddGeospatialAreaToPerformanceMeasureController.js")"></script>
 
     <style>
         th {
@@ -137,6 +139,39 @@
         </div>
     </div>
 </div>
+
+@if (ViewDataTyped.ShowGeoSpatialAreaPanel)
+{
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>Targets by @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <p>The following @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabelPluralized() have or should have @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() that contribute results for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(). If a @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel() has a Target value it is displayed below.</p>
+                        </div>
+                        <div class="col-xs-4">
+                            <div style="float: right">
+                                @if (ViewDataTyped.CanAddGeospatialArea)
+                                {
+                                    @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetText, ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetUrl,
+                                        ViewDataTyped.AddGeospatialAreaPerformanceMeasureTargetDialogTitle, 700, "Save", "Cancel",
+                                        new List<string> {"btn", "btn-firma"}, null, null)
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            @Html.DhtmlxGrid(ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridSpec, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridName, ViewDataTyped.GeospatialAreaPerformanceMeasureTargetGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <div class="row">
     <div class="col-lg-12 col-md-12">

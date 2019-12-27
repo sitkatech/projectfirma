@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.GeoJson
+@using LtInfo.Common.ModalDialog
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
 @inherits ProjectFirma.Web.Views.Shared.ProjectLocationControls.ApproveGisUpload
@@ -29,7 +30,10 @@ Source code is available upon request via <support@sitkatech.com>.
     <thead>
         <tr>
             <th style="padding-top: 0">Import?</th>
-            <th style="padding-top: 0">Feature Class Name</th>
+            @if (ViewDataTyped.ShowFeatureClassColumn)
+            {
+                <th style="padding-top: 0">Feature Class Name</th>
+            }
             <th style="padding-top: 0">Properties (Select one to use to annotate feature)</th>
         </tr>
     </thead>
@@ -37,19 +41,37 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <tbody>
             <tr>
-                <td style="text-align: center">
-                    <input type="hidden" id="FeatureClassName_@projectLocationStaging.PrimaryKey" value="@projectLocationStaging.FeatureClassName" />
-                    <input type="checkbox" id="ShouldImport_@projectLocationStaging.PrimaryKey" value="true" checked="checked" />
-                </td>
-                <td>@projectLocationStaging.FeatureClassName</td>
-                <td class="col-md-8">
-                    <select id="SelectedProperty_@projectLocationStaging.PrimaryKey">
-                        @foreach (var featurePropertyName in projectLocationStaging.ToGeoJsonFeatureCollection().GetFeaturePropertyNames())
-                        {
-                            <option value="@featurePropertyName">@featurePropertyName</option>
-                        }
-                    </select>
-                </td>
+                @if (ViewDataTyped.ShowFeatureClassColumn)
+                {
+                    <td style="text-align: center">
+                        <input type="hidden" id="FeatureClassName_@projectLocationStaging.PrimaryKey" value="@projectLocationStaging.FeatureClassName" />
+                        <input type="checkbox" id="ShouldImport_@projectLocationStaging.PrimaryKey" value="true" checked="checked" />
+                    </td>
+                    <td>@projectLocationStaging.FeatureClassName</td>
+                    <td class="col-md-8">
+                        <select id="SelectedProperty_@projectLocationStaging.PrimaryKey">
+                            @foreach (var featurePropertyName in projectLocationStaging.ToGeoJsonFeatureCollection().GetFeaturePropertyNames())
+                            {
+                                <option value="@featurePropertyName">@featurePropertyName</option>
+                            }
+                        </select>
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: center">
+                        <input type="hidden" id="FeatureClassName_@projectLocationStaging.PrimaryKey" value="@projectLocationStaging.FeatureClassName" />
+                        <input type="checkbox" id="ShouldImport_@projectLocationStaging.PrimaryKey" value="true" checked="checked" />
+                    </td>
+                    <td class="col-md-10">
+                        <select id="SelectedProperty_@projectLocationStaging.PrimaryKey">
+                            @foreach (var featurePropertyName in projectLocationStaging.ToGeoJsonFeatureCollection().GetFeaturePropertyNamesNoNullValues())
+                            {
+                                <option value="@featurePropertyName">@featurePropertyName</option>
+                            }
+                        </select>
+                    </td>
+                }
             </tr>
         </tbody>
     }
@@ -68,6 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
         var projectLocationStagingIDs = @Html.Raw(JArray.FromObject(ViewDataTyped.ProjectLocationStagings.Select(x => x.PrimaryKey)).ToString(Formatting.None));
         var updateFeatureCollectionJson = function()
         {
+            var disableSaveButton = true;
             var gisDataToPost = jQuery("#gisDataToPost");
             gisDataToPost.html("");
             var hiddens = [];
@@ -75,8 +98,8 @@ Source code is available upon request via <support@sitkatech.com>.
             for (var j = 0; j < projectLocationStagingIDs.length; ++j)
             {
                 var projectLocationStagingId = projectLocationStagingIDs[j];
-                if (jQuery("#ShouldImport_" + projectLocationStagingId).is(":checked"))
-                {
+                if (jQuery("#ShouldImport_" + projectLocationStagingId).is(":checked")) {
+                    disableSaveButton = false;
                     var currentFeatureClassName = jQuery("#FeatureClassName_" + projectLocationStagingId).val();
                     var currentLayer = _.find(mapInitJson.Layers, function(f) { return f.LayerName == currentFeatureClassName; });
                     var geoJson = currentLayer.GeoJsonFeatureCollection;
@@ -91,6 +114,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 }
             }
             gisDataToPost.html(hiddens.join("\r\n"));
+            jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", disableSaveButton);
         };
         updateFeatureCollectionJson();
         for (var j = 0; j < projectLocationStagingIDs.length; ++j)

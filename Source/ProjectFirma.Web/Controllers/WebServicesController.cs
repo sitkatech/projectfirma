@@ -35,6 +35,7 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -53,12 +54,13 @@ namespace ProjectFirma.Web.Controllers
         {
         }
 
-        [AnonymousUnclassifiedFeature]
+        [LoggedInUnclassifiedFeature]
         public ViewResult Index()
         {
+            var firmaPage = FirmaPageTypeEnum.WebServicesIndex.GetFirmaPage();
             var webServicesListUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.List());
             var getWebServiceAccessTokenUrl = SitkaRoute<WebServicesController>.BuildUrlFromExpression(x => x.GetWebServiceAccessToken(CurrentPerson));
-            var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl);
+            var viewData = new IndexViewData(CurrentFirmaSession, CurrentPerson?.WebServiceAccessToken, webServicesListUrl, getWebServiceAccessTokenUrl, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -80,23 +82,34 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult List()
         {
             Check.RequireThrowNotAuthorized(CurrentPerson?.WebServiceAccessToken != null, "Person must have already received their access token before accessing web service list.");
+            var firmaPage = FirmaPageTypeEnum.WebServicesList.GetFirmaPage();
             var allMethods = FindAttributedMethods(typeof(IWebServices), typeof(WebServiceDocumentationAttribute));
             var serviceDocumentationList = allMethods.Select(c => new WebServiceDocumentation(c)).ToList();
-            var viewData = new ListViewData(CurrentFirmaSession, new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString()), serviceDocumentationList);
+            var geospatialAreaTypeList = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var webServiceAccessToken = new WebServiceToken(CurrentPerson.WebServiceAccessToken.Value.ToString());
+            var viewData = new ListViewData(CurrentFirmaSession, webServiceAccessToken, serviceDocumentationList, geospatialAreaTypeList, firmaPage);
             return RazorView<List, ListViewData>(viewData);
         }
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProject(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProject(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Project");
         }
 
+        private void EnsureThatWebServiceTokenIsValidForUse(WebServiceToken webServiceToken)
+        {
+            Check.EnsureNotNull(webServiceToken);
+            Check.Ensure(!webServiceToken.IsWebServiceTokenForParameterizedReplacement, "The Parameterized Replacement GUID is only used for route creation, and needs to be replaced before actually being used");
+        }
+
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjects(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProjects();
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "Projects");
@@ -105,38 +118,43 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectsByOrganization(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, OrganizationPrimaryKey organizationPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProject.GetProjectsByOrganization(organizationPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectsByOrganization");
         }
 
-        [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
-        {
-            var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
-            var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
-            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
-        }
+        //[AnonymousUnclassifiedFeature]
+        //public ActionResult GetProjectAccomplishments(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        //{
+        //    EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+        //    var projects = WebServiceProjectAccomplishments.GetProjectAccomplishments(projectPK.PrimaryKeyValue);
+        //    var gridSpec = new WebServiceProjectAccomplishmentsGridSpec();
+        //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectAccomplishments");
+        //}
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetProjectDescription(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var projects = WebServiceProjectDescription.GetProjectDescription(projectPK.PrimaryKeyValue);
             var gridSpec = new WebServiceProjectDescriptionGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectDescription");
         }
 
-        [AnonymousUnclassifiedFeature]
-        public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
-        {
-            var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
-            var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
-            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
-        }
+        //[AnonymousUnclassifiedFeature]
+        //public ActionResult GetProjectKeyPhoto(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        //{
+        //    EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+        //    var projects = WebServiceProjectKeyPhoto.GetProjectKeyPhoto(projectPK.PrimaryKeyValue);
+        //    var gridSpec = new WebServiceProjectKeyPhotoGridSpec();
+        //    return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projects, gridSpec, "ProjectKeyPhoto");
+        //}
 
         [AnonymousUnclassifiedFeature]
         public ActionResult GetPerformanceMeasures(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var performanceMeasures = WebServicePerformanceMeasure.GetPerformanceMeasures();
             var gridSpec = new WebServicePerformanceMeasureGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, performanceMeasures, gridSpec, "PerformanceMeasures");
@@ -145,9 +163,19 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult GetOrganizations(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken)
         {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
             var organizations = WebServiceOrganization.GetOrganizations();
             var gridSpec = new WebServiceOrganizationGridSpec();
             return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, organizations, gridSpec, "Organizations");
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ActionResult GetProjectGeometries(WebServiceReturnTypeEnum webServiceReturnTypeEnum, WebServiceToken webServiceToken, ProjectPrimaryKey projectPK)
+        {
+            EnsureThatWebServiceTokenIsValidForUse(webServiceToken);
+            var projectGeometries = WebServiceProjectGeometry.GetProjectGeometries(projectPK.PrimaryKeyValue);
+            var gridSpec = new WebServiceProjectGeometryGridSpec();
+            return GetResultsAsCsvDowloadOrJsonResult(webServiceReturnTypeEnum, projectGeometries, gridSpec, "ProjectGeometries");
         }
 
         private ActionResult GetResultsAsCsvDowloadOrJsonResult<T>(WebServiceReturnTypeEnum webServiceReturnTypeEnum, IEnumerable<T> results, GridSpec<T> gridSpec, string downloadFileDescriptorPrefix)

@@ -24,6 +24,7 @@ using System.Linq;
 using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -36,24 +37,38 @@ namespace ProjectFirma.Web.Models
         public BoundingBox BoundingBox;
         public int ZoomLevel;
         public List<LayerGeoJson> Layers;
+        public List<ExternalMapLayer> ExternalMapLayers;
         public readonly bool TurnOnFeatureIdentify;
         public bool AllowFullScreen = true;
         public bool DisablePopups = false;
+        public string RequestSupportUrl;
 
-        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
+        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayer> externalMapLayers, BoundingBox boundingBox, bool turnOnFeatureIdentify)
         {
             MapDivID = mapDivID;
             ZoomLevel = zoomLevel;
             Layers = layers;
+            ExternalMapLayers = externalMapLayers;
             BoundingBox = boundingBox;
             TurnOnFeatureIdentify = turnOnFeatureIdentify;
+            RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestSupport());
         }
 
         /// <summary>
         /// Summary maps with no editing should use this constructor
         /// </summary>
-        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, BoundingBox boundingBox) : this(mapDivID, zoomLevel, layers, boundingBox, true)
+        public MapInitJson(string mapDivID, int zoomLevel, List<LayerGeoJson> layers, List<ExternalMapLayer> externalMapLayers, BoundingBox boundingBox) : this(mapDivID, zoomLevel, layers, externalMapLayers, boundingBox, true)
         {
+        }
+
+        public static List<ExternalMapLayer> GetExternalMapLayers()
+        {
+            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive && x.DisplayOnAllProjectMaps).ToList();
+        }
+
+        public static List<ExternalMapLayer> GetExternalMapLayersForFullProjectMap()
+        {
+            return HttpRequestStorage.DatabaseEntities.ExternalMapLayers.Where(x => x.IsActive).ToList();
         }
 
         public static List<LayerGeoJson> GetAllGeospatialAreaMapLayers(LayerInitialVisibility layerInitialVisibility)

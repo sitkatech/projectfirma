@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     public class ImportGdbFileViewModel : IValidatableObject
     {
         [Required]
-        [DisplayName("Zipped File Geodatabase to Upload")]
-        [SitkaFileExtensions("zip")]
+        [DisplayName("GIS File to Upload")]
+        [SitkaFileExtensions("zip|kml")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)

@@ -24,56 +24,41 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PerformanceMeasureReportingPeriod()
         {
+            this.GeospatialAreaPerformanceMeasureReportingPeriodTargets = new HashSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
+            this.PerformanceMeasureReportingPeriodTargets = new HashSet<PerformanceMeasureReportingPeriodTarget>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureReportingPeriod(int performanceMeasureReportingPeriodID, int performanceMeasureID, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel, double? targetValue, string targetValueLabel) : this()
+        public PerformanceMeasureReportingPeriod(int performanceMeasureReportingPeriodID, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel) : this()
         {
             this.PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodID;
-            this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodCalendarYear;
             this.PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodLabel;
-            this.TargetValue = targetValue;
-            this.TargetValueLabel = targetValueLabel;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureReportingPeriod(int performanceMeasureID, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel) : this()
+        public PerformanceMeasureReportingPeriod(int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureReportingPeriodID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.PerformanceMeasureID = performanceMeasureID;
             this.PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodCalendarYear;
             this.PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodLabel;
         }
 
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
-        /// </summary>
-        public PerformanceMeasureReportingPeriod(PerformanceMeasure performanceMeasure, int performanceMeasureReportingPeriodCalendarYear, string performanceMeasureReportingPeriodLabel) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.PerformanceMeasureReportingPeriodID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
-            this.PerformanceMeasure = performanceMeasure;
-            performanceMeasure.PerformanceMeasureReportingPeriods.Add(this);
-            this.PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodCalendarYear;
-            this.PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodLabel;
-        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PerformanceMeasureReportingPeriod CreateNewBlank(PerformanceMeasure performanceMeasure)
+        public static PerformanceMeasureReportingPeriod CreateNewBlank()
         {
-            return new PerformanceMeasureReportingPeriod(performanceMeasure, default(int), default(string));
+            return new PerformanceMeasureReportingPeriod(default(int), default(string));
         }
 
         /// <summary>
@@ -82,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any();
+            return GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureReportingPeriodTargets.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name};
 
 
         /// <summary>
@@ -113,6 +98,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in PerformanceMeasureActuals.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -122,28 +112,30 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in PerformanceMeasureReportingPeriodTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
         public int PerformanceMeasureReportingPeriodID { get; set; }
         public int TenantID { get; set; }
-        public int PerformanceMeasureID { get; set; }
         public int PerformanceMeasureReportingPeriodCalendarYear { get; set; }
         public string PerformanceMeasureReportingPeriodLabel { get; set; }
-        public double? TargetValue { get; set; }
-        public string TargetValueLabel { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureReportingPeriodID; } set { PerformanceMeasureReportingPeriodID = value; } }
 
+        public virtual ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
+        public virtual ICollection<PerformanceMeasureReportingPeriodTarget> PerformanceMeasureReportingPeriodTargets { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual PerformanceMeasure PerformanceMeasure { get; set; }
 
         public static class FieldLengths
         {
             public const int PerformanceMeasureReportingPeriodLabel = 100;
-            public const int TargetValueLabel = 100;
         }
     }
 }

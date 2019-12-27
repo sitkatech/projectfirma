@@ -14,11 +14,19 @@ namespace ProjectFirma.Web.Models
 {
     public static class PerformanceMeasureSubcategoryModelExtensions
     {
-        public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
+        public static List<GoogleChartJson> MakeGoogleChartJsons(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<ProjectPerformanceMeasureReportingPeriodValue> projectPerformanceMeasureReportingPeriodValues)
         {
             var performanceMeasureSubcategoryOptionReportedValues = projectPerformanceMeasureReportingPeriodValues.SelectMany(x => x.PerformanceMeasureSubcategoryOptionReportedValues).GroupBy(x => x.PerformanceMeasureSubcategory);
-            var performanceMeasureReportingPeriods = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any() || x.TargetValue.HasValue).ToList();
+            // This was changed to only use the performance measure reporting period from the actuals. Requested in PF#1901: https://projects.sitkatech.com/projects/projectfirma/cards/1901
+            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
             var googleChartJsons = new List<GoogleChartJson>();
+
+            bool hasTargets = performanceMeasure.HasTargets();
+            bool hasGeospatialAreaTargets = false;
+            if (geospatialArea != null)
+            {
+                hasGeospatialAreaTargets = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) != PerformanceMeasureTargetValueType.NoTarget;
+            }
 
             if (performanceMeasureSubcategoryOptionReportedValues.Any())
             { 
@@ -28,26 +36,41 @@ namespace ProjectFirma.Web.Models
                     Check.RequireNotNull(performanceMeasureSubcategory.ChartConfigurationJson, "All PerformanceMeasure Subcategories need to have a Google Chart Configuration Json");
                     var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
                     var chartColumns = performanceMeasure.HasRealSubcategories() ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.GetDisplayName() };
-                    var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
+                    
                     var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
 
-                    var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, false);
+                    var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, hasGeospatialAreaTargets, geospatialArea, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, false);
                     var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                     var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                     var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
                         x.SaveChartConfiguration(performanceMeasure,
-                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
+                            performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration));
                     var resetConfigurationUrl =
                         SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x =>
-                            x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, false));
-                    var chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                            x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.ChartConfiguration));
+                    GoogleChartConfiguration chartConfiguration;
+                    GoogleChartType chartType;
+                    if (hasGeospatialAreaTargets)
+                    {
+                        chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.GeospatialAreaTargetChartConfigurationJson);
+                        chartType = performanceMeasureSubcategory.GeospatialAreaTargetGoogleChartType;
+                    }
+                    else
+                    {
+                        chartConfiguration = JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.ChartConfigurationJson);
+                        chartType = performanceMeasureSubcategory.GoogleChartType;
+                    }
                     if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
                     {
                         chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                     }
-                    
+
+                    chartConfiguration.Series =
+                        GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                            performanceMeasure, geospatialArea);
+
                     var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration,
-                        performanceMeasureSubcategory.GoogleChartType, googleChartDataTable,
+                        chartType, googleChartDataTable,
                         chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                     googleChartJsons.Add(googleChartJson);
                 }
@@ -60,13 +83,13 @@ namespace ProjectFirma.Web.Models
                         var performanceMeasureSubcategory = groupedBySubcategory.Key;
                         var groupedBySubcategoryOption = groupedBySubcategory.GroupBy(c => new Tuple<string, int>(c.ChartName, c.SortOrder)).ToList(); // Item1 is ChartName, Item2 is SortOrder
                         var chartColumns = performanceMeasure.HasRealSubcategories() ? groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x => x.Key.Item1).ToList() : new List<string> { performanceMeasure.GetDisplayName() };
-                        var hasTargets = GetTargetValueType(performanceMeasureReportingPeriods) != PerformanceMeasureTargetValueType.NoTarget;
+
                         var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
-                        var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, true);
+                        var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, hasTargets, hasGeospatialAreaTargets, geospatialArea, groupedBySubcategoryOption, chartColumns, performanceMeasure.IsSummable, reverseTooltipOrder, true);
                         var legendTitle = performanceMeasure.HasRealSubcategories() ? performanceMeasureSubcategory.PerformanceMeasureSubcategoryDisplayName : performanceMeasure.GetDisplayName();
                         var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}Cumulative";
-                        var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
-                        var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                        var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
+                        var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
                         var chartConfiguration = !string.IsNullOrEmpty(performanceMeasureSubcategory.CumulativeChartConfigurationJson) ? JsonConvert.DeserializeObject<GoogleChartConfiguration>(performanceMeasureSubcategory.CumulativeChartConfigurationJson) : GoogleChartConfiguration.GetGoogleChartConfigurationFromJsonObject(performanceMeasureSubcategory.ChartConfigurationJson);
 
                         if (performanceMeasureSubcategory.PerformanceMeasure.IsSummable)
@@ -74,30 +97,34 @@ namespace ProjectFirma.Web.Models
                             chartConfiguration.Tooltip = new GoogleChartTooltip(true);
                         }
 
+                        chartConfiguration.Series =
+                            GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                                performanceMeasure, geospatialArea);
+                        
                         var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, performanceMeasureSubcategory.CumulativeGoogleChartType ?? GoogleChartType.ColumnChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, true);
                         googleChartJsons.Add(googleChartJson);
                     }
                 }
             }
-            else if(performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
+            else if(performanceMeasure.HasTargets())
             {
                 //build chart for just for targets if there is no project data
                 var performanceMeasureSubcategory = performanceMeasure.PerformanceMeasureSubcategories.First();
                 var legendTitle = performanceMeasure.GetDisplayName();
                 var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}PerformanceMeasureSubcategory{performanceMeasureSubcategory.PerformanceMeasureSubcategoryID}";
                 var chartConfiguration = performanceMeasure.GetDefaultPerformanceMeasureChartConfigurationJson();
+                chartConfiguration.Series =
+                    GoogleChartSeries.CalculateChartSeriesFromCurrentChartSeries(chartConfiguration.Series,
+                        performanceMeasure, geospatialArea);
                 var chartColumns = new List<string> { performanceMeasure.GetDisplayName() };
                 var reverseTooltipOrder = performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ColumnChart || performanceMeasureSubcategory.GoogleChartType == GoogleChartType.ComboChart;
-                var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, false, reverseTooltipOrder, false);
-                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
-                var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, true));
+                var googleChartDataTable = GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasure, performanceMeasureReportingPeriods, true, false, null, new List<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>>(), chartColumns, false, reverseTooltipOrder, false);
+                var saveConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.SaveChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
+                var resetConfigurationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.ResetChartConfiguration(performanceMeasure, performanceMeasureSubcategory.PerformanceMeasureSubcategoryID, PerformanceMeasureSubcategoryChartConfiguration.CumulativeConfiguration));
 
                 var googleChartJson = new GoogleChartJson(legendTitle, chartName, chartConfiguration, GoogleChartType.LineChart, googleChartDataTable, chartColumns, saveConfigurationUrl, resetConfigurationUrl, false);
                 googleChartJsons.Add(googleChartJson);
             }
-
-
-
 
             return googleChartJsons;
         }
@@ -105,6 +132,8 @@ namespace ProjectFirma.Web.Models
         public static GoogleChartDataTable GetGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(PerformanceMeasure performanceMeasure,
                                            ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
                                            bool hasTargets,
+                                           bool hasGeospatialAreaTargets,
+                                           GeospatialArea geospatialArea,
                                            IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption,
                                            IEnumerable<string> chartColumns,
                                            bool hasToolTipWithTotal,
@@ -112,18 +141,32 @@ namespace ProjectFirma.Web.Models
                                            bool showCumulativeResults)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
+
             foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
             {
                 var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
                 var firstReportingPeriod = performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear).First();
+                var targetValue = performanceMeasureReportingPeriod.GetTargetValue(performanceMeasure);
+                var geospatialAreaTargetValue = hasGeospatialAreaTargets ? performanceMeasureReportingPeriod.GetGeospatialAreaTargetValue(performanceMeasure, geospatialArea) : null;
+
                 if (hasToolTipWithTotal)
                 {
-                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, performanceMeasureReportingPeriod.TargetValue, performanceMeasureReportingPeriod.TargetValueLabel, showCumulativeResults, firstReportingPeriod);
+                    var targetValueDescription = performanceMeasureReportingPeriod.GetTargetValueLabel(performanceMeasure);
+                    var geospatialAreaTargetValueDescription = hasGeospatialAreaTargets ? performanceMeasureReportingPeriod.GetGeospatialAreaTargetValueLabel(performanceMeasure, geospatialArea) : string.Empty;
+
+                    var formattedDataTooltip = FormattedDataTooltip(groupedBySubcategoryOption, performanceMeasureReportingPeriod, performanceMeasure.MeasurementUnitType, reverseTooltipOrder, targetValue, targetValueDescription, geospatialAreaTargetValue, geospatialAreaTargetValueDescription, showCumulativeResults, firstReportingPeriod);
+
                     googleChartRowVs.Add(new GoogleChartRowV(null, formattedDataTooltip));
                 }
                 if (hasTargets)
                 {
-                    googleChartRowVs.Add(new GoogleChartRowV(performanceMeasureReportingPeriod.TargetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
+                    googleChartRowVs.Add(new GoogleChartRowV(targetValue, GetFormattedTargetValue(performanceMeasureReportingPeriod, performanceMeasure)));
+                }
+
+                if (hasGeospatialAreaTargets)
+                {
+                    
+                    googleChartRowVs.Add(new GoogleChartRowV(geospatialAreaTargetValue, GetFormattedGeospatialAreaTargetValue(performanceMeasureReportingPeriod, performanceMeasure, geospatialArea)));
                 }
 
                 googleChartRowVs.AddRange(groupedBySubcategoryOption.OrderBy(x => x.Key.Item2).Select(x =>
@@ -161,7 +204,12 @@ namespace ProjectFirma.Web.Models
             if (hasTargets)
             {
                 // GoogleChartType for targets is always LINE; we also always render the target line first to stay consistent
-                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(performanceMeasureReportingPeriods), GoogleChartColumnDataType.Number));
+                googleChartColumns.Add(new GoogleChartColumn(GetTargetColumnLabel(performanceMeasure), GoogleChartColumnDataType.Number));
+            }
+            if (hasGeospatialAreaTargets)
+            {
+                // GoogleChartType for targets is always LINE; we also always render the target line first to stay consistent
+                googleChartColumns.Add(new GoogleChartColumn(GetGeospatialAreaTargetColumnLabel(performanceMeasure, geospatialArea), GoogleChartColumnDataType.Number));
             }
             // all the subcategory option values are individual columns and series and they will be on the vertical axis
             googleChartColumns.AddRange(chartColumns.Select(x => new GoogleChartColumn(x, GoogleChartColumnDataType.Number)));
@@ -170,28 +218,27 @@ namespace ProjectFirma.Web.Models
             return googleChartDataTable;
         }
 
-        private static string GetTargetColumnLabel(ICollection<PerformanceMeasureReportingPeriod> performanceMeasurePerformanceMeasureReportingPeriods)
+        private static string GetTargetColumnLabel(PerformanceMeasure performanceMeasure)
         {
-            return GetTargetValueType(performanceMeasurePerformanceMeasureReportingPeriods) == PerformanceMeasureTargetValueType.OverallTarget ? performanceMeasurePerformanceMeasureReportingPeriods.First().TargetValueLabel : "Target";
+            var isFixedTarget = performanceMeasure.GetTargetValueType() == PerformanceMeasureTargetValueType.FixedTarget;
+            return isFixedTarget ? performanceMeasure.PerformanceMeasureFixedTargets.First().PerformanceMeasureTargetValueLabel : $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Target";
+        }
+
+        private static string GetGeospatialAreaTargetColumnLabel(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            var isFixedTarget = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.FixedTarget;
+            string response = isFixedTarget ? performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel : $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target";
+            return response;
         }
 
         private static string GetFormattedTargetValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure)
         {
-            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.TargetValue, performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.TargetValueLabel})";
+            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.GetTargetValue(performanceMeasure), performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.GetTargetValueLabel(performanceMeasure)})";
         }
 
-        public static PerformanceMeasureTargetValueType GetTargetValueType(this ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
+        private static string GetFormattedGeospatialAreaTargetValue(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod, PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            if (!performanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
-            {
-                return PerformanceMeasureTargetValueType.NoTarget;
-            }
-
-            if (performanceMeasureReportingPeriods.Select(x => $"{x.TargetValue}{x.TargetValueLabel}").Distinct().Count() == 1)
-            {
-                return PerformanceMeasureTargetValueType.OverallTarget;
-            }
-            return PerformanceMeasureTargetValueType.TargetPerYear;
+            return $"{GoogleChartJson.GetFormattedValue(performanceMeasureReportingPeriod.GetGeospatialAreaTargetValue(performanceMeasure, geospatialArea), performanceMeasure.MeasurementUnitType)} ({performanceMeasureReportingPeriod.GetGeospatialAreaTargetValueLabel(performanceMeasure, geospatialArea)})";
         }
 
         public static string FormattedDataTooltip(IReadOnlyCollection<IGrouping<Tuple<string, int>, PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>> groupedBySubcategoryOption, 
@@ -200,6 +247,8 @@ namespace ProjectFirma.Web.Models
                                                   bool reverseTooltipOrder,
                                                   double? targetValue,
                                                   string targetValueDescription,
+                                                  double? geospatialAreaTargetValue,
+                                                  string geospatialAreaTargetValueDescription,
                                                   bool showCumulativeResults,
                                                   PerformanceMeasureReportingPeriod initialPerformanceMeasureReportingPeriod)
         {
@@ -215,15 +264,15 @@ namespace ProjectFirma.Web.Models
                 if (showCumulativeResults)
                 {
                     calendarYearReportedValue =
-                    x.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                    x.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(pmrp => pmrp.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
                                      performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                        .Sum(isorv => isorv.ReportedValue) ?? 0;
+                        .Sum(pmrp => pmrp.ReportedValue) ?? 0;
                 } else
                 {
                     calendarYearReportedValue =
-                        x.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(isorv => isorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
+                        x.Where<PerformanceMeasureReportingPeriodSubcategoryOptionReportedValue>(pmrp => pmrp.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
                                          performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                            .Sum(isorv => isorv.ReportedValue) ?? 0;
+                            .Sum(pmrp => pmrp.ReportedValue) ?? 0;
                 }
                 calendarReportedYearValuesDictionary.Add(x.Key.Item1, calendarYearReportedValue);
             });
@@ -249,6 +298,11 @@ namespace ProjectFirma.Web.Models
             {
                 var formattedTarget = targetValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
                 html += $"<tr class='googleTooltipTableTotalRow'><td>{targetValueDescription}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTarget} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
+            }
+            if (geospatialAreaTargetValue.HasValue && !string.IsNullOrWhiteSpace(geospatialAreaTargetValueDescription))
+            {
+                var formattedTarget = geospatialAreaTargetValue.Value.ToString($"#,###,###,##0.{stringPrecision}");
+                html += $"<tr class='googleTooltipTableTotalRow'><td>{geospatialAreaTargetValueDescription}</td><td style='text-align: right'><b>{prefix ?? String.Empty}{formattedTarget} {performanceMeasureMeasurementUnitType.LegendDisplayName ?? String.Empty}</b></td></tr>";
             }
             html += "</table></div>";
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
@@ -79,11 +80,8 @@ namespace ProjectFirma.Web.Models
             int newCalendarYear,
             double? actualValue)
         {
-            var performanceMeasureReportingPeriod = performanceMeasureValueToClone.PerformanceMeasure.PerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == newCalendarYear);
-            if (performanceMeasureReportingPeriod == null)
-            {
-                performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear);
-            }
+            var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(newCalendarYear);
+            Check.EnsureNotNull(performanceMeasureReportingPeriod, "We need to have a performance measure reporting period here");
             var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, performanceMeasureReportingPeriod)
             {
                 ActualValue = actualValue

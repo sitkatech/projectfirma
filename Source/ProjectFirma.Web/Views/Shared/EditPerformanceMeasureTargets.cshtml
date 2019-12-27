@@ -1,0 +1,196 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditPerformanceMeasureTargets.cshtml" company="Tahoe Regional Planning Agency">
+Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Shared.EditPerformanceMeasureTargets
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+            };
+    });
+    angular.bootstrap(jQuery("#EditPerformanceMeasureTargetsApp"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<style>
+    .dashboardTable {
+        table-layout: fixed;
+        margin: 10px 0;
+    }
+
+    table input {
+        margin-right: 5px;
+        width: 100%;
+    }
+
+    table th, table td {
+        text-align: center;
+        font-size: 14px !important;
+    }
+
+    .optionLabel {
+        text-align: left;
+    }
+
+    hr {
+        margin: 10px 0;
+        border-color: #eee;
+    }
+
+    .validationWarning ul {
+        margin: 0;
+    }
+
+    .validationWarning li {
+        margin-bottom: 5px;
+    }
+</style>
+
+@Html.ValidationSummary(false, string.Empty, new Dictionary<string, object>() { { "class", "sustainabilityDashboardError" }, { "style", "margin-bottom: 10px" } })
+
+<div ng-app="ProjectFirmaApp" id="EditPerformanceMeasureTargetsApp" ng-controller="EditPerformanceMeasureTargetsController" style="max-height: 600px">
+    @if (ViewDataTyped.ShowGeoSpatialAreaInstructions)
+    {
+        <div>
+            This editor allows you to set a @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() target specific to this @FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel(). To set an overall target for this @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel(), do so through the Accomplishments chart on the @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel() detail page.
+        </div>
+        <div>&nbsp;</div>
+    }
+
+    <div>
+        <span style="color: black; font-weight: bold">@ViewDataTyped.PerformanceMeasureFieldDefinition.GetFieldDefinitionLabel(): </span>@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName | <span style="color: black; font-weight: bold">Units: </span>@ViewDataTyped.PerformanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName
+        <hr />
+    </div>
+    <div>
+        <div style="display: inline-block; width: 300px">
+            <span>Set Targets by</span><br />
+            <div ng-repeat="performanceMeasureTargetValueType in AngularViewData.PerformanceMeasureTargetValueTypes">
+                <label>
+                    <input type="radio" name="targetType" ng-change="targetValueTypeChanged()" ng-model="AngularModel.PerformanceMeasureTargetValueTypeID" value="{{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeID}}" />
+                    {{performanceMeasureTargetValueType.PerformanceMeasureTargetValueTypeDisplayName}}
+                </label>
+            </div>
+        </div>
+        <div ng-show="ShowFixedTargetInputs" style="display: inline-block; vertical-align: top">
+            <span>Target: <input type="number" step="0.0001" ng-model="AngularModel.FixedTargetValue" /></span>
+            <span>Target Description: <input type="text" ng-model="AngularModel.FixedTargetValueLabel" style="width: 200px;" /></span>
+        </div>
+    </div>
+
+    <table ng-show="ShowPerReportingPeriodSection" class="dashboardTable table table-hover table-condensed">
+        <colgroup>
+            <col style="width: 200px">
+            <col style="width: 165px">
+            <col style="width: 100%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="number" ng-onchange="CheckForYearInUse" ng-model="ReportingPeriodYearToAdd" />
+                </td>
+                <td>
+                    <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Year</button>
+                </td>
+                <td>
+                    <div class="alert alert-danger" ng-show="IsYearInUse">
+                        The year you entered is already in use. Please enter a different year.
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div ng-show="ShowPerReportingPeriodSection" style="max-height: 400px; overflow: auto">
+        <hr />
+        <p class="systemText">You are not able to delete years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
+        <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
+            <colgroup>
+                <col style="text-align: left; width: 20px">
+                <col style="text-align: left; min-width: 200px">
+                <col style="text-align: left; min-width: 60px;">
+                <col style="text-align: left; min-width: 100px">
+                <col width:auto />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Year</th>
+                    <th>Target</th>
+                    <th>Target Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bulk in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy: getBulkOrder : reverse">
+
+                    <td>
+                        <span ng-show="showDeleteYear(bulk)" class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteRow(bulk)" style="cursor: pointer"></span>
+                    </td>
+                    <td>{{bulk.PerformanceMeasureReportingPeriodLabel}}</td>
+
+                    <td>
+                        <input type="number" ng-model="bulk.TargetValue" step="0.0001" />
+                    </td>
+                    <td>
+                        <input type="text" ng-model="bulk.TargetValueLabel" style="width: 200px;" />
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        
+        <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValue)" value="{{AngularModel.FixedTargetValue}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValueLabel)" value="{{AngularModel.FixedTargetValueLabel}}" />
+        <div ng-repeat="performanceMeasureReportingPeriodSimple in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodLabel}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].TargetValue).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.TargetValue}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].TargetValueLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.TargetValueLabel}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodTargetID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodTargetID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].GeospatialAreaID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.GeospatialAreaID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].GeospatialAreaPerformanceMeasureReportingPeriodTargetID).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.GeospatialAreaPerformanceMeasureReportingPeriodTargetID}}" />
+        </div>
+    }
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        $( ".datepicker" ).datepicker();
+    });
+</script>

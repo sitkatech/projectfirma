@@ -42,6 +42,19 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string TargetValueLabel { get; set; }
 
         public int PerformanceMeasureID { get; set; }
+        /// <summary>
+        /// Only used for PerformanceMeasureTargets
+        /// </summary>
+        public int? PerformanceMeasureReportingPeriodTargetID { get; set; }
+
+        /// <summary>
+        /// Only used for GeospatialAreaPerformanceMeasureTargets
+        /// </summary>
+        public int? GeospatialAreaID { get; set; }
+        /// <summary>
+        /// Only used for GeospatialAreaPerformanceMeasureTargets
+        /// </summary>
+        public int? GeospatialAreaPerformanceMeasureReportingPeriodTargetID { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -50,19 +63,77 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
         }
 
-        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureReportingPeriod performanceMeasureReportingPeriod)
+        public PerformanceMeasureReportingPeriodSimple(PerformanceMeasureReportingPeriodTarget performanceMeasureReportingPeriodTarget)
         {
-            PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID;
-            PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
-            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
-            TargetValue = performanceMeasureReportingPeriod.TargetValue;
-            TargetValueLabel = performanceMeasureReportingPeriod.TargetValueLabel;
-            PerformanceMeasureID = performanceMeasureReportingPeriod.PerformanceMeasureID;
+            PerformanceMeasureReportingPeriodID = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            TargetValue = performanceMeasureReportingPeriodTarget.PerformanceMeasureTargetValue;
+            TargetValueLabel = performanceMeasureReportingPeriodTarget.PerformanceMeasureTargetValueLabel;
+            PerformanceMeasureID = performanceMeasureReportingPeriodTarget.PerformanceMeasureID;
+            PerformanceMeasureReportingPeriodTargetID = performanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodTargetID;
         }
 
-        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods)
+        public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.PerformanceMeasureActual performanceMeasureActual)
         {
-            return performanceMeasureReportingPeriods.Select(pmrp => new PerformanceMeasureReportingPeriodSimple(pmrp)).ToList();
+            PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            TargetValueLabel = string.Empty;
+            PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
+
+        }
+
+        public PerformanceMeasureReportingPeriodSimple(ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget geospatialAreaPerformanceMeasureReportingPeriodTarget)
+        {
+            PerformanceMeasureReportingPeriodID = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriodID;
+            PerformanceMeasureReportingPeriodLabel = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel;
+            PerformanceMeasureReportingPeriodCalendarYear = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+
+            TargetValue = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureTargetValue;
+            TargetValueLabel = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureTargetValueLabel;
+            PerformanceMeasureID = geospatialAreaPerformanceMeasureReportingPeriodTarget.PerformanceMeasureID;
+            GeospatialAreaPerformanceMeasureReportingPeriodTargetID = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaPerformanceMeasureReportingPeriodTargetID;
+            GeospatialAreaID = geospatialAreaPerformanceMeasureReportingPeriodTarget.GeospatialAreaID;
+        }
+
+
+        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<PerformanceMeasureReportingPeriodTarget> performanceMeasureReportingPeriodTargets, 
+                                                                                 IEnumerable<ProjectFirmaModels.Models.PerformanceMeasureActual> performanceMeasureActuals)
+        {
+            var reportingPeriodSimples = performanceMeasureReportingPeriodTargets.Select(pmt => new PerformanceMeasureReportingPeriodSimple(pmt)).ToList();
+            reportingPeriodSimples.AddRange(performanceMeasureActuals.Select(pma => new PerformanceMeasureReportingPeriodSimple(pma)));
+
+            List<PerformanceMeasureReportingPeriodSimple> finalSimples = new List<PerformanceMeasureReportingPeriodSimple>();
+
+            var calendarYearGroups = reportingPeriodSimples.GroupBy(x => x.PerformanceMeasureReportingPeriodCalendarYear);
+            foreach (var currentGroup in calendarYearGroups)
+            {
+                // If there are multiple per calendar year, take first one available
+                var reportingPeriodSimpleToAdd = currentGroup.First();
+                finalSimples.Add(reportingPeriodSimpleToAdd);
+            }
+
+            return finalSimples;
+        }
+
+        public static List<PerformanceMeasureReportingPeriodSimple> MakeFromList(IEnumerable<ProjectFirmaModels.Models.GeospatialAreaPerformanceMeasureReportingPeriodTarget> geospatialAreaPerformanceMeasureTargets,
+                                                                                 IEnumerable<ProjectFirmaModels.Models.PerformanceMeasureActual> performanceMeasureActuals)
+        {
+            var reportingPeriodSimples = geospatialAreaPerformanceMeasureTargets.Select(pmt => new PerformanceMeasureReportingPeriodSimple(pmt)).ToList();
+            reportingPeriodSimples.AddRange(performanceMeasureActuals.Select(pma => new PerformanceMeasureReportingPeriodSimple(pma)));
+
+            List<PerformanceMeasureReportingPeriodSimple> finalSimples = new List<PerformanceMeasureReportingPeriodSimple>();
+
+            var calendarYearGroups = reportingPeriodSimples.GroupBy(x => x.PerformanceMeasureReportingPeriodCalendarYear);
+            foreach (var currentGroup in calendarYearGroups)
+            {
+                // If there are multiple per calendar year, take first one available
+                var reportingPeriodSimpleToAdd = currentGroup.First();
+                finalSimples.Add(reportingPeriodSimpleToAdd);
+            }
+
+            return finalSimples;
         }
     }
 }

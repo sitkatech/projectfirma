@@ -127,13 +127,13 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 
             if (!TaxonomyTrunkIDs.Any())
             {
-                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}",
+                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
                     x => x.TaxonomyTrunkIDs);
             }
 
             if (!FileResourceMimeTypeIDs.Any())
             {
-                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()}",
+                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
                     x => x.FileResourceMimeTypeIDs);
             }
 

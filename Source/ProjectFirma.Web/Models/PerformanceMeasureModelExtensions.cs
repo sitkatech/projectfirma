@@ -89,7 +89,7 @@ namespace ProjectFirma.Web.Models
             }
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
-                new GoogleChartAxis("Reporting Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
+                new GoogleChartAxis("Year", null, null) {Gridlines = new GoogleChartGridlinesOptions(-1, "transparent")};
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
@@ -101,12 +101,12 @@ namespace ProjectFirma.Web.Models
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
-                new GoogleChartAxis("Reporting Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
             var googleChartAxisVerticals = new List<GoogleChartAxis>();
-            var chartSeries = GoogleChartSeries.GetGoogleChartSeriesForChartsWithTargets();
+            var chartSeries = GoogleChartSeries.GetDefaultGoogleChartSeriesForChartsWithTargets();
             var defaultSubcategoryChartConfigurationJson = new GoogleChartConfiguration(
                 performanceMeasure.PerformanceMeasureDisplayName, true, googleChartType, googleChartAxisHorizontal,
-                googleChartAxisVerticals, null, chartSeries);
+                googleChartAxisVerticals, "bars", chartSeries);
             return defaultSubcategoryChartConfigurationJson;
         }
 
@@ -154,10 +154,10 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
         }
 
-        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects, string chartUniqueName)
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName)
         {
             var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
-            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues);
+            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, geospatialArea, reportedValues);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
@@ -271,10 +271,92 @@ namespace ProjectFirma.Web.Models
             return SubcategoriesTotalReportedValues(currentFirmaSession, performanceMeasure).Where(x => x.CalculateWeightedTotalExpenditure() > 0).Sum(x => x.TotalReportedValue);
         }
 
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates and GeospatialAreaPerformanceMeasureTargets)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals());
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureReportingPeriodTargets.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Returns all PerformanceMeasureReportingPeriods from the PerformanceMeasureTarget and PerformanceMeasureActuals connected to this performance measure (excludes PerformanceMeasureActualUpdates and GeospatialAreaPerformanceMeasureTargets)
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromActuals(this PerformanceMeasure performanceMeasure)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        /// <summary>
+        /// This overload includes the PerformanceMeasureReportingPeriods tied to GeospatialArea Targets
+        /// </summary>
+        /// <param name="performanceMeasure"></param>
+        /// <returns></returns>
+        public static List<PerformanceMeasureReportingPeriod> GetPerformanceMeasureReportingPeriodsFromTargetsAndActualsAndGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods = new List<PerformanceMeasureReportingPeriod>();
+
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GetPerformanceMeasureReportingPeriodsFromTargetsAndActuals());
+            performanceMeasureReportingPeriods.AddRange(performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => x.PerformanceMeasureReportingPeriod));
+
+            return performanceMeasureReportingPeriods.Distinct().ToList();
+        }
+
+        public static PerformanceMeasureTargetValueType GetTargetValueType(this PerformanceMeasure performanceMeasure)
+        {
+            if (performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any())
+            {
+                return PerformanceMeasureTargetValueType.TargetPerYear;
+                
+            }
+            if (performanceMeasure.PerformanceMeasureFixedTargets.Any())
+            {
+                return PerformanceMeasureTargetValueType.FixedTarget;
+            }
+            return PerformanceMeasureTargetValueType.NoTarget;
+        }
+
+        public static PerformanceMeasureTargetValueType GetGeospatialAreaTargetValueType(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
+            {
+                return PerformanceMeasureTargetValueType.FixedTarget;
+            }
+
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x =>
+                x.GeospatialAreaID == geospatialArea.GeospatialAreaID))
+            {
+                return PerformanceMeasureTargetValueType.TargetPerYear;
+            }
+            return PerformanceMeasureTargetValueType.NoTarget;
+        }
+
         public static bool HasTargets(this PerformanceMeasure performanceMeasure)
         {
-            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue);
+            bool hasTargets = performanceMeasure.PerformanceMeasureReportingPeriodTargets.Any() || performanceMeasure.PerformanceMeasureFixedTargets.Any();
+            return hasTargets;
+        }
 
+        public static bool HasGeospatialAreaTargets(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
+        {
+            if (geospatialArea == null)
+            {
+                return false;
+            }
+            bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
     }
