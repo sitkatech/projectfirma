@@ -25,6 +25,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectProjectStatusCreateDate).HasColumnName(@"ProjectProjectStatusCreateDate").HasColumnType("datetime").IsRequired();
             Property(x => x.ProjectProjectStatusLastEditedPersonID).HasColumnName(@"ProjectProjectStatusLastEditedPersonID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectProjectStatusLastEditedDate).HasColumnName(@"ProjectProjectStatusLastEditedDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.IsFinalStatusUpdate).HasColumnName(@"IsFinalStatusUpdate").HasColumnType("bit").IsRequired();
+            Property(x => x.LessonsLearned).HasColumnName(@"LessonsLearned").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2500);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectProjectStatuses).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Project_ProjectID
