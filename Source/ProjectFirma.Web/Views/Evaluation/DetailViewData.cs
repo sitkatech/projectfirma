@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -39,8 +40,11 @@ namespace ProjectFirma.Web.Views.Evaluation
         public bool UserHasEvaluationManagePermissions { get; }
         public string IndexUrl { get; }
         public string EditEvaluationUrl { get; }
-
-
+        public EvaluationCriterionGridSpec EvaluationCriterionGridSpec { get; }
+        public string EvaluationCriterionGridName { get; }
+        public string EvaluationCriterionGridDataUrl { get; }
+        public bool HasEvaluationManagePermissions { get; }
+        public string NewEvaluationCriterionUrl { get; set; }
 
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation) : base(currentFirmaSession)
@@ -51,6 +55,12 @@ namespace ProjectFirma.Web.Views.Evaluation
             UserHasEvaluationManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IndexUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(x => x.Index());
             EditEvaluationUrl = evaluation.GetEditUrl();
+
+            EvaluationCriterionGridSpec = new EvaluationCriterionGridSpec(currentFirmaSession) { ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true };
+            EvaluationCriterionGridName = "evaluationCriteriaGrid";
+            EvaluationCriterionGridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriterionGridJsonData(evaluation.EvaluationID));
+
+            NewEvaluationCriterionUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriterionGridJsonData(evaluation.EvaluationID));
 
 
         }

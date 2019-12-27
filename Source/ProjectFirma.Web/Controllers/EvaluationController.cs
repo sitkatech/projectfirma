@@ -58,6 +58,16 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<EvaluationCriterion> EvaluationCriterionGridJsonData(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var gridSpec = new EvaluationCriterionGridSpec(CurrentFirmaSession);
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            var evaluationCriterion = evaluation.EvaluationCriterions.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<EvaluationCriterion>(evaluationCriterion, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -177,6 +187,33 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var viewModel = new EditEvaluationCriterionViewModel();
+            return ViewEditEvaluationCriterion(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriterionViewModel viewModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditEvaluationCriterion(viewModel);
+            }
+
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            viewModel.UpdateModel(evaluation);
+            SetMessageForDisplay($"{FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {evaluation.EvaluationName} successfully edited.");
+
+            return new ModalDialogFormJsonResult();
+        }
 
         [HttpGet]
         [EvaluationManageFeature]

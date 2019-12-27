@@ -93,7 +93,24 @@
 
 
     </div>
-    <div class="col-lg-6 col-md-7">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel() Criterion
+                </h2>
+            </div>
+            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-md-12">
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewEvaluationCriterionUrl, string.Format("Create a new {0}", FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasEvaluationManagePermissions)
+                    </div>
+                </div>
+                @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriterionGridSpec, ViewDataTyped.EvaluationCriterionGridName, ViewDataTyped.EvaluationCriterionGridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
@@ -101,7 +118,7 @@
                 </h2>
             </div>
             <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
-                
+
             </div>
         </div>
     </div>

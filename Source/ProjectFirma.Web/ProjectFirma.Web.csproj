@@ -91,6 +91,7 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
+    <Compile Include="Models\EvaluationCriterionModelExtensions.cs" />
     <Compile Include="Models\EvaluationCriterionSimple.cs" />
     <Compile Include="Models\EvaluationCriterionValueSimple.cs" />
     <Compile Include="Models\EvaluationModelExtensions.cs" />
