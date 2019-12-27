@@ -137,6 +137,10 @@
     <Compile Include="Models\Generated\FieldDefinitionDataImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionDataImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionDataPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefault.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefaultConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefaultPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResource.Binding.cs" />
     <Compile Include="Models\Generated\FileResource.DatabaseContextExtensions.cs" />
@@ -638,9 +642,14 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectDetailedLocations.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectDetailedLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectSimpleLocations.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectSimpleLocationsConfiguration.Binding.cs" />
     <Compile Include="Models\Evaluation.cs" />
     <Compile Include="Models\EvaluationStatus.cs" />
     <Compile Include="Models\EvaluationVisibility.cs" />
+    <Compile Include="Models\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
     <Compile Include="Models\FirmaSession.cs" />
     <Compile Include="Models\FirmaSessionExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
@@ -703,6 +712,7 @@
     <Compile Include="Models\PerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
@@ -742,6 +752,7 @@
     <Compile Include="UnitTestCommon\TestFirmaSession.cs" />
     <Compile Include="UnitTestCommon\TestFramework.cs" />
     <Compile Include="UnitTestCommon\TestFundingSource.cs" />
+    <Compile Include="UnitTestCommon\TestGeoserverConfig.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialArea.cs" />
     <Compile Include="UnitTestCommon\TestGeospatialAreaType.cs" />
     <Compile Include="UnitTestCommon\TestImageFile.cs" />

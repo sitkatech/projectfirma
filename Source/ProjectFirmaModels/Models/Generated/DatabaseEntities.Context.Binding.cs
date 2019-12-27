@@ -64,6 +64,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
+            modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
             modelBuilder.Configurations.Add(new FileResourceConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
@@ -173,6 +174,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -218,6 +221,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
@@ -434,6 +438,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
+        public virtual DbSet<vGeoServerProjectDetailedLocations> vGeoServerProjectDetailedLocations { get; set; }
+        public virtual DbSet<vGeoServerProjectSimpleLocations> vGeoServerProjectSimpleLocations { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
@@ -527,6 +533,9 @@ namespace ProjectFirmaModels.Models
 
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
+
+                case "FieldDefinitionDefault":
+                    return FieldDefinitionDefaults.GetFieldDefinitionDefault(primaryKey);
 
                 case "FieldDefinition":
                     return FieldDefinitions.GetFieldDefinition(primaryKey);

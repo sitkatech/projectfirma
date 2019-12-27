@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, bool enableEvaluations) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode, bool useProjectTimeline, string geoServerNamespace, bool enableEvaluations) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -62,6 +62,7 @@ namespace ProjectFirmaModels.Models
             this.ExcludeTargetedFundingOrganizations = excludeTargetedFundingOrganizations;
             this.GoogleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
             this.UseProjectTimeline = useProjectTimeline;
+            this.GeoServerNamespace = geoServerNamespace;
             this.EnableEvaluations = enableEvaluations;
         }
 
@@ -216,6 +217,7 @@ namespace ProjectFirmaModels.Models
         public bool ExcludeTargetedFundingOrganizations { get; set; }
         public string GoogleAnalyticsTrackingCode { get; set; }
         public bool UseProjectTimeline { get; set; }
+        public string GeoServerNamespace { get; set; }
         public bool EnableEvaluations { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
@@ -238,6 +240,7 @@ namespace ProjectFirmaModels.Models
             public const int KeystoneOpenIDClientIdentifier = 256;
             public const int KeystoneOpenIDClientSecret = 256;
             public const int GoogleAnalyticsTrackingCode = 100;
+            public const int GeoServerNamespace = 256;
         }
     }
 }
