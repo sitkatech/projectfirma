@@ -180,5 +180,26 @@ namespace ProjectFirmaModels.Models
             return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).ThenBy(x => x.ProjectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
 
+        public string FinalStatusReportStatusDescription
+        {
+            get
+            {
+                var finalStatusReport = ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+
+                if (finalStatusReport.Any())
+                {
+                    return "Submitted";
+                }
+                else if (ProjectStage == ProjectStage.Completed)
+                {
+                    return "Not submitted";
+                }
+
+                return "Project not completed";
+            }
+        }
+
+
+
     }
 }
