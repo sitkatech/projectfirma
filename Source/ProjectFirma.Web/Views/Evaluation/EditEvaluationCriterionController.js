@@ -21,203 +21,152 @@ Source code is available upon request via <support@sitkatech.com>.
 //# sourceURL=EditEvaluationCriterionController.js
 angular.module("ProjectFirmaApp")
     .controller("EditEvaluationCriterionController",
-        function($scope, $timeout, angularModelAndViewData)
-        {
+        function($scope, $timeout, angularModelAndViewData) {
+            //debugger;
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-            $scope.nextSubcategoryID = -1;
-            $scope.nextOptionID = -1;
 
-            // Iterate decrementing regative IDs for incoming records where ID is already negative
-            _.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                .filter(function(subcategorySimple) { return subcategorySimple.PerformanceMeasureSubcategoryID < 0; })
-                .each(function(subcategorySimple)
-                {
-                    subcategorySimple.PerformanceMeasureSubcategoryID = $scope.nextSubcategoryID --;
-                });
-            _.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                .map("PerformanceMeasureSubcategoryOptions")
-                .flatten()
-                .filter(function(optionSimple) { return optionSimple.PerformanceMeasureSubcategoryOptionID < 0; })
-                .each(function(optionSimple)
-                {
-                    optionSimple.PerformanceMeasureSubcategoryOptionID = $scope.nextOptionID--;
-                });
+            $scope.nextValueID = -1;
 
-            $scope.addSubcategory = function()
+            // Iterate decrementing negative IDs for incoming records where ID is already negative
+            //_.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
+            //    .filter(function(subcategorySimple) { return subcategorySimple.PerformanceMeasureSubcategoryID < 0; })
+            //    .each(function(subcategorySimple)
+            //    {
+            //        subcategorySimple.PerformanceMeasureSubcategoryID = $scope.nextSubcategoryID --;
+            //    });
+            //_.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
+            //    .map("PerformanceMeasureSubcategoryOptions")
+            //    .flatten()
+            //    .filter(function(valueSimple) { return valueSimple.PerformanceMeasureSubcategoryOptionID < 0; })
+            //    .each(function(valueSimple)
+            //    {
+            //        valueSimple.PerformanceMeasureSubcategoryOptionID = $scope.nextOptionID--;
+            //    });
+
+
+            $scope.addEvaluationCriterionValue = function()
             {
-                $scope.AngularModel.PerformanceMeasureSubcategorySimples.push({
-                    PerformanceMeasureSubcategoryID: $scope.nextSubcategoryID--,
-                    PerformanceMeasureSubcategoryOptions: []
-                });
-            }
-
-            $scope.removeSubcategory = function(subcategorySimple)
-            {
-                Sitka.Methods.removeFromJsonArray($scope.AngularModel.PerformanceMeasureSubcategorySimples,
-                    subcategorySimple);
-            }
-
-            $scope.addSubcategoryOption = function(subcategorySimple)
-            {
-                subcategorySimple.PerformanceMeasureSubcategoryOptions.push({
-                    PerformanceMeasureSubcategoryOptionID: $scope.nextOptionID--,
+                console.log("adding evaluation criterion value")
+                $scope.AngularModel.EvaluationCriterionValueSimples.push({
+                    EvaluationCriterionValueID: $scope.nextValueID--,
                     HasAssociatedActuals: false,
-                    SortOrder: subcategorySimple.PerformanceMeasureSubcategoryOptions.length + 1
+                    SortOrder: $scope.AngularModel.EvaluationCriterionValueSimples.length + 1
                 });
+                debugger;
             }
 
-            $scope.removeSubcategoryOption = function(subcategorySimple, optionSimple)
+            $scope.removeEvaluationCriterionValue = function(valueSimple)
             {
-                Sitka.Methods.removeFromJsonArray(subcategorySimple.PerformanceMeasureSubcategoryOptions, optionSimple);
+                Sitka.Methods.removeFromJsonArray($scope.AngularModel.EvaluationCriterionValueSimples, valueSimple);
             }
 
-            $scope.subcategoryHasAssociatedActuals = function(subcategorySimple)
-            {
-                return _.chain(subcategorySimple.PerformanceMeasureSubcategoryOptions)
-                    .filter(function(optionSimple) { return optionSimple.HasAssociatedActuals; })
-                    .any()
-                    .value();
-            }
+            //$scope.subcategoryHasAssociatedActuals = function(subcategorySimple)
+            //{
+            //    return _.chain(subcategorySimple.PerformanceMeasureSubcategoryOptions)
+            //        .filter(function(valueSimple) { return valueSimple.HasAssociatedActuals; })
+            //        .any()
+            //        .value();
+            //}
 
             $scope.showSubcategoryValidationWarnings = function(subcategorySimple)
             {
                 return _.any($scope.validateSubcategoryDisplayName(subcategorySimple));
             }
 
-            $scope.validateSubcategoryDisplayName = function(subcategorySimple)
-            {
-                var errors = [];
-                if (Sitka.Methods.isUndefinedNullOrEmpty(subcategorySimple.PerformanceMeasureSubcategoryDisplayName))
-                {
-                    errors.push("Please specify a name for the subcategory.");
-                }
-                else if (_.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                    .filter(function(x)
-                    {
-                        return x !== subcategorySimple &&
-                            x.PerformanceMeasureSubcategoryDisplayName ===
-                            subcategorySimple.PerformanceMeasureSubcategoryDisplayName;
-                    })
-                    .any()
-                    .value())
-                {
-                    errors.push("Please specify a unique name for the subcategory.");
-                }
-                return errors;
-            }
+            //$scope.validateSubcategoryDisplayName = function(subcategorySimple)
+            //{
+            //    var errors = [];
+            //    if (Sitka.Methods.isUndefinedNullOrEmpty(subcategorySimple.PerformanceMeasureSubcategoryDisplayName))
+            //    {
+            //        errors.push("Please specify a name for the subcategory.");
+            //    }
+            //    else if (_.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
+            //        .filter(function(x)
+            //        {
+            //            return x !== subcategorySimple &&
+            //                x.PerformanceMeasureSubcategoryDisplayName ===
+            //                subcategorySimple.PerformanceMeasureSubcategoryDisplayName;
+            //        })
+            //        .any()
+            //        .value())
+            //    {
+            //        errors.push("Please specify a unique name for the subcategory.");
+            //    }
+            //    return errors;
+            //}
 
-            $scope.moveSubcategoryUp = function (subcategorySimple, optionSimple) {
-                var subcategoryOptionsForThisPerformanceMeasureSubcategory = _.find($scope.AngularModel.PerformanceMeasureSubcategorySimples,
-                    function(x) {
-                        return x.PerformanceMeasureSubcategoryID === subcategorySimple.PerformanceMeasureSubcategoryID;
-                    }
-                ).PerformanceMeasureSubcategoryOptions;
+            $scope.moveCriterionValueUp = function (valueSimple) {
+                var valuesForThisEvaluationCriterion = $scope.AngularModel.EvaluationCriterionValueSimples;
 
-                var optionBeforeThis = _.chain(subcategoryOptionsForThisPerformanceMeasureSubcategory).filter(function(x) {
-                    return x.SortOrder < optionSimple.SortOrder;
+                var optionBeforeThis = _.chain(valuesForThisEvaluationCriterion).filter(function(x) {
+                    return x.SortOrder < valueSimple.SortOrder;
                 }).sortBy(function (x) { return x.SortOrder; }).last().value();
 
                 if (optionBeforeThis != null) {
                     optionBeforeThis.SortOrder++;
                 }
-                optionSimple.SortOrder--;
+                valueSimple.SortOrder--;
             }
 
-            $scope.moveSubcategoryDown = function (subcategorySimple, optionSimple) {
-                var subcategoryOptionsForThisPerformanceMeasureSubcategory = _.find($scope.AngularModel.PerformanceMeasureSubcategorySimples,
-                    function (x) {
-                        return x.PerformanceMeasureSubcategoryID === subcategorySimple.PerformanceMeasureSubcategoryID;
-                    }
-                ).PerformanceMeasureSubcategoryOptions;
+            $scope.moveCriterionValueDown = function (valueSimple) {
+                var valuesForThisEvaluationCriterion = $scope.AngularModel.EvaluationCriterionValueSimples;
 
-                var optionAfterThis = _.chain(subcategoryOptionsForThisPerformanceMeasureSubcategory).filter(function (x) {
-                    return x.SortOrder > optionSimple.SortOrder;
+                var optionAfterThis = _.chain(valuesForThisEvaluationCriterion).filter(function (x) {
+                    return x.SortOrder > valueSimple.SortOrder;
                 }).sortBy(function(x) { return x.SortOrder; }).first().value();
 
                 if (optionAfterThis != null) {
                     optionAfterThis.SortOrder--;
                 }
-                optionSimple.SortOrder++;
+                valueSimple.SortOrder++;
             }
 
-            $scope.showOptionValidationWarnings = function(optionSimple)
+            $scope.showOptionValidationWarnings = function(valueSimple)
             {
-                return _.any($scope.validateOptionName(optionSimple)) ||
-                    _.any($scope.validateOptionShortname(optionSimple));
+                return _.any($scope.validateOptionName(valueSimple)) ||
+                    _.any($scope.validateOptionShortname(valueSimple));
             }
 
-            $scope.validateOptionName = function(optionSimple)
+            $scope.validateValueRating = function(valueSimple)
             {
                 var errors = [];
-                if (Sitka.Methods.isUndefinedNullOrEmpty(optionSimple.PerformanceMeasureSubcategoryOptionName))
+                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriterionValueRating))
                 {
-                    errors.push("Please specify a name for the option.");
+                    errors.push("Please specify a rating for the value.");
                 }
-                else if (_.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                    .filter(function(subcategorySimple)
-                    {
-                        return _.find(subcategorySimple.PerformanceMeasureSubcategoryOptions, optionSimple);
-                    })
-                    .map("PerformanceMeasureSubcategoryOptions")
-                    .flatten()
-                    .filter(function(x)
-                    {
-                        return x !== optionSimple &&
-                            x.PerformanceMeasureSubcategoryOptionName ===
-                            optionSimple.PerformanceMeasureSubcategoryOptionName;
-                    })
-                    .any()
-                    .value())
-                {
-                    errors.push("Please specify a unique name for the subcategory.");
-                }
+
                 return errors;
             }
 
-            $scope.validateOptionShortname = function(optionSimple)
-            {
+            $scope.validateValueDescription = function (valueSimple) {
                 var errors = [];
-                if (!Sitka.Methods.isUndefinedNullOrEmpty(optionSimple.ShortName) &&
-                    _.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                    .filter(function(subcategorySimple)
-                    {
-                        return _.find(subcategorySimple.PerformanceMeasureSubcategoryOptions, optionSimple);
-                    })
-                    .map("PerformanceMeasureSubcategoryOptions")
-                    .flatten()
-                    .filter(function(x) { return x !== optionSimple && x.ShortName === optionSimple.ShortName; })
-                    .any()
-                    .value())
-                {
-                    errors.push("Please specify a unique short name for the subcategory.");
+                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriterionValueDescription)) {
+                    errors.push("Please specify a description for the value.");
                 }
+
                 return errors;
             }
 
-            $scope.$watch("AngularModel.PerformanceMeasureSubcategorySimples",
-                function()
-                {
-                    var submitButton = jQuery("form")
-                            .parents(".modal-dialog")
-                            .find("#ltinfo-modal-dialog-save-button-id"),
-                        subcategoryOptions = _.chain($scope.AngularModel.PerformanceMeasureSubcategorySimples)
-                            .map("PerformanceMeasureSubcategoryOptions")
-                            .value();
 
-                    if ($scope.AngularModel.PerformanceMeasureSubcategorySimples.length > 0 &&
-                        _.reduce(subcategoryOptions, function(a, b) { return a && (b.length > 0) }, true) > 0 &&
-                        !_.some($scope.AngularModel.PerformanceMeasureSubcategorySimples,
-                            $scope.showSubcategoryValidationWarnings) &&
-                        !_.some(_.flatten(subcategoryOptions), $scope.showOptionValidationWarnings))
-                    {
-                        submitButton.prop("disabled", false);
-                    }
-                    else
-                    {
-                        submitButton.prop("disabled", true);
-                    }
-                },
-                true);
+            //$scope.$watch("AngularModel.EvaluationCriterionValueSimples",
+            //    function() {
+            //        var submitButton = jQuery("form").parents(".modal-dialog").find("#ltinfo-modal-dialog-save-button-id");
+            //        var subcategoryOptions = _.chain($scope.AngularModel.EvaluationCriterionValueSimples).map("PerformanceMeasureSubcategoryOptions").value();
+
+            //        if ($scope.AngularModel.EvaluationCriterionValueSimples.length > 0 &&
+            //            _.reduce(subcategoryOptions, function(a, b) { return a && (b.length > 0) }, true) > 0 &&
+            //            !_.some($scope.AngularModel.PerformanceMeasureSubcategorySimples,
+            //                $scope.showSubcategoryValidationWarnings) &&
+            //            !_.some(_.flatten(subcategoryOptions), $scope.showOptionValidationWarnings))
+            //        {
+            //            submitButton.prop("disabled", false);
+            //        }
+            //        else
+            //        {
+            //            submitButton.prop("disabled", true);
+            //        }
+            //    },
+            //    true);
         });

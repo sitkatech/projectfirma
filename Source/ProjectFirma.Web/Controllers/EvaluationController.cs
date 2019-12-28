@@ -209,36 +209,47 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var evaluation = evaluationPrimaryKey.EntityObject;
-            viewModel.UpdateModel(evaluation);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {evaluation.EvaluationName} successfully edited.");
+
+            var evaluationCriterion = new EvaluationCriterion(evaluation, viewModel.EvaluationCriterionName, viewModel.EvaluationCriterionDefinition);
+
+            if (viewModel.EvaluationCriterionValueSimples.Count > 0)
+            {
+                evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription)).ToList();
+            }
+            
+
+            HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluation.EvaluationName} successfully edited.");
 
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
         [EvaluationManageFeature]
-        public PartialViewResult EditEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey)
+        public PartialViewResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
         {
-            var evaluation = evaluationPrimaryKey.EntityObject;
-            var viewModel = new EditEvaluationCriterionViewModel(evaluation);
+            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
+            var viewModel = new EditEvaluationCriterionViewModel(evaluationCriterion);
             return ViewEditEvaluationCriterion(viewModel);
         }
 
         [HttpPost]
         [EvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriterionViewModel viewModel)
+        public ActionResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey, EditEvaluationCriterionViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewEditEvaluationCriterion(viewModel);
             }
 
-            var evaluation = evaluationPrimaryKey.EntityObject;
-            viewModel.UpdateModel(evaluation);
+            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
+            viewModel.UpdateModel(evaluationCriterion);
 
             SetMessageForDisplay(
-                $"Successfully updated {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} '{evaluation.EvaluationName}'!");
+                $"Successfully updated {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
             return new ModalDialogFormJsonResult();
         }
 

@@ -145,4 +145,5 @@ VALUES
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'Evaluation', 'Evaluation'),
-(323, N'EvaluationCriterion', 'EvaluationCriterion')
+(323, N'EvaluationCriterion', 'Evaluation Criterion'),
+(324, N'EvaluationCriterionValue', 'Evaluation Criterion Value')

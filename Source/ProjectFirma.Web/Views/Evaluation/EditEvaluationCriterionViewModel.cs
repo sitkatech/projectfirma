@@ -32,65 +32,66 @@ namespace ProjectFirma.Web.Views.Evaluation
 {
     public class EditEvaluationCriterionViewModel
     {
-        public List<EvaluationCriterionSimple> EvaluationCriterionSimples { get; set; }
+        public int EvaluationCriterionID { get; set; }
+        public int EvaluationID { get; set; }
+        public string EvaluationCriterionName { get; set; }
+        public string EvaluationCriterionDefinition { get; set; }
+        public List<EvaluationCriterionValueSimple> EvaluationCriterionValueSimples { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
         public EditEvaluationCriterionViewModel()
         {
+            EvaluationCriterionValueSimples = new List<EvaluationCriterionValueSimple>();
         }
 
-        public EditEvaluationCriterionViewModel(ProjectFirmaModels.Models.Evaluation evaluation)
+        public EditEvaluationCriterionViewModel(EvaluationCriterion evaluationCriterion)
         {
-            EvaluationCriterionSimples = evaluation.EvaluationCriterions.Select(x => new EvaluationCriterionSimple(x)).ToList();
+            EvaluationCriterionID = evaluationCriterion.EvaluationCriterionID;
+            EvaluationID = evaluationCriterion.EvaluationID;
+            EvaluationCriterionName = evaluationCriterion.EvaluationCriterionName;
+            EvaluationCriterionDefinition = evaluationCriterion.EvaluationCriterionDefinition;
+            EvaluationCriterionValueSimples = evaluationCriterion.EvaluationCriterionValues.Select(x => new EvaluationCriterionValueSimple(x)).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Evaluation evaluation)
+        public void UpdateModel(EvaluationCriterion evaluation)
         {
-            var allEvaluationCriteriaFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Local;
-            var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
+            //var allEvaluationCriteriaFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Local;
+            //var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
 
-            var evaluationCriteriaToUpdate = EvaluationCriterionSimples.Select(x =>
-            {
-                var evaluationCriterion = new EvaluationCriterion(evaluation, x.EvaluationCriterionName, x.EvaluationCriterionDefinition);
+            //var evaluationCriterionToUpdate = HttpRequestStorage.DatabaseEntities.EvaluationCriterions.SingleOrDefault(x => x.EvaluationCriterionID == EvaluationCriterionSimple.EvaluationCriterionID);
+            //if (evaluationCriterionToUpdate == null)
+            //{
+            //    evaluationCriterionToUpdate = new EvaluationCriterion(EvaluationCriterionSimple.EvaluationID, EvaluationCriterionSimple.EvaluationCriterionName, evaluationCriterionToUpdate.EvaluationCriterionDefinition);
+            //}
 
-                evaluationCriterion.EvaluationCriterionID = x.EvaluationCriterionID;
-                evaluationCriterion.EvaluationCriterionValues =
-                    x.EvaluationCriterionValues.OrderBy(y => y.SortOrder).Select(
-                        (y, index) =>
-                            new EvaluationCriterionValue(
-                                new EvaluationCriterion(evaluation, x.EvaluationCriterionName, x.EvaluationCriterionDefinition),
-                                y.EvaluationCriterionValueRating,
-                                y.EvaluationCriterionValueDescription)
-                            {
-                                EvaluationCriterionValueID = y.EvaluationCriterionValueID,
-                                SortOrder = index + 1
-                            }).ToList();
 
-                return evaluationCriterion;
-            }).ToList();
+            //var evaluationCriterionValuesToUpdate = evaluationCriteriaToUpdate.SelectMany(x => x.EvaluationCriterionValueSimples).ToList();
 
-            var evaluationCriterionValuesToUpdate = evaluationCriteriaToUpdate.SelectMany(x => x.EvaluationCriterionValues).ToList();
-            evaluation.EvaluationCriterions.SelectMany(x => x.EvaluationCriterionValues).ToList().Merge(
-                evaluationCriterionValuesToUpdate,
-                allEvaluationCriteriaValuesFromDatabase,
-                (x, y) => x.EvaluationCriterionValueID == y.EvaluationCriterionValueID,
-                (x, y) =>
-                {
-                    x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
-                    x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
-                    x.SortOrder = y.SortOrder;
-                }, HttpRequestStorage.DatabaseEntities);
 
-            evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
-                allEvaluationCriteriaFromDatabase,
-                (x, y) => x.EvaluationCriterionID == y.EvaluationCriterionID,
-                (x, y) =>
-                {
-                    x.EvaluationCriterionName = y.EvaluationCriterionName;
-                    x.EvaluationCriterionDefinition = x.EvaluationCriterionDefinition;
-                }, HttpRequestStorage.DatabaseEntities);
+
+
+
+            //evaluation.EvaluationCriterions.SelectMany(x => x.EvaluationCriterionValueSimples).ToList().Merge(
+            //    evaluationCriterionValuesToUpdate,
+            //    allEvaluationCriteriaValuesFromDatabase,
+            //    (x, y) => x.EvaluationCriterionValueID == y.EvaluationCriterionValueID,
+            //    (x, y) =>
+            //    {
+            //        x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
+            //        x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
+            //        x.SortOrder = y.SortOrder;
+            //    }, HttpRequestStorage.DatabaseEntities);
+
+            //evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
+            //    allEvaluationCriteriaFromDatabase,
+            //    (x, y) => x.EvaluationCriterionID == y.EvaluationCriterionID,
+            //    (x, y) =>
+            //    {
+            //        x.EvaluationCriterionName = y.EvaluationCriterionName;
+            //        x.EvaluationCriterionDefinition = x.EvaluationCriterionDefinition;
+            //    }, HttpRequestStorage.DatabaseEntities);
         }
     }
 }

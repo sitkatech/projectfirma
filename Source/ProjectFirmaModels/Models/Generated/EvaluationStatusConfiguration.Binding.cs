@@ -15,7 +15,7 @@ namespace ProjectFirmaModels.Models
         {
             ToTable("EvaluationStatus", schema);
             HasKey(x => x.EvaluationStatusID);
-            Property(x => x.EvaluationStatusID).HasColumnName(@"EvaluationStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.EvaluationStatusID).HasColumnName(@"EvaluationStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.EvaluationStatusName).HasColumnName(@"EvaluationStatusName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.EvaluationStatusDisplayName).HasColumnName(@"EvaluationStatusDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
 

@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[EvaluationVisibility](
-	[EvaluationVisibilityID] [int] IDENTITY(1,1) NOT NULL,
+	[EvaluationVisibilityID] [int] NOT NULL,
 	[EvaluationVisibilityName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[EvaluationVisibilityDisplayName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_EvaluationVisibility_EvaluationVisibilityID] PRIMARY KEY CLUSTERED 

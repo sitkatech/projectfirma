@@ -43,7 +43,6 @@ namespace ProjectFirma.Web.Views.Evaluation
         public EvaluationCriterionGridSpec EvaluationCriterionGridSpec { get; }
         public string EvaluationCriterionGridName { get; }
         public string EvaluationCriterionGridDataUrl { get; }
-        public bool HasEvaluationManagePermissions { get; }
         public string NewEvaluationCriterionUrl { get; set; }
 
 
@@ -60,7 +59,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             EvaluationCriterionGridName = "evaluationCriteriaGrid";
             EvaluationCriterionGridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriterionGridJsonData(evaluation.EvaluationID));
 
-            NewEvaluationCriterionUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriterionGridJsonData(evaluation.EvaluationID));
+            NewEvaluationCriterionUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.NewEvaluationCriterion(evaluation));
 
 
         }

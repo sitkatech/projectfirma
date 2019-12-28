@@ -1,25 +1,25 @@
 
 create table dbo.EvaluationVisibility(
-	EvaluationVisibilityID int identity(1,1) not null constraint PK_EvaluationVisibility_EvaluationVisibilityID primary key,
+	EvaluationVisibilityID int not null constraint PK_EvaluationVisibility_EvaluationVisibilityID primary key,
 	EvaluationVisibilityName varchar(100) not null,
 	EvaluationVisibilityDisplayName varchar(100) not null
 )
 
-insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('OnlyMe','Only Me')
-insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('AdminsFromMyOrganizationOnly','Admins from my Org only')
-insert into dbo.EvaluationVisibility(EvaluationVisibilityName, EvaluationVisibilityDisplayName) values ('AllAdmins','All Admins')
+insert into dbo.EvaluationVisibility(EvaluationVisibilityID, EvaluationVisibilityName, EvaluationVisibilityDisplayName) values (1, 'OnlyMe','Only Me')
+insert into dbo.EvaluationVisibility(EvaluationVisibilityID, EvaluationVisibilityName, EvaluationVisibilityDisplayName) values (2, 'AdminsFromMyOrganizationOnly','Admins from my Org only')
+insert into dbo.EvaluationVisibility(EvaluationVisibilityID, EvaluationVisibilityName, EvaluationVisibilityDisplayName) values (3, 'AllAdmins','All Admins')
 
 
 create table dbo.EvaluationStatus(
-	EvaluationStatusID int identity(1,1) not null constraint PK_EvaluationStatus_EvaluationStatusID primary key,
+	EvaluationStatusID int not null constraint PK_EvaluationStatus_EvaluationStatusID primary key,
 	EvaluationStatusName varchar(100) not null,
 	EvaluationStatusDisplayName varchar(100) not null
 )
 
-insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Draft','Draft')
-insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Planned','Planned')
-insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('InProgress','In Progress')
-insert into dbo.EvaluationStatus(EvaluationStatusName, EvaluationStatusDisplayName) values ('Completed','Completed')
+insert into dbo.EvaluationStatus(EvaluationStatusID, EvaluationStatusName, EvaluationStatusDisplayName) values (1, 'Draft','Draft')
+insert into dbo.EvaluationStatus(EvaluationStatusID, EvaluationStatusName, EvaluationStatusDisplayName) values (2, 'Planned','Planned')
+insert into dbo.EvaluationStatus(EvaluationStatusID, EvaluationStatusName, EvaluationStatusDisplayName) values (3, 'InProgress','In Progress')
+insert into dbo.EvaluationStatus(EvaluationStatusID, EvaluationStatusName, EvaluationStatusDisplayName) values (4, 'Completed','Completed')
 
 
 
@@ -87,3 +87,27 @@ GO
 ALTER TABLE [dbo].EvaluationCriterionValue  WITH CHECK ADD  CONSTRAINT [FK_EvaluationCriterionValue_EvaluationCriterion_EvaluationCriterionID_TenantID] FOREIGN KEY([EvaluationCriterionID], [TenantID])
 REFERENCES [dbo].EvaluationCriterion (EvaluationCriterionID, [TenantID])
 GO
+
+
+
+--test content for easier testing
+INSERT INTO [dbo].[Evaluation]
+           ([TenantID]
+           ,[EvaluationVisibilityID]
+           ,[EvaluationStatusID]
+           ,[CreatePersonID]
+           ,[EvaluationName]
+           ,[EvaluationDefinition]
+           ,[EvaluationStartDate]
+           ,[EvaluationEndDate]
+           ,[CreateDate])
+     VALUES
+           (9
+           ,2
+           ,2
+           ,5301
+           ,'Toms Test'
+           ,'This is a sample Evaluation'
+           ,'2019-12-31 00:00:00.000'
+           ,'2020-02-26 00:00:00.000'
+           ,'2019-12-27 12:05:54.017')
