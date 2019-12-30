@@ -54,7 +54,7 @@ angular.module("ProjectFirmaApp")
                     HasAssociatedActuals: false,
                     SortOrder: $scope.AngularModel.EvaluationCriterionValueSimples.length + 1
                 });
-                debugger;
+                //debugger;
             }
 
             $scope.removeEvaluationCriterionValue = function(valueSimple)

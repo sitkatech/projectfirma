@@ -91,23 +91,23 @@ Source code is available upon request via <support@sitkatech.com>.
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-show="!EvaluationCriterionValueSimples || !EvaluationCriterionValueSimples.length || EvaluationCriterionValueSimples.length < 1">
+                        <tr ng-show="!AngularModel.EvaluationCriterionValueSimples || !AngularModel.EvaluationCriterionValueSimples.length || AngularModel.EvaluationCriterionValueSimples.length < 1">
                             <td colspan="3">
                                 <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()).</div>
                             </td>
                         </tr>
-                        <tr ng-repeat="valueSimple in EvaluationCriterionValueSimples | orderBy: 'SortOrder'">
+                        <tr ng-repeat="valueSimple in AngularModel.EvaluationCriterionValueSimples | orderBy: 'SortOrder'">
                             <td>
                                 <input type="hidden" value="{{valueSimple.EvaluationCriterionValueID}}"
                                        name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueID" />
                                 <input type="hidden" value="{{valueSimple.SortOrder}}"
                                        name="EvaluationCriterionValueSimples[{{$index}}].SortOrder" />
 
-                                <a href="javascript:void(0)" ng-show="$index > 0 && EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueUp(valueSimple)">
+                                <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueUp(valueSimple)">
                                     <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
                                 </a>
 
-                                <a href="javascript:void(0)" ng-show="$index < EvaluationCriterionValueSimples.length - 1 && EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueDown(valueSimple)">
+                                <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriterionValueSimples.length - 1 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueDown(valueSimple)">
                                     <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
                                 </a>
 
