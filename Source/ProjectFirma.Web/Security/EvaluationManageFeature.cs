@@ -18,6 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -42,31 +44,47 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Evaluation contextModelObject)
         {
+            if (firmaSession.IsAnonymousOrUnassigned())
+            {
+                return new PermissionCheckResult("Anonymous users can't manage evaluations");
+            }
 
-            switch ((EvaluationVisibilityEnum)contextModelObject.EvaluationVisibilityID)
+            var evaluationVisibility = (EvaluationVisibilityEnum)contextModelObject.EvaluationVisibilityID;
+            switch (evaluationVisibility)
             {
                 case EvaluationVisibilityEnum.AdminsFromMyOrganizationOnly:
-                    if (contextModelObject.CreatePerson.OrganizationID != firmaSession.Person.OrganizationID)
+                    if (contextModelObject.CreatePerson.OrganizationID == firmaSession.Person.OrganizationID && firmaSession.IsAdministrator())
                     {
-                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because it does not belong to your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}");
+                        // Positive result
+                        return new PermissionCheckResult();
                     }
-                    break;
+                    return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because permissions are set to {evaluationVisibility}. The relevant organization is {contextModelObject.CreatePerson.Organization.GetDisplayName()}.");
+
                 case EvaluationVisibilityEnum.OnlyMe:
-                    if (contextModelObject.CreatePersonID != firmaSession.PersonID)
+                    if (contextModelObject.CreatePersonID == firmaSession.PersonID)
                     {
-                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because you are not the creator");
+                        // Positive result
+                        return new PermissionCheckResult();
                     }
-                    break;
-                // EvaluationVisibilityEnum.AllAdmins just need to verify they are Admin
-            }
+                    else
+                    {
+                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because because permissions are set to {evaluationVisibility} and you are not the creator");
+                    }
 
-            // check that person is an Admin
-            if (HasPermissionByFirmaSession(firmaSession))
-            {
-                return new PermissionCheckResult();
-            }
+                case EvaluationVisibilityEnum.AllAdmins:
+                    if (firmaSession.IsAdministrator())
+                    {
+                        // Positive result
+                        return new PermissionCheckResult();
+                    }
+                    else
+                    {
+                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because permissions are set to {evaluationVisibility} and you are not an Admin");
+                    }
 
-            return new PermissionCheckResult("Does not have administration privileges");
+                default:
+                    throw new ArgumentOutOfRangeException($"Unhandled enum: {evaluationVisibility}");
+            }
         }
     }
 }
