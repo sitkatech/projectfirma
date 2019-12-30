@@ -62,12 +62,20 @@ Source code is available upon request via <support@sitkatech.com>.
 
         <div class="form-horizontal">
             <div class="form-group">
-                <label for="evaluationCriterionName">Name</label>
-                <input id="evaluationCriterionName" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
+                <div class="col-xs-12 col-sm-3 control-label">
+                    <label for="evaluationCriterionName">Name</label>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <input id="evaluationCriterionName" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
+                </div>
             </div>
             <div class="form-group">
-                <label for="evaluationCriterionDefinition">Definition</label>
-                <input id="evaluationCriterionDefinition" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition" />
+                <div class="col-xs-12 col-sm-3 control-label">
+                    <label for="evaluationCriterionDefinition">Definition</label>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <input id="evaluationCriterionDefinition" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition" />
+                </div>
             </div>
         </div>
 
@@ -86,8 +94,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     <thead>
                         <tr>
                             <th class="col-sm-1"></th>
-                            <th class="col-sm-8">Rating</th>
-                            <th class="col-sm-3">Description</th>
+                            <th class="col-sm-3">Rating</th>
+                            <th class="col-sm-8">Description</th>
                         </tr>
                     </thead>
                     <tbody>
