@@ -37,7 +37,15 @@ namespace ProjectFirma.Web.Models
 
         public static string GetEvaluationVisibilityDisplayName(this Evaluation evaluation)
         {
-            return evaluation.EvaluationVisibility.EvaluationVisibilityDisplayName;
+            switch ((EvaluationVisibilityEnum) evaluation.EvaluationVisibilityID)
+            {
+                case EvaluationVisibilityEnum.AdminsFromMyOrganizationOnly:
+                    return $"{evaluation.CreatePerson.Organization.GetDisplayName()} Admins";
+                case EvaluationVisibilityEnum.OnlyMe:
+                    return $"Only {evaluation.CreatePerson.GetFullNameFirstLast()}";
+                default:
+                    return evaluation.EvaluationVisibility.EvaluationVisibilityDisplayName;
+            }
         }
 
         public static string GetEvaluationCriteriaNamesAsCommaDelimitedString(this Evaluation evaluation)
