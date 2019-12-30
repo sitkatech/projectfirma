@@ -67,11 +67,7 @@ namespace ProjectFirmaModels.Models
             // Mark this as a new object by setting primary key with special value
             this.EvaluationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.EvaluationVisibilityID = evaluationVisibility.EvaluationVisibilityID;
-            this.EvaluationVisibility = evaluationVisibility;
-            evaluationVisibility.Evaluations.Add(this);
             this.EvaluationStatusID = evaluationStatus.EvaluationStatusID;
-            this.EvaluationStatus = evaluationStatus;
-            evaluationStatus.Evaluations.Add(this);
             this.CreatePersonID = createPerson.PersonID;
             this.CreatePerson = createPerson;
             createPerson.EvaluationsWhereYouAreTheCreatePerson.Add(this);
@@ -147,8 +143,8 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<EvaluationCriterion> EvaluationCriterions { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual EvaluationVisibility EvaluationVisibility { get; set; }
-        public virtual EvaluationStatus EvaluationStatus { get; set; }
+        public EvaluationVisibility EvaluationVisibility { get { return EvaluationVisibility.AllLookupDictionary[EvaluationVisibilityID]; } }
+        public EvaluationStatus EvaluationStatus { get { return EvaluationStatus.AllLookupDictionary[EvaluationStatusID]; } }
         public virtual Person CreatePerson { get; set; }
 
         public static class FieldLengths

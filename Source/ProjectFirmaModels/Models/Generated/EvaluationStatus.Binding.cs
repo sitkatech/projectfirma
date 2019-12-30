@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[EvaluationStatus]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -15,105 +16,134 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[EvaluationStatus] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[EvaluationStatus]")]
-    public partial class EvaluationStatus : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class EvaluationStatus : IHavePrimaryKey
     {
+        public static readonly EvaluationStatusDraft Draft = EvaluationStatusDraft.Instance;
+        public static readonly EvaluationStatusPlanned Planned = EvaluationStatusPlanned.Instance;
+        public static readonly EvaluationStatusInProgress InProgress = EvaluationStatusInProgress.Instance;
+        public static readonly EvaluationStatusCompleted Completed = EvaluationStatusCompleted.Instance;
+
+        public static readonly List<EvaluationStatus> All;
+        public static readonly ReadOnlyDictionary<int, EvaluationStatus> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected EvaluationStatus()
+        static EvaluationStatus()
         {
-            this.Evaluations = new HashSet<Evaluation>();
+            All = new List<EvaluationStatus> { Draft, Planned, InProgress, Completed };
+            AllLookupDictionary = new ReadOnlyDictionary<int, EvaluationStatus>(All.ToDictionary(x => x.EvaluationStatusID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public EvaluationStatus(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName) : this()
+        protected EvaluationStatus(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName)
         {
-            this.EvaluationStatusID = evaluationStatusID;
-            this.EvaluationStatusName = evaluationStatusName;
-            this.EvaluationStatusDisplayName = evaluationStatusDisplayName;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public EvaluationStatus(string evaluationStatusName, string evaluationStatusDisplayName) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.EvaluationStatusID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.EvaluationStatusName = evaluationStatusName;
-            this.EvaluationStatusDisplayName = evaluationStatusDisplayName;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static EvaluationStatus CreateNewBlank()
-        {
-            return new EvaluationStatus(default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return Evaluations.Any();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(EvaluationStatus).Name, typeof(Evaluation).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.EvaluationStatuses.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in Evaluations.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            EvaluationStatusID = evaluationStatusID;
+            EvaluationStatusName = evaluationStatusName;
+            EvaluationStatusDisplayName = evaluationStatusDisplayName;
         }
 
         [Key]
-        public int EvaluationStatusID { get; set; }
-        public string EvaluationStatusName { get; set; }
-        public string EvaluationStatusDisplayName { get; set; }
+        public int EvaluationStatusID { get; private set; }
+        public string EvaluationStatusName { get; private set; }
+        public string EvaluationStatusDisplayName { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return EvaluationStatusID; } set { EvaluationStatusID = value; } }
+        public int PrimaryKey { get { return EvaluationStatusID; } }
 
-        public virtual ICollection<Evaluation> Evaluations { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(EvaluationStatus other)
         {
-            public const int EvaluationStatusName = 100;
-            public const int EvaluationStatusDisplayName = 100;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.EvaluationStatusID == EvaluationStatusID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as EvaluationStatus);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return EvaluationStatusID;
+        }
+
+        public static bool operator ==(EvaluationStatus left, EvaluationStatus right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EvaluationStatus left, EvaluationStatus right)
+        {
+            return !Equals(left, right);
+        }
+
+        public EvaluationStatusEnum ToEnum { get { return (EvaluationStatusEnum)GetHashCode(); } }
+
+        public static EvaluationStatus ToType(int enumValue)
+        {
+            return ToType((EvaluationStatusEnum)enumValue);
+        }
+
+        public static EvaluationStatus ToType(EvaluationStatusEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case EvaluationStatusEnum.Completed:
+                    return Completed;
+                case EvaluationStatusEnum.Draft:
+                    return Draft;
+                case EvaluationStatusEnum.InProgress:
+                    return InProgress;
+                case EvaluationStatusEnum.Planned:
+                    return Planned;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum EvaluationStatusEnum
+    {
+        Draft = 1,
+        Planned = 2,
+        InProgress = 3,
+        Completed = 4
+    }
+
+    public partial class EvaluationStatusDraft : EvaluationStatus
+    {
+        private EvaluationStatusDraft(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName) : base(evaluationStatusID, evaluationStatusName, evaluationStatusDisplayName) {}
+        public static readonly EvaluationStatusDraft Instance = new EvaluationStatusDraft(1, @"Draft", @"Draft");
+    }
+
+    public partial class EvaluationStatusPlanned : EvaluationStatus
+    {
+        private EvaluationStatusPlanned(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName) : base(evaluationStatusID, evaluationStatusName, evaluationStatusDisplayName) {}
+        public static readonly EvaluationStatusPlanned Instance = new EvaluationStatusPlanned(2, @"Planned", @"Planned");
+    }
+
+    public partial class EvaluationStatusInProgress : EvaluationStatus
+    {
+        private EvaluationStatusInProgress(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName) : base(evaluationStatusID, evaluationStatusName, evaluationStatusDisplayName) {}
+        public static readonly EvaluationStatusInProgress Instance = new EvaluationStatusInProgress(3, @"InProgress", @"In Progress");
+    }
+
+    public partial class EvaluationStatusCompleted : EvaluationStatus
+    {
+        private EvaluationStatusCompleted(int evaluationStatusID, string evaluationStatusName, string evaluationStatusDisplayName) : base(evaluationStatusID, evaluationStatusName, evaluationStatusDisplayName) {}
+        public static readonly EvaluationStatusCompleted Instance = new EvaluationStatusCompleted(4, @"Completed", @"Completed");
     }
 }

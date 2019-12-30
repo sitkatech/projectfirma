@@ -40,8 +40,7 @@ namespace ProjectFirma.Web.Controllers
     public class EvaluationController : FirmaBaseController
     {
 
-        //[EvaluationManageFeature]
-        [FirmaAdminFeature]
+        [EvaluationViewFeature]
         public ViewResult Index()
         {
 
@@ -49,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [FirmaAdminFeature]
+        [EvaluationViewFeature]
         public GridJsonNetJObjectResult<Evaluation> IndexGridJsonData()
         {
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
@@ -58,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [FirmaAdminFeature]
+        [EvaluationViewFeature]
         public GridJsonNetJObjectResult<EvaluationCriterion> EvaluationCriterionGridJsonData(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var gridSpec = new EvaluationCriterionGridSpec(CurrentFirmaSession);
@@ -70,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [EvaluationViewFeature]
         public PartialViewResult New()
         {
             var viewModel = new EditViewModel();
@@ -78,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [EvaluationViewFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(EditViewModel viewModel)
         {
@@ -99,7 +98,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         public PartialViewResult Edit(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var evaluation = evaluationPrimaryKey.EntityObject;
@@ -108,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(EvaluationPrimaryKey evaluationPrimaryKey, EditViewModel viewModel)
         {
@@ -123,8 +122,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var evaluationStatuses = HttpRequestStorage.DatabaseEntities.EvaluationStatuses.ToSelectListWithEmptyFirstRow(v => v.EvaluationStatusID.ToString(), t => t.EvaluationStatusDisplayName);
-            var evaluationVisibilities = HttpRequestStorage.DatabaseEntities.EvaluationVisibilities.ToSelectListWithEmptyFirstRow(v => v.EvaluationVisibilityID.ToString(), t => t.EvaluationVisibilityDisplayName);
+            var evaluationStatuses = EvaluationStatus.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationStatusID.ToString(), t => t.EvaluationStatusDisplayName);
+            var evaluationVisibilities = EvaluationVisibility.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationVisibilityID.ToString(), t => t.EvaluationVisibilityDisplayName);
             var viewData = new EditViewData(evaluationStatuses.ToList(), evaluationVisibilities.ToList());
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
@@ -132,7 +131,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         public PartialViewResult Delete(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var evaluation = evaluationPrimaryKey.EntityObject;
@@ -141,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Delete(EvaluationPrimaryKey evaluationPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -173,7 +172,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         public ViewResult Detail(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var evaluation = evaluationPrimaryKey.EntityObject;
@@ -190,7 +189,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         public PartialViewResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var viewModel = new EditEvaluationCriterionViewModel();
@@ -198,7 +197,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FirmaAdminFeature]
+        [EvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriterionViewModel viewModel)
         {

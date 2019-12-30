@@ -6,10 +6,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public class EvaluationCriterionGridSpec : GridSpec<ProjectFirmaModels.Models.EvaluationCriterion>
+    public class EvaluationCriterionGridSpec : GridSpec<EvaluationCriterion>
     {
         public EvaluationCriterionGridSpec(FirmaSession currentFirmaSession)
         {
+
+
 
             Add("Name", a => a.EvaluationCriterionName, 220, DhtmlxGridColumnFilterType.Text);
             Add("Definition", a => a.EvaluationCriterionDefinition, 220, DhtmlxGridColumnFilterType.Text);

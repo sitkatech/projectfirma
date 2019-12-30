@@ -27,8 +27,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CreateDate).HasColumnName(@"CreateDate").HasColumnType("datetime").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.EvaluationVisibility).WithMany(b => b.Evaluations).HasForeignKey(c => c.EvaluationVisibilityID).WillCascadeOnDelete(false); // FK_Evaluation_EvaluationVisibility_EvaluationVisibilityID
-            HasRequired(a => a.EvaluationStatus).WithMany(b => b.Evaluations).HasForeignKey(c => c.EvaluationStatusID).WillCascadeOnDelete(false); // FK_Evaluation_EvaluationStatus_EvaluationStatusID
             HasRequired(a => a.CreatePerson).WithMany(b => b.EvaluationsWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_Evaluation_Person_CreatePersonID_PersonID
         }
     }

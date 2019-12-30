@@ -58,8 +58,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriterionConfiguration());
             modelBuilder.Configurations.Add(new EvaluationCriterionValueConfiguration());
-            modelBuilder.Configurations.Add(new EvaluationStatusConfiguration());
-            modelBuilder.Configurations.Add(new EvaluationVisibilityConfiguration());
             modelBuilder.Configurations.Add(new ExternalMapLayerConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
@@ -213,8 +211,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<EvaluationCriterionValue> EvaluationCriterionValues { get { return AllEvaluationCriterionValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Evaluation> AllEvaluations { get; set; }
         public virtual IQueryable<Evaluation> Evaluations { get { return AllEvaluations.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<EvaluationStatus> EvaluationStatuses { get; set; }
-        public virtual DbSet<EvaluationVisibility> EvaluationVisibilities { get; set; }
         public virtual DbSet<ExternalMapLayer> AllExternalMapLayers { get; set; }
         public virtual IQueryable<ExternalMapLayer> ExternalMapLayers { get { return AllExternalMapLayers.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
@@ -520,10 +516,14 @@ namespace ProjectFirmaModels.Models
                     return Evaluations.GetEvaluation(primaryKey);
 
                 case "EvaluationStatus":
-                    return EvaluationStatuses.GetEvaluationStatus(primaryKey);
+                    var evaluationStatus = EvaluationStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(evaluationStatus, "EvaluationStatus", primaryKey);
+                    return evaluationStatus;
 
                 case "EvaluationVisibility":
-                    return EvaluationVisibilities.GetEvaluationVisibility(primaryKey);
+                    var evaluationVisibility = EvaluationVisibility.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(evaluationVisibility, "EvaluationVisibility", primaryKey);
+                    return evaluationVisibility;
 
                 case "ExternalMapLayer":
                     return ExternalMapLayers.GetExternalMapLayer(primaryKey);

@@ -19,16 +19,17 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage Page Content")]
+    [SecurityFeatureDescription("Manage Evaluation Content")]
     public class EvaluationManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Evaluation>
     {
         private readonly FirmaFeatureWithContextImpl<Evaluation> _firmaFeatureWithContextImpl;
 
-        public EvaluationManageFeature(): base(new List<Role>{Role.ProjectSteward, Role.Admin, Role.SitkaAdmin})
+        public EvaluationManageFeature(): base(new List<Role>{Role.Admin, Role.SitkaAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Evaluation>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -41,10 +42,30 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Evaluation contextModelObject)
         {
+
+            switch ((EvaluationVisibilityEnum)contextModelObject.EvaluationVisibilityID)
+            {
+                case EvaluationVisibilityEnum.AdminsFromMyOrganizationOnly:
+                    if (contextModelObject.CreatePerson.OrganizationID != firmaSession.Person.OrganizationID)
+                    {
+                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because it does not belong to your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}");
+                    }
+                    break;
+                case EvaluationVisibilityEnum.OnlyMe:
+                    if (contextModelObject.CreatePersonID != firmaSession.PersonID)
+                    {
+                        return new PermissionCheckResult($"You don't have permission to manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} {contextModelObject.EvaluationName} because you are not the creator");
+                    }
+                    break;
+                // EvaluationVisibilityEnum.AllAdmins just need to verify they are Admin
+            }
+
+            // check that person is an Admin
             if (HasPermissionByFirmaSession(firmaSession))
             {
                 return new PermissionCheckResult();
             }
+
             return new PermissionCheckResult("Does not have administration privileges");
         }
     }
