@@ -24,10 +24,20 @@ REFERENCES [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID])
 GO
 ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID]
 GO
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID] FOREIGN KEY([EvaluationCriterionValueID], [TenantID])
+REFERENCES [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID]
+GO
 ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID] FOREIGN KEY([ProjectEvaluationID])
 REFERENCES [dbo].[ProjectEvaluation] ([ProjectEvaluationID])
 GO
 ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID]
+GO
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID_TenantID] FOREIGN KEY([ProjectEvaluationID], [TenantID])
+REFERENCES [dbo].[ProjectEvaluation] ([ProjectEvaluationID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

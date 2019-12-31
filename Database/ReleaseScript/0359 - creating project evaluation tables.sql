@@ -121,6 +121,15 @@ GO
 
 
 
+alter table dbo.ProjectEvaluation add constraint FK_ProjectEvaluation_Evaluation_EvaluationID_TenantID foreign key (EvaluationID, TenantID) references dbo.Evaluation(EvaluationID, TenantID)
+alter table dbo.ProjectEvaluation add constraint FK_ProjectEvaluation_Project_ProjectID_TenantID foreign key (ProjectID, TenantID) references dbo.Project(ProjectID, TenantID)
+alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID foreign key (EvaluationCriterionValueID, TenantID) references dbo.EvaluationCriterionValue(EvaluationCriterionValueID, TenantID)
+alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID_TenantID foreign key (ProjectEvaluationID, TenantID) references dbo.ProjectEvaluation(ProjectEvaluationID, TenantID)
+
+
+
+
+
 --test content for easier testing
 INSERT INTO [dbo].[Evaluation]
            ([TenantID]
