@@ -19,4 +19,5 @@ namespace SharpImage
             return (int) ((pixelsPerMeter * 254L + 5000) / 10000);
         }
     }
+
 }

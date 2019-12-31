@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using SharpDocx.CodeBlocks;
 using SharpDocx.Extensions;
+using System.Drawing;
 
 namespace SharpDocx
 {
@@ -188,6 +189,26 @@ namespace SharpDocx
                 CurrentCodeBlock.Placeholder.Text = "\u200B";
             }
         }
+
+        //protected void Image(SharpDocxImage image, int percentage = 100)
+        //{
+        //    const long emusPerTwip = 635;
+        //    var maxWidthInEmus = GetPageContentWidthInTwips() * emusPerTwip;
+
+        //    Drawing drawing;
+        //    using (var fs = image.ImageStream)
+        //    {
+        //        drawing = ImageHelper.CreateDrawing(Package, fs, image.ImagePartType, percentage, maxWidthInEmus);
+        //    }
+
+        //    CurrentCodeBlock.Placeholder.InsertAfterSelf(drawing);
+
+        //    if (!CurrentCodeBlock.Placeholder.GetParent<Paragraph>().HasText())
+        //    {
+        //        // Insert a zero-width space, so the image doesn't get deleted by CodeBlock.RemoveEmptyParagraphs.
+        //        CurrentCodeBlock.Placeholder.Text = "\u200B";
+        //    }
+        //}
 
         protected long GetPageContentWidthInTwips()
         {

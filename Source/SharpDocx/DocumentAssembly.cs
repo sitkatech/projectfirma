@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using DocumentFormat.OpenXml.Packaging;
 using SharpDocx.Extensions;
 
 namespace SharpDocx
@@ -109,4 +110,5 @@ namespace SharpDocx
             yield return type;
         }
     }
+    
 }
