@@ -220,13 +220,13 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluation.EvaluationName} successfully edited.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [EvaluationManageFeature]
+        [EvaluationCriterionManageFeature]
         public PartialViewResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
         {
             var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
@@ -235,7 +235,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [EvaluationManageFeature]
+        [EvaluationCriterionManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey, EditEvaluationCriterionViewModel viewModel)
         {
@@ -259,7 +259,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [EvaluationManageFeature]
+        [EvaluationCriterionManageFeature]
         public PartialViewResult DeleteEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
         {
             var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
@@ -268,7 +268,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [EvaluationManageFeature]
+        [EvaluationCriterionManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

@@ -202,6 +202,7 @@
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\EvaluationCriterionManageFeature.cs" />
     <Compile Include="Security\EvaluationViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\EvaluationManageFeature.cs" />

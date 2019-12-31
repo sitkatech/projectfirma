@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.Evaluation
 
         private static HtmlString MakeDeleteIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, EvaluationCriterion evaluationCriterion)
         {
-            if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluationCriterion.Evaluation))
+            if (EvaluationCriterionManageFeature.HasEvaluationCriterionManagePermission(currentFirmaSession, evaluationCriterion))
             {
                 return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriterion.GetDeleteUrl(), true, evaluationCriterion.CanDelete());
             }
