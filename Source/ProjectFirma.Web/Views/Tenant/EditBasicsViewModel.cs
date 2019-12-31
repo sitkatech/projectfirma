@@ -117,6 +117,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Use Project Timeline")]
         public bool UseProjectTimeline { get; set; }
 
+        [DisplayName("GeoServer Namespace")]
+        public string GeoServerNamespace { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -143,6 +146,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
+            GeoServerNamespace = tenantAttribute.GeoServerNamespace;
         }
 
         public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
@@ -157,6 +161,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
             attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
             attribute.UseProjectTimeline = UseProjectTimeline;
+            attribute.GeoServerNamespace = GeoServerNamespace;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

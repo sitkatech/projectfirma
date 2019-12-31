@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 
         [Required]
         [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.DisplayName)]
-        [DisplayName("Name")]
+        [DisplayName("Display Name")]
         public string DisplayName { get; set; }
 
         [Required]
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
 
         [Required]
         [DisplayName("Display on all maps?")]
-        public bool DisplayOnAllProjectMaps { get; set; }
+        public bool DisplayOnAllMaps { get; set; }
 
         [Required]
         [DisplayName("Layer is on by default?")]
@@ -66,7 +66,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         public string FeatureNameField { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.ExternalMapLayer.FieldLengths.LayerDescription)]
-        [DisplayName("Layer Description")]
+        [DisplayName("Internal Layer Description")]
         public string LayerDescription { get; set; }
 
 
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
             ExternalMapLayerID = externalMapLayer.ExternalMapLayerID;
             DisplayName = externalMapLayer.DisplayName;
             LayerUrl = externalMapLayer.LayerUrl;
-            DisplayOnAllProjectMaps = externalMapLayer.DisplayOnAllProjectMaps;
+            DisplayOnAllMaps = externalMapLayer.DisplayOnAllProjectMaps;
             LayerIsOnByDefault = externalMapLayer.LayerIsOnByDefault;
             IsActive = externalMapLayer.IsActive;
             IsTiledMapService = externalMapLayer.IsTiledMapService;
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.ExternalMapLayer
         {
             externalMapLayer.DisplayName = DisplayName;
             externalMapLayer.LayerUrl = LayerUrl;
-            externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllProjectMaps;
+            externalMapLayer.DisplayOnAllProjectMaps = DisplayOnAllMaps;
             externalMapLayer.LayerIsOnByDefault = LayerIsOnByDefault;
             externalMapLayer.IsActive = IsActive;
             externalMapLayer.IsTiledMapService = IsTiledMapService;

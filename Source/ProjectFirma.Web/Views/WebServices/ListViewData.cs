@@ -34,15 +34,42 @@ namespace ProjectFirma.Web.Views.WebServices
         public readonly WebServiceToken UserWebServiceAccessToken;
         public readonly List<WebServiceDocumentation> ServiceDocumentationList;
         public readonly List<GeospatialAreaType> GeospatialAreaTypeList;
+        public readonly List<GeoServerServiceDocumentation> GeoServerServiceDocumentationList;
 
         public ListViewData(FirmaSession currentFirmaSession, WebServiceToken userWebServiceAccessToken,
-            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList)
-            : base(currentFirmaSession)
+            List<WebServiceDocumentation> serviceDocumentationList, List<GeospatialAreaType> geospatialAreaTypeList, ProjectFirmaModels.Models.FirmaPage firmaPage)
+            : base(currentFirmaSession, firmaPage)
         {
             ServiceDocumentationList = serviceDocumentationList;
             UserWebServiceAccessToken = userWebServiceAccessToken;
             PageTitle = "List of Web Services";
             GeospatialAreaTypeList = geospatialAreaTypeList;
+            GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
+            {
+                new GeoServerServiceDocumentation("WFS 1.1.0",
+                    "Provides project simple locations, project detailed locations, and geospatial area features in vector format and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wfs"),
+                new GeoServerServiceDocumentation("WMS 1.1.0",
+                    "Provides project simple locations, project detailed locations, and geospatial area features and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                    "wms")
+                
+            };
+        }
+    }
+
+    public class GeoServerServiceDocumentation
+    {
+        public string ServiceName;
+        public string ServiceDescription;
+        public string ServiceUrl;
+
+        public GeoServerServiceDocumentation(string serviceName, string serviceDescription, string geoServerServiceEndpoint)
+        {
+            ServiceName = serviceName;
+            ServiceDescription = serviceDescription;
+            var geoServerNamespace = MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace;
+            var geoServerUrl = FirmaWebConfiguration.GeoServerUrl;
+            ServiceUrl = $"{geoServerUrl}{geoServerNamespace}/{geoServerServiceEndpoint}";
         }
     }
 

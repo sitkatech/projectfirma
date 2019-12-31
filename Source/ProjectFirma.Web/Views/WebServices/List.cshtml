@@ -1,58 +1,60 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="List.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="List.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common.Views
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 
 @inherits ProjectFirma.Web.Views.WebServices.List
 
-<p>
-    The objective of these web services is to provide information about projects and other information. These web services require a "token" which you need to request from the Web Services page. This token is associated with your user account, allowing us to proactively communicate with you and other consumers of our web services in the event we need to change or update our services. If you have a token, this page will display example CSV and JSON URLs using your token.
-</p>
+<div>
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+</div>
 
-@if (ViewDataTyped.GeospatialAreaTypeList.Any())
+
+@if (ViewDataTyped.GeoServerServiceDocumentationList.Any())
 {
-    <h3>Geospatial Areas</h3>
+    <h3>Geospatial Services</h3>
     <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
         <tr>
             <th>Name</th>
             <th>Short Description / Simple Use Case / URL</th>
         </tr>
-        @foreach (var geospatialAreaType in ViewDataTyped.GeospatialAreaTypeList)
+        @foreach (var geoServerServiceDocumentation in ViewDataTyped.GeoServerServiceDocumentationList)
         {
             <tr>
-                <td class="term">@geospatialAreaType.GeospatialAreaTypeName</td>
+                <td class="term">@geoServerServiceDocumentation.ServiceName</td>
                 <td>
-                    @geospatialAreaType.GeospatialAreaTypeDefinitionHtmlString
+                    @geoServerServiceDocumentation.ServiceDescription
                     <div style="margin-top: 5px; font-size: 11px">
-                        GeoJson:
-                        @geospatialAreaType.GetGeoJsonLinkHtmlString()
+                        <a href="@geoServerServiceDocumentation.ServiceUrl">@geoServerServiceDocumentation.ServiceUrl</a>
                     </div>
-                
                 </td>
             </tr>
         }
     </table>
 }
 
-<h3>Web Service Urls</h3>
+
+
+<h3>Tabular Services</h3>
 <table style="border: 0; font-size:14px" class="table table-condensed table-striped">
     <tr>
         <th>Name</th>

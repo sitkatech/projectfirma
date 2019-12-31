@@ -95,9 +95,9 @@ Source code is available upon request via <support@sitkatech.com>.
                 </label>
             </div>
         </div>
-        <div ng-show="ShowOverallTargetInputs" style="display: inline-block; vertical-align: top">
-            <span>Target: <input type="number" step="0.0001" ng-model="AngularModel.OverallTargetValue" /></span>
-            <span>Target Description: <input type="text" ng-model="AngularModel.OverallTargetValueLabel" /></span>
+        <div ng-show="ShowFixedTargetInputs" style="display: inline-block; vertical-align: top">
+            <span>Target: <input type="number" step="0.0001" ng-model="AngularModel.FixedTargetValue" /></span>
+            <span>Target Description: <input type="text" ng-model="AngularModel.FixedTargetValueLabel" style="width: 200px;" /></span>
         </div>
     </div>
 
@@ -120,11 +120,11 @@ Source code is available upon request via <support@sitkatech.com>.
                     <input type="number" ng-onchange="CheckForYearInUse" ng-model="ReportingPeriodYearToAdd" />
                 </td>
                 <td>
-                    <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Reporting Year</button>
+                    <button class="btn btn-firma" ng-click="addYearRow()"><span class="glyphicon glyphicon-plus" style="margin-right: 5px"></span>Add Year</button>
                 </td>
                 <td>
                     <div class="alert alert-danger" ng-show="IsYearInUse">
-                        The year you entered is already being reported. Please enter a different year.
+                        The year you entered is already in use. Please enter a different year.
                     </div>
                 </td>
             </tr>
@@ -132,7 +132,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </table>
     <div ng-show="ShowPerReportingPeriodSection" style="max-height: 400px; overflow: auto">
         <hr />
-        <p class="systemText">You are not able to delete reporting years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
+        <p class="systemText">You are not able to delete years with @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() data tied to them.</p>
         <table class="dashboardTable table table-hover table-condensed" style="width: auto; max-width: none">
             <colgroup>
                 <col style="text-align: left; width: 20px">
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
             <thead>
                 <tr>
                     <th></th>
-                    <th>Reporting Year</th>
+                    <th>Year</th>
                     <th>Target</th>
                     <th>Target Description</th>
                     <th></th>
@@ -162,7 +162,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <input type="number" ng-model="bulk.TargetValue" step="0.0001" />
                     </td>
                     <td>
-                        <input type="text" ng-model="bulk.TargetValueLabel" />
+                        <input type="text" ng-model="bulk.TargetValueLabel" style="width: 200px;" />
                     </td>
                     <td></td>
                 </tr>
@@ -174,8 +174,8 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         
         <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureTargetValueTypeID)" value="{{AngularModel.PerformanceMeasureTargetValueTypeID}}" />
-        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValue)" value="{{AngularModel.OverallTargetValue}}" />
-        <input type="hidden" name="@Html.NameFor(x => x.OverallTargetValueLabel)" value="{{AngularModel.OverallTargetValueLabel}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValue)" value="{{AngularModel.FixedTargetValue}}" />
+        <input type="hidden" name="@Html.NameFor(x => x.FixedTargetValueLabel)" value="{{AngularModel.FixedTargetValueLabel}}" />
         <div ng-repeat="performanceMeasureReportingPeriodSimple in AngularModel.PerformanceMeasureReportingPeriodSimples | orderBy:'PerformanceMeasureReportingPeriodBeginDate'">
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodCalendarYear).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodCalendarYear}}" />
             <input type="hidden" name="@Html.NameFor(x => x.PerformanceMeasureReportingPeriodSimples[0].PerformanceMeasureReportingPeriodLabel).ToString().Replace("0", "{{$index}}")" value="{{performanceMeasureReportingPeriodSimple.PerformanceMeasureReportingPeriodLabel}}" />
