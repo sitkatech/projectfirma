@@ -299,5 +299,52 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
+
+
+
+
+        [HttpGet]
+        [EvaluationManageFeature]
+        public PartialViewResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var viewModel = new EditEvaluationCriterionViewModel();
+            return ViewAddProjectEvaluation(viewModel);
+        }
+
+        [HttpPost]
+        [EvaluationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey, AddProjectEvaluationViewModel viewModel)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return ViewAddProjectEvaluation(viewModel);
+            }
+
+            var evaluation = evaluationPrimaryKey.EntityObject;
+
+            //var evaluationCriterion = new EvaluationCriterion(evaluation, viewModel.EvaluationCriterionName, viewModel.EvaluationCriterionDefinition);
+
+            //if (viewModel.EvaluationCriterionValueSimples.Count > 0)
+            //{
+            //    evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription)).ToList();
+            //}
+
+
+            //HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
+            //HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            //SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel)
+        {
+            var viewData = new AddProjectEvaluationViewData();
+            return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
+        }
+
     }
 }

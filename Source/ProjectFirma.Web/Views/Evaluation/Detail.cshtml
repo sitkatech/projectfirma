@@ -122,7 +122,12 @@
                     @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel() Portfolio
                 </h2>
             </div>
-            <div class="contentWrapper" style="overflow-x: hidden; margin-right: auto; margin-left: auto">
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 20px">
+                    <div class="col-xs-12">
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} or {1} to this {2}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
+                    </div>
+                </div>
 
             </div>
         </div>

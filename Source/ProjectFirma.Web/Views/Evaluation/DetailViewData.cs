@@ -44,6 +44,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         public string EvaluationCriterionGridName { get; }
         public string EvaluationCriterionGridDataUrl { get; }
         public string NewEvaluationCriterionUrl { get; set; }
+        public string AddProjectEvaluationUrl { get; set; }
 
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation) : base(currentFirmaSession)
@@ -61,7 +62,7 @@ namespace ProjectFirma.Web.Views.Evaluation
 
             NewEvaluationCriterionUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.NewEvaluationCriterion(evaluation));
 
-
+            AddProjectEvaluationUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(ec => ec.AddProjectEvaluation(evaluation));
         }
 
         

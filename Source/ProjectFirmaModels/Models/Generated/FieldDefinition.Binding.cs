@@ -271,6 +271,7 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerIsATiledMapService = 321,
         Evaluation = 322,
         EvaluationCriterion = 323,
-        EvaluationCriterionValue = 324
+        EvaluationCriterionValue = 324,
+        EvaluationPortfolio = 325
     }
 }
