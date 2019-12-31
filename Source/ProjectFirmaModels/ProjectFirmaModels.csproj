@@ -413,6 +413,14 @@
     <Compile Include="Models\Generated\ProjectCustomGridConfigurationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluation.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValueConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />

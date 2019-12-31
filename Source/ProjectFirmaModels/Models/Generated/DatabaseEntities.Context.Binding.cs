@@ -123,6 +123,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomGridConfigurationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectEvaluationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectEvaluationSelectedValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
@@ -336,6 +338,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomGridConfiguration> AllProjectCustomGridConfigurations { get; set; }
         public virtual IQueryable<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get { return AllProjectCustomGridConfigurations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectEvaluation> AllProjectEvaluations { get; set; }
+        public virtual IQueryable<ProjectEvaluation> ProjectEvaluations { get { return AllProjectEvaluations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectEvaluationSelectedValue> AllProjectEvaluationSelectedValues { get; set; }
+        public virtual IQueryable<ProjectEvaluationSelectedValue> ProjectEvaluationSelectedValues { get { return AllProjectEvaluationSelectedValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -806,6 +812,12 @@ namespace ProjectFirmaModels.Models
                     var projectCustomGridType = ProjectCustomGridType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCustomGridType, "ProjectCustomGridType", primaryKey);
                     return projectCustomGridType;
+
+                case "ProjectEvaluation":
+                    return ProjectEvaluations.GetProjectEvaluation(primaryKey);
+
+                case "ProjectEvaluationSelectedValue":
+                    return ProjectEvaluationSelectedValues.GetProjectEvaluationSelectedValue(primaryKey);
 
                 case "ProjectExemptReportingType":
                     var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

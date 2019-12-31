@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected Evaluation()
         {
             this.EvaluationCriterions = new HashSet<EvaluationCriterion>();
+            this.ProjectEvaluations = new HashSet<ProjectEvaluation>();
         }
 
         /// <summary>
@@ -90,13 +91,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EvaluationCriterions.Any();
+            return EvaluationCriterions.Any() || ProjectEvaluations.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Evaluation).Name, typeof(EvaluationCriterion).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Evaluation).Name, typeof(EvaluationCriterion).Name, typeof(ProjectEvaluation).Name};
 
 
         /// <summary>
@@ -125,6 +126,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ProjectEvaluations.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -142,6 +148,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return EvaluationID; } set { EvaluationID = value; } }
 
         public virtual ICollection<EvaluationCriterion> EvaluationCriterions { get; set; }
+        public virtual ICollection<ProjectEvaluation> ProjectEvaluations { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public EvaluationVisibility EvaluationVisibility { get { return EvaluationVisibility.AllLookupDictionary[EvaluationVisibilityID]; } }
         public EvaluationStatus EvaluationStatus { get { return EvaluationStatus.AllLookupDictionary[EvaluationStatusID]; } }

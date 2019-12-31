@@ -90,6 +90,37 @@ GO
 
 
 
+CREATE TABLE [dbo].ProjectEvaluation(
+	ProjectEvaluationID [int] IDENTITY(1,1) NOT NULL constraint PK_ProjectEvaluation_ProjectEvaluationID primary key,
+	[TenantID] [int] NOT NULL constraint FK_ProjectEvaluation_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	ProjectID [int] NOT NULL constraint FK_ProjectEvaluation_Project_ProjectID foreign key references dbo.Project(ProjectID),
+	EvaluationID [int] NOT NULL constraint FK_ProjectEvaluation_Evaluation_EvaluationID foreign key references dbo.Evaluation(EvaluationID),
+	Comments varchar(1000) null,
+ CONSTRAINT [AK_ProjectEvaluation_ProjectEvaluationID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectEvaluationID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].ProjectEvaluationSelectedValue(
+	ProjectEvaluationSelectedValueID [int] IDENTITY(1,1) NOT NULL constraint PK_ProjectEvaluationSelectedValue_ProjectEvaluationSelectedValueID primary key,
+	[TenantID] [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	ProjectEvaluationID [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID foreign key references dbo.ProjectEvaluation(ProjectEvaluationID),
+	EvaluationCriterionValueID [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID foreign key references dbo.EvaluationCriterionValue(EvaluationCriterionValueID),
+ CONSTRAINT [AK_ProjectEvaluationSelectedValue_ProjectEvaluationSelectedValueID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[ProjectEvaluationSelectedValueID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+
 --test content for easier testing
 INSERT INTO [dbo].[Evaluation]
            ([TenantID]
