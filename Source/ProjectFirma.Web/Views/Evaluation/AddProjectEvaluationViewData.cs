@@ -31,10 +31,10 @@ namespace ProjectFirma.Web.Views.Evaluation
         public ProjectFirmaModels.Models.Evaluation Evaluation { get; }
         public AddProjectEvaluationViewDataForAngular ViewDataForAngular { get; }
 
-        public AddProjectEvaluationViewData(ProjectFirmaModels.Models.Evaluation evaluation, AddProjectEvaluationViewDataForAngular viewDataForAngular)
+        public AddProjectEvaluationViewData(ProjectFirmaModels.Models.Evaluation evaluation)//, AddProjectEvaluationViewDataForAngular viewDataForAngular)
         {
             Evaluation = evaluation;
-            ViewDataForAngular = viewDataForAngular;
+            //ViewDataForAngular = viewDataForAngular;
 
         }
     }

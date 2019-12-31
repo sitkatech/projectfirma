@@ -307,8 +307,9 @@ namespace ProjectFirma.Web.Controllers
         [EvaluationManageFeature]
         public PartialViewResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey)
         {
-            var viewModel = new EditEvaluationCriterionViewModel();
-            return ViewAddProjectEvaluation(viewModel);
+            var viewModel = new AddProjectEvaluationViewModel();
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            return ViewAddProjectEvaluation(viewModel, evaluation);
         }
 
         [HttpPost]
@@ -316,13 +317,13 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey, AddProjectEvaluationViewModel viewModel)
         {
-
+            var evaluation = evaluationPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewAddProjectEvaluation(viewModel);
+                return ViewAddProjectEvaluation(viewModel, evaluation);
             }
 
-            var evaluation = evaluationPrimaryKey.EntityObject;
+            
 
             //var evaluationCriterion = new EvaluationCriterion(evaluation, viewModel.EvaluationCriterionName, viewModel.EvaluationCriterionDefinition);
 
@@ -340,9 +341,9 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel)
+        private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel, Evaluation evaluation)
         {
-            var viewData = new AddProjectEvaluationViewData();
+            var viewData = new AddProjectEvaluationViewData(evaluation);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
         }
 
