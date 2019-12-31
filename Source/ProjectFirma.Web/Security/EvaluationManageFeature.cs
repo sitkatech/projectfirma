@@ -42,6 +42,12 @@ namespace ProjectFirma.Web.Security
             _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
+        public static bool HasEvaluationManagePermission(FirmaSession currentFirmaSession, Evaluation evaluation)
+        {
+            var permissionCheckResult = new EvaluationManageFeature().HasPermission(currentFirmaSession, evaluation);
+            return permissionCheckResult.HasPermission;
+        }
+
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Evaluation contextModelObject)
         {
             if (firmaSession.IsAnonymousOrUnassigned())
@@ -85,6 +91,7 @@ namespace ProjectFirma.Web.Security
                 default:
                     throw new ArgumentOutOfRangeException($"Unhandled enum: {evaluationVisibility}");
             }
+
         }
     }
 }
