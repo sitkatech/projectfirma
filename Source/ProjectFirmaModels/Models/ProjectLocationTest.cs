@@ -14,18 +14,19 @@ namespace ProjectFirmaModels.Models
         [Test]
         public void TestProjectLocationGeometriesAreAllValid()
         {
-            var invalidProjectLocationGeometriesList = new List<ProjectLocation>();
+            var invalidProjectLocationGeometryStringsList = new List<string>();
 
             var projectLocations = HttpRequestStorageForTest.DatabaseEntities.AllProjectLocations.ToList();
             foreach (var projectLocation in projectLocations)
             {
                 if (!projectLocation.ProjectLocationGeometry.IsValid)
                 {
-                    invalidProjectLocationGeometriesList.Add(projectLocation);
+                    var invalidProjectLocationGeometryString = $"(ProjectLocationID: [{projectLocation.ProjectLocationID}] TenantID: [{projectLocation.Tenant.TenantID}] TenantName: [{projectLocation.Tenant.TenantName}] ProjectID: [{projectLocation.ProjectID}] ProjectName: [{projectLocation.Project.ProjectName}])";
+                    invalidProjectLocationGeometryStringsList.Add(invalidProjectLocationGeometryString);
                 }
             }
 
-            Check.Ensure(!invalidProjectLocationGeometriesList.Any(), $"Found invalid geometries for ProjectLocationIDs: {String.Join(",", invalidProjectLocationGeometriesList.Select(x => x.ProjectLocationID).ToList())}");
+            Check.Ensure(!invalidProjectLocationGeometryStringsList.Any(), $"Found {invalidProjectLocationGeometryStringsList.Count} invalid geometries for ProjectLocations: {String.Join(", ", invalidProjectLocationGeometryStringsList)}");
         }
     }
 }
