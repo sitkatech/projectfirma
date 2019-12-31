@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
             Add(string.Empty, e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, DhtmlxGridColumnFilterType.None);
-            Add("Name", a => MakeHrefString(currentFirmaSession, a), 220, DhtmlxGridColumnFilterType.Html);
+            Add("Name", a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 220, DhtmlxGridColumnFilterType.Html);
             Add("Definition", a => a.EvaluationDefinition, 220, DhtmlxGridColumnFilterType.Text);
             Add("Status", a => a.GetEvaluationStatusDisplayName(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Start Date", a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 70);
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             Add("Visibility", a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
 
-        private static HtmlString MakeHrefString(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)
+        private static HtmlString MakeNameLinkToDetailIfAvailable(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluation))
             {
