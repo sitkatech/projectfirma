@@ -305,15 +305,23 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public ContentResult TestDocxTemplate()
         {
-
+            /**
+             * In reality we are probably going to store the templates in the FileResource table (or a document template table?). For SharpDocx we would likely retrieve that file, save it to the temp folder with a unique name, and use that path
+             * as the template path.
+             *
+             * We would probably compile the reports to a tmp directory as well, and serve it to the user from there.
+             *
+             */
             var templatePath =
                 "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\model-testing.docx";
-            var compilePath = "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\compiled.docx";
+            var compilePath = "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\model-testing-compiled.docx";
 
 
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Where(x => x.ProjectID == 12914).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
 
             var projectModelList = new List<DocxProjectModel>();
+
+            //projectModelList.Add(new DocxProjectModel(projects.First()));
 
             for (int i = 0; i < projects.Count(); i++)
             {
@@ -328,12 +336,35 @@ namespace ProjectFirma.Web.Controllers
             };
 
 
-            var document = DocumentFactory.Create(templatePath, model);
+            var document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, model);
+            document.ImageDirectory =
+                "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\images";
             document.Generate(compilePath);
 
 
             return Content(String.Empty);
         }
+
+        [CrossAreaRoute]
+        [HttpGet]
+        public ContentResult MonthlyStatusReport(ProjectPrimaryKey projectPrimaryKey)
+        {
+
+            var project = projectPrimaryKey.EntityObject;
+
+            var templatePath =
+                "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\monthly-status-report.docx";
+            var compilePath = $"C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\monthly-status-report-{project.ProjectID}.docx";
+
+            var projectModel = new DocxProjectModel(project);
+            
+            var document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, projectModel);
+            
+            document.Generate(compilePath);
+
+            return Content(String.Empty);
+        }
+
 
     }
 }
