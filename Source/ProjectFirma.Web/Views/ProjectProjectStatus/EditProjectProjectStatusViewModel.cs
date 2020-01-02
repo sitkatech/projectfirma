@@ -43,11 +43,18 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFinalStatusReport)]
+        public bool IsFinalStatusReport { get; set; }
+
+        
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditProjectProjectStatusViewModel()
         {
+            IsFinalStatusReport = false;
         }
 
         /// <summary>
@@ -56,6 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public EditProjectProjectStatusViewModel(DateTime projectStatusUpdateDate)
         {
             ProjectStatusUpdateDate = projectStatusUpdateDate;
+            IsFinalStatusReport = false;
         }
 
 
@@ -64,6 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             ProjectProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
             ProjectStatusID = projectProjectStatus.ProjectStatusID;
             ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
+            IsFinalStatusReport = projectProjectStatus.IsFinalStatusUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
@@ -71,6 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
             projectProjectStatus.ProjectStatusID = ProjectStatusID;
             projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
+            projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusReport;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
                 projectProjectStatus.ProjectProjectStatusCreateDate = DateTime.Now;

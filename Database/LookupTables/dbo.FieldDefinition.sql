@@ -144,4 +144,5 @@ VALUES
 (319, N'ExternalMapLayerLayerIsOnByDefault', 'Layer is on by default?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
-(322, N'FinalStatusReportStatus', N'Final Status Report')
+(322, N'FinalStatusReportStatus', N'Final Status Report'),
+(323,N'IsFinalStatusReport', N'Is Final Status Report')

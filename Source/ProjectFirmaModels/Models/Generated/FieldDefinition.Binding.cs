@@ -269,6 +269,7 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerLayerIsOnByDefault = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
-        FinalStatusReportStatus = 322
+        FinalStatusReportStatus = 322,
+        IsFinalStatusReport = 323
     }
 }

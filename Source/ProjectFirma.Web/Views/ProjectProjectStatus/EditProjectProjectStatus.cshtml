@@ -70,9 +70,38 @@
                         else
                         {
                             @Html.HiddenFor(m => m.ProjectStatusUpdateDate);
-                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly/>
+                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
                         }
                         @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
+                    </div>
+                </div>
+
+                <div class="form-group" id="finalStatusUpdateSection">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(x => x.IsFinalStatusReport)
+                    </div>
+                    <div class="col-sm-8">
+                        @if (ViewDataTyped.AllowEditFinal)
+                        {
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, true) Yes
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, false) No
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.IsFinalStatusReport);
+                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
+                        }
+                        @Html.ValidationMessageFor(m => m.IsFinalStatusReport)
                     </div>
                 </div>
 

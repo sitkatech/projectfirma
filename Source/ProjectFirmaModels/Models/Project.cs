@@ -180,22 +180,33 @@ namespace ProjectFirmaModels.Models
             return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).ThenBy(x => x.ProjectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
 
+        public bool HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted()
+        {
+            return ProjectUpdateBatches
+                .Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved ||
+                            x.ProjectUpdateState == ProjectUpdateState.Submitted)
+                .Any(x => x.ProjectUpdate?.ProjectStage == ProjectStage.Completed);
+        }
+
         public string FinalStatusReportStatusDescription
         {
             get
             {
+
+                var shouldHaveFinalStatusReport = HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || ProjectStage == ProjectStage.Completed;
+
                 var finalStatusReport = ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
 
-                if (finalStatusReport.Any())
+                if (shouldHaveFinalStatusReport && finalStatusReport.Any())
                 {
                     return "Submitted";
                 }
-                else if (ProjectStage == ProjectStage.Completed)
+                else if (shouldHaveFinalStatusReport)
                 {
                     return "Not submitted";
                 }
 
-                return "Project not completed";
+                return "n/a";
             }
         }
 
