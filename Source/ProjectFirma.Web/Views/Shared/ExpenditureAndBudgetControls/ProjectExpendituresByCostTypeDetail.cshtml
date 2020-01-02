@@ -43,10 +43,12 @@
                     <tr class="info">
                         <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSource.GetDisplayNameAsUrl())</td>
                     </tr>
-                    foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
+                    string noCostTypeString = "[No Cost Type]";
+                    var gropedCostTypesInOrder = groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key != null ? x.Key.CostTypeName : noCostTypeString).ToList();
+                    foreach (var groupedByCostType in gropedCostTypesInOrder)
                     {
                         <tr>
-                            <td style="text-align:left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key.CostTypeName)</td>
+                            <td style="text-align:left; padding-left: 20px;">@Html.Raw(groupedByCostType.Key != null ? groupedByCostType.Key.CostTypeName: noCostTypeString)</td>
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                             {
                                 <td style="text-align:right">
