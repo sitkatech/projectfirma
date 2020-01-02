@@ -145,4 +145,5 @@ VALUES
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'FinalStatusReportStatus', N'Final Status Report'),
-(323,N'IsFinalStatusReport', N'Is Final Status Report')
+(323,N'IsFinalStatusReport', N'Is Final Status Report'),
+(324,N'ProjectStatusLessonsLearned', N'Lessons Learned')

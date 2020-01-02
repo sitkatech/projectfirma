@@ -56,7 +56,8 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             , ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
             , List<ProjectFirmaModels.Models.ProjectStatus> allProjectStatuses
-            , ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData) : base(currentFirmaSession)
+            , ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData
+            , bool isFinalStatusReport) : base(currentFirmaSession)
         {
             ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
             ProjectStatusJsonList = new ProjectStatusJsonList(allProjectStatuses.Select(x => new ProjectStatusJson(x)).ToList());
@@ -67,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
             ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
-            AllowEditFinal = false;
+            AllowEditFinal = isFinalStatusReport;
 
             var currentPerson = currentFirmaSession.Person;
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);

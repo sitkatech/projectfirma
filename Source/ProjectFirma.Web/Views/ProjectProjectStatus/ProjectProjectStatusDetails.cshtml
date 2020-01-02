@@ -23,64 +23,89 @@
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ProjectProjectStatus.ProjectProjectStatusDetails
+<div class="row">
     <div class="row">
-        <div class="col-xs-12">
-            <div class="form-horizontal">
+        @if (@ViewDataTyped.ProjectProjectStatus.IsFinalStatusUpdate)
+        {
+            <div class="form-group">
+
+                <div class="col-sm-4 control-label">
+                    <h4>Final Status Update:</h4>
+                </div>
+            </div>
+            
+
+        }
+    </div>
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast()
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateDate.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusUpdateDate.ToStringDate()
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatus.ToType())
+                </div>
+                <div class="col-sm-8" style="color: @(ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusColor);">
+                    @ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusDisplayName
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusComments.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusComment
+                </div>
+            </div>
+            
+            @if (ViewDataTyped.ProjectProjectStatus.IsFinalStatusUpdate)
+            {
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusLessonsLearned.ToType())
                     </div>
                     <div class="col-sm-8">
-                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast()
+                        @ViewDataTyped.ProjectProjectStatus.LessonsLearned
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateDate.ToType())
-                    </div>
-                    <div class="col-sm-8">
-                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusUpdateDate.ToStringDate()
-                    </div>
+            }
+            
+            <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? string.Empty : "display: none;")">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited By")
                 </div>
-
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatus.ToType())
-                    </div>
-                    <div class="col-sm-8" style="color: @(ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusColor);">
-                        @ViewDataTyped.ProjectProjectStatus.ProjectStatus.ProjectStatusDisplayName
-                    </div>
+                <div class="col-sm-8">
+                    @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson.GetFullNameFirstLast() : string.Empty)
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusComments.ToType())
-                    </div>
-                    <div class="col-sm-8">
-                        @ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusComment
-                    </div>
+            <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? string.Empty : "display: none;")">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited on")
                 </div>
-
-                <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? string.Empty: "display: none;")">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited By")
-                    </div>
-                    <div class="col-sm-8">
-                        @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson != null ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedPerson.GetFullNameFirstLast() : string.Empty)
-                    </div>
-                </div>
-
-                <div class="form-group" style="@(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? string.Empty: "display: none;")">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelForModel(FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited on")
-                    </div>
-                    <div class="col-sm-8">
-                        @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.ToStringDate() : string.Empty)
-                    </div>
+                <div class="col-sm-8">
+                    @(ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? ViewDataTyped.ProjectProjectStatus.ProjectProjectStatusLastEditedDate.ToStringDate() : string.Empty)
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
