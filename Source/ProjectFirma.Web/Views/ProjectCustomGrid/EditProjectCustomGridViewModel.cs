@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectStatus).ToList();
             }
             // Remove the Final Status Report Status Column if Tenant doesn't use the require submitting lessons learned
-            if (!MultiTenantHelpers.GetTenantAttribute().RequireLessonsLearnedForCompletedProjects)
+            if (!MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FinalStatusReportStatus).ToList();
             }
