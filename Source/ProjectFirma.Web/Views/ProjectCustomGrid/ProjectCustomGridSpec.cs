@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FinalStatusReportStatus:
-                    if (MultiTenantHelpers.GetTenantAttribute().RequireLessonsLearnedForCompletedProjects && userHasEditProjectAsAdminPermissions)
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.FinalStatusReportStatus.ToType().ToGridHeaderString()
                             , x => x.FinalStatusReportStatusDescription
