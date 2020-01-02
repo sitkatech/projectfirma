@@ -41,6 +41,10 @@
     }
 </style>
 
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
 @using (Html.BeginForm())
 {
@@ -70,11 +74,40 @@
                         else
                         {
                             @Html.HiddenFor(m => m.ProjectStatusUpdateDate);
-                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly/>
+                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
                         }
                         @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
                     </div>
                 </div>
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="finalStatusUpdateSection">
+                        <div class="col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(x => x.IsFinalStatusReport)
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, true) Yes
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, false) No
+                                    </label>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.IsFinalStatusReport)
+                        </div>
+                    </div>
+                }
+            @if (!ViewDataTyped.AllowEditFinal)
+            {
+                @Html.HiddenFor(m => m.IsFinalStatusReport);
+            }
+
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
@@ -93,6 +126,22 @@
                         @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
                     </div>
                 </div>
+
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="lessonsLearnedDiv">
+                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.LessonsLearned)</div>
+                        <div class="col-sm-8">
+                            @Html.TextAreaWithMaxLengthFor(m => m.LessonsLearned, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                            @Html.ValidationMessageFor(m => m.LessonsLearned)
+                        </div>
+                    </div>
+                }
+                @if (!ViewDataTyped.AllowEditFinal)
+                {
+                    @Html.HiddenFor(m => m.LessonsLearned);
+                }
             </div>
         </div>
     </div>
@@ -109,7 +158,7 @@
     </div>
 }
 
-<script type="text/javascript">
+    <script type="text/javascript">
     jQuery(document).ready(function() {
         var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
         var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
@@ -119,6 +168,42 @@
         function mapOptionToColor(optionVal) {
             return projectStatuses[optionVal].Color;
         }
+
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusReport)]').change(function () {
+            var value = false;
+
+            if (this.value == 'True') {
+                value = true;
+            }
+
+            if (value) {
+                jQuery('#lessonsLearnedDiv').show();
+            } else {
+                jQuery('#lessonsLearnedDiv').hide();
+            }
+
+        });
+
+
+        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusReport)]');
+        console.log(radio);
+        var value = false;
+        radio.each(function () {
+            var textVal = jQuery(this).val();
+            if ( textVal== 'True' && jQuery(this).prop('checked')) {
+                value = true;
+            }
+        });
+        console.log(value);
+       
+        if (value) {
+            jQuery('#lessonsLearnedDiv').show();
+        } else {
+            jQuery('#lessonsLearnedDiv').hide();
+        }
+
+
+
 
         jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
             var option = jQuery(this);
@@ -152,5 +237,5 @@
     });
 
 
-</script>
+    </script>
 

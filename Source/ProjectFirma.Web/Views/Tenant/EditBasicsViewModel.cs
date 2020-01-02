@@ -117,6 +117,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Use Project Timeline")]
         public bool UseProjectTimeline { get; set; }
 
+        [DisplayName("Require Lessons Learned For Completed Projects")]
+        public bool RequireLessonsLearnedForCompletedProjects { get; set; }
+
         [DisplayName("GeoServer Namespace")]
         public string GeoServerNamespace { get; set; }
 
@@ -146,6 +149,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
+            RequireLessonsLearnedForCompletedProjects = tenantAttribute.RequireLessonsLearnedForCompletedProjects;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
         }
 
@@ -161,6 +165,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
             attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
             attribute.UseProjectTimeline = UseProjectTimeline;
+            attribute.RequireLessonsLearnedForCompletedProjects = RequireLessonsLearnedForCompletedProjects;
             attribute.GeoServerNamespace = GeoServerNamespace;
 
             Person primaryContactPerson = null;
