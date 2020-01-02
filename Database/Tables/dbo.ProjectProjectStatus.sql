@@ -13,6 +13,8 @@ CREATE TABLE [dbo].[ProjectProjectStatus](
 	[ProjectProjectStatusCreateDate] [datetime] NOT NULL,
 	[ProjectProjectStatusLastEditedPersonID] [int] NULL,
 	[ProjectProjectStatusLastEditedDate] [datetime] NULL,
+	[IsFinalStatusUpdate] [bit] NOT NULL,
+	[LessonsLearned] [varchar](2500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectProjectStatus_ProjectProjectStatusID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectProjectStatusID] ASC

@@ -46,6 +46,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
@@ -120,6 +121,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
+            
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
@@ -211,11 +213,39 @@ namespace ProjectFirma.Web.Controllers
 
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions);
+            var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions, userHasProjectAdminPermissions);
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
             var projectTimelineViewData =
                 new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions, projectStatusLegendDisplayViewData);
+
+            var currentPerson = CurrentFirmaSession.Person;
+            var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
+            var addProjectProjectStatusButton =
+                ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
+
+
+            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
+            {
+                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+
+                if (!finalStatusReport.Any())
+                {
+                    if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                    {
+                        if (project.ProjectStage == ProjectStage.Completed)
+                        {
+                            SetWarningForDisplay($"The Project is completed. Submit a final status update <strong>here</strong>, or from the Project Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
+                        }
+                        else
+                        {
+                            SetWarningForDisplay($"This project has an update in progress that identifies the project as completed. Submit a final status update <strong>here</strong>, or from the Project Update and Status History panel." +
+                                                 $"</br></br> {addProjectProjectStatusButton}");
+                        }
+                        
+                    }
+                }
+            }
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
