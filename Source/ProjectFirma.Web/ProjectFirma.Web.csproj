@@ -237,6 +237,7 @@
     <Compile Include="Views\Evaluation\EditViewData.cs" />
     <Compile Include="Views\Evaluation\EditViewModel.cs" />
     <Compile Include="Views\Evaluation\EvaluationCriterionGridSpec.cs" />
+    <Compile Include="Views\Evaluation\EvaluationPortfolioGridSpec.cs" />
     <Compile Include="Views\Evaluation\Index.cs" />
     <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
     <Compile Include="Views\Evaluation\IndexViewData.cs" />

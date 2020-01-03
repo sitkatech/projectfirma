@@ -109,7 +109,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriterionGridSpec, ViewDataTyped.EvaluationCriterionGridName, ViewDataTyped.EvaluationCriterionGridDataUrl, "height:500px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriterionGridSpec, ViewDataTyped.EvaluationCriterionGridName, ViewDataTyped.EvaluationCriterionGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>
@@ -128,7 +128,11 @@
                         @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} to this {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-xs-12">
+                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationPortfolioGridSpec, ViewDataTyped.EvaluationPortfolioGridName, ViewDataTyped.EvaluationPortfolioGridDataUrl, "height:350px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                    </div>
+                </div>
             </div>
         </div>
     </div>

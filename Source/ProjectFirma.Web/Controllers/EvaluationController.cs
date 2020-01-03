@@ -346,5 +346,15 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
         }
 
+        [EvaluationManageFeature]
+        public GridJsonNetJObjectResult<ProjectEvaluation> EvaluationPortfolioGridJsonData(EvaluationPrimaryKey evaluationPrimaryKey)
+        {
+            var evaluation = evaluationPrimaryKey.EntityObject;
+            var gridSpec = new EvaluationPortfolioGridSpec(CurrentFirmaSession, evaluation);
+            var projectEvaluations = evaluation.ProjectEvaluations.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectEvaluation>(projectEvaluations, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
     }
 }
