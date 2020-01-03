@@ -134,7 +134,5 @@ namespace ProjectFirmaModels.Models
         {
             public const int Comments = 1000;
         }
-
-
     }
 }

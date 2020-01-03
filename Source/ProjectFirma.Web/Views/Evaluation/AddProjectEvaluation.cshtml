@@ -62,12 +62,10 @@
         <div class="form-group">
             <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12">
-                <div>
-                    <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body"></select>
+                <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8"></select>
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-firma"  ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>
                     </div>
-                </div>
             </div>
         </div>
         <div class="form-group">
