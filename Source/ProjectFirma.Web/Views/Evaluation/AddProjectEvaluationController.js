@@ -20,111 +20,104 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", function ($scope, angularModelAndViewData) {
 
-    $scope.GeospatialAreaDropdownOptions = [];
+    //$scope.GeospatialAreaDropdownOptions = [];
 
-    $scope.addGeospatialArea = function (geospatialArea, selectedGeospatialAreaTypeID) {
-        //console.log('inside addGeospatialArea');
-        //console.log('geospatialAreaID:' + geospatialAreaID);
-        //console.log('selectedGeospatialAreaTypeID:' + selectedGeospatialAreaTypeID);
-        var geospatialAreaTypeIdInt = parseInt(selectedGeospatialAreaTypeID, 10);
-        var geospatialAreaType = _.find($scope.AngularViewData.GeospatialAreaTypeSimples, { GeospatialAreaTypeID: geospatialAreaTypeIdInt });
+    $scope.addProject = function (project) {
 
-        var geospatialAreaID = geospatialArea.GeospatialAreaID;
 
-        if (!geospatialAreaID)
-        {
-            var firstItem = _.first($scope.GeospatialAreaDropdownOptions);
-            geospatialAreaID = firstItem.GeospatialAreaID;
-            //console.log('geospatialAreaID:' + geospatialAreaID);
-        }
-        var geospatialAreaIdInt = parseInt(geospatialAreaID, 10);
-        //console.log('geospatialAreaIdInt:' + geospatialAreaIdInt);
-        var alreadyAdded = _.find($scope.AngularModel.SelectedGeospatialAreas, { GeospatialAreaID: geospatialAreaIdInt });
+        var projectID = project.ProjectID;
 
+        //if (!projectID)
+        //{
+        //    var firstItem = _.first($scope.GeospatialAreaDropdownOptions);
+        //    geospatialAreaID = firstItem.GeospatialAreaID;
+        //    //console.log('geospatialAreaID:' + geospatialAreaID);
+        //}
+
+        var projectIdInt = parseInt(projectID, 10);
+        //console.log('projectIdInt:' + projectIdInt);
+        var alreadyAdded = _.find($scope.AngularModel.SelectedProjects, { ProjectID: projectIdInt });
         if (_.isObject(alreadyAdded)) {
             //console.log('alreadyAdded:' + JSON.stringify(alreadyAdded));
             return;
         }
 
-        var geospatialArea = _.find($scope.AngularViewData.GeospatialAreaSimples, { GeospatialAreaID: geospatialAreaIdInt });
-        var combinedName = geospatialAreaType.GeospatialAreaTypeName + " - " + geospatialArea.GeospatialAreaName;
-        var newArea = { GeospatialAreaID: geospatialAreaIdInt, GeospatialAreaName: combinedName };
-        $scope.AngularModel.SelectedGeospatialAreas.push(newArea);
-        var indexOfCurrentItem = $scope.selectableGeospatialAreas.indexOf($scope.SelectedGeospatialArea);
-        if (typeof $scope.selectableGeospatialAreas[indexOfCurrentItem + 1] !== 'undefined') {
-            $scope.SelectedGeospatialArea = $scope.selectableGeospatialAreas[indexOfCurrentItem + 1];
+        var newProject = _.find($scope.AngularViewData.ProjectSimples, { ProjectID: projectIdInt });
+        $scope.AngularModel.SelectedProjects.push(newProject);
+        var indexOfCurrentItem = $scope.selectableProjects.indexOf($scope.SelectedProject);
+        if (typeof $scope.selectableProjects[indexOfCurrentItem + 1] !== 'undefined') {
+            $scope.SelectedProject = $scope.selectableProjects[indexOfCurrentItem + 1];
         }
         
-        $scope.refreshSelectableGeospatialAreas();
+        $scope.refreshSelectableProjects();
     };
 
 
-    $scope.getGeospatialAreaTypes = function () {
-        return $scope.AngularViewData.GeospatialAreaTypeSimples;
-    };
+    //$scope.getGeospatialAreaTypes = function () {
+    //    return $scope.AngularViewData.GeospatialAreaTypeSimples;
+    //};
 
-    $scope.isAddButtonDisabled = function () {
-        var returnValue = true;
-        if ($scope.GeospatialAreaDropdownOptions.length > 0) {
+    //$scope.isAddButtonDisabled = function () {
+    //    var returnValue = true;
+    //    if ($scope.GeospatialAreaDropdownOptions.length > 0) {
             
-            returnValue = false;
-        }
-        return returnValue;
-    };
+    //        returnValue = false;
+    //    }
+    //    return returnValue;
+    //};
 
-    $scope.getSelectableGeospatialAreas = function (selectedGeospatialAreaTypeID) {
+    $scope.getSelectableProjects = function () {
         //debugger;
-        var geospatialAreaTypeID = parseInt(selectedGeospatialAreaTypeID, 10);
-        var geospatialAreas = _.where($scope.AngularViewData.GeospatialAreaSimples, { 'GeospatialAreaTypeID': geospatialAreaTypeID });
-        var filteredGeospatialAreas = _.filter(geospatialAreas,
-                                                function(geospatialArea) {
-                                                    var object = _.find($scope.AngularModel.SelectedGeospatialAreas,
-                                                        function (selectedGeospatialArea) {
-                                                            return geospatialArea.GeospatialAreaID == selectedGeospatialArea.GeospatialAreaID;
+
+        var filteredProjects = _.filter($scope.AngularViewData.ProjectSimples,
+                                                function(project) {
+                                                    var object = _.find($scope.AngularModel.SelectedProjects,
+                                                        function (selectedProject) {
+                                                            return project.ProjectID == selectedProject.ProjectID;
                                                         });
                                                     return !_.isObject(object);
                                                 });
         
-        $scope.GeospatialAreaDropdownOptions = filteredGeospatialAreas.sort(function (a, b) {
-                                                                                                var nameA = a.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
-                                                                                                var nameB = b.GeospatialAreaName.toUpperCase(); // ignore upper and lowercase
-                                                                                                if (nameA < nameB) {
-                                                                                                    return -1;
-                                                                                                }
-                                                                                                if (nameA > nameB) {
-                                                                                                    return 1;
-                                                                                                }
+        var sortedProjects = filteredProjects.sort(function (a, b) {
+                                                                        var nameA = a.DisplayName.toUpperCase(); // ignore upper and lowercase
+                                                                        var nameB = b.DisplayName.toUpperCase(); // ignore upper and lowercase
+                                                                        if (nameA < nameB) {
+                                                                            return -1;
+                                                                        }
+                                                                        if (nameA > nameB) {
+                                                                            return 1;
+                                                                        }
 
-                                                                                                // names must be equal
-                                                                                                return 0;
-                                                                                            });
-        return $scope.GeospatialAreaDropdownOptions;
+                                                                        // names must be equal
+                                                                        return 0;
+                                                                    });
+        return sortedProjects;
 
 
     };
 
-    $scope.selectableGeospatialAreas = [];
+    $scope.selectableProjects = [];
 
-    $scope.refreshSelectableGeospatialAreas = function () {
+    $scope.refreshSelectableProjects = function () {
         
-        $scope.selectableGeospatialAreas = $scope.getSelectableGeospatialAreas($scope.SelectedGeospatialAreaTypeID);
+        $scope.selectableProjects = $scope.getSelectableProjects();
         setTimeout(function () {
             jQuery(".selectpicker").selectpicker("refresh");
         }, 50);
     }
 
 
-    $scope.deleteGeospatialArea = function (rowToDelete) {
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.SelectedGeospatialAreas, rowToDelete);
+    $scope.deleteProject = function (projectToDelete) {
+        Sitka.Methods.removeFromJsonArray($scope.AngularModel.SelectedProjects, projectToDelete);
     };
 
     
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-    $scope.SelectedGeospatialAreaID = "";
-    $scope.SelectedGeospatialArea = {};
-    $scope.AngularModel.SelectedGeospatialAreas = [];
-   
+    $scope.SelectedProjectID = "";
+    $scope.SelectedProject = {};
+    $scope.AngularModel.SelectedProjects = [];
+    $scope.refreshSelectableProjects();
 
 });

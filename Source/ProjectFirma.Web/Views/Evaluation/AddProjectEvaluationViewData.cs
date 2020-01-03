@@ -31,24 +31,28 @@ namespace ProjectFirma.Web.Views.Evaluation
         public ProjectFirmaModels.Models.Evaluation Evaluation { get; }
         public AddProjectEvaluationViewDataForAngular ViewDataForAngular { get; }
 
-        public AddProjectEvaluationViewData(ProjectFirmaModels.Models.Evaluation evaluation)//, AddProjectEvaluationViewDataForAngular viewDataForAngular)
+        public AddProjectEvaluationViewData(AddProjectEvaluationViewDataForAngular viewDataForAngular, ProjectFirmaModels.Models.Evaluation evaluation)
         {
             Evaluation = evaluation;
-            //ViewDataForAngular = viewDataForAngular;
+            ViewDataForAngular = viewDataForAngular;
 
         }
     }
 
     public class AddProjectEvaluationViewDataForAngular
     {
-        public List<GeospatialAreaTypeSimple> GeospatialAreaTypeSimples { get; set; }
-        public List<GeospatialAreaSimple> GeospatialAreaSimples { get; set; }
-        
+        public List<TaxonomyTierSimple> TaxonomyTrunkSimples { get; set; }
+        public List<TaxonomyTierSimple> TaxonomyBranchSimples { get; set; }
+        public List<TaxonomyTierSimple> TaxonomyLeafSimples { get; set; }
+        public List<ProjectSimple> ProjectSimples { get; set; }
 
-        public AddProjectEvaluationViewDataForAngular(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, List<GeospatialAreaTypeSimple> geospatialAreaTypeSimples, List<GeospatialAreaSimple> geospatialAreaSimples)
+
+        public AddProjectEvaluationViewDataForAngular(List<TaxonomyTierSimple> taxonomyTrunkSimples, List<TaxonomyTierSimple> taxonomyBranchSimples, List<TaxonomyTierSimple> taxonomyLeafSimples, List<ProjectSimple> projectSimples)
         {
-            GeospatialAreaTypeSimples = geospatialAreaTypeSimples;
-            GeospatialAreaSimples = geospatialAreaSimples;//todo: probably want this data coming from an AJAX call
+            TaxonomyTrunkSimples = taxonomyTrunkSimples;
+            TaxonomyBranchSimples = taxonomyBranchSimples;
+            TaxonomyLeafSimples = taxonomyLeafSimples;
+            ProjectSimples = projectSimples;
         }
     }
 }

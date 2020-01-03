@@ -33,9 +33,8 @@ namespace ProjectFirma.Web.Views.Evaluation
     public class AddProjectEvaluationViewModel : FormViewModel
     {
         [Required]
-        public int PerformanceMeasureID { get; set; }
-        public int GeospatialAreaTypeID { get; set; }
-        public List<int> GeospatialAreas { get; set; }
+        public int EvaluationID { get; set; }
+        public List<int> ProjectIDs { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -44,29 +43,29 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
         }
 
-        public AddProjectEvaluationViewModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
+        public AddProjectEvaluationViewModel(ProjectFirmaModels.Models.Evaluation evaluation)
         {
-            PerformanceMeasureID = performanceMeasure.PerformanceMeasureID;
+            EvaluationID = evaluation.EvaluationID;
         }
 
-        public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure)
+        public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
         {
-            if (GeospatialAreas == null || !GeospatialAreas.Any())
+            if (ProjectIDs == null || !ProjectIDs.Any())
             {
                 return;
             }
-            foreach (var geospatialAreaID in GeospatialAreas)
+            foreach (var projectID in ProjectIDs)
             {
-                var geospatialArea = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Single(x => x.GeospatialAreaID == geospatialAreaID);
-                if (geospatialArea == null)
+                var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == projectID);
+                if (project == null)
                 {
-                    //bad geospatialAreaID from front-end
+                    //bad projectID from front-end
                     continue;
                 }
 
-                // Default to a "No Target"
-                var noTarget = GeospatialAreaPerformanceMeasureNoTargetModelExtensions.GetOrCreateGeospatialAreaPerformanceMeasureNoTarget(performanceMeasure, geospatialArea);
-                HttpRequestStorage.DatabaseEntities.AllGeospatialAreaPerformanceMeasureNoTargets.Add(noTarget);
+                // get or create a new one
+                var projectEvaluation = ProjectEvaluationModelExtensions.GetOrCreateProjectEvaluation(evaluation, project);
+                HttpRequestStorage.DatabaseEntities.AllProjectEvaluations.Add(projectEvaluation);
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentFirmaSession);
         }

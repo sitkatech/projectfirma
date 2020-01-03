@@ -727,6 +727,7 @@
     <Compile Include="Models\ProjectContactRelationship.cs" />
     <Compile Include="Models\ProjectContactSimple.cs" />
     <Compile Include="Models\ProjectContactUpdate.cs" />
+    <Compile Include="Models\ProjectEvaluation.cs" />
     <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdate.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
     <Compile Include="Models\ProjectProjectStatus.cs" />

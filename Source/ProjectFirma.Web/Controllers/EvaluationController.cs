@@ -324,26 +324,25 @@ namespace ProjectFirma.Web.Controllers
             }
 
             
+            viewModel.UpdateModel(CurrentFirmaSession, evaluation);
 
-            //var evaluationCriterion = new EvaluationCriterion(evaluation, viewModel.EvaluationCriterionName, viewModel.EvaluationCriterionDefinition);
-
-            //if (viewModel.EvaluationCriterionValueSimples.Count > 0)
-            //{
-            //    evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription)).ToList();
-            //}
-
-
-            //HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
-            //HttpRequestStorage.DatabaseEntities.SaveChanges();
-
-            //SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
+            SetMessageForDisplay($"Successfully added projects to this {FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()}.");
 
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel, Evaluation evaluation)
         {
-            var viewData = new AddProjectEvaluationViewData(evaluation);
+
+            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any()).ToList();
+            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().Where(x => x.TaxonomyLeafs.Intersect(taxonomyLeaves).Any()).ToList();
+            var taxonomyTrunk = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().Where(x => x.TaxonomyBranches.Intersect(taxonomyBranches).Any()).ToList();
+
+            var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).ToList();
+
+            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples);
+
+            var viewData = new AddProjectEvaluationViewData(angularViewData, evaluation);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
         }
 

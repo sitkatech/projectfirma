@@ -53,5 +53,6 @@ namespace ProjectFirma.Web.Models
             List<string> evaluationCriteriaNames = evaluation.EvaluationCriterions.Select(x => x.EvaluationCriterionName).ToList();
             return string.Join(", ", evaluationCriteriaNames);
         }
+
     }
 }

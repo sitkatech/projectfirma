@@ -37,7 +37,7 @@
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
     <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/EditEvaluationCriterionController.js")"></script>
-
+    <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/AddProjectEvaluationController.js")"></script>
 }
 
 
@@ -119,13 +119,13 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel() Portfolio
+                    @FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
-                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} or {1} to this {2}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} to this {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
                     </div>
                 </div>
 
