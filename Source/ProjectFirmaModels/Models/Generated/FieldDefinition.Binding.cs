@@ -269,10 +269,13 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerLayerIsOnByDefault = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
-        Evaluation = 322,
-        EvaluationCriterion = 323,
-        EvaluationCriterionValue = 324,
-        EvaluationPortfolio = 325,
-        ProjectEvaluation = 326
+        FinalStatusReportStatus = 322,
+        IsFinalStatusReport = 323,
+        ProjectStatusLessonsLearned = 324,
+        Evaluation = 325,
+        EvaluationCriterion = 326,
+        EvaluationCriterionValue = 327,
+        EvaluationPortfolio = 328,
+        ProjectEvaluation = 329
     }
 }

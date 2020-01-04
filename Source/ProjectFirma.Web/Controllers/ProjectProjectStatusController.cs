@@ -42,8 +42,36 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
+            var allowEditFinal = ValueOfIsFinalForNew(projectPrimaryKey);
+            viewModel.IsFinalStatusReport = allowEditFinal;
+
+
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
-            return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage);
+            return ViewEdit( viewModel, false, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
+        }
+
+        private bool ValueOfIsFinalForNew(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var allowEditFinal = false;
+
+            var project = projectPrimaryKey.EntityObject;
+            var currentPerson = CurrentFirmaSession.Person;
+            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() ||
+                project.ProjectStage == ProjectStage.Completed)
+            {
+                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+
+                if (!finalStatusReport.Any())
+                {
+                    if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                    {
+                        allowEditFinal = true;
+                    }
+                }
+            }
+
+            return allowEditFinal;
         }
 
         [HttpPost]
@@ -54,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
-                return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage);
+                return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -65,8 +93,10 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
+            var allowEditFinal = ValueOfIsFinalForNew(projectPrimaryKey);
+            viewModel.IsFinalStatusReport = allowEditFinal;
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-            return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage);
+            return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
         }
 
         [HttpPost]
@@ -77,7 +107,7 @@ namespace ProjectFirma.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-                return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage);
+                return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
@@ -102,7 +132,7 @@ namespace ProjectFirma.Web.Controllers
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-            return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
+            return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage, projectPrimaryKey.EntityObject, projectProjectStatus.IsFinalStatusUpdate);
         }
 
         [HttpPost]
@@ -111,22 +141,23 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-                return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
+                return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage, project, projectProjectStatus.IsFinalStatusUpdate);
             }
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage)
+        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, bool isFinalStatusReport)
         {
             var projectStatusFirmaPage = firmaPage;
             var allProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectStatuses.ToList();
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses, projectStatusLegendDisplayViewData);
+            var viewData = new EditProjectProjectStatusViewData(project,allowEditUpdateDate, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses, projectStatusLegendDisplayViewData, isFinalStatusReport);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 

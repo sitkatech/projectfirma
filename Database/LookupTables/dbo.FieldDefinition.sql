@@ -144,8 +144,11 @@ VALUES
 (319, N'ExternalMapLayerLayerIsOnByDefault', 'Layer is on by default?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
-(322, N'Evaluation', 'Evaluation'),
-(323, N'EvaluationCriterion', 'Evaluation Criterion'),
-(324, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
-(325, N'EvaluationPortfolio', 'Evaluation Portfolio'),
-(326, N'ProjectEvaluation', 'Project Evaluation')
+(322, N'FinalStatusReportStatus', N'Final Status Report'),
+(323,N'IsFinalStatusReport', N'Is Final Status Report'),
+(324,N'ProjectStatusLessonsLearned', N'Lessons Learned'),
+(325, N'Evaluation', 'Evaluation'),
+(326, N'EvaluationCriterion', 'Evaluation Criterion'),
+(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
+(329, N'ProjectEvaluation', 'Project Evaluation')
