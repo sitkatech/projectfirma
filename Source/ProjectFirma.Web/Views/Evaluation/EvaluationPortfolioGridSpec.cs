@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
 
             //Add(string.Empty, pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
-            //Add(string.Empty, pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, e => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
             foreach (var evaluationCriterionColumn in evaluation.EvaluationCriterions)
@@ -47,13 +47,13 @@ namespace ProjectFirma.Web.Views.Evaluation
         //    return new HtmlString(string.Empty);
         //}
 
-        //private static HtmlString MakeEditIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, ProjectEvaluation evaluationCriterion)
-        //{
-        //    if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluationCriterion.Evaluation))
-        //    {
-        //        return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(evaluationCriterion.GetEditUrl(), $"Edit {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'");
-        //    }
-        //    return new HtmlString(string.Empty);
-        //}
+        private static HtmlString MakeEditIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, ProjectEvaluation projectEvaluation)
+        {
+            if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, projectEvaluation.Evaluation))
+            {
+                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
+            }
+            return new HtmlString(string.Empty);
+        }
     }
 }

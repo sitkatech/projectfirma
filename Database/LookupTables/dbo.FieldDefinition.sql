@@ -147,4 +147,5 @@ VALUES
 (322, N'Evaluation', 'Evaluation'),
 (323, N'EvaluationCriterion', 'Evaluation Criterion'),
 (324, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
-(325, N'EvaluationPortfolio', 'Evaluation Portfolio')
+(325, N'EvaluationPortfolio', 'Evaluation Portfolio'),
+(326, N'ProjectEvaluation', 'Project Evaluation')

@@ -272,6 +272,7 @@ namespace ProjectFirmaModels.Models
         Evaluation = 322,
         EvaluationCriterion = 323,
         EvaluationCriterionValue = 324,
-        EvaluationPortfolio = 325
+        EvaluationPortfolio = 325,
+        ProjectEvaluation = 326
     }
 }

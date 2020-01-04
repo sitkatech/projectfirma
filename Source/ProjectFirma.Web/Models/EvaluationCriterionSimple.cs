@@ -22,13 +22,13 @@ namespace ProjectFirma.Web.Models
             EvaluationID = evaluationCriterion.EvaluationID;
             EvaluationCriterionName = evaluationCriterion.EvaluationCriterionName;
             EvaluationCriterionDefinition = evaluationCriterion.EvaluationCriterionDefinition;
-            EvaluationCriterionValues = evaluationCriterion.EvaluationCriterionValues.Select(x => new EvaluationCriterionValueSimple(x)).ToList();
+            EvaluationCriterionValueSimples = evaluationCriterion.EvaluationCriterionValues.Select(x => new EvaluationCriterionValueSimple(x)).ToList();
         }
 
         public int EvaluationCriterionID { get; set; }
         public int EvaluationID { get; set; }
         public string EvaluationCriterionName { get; set; }
         public string EvaluationCriterionDefinition { get; set; }
-        public List<EvaluationCriterionValueSimple> EvaluationCriterionValues { get; set; }
+        public List<EvaluationCriterionValueSimple> EvaluationCriterionValueSimples { get; set; }
     }
 }

@@ -214,6 +214,7 @@
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
@@ -225,8 +226,11 @@
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluationViewData.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluationViewModel.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluationViewModel.cs" />
     <Compile Include="Views\Evaluation\Detail.cs" />
     <Compile Include="Views\Evaluation\DetailViewData.cs" />
@@ -566,6 +570,7 @@
     <Content Include="Views\Evaluation\Detail.cshtml" />
     <Content Include="Views\Evaluation\EditEvaluationCriterion.cshtml" />
     <Content Include="Views\Evaluation\AddProjectEvaluation.cshtml" />
+    <Content Include="Views\Evaluation\EditProjectEvaluation.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

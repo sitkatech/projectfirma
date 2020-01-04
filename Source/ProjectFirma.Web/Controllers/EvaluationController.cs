@@ -356,5 +356,44 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+
+
+
+
+        [HttpGet]
+        [ProjectEvaluationManageFeature]
+        public PartialViewResult EditProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationPrimaryKey)
+        {
+            var viewModel = new EditProjectEvaluationViewModel();
+            var projectEvaluation = projectEvaluationPrimaryKey.EntityObject;
+            return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+        }
+
+        [HttpPost]
+        [ProjectEvaluationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationPrimaryKey, EditProjectEvaluationViewModel viewModel)
+        {
+            var projectEvaluation = projectEvaluationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+            }
+
+
+            viewModel.UpdateModel(CurrentFirmaSession, projectEvaluation);
+
+            SetMessageForDisplay($"Successfully updated the {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {projectEvaluation.Project.GetDisplayName()}.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditProjectEvaluation(EditProjectEvaluationViewModel viewModel, ProjectEvaluation projectEvaluation)
+        {
+            var evaluationCriterionSimples = projectEvaluation.Evaluation.EvaluationCriterions.Select(x => new EvaluationCriterionSimple(x)).ToList();
+            var viewData = new EditProjectEvaluationViewData(projectEvaluation, evaluationCriterionSimples);
+            return RazorPartialView<EditProjectEvaluation, EditProjectEvaluationViewData, EditProjectEvaluationViewModel>(viewData, viewModel);
+        }
+
     }
 }
