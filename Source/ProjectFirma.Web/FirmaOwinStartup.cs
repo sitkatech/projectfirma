@@ -234,7 +234,7 @@ namespace ProjectFirma.Web
 
                 if (organization == null)
                 {
-                    SitkaHttpApplication.Logger.Info($"In SyncLocalAccountStore - Could not find Organization with keystoneUserClaims.OrganizationGuid '{keystoneUserClaims.OrganizationGuid}' or keystoneUserClaims.OrganizationName '{keystoneUserClaims.OrganizationName}'. Will attempt to create new Organization.");
+                    SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - Could not find Organization with keystoneUserClaims.OrganizationGuid '{keystoneUserClaims.OrganizationGuid}' or keystoneUserClaims.OrganizationName '{keystoneUserClaims.OrganizationName}'. Will attempt to create new Organization.");
 
                     var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
