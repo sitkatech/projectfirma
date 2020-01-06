@@ -19,12 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.Edit
 
 
-
+<div class="row">
+    <div class="col-md-12">
+        <p>Define the basics of this @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel().</p>
+        
+    </div>
+</div>
 
 @using (Html.BeginForm())
 {

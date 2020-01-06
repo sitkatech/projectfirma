@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common;
 using LtInfo.Common.Models;
