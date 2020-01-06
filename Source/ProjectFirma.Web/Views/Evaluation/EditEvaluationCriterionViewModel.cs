@@ -34,9 +34,11 @@ namespace ProjectFirma.Web.Views.Evaluation
         public int EvaluationID { get; set; }
         [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionName)]
         [Required]
+        [StringLength(EvaluationCriterion.FieldLengths.EvaluationCriterionName)]
         public string EvaluationCriterionName { get; set; }
         [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionDefinition)]
         [Required]
+        [StringLength(EvaluationCriterion.FieldLengths.EvaluationCriterionDefinition)]
         public string EvaluationCriterionDefinition { get; set; }
         public List<EvaluationCriterionValueSimple> EvaluationCriterionValueSimples { get; set; }
 
