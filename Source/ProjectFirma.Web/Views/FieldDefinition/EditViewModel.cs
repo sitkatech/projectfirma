@@ -35,6 +35,9 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         [StringLength(FieldDefinitionData.FieldLengths.FieldDefinitionLabel)]
         public string FieldDefinitionLabel { get; set; }
 
+        [DisplayName("Default Definition")]
+        public HtmlString FieldDefinitionDefault { get; set; }
+
         /// <summary>
         /// Needed by model binder
         /// </summary>
@@ -42,16 +45,21 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         {
         }
 
-        public EditViewModel(FieldDefinitionData fieldDefinitionData)
+        public EditViewModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault)
         {
             FieldDefinitionDataValue = fieldDefinitionData?.FieldDefinitionDataValueHtmlString;
             FieldDefinitionLabel = fieldDefinitionData?.FieldDefinitionLabel;
+            FieldDefinitionDefault = fieldDefinitionDefault.DefaultDefinitionHtmlString;
         }
 
-        public void UpdateModel(FieldDefinitionData fieldDefinitionData)
+        public void UpdateModel(FieldDefinitionData fieldDefinitionData, FieldDefinitionDefault fieldDefinitionDefault)
         {
             fieldDefinitionData.FieldDefinitionDataValueHtmlString = FieldDefinitionDataValue;
             fieldDefinitionData.FieldDefinitionLabel = string.IsNullOrWhiteSpace(FieldDefinitionLabel) ? null : FieldDefinitionLabel;
+            if (fieldDefinitionDefault != null)
+            {
+                fieldDefinitionDefault.DefaultDefinitionHtmlString = FieldDefinitionDefault;
+            }
         }
     }
 }

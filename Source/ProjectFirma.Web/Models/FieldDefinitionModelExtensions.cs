@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
             {
                 return fieldDefinitionData.FieldDefinitionDataValueHtmlString;
             }
-            return fieldDefinition.DefaultDefinitionHtmlString;
+            return fieldDefinition.FieldDefinitionDefault.DefaultDefinitionHtmlString;
         }
 
         public static string GetFieldDefinitionLabel(this FieldDefinition fieldDefinition)

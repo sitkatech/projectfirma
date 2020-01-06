@@ -700,6 +700,15 @@ namespace ProjectFirma.Web.Models
             return project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState != ProjectUpdateState.Approved).OrderByDescending(x => x.LastUpdateDate).FirstOrDefault();
         }
 
+        public static bool HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted(this Project project)
+        {
+            return project
+                .ProjectUpdateBatches
+                .Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved ||
+                            x.ProjectUpdateState == ProjectUpdateState.Submitted)
+                .Any(x => x.ProjectUpdate?.ProjectStage == ProjectStage.Completed);
+        }
+
         public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();

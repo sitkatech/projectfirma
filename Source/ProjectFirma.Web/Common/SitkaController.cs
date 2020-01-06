@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Common
         public const string StatusErrorIndex = "StatusError";
         public const string StatusMessageIndex = "StatusMessage";
         public const string InfoMessageIndex = "InfoMessage";
+        public const string WarningMessageIndex = "WarningMessage";
 
         public const string NotAuthorizedLoginText = "You do not have permission to do that, please log in.";
 
@@ -80,6 +81,11 @@ namespace ProjectFirma.Web.Common
         public void SetErrorForDisplay(string errorMessage)
         {
             SetMessage(StatusErrorIndex, errorMessage, TempData);
+        }
+
+        public void SetWarningForDisplay(string errorMessage)
+        {
+            SetMessage(WarningMessageIndex, errorMessage, TempData);
         }
 
         protected void ClearErrorForDisplay()
