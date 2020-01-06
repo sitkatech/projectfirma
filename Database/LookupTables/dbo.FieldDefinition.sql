@@ -151,4 +151,12 @@ VALUES
 (326, N'EvaluationCriterion', 'Evaluation Criterion'),
 (327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
-(329, N'ProjectEvaluation', 'Project Evaluation')
+(329, N'ProjectEvaluation', 'Project Evaluation'),
+(330, N'EvaluationName', 'Evaluation Name'),
+(331, N'EvaluationDefinition', 'Evaluation Definition'),
+(332, N'EvaluationStatus', 'Evaluation Status'),
+(333, N'EvaluationStartDate', 'Evaluation Start Date'),
+(334, N'EvaluationEndDate', 'Evaluation End Date'),
+(335, N'EvaluationVisibility', 'Evaluation Visibility'),
+(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')

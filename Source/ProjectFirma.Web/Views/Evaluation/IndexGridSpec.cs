@@ -23,6 +23,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -34,13 +35,13 @@ namespace ProjectFirma.Web.Views.Evaluation
         public IndexGridSpec(FirmaSession currentFirmaSession)
         {
             Add(string.Empty, e => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, DhtmlxGridColumnFilterType.None);
-            Add("Name", a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 220, DhtmlxGridColumnFilterType.Html);
-            Add("Definition", a => a.EvaluationDefinition, 220, DhtmlxGridColumnFilterType.Text);
-            Add("Status", a => a.GetEvaluationStatusDisplayName(), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Start Date", a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 70);
-            Add("End Date", a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 70);
-            Add("Criteria", a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
-            Add("Visibility", a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.EvaluationName.ToType().ToGridHeaderString(), a => MakeNameLinkToDetailIfAvailable(currentFirmaSession, a), 210, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.EvaluationDefinition.ToType().ToGridHeaderString(), a => a.EvaluationDefinition, 210, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.EvaluationStartDate.ToType().ToGridHeaderString(), a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 80);
+            Add(FieldDefinitionEnum.EvaluationEndDate.ToType().ToGridHeaderString(), a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 80);
+            Add(FieldDefinitionEnum.EvaluationCriterion.ToType().ToGridHeaderString(), a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.EvaluationVisibility.ToType().ToGridHeaderString(), a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
 
         private static HtmlString MakeNameLinkToDetailIfAvailable(FirmaSession currentFirmaSession,  ProjectFirmaModels.Models.Evaluation evaluation)

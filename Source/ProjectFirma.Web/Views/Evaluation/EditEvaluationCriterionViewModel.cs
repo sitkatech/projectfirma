@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using ProjectFirma.Web.Common;
@@ -34,7 +35,11 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public int EvaluationCriterionID { get; set; }
         public int EvaluationID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionName)]
+        [Required]
         public string EvaluationCriterionName { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionDefinition)]
+        [Required]
         public string EvaluationCriterionDefinition { get; set; }
         public List<EvaluationCriterionValueSimple> EvaluationCriterionValueSimples { get; set; }
 

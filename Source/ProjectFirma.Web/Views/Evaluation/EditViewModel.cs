@@ -23,11 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -39,26 +36,28 @@ namespace ProjectFirma.Web.Views.Evaluation
         [Required]
         public int EvaluationID { get; set; }
 
-        [DisplayName("Name")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationName)]
         [Required]
         [StringLength(ProjectFirmaModels.Models.Evaluation.FieldLengths.EvaluationName)]
         public string EvaluationName { get; set; }
 
         [Required]
-        [DisplayName("Definition")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationDefinition)]
         [StringLength(ProjectFirmaModels.Models.Evaluation.FieldLengths.EvaluationDefinition)]
         public string EvaluationDefinition { get; set; }
 
-        [DisplayName("Start Date")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationStartDate)]
         public DateTime? EvaluationStartDate { get; set; }
 
-        [DisplayName("End Date")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationEndDate)]
         public DateTime? EvaluationEndDate { get; set; }
 
-        [DisplayName("Status")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationStatus)]
+        [Required]
         public int EvaluationStatusID { get; set; }
 
-        [DisplayName("Visibility")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationVisibility)]
+        [Required]
         public int EvaluationVisibilityID { get; set; }
 
 
@@ -96,6 +95,18 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             var validationResults = new List<ValidationResult>();
 
+            if (EvaluationStatusID != EvaluationStatus.Draft.EvaluationStatusID)
+            {
+                if (!EvaluationStartDate.HasValue)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, DateTime?>($"{FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()} is required when {FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()} is not in the {EvaluationStatus.Draft.EvaluationStatusDisplayName} state.", x => x.EvaluationStartDate));
+                }
+
+                if (!EvaluationEndDate.HasValue)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, DateTime?>($"{FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()} is required when {FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()} is not in the {EvaluationStatus.Draft.EvaluationStatusDisplayName} state.", x => x.EvaluationEndDate));
+                }
+            }
 
 
             return validationResults;
