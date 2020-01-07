@@ -73,6 +73,7 @@
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectStatusController.cs" />
+    <Compile Include="Controllers\ReportCenterController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -227,6 +228,8 @@
     <Compile Include="Views\ExternalMapLayer\Index.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\ReportCenter\Index.cs" />
+    <Compile Include="Views\ReportCenter\IndexViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -1638,6 +1641,7 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
+    <Content Include="Views\ReportCenter\Index.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
