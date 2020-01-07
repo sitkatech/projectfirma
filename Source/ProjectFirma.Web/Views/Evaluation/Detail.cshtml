@@ -55,33 +55,33 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Name</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationName.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationName</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Definition</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationDefinition.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationDefinition</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Status</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.GetEvaluationStatusDisplayName()</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Start Date</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationStartDate.ToStringDate()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>End Date</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationEndDate.ToStringDate()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Criteria</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>Visibility</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationVisibility.ToType().GetFieldDefinitionLabel()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.GetEvaluationVisibilityDisplayName()</div>
                 </div>
             </div>

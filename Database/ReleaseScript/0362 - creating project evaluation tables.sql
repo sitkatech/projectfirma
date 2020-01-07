@@ -128,6 +128,45 @@ alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluati
 
 
 
+INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
+VALUES 
+(325, N'Evaluation', 'Evaluation'),
+(326, N'EvaluationCriterion', 'Evaluation Criterion'),
+(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
+(329, N'ProjectEvaluation', 'Project Evaluation'),
+(330, N'EvaluationName', 'Evaluation Name'),
+(331, N'EvaluationDefinition', 'Evaluation Definition'),
+(332, N'EvaluationStatus', 'Evaluation Status'),
+(333, N'EvaluationStartDate', 'Evaluation Start Date'),
+(334, N'EvaluationEndDate', 'Evaluation End Date'),
+(335, N'EvaluationVisibility', 'Evaluation Visibility'),
+(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition');
+go
+
+
+
+INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefinition])
+     VALUES
+			(325, N''),
+			(326, N''),
+			(327, N''),
+			(328, N''),
+			(329, N''),
+			(330, N''),
+			(331, N''),
+			(332, N''),
+			(333, N''),
+			(334, N''),
+			(335, N''),
+			(336, N''),
+			(337, N'');
+GO
+
+
+
+
 
 
 --test content for easier testing
