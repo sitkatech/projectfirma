@@ -43,6 +43,23 @@ GO
 ALTER TABLE [dbo].[ReportTemplate] CHECK CONSTRAINT [FK_ReportTemplate_FileResource_FileResourceID_TenantID]
 GO
 
+USE [ProjectFirma]
+GO
+
+SET ANSI_PADDING ON
+GO
+
+/****** Object:  Index [AK_Person_Email_TenantID]    Script Date: 1/7/2020 12:41:44 PM ******/
+ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [AK_ReportTemplate_DisplayName_TenantID] UNIQUE NONCLUSTERED 
+(
+	[DisplayName] ASC,
+	[TenantID] ASC
+)
+GO
+
+
+
+
 /**
 ALTER TABLE [dbo].[ReportTemplate]  WITH CHECK ADD  CONSTRAINT [FK_ReportTemplate_FileResource_FileResourceID_FileResourceID] FOREIGN KEY([FileResourceID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])
