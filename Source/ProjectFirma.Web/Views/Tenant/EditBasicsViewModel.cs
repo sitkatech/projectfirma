@@ -117,6 +117,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Use Project Timeline")]
         public bool UseProjectTimeline { get; set; }
 
+        [DisplayName("Enable Evaluations")]
+        public bool EnableEvaluations { get; set; }
+
         [DisplayName("GeoServer Namespace")]
         public string GeoServerNamespace { get; set; }
 
@@ -146,6 +149,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
+            EnableEvaluations = tenantAttribute.EnableEvaluations;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
         }
 
@@ -175,6 +179,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.BudgetTypeID = BudgetTypeID;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
+            attribute.EnableEvaluations = EnableEvaluations;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

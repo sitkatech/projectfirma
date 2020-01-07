@@ -55,6 +55,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriterionConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriterionValueConfiguration());
             modelBuilder.Configurations.Add(new ExternalMapLayerConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
@@ -120,6 +123,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomGridConfigurationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectEvaluationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectEvaluationSelectedValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
@@ -202,6 +207,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriterion> AllEvaluationCriterions { get; set; }
+        public virtual IQueryable<EvaluationCriterion> EvaluationCriterions { get { return AllEvaluationCriterions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriterionValue> AllEvaluationCriterionValues { get; set; }
+        public virtual IQueryable<EvaluationCriterionValue> EvaluationCriterionValues { get { return AllEvaluationCriterionValues.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Evaluation> AllEvaluations { get; set; }
+        public virtual IQueryable<Evaluation> Evaluations { get { return AllEvaluations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ExternalMapLayer> AllExternalMapLayers { get; set; }
         public virtual IQueryable<ExternalMapLayer> ExternalMapLayers { get { return AllExternalMapLayers.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
@@ -327,6 +338,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomGridConfiguration> AllProjectCustomGridConfigurations { get; set; }
         public virtual IQueryable<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get { return AllProjectCustomGridConfigurations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectEvaluation> AllProjectEvaluations { get; set; }
+        public virtual IQueryable<ProjectEvaluation> ProjectEvaluations { get { return AllProjectEvaluations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectEvaluationSelectedValue> AllProjectEvaluationSelectedValues { get; set; }
+        public virtual IQueryable<ProjectEvaluationSelectedValue> ProjectEvaluationSelectedValues { get { return AllProjectEvaluationSelectedValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -496,6 +511,25 @@ namespace ProjectFirmaModels.Models
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
+
+                case "EvaluationCriterion":
+                    return EvaluationCriterions.GetEvaluationCriterion(primaryKey);
+
+                case "EvaluationCriterionValue":
+                    return EvaluationCriterionValues.GetEvaluationCriterionValue(primaryKey);
+
+                case "Evaluation":
+                    return Evaluations.GetEvaluation(primaryKey);
+
+                case "EvaluationStatus":
+                    var evaluationStatus = EvaluationStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(evaluationStatus, "EvaluationStatus", primaryKey);
+                    return evaluationStatus;
+
+                case "EvaluationVisibility":
+                    var evaluationVisibility = EvaluationVisibility.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(evaluationVisibility, "EvaluationVisibility", primaryKey);
+                    return evaluationVisibility;
 
                 case "ExternalMapLayer":
                     return ExternalMapLayers.GetExternalMapLayer(primaryKey);
@@ -778,6 +812,12 @@ namespace ProjectFirmaModels.Models
                     var projectCustomGridType = ProjectCustomGridType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectCustomGridType, "ProjectCustomGridType", primaryKey);
                     return projectCustomGridType;
+
+                case "ProjectEvaluation":
+                    return ProjectEvaluations.GetProjectEvaluation(primaryKey);
+
+                case "ProjectEvaluationSelectedValue":
+                    return ProjectEvaluationSelectedValues.GetProjectEvaluationSelectedValue(primaryKey);
 
                 case "ProjectExemptReportingType":
                     var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

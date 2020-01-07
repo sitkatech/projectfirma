@@ -271,6 +271,19 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerIsATiledMapService = 321,
         FinalStatusReportStatus = 322,
         IsFinalStatusReport = 323,
-        ProjectStatusLessonsLearned = 324
+        ProjectStatusLessonsLearned = 324,
+        Evaluation = 325,
+        EvaluationCriterion = 326,
+        EvaluationCriterionValue = 327,
+        EvaluationPortfolio = 328,
+        ProjectEvaluation = 329,
+        EvaluationName = 330,
+        EvaluationDefinition = 331,
+        EvaluationStatus = 332,
+        EvaluationStartDate = 333,
+        EvaluationEndDate = 334,
+        EvaluationVisibility = 335,
+        EvaluationCriterionName = 336,
+        EvaluationCriterionDefinition = 337
     }
 }
