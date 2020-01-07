@@ -582,6 +582,10 @@
     <Compile Include="Models\Generated\ReleaseNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReleaseNoteConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReleaseNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplate.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReportTemplateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.Binding.cs" />
