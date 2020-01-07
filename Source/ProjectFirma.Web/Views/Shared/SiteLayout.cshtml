@@ -63,6 +63,13 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.Raw(TempData[SitkaController.InfoMessageIndex])
         </div>
     }
+    @if (TempData.ContainsKey(SitkaController.WarningMessageIndex))
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            @Html.Raw(TempData[SitkaController.WarningMessageIndex])
+        </div>
+    }
     
     @RenderBody()
 </div>

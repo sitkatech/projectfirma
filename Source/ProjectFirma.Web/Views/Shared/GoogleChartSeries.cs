@@ -88,41 +88,29 @@ namespace ProjectFirma.Web.Views.Shared
         {
             // this was needed to ensure that the graphs on the geospatial detail page display appropriately for performance measure targets. 
             // It attempts to be as friendly as we can to the current chart series that the user/tenant might have set
-            if (currentChartSeries == null)
+            // this is also here to catch situations where there are PM targets and Geospatial targets exists(specifically for cumulative charts on geospatial pages)
+            if (currentChartSeries == null || (performanceMeasure.HasTargets() && performanceMeasure.HasGeospatialAreaTargets(geospatialArea)))
             {
                 var chartSeries = new List<GoogleChartSeries>();
+
+                //add series for the PM targets
                 if (performanceMeasure.HasTargets())
                 {
                     chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
                 }
+                //add another series for the Geospatial targets
                 if (performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
                 {
                     chartSeries.Add(new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
                 }
+                //add final series to have rest of the data default to bar(column)
                 chartSeries.Add(new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary));
                 return chartSeries;
             }
 
-            var deserializedChartSeries = JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString());
-            if (performanceMeasure.HasTargets() || performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
-            {
-                for (int i = 0; i < deserializedChartSeries.Count; i++)
-                {
-                    if (i < deserializedChartSeries.Count - 1)
-                    {
-                        deserializedChartSeries[i].Type = "line";
-                    }
-                }
-            }
+            var isListOfGoogleChartSeries = currentChartSeries is List<GoogleChartSeries>;
+            var deserializedChartSeries = !isListOfGoogleChartSeries ? JsonConvert.DeserializeObject<List<GoogleChartSeries>>(currentChartSeries.ToString()) : (List<GoogleChartSeries>) currentChartSeries;
 
-            if (performanceMeasure.HasTargets() && performanceMeasure.HasGeospatialAreaTargets(geospatialArea))
-            {
-                // Just in case you're wondering. Not a fan of this myself... SMG
-                if (deserializedChartSeries.Count < 3)
-                {
-                    deserializedChartSeries.Insert(0, new GoogleChartSeries(GoogleChartType.LineChart, GoogleChartAxisType.Primary));
-                }
-            }
 
             return deserializedChartSeries;
         }

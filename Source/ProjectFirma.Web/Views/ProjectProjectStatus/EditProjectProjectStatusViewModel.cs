@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using ProjectFirmaModels.Models;
@@ -28,7 +29,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
-    public class EditProjectProjectStatusViewModel : FormViewModel
+    public class EditProjectProjectStatusViewModel : FormViewModel, IValidatableObject
     {
         [Required]
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
@@ -43,11 +44,22 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFinalStatusReport)]
+        public bool IsFinalStatusReport { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.LessonsLearned)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusLessonsLearned)]
+        public string LessonsLearned { get; set; }
+
+
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditProjectProjectStatusViewModel()
         {
+            IsFinalStatusReport = false;
         }
 
         /// <summary>
@@ -56,21 +68,33 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public EditProjectProjectStatusViewModel(DateTime projectStatusUpdateDate)
         {
             ProjectStatusUpdateDate = projectStatusUpdateDate;
+            IsFinalStatusReport = false;
         }
 
 
         public EditProjectProjectStatusViewModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus)
         {
             ProjectProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
+            LessonsLearned = projectProjectStatus.LessonsLearned;
             ProjectStatusID = projectProjectStatus.ProjectStatusID;
             ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
+            IsFinalStatusReport = projectProjectStatus.IsFinalStatusUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
+            if (IsFinalStatusReport)
+            {
+                projectProjectStatus.LessonsLearned = LessonsLearned;
+            }
+            else
+            {
+                projectProjectStatus.LessonsLearned = null;
+            }
             projectProjectStatus.ProjectStatusID = ProjectStatusID;
             projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
+            projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusReport;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
                 projectProjectStatus.ProjectProjectStatusCreateDate = DateTime.Now;
@@ -81,6 +105,21 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
                 projectProjectStatus.ProjectProjectStatusLastEditedDate = DateTime.Now;
                 projectProjectStatus.ProjectProjectStatusLastEditedPerson = currentFirmaSession.Person;
             }
+        }
+
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+            
+
+            // Expenditures note is required if no expenditures to enter is selected
+            if (string.IsNullOrEmpty(LessonsLearned) && IsFinalStatusReport)
+            {
+                errors.Add(new ValidationResult($"Lessons Learned must be entered for Final Status Reports."));
+            }
+
+            return errors;
         }
     }
 }

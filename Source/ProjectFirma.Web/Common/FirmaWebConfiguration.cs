@@ -66,6 +66,7 @@ namespace ProjectFirma.Web.Common
 
         public static List<string> CanonicalHostNames => Tenant.All.OrderBy(x => x.TenantID).Select(x => FirmaEnvironment.GetCanonicalHostNameForEnvironment(x)).ToList();
 
+        public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
 
         // Feature Flag Settings
 

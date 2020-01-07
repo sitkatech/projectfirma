@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
     public abstract partial class PerformanceMeasureTargetValueType : IHavePrimaryKey
     {
         public static readonly PerformanceMeasureTargetValueTypeNoTarget NoTarget = PerformanceMeasureTargetValueTypeNoTarget.Instance;
-        public static readonly PerformanceMeasureTargetValueTypeOverallTarget OverallTarget = PerformanceMeasureTargetValueTypeOverallTarget.Instance;
+        public static readonly PerformanceMeasureTargetValueTypeFixedTarget FixedTarget = PerformanceMeasureTargetValueTypeFixedTarget.Instance;
         public static readonly PerformanceMeasureTargetValueTypeTargetPerYear TargetPerYear = PerformanceMeasureTargetValueTypeTargetPerYear.Instance;
 
         public static readonly List<PerformanceMeasureTargetValueType> All;
@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static PerformanceMeasureTargetValueType()
         {
-            All = new List<PerformanceMeasureTargetValueType> { NoTarget, OverallTarget, TargetPerYear };
+            All = new List<PerformanceMeasureTargetValueType> { NoTarget, FixedTarget, TargetPerYear };
             AllLookupDictionary = new ReadOnlyDictionary<int, PerformanceMeasureTargetValueType>(All.ToDictionary(x => x.PerformanceMeasureTargetValueTypeID));
         }
 
@@ -100,10 +100,10 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
+                case PerformanceMeasureTargetValueTypeEnum.FixedTarget:
+                    return FixedTarget;
                 case PerformanceMeasureTargetValueTypeEnum.NoTarget:
                     return NoTarget;
-                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
-                    return OverallTarget;
                 case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
                     return TargetPerYear;
                 default:
@@ -115,7 +115,7 @@ namespace ProjectFirmaModels.Models
     public enum PerformanceMeasureTargetValueTypeEnum
     {
         NoTarget = 1,
-        OverallTarget = 2,
+        FixedTarget = 2,
         TargetPerYear = 3
     }
 
@@ -125,10 +125,10 @@ namespace ProjectFirmaModels.Models
         public static readonly PerformanceMeasureTargetValueTypeNoTarget Instance = new PerformanceMeasureTargetValueTypeNoTarget(1, @"NoTarget", @"No Target");
     }
 
-    public partial class PerformanceMeasureTargetValueTypeOverallTarget : PerformanceMeasureTargetValueType
+    public partial class PerformanceMeasureTargetValueTypeFixedTarget : PerformanceMeasureTargetValueType
     {
-        private PerformanceMeasureTargetValueTypeOverallTarget(int performanceMeasureTargetValueTypeID, string performanceMeasureTargetValueTypeName, string performanceMeasureTargetValueTypeDisplayName) : base(performanceMeasureTargetValueTypeID, performanceMeasureTargetValueTypeName, performanceMeasureTargetValueTypeDisplayName) {}
-        public static readonly PerformanceMeasureTargetValueTypeOverallTarget Instance = new PerformanceMeasureTargetValueTypeOverallTarget(2, @"OverallTarget", @"Overall Target");
+        private PerformanceMeasureTargetValueTypeFixedTarget(int performanceMeasureTargetValueTypeID, string performanceMeasureTargetValueTypeName, string performanceMeasureTargetValueTypeDisplayName) : base(performanceMeasureTargetValueTypeID, performanceMeasureTargetValueTypeName, performanceMeasureTargetValueTypeDisplayName) {}
+        public static readonly PerformanceMeasureTargetValueTypeFixedTarget Instance = new PerformanceMeasureTargetValueTypeFixedTarget(2, @"FixedTarget", @"Fixed Target");
     }
 
     public partial class PerformanceMeasureTargetValueTypeTargetPerYear : PerformanceMeasureTargetValueType

@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Models
             }
             if (role.RoleID == Role.Normal.RoleID && !normalUser.HasCustomFieldDefinition())
             {
-                return normalUser.DefaultDefinitionHtmlString;
+                return normalUser.FieldDefinitionDefault.DefaultDefinitionHtmlString;
             }
             if (role.RoleID == Role.ProjectSteward.RoleID && projectSteward.HasCustomFieldDefinition())
             {
@@ -124,7 +124,7 @@ namespace ProjectFirma.Web.Models
             }
             if (role.RoleID == Role.ProjectSteward.RoleID && projectSteward.HasCustomFieldDefinition())
             {
-                return projectSteward.DefaultDefinitionHtmlString;
+                return projectSteward.FieldDefinitionDefault.DefaultDefinitionHtmlString;
             }
 
             return role.RoleDescription.ToHTMLFormattedString();

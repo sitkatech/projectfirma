@@ -19,14 +19,14 @@ namespace ProjectFirma.Web.Models
         private List<IProjectTimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
 
-        public ProjectTimeline(Project project, bool canEditProjectProjectStatus)
+        public ProjectTimeline(Project project, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
             Project = project;
             TimelineEvents = new List<IProjectTimelineEvent>();
             AddProjectCreateEventToTimelineIfExists();
             AddProjectApprovalEventToTimelineIfExists();
             TimelineEvents.AddRange(GetTimelineUpdateEvents(Project));
-            TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Project, canEditProjectProjectStatus));
+            TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Project, canEditProjectProjectStatus, canEditFinalStatusReport));
         }
 
         private void AddProjectApprovalEventToTimelineIfExists()
@@ -64,10 +64,10 @@ namespace ProjectFirma.Web.Models
             return approvedProjectUpdateBatches.Any() ? approvedProjectUpdateBatches.Select(apub => new ProjectTimelineUpdateEvent(apub)).ToList() : new List<ProjectTimelineUpdateEvent>();
         }
 
-        private List<ProjectTimelineProjectStatusChangeEvent> GetTimelineProjectStatusChangeEvents(Project project, bool canEditProjecProjectStatus)
+        private List<ProjectTimelineProjectStatusChangeEvent> GetTimelineProjectStatusChangeEvents(Project project, bool canEditProjecProjectStatus, bool canEditFinalStatusReport)
         {
             var projectStatusChangeEvents = project.ProjectProjectStatuses
-                .Select(x => new ProjectTimelineProjectStatusChangeEvent(x, canEditProjecProjectStatus))
+                .Select(x => new ProjectTimelineProjectStatusChangeEvent(x, canEditProjecProjectStatus, canEditFinalStatusReport))
                 .OrderByDescending(y => y.ProjectProjectStatus.ProjectProjectStatusID)
                 .ToList();
             return projectStatusChangeEvents;
@@ -107,10 +107,10 @@ namespace ProjectFirma.Web.Models
 
         
 
-        public static HtmlString MakeProjectStatusEditLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus)
+        public static HtmlString MakeProjectStatusEditLinkButton(ProjectProjectStatus projectProjectStatus, bool canEditProjectStatus, bool canEditFinalStatusReport)
         {
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
-            if (canEditProjectStatus)
+            if ((canEditProjectStatus && !projectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && projectProjectStatus.IsFinalStatusUpdate))
             {
                 editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
                     projectProjectStatus.GetEditProjectProjectStatusUrl()
@@ -201,16 +201,17 @@ namespace ProjectFirma.Web.Models
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public ProjectProjectStatus ProjectProjectStatus { get; }
 
-        public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus)
+        public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
             Date = projectProjectStatus.ProjectProjectStatusUpdateDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
             Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
             ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
-            TimelineEventTypeDisplayName = "Status Updated";
+            TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Right;
-            EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus);
+
+            EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
             ProjectProjectStatus = projectProjectStatus;

@@ -60,6 +60,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public void UpdateModel(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
+
             ProjectFirmaModels.Models.Project project,
             IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
@@ -73,6 +74,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
                 {
+
                     var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(y => y.PerformanceMeasureReportingPeriodCalendarYear == x.CalendarYear);
                     if (performanceMeasureReportingPeriod == null)
                     {

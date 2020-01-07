@@ -1,0 +1,74 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProjectEvaluation.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Evaluation.EditProjectEvaluation
+<script type="text/javascript">
+    // <![CDATA[
+
+
+    jQuery(document).ready(function () {
+        //angular.bootstrap(jQuery("#EditProjectEvaluationApp"), ["ProjectFirmaApp"]);
+
+        //jQuery(".selectpicker").selectpicker("refresh");
+
+    });
+    // ]]>
+</script>
+
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        
+        @foreach (var criterion in ViewDataTyped.EvaluationCriterionSimples)
+        {
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    <label for="@(string.Format("criterionField{0}", criterion.EvaluationCriterionID))">@criterion.EvaluationCriterionName</label>
+                </div>
+                <div class="col-sm-9">
+                    <select id="@(string.Format("criterionField{0}", criterion.EvaluationCriterionID))">
+                        @foreach (var value in criterion.EvaluationCriterionValueSimples)
+                        {
+                            <option value="@value.EvaluationCriterionValueID">@(value.EvaluationCriterionValueRating)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+        
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.Comments)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.Comments, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.Comments)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.ProjectEvaluationID)
+}
+

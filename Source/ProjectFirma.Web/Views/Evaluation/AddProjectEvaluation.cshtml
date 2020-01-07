@@ -1,0 +1,95 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="AddProjectEvaluation.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Evaluation.AddProjectEvaluation
+    <script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+        };
+    });
+
+    jQuery(document).ready(function () {
+        angular.bootstrap(jQuery("#AddProjectEvaluationApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+
+    });
+    // ]]>
+    </script>
+
+    <style>
+        #AddProjectEvaluationApp {
+            min-height: 400px;
+        }
+    </style>
+
+
+
+    @Html.ValidationSummary()
+
+    <div ng-app="ProjectFirmaApp" id="AddProjectEvaluationApp" ng-controller="AddProjectEvaluationController" style="max-height: 600px">
+
+        <p>
+            Create a portfolio of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(). @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() within this portfolio can be evaluated as part of the @ViewDataTyped.Evaluation.EvaluationName
+        </p>
+        <hr />
+        <div class="form-group">
+            <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12">
+                <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8"></select>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-firma"  ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                    </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 control-label" style="margin-top: 80px;"><strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12">
+                <div class="col-md-4" ng-repeat="selectedProject in AngularModel.SelectedProjects">
+                    <span>
+                        <a href="#" ng-click="deleteProject(selectedProject); $event.preventDefault();">
+                            <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()"></i>
+                        </a>
+                    </span>
+                    <span ng-bind="selectedProject.DisplayName"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        @using (Html.BeginForm())
+        {
+            <input type="hidden" name="@Html.NameFor(x => x.EvaluationID)" value="{{AngularModel.EvaluationID}}" />
+            <div ng-repeat="project in AngularModel.SelectedProjects">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{project.ProjectID}}" />
+            </div>
+        }
+    </div>
+

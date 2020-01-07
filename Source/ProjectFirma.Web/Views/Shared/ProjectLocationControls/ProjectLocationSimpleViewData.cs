@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
             GeospatialAreaMapServiceLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
-            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl;
+            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl();
             CurrentFeature = currentFeature;
         }
     }

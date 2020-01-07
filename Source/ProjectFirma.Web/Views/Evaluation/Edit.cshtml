@@ -1,0 +1,96 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Evaluation.Edit
+
+
+<div class="row">
+    <div class="col-md-12">
+        <p>Define the basics of this @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel().</p>
+        
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationName)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.EvaluationName, new { style = "width:100%", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EvaluationName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationDefinition)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.EvaluationDefinition, new TextAreaForExtensions.TextAreaDimensions(null, 4), null,  new List<string>{ "form-control" })
+                @Html.ValidationMessageFor(m => m.EvaluationDefinition)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationStatusID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.EvaluationStatusID, ViewDataTyped.EvaluationStatuses, new Dictionary<string, object> { { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.EvaluationStatusID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.EvaluationStartDate)
+            </div>
+            <div class="col-sm-9">
+                @Html.EditorFor(x => x.EvaluationStartDate)
+                @Html.ValidationMessageFor(x => x.EvaluationStartDate)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(x => x.EvaluationEndDate)
+            </div>
+            <div class="col-sm-9">
+                @Html.EditorFor(x => x.EvaluationEndDate)
+                @Html.ValidationMessageFor(x => x.EvaluationEndDate)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationVisibilityID)
+            </div>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => m.EvaluationVisibilityID, ViewDataTyped.EvaluationVisibilities, new Dictionary<string, object> { { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.EvaluationVisibilityID)
+            </div>
+        </div>
+
+    </div>
+
+}
+

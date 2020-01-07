@@ -1,0 +1,103 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ExternalMapLayer.Edit
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDisplayName.ToType())<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.DisplayName)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerUrl.ToType())<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.LayerUrl, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LayerUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDescription.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaFor(m => m.LayerDescription, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.LayerDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerFeatureNameField.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.TextBoxFor(m => m.FeatureNameField, new { @class = "form-control", style = "width:100%" })
+                @Html.ValidationMessageFor(m => m.FeatureNameField)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerDisplayOnAllMaps.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.DisplayOnAllMaps)
+                @Html.ValidationMessageFor(m => m.DisplayOnAllMaps)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerLayerIsOnByDefault.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.LayerIsOnByDefault)
+                @Html.ValidationMessageFor(m => m.LayerIsOnByDefault)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerIsActive.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.IsActive)
+                @Html.ValidationMessageFor(m => m.IsActive)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(@FieldDefinitionEnum.ExternalMapLayerIsATiledMapService.ToType())
+            </div>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(m => m.IsTiledMapService)
+                @Html.ValidationMessageFor(m => m.IsTiledMapService)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.ExternalMapLayerID)
+}
+

@@ -215,6 +215,7 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentFirmaSession, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             
             MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentFirmaSession, "Group1");
+            MultiTenantHelpers.AddEvaluationsMenuItem(manageMenu, currentFirmaSession, "Group1");
 
             // Group 2 - System Config stuff
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentFirmaSession, $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
@@ -267,16 +268,19 @@ namespace ProjectFirma.Web.Views
             // Group 3 - Attachments
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized(), "Group3"));
 
-            // Group 4 - Sitka admins only
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ContactRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentFirmaSession, "Tenant Configuration", "Group4"));
+            // Group 4 - External Map Layers
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExternalMapLayerController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
+
+            // Group 5 - Sitka admins only
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group5"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ContactRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ContactType.ToType().GetFieldDefinitionLabelPluralized(), "Group5"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TenantController>(c => c.Detail()), currentFirmaSession, "Tenant Configuration", "Group5"));
             if (currentFirmaSession.IsSitkaAdministrator())
             {
-                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentFirmaSession, "Style Guide", "Group4"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentFirmaSession, "Style Guide", "Group5"));
 
                 // The Site Monitor (Health Check) page is deliberately Anonymous to allow Nagios to hit it easily, but we don't want to advertise it to non-admins.
-                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SiteMonitorController>(c => c.SiteMonitor()), currentFirmaSession, "Site Monitor (Health Checks)", "Group4"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SiteMonitorController>(c => c.SiteMonitor()), currentFirmaSession, "Site Monitor (Health Checks)", "Group6"));
             }
 
             return configureMenu;
