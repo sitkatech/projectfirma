@@ -47,6 +47,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GoogleAnalyticsTrackingCode).HasColumnName(@"GoogleAnalyticsTrackingCode").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
             Property(x => x.UseProjectTimeline).HasColumnName(@"UseProjectTimeline").HasColumnType("bit").IsRequired();
             Property(x => x.GeoServerNamespace).HasColumnName(@"GeoServerNamespace").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(256);
+            Property(x => x.EnableEvaluations).HasColumnName(@"EnableEvaluations").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

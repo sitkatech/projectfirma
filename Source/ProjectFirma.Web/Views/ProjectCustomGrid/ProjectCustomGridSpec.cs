@@ -57,6 +57,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             return returnString;
         }
 
+       
+
 
         private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
@@ -154,6 +156,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                             , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession)
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict
+                        );
+                    }
+                    break;
+                case ProjectCustomGridColumnEnum.FinalStatusReportStatus:
+                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
+                    {
+                        Add(FieldDefinitionEnum.FinalStatusReportStatus.ToType().ToGridHeaderString()
+                            , x => x.FinalStatusReportStatusDescription
+                            , 100
+                            , DhtmlxGridColumnFilterType.SelectFilterStrict
                         );
                     }
                     break;

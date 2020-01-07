@@ -37,18 +37,28 @@
             <th>Name</th>
             <th>Short Description / Simple Use Case / URL</th>
         </tr>
-        @foreach (var geoServerServiceDocumentation in ViewDataTyped.GeoServerServiceDocumentationList)
+        @if (ViewDataTyped.GeoServerServiceDocumentationList.Any())
+        {
+            foreach (var geoServerServiceDocumentation in ViewDataTyped.GeoServerServiceDocumentationList)
+            {
+                <tr>
+                    <td class="term">@geoServerServiceDocumentation.ServiceName</td>
+                    <td>
+                        @geoServerServiceDocumentation.ServiceDescription
+                        <div style="margin-top: 5px; font-size: 11px">
+                            <a href="@geoServerServiceDocumentation.ServiceUrl">@geoServerServiceDocumentation.ServiceUrl</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td class="term">@geoServerServiceDocumentation.ServiceName</td>
-                <td>
-                    @geoServerServiceDocumentation.ServiceDescription
-                    <div style="margin-top: 5px; font-size: 11px">
-                        <a href="@geoServerServiceDocumentation.ServiceUrl">@geoServerServiceDocumentation.ServiceUrl</a>
-                    </div>
-                </td>
+                <td colspan="2">No Geoserver Namespace property found in this ProjectFirma Tenant configuration.</td>
             </tr>
         }
+
     </table>
 }
 

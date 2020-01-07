@@ -44,16 +44,25 @@ namespace ProjectFirma.Web.Views.WebServices
             UserWebServiceAccessToken = userWebServiceAccessToken;
             PageTitle = "List of Web Services";
             GeospatialAreaTypeList = geospatialAreaTypeList;
-            GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
+            
+            if (MultiTenantHelpers.GetTenantAttribute().GeoServerNamespace != null)
             {
-                new GeoServerServiceDocumentation("WFS 1.1.0",
-                    "Provides project simple locations, project detailed locations, and geospatial area features in vector format and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
-                    "wfs"),
-                new GeoServerServiceDocumentation("WMS 1.1.0",
-                    "Provides project simple locations, project detailed locations, and geospatial area features and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
-                    "wms")
-                
-            };
+                GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>
+                {
+                    new GeoServerServiceDocumentation("WFS 2.0.0",
+                        "Provides project simple locations, project detailed locations, and geospatial area features in vector format and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                        "wfs"),
+                    new GeoServerServiceDocumentation("WMS 1.3.0",
+                        "Provides project simple locations, project detailed locations, and geospatial area features and can be consumed or added to geospatial applications such as ArcGIS or QGIS.",
+                        "wms")
+
+                };
+            }
+            else
+            {
+                GeoServerServiceDocumentationList = new List<GeoServerServiceDocumentation>();
+            }
+
         }
     }
 

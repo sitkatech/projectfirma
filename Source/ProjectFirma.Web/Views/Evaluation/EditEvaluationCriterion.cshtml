@@ -1,0 +1,166 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="EditEvaluationCriterion.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Evaluation
+@inherits EditEvaluationCriterion
+
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp")
+        .factory("angularModelAndViewData",
+            function()
+            {
+                return {
+                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
+                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                };
+            });
+    angular.bootstrap(jQuery("[ng-controller=\"EditEvaluationCriterionController\"]"), ["ProjectFirmaApp"]);
+    // ]]>
+</script>
+
+<style>
+    .panel-heading a.collapsePanel:after {
+        font-family:'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+
+    }
+    .panel-heading a.collapsePanel.collapsed:after {
+        content: "\e080";
+    }
+     
+    .modal {
+        overflow: scroll;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+<div ng-app="ProjectFirmaApp" ng-controller="EditEvaluationCriterionController">
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <p>Define your @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel().</p>
+        
+        </div>
+    </div>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationCriterionName)
+
+            </div>
+            <div class="col-xs-12 col-sm-7">
+                <input id="@Html.IdFor(m => m.EvaluationCriterionName)" type="text" required="required" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.EvaluationCriterionDefinition)
+            </div>
+            <div class="col-xs-12 col-sm-7">
+                <textarea id="@Html.IdFor(m => m.EvaluationCriterionDefinition)" type="text" size="4" required="required" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition" >@Model.EvaluationCriterionDefinition</textarea>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <strong>@FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabelPluralized()</strong>
+            <hr style="border-bottom: 2px solid #ddd; margin: 0; border-top: 0;" />
+        </div>
+    </div>
+
+
+    <div class="form-horizontal">
+        <div class="form-group-condensed">
+            <div class="col-sm-3 col-sm-offset-9">
+                <button type="button" class="btn btn-sm btn-firma" ng-click="addEvaluationCriterionValue()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add Criterion Value
+                </button>
+            </div>
+        </div>
+        <div class="form-group-condensed">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-sm-2"></th>
+                        <th class="col-sm-3">Rating<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup></th>
+                        <th class="col-sm-7">Description<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-show="!AngularModel.EvaluationCriterionValueSimples || !AngularModel.EvaluationCriterionValueSimples.length || AngularModel.EvaluationCriterionValueSimples.length < 1">
+                        <td colspan="3">
+                            <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()).</div>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="valueSimple in AngularModel.EvaluationCriterionValueSimples | orderBy: 'SortOrder'">
+                        <td>
+                            <input type="hidden" value="{{valueSimple.EvaluationCriterionValueID}}"
+                                   name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueID" />
+                            <input type="hidden" value="{{valueSimple.SortOrder}}"
+                                   name="EvaluationCriterionValueSimples[{{$index}}].SortOrder" />
+
+                            <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueUp(valueSimple)">
+                                <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
+                            </a>
+
+                            <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriterionValueSimples.length - 1 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueDown(valueSimple)">
+                                <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
+                            </a>
+
+                            <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriterionValue(valueSimple)">
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabel()"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateValueRating(valueSimple).length != 0}">
+                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriterionValueRating"
+                                       name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueRating" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateValueDescription(valueSimple).length != 0}">
+                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriterionValueDescription"
+                                       name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueDescription" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+}
