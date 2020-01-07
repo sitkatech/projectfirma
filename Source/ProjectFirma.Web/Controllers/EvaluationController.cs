@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
 
             if (viewModel.EvaluationCriterionValueSimples.Count > 0)
             {
-                evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription)).ToList();
+                evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription){SortOrder = x.SortOrder}).ToList();
             }
             
 

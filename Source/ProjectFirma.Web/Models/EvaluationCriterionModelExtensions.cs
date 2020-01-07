@@ -12,14 +12,14 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(SitkaRoute<EvaluationController>.BuildUrlFromExpression(t => t.EditEvaluationCriterion(UrlTemplate.Parameter1Int)));
         public static string GetEditUrl(this EvaluationCriterion evaluationCriterion)
         {
-            return EditUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationID);
+            return EditUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationCriterionID);
         }
 
 
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<EvaluationController>.BuildUrlFromExpression(t => t.DeleteEvaluationCriterion(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this EvaluationCriterion evaluationCriterion)
         {
-            return DeleteUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationID);
+            return DeleteUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationCriterionID);
         }
 
         public static int GetNumberOfEvaluationCriterionValues(this EvaluationCriterion evaluationCriterion)

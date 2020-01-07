@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
@@ -59,34 +60,42 @@ namespace ProjectFirma.Web.Views.Evaluation
             EvaluationCriterionValueSimples = evaluationCriterion.EvaluationCriterionValues.Select(x => new EvaluationCriterionValueSimple(x)).ToList();
         }
 
-        public void UpdateModel(EvaluationCriterion evaluation)
+        public void UpdateModel(EvaluationCriterion evaluationCriterion)
         {
+            evaluationCriterion.EvaluationCriterionName = EvaluationCriterionName;
+            evaluationCriterion.EvaluationCriterionDefinition = EvaluationCriterionDefinition;
+            var updatedEvaluationCriterionValues = new List<EvaluationCriterionValue>();
+            foreach (var simpleValue in EvaluationCriterionValueSimples)
+            {
+                var evaluationCriterionValue = HttpRequestStorage.DatabaseEntities.EvaluationCriterionValues.SingleOrDefault(x => x.EvaluationCriterionValueID == simpleValue.EvaluationCriterionID);
+                if (evaluationCriterionValue == null)
+                {
+                    evaluationCriterionValue = new EvaluationCriterionValue(evaluationCriterion, simpleValue.EvaluationCriterionValueRating, simpleValue.EvaluationCriterionValueDescription) { SortOrder = simpleValue.SortOrder };
+                }
+                else
+                {
+                    evaluationCriterionValue.EvaluationCriterionValueDescription = simpleValue.EvaluationCriterionValueDescription;
+                    evaluationCriterionValue.EvaluationCriterionValueRating = simpleValue.EvaluationCriterionValueRating;
+                    evaluationCriterionValue.SortOrder = simpleValue.SortOrder;
+                }
+
+                updatedEvaluationCriterionValues.Add(evaluationCriterionValue);
+            }
+
             //var allEvaluationCriteriaFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Local;
-            //var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
-
-            //var evaluationCriterionToUpdate = HttpRequestStorage.DatabaseEntities.EvaluationCriterions.SingleOrDefault(x => x.EvaluationCriterionID == EvaluationCriterionSimple.EvaluationCriterionID);
-            //if (evaluationCriterionToUpdate == null)
-            //{
-            //    evaluationCriterionToUpdate = new EvaluationCriterion(EvaluationCriterionSimple.EvaluationID, EvaluationCriterionSimple.EvaluationCriterionName, evaluationCriterionToUpdate.EvaluationCriterionDefinition);
-            //}
+            var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
 
 
-            //var evaluationCriterionValuesToUpdate = evaluationCriteriaToUpdate.SelectMany(x => x.EvaluationCriterionValueSimples).ToList();
-
-
-
-
-
-            //evaluation.EvaluationCriterions.SelectMany(x => x.EvaluationCriterionValueSimples).ToList().Merge(
-            //    evaluationCriterionValuesToUpdate,
-            //    allEvaluationCriteriaValuesFromDatabase,
-            //    (x, y) => x.EvaluationCriterionValueID == y.EvaluationCriterionValueID,
-            //    (x, y) =>
-            //    {
-            //        x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
-            //        x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
-            //        x.SortOrder = y.SortOrder;
-            //    }, HttpRequestStorage.DatabaseEntities);
+            evaluationCriterion.EvaluationCriterionValues.Merge(
+                updatedEvaluationCriterionValues,
+                allEvaluationCriteriaValuesFromDatabase,
+                (x, y) => x.EvaluationCriterionValueID == y.EvaluationCriterionValueID,
+                (x, y) =>
+                {
+                    x.EvaluationCriterionValueRating = y.EvaluationCriterionValueRating;
+                    x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
+                    x.SortOrder = y.SortOrder;
+                }, HttpRequestStorage.DatabaseEntities);
 
             //evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
             //    allEvaluationCriteriaFromDatabase,
@@ -96,6 +105,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             //        x.EvaluationCriterionName = y.EvaluationCriterionName;
             //        x.EvaluationCriterionDefinition = x.EvaluationCriterionDefinition;
             //    }, HttpRequestStorage.DatabaseEntities);
+
         }
     }
 }

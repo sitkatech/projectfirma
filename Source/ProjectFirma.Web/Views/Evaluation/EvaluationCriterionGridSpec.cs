@@ -11,13 +11,12 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public EvaluationCriterionGridSpec(FirmaSession currentFirmaSession)
         {
-
             Add(string.Empty, ec => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, ec => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, ec), 30, DhtmlxGridColumnFilterType.None);
 
-            Add("Name", a => a.EvaluationCriterionName, 220, DhtmlxGridColumnFilterType.Text);
-            Add("Definition", a => a.EvaluationCriterionDefinition, 220, DhtmlxGridColumnFilterType.Text);
-            Add("Number of Criterion Values", a => a.GetNumberOfEvaluationCriterionValues().ToString(), 40, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Name", a => a.EvaluationCriterionName, 170, DhtmlxGridColumnFilterType.Text);
+            Add("Definition", a => a.EvaluationCriterionDefinition, 170, DhtmlxGridColumnFilterType.Text);
+            Add("Number of Criterion Values", a => a.GetNumberOfEvaluationCriterionValues().ToString(), 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
         }
 
@@ -34,7 +33,9 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluationCriterion.Evaluation))
             {
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(evaluationCriterion.GetEditUrl(), $"Edit {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'");
+                string linkTitleText = $"Edit {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'";
+                string editDialogUrl = evaluationCriterion.GetEditUrl();
+                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
             }
             return new HtmlString(string.Empty);
         }
