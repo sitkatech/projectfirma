@@ -27,6 +27,8 @@ using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using SharpDocx;
 using System.Web.Mvc;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ReportCenter;
 
 namespace ProjectFirma.Web.Controllers
@@ -38,10 +40,92 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public ViewResult Index()
         {
+            // todo: firma page and firma page type
             var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult New()
+        {
+            var viewModel = new EditViewModel();
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+
+            var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession);
+            
+            var reportTemplate = ReportTemplate.CreateNewBlank(fileResource);
+            viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+
+            SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult Edit(ReportTemplatePrimaryKey reportTemplatePrimaryKey)
+        {
+            var reportTemplate = reportTemplatePrimaryKey.EntityObject;
+            var viewModel = new EditViewModel(reportTemplate);
+            return ViewEdit(viewModel, reportTemplate);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(ReportTemplatePrimaryKey reportTemplatePrimaryKey, EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+
+            var fileResource = (viewModel.FileResourceData != null) ? FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession) : HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == viewModel.FileResourceID);
+            var reportTemplate = reportTemplatePrimaryKey.EntityObject;
+            viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully updated.");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        {
+            var viewData = new EditViewData();
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        private PartialViewResult ViewEdit(EditViewModel viewModel, ReportTemplate reportTemplate)
+        {
+            var viewData = new EditViewData(reportTemplate);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        public ViewResult Delete(ReportTemplate reportTemplate)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        [FirmaAdminFeature]
+        public GridJsonNetJObjectResult<ReportTemplate> IndexGridJsonData()
+        {
+            var hasManagePermissions = new ReportTemplateManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var gridSpec = new ReportTemplateGridSpec(hasManagePermissions);
+            var reportTemplates = HttpRequestStorage.DatabaseEntities.ReportTemplates.OrderBy(x => x.DisplayName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReportTemplate>(reportTemplates, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+        
 
         [CrossAreaRoute]
         [HttpGet]

@@ -27,14 +27,25 @@ namespace ProjectFirma.Web.Views.ReportCenter
 {
     public class IndexViewData : FirmaViewData
     {
+        public ReportTemplateGridSpec GridSpec { get;  }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public bool HasManageReportTemplatePermissions { get; }
+        public string NewUrl { get; }
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
-            
-
-
+            GridSpec = new ReportTemplateGridSpec(new ReportTemplateViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                ObjectNameSingular = "Report Template",
+                ObjectNamePlural = "Report Templates",
+                SaveFiltersInCookie = true
+            };
+            GridName = "ReportTemplates";
+            PageTitle = "Report Center";
+            GridDataUrl = SitkaRoute<ReportCenterController>.BuildUrlFromExpression(rcc => rcc.IndexGridJsonData());
+            HasManageReportTemplatePermissions = new ReportTemplateManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            NewUrl = SitkaRoute<ReportCenterController>.BuildUrlFromExpression(t => t.New());
         }
     }
 }
