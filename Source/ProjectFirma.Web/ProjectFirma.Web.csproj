@@ -189,6 +189,7 @@
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\ReportedValueForDisplay.cs" />
     <Compile Include="Models\ReportingCategoryForDisplay.cs" />
+    <Compile Include="Models\ReportTemplateModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -219,6 +220,8 @@
     <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
+    <Compile Include="Security\ReportTemplateManageFeature.cs" />
+    <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
@@ -257,6 +260,10 @@
     <Compile Include="Views\ExternalMapLayer\Index.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\ReportCenter\Edit.cs" />
+    <Compile Include="Views\ReportCenter\EditViewData.cs" />
+    <Compile Include="Views\ReportCenter\EditViewModel.cs" />
+    <Compile Include="Views\ReportCenter\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\ReportCenter\Index.cs" />
     <Compile Include="Views\ReportCenter\IndexViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
@@ -1679,6 +1686,7 @@
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
     <Content Include="Views\ReportCenter\Index.cshtml" />
+    <Content Include="Views\ReportCenter\Edit.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
