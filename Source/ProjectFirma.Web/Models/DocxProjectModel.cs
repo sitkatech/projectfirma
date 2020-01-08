@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.DesignByContract;
 using ProjectFirmaModels.Models;
-using System.IO;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common;
 using SharpDocx;
@@ -88,7 +83,18 @@ namespace ProjectFirma.Web.Models
         {
             return new List<string>
             {
-                "using ProjectFirma.Web.Models;"
+                "using ProjectFirma.Web.Models;",
+                "using System.Linq;"
+
+            };
+        }
+
+        // referencing required assemblies
+        public new static List<string> GetReferencedAssemblies()
+        {
+            return new List<string>
+            {
+                "System.Core.dll",
             };
         }
 
@@ -113,8 +119,5 @@ namespace ProjectFirma.Web.Models
             if (run == null) return;
             run.RunProperties.Color = new Color { Val = color };
         }
-
-
     }
-
 }
