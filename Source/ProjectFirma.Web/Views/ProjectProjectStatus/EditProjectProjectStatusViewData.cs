@@ -26,6 +26,7 @@ using System.Web;
 using System.Web.Mvc;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
@@ -68,22 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
             ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
-            AllowEditFinal = isFinalStatusReport;
-
-            var currentPerson = currentFirmaSession.Person;
-            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
-            {
-                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
-
-                if (!finalStatusReport.Any())
-                {
-                    if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
-                    {
-                        AllowEditFinal = true;
-                    }
-                }
-            }
+            AllowEditFinal = isFinalStatusReport || ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, currentFirmaSession);
         }
     }
 

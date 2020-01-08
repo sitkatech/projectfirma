@@ -45,8 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFinalStatusReport)]
-        public bool IsFinalStatusReport { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.IsFinalStatusUpdate)]
+        public bool IsFinalStatusUpdate { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.LessonsLearned)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusLessonsLearned)]
@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         /// </summary>
         public EditProjectProjectStatusViewModel()
         {
-            IsFinalStatusReport = false;
+            IsFinalStatusUpdate = false;
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public EditProjectProjectStatusViewModel(DateTime projectStatusUpdateDate)
         {
             ProjectStatusUpdateDate = projectStatusUpdateDate;
-            IsFinalStatusReport = false;
+            IsFinalStatusUpdate = false;
         }
 
 
@@ -78,13 +78,13 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             LessonsLearned = projectProjectStatus.LessonsLearned;
             ProjectStatusID = projectProjectStatus.ProjectStatusID;
             ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
-            IsFinalStatusReport = projectProjectStatus.IsFinalStatusUpdate;
+            IsFinalStatusUpdate = projectProjectStatus.IsFinalStatusUpdate;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
             projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
-            if (IsFinalStatusReport)
+            if (IsFinalStatusUpdate)
             {
                 projectProjectStatus.LessonsLearned = LessonsLearned;
             }
@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             }
             projectProjectStatus.ProjectStatusID = ProjectStatusID;
             projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
-            projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusReport;
+            projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusUpdate;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
                 projectProjectStatus.ProjectProjectStatusCreateDate = DateTime.Now;
@@ -114,9 +114,9 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             
 
             // Expenditures note is required if no expenditures to enter is selected
-            if (string.IsNullOrEmpty(LessonsLearned) && IsFinalStatusReport)
+            if (string.IsNullOrEmpty(LessonsLearned) && IsFinalStatusUpdate)
             {
-                errors.Add(new ValidationResult($"Lessons Learned must be entered for Final Status Reports."));
+                errors.Add(new ValidationResult($"Lessons Learned must be entered for Final Status Updates."));
             }
 
             return errors;

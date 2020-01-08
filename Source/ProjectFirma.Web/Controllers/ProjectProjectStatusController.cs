@@ -42,21 +42,21 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
-            var allowEditFinal = ValueOfIsFinalForNew(projectPrimaryKey);
-            viewModel.IsFinalStatusReport = allowEditFinal;
+            var allowEditFinal = AllowUserToSetNewStatusReportToFinal(projectPrimaryKey.EntityObject, CurrentFirmaSession);
+            viewModel.IsFinalStatusUpdate = allowEditFinal;
 
 
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
             return ViewEdit( viewModel, false, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
         }
 
-        private bool ValueOfIsFinalForNew(ProjectPrimaryKey projectPrimaryKey)
+        public static bool AllowUserToSetNewStatusReportToFinal(Project project, FirmaSession currentFirmaSession)
         {
             var allowEditFinal = false;
-
-            var project = projectPrimaryKey.EntityObject;
-            var currentPerson = CurrentFirmaSession.Person;
-            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            //var projectStewards = project.GetProjectStewards();
+            //var currentPerson = currentFirmaSession.Person;
+            //var currentPersonIsProjectSteward = projectStewards != null && projectStewards.Any(x => x.PersonID == currentPerson.PersonID);
             if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() ||
                 project.ProjectStage == ProjectStage.Completed)
             {
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
 
                 if (!finalStatusReport.Any())
                 {
-                    if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                    if (userHasProjectAdminPermissions)
                     {
                         allowEditFinal = true;
                     }
@@ -93,8 +93,8 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
-            var allowEditFinal = ValueOfIsFinalForNew(projectPrimaryKey);
-            viewModel.IsFinalStatusReport = allowEditFinal;
+            var allowEditFinal = AllowUserToSetNewStatusReportToFinal(projectPrimaryKey.EntityObject, CurrentFirmaSession);
+            viewModel.IsFinalStatusUpdate = allowEditFinal;
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
             return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
         }
