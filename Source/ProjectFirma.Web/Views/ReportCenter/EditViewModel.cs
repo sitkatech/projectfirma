@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
         [StringLength(200)]
         public string Description { get; set; }
         
-        [DisplayName("Word document template file")]
+        [DisplayName("Word Document Template File")]
         [SitkaFileExtensions("docx")]
         public HttpPostedFileBase FileResourceData { get; set; }
         
@@ -82,8 +82,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
                 // delete the old FileResource
                 var oldFileResource =
                     HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == FileResourceID);
-                oldFileResource.DeleteFull(databaseEntities);
-                
+                oldFileResource.Delete(databaseEntities);
             }
         }
 

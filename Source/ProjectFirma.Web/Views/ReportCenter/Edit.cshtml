@@ -47,9 +47,9 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="col-md-10">
                 @if (ViewDataTyped.ReportTemplate != null)
                 {
-                    <span class="smallExplanationText">
-                        Uploading a new report template here will replace the current template file: "@ViewDataTyped.ReportTemplate.FileResourceName()"
-                    </span>
+                    <div class="alert alert-info">
+                        This report currently has a template: "@ViewDataTyped.ReportTemplate.DownloadTemplateLink()". Using the field below will replace this current template.
+                    </div>
                 }
                 
                 @Html.EditorFor(x => x.FileResourceData)
