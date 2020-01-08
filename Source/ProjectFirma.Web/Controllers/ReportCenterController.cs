@@ -30,6 +30,7 @@ using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ReportCenter;
+using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -110,9 +111,40 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        public ViewResult Delete(ReportTemplate reportTemplate)
+        [HttpGet]
+        [GeospatialAreaManageFeature]
+        public PartialViewResult Delete(ReportTemplatePrimaryKey reportTemplatePrimaryKey)
         {
-            throw new NotImplementedException();
+            var reportTemplate = reportTemplatePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(reportTemplate.ReportTemplateID);
+            return ViewDelete(reportTemplate, viewModel);
+        }
+
+        private PartialViewResult ViewDelete(ReportTemplate reportTemplate, ConfirmDialogFormViewModel viewModel)
+        {
+
+            var canDelete = new ReportTemplateManageFeature().HasPermission(CurrentFirmaSession, reportTemplate).HasPermission;
+
+            var confirmMessage = canDelete
+                ? $"Are you sure you want to delete the \"{reportTemplate.DisplayName}\" Report Template?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"Report Template");
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [GeospatialAreaManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(ReportTemplatePrimaryKey reportTemplatePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var reportTemplate = reportTemplatePrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(reportTemplate, viewModel);
+            }
+            reportTemplate.DeleteFullWithFileResource(HttpRequestStorage.DatabaseEntities);
+            return new ModalDialogFormJsonResult();
         }
 
 
