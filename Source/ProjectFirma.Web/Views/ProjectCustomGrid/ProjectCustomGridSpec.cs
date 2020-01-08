@@ -159,10 +159,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         );
                     }
                     break;
-                case ProjectCustomGridColumnEnum.FinalStatusReportStatus:
+                case ProjectCustomGridColumnEnum.FinalStatusUpdateStatus:
                     if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
-                        Add(FieldDefinitionEnum.FinalStatusReportStatus.ToType().ToGridHeaderString()
+                        Add(FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().ToGridHeaderString()
                             , x => x.FinalStatusReportStatusDescription
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterStrict

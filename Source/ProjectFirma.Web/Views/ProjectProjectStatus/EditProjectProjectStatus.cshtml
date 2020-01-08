@@ -84,28 +84,28 @@
                 {
                     <div class="form-group" id="finalStatusUpdateSection">
                         <div class="col-sm-4 control-label">
-                            @Html.LabelWithSugarFor(x => x.IsFinalStatusReport)
+                            @Html.LabelWithSugarFor(x => x.IsFinalStatusUpdate)
                         </div>
                         <div class="col-sm-8">
                             <div class="col-xs-12 col-sm-9">
                                 <div class="radio-inline">
                                     <label>
-                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, true) Yes
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, true) Yes
                                     </label>
                                 </div>
                                 <div class="radio-inline">
                                     <label>
-                                        @Html.RadioButtonFor(m => m.IsFinalStatusReport, false) No
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, false) No
                                     </label>
                                 </div>
                             </div>
-                            @Html.ValidationMessageFor(m => m.IsFinalStatusReport)
+                            @Html.ValidationMessageFor(m => m.IsFinalStatusUpdate)
                         </div>
                     </div>
                 }
             @if (!ViewDataTyped.AllowEditFinal)
             {
-                @Html.HiddenFor(m => m.IsFinalStatusReport);
+                @Html.HiddenFor(m => m.IsFinalStatusUpdate);
             }
 
 
@@ -169,7 +169,7 @@
             return projectStatuses[optionVal].Color;
         }
 
-        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusReport)]').change(function () {
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').change(function () {
             var value = false;
 
             if (this.value == 'True') {
@@ -185,7 +185,7 @@
         });
 
 
-        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusReport)]');
+        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]');
         console.log(radio);
         var value = false;
         radio.each(function () {
