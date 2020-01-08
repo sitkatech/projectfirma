@@ -27,38 +27,45 @@ Source code is available upon request via <support@sitkatech.com>.
 {
     @Html.HiddenFor(x => x.FileResourceID)
     @Html.HiddenFor(x => x.ReportTemplateID)
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(x => x.DisplayName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.DisplayName, new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(x => x.DisplayName)
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(x => x.DisplayName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(x => x.DisplayName, new { @class = "form-control" })
         </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.Description, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(x => x.Description)
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => x.FileResourceData, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @if (ViewDataTyped.ReportTemplate != null)
-                {
-                    <div class="alert alert-info">
-                        This report currently has a template: "@ViewDataTyped.ReportTemplate.DownloadTemplateLink()". Using the field below will replace this current template.
-                    </div>
-                }
-                
-                @Html.EditorFor(x => x.FileResourceData)
-                <span class="smallExplanationText">
-                    Max File Size: @FileResourceModelExtensions.MaxFileSizeHumanReadable Allowed Extensions: .docx
-                </span>
-            </div>
-            @Html.ValidationMessageFor(x => x.Description)
-        </div>
+        @Html.ValidationMessageFor(x => x.DisplayName)
     </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Description)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.ReportTemplateModelTypeID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.ReportTemplateModelTypeID, ViewDataTyped.AllReportTemplateModelTypes, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(x => x.ReportTemplateModelTypeID)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.FileResourceData, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @if (ViewDataTyped.ReportTemplate != null)
+            {
+                <div class="alert alert-info">
+                    This report currently has a template: "@ViewDataTyped.ReportTemplate.DownloadTemplateLink()". Using the field below will replace this current template.
+                </div>
+            }
+
+            @Html.EditorFor(x => x.FileResourceData)
+            <span class="smallExplanationText">
+                Max File Size: @FileResourceModelExtensions.MaxFileSizeHumanReadable Allowed Extensions: .docx
+            </span>
+        </div>
+        @Html.ValidationMessageFor(x => x.Description)
+    </div>
+</div>
     
 }

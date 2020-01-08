@@ -48,7 +48,11 @@ namespace ProjectFirma.Web.Views.ReportCenter
         [DisplayName("Description")]
         [StringLength(200)]
         public string Description { get; set; }
-        
+
+        [Required]
+        [DisplayName("Model Type")]
+        public int ReportTemplateModelTypeID { get; set; }
+
         [DisplayName("Word Document Template File")]
         [SitkaFileExtensions("docx")]
         public HttpPostedFileBase FileResourceData { get; set; }
@@ -66,6 +70,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
             DisplayName = reportTemplate.DisplayName;
             Description = reportTemplate.Description;
             FileResourceID = reportTemplate.FileResourceID;
+            ReportTemplateModelTypeID = reportTemplate.ReportTemplateModelTypeID;
         }
 
         public void UpdateModel(ReportTemplate reportTemplate, FileResource fileResource,
@@ -75,6 +80,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
             reportTemplate.DisplayName = DisplayName;
             reportTemplate.Description = Description;
             reportTemplate.FileResource = fileResource;
+            reportTemplate.ReportTemplateModelTypeID = ReportTemplateModelTypeID;
             
             var updateIsReplacingFileResourceData = FileResourceData != null && FileResourceID != null;
             if (updateIsReplacingFileResourceData)

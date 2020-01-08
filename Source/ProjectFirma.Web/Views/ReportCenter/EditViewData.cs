@@ -19,6 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ReportCenter
@@ -26,14 +31,14 @@ namespace ProjectFirma.Web.Views.ReportCenter
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly ProjectFirmaModels.Models.ReportTemplate ReportTemplate;
-        public FileResource FileResource { get; }
+        public IEnumerable<SelectListItem> AllReportTemplateModelTypes;
 
         public EditViewData()
         {
-
+            AllReportTemplateModelTypes = HttpRequestStorage.DatabaseEntities.ReportTemplateModelTypes.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
         }
 
-        public EditViewData(ProjectFirmaModels.Models.ReportTemplate reportTemplate)
+        public EditViewData(ProjectFirmaModels.Models.ReportTemplate reportTemplate) : this()
         {
             ReportTemplate = reportTemplate;
         }

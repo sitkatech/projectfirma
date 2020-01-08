@@ -65,8 +65,9 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession);
-            
-            var reportTemplate = ReportTemplate.CreateNewBlank(fileResource);
+            var reportTemplateModelType = HttpRequestStorage.DatabaseEntities.ReportTemplateModelTypes.FirstOrDefault(x => x.ReportTemplateModelTypeID == viewModel.ReportTemplateModelTypeID);
+
+            var reportTemplate = ReportTemplate.CreateNewBlank(fileResource, reportTemplateModelType);
             viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
