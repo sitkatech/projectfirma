@@ -53,10 +53,10 @@ namespace ProjectFirma.Web.Controllers
         public static bool AllowUserToSetNewStatusReportToFinal(Project project, FirmaSession currentFirmaSession)
         {
             var allowEditFinal = false;
-            var userHasProjectAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            //var projectStewards = project.GetProjectStewards();
-            //var currentPerson = currentFirmaSession.Person;
-            //var currentPersonIsProjectSteward = projectStewards != null && projectStewards.Any(x => x.PersonID == currentPerson.PersonID);
+            var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var currentPerson = currentFirmaSession.Person;
+            var stewardPermission = currentFirmaSession.Role.RoleID == Role.ProjectSteward.RoleID && currentPerson.CanStewardProject(project);
+
             if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() ||
                 project.ProjectStage == ProjectStage.Completed)
             {
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Controllers
 
                 if (!finalStatusReport.Any())
                 {
-                    if (userHasProjectAdminPermissions)
+                    if (userHasProjectAdminPermissions || stewardPermission)
                     {
                         allowEditFinal = true;
                     }
