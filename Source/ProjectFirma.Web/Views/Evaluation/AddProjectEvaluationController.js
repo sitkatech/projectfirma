@@ -22,19 +22,9 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    //$scope.GeospatialAreaDropdownOptions = [];
 
     $scope.addProject = function (project) {
-
-
         var projectID = project.ProjectID;
-
-        //if (!projectID)
-        //{
-        //    var firstItem = _.first($scope.GeospatialAreaDropdownOptions);
-        //    geospatialAreaID = firstItem.GeospatialAreaID;
-        //    //console.log('geospatialAreaID:' + geospatialAreaID);
-        //}
 
         var projectIdInt = parseInt(projectID, 10);
         //console.log('projectIdInt:' + projectIdInt);
@@ -53,38 +43,16 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
         
         $scope.refreshSelectableProjects();
     };
-
-
-    //$scope.getGeospatialAreaTypes = function () {
-    //    return $scope.AngularViewData.GeospatialAreaTypeSimples;
-    //};
-
-    //$scope.isAddButtonDisabled = function () {
-    //    var returnValue = true;
-    //    if ($scope.GeospatialAreaDropdownOptions.length > 0) {
-            
-    //        returnValue = false;
-    //    }
-    //    return returnValue;
-    //};
+    
 
     $scope.addFromTaxonomy = function () {
-
-        debugger;
         var selectedLeafID = this.SelectedTaxonomyLeaf.TaxonomyTierID;
-
-
         var newProjects = _.filter($scope.selectableProjects, function (p) { return p.TaxonomyLeafID == selectedLeafID; });
-
         $scope.AngularModel.SelectedProjects = $scope.AngularModel.SelectedProjects.concat(newProjects);
-
-
         $scope.refreshSelectableProjects();
     };
 
     $scope.getSelectableProjects = function () {
-        //debugger;
-
         var filteredProjects = _.filter($scope.AngularViewData.ProjectSimples,
                                                 function(project) {
                                                     var object = _.find($scope.AngularModel.SelectedProjects,
@@ -127,31 +95,26 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.SelectedProjects, projectToDelete);
     };
 
-
-
-
     $scope.initSelectableTaxonomies = function () {
 
         switch ($scope.AngularViewData.TaxonomyLevel) {
         case 1:
-            console.log("case 1 in initSelectableTaxonomies");
-                $scope.selectableTaxonomyLeaves = $scope.AngularViewData.TaxonomyLeafSimples;
+            //console.log("case 1 in initSelectableTaxonomies");
+            $scope.selectableTaxonomyLeaves = $scope.AngularViewData.TaxonomyLeafSimples;
             break;
         case 2:
-            console.log("case 2 in initSelectableTaxonomies");
-                $scope.selectableTaxonomyBranches = $scope.AngularViewData.TaxonomyBranchSimples;
+            //console.log("case 2 in initSelectableTaxonomies");
+            $scope.selectableTaxonomyBranches = $scope.AngularViewData.TaxonomyBranchSimples;
             break;
         case 3:
-            console.log("case 3 in initSelectableTaxonomies");
+            //console.log("case 3 in initSelectableTaxonomies");
             break;//Trunk dropdown uses AngularViewData.TaxonomyTrunkSimples directly because it never needs to be filtered
         default:
             console.log('unsupported taxonomy level.');
         }
     }
 
-
     $scope.refreshSelectableTaxonomyBranches = function () {
-
         var selectedTrunk = this.SelectedTaxonomyTrunk.TaxonomyTierID;
         var filteredBranches = _.filter($scope.AngularViewData.TaxonomyBranchSimples, function (b) { return b.ParentTaxonomyID == selectedTrunk; });
 
@@ -176,8 +139,6 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
     }
 
     $scope.refreshSelectableTaxonomyLeaves = function () {
-        console.log("inside refresh taxonomy leaves");
-        
         var selectedBranch = this.SelectedTaxonomyBranch.TaxonomyTierID;
         var filteredLeaves = _.filter($scope.AngularViewData.TaxonomyLeafSimples, function (l) { return l.ParentTaxonomyID == selectedBranch; });
 
@@ -200,11 +161,6 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
             jQuery(".selectpicker").selectpicker("refresh");
         }, 50);
     }
-
-
-
-    
-
 
     $scope.SelectedProjectID = "";
     $scope.SelectedProject = {};
