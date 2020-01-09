@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
@@ -335,9 +336,12 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().Where(x => x.TaxonomyLeafs.Intersect(taxonomyLeaves).Any()).ToList();
             var taxonomyTrunk = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().Where(x => x.TaxonomyBranches.Intersect(taxonomyBranches).Any()).ToList();
 
-            var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).ToList();
+            var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
+            var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();
 
-            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples);
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+
+            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples, taxonomyLevel);
 
             var viewData = new AddProjectEvaluationViewData(angularViewData, evaluation);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);

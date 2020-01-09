@@ -61,16 +61,30 @@
         <div class="form-group">
             <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12">
+                <label>Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()</label>
+                <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()"></select>
+                <select class="selectpicker" ng-model="SelectedTaxonomyBranch" ng-options="branch.DisplayName for branch in selectableTaxonomyBranches track by branch.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"ng-if="AngularViewData.TaxonomyLevel > 1" ng-change="refreshSelectableTaxonomyLeaves()"></select>
+                <select class="selectpicker" ng-model="SelectedTaxonomyLeaf" ng-options="leaf.DisplayName for leaf in selectableTaxonomyLeaves track by leaf.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"></select>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <label>Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
                 <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8"></select>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-firma"  ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>
-                    </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
             </div>
         </div>
+        
+        
+        
+
         <div class="form-group">
             <div class="col-xs-12 control-label" style="margin-top: 80px;"><strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12">
-                <div class="col-md-4" ng-repeat="selectedProject in AngularModel.SelectedProjects">
+                <div class="col-md-6" ng-repeat="selectedProject in AngularModel.SelectedProjects">
                     <span>
                         <a href="#" ng-click="deleteProject(selectedProject); $event.preventDefault();">
                             <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()"></i>
