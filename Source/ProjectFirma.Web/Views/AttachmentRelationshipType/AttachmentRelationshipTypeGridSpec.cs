@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(t => t.EditAttachmentRelationshipType(a)),
-                        $"Edit Attachment Relationship Type \"{a.AttachmentRelationshipTypeName}\"")),
+                        $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentRelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
