@@ -248,6 +248,11 @@ namespace LtInfo.Common.ModalDialog
             return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} {dialogTitle}", dialogUrl, dialogTitle, DefaultDialogWidth, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
         }
 
+        public static HtmlString MakeNewIconButton(string dialogUrl, string dialogTitle, int width, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} {dialogTitle}", dialogUrl, dialogTitle, width, "Save", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);
+        }
+
         public static HtmlString MakeDeleteIconButton(string dialogUrl, string dialogTitle, bool hasPermission)
         {
             return hasPermission ? ModalDialogFormLink($"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash")} {dialogTitle}", dialogUrl, dialogTitle, DefaultDialogWidth, "Delete", "Cancel", new List<string> { "btn", "btn-firma" }, null, null) : new HtmlString(string.Empty);

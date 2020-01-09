@@ -60,8 +60,8 @@
         <hr />
         <div class="form-group">
             <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
-            <div class="col-xs-12">
-                <label>Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()</label>
+            <div class="col-xs-12" style="margin-bottom: 20px;">
+                <label class="small" style="width: 150px;">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()</label>
                 <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()"></select>
                 <select class="selectpicker" ng-model="SelectedTaxonomyBranch" ng-options="branch.DisplayName for branch in selectableTaxonomyBranches track by branch.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"ng-if="AngularViewData.TaxonomyLevel > 1" ng-change="refreshSelectableTaxonomyLeaves()"></select>
                 <select class="selectpicker" ng-model="SelectedTaxonomyLeaf" ng-options="leaf.DisplayName for leaf in selectableTaxonomyLeaves track by leaf.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"></select>
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="col-xs-12">
-                <label>Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
+                <label class="small" style="width: 150px;">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
                 <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8"></select>
                 <div class="btn-group">
                     <button type="button" class="btn btn-sm btn-firma" ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>

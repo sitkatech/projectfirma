@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             Add(string.Empty, pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
             foreach (var evaluationCriterionColumn in evaluation.EvaluationCriterions)
             {
                 Add(evaluationCriterionColumn.EvaluationCriterionName, a => GetCriterionValueIfAvailable(a, evaluationCriterionColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
