@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipTypeFileResourceMimeType]
+//  Source Table: [dbo].[AttachmentTypeFileResourceMimeType]
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
@@ -12,11 +12,11 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AttachmentRelationshipTypeFileResourceMimeType GetAttachmentRelationshipTypeFileResourceMimeType(this IQueryable<AttachmentRelationshipTypeFileResourceMimeType> attachmentRelationshipTypeFileResourceMimeTypes, int attachmentRelationshipTypeFileResourceMimeTypeID)
+        public static AttachmentTypeFileResourceMimeType GetAttachmentTypeFileResourceMimeType(this IQueryable<AttachmentTypeFileResourceMimeType> attachmentTypeFileResourceMimeTypes, int attachmentRelationshipTypeFileResourceMimeTypeID)
         {
-            var attachmentRelationshipTypeFileResourceMimeType = attachmentRelationshipTypeFileResourceMimeTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeFileResourceMimeTypeID == attachmentRelationshipTypeFileResourceMimeTypeID);
-            Check.RequireNotNullThrowNotFound(attachmentRelationshipTypeFileResourceMimeType, "AttachmentRelationshipTypeFileResourceMimeType", attachmentRelationshipTypeFileResourceMimeTypeID);
-            return attachmentRelationshipTypeFileResourceMimeType;
+            var attachmentTypeFileResourceMimeType = attachmentTypeFileResourceMimeTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeFileResourceMimeTypeID == attachmentRelationshipTypeFileResourceMimeTypeID);
+            Check.RequireNotNullThrowNotFound(attachmentTypeFileResourceMimeType, "AttachmentTypeFileResourceMimeType", attachmentRelationshipTypeFileResourceMimeTypeID);
+            return attachmentTypeFileResourceMimeType;
         }
 
     }

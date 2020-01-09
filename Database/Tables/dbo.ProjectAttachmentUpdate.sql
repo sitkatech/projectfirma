@@ -23,12 +23,12 @@ CREATE TABLE [dbo].[ProjectAttachmentUpdate](
 
 GO
 ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentRelationshipTypeID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID])
 GO
 ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID]
 GO
 ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentRelationshipTypeID], [TenantID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID], [TenantID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
 GO

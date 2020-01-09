@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk](
+CREATE TABLE [dbo].[AttachmentTypeTaxonomyTrunk](
 	[AttachmentRelationshipTypeTaxonomyTrunkID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[AttachmentRelationshipTypeID] [int] NOT NULL,
@@ -14,27 +14,27 @@ CREATE TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentRelationshipTypeID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID])
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentRelationshipTypeID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID]
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID]
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentRelationshipTypeID], [TenantID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID], [TenantID])
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentRelationshipTypeID], [TenantID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID], [TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID] FOREIGN KEY([TaxonomyTrunkID])
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID] FOREIGN KEY([TaxonomyTrunkID])
 REFERENCES [dbo].[TaxonomyTrunk] ([TaxonomyTrunkID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID]
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID]
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID_TenantID] FOREIGN KEY([TaxonomyTrunkID], [TenantID])
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID_TenantID] FOREIGN KEY([TaxonomyTrunkID], [TenantID])
 REFERENCES [dbo].[TaxonomyTrunk] ([TaxonomyTrunkID], [TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID_TenantID]
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID_TenantID]
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_Tenant_TenantID]
+ALTER TABLE [dbo].[AttachmentTypeTaxonomyTrunk] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeTaxonomyTrunk_Tenant_TenantID]

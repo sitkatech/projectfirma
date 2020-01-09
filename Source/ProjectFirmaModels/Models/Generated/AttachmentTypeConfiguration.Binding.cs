@@ -1,19 +1,19 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipType]
+//  Source Table: [dbo].[AttachmentType]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class AttachmentRelationshipTypeConfiguration : EntityTypeConfiguration<AttachmentRelationshipType>
+    public class AttachmentTypeConfiguration : EntityTypeConfiguration<AttachmentType>
     {
-        public AttachmentRelationshipTypeConfiguration() : this("dbo"){}
+        public AttachmentTypeConfiguration() : this("dbo"){}
 
-        public AttachmentRelationshipTypeConfiguration(string schema)
+        public AttachmentTypeConfiguration(string schema)
         {
-            ToTable("AttachmentRelationshipType", schema);
+            ToTable("AttachmentType", schema);
             HasKey(x => x.AttachmentRelationshipTypeID);
             Property(x => x.AttachmentRelationshipTypeID).HasColumnName(@"AttachmentRelationshipTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();

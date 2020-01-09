@@ -1,26 +1,26 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: dbo.AttachmentRelationshipTypeFileResourceMimeType
+//  Source Table: dbo.AttachmentTypeFileResourceMimeType
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public class AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey : LtInfo.Common.EntityModelBinding.LtInfoEntityPrimaryKey<AttachmentRelationshipTypeFileResourceMimeType>
+    public class AttachmentTypeFileResourceMimeTypePrimaryKey : LtInfo.Common.EntityModelBinding.LtInfoEntityPrimaryKey<AttachmentTypeFileResourceMimeType>
     {
-        public AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(int primaryKeyValue) : base(primaryKeyValue){}
-        public AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(AttachmentRelationshipTypeFileResourceMimeType attachmentRelationshipTypeFileResourceMimeType) : base(attachmentRelationshipTypeFileResourceMimeType){}
+        public AttachmentTypeFileResourceMimeTypePrimaryKey(int primaryKeyValue) : base(primaryKeyValue){}
+        public AttachmentTypeFileResourceMimeTypePrimaryKey(AttachmentTypeFileResourceMimeType attachmentTypeFileResourceMimeType) : base(attachmentTypeFileResourceMimeType){}
 
-        public static implicit operator AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(int primaryKeyValue)
+        public static implicit operator AttachmentTypeFileResourceMimeTypePrimaryKey(int primaryKeyValue)
         {
-            return new AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(primaryKeyValue);
+            return new AttachmentTypeFileResourceMimeTypePrimaryKey(primaryKeyValue);
         }
 
-        public static implicit operator AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(AttachmentRelationshipTypeFileResourceMimeType attachmentRelationshipTypeFileResourceMimeType)
+        public static implicit operator AttachmentTypeFileResourceMimeTypePrimaryKey(AttachmentTypeFileResourceMimeType attachmentTypeFileResourceMimeType)
         {
-            return new AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey(attachmentRelationshipTypeFileResourceMimeType);
+            return new AttachmentTypeFileResourceMimeTypePrimaryKey(attachmentTypeFileResourceMimeType);
         }
     }
 }

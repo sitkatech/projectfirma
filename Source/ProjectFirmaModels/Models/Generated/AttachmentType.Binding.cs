@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipType]
+//  Source Table: [dbo].[AttachmentType]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,17 +15,17 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[AttachmentRelationshipType] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[AttachmentRelationshipType]")]
-    public partial class AttachmentRelationshipType : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[AttachmentType] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[AttachmentType]")]
+    public partial class AttachmentType : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected AttachmentRelationshipType()
+        protected AttachmentType()
         {
-            this.AttachmentRelationshipTypeFileResourceMimeTypes = new HashSet<AttachmentRelationshipTypeFileResourceMimeType>();
-            this.AttachmentRelationshipTypeTaxonomyTrunks = new HashSet<AttachmentRelationshipTypeTaxonomyTrunk>();
+            this.AttachmentTypeFileResourceMimeTypes = new HashSet<AttachmentTypeFileResourceMimeType>();
+            this.AttachmentTypeTaxonomyTrunks = new HashSet<AttachmentTypeTaxonomyTrunk>();
             this.ProjectAttachments = new HashSet<ProjectAttachment>();
             this.ProjectAttachmentUpdates = new HashSet<ProjectAttachmentUpdate>();
         }
@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipType(int attachmentRelationshipTypeID, string attachmentRelationshipTypeName, string attachmentRelationshipTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
+        public AttachmentType(int attachmentRelationshipTypeID, string attachmentRelationshipTypeName, string attachmentRelationshipTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
         {
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
             this.AttachmentRelationshipTypeName = attachmentRelationshipTypeName;
@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipType(string attachmentRelationshipTypeName, int maxFileSize) : this()
+        public AttachmentType(string attachmentRelationshipTypeName, int maxFileSize) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -58,9 +58,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AttachmentRelationshipType CreateNewBlank()
+        public static AttachmentType CreateNewBlank()
         {
-            return new AttachmentRelationshipType(default(string), default(int));
+            return new AttachmentType(default(string), default(int));
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AttachmentRelationshipTypeFileResourceMimeTypes.Any() || AttachmentRelationshipTypeTaxonomyTrunks.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
+            return AttachmentTypeFileResourceMimeTypes.Any() || AttachmentTypeTaxonomyTrunks.Any() || ProjectAttachments.Any() || ProjectAttachmentUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipType).Name, typeof(AttachmentRelationshipTypeFileResourceMimeType).Name, typeof(AttachmentRelationshipTypeTaxonomyTrunk).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentType).Name, typeof(AttachmentTypeFileResourceMimeType).Name, typeof(AttachmentTypeTaxonomyTrunk).Name, typeof(ProjectAttachment).Name, typeof(ProjectAttachmentUpdate).Name};
 
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllAttachmentRelationshipTypes.Remove(this);
+            dbContext.AllAttachmentTypes.Remove(this);
         }
         
         /// <summary>
@@ -100,12 +100,12 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AttachmentRelationshipTypeFileResourceMimeTypes.ToList())
+            foreach(var x in AttachmentTypeFileResourceMimeTypes.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AttachmentRelationshipTypeTaxonomyTrunks.ToList())
+            foreach(var x in AttachmentTypeTaxonomyTrunks.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -131,8 +131,8 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return AttachmentRelationshipTypeID; } set { AttachmentRelationshipTypeID = value; } }
 
-        public virtual ICollection<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
-        public virtual ICollection<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get; set; }
+        public virtual ICollection<AttachmentTypeFileResourceMimeType> AttachmentTypeFileResourceMimeTypes { get; set; }
+        public virtual ICollection<AttachmentTypeTaxonomyTrunk> AttachmentTypeTaxonomyTrunks { get; set; }
         public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; }
         public virtual ICollection<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

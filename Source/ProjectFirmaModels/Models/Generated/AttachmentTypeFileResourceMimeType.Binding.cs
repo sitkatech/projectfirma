@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipTypeFileResourceMimeType]
+//  Source Table: [dbo].[AttachmentTypeFileResourceMimeType]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[AttachmentRelationshipTypeFileResourceMimeType] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[AttachmentRelationshipTypeFileResourceMimeType]")]
-    public partial class AttachmentRelationshipTypeFileResourceMimeType : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[AttachmentTypeFileResourceMimeType] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[AttachmentTypeFileResourceMimeType]")]
+    public partial class AttachmentTypeFileResourceMimeType : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected AttachmentRelationshipTypeFileResourceMimeType()
+        protected AttachmentTypeFileResourceMimeType()
         {
 
         }
@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipTypeFileResourceMimeType(int attachmentRelationshipTypeFileResourceMimeTypeID, int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
+        public AttachmentTypeFileResourceMimeType(int attachmentRelationshipTypeFileResourceMimeTypeID, int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
         {
             this.AttachmentRelationshipTypeFileResourceMimeTypeID = attachmentRelationshipTypeFileResourceMimeTypeID;
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipTypeFileResourceMimeType(int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
+        public AttachmentTypeFileResourceMimeType(int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentRelationshipTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -52,22 +52,22 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AttachmentRelationshipTypeFileResourceMimeType(AttachmentRelationshipType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType) : this()
+        public AttachmentTypeFileResourceMimeType(AttachmentType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentRelationshipTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
             this.AttachmentRelationshipType = attachmentRelationshipType;
-            attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Add(this);
+            attachmentRelationshipType.AttachmentTypeFileResourceMimeTypes.Add(this);
             this.FileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AttachmentRelationshipTypeFileResourceMimeType CreateNewBlank(AttachmentRelationshipType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType)
+        public static AttachmentTypeFileResourceMimeType CreateNewBlank(AttachmentType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType)
         {
-            return new AttachmentRelationshipTypeFileResourceMimeType(attachmentRelationshipType, fileResourceMimeType);
+            return new AttachmentTypeFileResourceMimeType(attachmentRelationshipType, fileResourceMimeType);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipTypeFileResourceMimeType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentTypeFileResourceMimeType).Name};
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllAttachmentRelationshipTypeFileResourceMimeTypes.Remove(this);
+            dbContext.AllAttachmentTypeFileResourceMimeTypes.Remove(this);
         }
         
         /// <summary>
@@ -111,7 +111,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return AttachmentRelationshipTypeFileResourceMimeTypeID; } set { AttachmentRelationshipTypeFileResourceMimeTypeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual AttachmentRelationshipType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentRelationshipType { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
 
         public static class FieldLengths

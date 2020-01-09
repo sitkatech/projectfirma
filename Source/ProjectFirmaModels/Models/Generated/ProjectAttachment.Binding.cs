@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectAttachment(Project project, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType, string displayName) : this()
+        public ProjectAttachment(Project project, FileResource attachment, AttachmentType attachmentRelationshipType, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -76,7 +76,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectAttachment CreateNewBlank(Project project, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType)
+        public static ProjectAttachment CreateNewBlank(Project project, FileResource attachment, AttachmentType attachmentRelationshipType)
         {
             return new ProjectAttachment(project, attachment, attachmentRelationshipType, default(string));
         }
@@ -127,7 +127,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual FileResource Attachment { get; set; }
-        public virtual AttachmentRelationshipType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentRelationshipType { get; set; }
 
         public static class FieldLengths
         {

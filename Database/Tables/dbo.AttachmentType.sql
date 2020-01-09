@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[AttachmentRelationshipType](
+CREATE TABLE [dbo].[AttachmentType](
 	[AttachmentRelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[AttachmentRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[AttachmentRelationshipType](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[AttachmentType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentRelationshipType] CHECK CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID]
+ALTER TABLE [dbo].[AttachmentType] CHECK CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID]

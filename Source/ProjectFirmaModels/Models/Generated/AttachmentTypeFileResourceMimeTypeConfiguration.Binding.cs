@@ -1,19 +1,19 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipTypeFileResourceMimeType]
+//  Source Table: [dbo].[AttachmentTypeFileResourceMimeType]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class AttachmentRelationshipTypeFileResourceMimeTypeConfiguration : EntityTypeConfiguration<AttachmentRelationshipTypeFileResourceMimeType>
+    public class AttachmentTypeFileResourceMimeTypeConfiguration : EntityTypeConfiguration<AttachmentTypeFileResourceMimeType>
     {
-        public AttachmentRelationshipTypeFileResourceMimeTypeConfiguration() : this("dbo"){}
+        public AttachmentTypeFileResourceMimeTypeConfiguration() : this("dbo"){}
 
-        public AttachmentRelationshipTypeFileResourceMimeTypeConfiguration(string schema)
+        public AttachmentTypeFileResourceMimeTypeConfiguration(string schema)
         {
-            ToTable("AttachmentRelationshipTypeFileResourceMimeType", schema);
+            ToTable("AttachmentTypeFileResourceMimeType", schema);
             HasKey(x => x.AttachmentRelationshipTypeFileResourceMimeTypeID);
             Property(x => x.AttachmentRelationshipTypeFileResourceMimeTypeID).HasColumnName(@"AttachmentRelationshipTypeFileResourceMimeTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
@@ -21,7 +21,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FileResourceMimeTypeID).HasColumnName(@"FileResourceMimeTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.AttachmentRelationshipType).WithMany(b => b.AttachmentRelationshipTypeFileResourceMimeTypes).HasForeignKey(c => c.AttachmentRelationshipTypeID).WillCascadeOnDelete(false); // FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID
+            HasRequired(a => a.AttachmentRelationshipType).WithMany(b => b.AttachmentTypeFileResourceMimeTypes).HasForeignKey(c => c.AttachmentRelationshipTypeID).WillCascadeOnDelete(false); // FK_AttachmentTypeFileResourceMimeType_AttachmentType_AttachmentRelationshipTypeID
         }
     }
 }

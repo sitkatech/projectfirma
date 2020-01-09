@@ -1,26 +1,26 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: dbo.AttachmentRelationshipType
+//  Source Table: dbo.AttachmentType
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    public class AttachmentRelationshipTypePrimaryKey : LtInfo.Common.EntityModelBinding.LtInfoEntityPrimaryKey<AttachmentRelationshipType>
+    public class AttachmentTypePrimaryKey : LtInfo.Common.EntityModelBinding.LtInfoEntityPrimaryKey<AttachmentType>
     {
-        public AttachmentRelationshipTypePrimaryKey(int primaryKeyValue) : base(primaryKeyValue){}
-        public AttachmentRelationshipTypePrimaryKey(AttachmentRelationshipType attachmentRelationshipType) : base(attachmentRelationshipType){}
+        public AttachmentTypePrimaryKey(int primaryKeyValue) : base(primaryKeyValue){}
+        public AttachmentTypePrimaryKey(AttachmentType attachmentType) : base(attachmentType){}
 
-        public static implicit operator AttachmentRelationshipTypePrimaryKey(int primaryKeyValue)
+        public static implicit operator AttachmentTypePrimaryKey(int primaryKeyValue)
         {
-            return new AttachmentRelationshipTypePrimaryKey(primaryKeyValue);
+            return new AttachmentTypePrimaryKey(primaryKeyValue);
         }
 
-        public static implicit operator AttachmentRelationshipTypePrimaryKey(AttachmentRelationshipType attachmentRelationshipType)
+        public static implicit operator AttachmentTypePrimaryKey(AttachmentType attachmentType)
         {
-            return new AttachmentRelationshipTypePrimaryKey(attachmentRelationshipType);
+            return new AttachmentTypePrimaryKey(attachmentType);
         }
     }
 }

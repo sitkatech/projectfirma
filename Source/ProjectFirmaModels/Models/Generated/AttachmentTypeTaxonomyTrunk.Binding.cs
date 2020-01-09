@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[AttachmentRelationshipTypeTaxonomyTrunk]
+//  Source Table: [dbo].[AttachmentTypeTaxonomyTrunk]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[AttachmentRelationshipTypeTaxonomyTrunk] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[AttachmentRelationshipTypeTaxonomyTrunk]")]
-    public partial class AttachmentRelationshipTypeTaxonomyTrunk : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[AttachmentTypeTaxonomyTrunk] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[AttachmentTypeTaxonomyTrunk]")]
+    public partial class AttachmentTypeTaxonomyTrunk : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected AttachmentRelationshipTypeTaxonomyTrunk()
+        protected AttachmentTypeTaxonomyTrunk()
         {
 
         }
@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipTypeTaxonomyTrunk(int attachmentRelationshipTypeTaxonomyTrunkID, int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
+        public AttachmentTypeTaxonomyTrunk(int attachmentRelationshipTypeTaxonomyTrunkID, int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
         {
             this.AttachmentRelationshipTypeTaxonomyTrunkID = attachmentRelationshipTypeTaxonomyTrunkID;
             this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentRelationshipTypeTaxonomyTrunk(int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
+        public AttachmentTypeTaxonomyTrunk(int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentRelationshipTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -52,24 +52,24 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AttachmentRelationshipTypeTaxonomyTrunk(AttachmentRelationshipType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk) : this()
+        public AttachmentTypeTaxonomyTrunk(AttachmentType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AttachmentRelationshipTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
             this.AttachmentRelationshipType = attachmentRelationshipType;
-            attachmentRelationshipType.AttachmentRelationshipTypeTaxonomyTrunks.Add(this);
+            attachmentRelationshipType.AttachmentTypeTaxonomyTrunks.Add(this);
             this.TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
             this.TaxonomyTrunk = taxonomyTrunk;
-            taxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Add(this);
+            taxonomyTrunk.AttachmentTypeTaxonomyTrunks.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AttachmentRelationshipTypeTaxonomyTrunk CreateNewBlank(AttachmentRelationshipType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk)
+        public static AttachmentTypeTaxonomyTrunk CreateNewBlank(AttachmentType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk)
         {
-            return new AttachmentRelationshipTypeTaxonomyTrunk(attachmentRelationshipType, taxonomyTrunk);
+            return new AttachmentTypeTaxonomyTrunk(attachmentRelationshipType, taxonomyTrunk);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentRelationshipTypeTaxonomyTrunk).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AttachmentTypeTaxonomyTrunk).Name};
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllAttachmentRelationshipTypeTaxonomyTrunks.Remove(this);
+            dbContext.AllAttachmentTypeTaxonomyTrunks.Remove(this);
         }
         
         /// <summary>
@@ -113,7 +113,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return AttachmentRelationshipTypeTaxonomyTrunkID; } set { AttachmentRelationshipTypeTaxonomyTrunkID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual AttachmentRelationshipType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentRelationshipType { get; set; }
         public virtual TaxonomyTrunk TaxonomyTrunk { get; set; }
 
         public static class FieldLengths

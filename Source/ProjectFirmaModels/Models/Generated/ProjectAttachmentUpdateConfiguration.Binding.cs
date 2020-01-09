@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectAttachmentUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectAttachmentUpdate_ProjectUpdateBatch_ProjectUpdateBatchID
             HasRequired(a => a.Attachment).WithMany(b => b.ProjectAttachmentUpdatesWhereYouAreTheAttachment).HasForeignKey(c => c.AttachmentID).WillCascadeOnDelete(false); // FK_ProjectAttachmentUpdate_FileResource_AttachmentID_FileResourceID
-            HasRequired(a => a.AttachmentRelationshipType).WithMany(b => b.ProjectAttachmentUpdates).HasForeignKey(c => c.AttachmentRelationshipTypeID).WillCascadeOnDelete(false); // FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID
+            HasRequired(a => a.AttachmentRelationshipType).WithMany(b => b.ProjectAttachmentUpdates).HasForeignKey(c => c.AttachmentRelationshipTypeID).WillCascadeOnDelete(false); // FK_ProjectAttachmentUpdate_AttachmentType_AttachmentRelationshipTypeID
         }
     }
 }
