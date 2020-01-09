@@ -219,33 +219,11 @@ namespace ProjectFirma.Web.Controllers
             var projectTimelineViewData =
                 new ProjectTimelineDisplayViewData(project, projectTimeline, userHasProjectStatusUpdatePermissions, projectStatusLegendDisplayViewData);
 
-            var currentPerson = CurrentFirmaSession.Person;
             var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             var addProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
+            AddWarningForSubmittingFinalStatusReportIfNeeded(project, addProjectProjectStatusButton);
 
-
-            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
-            {
-                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
-
-                if (!finalStatusReport.Any())
-                {
-                    if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
-                    {
-                        if (project.ProjectStage == ProjectStage.Completed)
-                        {
-                            SetWarningForDisplay($"The Project is completed. Submit a final status update <strong>here</strong>, or from the Project Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
-                        }
-                        else
-                        {
-                            SetWarningForDisplay($"This project has an update in progress that identifies the project as completed. Submit a final status update <strong>here</strong>, or from the Project Update and Status History panel." +
-                                                 $"</br></br> {addProjectProjectStatusButton}");
-                        }
-                        
-                    }
-                }
-            }
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -296,6 +274,27 @@ namespace ProjectFirma.Web.Controllers
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private void AddWarningForSubmittingFinalStatusReportIfNeeded(Project project, HtmlString addProjectProjectStatusButton)
+        {
+            var allowEditFinalStatusReport =
+                ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
+            var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
+            if (allowEditFinalStatusReport)
+            {
+                if (project.ProjectStage == ProjectStage.Completed)
+                {
+                    SetWarningForDisplay(
+                        $"The {projectEntityName} is completed. Submit a final status update <strong>here</strong>, or from the {projectEntityName} Update and Status History panel. </br></br> {addProjectProjectStatusButton}");
+                }
+                else
+                {
+                    SetWarningForDisplay(
+                        $"This {projectEntityName} has an update in progress that identifies the project as completed. Submit a final status update <strong>here</strong>, or from the {projectEntityName} Update and Status History panel." +
+                        $"</br></br> {addProjectProjectStatusButton}");
+                }
+            }
         }
 
         private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, Project project)
