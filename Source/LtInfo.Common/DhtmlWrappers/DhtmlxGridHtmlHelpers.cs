@@ -660,7 +660,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
         /// <summary>
         /// For making a delete icon on the grid with a delete jquery ui dialog confirm.
-        /// Will make a grey trash can icon if delete is not possible.
+        /// Will make a grey trash can icon if delete is not possible. *** WILL NOT PREVENT A DELETE FROM HAPPENING! YOU MUST ENFORCE AT THE CONTROLLER LEVEL ***
         /// </summary>
         /// <param name="deleteDialogUrl"></param>
         /// <param name="userHasDeletePermission">Does the given user have permission to perform a delete?</param>

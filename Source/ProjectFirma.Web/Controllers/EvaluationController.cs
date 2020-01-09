@@ -283,17 +283,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteEvaluationCriterion(EvaluationCriterion evaluationCriterion, ConfirmDialogFormViewModel viewModel)
         {
-            //todo: need to check for evals with connected data before deleting. prevent delete if eval has been run
-            var hasNoAssociations = false;//!evaluation.
-            var confirmMessage = hasNoAssociations
+            bool canDelete = evaluationCriterion.CanDelete();
+            var confirmMessage = canDelete
                 ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} \"{evaluationCriterion.EvaluationCriterionName}\"?</p>"
-                : String.Format(
-                    "<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated evaluation criterion data</strong>, and this action cannot be undone. Click {2} to review.</p>",
-                    FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel(),
-                    evaluationCriterion.EvaluationCriterionName,
-                    SitkaRoute<EvaluationController>.BuildLinkFromExpression(x => x.Detail(evaluationCriterion.Evaluation), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel());
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
