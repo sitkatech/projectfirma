@@ -27,6 +27,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using SharpDocx;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ReportCenter;
@@ -113,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [GeospatialAreaManageFeature]
+        [FirmaAdminFeature]
         public PartialViewResult Delete(ReportTemplatePrimaryKey reportTemplatePrimaryKey)
         {
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
@@ -135,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [GeospatialAreaManageFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Delete(ReportTemplatePrimaryKey reportTemplatePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -158,7 +159,39 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReportTemplate>(reportTemplates, gridSpec);
             return gridJsonNetJObjectResult;
         }
-        
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult SelectReportToGenerateFromSelectedProjects()
+        {
+            return new PartialViewResult();
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        public PartialViewResult SelectReportToGenerateFromSelectedProjects(GenerateReportsViewModel viewModel)
+        {
+            var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
+            var reportTemplateSelectListItems =
+                HttpRequestStorage.DatabaseEntities.ReportTemplates.AsEnumerable().ToSelectList(x => x.ReportTemplateID.ToString(),
+                    x => x.DisplayName);
+            var viewData = new GenerateReportsViewData(CurrentFirmaSession, projectsList, reportTemplateSelectListItems);
+            return RazorPartialView<GenerateReports, GenerateReportsViewData, GenerateReportsViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult GenerateReportsFromSelectedProjects()
+        {
+            return new PartialViewResult();
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        public PartialViewResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
+        {
+            return new PartialViewResult();
+        }
 
         [CrossAreaRoute]
         [HttpGet]

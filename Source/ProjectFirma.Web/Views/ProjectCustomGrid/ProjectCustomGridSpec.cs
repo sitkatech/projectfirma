@@ -25,6 +25,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -207,13 +208,23 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userHasReportDownloadPermissions = new ReportTemplateViewListFeature().HasPermissionByFirmaSession(currentFirmaSession);
             
-
             // Mandatory fields appearing BEFORE configurable fields
             if (userHasTagManagePermissions)
             {
                 BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
+            }
+
+            if (userHasReportDownloadPermissions)
+            {
+                GenerateReportModalDialogForm = new SelectProjectsModalDialogForm(SitkaRoute<ReportCenterController>.BuildUrlFromExpression(x => x.SelectReportToGenerateFromSelectedProjects()), $"Generate Reports", $"Confirm Report Generation");
+            }
+
+            if (userHasTagManagePermissions || userHasReportDownloadPermissions)
+            {
                 AddCheckBoxColumn();
+                Add("ProjectID", x => x.ProjectID, 0);
             }
         
             if (userHasDeletePermissions)

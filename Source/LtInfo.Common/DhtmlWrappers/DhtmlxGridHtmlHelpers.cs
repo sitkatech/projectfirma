@@ -240,6 +240,7 @@ namespace LtInfo.Common.DhtmlWrappers
             var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
+            var generateReportsIconHtml = (gridSpec.GenerateReportModalDialogForm != null) ? CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm) : null;
             var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
             return $@"
             {
@@ -252,6 +253,7 @@ namespace LtInfo.Common.DhtmlWrappers
                         ? $"<span>{createIconHtml}</span>"
                         : string.Empty)
                 }
+            {(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}
             {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
             {
                     (!string.IsNullOrWhiteSpace(clearCookiesIconHtml)
@@ -291,6 +293,25 @@ namespace LtInfo.Common.DhtmlWrappers
                     new List<string>(),
                     null,
                     getProjectIDFunctionString).ToString();
+        }
+
+        public static string CreateGenerateReportUrlHtml(string gridName, SelectProjectsModalDialogForm modalDialogForm)
+        {
+            var tagIconHtml =
+                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-file")}</span>";
+            var getProjectIDFunctionString =
+                $"function() {{ return Sitka.{gridName}.getValuesFromCheckedGridRows({modalDialogForm.CheckboxColumnIndex}, '{modalDialogForm.ValueColumnName}', '{modalDialogForm.ReturnListName}'); }}";
+
+            return ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml} Generate Reports",
+                modalDialogForm.DialogUrl,
+                modalDialogForm.DialogTitle,
+                ModalDialogFormHelper.DefaultDialogWidth,
+                "Generate",
+                "Cancel",
+                new List<string>(),
+                null,
+                getProjectIDFunctionString).ToString();
+
         }
 
         /// <summary>
