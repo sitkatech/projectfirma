@@ -14,10 +14,11 @@ namespace ProjectFirma.Web.Views.Evaluation
         public EvaluationPortfolioGridSpec(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
         {
 
-            //Add(string.Empty, pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, e => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, e), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, pe => MakeDeleteIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, pe => MakeEditIconAndLinkBootstrapIfAvailable(currentFirmaSession, pe), 30, DhtmlxGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.Text);
             foreach (var evaluationCriterionColumn in evaluation.EvaluationCriterions)
             {
                 Add(evaluationCriterionColumn.EvaluationCriterionName, a => GetCriterionValueIfAvailable(a, evaluationCriterionColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -38,14 +39,14 @@ namespace ProjectFirma.Web.Views.Evaluation
             return new HtmlString("not set");
         }
 
-        //private static HtmlString MakeDeleteIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, ProjectEvaluation evaluationCriterion)
-        //{
-        //    if (EvaluationCriterionManageFeature.HasEvaluationCriterionManagePermission(currentFirmaSession, evaluationCriterion))
-        //    {
-        //        return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(evaluationCriterion.GetDeleteUrl(), true, evaluationCriterion.CanDelete());
-        //    }
-        //    return new HtmlString(string.Empty);
-        //}
+        private static HtmlString MakeDeleteIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, ProjectEvaluation projectEvaluation)
+        {
+            if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, projectEvaluation.Evaluation))
+            {
+                return DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(projectEvaluation.GetDeleteUrl(), true, projectEvaluation.CanDelete());
+            }
+            return new HtmlString(string.Empty);
+        }
 
         private static HtmlString MakeEditIconAndLinkBootstrapIfAvailable(FirmaSession currentFirmaSession, ProjectEvaluation projectEvaluation)
         {

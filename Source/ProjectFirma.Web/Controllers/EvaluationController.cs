@@ -396,5 +396,44 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditProjectEvaluation, EditProjectEvaluationViewData, EditProjectEvaluationViewModel>(viewData, viewModel);
         }
 
+
+        [HttpGet]
+        [ProjectEvaluationManageFeature]
+        public PartialViewResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey)
+        {
+            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectEvaluation.ProjectEvaluationID);
+            return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectEvaluationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);
+            }
+
+            var projectNameForDeletedEvaluation = projectEvaluation.Project.GetDisplayName();
+            projectEvaluation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectNameForDeletedEvaluation}'!");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDeleteProjectEvaluation(ProjectEvaluation projectEvaluation, ConfirmDialogFormViewModel viewModel)
+        {
+            //todo: need to check for evals with connected data before deleting. prevent delete if eval has been run
+            var hasNoAssociations = false;//!evaluation.
+            var confirmMessage = hasNoAssociations
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{projectEvaluation.Project.GetDisplayName()}\"?</p>"
+                : $"<p>Are you sure you want to delete {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{projectEvaluation.Project.GetDisplayName()}\"?</p><p>Deleting this {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} will <strong>delete all associated evaluation data</strong>, and this action cannot be undone. Click {SitkaRoute<EvaluationController>.BuildLinkFromExpression(x => x.Detail(projectEvaluation.Evaluation), "here")} to review.</p>";
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
     }
 }
