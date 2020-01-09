@@ -172,7 +172,9 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult SelectReportToGenerateFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
+            // Get the list of projects and then order them by the order they were received from the post request
             var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
+            projectsList = projectsList.OrderBy(p => viewModel.ProjectIDList.IndexOf(p.ProjectID)).ToList();
             var reportTemplateSelectListItems =
                 HttpRequestStorage.DatabaseEntities.ReportTemplates.AsEnumerable().ToSelectList(x => x.ReportTemplateID.ToString(),
                     x => x.DisplayName);
