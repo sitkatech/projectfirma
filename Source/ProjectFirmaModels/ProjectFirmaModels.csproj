@@ -585,6 +585,10 @@
     <Compile Include="Models\Generated\ReportTemplate.Binding.cs" />
     <Compile Include="Models\Generated\ReportTemplate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReportTemplateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModel.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModel.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModelConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModelPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReportTemplateModelType.Binding.cs" />
     <Compile Include="Models\Generated\ReportTemplateModelType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReportTemplateModelTypeConfiguration.Binding.cs" />
@@ -745,6 +749,7 @@
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
     <Compile Include="Models\ReportTemplate.cs" />
+    <Compile Include="Models\ReportTemplateModel.cs" />
     <Compile Include="Models\ReportTemplateModelType.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

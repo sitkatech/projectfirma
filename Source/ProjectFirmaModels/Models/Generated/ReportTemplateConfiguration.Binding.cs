@@ -21,10 +21,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DisplayName).HasColumnName(@"DisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.ReportTemplateModelTypeID).HasColumnName(@"ReportTemplateModelTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.ReportTemplateModelID).HasColumnName(@"ReportTemplateModelID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.FileResource).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_ReportTemplate_FileResource_FileResourceID
             HasRequired(a => a.ReportTemplateModelType).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.ReportTemplateModelTypeID).WillCascadeOnDelete(false); // FK_ReportTemplate_ReportTemplateModelType_ReportTemplateModelTypeID
+            HasRequired(a => a.ReportTemplateModel).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.ReportTemplateModelID).WillCascadeOnDelete(false); // FK_ReportTemplate_ReportTemplateModel_ReportTemplateModelID
         }
     }
 }

@@ -31,11 +31,13 @@ namespace ProjectFirma.Web.Views.ReportCenter
     public class EditViewData : FirmaUserControlViewData
     {
         public readonly ProjectFirmaModels.Models.ReportTemplate ReportTemplate;
-        public IEnumerable<SelectListItem> AllReportTemplateModelTypes;
+        public IEnumerable<SelectListItem> AllReportTemplateModelTypeSelectItems;
+        public IEnumerable<SelectListItem> AllReportTemplateModelSelectItems;
 
         public EditViewData()
         {
-            AllReportTemplateModelTypes = HttpRequestStorage.DatabaseEntities.ReportTemplateModelTypes.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
+            AllReportTemplateModelTypeSelectItems = HttpRequestStorage.DatabaseEntities.ReportTemplateModelTypes.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
+            AllReportTemplateModelSelectItems = HttpRequestStorage.DatabaseEntities.ReportTemplateModels.ToSelectList(x => x.ReportTemplateModelID.ToString(),x => x.ReportTemplateModelDisplayName);
         }
 
         public EditViewData(ProjectFirmaModels.Models.ReportTemplate reportTemplate) : this()

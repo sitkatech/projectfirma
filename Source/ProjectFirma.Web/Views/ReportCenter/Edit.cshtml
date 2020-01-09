@@ -43,9 +43,16 @@ Source code is available upon request via <support@sitkatech.com>.
         @Html.ValidationMessageFor(x => x.Description)
     </div>
     <div class="form-group">
+        @Html.LabelFor(x => x.ReportTemplateModelID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.ReportTemplateModelID, ViewDataTyped.AllReportTemplateModelSelectItems, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(x => x.ReportTemplateModelID)
+    </div>
+    <div class="form-group">
         @Html.LabelFor(x => x.ReportTemplateModelTypeID, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(x => x.ReportTemplateModelTypeID, ViewDataTyped.AllReportTemplateModelTypes, new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.ReportTemplateModelTypeID, ViewDataTyped.AllReportTemplateModelTypeSelectItems, new { @class = "form-control" })
         </div>
         @Html.ValidationMessageFor(x => x.ReportTemplateModelTypeID)
     </div>

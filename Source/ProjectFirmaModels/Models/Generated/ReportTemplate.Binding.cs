@@ -30,19 +30,20 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReportTemplate(int reportTemplateID, int fileResourceID, string displayName, string description, int reportTemplateModelTypeID) : this()
+        public ReportTemplate(int reportTemplateID, int fileResourceID, string displayName, string description, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
         {
             this.ReportTemplateID = reportTemplateID;
             this.FileResourceID = fileResourceID;
             this.DisplayName = displayName;
             this.Description = description;
             this.ReportTemplateModelTypeID = reportTemplateModelTypeID;
+            this.ReportTemplateModelID = reportTemplateModelID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReportTemplate(int fileResourceID, string displayName, int reportTemplateModelTypeID) : this()
+        public ReportTemplate(int fileResourceID, string displayName, int reportTemplateModelTypeID, int reportTemplateModelID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReportTemplateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -50,12 +51,13 @@ namespace ProjectFirmaModels.Models
             this.FileResourceID = fileResourceID;
             this.DisplayName = displayName;
             this.ReportTemplateModelTypeID = reportTemplateModelTypeID;
+            this.ReportTemplateModelID = reportTemplateModelID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReportTemplate(FileResource fileResource, string displayName, ReportTemplateModelType reportTemplateModelType) : this()
+        public ReportTemplate(FileResource fileResource, string displayName, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReportTemplateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,14 +68,17 @@ namespace ProjectFirmaModels.Models
             this.ReportTemplateModelTypeID = reportTemplateModelType.ReportTemplateModelTypeID;
             this.ReportTemplateModelType = reportTemplateModelType;
             reportTemplateModelType.ReportTemplates.Add(this);
+            this.ReportTemplateModelID = reportTemplateModel.ReportTemplateModelID;
+            this.ReportTemplateModel = reportTemplateModel;
+            reportTemplateModel.ReportTemplates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReportTemplate CreateNewBlank(FileResource fileResource, ReportTemplateModelType reportTemplateModelType)
+        public static ReportTemplate CreateNewBlank(FileResource fileResource, ReportTemplateModelType reportTemplateModelType, ReportTemplateModel reportTemplateModel)
         {
-            return new ReportTemplate(fileResource, default(string), reportTemplateModelType);
+            return new ReportTemplate(fileResource, default(string), reportTemplateModelType, reportTemplateModel);
         }
 
         /// <summary>
@@ -115,11 +120,13 @@ namespace ProjectFirmaModels.Models
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public int ReportTemplateModelTypeID { get; set; }
+        public int ReportTemplateModelID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ReportTemplateID; } set { ReportTemplateID = value; } }
 
         public virtual FileResource FileResource { get; set; }
         public virtual ReportTemplateModelType ReportTemplateModelType { get; set; }
+        public virtual ReportTemplateModel ReportTemplateModel { get; set; }
 
         public static class FieldLengths
         {
