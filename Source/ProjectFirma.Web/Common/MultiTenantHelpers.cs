@@ -188,7 +188,7 @@ namespace ProjectFirma.Web.Common
 
         public static bool HasAttachmentRelationshipTypeConfigured()
         {
-            return HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.Any();
+            return HttpRequestStorage.DatabaseEntities.AttachmentTypes.Any();
         }
 
         public static OrganizationRelationshipType GetCanStewardProjectsOrganizationRelationship()

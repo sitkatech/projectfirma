@@ -2,7 +2,7 @@
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class AttachmentRelationshipType : IAuditableEntity
+    public partial class AttachmentType : IAuditableEntity
     {
         public bool CanDelete()
         {

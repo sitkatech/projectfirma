@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditAttachmentRelationshipTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditAttachmentTypeViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -31,21 +31,21 @@ using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.AttachmentRelationshipType
+namespace ProjectFirma.Web.Views.AttachmentType
 {
-    public class EditAttachmentRelationshipTypeViewModel : FormViewModel, IValidatableObject
+    public class EditAttachmentTypeViewModel : FormViewModel, IValidatableObject
     {
         [Required]
-        public int RelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
 
         [Required]
-        [StringLength(ProjectFirmaModels.Models.AttachmentRelationshipType.FieldLengths.AttachmentRelationshipTypeName)]
+        [StringLength(ProjectFirmaModels.Models.AttachmentType.FieldLengths.AttachmentRelationshipTypeName)]
         [DisplayName("Name")]
-        public string AttachmentRelationshipTypeName { get; set; }
+        public string AttachmentTypeName { get; set; }
 
         [Required]
         [DisplayName("Attachment Type Description")]
-        public string AttachmentRelationshipTypeDescription { get; set; }
+        public string AttachmentTypeDescription { get; set; }
 
         [Required]
         [DisplayName("Can Be of the Following File Types")]
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditAttachmentRelationshipTypeViewModel()
+        public EditAttachmentTypeViewModel()
         {
             FileResourceMimeTypeIDs = new List<int>();
             TaxonomyTrunkIDs = new List<int>();
@@ -82,58 +82,58 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
             }
         }
 
-        public EditAttachmentRelationshipTypeViewModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)
+        public EditAttachmentTypeViewModel(ProjectFirmaModels.Models.AttachmentType attachmentType)
         {
-            RelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
-            AttachmentRelationshipTypeName = attachmentRelationshipType.AttachmentRelationshipTypeName;
-            AttachmentRelationshipTypeDescription = attachmentRelationshipType.AttachmentRelationshipTypeDescription;
-            NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
-            MaxFileSize = attachmentRelationshipType.MaxFileSize;
-            FileResourceMimeTypeIDs = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
-            TaxonomyTrunkIDs = attachmentRelationshipType.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
+            AttachmentTypeID = attachmentType.AttachmentRelationshipTypeID;
+            AttachmentTypeName = attachmentType.AttachmentRelationshipTypeName;
+            AttachmentTypeDescription = attachmentType.AttachmentRelationshipTypeDescription;
+            NumberOfAllowedAttachments = attachmentType.NumberOfAllowedAttachments;
+            MaxFileSize = attachmentType.MaxFileSize;
+            FileResourceMimeTypeIDs = attachmentType.AttachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeTypeID).ToList();
+            TaxonomyTrunkIDs = attachmentType.AttachmentTypeTaxonomyTrunks.Select(x => x.TaxonomyTrunkID).ToList();
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType, 
-                                ICollection<AttachmentRelationshipTypeFileResourceMimeType> allAttachmentRelationshipTypeFileResourceMimeTypes,
-                                ICollection<AttachmentRelationshipTypeTaxonomyTrunk> allAttachmentRelationshipTypeTaxonomyTrunks)
+        public void UpdateModel(ProjectFirmaModels.Models.AttachmentType attachmentType, 
+                                ICollection<AttachmentTypeFileResourceMimeType> allAttachmentTypeFileResourceMimeTypes,
+                                ICollection<AttachmentTypeTaxonomyTrunk> allAttachmentTypeTaxonomyTrunks)
         {
-            attachmentRelationshipType.AttachmentRelationshipTypeName = AttachmentRelationshipTypeName;
+            attachmentType.AttachmentRelationshipTypeName = AttachmentTypeName;
 
-            attachmentRelationshipType.AttachmentRelationshipTypeDescription = AttachmentRelationshipTypeDescription;
+            attachmentType.AttachmentRelationshipTypeDescription = AttachmentTypeDescription;
 
-            attachmentRelationshipType.NumberOfAllowedAttachments = NumberOfAllowedAttachments;
+            attachmentType.NumberOfAllowedAttachments = NumberOfAllowedAttachments;
 
-            attachmentRelationshipType.MaxFileSize = MaxFileSize;
+            attachmentType.MaxFileSize = MaxFileSize;
 
-            var fileResourceMimeTypesUpdated = FileResourceMimeTypeIDs.Select(x => new AttachmentRelationshipTypeFileResourceMimeType( attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
-            attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Merge(fileResourceMimeTypesUpdated,
-                allAttachmentRelationshipTypeFileResourceMimeTypes,
+            var fileResourceMimeTypesUpdated = FileResourceMimeTypeIDs.Select(x => new AttachmentTypeFileResourceMimeType( attachmentType.AttachmentRelationshipTypeID, x)).ToList();
+            attachmentType.AttachmentTypeFileResourceMimeTypes.Merge(fileResourceMimeTypesUpdated,
+                allAttachmentTypeFileResourceMimeTypes,
                 (x, y) => x.AttachmentRelationshipTypeID == y.AttachmentRelationshipTypeID && x.FileResourceMimeTypeID == y.FileResourceMimeTypeID, HttpRequestStorage.DatabaseEntities);
 
-            var taxonomyTrunksUpdated = TaxonomyTrunkIDs.Select(x => new AttachmentRelationshipTypeTaxonomyTrunk(attachmentRelationshipType.AttachmentRelationshipTypeID, x)).ToList();
-            attachmentRelationshipType.AttachmentRelationshipTypeTaxonomyTrunks.Merge(taxonomyTrunksUpdated,
-                allAttachmentRelationshipTypeTaxonomyTrunks,
+            var taxonomyTrunksUpdated = TaxonomyTrunkIDs.Select(x => new AttachmentTypeTaxonomyTrunk(attachmentType.AttachmentRelationshipTypeID, x)).ToList();
+            attachmentType.AttachmentTypeTaxonomyTrunks.Merge(taxonomyTrunksUpdated,
+                allAttachmentTypeTaxonomyTrunks,
                 (x, y) => x.AttachmentRelationshipTypeID == y.AttachmentRelationshipTypeID && x.TaxonomyTrunkID == y.TaxonomyTrunkID, HttpRequestStorage.DatabaseEntities);
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList();
-            if (!attachmentRelationshipTypes.IsAttachmentRelationshipTypeNameUnique(AttachmentRelationshipTypeName, RelationshipTypeID))
+            var attachmentTypes = HttpRequestStorage.DatabaseEntities.AttachmentTypes.ToList();
+            if (!attachmentTypes.IsAttachmentTypeNameUnique(AttachmentTypeName, AttachmentTypeID))
             {
-                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, string>("Name already exists.",
-                    x => x.AttachmentRelationshipTypeName);
+                yield return new SitkaValidationResult<EditAttachmentTypeViewModel, string>("Name already exists.",
+                    x => x.AttachmentTypeName);
             }
 
             if (!TaxonomyTrunkIDs.Any())
             {
-                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
+                yield return new SitkaValidationResult<EditAttachmentTypeViewModel, List<int>>($"Please select at least one {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()} for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
                     x => x.TaxonomyTrunkIDs);
             }
 
             if (!FileResourceMimeTypeIDs.Any())
             {
-                yield return new SitkaValidationResult<EditAttachmentRelationshipTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
+                yield return new SitkaValidationResult<EditAttachmentTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
                     x => x.FileResourceMimeTypeIDs);
             }
 

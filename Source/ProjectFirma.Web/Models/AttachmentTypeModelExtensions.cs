@@ -9,16 +9,16 @@ namespace ProjectFirmaModels.Models
     public static class AttachmentRelationshipTypeModelExtensions
     {
 
-        public static bool IsAttachmentRelationshipTypeNameUnique(this List<AttachmentRelationshipType> existingAttachmentRelationshipTypes, string contactRelationshipTypeName, int currentAttachmentRelationshipTypeID)
+        public static bool IsAttachmentTypeNameUnique(this List<AttachmentType> existingAttachmentTypes, string contactRelationshipTypeName, int currentAttachmentTypeID)
         {
-            var contactRelationshipType = existingAttachmentRelationshipTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeID != currentAttachmentRelationshipTypeID && String.Equals(x.AttachmentRelationshipTypeName, contactRelationshipTypeName, StringComparison.InvariantCultureIgnoreCase));
+            var contactRelationshipType = existingAttachmentTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeID != currentAttachmentTypeID && String.Equals(x.AttachmentRelationshipTypeName, contactRelationshipTypeName, StringComparison.InvariantCultureIgnoreCase));
             return contactRelationshipType == null;
         }
 
-        public static string GetDeleteUrl(this AttachmentRelationshipType contactRelationshipType)
+        public static string GetDeleteUrl(this AttachmentType contactType)
         {
-            return SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(c =>
-                c.DeleteAttachmentRelationshipType(contactRelationshipType.AttachmentRelationshipTypeID));
+            return SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(c =>
+                c.DeleteAttachmentType(contactType.AttachmentRelationshipTypeID));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
     {
         public List<AttachmentRelationshipTypeSimple> AllAttachmentRelationshipTypes { get; }
 
-        public NewProjectAttachmentViewData(IEnumerable<ProjectFirmaModels.Models.AttachmentRelationshipType> attachmentRelationshipTypes)
+        public NewProjectAttachmentViewData(IEnumerable<ProjectFirmaModels.Models.AttachmentType> attachmentRelationshipTypes)
         {
             AllAttachmentRelationshipTypes = attachmentRelationshipTypes.Select(x => new AttachmentRelationshipTypeSimple(x)).ToList();
         }
@@ -28,16 +28,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public List<string> AllowedFileResourceMimeTypes { get; set; }
         public List<string> AllowedFileResourceExtensions { get; set; }
 
-        public AttachmentRelationshipTypeSimple(ProjectFirmaModels.Models.AttachmentRelationshipType attachmentRelationshipType)
+        public AttachmentRelationshipTypeSimple(ProjectFirmaModels.Models.AttachmentType attachmentType)
         {
-            AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
-            AttachmentRelationshipTypeName = attachmentRelationshipType.AttachmentRelationshipTypeName;
-            AttachmentRelationshipTypeDescription = attachmentRelationshipType.AttachmentRelationshipTypeDescription;
-            MaxFileSize = attachmentRelationshipType.MaxFileSize;
-            NumberOfAllowedAttachments = attachmentRelationshipType.NumberOfAllowedAttachments;
+            AttachmentRelationshipTypeID = attachmentType.AttachmentRelationshipTypeID;
+            AttachmentRelationshipTypeName = attachmentType.AttachmentRelationshipTypeName;
+            AttachmentRelationshipTypeDescription = attachmentType.AttachmentRelationshipTypeDescription;
+            MaxFileSize = attachmentType.MaxFileSize;
+            NumberOfAllowedAttachments = attachmentType.NumberOfAllowedAttachments;
             AllowedFileResourceMimeTypes =
-                attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeContentTypeName).ToList();
-            AllowedFileResourceExtensions = attachmentRelationshipType.AttachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
+                attachmentType.AttachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeContentTypeName).ToList();
+            AllowedFileResourceExtensions = attachmentType.AttachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
         }
     }
 

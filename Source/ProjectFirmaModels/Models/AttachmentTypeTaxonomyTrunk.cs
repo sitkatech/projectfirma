@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirmaModels.Models
 {
-    public partial class AttachmentRelationshipTypeTaxonomyTrunk : IAuditableEntity
+    public partial class AttachmentTypeTaxonomyTrunk : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         { 

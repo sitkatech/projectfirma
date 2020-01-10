@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ParentID && x.ProjectAttachmentID != AttachmentID && x.AttachmentRelationshipTypeID == projectAttachment.AttachmentRelationshipTypeID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey = projectAttachment.AttachmentRelationshipTypeID;
+                AttachmentTypePrimaryKey attachmentRelationshipTypePrimaryKey = projectAttachment.AttachmentRelationshipTypeID;
                 var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
 
                 validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentRelationshipType.AttachmentRelationshipTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m => m.DisplayName));

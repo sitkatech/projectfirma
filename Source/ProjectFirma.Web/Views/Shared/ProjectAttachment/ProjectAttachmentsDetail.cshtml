@@ -36,7 +36,7 @@ else
 
 @foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
 {
-    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
      
     <div class="row">
         <div class="col-sm-3">

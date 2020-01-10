@@ -25,12 +25,12 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.AttachmentRelationshipType
+namespace ProjectFirma.Web.Views.AttachmentType
 {
     public class IndexViewData : FirmaViewData
     {
 
-        public AttachmentRelationshipTypeGridSpec AttachmentRelationshipTypeGridSpec { get; }
+        public AttachmentTypeGridSpec AttachmentTypeGridSpec { get; }
         public string AttachmentRelationshipTypeGridName { get; }
         public string AttachmentRelationshipTypeGridDataUrl { get; }
         public bool HasManagePermissions { get; }
@@ -40,14 +40,14 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         {
             PageTitle = $"Manage {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}";
 
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var hasManagePermissions = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            AttachmentRelationshipTypeGridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            AttachmentTypeGridSpec = new AttachmentTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             AttachmentRelationshipTypeGridName = "relationshipTypeGrid";
-            AttachmentRelationshipTypeGridDataUrl = SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(otc => otc.AttachmentRelationshipTypeGridJsonData());
+            AttachmentRelationshipTypeGridDataUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(otc => otc.AttachmentTypeGridJsonData());
             HasManagePermissions = hasManagePermissions;
-            NewProjectAssociationUrl = SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(t => t.NewAttachmentRelationshipType());
+            NewProjectAssociationUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.NewAttachmentType());
         }
     }
 }

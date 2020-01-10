@@ -3,7 +3,7 @@
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Attachment Types")]
-    public class AttachmentRelationshipTypeManageFeature : FirmaAdminFeature
+    public class AttachmentTypeManageFeature : FirmaAdminFeature
     {
     }
 }

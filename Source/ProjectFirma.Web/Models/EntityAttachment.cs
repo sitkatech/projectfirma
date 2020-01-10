@@ -33,9 +33,9 @@ namespace ProjectFirma.Web.Models
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public FileResource FileResource { get; set; }
-        public AttachmentRelationshipType AttachmentRelationshipType { get; set; }
+        public AttachmentType AttachmentType { get; set; }
 
-        public EntityAttachment(string deleteUrl, string editUrl, FileResource fileResource, AttachmentRelationshipType attachmentRelationshipType, string displayCssClass,
+        public EntityAttachment(string deleteUrl, string editUrl, FileResource fileResource, AttachmentType attachmentType, string displayCssClass,
             string displayName, string description)
         {
             _deleteUrl = deleteUrl;
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Models
             SetDisplayCssClass(displayCssClass);
             DisplayName = displayName;
             Description = description;
-            AttachmentRelationshipType = attachmentRelationshipType;
+            AttachmentType = attachmentType;
         }
 
         public static List<EntityAttachment> CreateFromProjectAttachment(IEnumerable<ProjectAttachment> projectAttachments)

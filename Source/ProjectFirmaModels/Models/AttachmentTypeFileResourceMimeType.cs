@@ -4,11 +4,11 @@ using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class AttachmentRelationshipTypeFileResourceMimeType : IAuditableEntity
+    public partial class AttachmentTypeFileResourceMimeType : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {
-            return $"AttachmentRelationshipTypeFileResourceMimeTypeID: {AttachmentRelationshipTypeFileResourceMimeTypeID}";
+            return $"AttachmentTypeFileResourceMimeTypeID: {AttachmentRelationshipTypeFileResourceMimeTypeID}";
         }
 
     }

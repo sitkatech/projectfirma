@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditAttachmentRelationshipType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditAttachmentType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.AttachmentRelationshipType
+namespace ProjectFirma.Web.Views.AttachmentType
 {
-    public abstract class EditAttachmentRelationshipType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditAttachmentRelationshipTypeViewData, EditAttachmentRelationshipTypeViewModel>
+    public abstract class EditAttachmentType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditAttachmentTypeViewData, EditAttachmentTypeViewModel>
     {
     }
 }

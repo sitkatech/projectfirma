@@ -19,7 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.AttachmentRelationshipType
+namespace ProjectFirma.Web.Views.AttachmentType
 {
     public abstract class Index : LtInfo.Common.Mvc.TypedWebViewPage<IndexViewData>
     {

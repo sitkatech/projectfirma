@@ -23,7 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.AttachmentRelationshipType.EditAttachmentRelationshipType
+@inherits ProjectFirma.Web.Views.AttachmentType.EditAttachmentType
 
 
 <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
@@ -58,19 +58,19 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @using (Html.BeginForm())
     {
-    <div class="form-horizontal" id="EditAttachmentRelationshipTypeAngularApp" ng-controller="AttachmentRelationshipTypeController">
+    <div class="form-horizontal" id="EditAttachmentRelationshipTypeAngularApp" ng-controller="AttachmentTypeController">
         <div class="form-group">
-            <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeName)</div>
+            <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentTypeName)</div>
             <div class="col-xs-12 col-sm-9">
-                @Html.TextBoxFor(m => m.AttachmentRelationshipTypeName, new { style = "width: 100%", @class = "form-control" })
+                @Html.TextBoxFor(m => m.AttachmentTypeName, new { style = "width: 100%", @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeDescription)</div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentTypeDescription)</div>
             <div class="col-sm-9">
-                @Html.TextAreaFor(m => m.AttachmentRelationshipTypeDescription, new Dictionary<string, object> { { "class", "form-control" } })
-                @Html.ValidationMessageFor(m => m.AttachmentRelationshipTypeDescription)
+                @Html.TextAreaFor(m => m.AttachmentTypeDescription, new Dictionary<string, object> { { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.AttachmentTypeDescription)
             </div>
         </div>
         
@@ -153,7 +153,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             </div>
         </div>
-        @Html.HiddenFor(m => m.RelationshipTypeID)
+        @Html.HiddenFor(m => m.AttachmentTypeID)
         <input ng-repeat="selectedFileTypeID in AngularModel.FileResourceMimeTypeIDs" type="hidden" name="@Html.NameFor(x => x.FileResourceMimeTypeIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedFileTypeID}}">
     </div>
         

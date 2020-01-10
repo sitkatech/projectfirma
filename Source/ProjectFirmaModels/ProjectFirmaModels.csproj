@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -658,9 +658,9 @@
     <Compile Include="Models\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
     <Compile Include="Models\FirmaSession.cs" />
     <Compile Include="Models\FirmaSessionExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
-    <Compile Include="Models\AttachmentRelationshipType.cs" />
+    <Compile Include="Models\AttachmentTypeTaxonomyTrunk.cs" />
+    <Compile Include="Models\AttachmentTypeFileResourceMimeType.cs" />
+    <Compile Include="Models\AttachmentType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />

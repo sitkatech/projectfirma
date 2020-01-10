@@ -1301,7 +1301,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+            IEnumerable<AttachmentType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
 
             Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
             var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);

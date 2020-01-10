@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="AttachmentRelationshipTypeGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="AttachmentTypeGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -28,18 +28,18 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.AttachmentRelationshipType
+namespace ProjectFirma.Web.Views.AttachmentType
 {
-    public class AttachmentRelationshipTypeGridSpec : GridSpec<ProjectFirmaModels.Models.AttachmentRelationshipType>
+    public class AttachmentTypeGridSpec : GridSpec<ProjectFirmaModels.Models.AttachmentType>
     {
-        public AttachmentRelationshipTypeGridSpec(bool hasManagePermissions)
+        public AttachmentTypeGridSpec(bool hasManagePermissions)
         {
             var basicsColumnGroupCount = 5;
 
             if (hasManagePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
-                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(t => t.EditAttachmentRelationshipType(a)),
+                Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.EditAttachmentType(a)),
                         $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentRelationshipTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
@@ -47,12 +47,12 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
 
             Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentRelationshipTypeName, 240);
             Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentRelationshipTypeDescription, 240);
-            Add($"Allowed File Types", a => a.AttachmentRelationshipTypeFileResourceMimeTypes.GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(), 240);
+            Add($"Allowed File Types", a => a.AttachmentTypeFileResourceMimeTypes.GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(), 240);
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {
                 Add(
                     $"Applicable to the following {FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()}",
-                    a => a.AttachmentRelationshipTypeTaxonomyTrunks.GetTaxonomyTrunkNamesAsCommaDelimitedList(), 240);
+                    a => a.AttachmentTypeTaxonomyTrunks.GetTaxonomyTrunkNamesAsCommaDelimitedList(), 240);
             }
 
             Add("Number of Allowed Attachments", a => a.NumberOfAllowedAttachments, 80);

@@ -6,15 +6,15 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.AttachmentRelationshipType;
+using ProjectFirma.Web.Views.AttachmentType;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class AttachmentRelationshipTypeController : FirmaBaseController
+    public class AttachmentTypeController : FirmaBaseController
     {
-        [AttachmentRelationshipTypeViewFeature]
+        [AttachmentTypeViewFeature]
         public ViewResult Index()
         {
             return IndexImpl();
@@ -32,129 +32,129 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [AttachmentRelationshipTypeViewFeature]
-        public GridJsonNetJObjectResult<AttachmentRelationshipType> AttachmentRelationshipTypeGridJsonData()
+        [AttachmentTypeViewFeature]
+        public GridJsonNetJObjectResult<AttachmentType> AttachmentTypeGridJsonData()
         {
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions);
-            var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList().OrderBy(x => x.AttachmentRelationshipTypeName).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AttachmentRelationshipType>(attachmentRelationshipTypes, gridSpec);
+            var hasManagePermissions = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var gridSpec = new AttachmentTypeGridSpec(hasManagePermissions);
+            var attachmentTypes = HttpRequestStorage.DatabaseEntities.AttachmentTypes.ToList().OrderBy(x => x.AttachmentRelationshipTypeName).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AttachmentType>(attachmentTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
 
         [HttpGet]
-        [AttachmentRelationshipTypeManageFeature]
-        public PartialViewResult NewAttachmentRelationshipType()
+        [AttachmentTypeManageFeature]
+        public PartialViewResult NewAttachmentType()
         {
-            var viewModel = new EditAttachmentRelationshipTypeViewModel();
-            return ViewNewAttachmentRelationshipType(viewModel);
+            var viewModel = new EditAttachmentTypeViewModel();
+            return ViewNewAttachmentType(viewModel);
         }
 
         [HttpPost]
-        [AttachmentRelationshipTypeManageFeature]
+        [AttachmentTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewAttachmentRelationshipType(EditAttachmentRelationshipTypeViewModel viewModel)
+        public ActionResult NewAttachmentType(EditAttachmentTypeViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewNewAttachmentRelationshipType(viewModel);
+                return ViewNewAttachmentType(viewModel);
             }
 
-            var relationshipType = new AttachmentRelationshipType(viewModel.AttachmentRelationshipTypeName, viewModel.MaxFileSize);
+            var attachmentType = new AttachmentType(viewModel.AttachmentTypeName, viewModel.MaxFileSize);
             
-            HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypes.Add(relationshipType);
+            HttpRequestStorage.DatabaseEntities.AllAttachmentTypes.Add(attachmentType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeFileResourceMimeTypes.Load();
-            var relationshipTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeFileResourceMimeTypes.Local;
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeFileResourceMimeTypes.Load();
+            var attachmentTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeFileResourceMimeTypes.Local;
 
-            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeTaxonomyTrunks.Load();
-            var relationshipTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeTaxonomyTrunks.Local;
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeTaxonomyTrunks.Load();
+            var attachmentTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeTaxonomyTrunks.Local;
 
-            viewModel.UpdateModel(relationshipType, relationshipTypeFileResourceMimeTypes, relationshipTypeTaxonomyTrunks);
+            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks);
             
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {relationshipType.AttachmentRelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {attachmentType.AttachmentRelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [AttachmentRelationshipTypeManageFeature]
-        public PartialViewResult EditAttachmentRelationshipType(AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey)
+        [AttachmentTypeManageFeature]
+        public PartialViewResult EditAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey)
         {
-            var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
-            var viewModel = new EditAttachmentRelationshipTypeViewModel(attachmentRelationshipType);
-            return ViewEditAttachmentRelationshipType(viewModel);
+            var attachmentType = attachmentTypePrimaryKey.EntityObject;
+            var viewModel = new EditAttachmentTypeViewModel(attachmentType);
+            return ViewEditAttachmentType(viewModel);
         }
 
         [HttpPost]
-        [AttachmentRelationshipTypeManageFeature]
+        [AttachmentTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditAttachmentRelationshipType(AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey, EditAttachmentRelationshipTypeViewModel viewModel)
+        public ActionResult EditAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey, EditAttachmentTypeViewModel viewModel)
         {
-            var relationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+            var attachmentType = attachmentTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditAttachmentRelationshipType(viewModel);
+                return ViewEditAttachmentType(viewModel);
             }
 
-            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeFileResourceMimeTypes.Load();
-            var relationshipTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeFileResourceMimeTypes.Local;
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeFileResourceMimeTypes.Load();
+            var attachmentTypeFileResourceMimeTypes = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeFileResourceMimeTypes.Local;
 
-            HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypeTaxonomyTrunks.Load();
-            var relationshipTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentRelationshipTypeTaxonomyTrunks.Local;
+            HttpRequestStorage.DatabaseEntities.AttachmentTypeTaxonomyTrunks.Load();
+            var attachmentTypeTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllAttachmentTypeTaxonomyTrunks.Local;
 
-            viewModel.UpdateModel(relationshipType, relationshipTypeFileResourceMimeTypes, relationshipTypeTaxonomyTrunks);
+            viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks);
 
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewNewAttachmentRelationshipType(EditAttachmentRelationshipTypeViewModel viewModel)
+        private PartialViewResult ViewNewAttachmentType(EditAttachmentTypeViewModel viewModel)
         {
-            return ViewEditAttachmentRelationshipType(viewModel);
+            return ViewEditAttachmentType(viewModel);
         }
 
-        private PartialViewResult ViewEditAttachmentRelationshipType(EditAttachmentRelationshipTypeViewModel viewModel)
+        private PartialViewResult ViewEditAttachmentType(EditAttachmentTypeViewModel viewModel)
         {
             var allTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList();
             bool hasTaxonomyTrunks = MultiTenantHelpers.IsTaxonomyLevelTrunk();
 
-            var viewData = new EditAttachmentRelationshipTypeViewData(FileResourceMimeType.All, allTaxonomyTrunks, hasTaxonomyTrunks);
-            return RazorPartialView<EditAttachmentRelationshipType, EditAttachmentRelationshipTypeViewData, EditAttachmentRelationshipTypeViewModel>(viewData, viewModel);
+            var viewData = new EditAttachmentTypeViewData(FileResourceMimeType.All, allTaxonomyTrunks, hasTaxonomyTrunks);
+            return RazorPartialView<EditAttachmentType, EditAttachmentTypeViewData, EditAttachmentTypeViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [AttachmentRelationshipTypeManageFeature]
-        public PartialViewResult DeleteAttachmentRelationshipType(AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey)
+        [AttachmentTypeManageFeature]
+        public PartialViewResult DeleteAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey)
         {
-            var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(attachmentRelationshipType.AttachmentRelationshipTypeID);
-            return ViewDeleteRelationshipType(attachmentRelationshipType, viewModel);
+            var attachmentType = attachmentTypePrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(attachmentType.AttachmentRelationshipTypeID);
+            return ViewDeleteAttachmentType(attachmentType, viewModel);
         }
 
-        private PartialViewResult ViewDeleteRelationshipType(AttachmentRelationshipType attachmentRelationshipType, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteAttachmentType(AttachmentType attachmentType, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = attachmentRelationshipType.CanDelete();
+            var canDelete = attachmentType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} '{attachmentRelationshipType.AttachmentRelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel(), SitkaRoute<AttachmentRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} '{attachmentType.AttachmentRelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel(), SitkaRoute<AttachmentTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [AttachmentRelationshipTypeManageFeature]
+        [AttachmentTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteAttachmentRelationshipType(AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+            var attachmentType = attachmentTypePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteRelationshipType(attachmentRelationshipType, viewModel);
+                return ViewDeleteAttachmentType(attachmentType, viewModel);
             }
-            attachmentRelationshipType.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            attachmentType.DeleteFull(HttpRequestStorage.DatabaseEntities);
             return new ModalDialogFormJsonResult();
         }
     }
