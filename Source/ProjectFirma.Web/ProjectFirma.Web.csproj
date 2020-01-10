@@ -57,7 +57,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
-    <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
+    <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
@@ -81,9 +81,9 @@
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunkModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeFileResourceMimeTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeTaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
@@ -201,8 +201,8 @@
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
-    <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
-    <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\AttachmentTypeManageFeature.cs" />
+    <Compile Include="Security\AttachmentTypeViewFeature.cs" />
     <Compile Include="Security\EvaluationCriterionManageFeature.cs" />
     <Compile Include="Security\EvaluationViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
@@ -220,12 +220,12 @@
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\AttachmentType\AttachmentTypeGridSpec.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentType.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentTypeViewData.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentTypeViewModel.cs" />
+    <Compile Include="Views\AttachmentType\Index.cs" />
+    <Compile Include="Views\AttachmentType\IndexViewData.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
@@ -523,7 +523,7 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
-    <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
+    <Content Include="Views\AttachmentType\AttachmentTypeController.js" />
     <Content Include="Views\Evaluation\AddProjectEvaluationController.js" />
     <Content Include="Views\Evaluation\EditEvaluationCriterionController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
@@ -555,8 +555,6 @@
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
-    <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
-    <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
@@ -571,6 +569,8 @@
     <Content Include="Views\Evaluation\EditEvaluationCriterion.cshtml" />
     <Content Include="Views\Evaluation\AddProjectEvaluation.cshtml" />
     <Content Include="Views\Evaluation\EditProjectEvaluation.cshtml" />
+    <Content Include="Views\AttachmentType\Index.cshtml" />
+    <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
