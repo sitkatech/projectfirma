@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web;
+using LtInfo.Common.BootstrapWrappers;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -52,7 +53,14 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, projectEvaluation.Evaluation))
             {
-                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
+                if (projectEvaluation.Evaluation.EvaluationStatusID == (int) EvaluationStatusEnum.InProgress)
+                {
+                    return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
+                }
+
+                var makeEditIconAndLinkBootstrapIfAvailable = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled", $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be evaluated when the {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} is {EvaluationStatusEnum.InProgress.ToString()}");
+                return makeEditIconAndLinkBootstrapIfAvailable;
+
             }
             return new HtmlString(string.Empty);
         }
