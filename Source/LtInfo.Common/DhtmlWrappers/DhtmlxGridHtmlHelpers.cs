@@ -307,10 +307,11 @@ namespace LtInfo.Common.DhtmlWrappers
                 modalDialogForm.DialogTitle,
                 ModalDialogFormHelper.DefaultDialogWidth,
                 "Generate",
-                "Cancel",
+                "Close",
                 new List<string>(),
                 null,
-                getProjectIDFunctionString).ToString();
+                getProjectIDFunctionString,
+                true).ToString();
 
         }
 

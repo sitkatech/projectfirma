@@ -176,8 +176,8 @@ namespace ProjectFirma.Web.Controllers
             // Get the list of projects and then order them by the order they were received from the post request
             var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
             projectsList = projectsList.OrderBy(p => viewModel.ProjectIDList.IndexOf(p.ProjectID)).ToList();
-            var reportTemplateSelectListItems =
-                HttpRequestStorage.DatabaseEntities.ReportTemplates.AsEnumerable().ToSelectList(x => x.ReportTemplateID.ToString(),
+           var reportTemplateSelectListItems =
+                HttpRequestStorage.DatabaseEntities.ReportTemplates.ToList().Where(x => x.ReportTemplateModel.ReportTemplateModelID == ReportTemplateModel.Project.PrimaryKey).ToSelectList(x => x.ReportTemplateID.ToString(),
                     x => x.DisplayName);
             var viewData = new GenerateReportsViewData(CurrentFirmaSession, projectsList, reportTemplateSelectListItems);
             return RazorPartialView<GenerateReports, GenerateReportsViewData, GenerateReportsViewModel>(viewData, viewModel);
@@ -185,23 +185,22 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult GenerateReportsFromSelectedProjects()
+        public ActionResult GenerateReportsFromSelectedProjects()
         {
             return new PartialViewResult();
         }
 
         [HttpPost]
         [FirmaAdminFeature]
-        public ContentResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
+        public ActionResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
 
             var reportTemplatePrimaryKey = (ReportTemplatePrimaryKey) viewModel.ReportTemplateID;
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
             var selectedModelIDs = viewModel.ProjectIDList;
             var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
-            reportTemplateGenerator.Generate();
+            return reportTemplateGenerator.GenerateAndDownload();
             
-            return new ContentResult();
         }
 
     }
