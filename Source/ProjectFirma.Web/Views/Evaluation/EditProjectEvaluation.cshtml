@@ -49,7 +49,7 @@
                     <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
                 </div>
                 <div class="col-sm-9">
-                    <select id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
+                    <select id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
                         @foreach (var value in ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionValueSimples)
                         {
                             <option value="@value.EvaluationCriterionValueID">@(value.EvaluationCriterionValueRating)</option>
