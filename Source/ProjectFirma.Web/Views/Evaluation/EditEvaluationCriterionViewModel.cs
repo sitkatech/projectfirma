@@ -82,7 +82,6 @@ namespace ProjectFirma.Web.Views.Evaluation
                 updatedEvaluationCriterionValues.Add(evaluationCriterionValue);
             }
 
-            //var allEvaluationCriteriaFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Local;
             var allEvaluationCriteriaValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllEvaluationCriterionValues.Local;
 
 
@@ -96,15 +95,6 @@ namespace ProjectFirma.Web.Views.Evaluation
                     x.EvaluationCriterionValueDescription = x.EvaluationCriterionValueDescription;
                     x.SortOrder = y.SortOrder;
                 }, HttpRequestStorage.DatabaseEntities);
-
-            //evaluation.EvaluationCriterions.Merge(evaluationCriteriaToUpdate,
-            //    allEvaluationCriteriaFromDatabase,
-            //    (x, y) => x.EvaluationCriterionID == y.EvaluationCriterionID,
-            //    (x, y) =>
-            //    {
-            //        x.EvaluationCriterionName = y.EvaluationCriterionName;
-            //        x.EvaluationCriterionDefinition = x.EvaluationCriterionDefinition;
-            //    }, HttpRequestStorage.DatabaseEntities);
 
         }
     }

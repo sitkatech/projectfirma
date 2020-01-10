@@ -360,8 +360,8 @@ namespace ProjectFirma.Web.Controllers
         [ProjectEvaluationManageFeature]
         public PartialViewResult EditProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationPrimaryKey)
         {
-            var viewModel = new EditProjectEvaluationViewModel();
             var projectEvaluation = projectEvaluationPrimaryKey.EntityObject;
+            var viewModel = new EditProjectEvaluationViewModel(projectEvaluation);
             return ViewEditProjectEvaluation(viewModel, projectEvaluation);
         }
 
