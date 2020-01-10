@@ -1,16 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Wordprocessing;
 using LtInfo.Common;
-using SharpDocx;
-using SharpDocx.Extensions;
-using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 
-namespace ProjectFirma.Web.Models
+namespace ProjectFirma.Web.Models.ReportTemplate.Models
 {
-    public class DocxProjectModel
+    public class ReportTemplateProjectModel : ReportTemplateBaseModel
     {
 
         public string ProjectName { get; set; }
@@ -27,7 +22,7 @@ namespace ProjectFirma.Web.Models
         private List<ProjectContact> ProjectContacts { get; set; }
         private List<ProjectOrganization> ProjectOrganizations { get; set; }
 
-        public DocxProjectModel(Project project)
+        public ReportTemplateProjectModel(Project project)
         {
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
@@ -66,58 +61,5 @@ namespace ProjectFirma.Web.Models
             return $"{string.Join(", ", organizationNames)}";
         }
 
-    }
-    
-    public class DocxTemplateModel
-    {
-        public List<DocxProjectModel> Projects { get; set; }
-        public string Title { get; set; }
-
-    }
-
-    public abstract class ProjectFirmaDocxDocument : DocumentBase
-    {
-        public string MyProperty { get; set; }
-
-        public new static List<string> GetUsingDirectives()
-        {
-            return new List<string>
-            {
-                "using ProjectFirma.Web.Models;",
-                "using System.Linq;"
-
-            };
-        }
-
-        // referencing required assemblies
-        public new static List<string> GetReferencedAssemblies()
-        {
-            return new List<string>
-            {
-                "System.Core.dll",
-            };
-        }
-
-        protected void SetCellColor(string color)
-        {
-            if (color == null) return;
-            color = color.Replace("#", "");
-
-            var cell = CurrentCodeBlock.Placeholder.GetParent<TableCell>();
-            if (cell == null) return;
-            cell.TableCellProperties.Shading = new Shading
-            {
-                Fill = color,
-                Color = "auto",
-                Val = new EnumValue<ShadingPatternValues>(ShadingPatternValues.Clear)
-            };
-        }
-
-        protected void SetTextColor(string color)
-        {
-            var run = CurrentCodeBlock.Placeholder.GetParent<Run>();
-            if (run == null) return;
-            run.RunProperties.Color = new Color { Val = color };
-        }
     }
 }

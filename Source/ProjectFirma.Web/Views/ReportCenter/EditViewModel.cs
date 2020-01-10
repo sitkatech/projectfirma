@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
         [DisplayName("Word Document Template File")]
         [SitkaFileExtensions("docx")]
         public HttpPostedFileBase FileResourceData { get; set; }
-        
+
         /// <summary>
         /// Needed by model binder
         /// </summary>

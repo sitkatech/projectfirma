@@ -36,8 +36,8 @@ namespace ProjectFirma.Web.Views.ReportCenter
 
         public EditViewData()
         {
-            AllReportTemplateModelTypeSelectItems = HttpRequestStorage.DatabaseEntities.ReportTemplateModelTypes.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
-            AllReportTemplateModelSelectItems = HttpRequestStorage.DatabaseEntities.ReportTemplateModels.ToSelectList(x => x.ReportTemplateModelID.ToString(),x => x.ReportTemplateModelDisplayName);
+            AllReportTemplateModelTypeSelectItems = ReportTemplateModelType.All.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
+            AllReportTemplateModelSelectItems = ReportTemplateModel.All.ToSelectList(x => x.ReportTemplateModelID.ToString(),x => x.ReportTemplateModelDisplayName);
         }
 
         public EditViewData(ProjectFirmaModels.Models.ReportTemplate reportTemplate) : this()

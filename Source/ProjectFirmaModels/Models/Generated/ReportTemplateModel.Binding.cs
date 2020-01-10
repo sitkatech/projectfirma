@@ -3,10 +3,11 @@
 //  Use the corresponding partial class for customizations.
 //  Source Table: [dbo].[ReportTemplateModel]
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
+using System.Data;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -15,109 +16,106 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ReportTemplateModel] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ReportTemplateModel]")]
-    public partial class ReportTemplateModel : IHavePrimaryKey, ICanDeleteFull
+    public abstract partial class ReportTemplateModel : IHavePrimaryKey
     {
+        public static readonly ReportTemplateModelProject Project = ReportTemplateModelProject.Instance;
+
+        public static readonly List<ReportTemplateModel> All;
+        public static readonly ReadOnlyDictionary<int, ReportTemplateModel> AllLookupDictionary;
+
         /// <summary>
-        /// Default Constructor; only used by EF
+        /// Static type constructor to coordinate static initialization order
         /// </summary>
-        protected ReportTemplateModel()
+        static ReportTemplateModel()
         {
-            this.ReportTemplates = new HashSet<ReportTemplate>();
+            All = new List<ReportTemplateModel> { Project };
+            AllLookupDictionary = new ReadOnlyDictionary<int, ReportTemplateModel>(All.ToDictionary(x => x.ReportTemplateModelID));
         }
 
         /// <summary>
-        /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
+        /// Protected constructor only for use in instantiating the set of static lookup values that match database
         /// </summary>
-        public ReportTemplateModel(int reportTemplateModelID, string reportTemplateModelName, string reportTemplateModelDisplayName, string reportTemplateModelDescription) : this()
+        protected ReportTemplateModel(int reportTemplateModelID, string reportTemplateModelName, string reportTemplateModelDisplayName, string reportTemplateModelDescription)
         {
-            this.ReportTemplateModelID = reportTemplateModelID;
-            this.ReportTemplateModelName = reportTemplateModelName;
-            this.ReportTemplateModelDisplayName = reportTemplateModelDisplayName;
-            this.ReportTemplateModelDescription = reportTemplateModelDescription;
-        }
-
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public ReportTemplateModel(string reportTemplateModelName, string reportTemplateModelDisplayName, string reportTemplateModelDescription) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.ReportTemplateModelID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.ReportTemplateModelName = reportTemplateModelName;
-            this.ReportTemplateModelDisplayName = reportTemplateModelDisplayName;
-            this.ReportTemplateModelDescription = reportTemplateModelDescription;
-        }
-
-
-        /// <summary>
-        /// Creates a "blank" object of this type and populates primitives with defaults
-        /// </summary>
-        public static ReportTemplateModel CreateNewBlank()
-        {
-            return new ReportTemplateModel(default(string), default(string), default(string));
-        }
-
-        /// <summary>
-        /// Does this object have any dependent objects? (If it does have dependent objects, these would need to be deleted before this object could be deleted.)
-        /// </summary>
-        /// <returns></returns>
-        public bool HasDependentObjects()
-        {
-            return ReportTemplates.Any();
-        }
-
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReportTemplateModel).Name, typeof(ReportTemplate).Name};
-
-
-        /// <summary>
-        /// Delete just the entity 
-        /// </summary>
-        public void Delete(DatabaseEntities dbContext)
-        {
-            dbContext.ReportTemplateModels.Remove(this);
-        }
-        
-        /// <summary>
-        /// Delete entity plus all children
-        /// </summary>
-        public void DeleteFull(DatabaseEntities dbContext)
-        {
-            DeleteChildren(dbContext);
-            Delete(dbContext);
-        }
-        /// <summary>
-        /// Dependent type names of this entity
-        /// </summary>
-        public void DeleteChildren(DatabaseEntities dbContext)
-        {
-
-            foreach(var x in ReportTemplates.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
+            ReportTemplateModelID = reportTemplateModelID;
+            ReportTemplateModelName = reportTemplateModelName;
+            ReportTemplateModelDisplayName = reportTemplateModelDisplayName;
+            ReportTemplateModelDescription = reportTemplateModelDescription;
         }
 
         [Key]
-        public int ReportTemplateModelID { get; set; }
-        public string ReportTemplateModelName { get; set; }
-        public string ReportTemplateModelDisplayName { get; set; }
-        public string ReportTemplateModelDescription { get; set; }
+        public int ReportTemplateModelID { get; private set; }
+        public string ReportTemplateModelName { get; private set; }
+        public string ReportTemplateModelDisplayName { get; private set; }
+        public string ReportTemplateModelDescription { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReportTemplateModelID; } set { ReportTemplateModelID = value; } }
+        public int PrimaryKey { get { return ReportTemplateModelID; } }
 
-        public virtual ICollection<ReportTemplate> ReportTemplates { get; set; }
-
-        public static class FieldLengths
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public bool Equals(ReportTemplateModel other)
         {
-            public const int ReportTemplateModelName = 100;
-            public const int ReportTemplateModelDisplayName = 100;
-            public const int ReportTemplateModelDescription = 250;
+            if (other == null)
+            {
+                return false;
+            }
+            return other.ReportTemplateModelID == ReportTemplateModelID;
         }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ReportTemplateModel);
+        }
+
+        /// <summary>
+        /// Enum types are equal by primary key
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return ReportTemplateModelID;
+        }
+
+        public static bool operator ==(ReportTemplateModel left, ReportTemplateModel right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ReportTemplateModel left, ReportTemplateModel right)
+        {
+            return !Equals(left, right);
+        }
+
+        public ReportTemplateModelEnum ToEnum { get { return (ReportTemplateModelEnum)GetHashCode(); } }
+
+        public static ReportTemplateModel ToType(int enumValue)
+        {
+            return ToType((ReportTemplateModelEnum)enumValue);
+        }
+
+        public static ReportTemplateModel ToType(ReportTemplateModelEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case ReportTemplateModelEnum.Project:
+                    return Project;
+                default:
+                    throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
+            }
+        }
+    }
+
+    public enum ReportTemplateModelEnum
+    {
+        Project = 1
+    }
+
+    public partial class ReportTemplateModelProject : ReportTemplateModel
+    {
+        private ReportTemplateModelProject(int reportTemplateModelID, string reportTemplateModelName, string reportTemplateModelDisplayName, string reportTemplateModelDescription) : base(reportTemplateModelID, reportTemplateModelName, reportTemplateModelDisplayName, reportTemplateModelDescription) {}
+        public static readonly ReportTemplateModelProject Instance = new ReportTemplateModelProject(1, @"Project", @"Project", @"Templates will be with the ""Project"" model.");
     }
 }

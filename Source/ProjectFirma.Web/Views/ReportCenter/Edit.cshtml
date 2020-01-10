@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ReportCenter.Edit
 
 @Html.ValidationSummary()
@@ -65,7 +66,6 @@ Source code is available upon request via <support@sitkatech.com>.
                     This report currently has a template: "@ViewDataTyped.ReportTemplate.DownloadTemplateLink()". Using the field below will replace this current template.
                 </div>
             }
-
             @Html.EditorFor(x => x.FileResourceData)
             <span class="smallExplanationText">
                 Max File Size: @FileResourceModelExtensions.MaxFileSizeHumanReadable Allowed Extensions: .docx

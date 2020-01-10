@@ -25,8 +25,6 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.FileResource).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.FileResourceID).WillCascadeOnDelete(false); // FK_ReportTemplate_FileResource_FileResourceID
-            HasRequired(a => a.ReportTemplateModelType).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.ReportTemplateModelTypeID).WillCascadeOnDelete(false); // FK_ReportTemplate_ReportTemplateModelType_ReportTemplateModelTypeID
-            HasRequired(a => a.ReportTemplateModel).WithMany(b => b.ReportTemplates).HasForeignKey(c => c.ReportTemplateModelID).WillCascadeOnDelete(false); // FK_ReportTemplate_ReportTemplateModel_ReportTemplateModelID
         }
     }
 }
