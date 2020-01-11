@@ -170,57 +170,57 @@ GO
 
 
 --test content for easier testing
---SET IDENTITY_INSERT [dbo].[Evaluation] ON 
---INSERT INTO [dbo].[Evaluation]
---           (EvaluationID
---		   ,[TenantID]
---           ,[EvaluationVisibilityID]
---           ,[EvaluationStatusID]
---           ,[CreatePersonID]
---           ,[EvaluationName]
---           ,[EvaluationDefinition]
---           ,[EvaluationStartDate]
---           ,[EvaluationEndDate]
---           ,[CreateDate])
---     VALUES
---           (1
---		   ,9
---           ,2
---           ,2
---           ,5301
---           ,'Toms Test'
---           ,'This is a sample Evaluation'
---           ,'2019-12-31 00:00:00.000'
---           ,'2020-02-26 00:00:00.000'
---           ,'2019-12-27 12:05:54.017');
+SET IDENTITY_INSERT [dbo].[Evaluation] ON 
+INSERT INTO [dbo].[Evaluation]
+           (EvaluationID
+		   ,[TenantID]
+           ,[EvaluationVisibilityID]
+           ,[EvaluationStatusID]
+           ,[CreatePersonID]
+           ,[EvaluationName]
+           ,[EvaluationDefinition]
+           ,[EvaluationStartDate]
+           ,[EvaluationEndDate]
+           ,[CreateDate])
+     VALUES
+           (1
+		   ,9
+           ,2
+           ,2
+           ,5301
+           ,'Toms Test'
+           ,'This is a sample Evaluation'
+           ,'2019-12-31 00:00:00.000'
+           ,'2020-02-26 00:00:00.000'
+           ,'2019-12-27 12:05:54.017');
 
---SET IDENTITY_INSERT [dbo].[Evaluation] OFF
+SET IDENTITY_INSERT [dbo].[Evaluation] OFF
 
---SET IDENTITY_INSERT [dbo].[EvaluationCriterion] ON 
---GO
---INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (1, 9, 1, N'rank', N'rank these projects')
---GO
---INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (2, 9, 1, N'cost', N'how expensive is this gonna be?')
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterion] OFF
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] ON 
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (1, 9, 1, N'very good', N'the best', 5)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (2, 9, 1, N'good', N'okay', 4)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (3, 9, 1, N'average', N'C+', 3)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (4, 9, 1, N'poor', N'eek', 2)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (5, 9, 1, N'very poor', N'not good', 1)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (6, 9, 2, N'high', N'this project is fancy', 3)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (7, 9, 2, N'medium', N'okay, keep an eye on the books, but we should be fine', 2)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (8, 9, 2, N'low', N'cheap, like free beer', 1)
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] OFF
---GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriterion] ON 
+GO
+INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (1, 9, 1, N'rank', N'rank these projects')
+GO
+INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (2, 9, 1, N'cost', N'how expensive is this gonna be?')
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriterion] OFF
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] ON 
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (1, 9, 1, N'very good', N'the best', 5)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (2, 9, 1, N'good', N'okay', 4)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (3, 9, 1, N'average', N'C+', 3)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (4, 9, 1, N'poor', N'eek', 2)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (5, 9, 1, N'very poor', N'not good', 1)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (6, 9, 2, N'high', N'this project is fancy', 3)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (7, 9, 2, N'medium', N'okay, keep an eye on the books, but we should be fine', 2)
+GO
+INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (8, 9, 2, N'low', N'cheap, like free beer', 1)
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] OFF
+GO

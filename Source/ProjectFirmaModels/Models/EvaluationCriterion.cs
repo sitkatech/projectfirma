@@ -8,8 +8,7 @@ namespace ProjectFirmaModels.Models
 
         public bool CanDelete()
         {
-            //todo: TK 12/30/2019 This needs to check for ProjectEvaluations(object not created yet). Temporarily checking for EvaluationCriterionValues
-            return !EvaluationCriterionValues.Any();
+            return !EvaluationCriterionValues.Any(x => x.ProjectEvaluationSelectedValues.Any());
         }
 
     }
