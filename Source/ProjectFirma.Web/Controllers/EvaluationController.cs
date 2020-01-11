@@ -155,17 +155,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Evaluation evaluation, ConfirmDialogFormViewModel viewModel)
         {
-            //todo: need to check for evals with connected data before deleting. prevent delete if eval has been run
-            var hasNoAssociations = false;//!evaluation.
-            var confirmMessage = hasNoAssociations
+            var canDelete = evaluation.CanDelete();
+            var confirmMessage = canDelete
                 ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} \"{evaluation.EvaluationName}\"?</p>"
-                : String.Format(
-                    "<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated evaluation data</strong>, and this action cannot be undone. Click {2} to review.</p>",
-                    FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(),
-                    evaluation.EvaluationName,
-                    SitkaRoute<EvaluationController>.BuildLinkFromExpression(x => x.Detail(evaluation), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel());
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -174,11 +169,6 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var evaluation = evaluationPrimaryKey.EntityObject;
-            //todo: TK need to fix permissions
-            //var canManageEvaluations = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            //var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-
-
             var viewData = new DetailViewData(CurrentFirmaSession, evaluation);
             return RazorView<Detail, DetailViewData>(viewData);
         }
@@ -361,8 +351,22 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult EditProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationPrimaryKey)
         {
             var projectEvaluation = projectEvaluationPrimaryKey.EntityObject;
-            var viewModel = new EditProjectEvaluationViewModel(projectEvaluation);
-            return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+
+            if (projectEvaluation.Evaluation.EvaluationStatusID == (int)EvaluationStatusEnum.InProgress)
+            {
+                var viewModel = new EditProjectEvaluationViewModel(projectEvaluation);
+                return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+            }
+            else
+            {
+                var confirmMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be evaluated when the {FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()} is {EvaluationStatus.InProgress.EvaluationStatusDisplayName}";
+
+                var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+                var viewModel = new ConfirmDialogFormViewModel(projectEvaluation.ProjectEvaluationID);
+                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+            }
+            
+            
         }
 
         [HttpPost]

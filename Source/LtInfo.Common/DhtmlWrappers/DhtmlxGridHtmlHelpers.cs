@@ -594,6 +594,21 @@ namespace LtInfo.Common.DhtmlWrappers
         }
 
         /// <summary>
+        /// For making an edit icon on the grid with an edit jquery ui dialog confirm.
+        /// Will make a grey edit icon if edit is not possible. *** WILL NOT PREVENT AN EDIT FROM HAPPENING! YOU MUST ENFORCE AT THE CONTROLLER LEVEL ***
+        /// </summary>
+        /// <param name="editDialogUrl"></param>
+        /// <param name="formTitle"></param>
+        /// <param name="editPossibleForObject">Is an edit possible for the given object?</param>
+        /// <returns></returns>
+        public static HtmlString MakeEditIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle, bool editPossibleForObject)
+        {
+            var editIcon = editPossibleForObject ? $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>"
+                : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled").ToString();
+            return MakeModalDialogLink(editIcon, editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
+        }
+
+        /// <summary>
         /// For making a plus icon on the grid with an editor in a jquery ui dialog
         /// </summary>
         public static HtmlString MakePlusIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle)

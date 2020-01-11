@@ -58,8 +58,7 @@ namespace ProjectFirma.Web.Views.Evaluation
                     return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'");
                 }
 
-                var makeEditIconAndLinkBootstrapIfAvailable = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled", $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be evaluated when the {FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()} is {EvaluationStatus.InProgress.EvaluationStatusDisplayName}");
-                return makeEditIconAndLinkBootstrapIfAvailable;
+                return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(projectEvaluation.GetEditUrl(), $"Evaluate {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectEvaluation.Project.GetDisplayName()}'", false);
 
             }
             return new HtmlString(string.Empty);
