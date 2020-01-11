@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
         public string AttachmentRelationshipTypeName { get; set; }
 
         [Required]
-        [DisplayName("Attachment Relationship Type Description")]
+        [DisplayName("Attachment Type Description")]
         public string AttachmentRelationshipTypeDescription { get; set; }
 
         [Required]
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Views.AttachmentRelationshipType
                 }
                 else
                 {
-                    throw new Exception("You do not have a default Taxonomy Trunk configured. Please set one up for Attachment Relationship Types to function completely.");
+                    throw new Exception($"You do not have a default Taxonomy Trunk configured. Please set one up for {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()} to function completely.");
                 }
             }
         }
