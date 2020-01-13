@@ -65,6 +65,10 @@ namespace ProjectFirma.Web.Models
             return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static bool FactSheetIsAvailable(this Project project)
+        {
+            return project.ProjectStage != ProjectStage.Terminated;
+        }
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
         public static string GetFactSheetUrl(this Project project)
         {
