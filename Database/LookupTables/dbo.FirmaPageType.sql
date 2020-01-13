@@ -54,4 +54,5 @@ values
 (69, 'ProjectStatusListEditor', 'Project Status List Editor', 2),
 (70, 'ExternalMapLayers', 'External Map Layers', 1),
 (71, 'WebServicesIndex', 'Web Services Index' , 1), 
-(72, 'WebServicesList', 'Web Services List' , 1)
+(72, 'WebServicesList', 'Web Services List' , 1),
+(73, 'ReportCenter', 'Report Center' , 1)

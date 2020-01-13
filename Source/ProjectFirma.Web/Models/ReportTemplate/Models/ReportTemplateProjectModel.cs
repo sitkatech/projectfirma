@@ -7,7 +7,6 @@ namespace ProjectFirma.Web.Models.ReportTemplate.Models
 {
     public class ReportTemplateProjectModel : ReportTemplateBaseModel
     {
-
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
         public string ApprovalDate { get; set; }

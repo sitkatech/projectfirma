@@ -41,10 +41,12 @@ namespace ProjectFirma.Web.Controllers
 
         [CrossAreaRoute]
         [HttpGet]
+        [FirmaAdminFeature]
         public ViewResult Index()
         {
             // todo: firma page and firma page type
-            var viewData = new IndexViewData(CurrentFirmaSession);
+            var firmaPage = FirmaPageTypeEnum.ReportCenter.GetFirmaPage();
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -176,7 +178,7 @@ namespace ProjectFirma.Web.Controllers
             // Get the list of projects and then order them by the order they were received from the post request
             var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => viewModel.ProjectIDList.Contains(x.ProjectID)).ToList();
             projectsList = projectsList.OrderBy(p => viewModel.ProjectIDList.IndexOf(p.ProjectID)).ToList();
-           var reportTemplateSelectListItems =
+            var reportTemplateSelectListItems =
                 HttpRequestStorage.DatabaseEntities.ReportTemplates.ToList().Where(x => x.ReportTemplateModel.ReportTemplateModelID == ReportTemplateModel.Project.PrimaryKey).ToSelectList(x => x.ReportTemplateID.ToString(),
                     x => x.DisplayName);
             var viewData = new GenerateReportsViewData(CurrentFirmaSession, projectsList, reportTemplateSelectListItems);
@@ -194,13 +196,11 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ActionResult GenerateReportsFromSelectedProjects(GenerateReportsViewModel viewModel)
         {
-
             var reportTemplatePrimaryKey = (ReportTemplatePrimaryKey) viewModel.ReportTemplateID;
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
             var selectedModelIDs = viewModel.ProjectIDList;
             var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
             return reportTemplateGenerator.GenerateAndDownload();
-            
         }
 
     }

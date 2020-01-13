@@ -226,11 +226,10 @@ namespace ProjectFirma.Web.Views
             // Group 3
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group3"));
-
+            
             // Group 4
-
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
-
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, $"Report Center", "Group4"));
             // Group 4 - Other
 
             // Group 5 - Project Firma Configuration stuff

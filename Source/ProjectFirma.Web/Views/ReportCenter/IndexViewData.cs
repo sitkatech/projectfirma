@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public bool HasManageReportTemplatePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             GridSpec = new ReportTemplateGridSpec(new ReportTemplateViewListFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
