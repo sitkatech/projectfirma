@@ -75,7 +75,7 @@ function createBootstrapDialogForm(element, dialogDivID, dialogContentDivId, jav
     var cancelButtonID = element.attr("data-cancel-button-id");
     var cancelButtonText = element.attr("data-cancel-button-text");
     var optionalDialogFormId = element.attr("data-optional-dialog-form-id");
-    var skipAjax = element.attr("data-skip-ajax");
+    var skipAjax = (element.attr("data-skip-ajax").toLowerCase() === 'true') ? true : false;
 
     var dialogDiv = jQuery(getModalDialogFromHtmlTemplate(dialogDivID, dialogTitle, htmlContentsOfDialogBox, width, saveButtonText, saveButtonId, cancelButtonText, cancelButtonID));
     dialogDiv.modal({ backdrop: "static" });
@@ -128,7 +128,6 @@ function wireUpModalDialogForm(dialogDiv, javascriptReadyFunction, optionalDialo
     }
 
     jQuery(".sitkaDatePicker").datepicker();
-
     if (skipAjax) {
         return;
     }
