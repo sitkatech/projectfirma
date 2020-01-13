@@ -82,7 +82,12 @@
         
 
         <div class="form-group">
-            <div class="col-xs-12 control-label" style="margin-top: 80px;"><strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12 control-label" style="margin-top: 80px; padding-top:10px; border-top: 2px solid #ddd;">
+                <strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong>
+                <div class="pull-right smallExplanationText">
+                    {{SelectedProjectCount}} @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() selected
+                </div>
+            </div>
             <div class="col-xs-12">
                 <div class="col-md-6" ng-repeat="selectedProject in AngularModel.SelectedProjects">
                     <span>

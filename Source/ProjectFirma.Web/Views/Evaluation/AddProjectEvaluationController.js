@@ -22,6 +22,7 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
+    $scope.selectableProjects = [];
 
     $scope.addProject = function (project) {
         var projectID = project.ProjectID;
@@ -80,19 +81,26 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
 
     };
 
-    $scope.selectableProjects = [];
+    
 
     $scope.refreshSelectableProjects = function () {
-        
+
+        $scope.updateSelectedProjectsCount();
         $scope.selectableProjects = $scope.getSelectableProjects();
         setTimeout(function () {
             jQuery(".selectpicker").selectpicker("refresh");
         }, 50);
     }
 
+    $scope.updateSelectedProjectsCount = function () {
+
+        $scope.SelectedProjectCount = $scope.AngularModel.SelectedProjects.length;
+    }
+
 
     $scope.deleteProject = function (projectToDelete) {
         Sitka.Methods.removeFromJsonArray($scope.AngularModel.SelectedProjects, projectToDelete);
+        $scope.refreshSelectableProjects();
     };
 
     $scope.initSelectableTaxonomies = function () {
@@ -168,6 +176,8 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
     $scope.refreshSelectableProjects();
     $scope.selectableTaxonomyBranches = [];
     $scope.selectableTaxonomyLeaves = [];
+
+    $scope.updateSelectedProjectsCount();
 
     $scope.initSelectableTaxonomies();
 });
