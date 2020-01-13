@@ -171,7 +171,7 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
     }
 
     $scope.SelectedProjectID = "";
-    $scope.SelectedProject = {};
+    $scope.SelectedProject = null;
     $scope.AngularModel.SelectedProjects = [];
     $scope.refreshSelectableProjects();
     $scope.selectableTaxonomyBranches = [];
