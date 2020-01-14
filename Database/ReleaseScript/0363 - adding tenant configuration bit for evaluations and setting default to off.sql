@@ -6,7 +6,7 @@ go
 
 update dbo.TenantAttribute set EnableEvaluations = 0 where EnableEvaluations is null;
 
---update dbo.TenantAttribute set EnableEvaluations = 1 where TenantID = 9;
+update dbo.TenantAttribute set EnableEvaluations = 1 where TenantID = 9;
 
 go
 

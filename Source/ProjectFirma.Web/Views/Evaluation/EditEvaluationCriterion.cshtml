@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Evaluation
+@using ProjectFirma.Web.Views.Shared
 @inherits EditEvaluationCriterion
 
 <script type="text/javascript">
@@ -32,8 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
             function()
             {
                 return {
-                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
-                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                    AngularModel: @Html.Raw(JObject.FromObject(Model))
                 };
             });
     angular.bootstrap(jQuery("[ng-controller=\"EditEvaluationCriterionController\"]"), ["ProjectFirmaApp"]);
@@ -63,8 +63,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="row">
         <div class="col-md-12">
-            <p>Define your @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel().</p>
-        
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
         </div>
     </div>
 

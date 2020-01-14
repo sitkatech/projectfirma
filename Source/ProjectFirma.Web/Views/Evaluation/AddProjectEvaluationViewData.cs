@@ -26,12 +26,12 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Evaluation
 {
 
-    public class AddProjectEvaluationViewData
+    public class AddProjectEvaluationViewData : FirmaViewData
     {
         public ProjectFirmaModels.Models.Evaluation Evaluation { get; }
         public AddProjectEvaluationViewDataForAngular ViewDataForAngular { get; }
 
-        public AddProjectEvaluationViewData(AddProjectEvaluationViewDataForAngular viewDataForAngular, ProjectFirmaModels.Models.Evaluation evaluation)
+        public AddProjectEvaluationViewData(FirmaSession currentFirmaSession, AddProjectEvaluationViewDataForAngular viewDataForAngular, ProjectFirmaModels.Models.Evaluation evaluation, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             Evaluation = evaluation;
             ViewDataForAngular = viewDataForAngular;

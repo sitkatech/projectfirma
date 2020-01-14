@@ -24,7 +24,6 @@ angular.module("ProjectFirmaApp")
         function($scope, $timeout, angularModelAndViewData) {
             //debugger;
             $scope.AngularModel = angularModelAndViewData.AngularModel;
-            $scope.AngularViewData = angularModelAndViewData.AngularViewData;
             $scope.nextValueID = -1;
 
             $scope.addEvaluationCriterionValue = function () {

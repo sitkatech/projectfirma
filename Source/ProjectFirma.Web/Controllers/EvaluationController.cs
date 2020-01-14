@@ -41,8 +41,8 @@ namespace ProjectFirma.Web.Controllers
         [EvaluationViewFeature]
         public ViewResult Index()
         {
-
-            var viewData = new IndexViewData(CurrentFirmaSession);
+            var firmaPage = FirmaPageTypeEnum.EvaluationList.GetFirmaPage();
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -122,7 +122,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var evaluationStatuses = EvaluationStatus.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationStatusID.ToString(), t => t.EvaluationStatusDisplayName);
             var evaluationVisibilities = EvaluationVisibility.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationVisibilityID.ToString(), t => t.EvaluationVisibilityDisplayName);
-            var viewData = new EditViewData(evaluationStatuses.ToList(), evaluationVisibilities.ToList());
+
+            var firmaPage = FirmaPageTypeEnum.CreateEvaluationInstructions.GetFirmaPage();
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, evaluationStatuses.ToList(), evaluationVisibilities.ToList());
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -242,7 +244,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditEvaluationCriterion(EditEvaluationCriterionViewModel viewModel)
         {
-            var viewData = new EditEvaluationCriterionViewData();
+            var firmaPage = FirmaPageTypeEnum.CreateEvaluationCriterionInstructions.GetFirmaPage();
+            var viewData = new EditEvaluationCriterionViewData(CurrentFirmaSession, firmaPage);
             return RazorPartialView<EditEvaluationCriterion, EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel>(viewData, viewModel);
         }
 
@@ -328,7 +331,8 @@ namespace ProjectFirma.Web.Controllers
 
             var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples, taxonomyLevel);
 
-            var viewData = new AddProjectEvaluationViewData(angularViewData, evaluation);
+            var firmaPage = FirmaPageTypeEnum.AddProjectToEvaluationPortfolioInstructions.GetFirmaPage();
+            var viewData = new AddProjectEvaluationViewData(CurrentFirmaSession, angularViewData, evaluation, firmaPage);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
         }
 

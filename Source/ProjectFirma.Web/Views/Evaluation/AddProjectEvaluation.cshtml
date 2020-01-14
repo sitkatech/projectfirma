@@ -21,6 +21,7 @@
 
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.AddProjectEvaluation
     <script type="text/javascript">
@@ -54,9 +55,9 @@
 
     <div ng-app="ProjectFirmaApp" id="AddProjectEvaluationApp" ng-controller="AddProjectEvaluationController" style="max-height: 600px">
 
-        <p>
-            Create a portfolio of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(). @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() within this portfolio can be evaluated as part of the @ViewDataTyped.Evaluation.EvaluationName
-        </p>
+        <div style="margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
         <hr />
         <div class="form-group">
             <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
