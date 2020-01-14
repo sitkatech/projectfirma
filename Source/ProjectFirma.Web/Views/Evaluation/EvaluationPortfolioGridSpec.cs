@@ -24,7 +24,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             {
                 Add(evaluationCriterionColumn.EvaluationCriterionName, a => GetCriterionValueIfAvailable(a, evaluationCriterionColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
-            Add("Comments", a => a.Comments, 90, DhtmlxGridColumnFilterType.Text);
+            Add("Comments", a => a.Comments, 150, DhtmlxGridColumnFilterType.Text);
 
 
         }
