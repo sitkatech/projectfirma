@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using ProjectFirma.Web.Views.Shared.ProjectControls
@@ -452,6 +453,43 @@
                 @if (ViewDataTyped.UserHasProjectAdminPermissions)
                 {
                     <h2 class="sectionHeader">Administrative</h2>
+
+                    if (ViewDataTyped.UserHasProjectEvaluationPermission)
+                    {
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationName.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</th>
+                                            <th scope="col">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluations)
+                                        {
+                                            <tr>
+                                                <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                                <td>@projectEvaluation.Comments</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
