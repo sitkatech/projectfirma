@@ -66,7 +66,7 @@ angular.module("ProjectFirmaApp")
                 var parameters = L.Util.extend($scope.firmaMap.wfsParams,
                     {
                         typeName: geospatialAreaMapSericeLayerName,
-                        cql_filter: "intersects(Ogr_Geometry, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
+                        cql_filter: "intersects(GeospatialAreaFeature, POINT(" + latlngWrapped.lat + " " + latlngWrapped.lng + "))"
                     });
                 SitkaAjax.ajax({
                         url: mapServiceUrl + L.Util.getParamString(parameters),
