@@ -44,6 +44,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
 
         public string EditPerformanceMeasureUrl { get; }
         public string EditSubcategoriesAndOptionsUrl { get; }
+        public bool CanEditImportanceAndAdditionalInformation { get; }
+        public string EditImportanceUrl { get; }
+        public string EditAdditionalInformationUrl { get; }
         public string EditCriticalDefinitionsUrl { get; }
         public string EditProjectReportingUrl { get; }
 
@@ -95,6 +98,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
             EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
 
+            var performanceMeasuresExternallySourced = HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced;
+            CanEditImportanceAndAdditionalInformation = !performanceMeasuresExternallySourced;
+            EditImportanceUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.Importance));
+            EditAdditionalInformationUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation));
             EditCriticalDefinitionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions));
             EditProjectReportingUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting));
 
@@ -106,7 +113,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
 
             // Hide GeoSpatialArea panel on tenants where performance measures are externally sourced
-            ShowGeoSpatialAreaPanel = !HttpRequestStorage.Tenant.ArePerformanceMeasuresExternallySourced;
+            ShowGeoSpatialAreaPanel = !performanceMeasuresExternallySourced;
             CanAddGeospatialArea = new GeospatialAreaPerformanceMeasureTargetManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
