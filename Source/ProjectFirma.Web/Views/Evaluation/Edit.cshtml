@@ -21,14 +21,14 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.Edit
 
 
 <div class="row">
     <div class="col-md-12">
-        <p>Define the basics of this @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel().</p>
-        
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
 </div>
 

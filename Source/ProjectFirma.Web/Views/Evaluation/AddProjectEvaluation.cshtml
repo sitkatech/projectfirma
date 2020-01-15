@@ -21,6 +21,7 @@
 
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.AddProjectEvaluation
     <script type="text/javascript">
@@ -54,26 +55,37 @@
 
     <div ng-app="ProjectFirmaApp" id="AddProjectEvaluationApp" ng-controller="AddProjectEvaluationController" style="max-height: 600px">
 
-        <p>
-            Create a portfolio of @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(). @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() within this portfolio can be evaluated as part of the @ViewDataTyped.Evaluation.EvaluationName
-        </p>
+        <div style="margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
         <hr />
         <div class="form-group">
             <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12" style="margin-bottom: 20px;">
-                <label class="small" style="width: 150px;">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()</label>
-                <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()"></select>
-                <select class="selectpicker" ng-model="SelectedTaxonomyBranch" ng-options="branch.DisplayName for branch in selectableTaxonomyBranches track by branch.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"ng-if="AngularViewData.TaxonomyLevel > 1" ng-change="refreshSelectableTaxonomyLeaves()"></select>
-                <select class="selectpicker" ng-model="SelectedTaxonomyLeaf" ng-options="leaf.DisplayName for leaf in selectableTaxonomyLeaves track by leaf.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8"></select>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                <label class="small col-xs-2">
+                    Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()
+                </label>
+                <div class="col-xs-10">
+                    <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <select class="selectpicker" ng-model="SelectedTaxonomyBranch" ng-options="branch.DisplayName for branch in selectableTaxonomyBranches track by branch.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 1" ng-change="refreshSelectableTaxonomyLeaves()">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <select class="selectpicker" ng-model="SelectedTaxonomyLeaf" ng-options="leaf.DisplayName for leaf in selectableTaxonomyLeaves track by leaf.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()" ng-disabled="!SelectedTaxonomyLeaf"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
             </div>
             <div class="col-xs-12">
-                <label class="small" style="width: 150px;">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
-                <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8"></select>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProject(SelectedProject)"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                <label class="small col-xs-2">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
+                <div class="col-xs-10">
+                    <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() by @FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProject(SelectedProject)" ng-disabled="!SelectedProject"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
             </div>
         </div>
@@ -82,7 +94,12 @@
         
 
         <div class="form-group">
-            <div class="col-xs-12 control-label" style="margin-top: 80px;"><strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12 control-label" style="margin-top: 80px; padding-top:10px; border-top: 2px solid #ddd;">
+                <strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong>
+                <div class="pull-right smallExplanationText">
+                    {{SelectedProjectCount}} @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() selected
+                </div>
+            </div>
             <div class="col-xs-12">
                 <div class="col-md-6" ng-repeat="selectedProject in AngularModel.SelectedProjects">
                     <span>

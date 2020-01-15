@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using LtInfo.Common;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
@@ -27,8 +28,7 @@ namespace ProjectFirma.Web.Models
         {
             return DeleteUrlTemplate.ParameterReplace(evaluation.EvaluationID);
         }
-
-
+        
 
         public static string GetEvaluationStatusDisplayName(this Evaluation evaluation)
         {

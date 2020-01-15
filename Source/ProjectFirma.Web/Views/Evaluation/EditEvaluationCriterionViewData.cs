@@ -18,19 +18,19 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public class EditEvaluationCriterionViewData
+    public class EditEvaluationCriterionViewData : FirmaViewData
     {
-        public readonly EditEvaluationCriterionViewDataForAngular ViewDataForAngular;
 
-        public EditEvaluationCriterionViewData()
+
+        public EditEvaluationCriterionViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            ViewDataForAngular = new EditEvaluationCriterionViewDataForAngular();
+
         }
     }
 
-    public class EditEvaluationCriterionViewDataForAngular
-    {
-    }
 }

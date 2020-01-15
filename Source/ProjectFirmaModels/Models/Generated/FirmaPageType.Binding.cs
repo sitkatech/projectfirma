@@ -185,6 +185,10 @@ namespace ProjectFirmaModels.Models
         ProjectStatusListEditor = 69,
         ExternalMapLayers = 70,
         WebServicesIndex = 71,
-        WebServicesList = 72
+        WebServicesList = 72,
+        EvaluationList = 73,
+        CreateEvaluationInstructions = 74,
+        CreateEvaluationCriterionInstructions = 75,
+        AddProjectToEvaluationPortfolioInstructions = 76
     }
 }

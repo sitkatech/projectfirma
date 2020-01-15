@@ -224,6 +224,18 @@ namespace ProjectFirma.Web.Controllers
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
             AddWarningForSubmittingFinalStatusReportIfNeeded(project, addProjectProjectStatusButton);
 
+            bool userHasProjectEvaluationPermissions = false;
+            List<ProjectEvaluation> projectEvaluations = new List<ProjectEvaluation>();
+            foreach (var projectEvaluation in project.ProjectEvaluations)
+            {
+                if (ProjectEvaluationManageFeature.HasProjectEvaluationManagePermission(CurrentFirmaSession, projectEvaluation))
+                {
+                    //we only want to show the evaluations that this user has access to
+                    userHasProjectEvaluationPermissions = true;
+                    projectEvaluations.Add(projectEvaluation);
+                }
+            }
+
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -272,7 +284,9 @@ namespace ProjectFirma.Web.Controllers
                 editContactsUrl, 
                 editExpectedFundingUrl,
                 projectTimelineViewData,
-                userHasProjectTimelinePermissions);
+                userHasProjectTimelinePermissions,
+                userHasProjectEvaluationPermissions,
+                projectEvaluations);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

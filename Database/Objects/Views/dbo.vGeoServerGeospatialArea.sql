@@ -9,7 +9,6 @@ select
 	ga.GeospatialAreaID as PrimaryKey,
 	ga.GeospatialAreaName,
 	ga.GeospatialAreaFeature,
-	ga.GeospatialAreaFeature as Ogr_Geometry,
 	t.TenantID,
 	t.TenantName,
 	gat.GeospatialAreaTypeName

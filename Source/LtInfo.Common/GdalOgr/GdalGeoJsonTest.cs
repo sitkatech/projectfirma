@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace LtInfo.Common.GdalOgr
@@ -27,23 +28,28 @@ namespace LtInfo.Common.GdalOgr
     public class GdalGeoJsonTest
     {
         private const int CoordinateSystemId = 4326;
-
+        
         [Test]
         public void CanReadColumnNamesFromGeoJsonString()
         {
+            // Arrange
+            // -------
             var gdbFileInfo = FileUtility.FirstMatchingFileUpDirectoryTree(@"LTInfo.Common\GdalOgr\SampleFileGeodatabase.gdb.zip");
             const string sourceLayerName = "MySampleFeatureClass";
-
-            // Act
-            // ---
             const int totalMilliseconds = 110000;
             const string pathToOgr2OgrExecutable = @"C:\Program Files\GDAL\ogr2ogr.exe";
             var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(pathToOgr2OgrExecutable, GdalGeoJsonTest.CoordinateSystemId, totalMilliseconds);
+
+            // Act
+            // ---
             var geoJson = ogr2OgrCommandLineRunner.ImportFileGdbToGeoJson(gdbFileInfo, sourceLayerName, true);
 
-
-            var a = JsonTools.DeserializeObject<GeoJSON.Net.Feature.FeatureCollection>(geoJson);
-            var columnList = new List<string> {"Ogr_Fid", "Ogr_Geometry", "MyIntColumn", "MyStringColumn", "MyFloatColumn"};
+            // Assert
+            // ------
+            var featureCollection = JsonTools.DeserializeObject<GeoJSON.Net.Feature.FeatureCollection>(geoJson);
+            var propertyNames = featureCollection.Features.First().Properties.Select(x => x.Key).ToList();
+            var expectedPropertyNames = new List<string> { "MyStringColumn", "IgnoredTextColumn", "IgnoredIntColumn", "MyIntColumn", "MyFloatColumn", "Shape_Length", "Shape_Area" };
+            Assert.That(propertyNames, Is.EquivalentTo(expectedPropertyNames), "Should get expected columns");
         }
     }
 }
