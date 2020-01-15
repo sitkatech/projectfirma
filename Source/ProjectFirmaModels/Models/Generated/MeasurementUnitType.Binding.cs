@@ -53,6 +53,9 @@ namespace ProjectFirmaModels.Models
         public static readonly MeasurementUnitTypeChemicalConcentrationWetWeight ChemicalConcentrationWetWeight = MeasurementUnitTypeChemicalConcentrationWetWeight.Instance;
         public static readonly MeasurementUnitTypeChemicalConcentrationLipidWeight ChemicalConcentrationLipidWeight = MeasurementUnitTypeChemicalConcentrationLipidWeight.Instance;
         public static readonly MeasurementUnitTypeCanopyBulkDensity CanopyBulkDensity = MeasurementUnitTypeCanopyBulkDensity.Instance;
+        public static readonly MeasurementUnitTypeLinearStreamMiles LinearStreamMiles = MeasurementUnitTypeLinearStreamMiles.Instance;
+        public static readonly MeasurementUnitTypeCelsius Celsius = MeasurementUnitTypeCelsius.Instance;
+        public static readonly MeasurementUnitTypePerSquareMeter PerSquareMeter = MeasurementUnitTypePerSquareMeter.Instance;
 
         public static readonly List<MeasurementUnitType> All;
         public static readonly ReadOnlyDictionary<int, MeasurementUnitType> AllLookupDictionary;
@@ -62,7 +65,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static MeasurementUnitType()
         {
-            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity };
+            All = new List<MeasurementUnitType> { Acres, Miles, SquareFeet, LinearFeet, Kilogram, Number, Pounds, Tons, Dollars, Parcels, Percent, Therms, PartsPerMillion, PartsPerBillion, MilligamsPerLiter, NephlometricTurbidityUnit, Meters, PeriphytonBiomassIndex, AcreFeet, Gallon, CubicYards, MetricTons, Hours, Count, Feet, Inches, InchesPerHour, Seconds, PerSquareKilometer, CubicFoot_Second, Hectare, Kilometer, ChemicalConcentrationWetWeight, ChemicalConcentrationLipidWeight, CanopyBulkDensity, LinearStreamMiles, Celsius, PerSquareMeter };
             AllLookupDictionary = new ReadOnlyDictionary<int, MeasurementUnitType>(All.ToDictionary(x => x.MeasurementUnitTypeID));
         }
 
@@ -144,6 +147,8 @@ namespace ProjectFirmaModels.Models
                     return Acres;
                 case MeasurementUnitTypeEnum.CanopyBulkDensity:
                     return CanopyBulkDensity;
+                case MeasurementUnitTypeEnum.Celsius:
+                    return Celsius;
                 case MeasurementUnitTypeEnum.ChemicalConcentrationLipidWeight:
                     return ChemicalConcentrationLipidWeight;
                 case MeasurementUnitTypeEnum.ChemicalConcentrationWetWeight:
@@ -174,6 +179,8 @@ namespace ProjectFirmaModels.Models
                     return Kilometer;
                 case MeasurementUnitTypeEnum.LinearFeet:
                     return LinearFeet;
+                case MeasurementUnitTypeEnum.LinearStreamMiles:
+                    return LinearStreamMiles;
                 case MeasurementUnitTypeEnum.Meters:
                     return Meters;
                 case MeasurementUnitTypeEnum.MetricTons:
@@ -198,6 +205,8 @@ namespace ProjectFirmaModels.Models
                     return PeriphytonBiomassIndex;
                 case MeasurementUnitTypeEnum.PerSquareKilometer:
                     return PerSquareKilometer;
+                case MeasurementUnitTypeEnum.PerSquareMeter:
+                    return PerSquareMeter;
                 case MeasurementUnitTypeEnum.Pounds:
                     return Pounds;
                 case MeasurementUnitTypeEnum.Seconds:
@@ -250,7 +259,10 @@ namespace ProjectFirmaModels.Models
         Kilometer = 32,
         ChemicalConcentrationWetWeight = 33,
         ChemicalConcentrationLipidWeight = 34,
-        CanopyBulkDensity = 35
+        CanopyBulkDensity = 35,
+        LinearStreamMiles = 36,
+        Celsius = 37,
+        PerSquareMeter = 38
     }
 
     public partial class MeasurementUnitTypeAcres : MeasurementUnitType
@@ -461,5 +473,23 @@ namespace ProjectFirmaModels.Models
     {
         private MeasurementUnitTypeCanopyBulkDensity(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
         public static readonly MeasurementUnitTypeCanopyBulkDensity Instance = new MeasurementUnitTypeCanopyBulkDensity(35, @"CanopyBulkDensity", @"Canopy Bulk Density (kg/m^3)", @"kg/m^3", @"Canopy Bulk Density", 2);
+    }
+
+    public partial class MeasurementUnitTypeLinearStreamMiles : MeasurementUnitType
+    {
+        private MeasurementUnitTypeLinearStreamMiles(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeLinearStreamMiles Instance = new MeasurementUnitTypeLinearStreamMiles(36, @"LinearStreamMiles", @"Linear Stream Miles", @"linear stream miles", @"Linear Stream Mile", 2);
+    }
+
+    public partial class MeasurementUnitTypeCelsius : MeasurementUnitType
+    {
+        private MeasurementUnitTypeCelsius(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypeCelsius Instance = new MeasurementUnitTypeCelsius(37, @"Celsius", @"Celsius (C)", @"C", @"Celsius", 2);
+    }
+
+    public partial class MeasurementUnitTypePerSquareMeter : MeasurementUnitType
+    {
+        private MeasurementUnitTypePerSquareMeter(int measurementUnitTypeID, string measurementUnitTypeName, string measurementUnitTypeDisplayName, string legendDisplayName, string singularDisplayName, int numberOfSignificantDigits) : base(measurementUnitTypeID, measurementUnitTypeName, measurementUnitTypeDisplayName, legendDisplayName, singularDisplayName, numberOfSignificantDigits) {}
+        public static readonly MeasurementUnitTypePerSquareMeter Instance = new MeasurementUnitTypePerSquareMeter(38, @"PerSquareMeter", @"Per Square Meter (per sq m)", @"per sq m", @"Per Square Meter", 2);
     }
 }
