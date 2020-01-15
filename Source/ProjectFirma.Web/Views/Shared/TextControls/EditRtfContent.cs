@@ -30,7 +30,9 @@ namespace ProjectFirma.Web.Views.Shared.TextControls
             CriticalDefinitions,
             AccountingPeriodAndScale,
             ProjectReporting,
-            AssociatedPrograms
+            AssociatedPrograms,
+            Importance,
+            AdditionalInformation
         }
     }
 }
