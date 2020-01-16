@@ -454,13 +454,14 @@
                 {
                     <h2 class="sectionHeader">Administrative</h2>
 
-                    if (ViewDataTyped.UserHasProjectEvaluationPermission)
-                    {
-                        <div class="panel panelFirma">
-                            <div class="panel-heading panelTitle">
-                                <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
-                            </div>
-                            <div class="panel-body">
+                    
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                            {
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -473,22 +474,37 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluations)
-                                        {
-                                            <tr>
-                                                <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                                <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                                <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                                <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                                <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                                <td>@projectEvaluation.Comments</td>
-                                            </tr>
-                                        }
+                                    @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                    {
+                                        <tr>
+                                            <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                            <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                            <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                            <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                            <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                            <td>@projectEvaluation.Comments</td>
+                                        </tr>
+                                    }
                                     </tbody>
                                 </table>
-                            </div>
+
+                                if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
+                                {
+                                    <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
+                                }
+
+                            }
+                            else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                            {
+                                <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
+                            }
+                            else
+                            {
+                                <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                            }
                         </div>
-                    }
+                    </div>
+                    
 
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
