@@ -73,7 +73,7 @@
             }
         </div>
     }
-    @if (ViewDataTyped.GoogleChartJsons.Count(x => !x.IsCumulativeChart) == 1)
+    @if (ViewDataTyped.HasData && ViewDataTyped.GoogleChartJsons.Count(x => !x.IsCumulativeChart) == 1)
     {
         if (!ViewDataTyped.ChartTitle.Equals(ViewDataTyped.GoogleChartJsons.Single(x => !x.IsCumulativeChart).LegendTitle, StringComparison.InvariantCultureIgnoreCase))
         {
@@ -82,7 +82,7 @@
             </div>
         }
     }
-    else
+    else if (ViewDataTyped.HasData)
     {
         <div class="subcategorySelector" id="subcategorySelectorFor@(ViewDataTyped.ChartUniqueName)">
             By:
@@ -180,34 +180,36 @@
 
             var chartName = "@ViewDataTyped.ChartUniqueName";
             //console.log('Calling chartSelector for @ViewDataTyped.ChartUniqueName');
-            
+
             // Used when no subcategory options are available
-            var firstChartContainerID = googleCharts_@(ViewDataTyped.ChartUniqueName)[0].containerId;
+            if (googleCharts_@(ViewDataTyped.ChartUniqueName)[0] != null) {
+                var firstChartContainerID = googleCharts_@(ViewDataTyped.ChartUniqueName)[0].containerId;
 
-            var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
-            var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
+                var templateDropdown = jQuery("#subcategoryDropdownFor" + chartName);
+                var cumulativeToggle = jQuery("#cumulativeToggleFor" + chartName);
 
-            jQuery(".chartGroup" + chartName).css("display", "none");
-            // If no subcategory options
-            if (templateDropdown.length === 0)
-            {
-                if (cumulativeToggle.prop("checked")) {
-                    jQuery("#" + (firstChartContainerID + "Cumulative_container")).css("display", "");
+                jQuery(".chartGroup" + chartName).css("display", "none");
+                // If no subcategory options
+                if (templateDropdown.length === 0)
+                {
+                    if (cumulativeToggle.prop("checked")) {
+                        jQuery("#" + (firstChartContainerID + "Cumulative_container")).css("display", "");
+                    }
+                    else
+                    {
+                        jQuery("#" + (firstChartContainerID + "_container")).css("display", "");
+                    }
                 }
+                // Multiple subcategory options
                 else
                 {
-                    jQuery("#" + (firstChartContainerID + "_container")).css("display", "");
-                }
-            }
-            // Multiple subcategory options
-            else
-            {
-                if (cumulativeToggle.length === 0 || !cumulativeToggle.prop("checked")) {
-                    jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
-                }
-                else
-                {
-                    jQuery("#" + (templateDropdown.val() + "Cumulative_container")).css("display", "");
+                    if (cumulativeToggle.length === 0 || !cumulativeToggle.prop("checked")) {
+                        jQuery("#" + (templateDropdown.val() + "_container")).css("display", "");
+                    }
+                    else
+                    {
+                        jQuery("#" + (templateDropdown.val() + "Cumulative_container")).css("display", "");
+                    }
                 }
             }
             GoogleCharts.drawCharts(googleCharts_@(ViewDataTyped.ChartUniqueName));
