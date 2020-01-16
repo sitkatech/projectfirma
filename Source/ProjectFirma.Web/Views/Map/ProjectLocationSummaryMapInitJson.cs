@@ -38,8 +38,8 @@ namespace ProjectFirma.Web.Views.Map
         public bool HasGeospatialAreas { get; }
         /* used by ProjectFirmaMaps.ProjectLocationSummary.js */
 
-        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection) 
-            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), MapInitJson.GetExternalMapLayers(), GetProjectBoundingBox(project))
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, FeatureCollection detailedLocationAsGeoJsonFeatureCollection, FeatureCollection simpleLocationToGeoJsonFeatureCollection, bool callGetExternalMapLayers) 
+            : base(mapDivID, DefaultZoomLevel, GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), callGetExternalMapLayers ? MapInitJson.GetExternalMapLayers() : new List<ProjectFirmaModels.Models.ExternalMapLayer>(), GetProjectBoundingBox(project))
         {
             HasSimpleLocation = simpleLocationToGeoJsonFeatureCollection.Features.Any();
             if (HasSimpleLocation)
@@ -63,6 +63,14 @@ namespace ProjectFirma.Web.Views.Map
                    Layers.Add(new LayerGeoJson($"Selected {geospatialAreaTypeGroup.Key.GeospatialAreaTypeNamePluralized}", geospatialAreaTypeGroup.ToGeoJsonFeatureCollection(), "#2dc3a1", 1, LayerInitialVisibility.Hide));
                }
             }
+        }
+
+        public ProjectLocationSummaryMapInitJson(IProject project, string mapDivID, bool addProjectProperties,
+            List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas,
+            FeatureCollection detailedLocationAsGeoJsonFeatureCollection,
+            FeatureCollection simpleLocationToGeoJsonFeatureCollection) : this(project, mapDivID, addProjectProperties,
+            geospatialAreas, detailedLocationAsGeoJsonFeatureCollection, simpleLocationToGeoJsonFeatureCollection, true)
+        {
         }
 
         public static BoundingBox GetProjectBoundingBox(IProject project)
