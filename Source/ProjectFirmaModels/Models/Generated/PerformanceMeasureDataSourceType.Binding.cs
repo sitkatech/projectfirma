@@ -19,7 +19,6 @@ namespace ProjectFirmaModels.Models
     public abstract partial class PerformanceMeasureDataSourceType : IHavePrimaryKey
     {
         public static readonly PerformanceMeasureDataSourceTypeProject Project = PerformanceMeasureDataSourceTypeProject.Instance;
-        public static readonly PerformanceMeasureDataSourceTypeTechnicalAssistanceValue TechnicalAssistanceValue = PerformanceMeasureDataSourceTypeTechnicalAssistanceValue.Instance;
 
         public static readonly List<PerformanceMeasureDataSourceType> All;
         public static readonly ReadOnlyDictionary<int, PerformanceMeasureDataSourceType> AllLookupDictionary;
@@ -29,7 +28,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static PerformanceMeasureDataSourceType()
         {
-            All = new List<PerformanceMeasureDataSourceType> { Project, TechnicalAssistanceValue };
+            All = new List<PerformanceMeasureDataSourceType> { Project };
             AllLookupDictionary = new ReadOnlyDictionary<int, PerformanceMeasureDataSourceType>(All.ToDictionary(x => x.PerformanceMeasureDataSourceTypeID));
         }
 
@@ -103,8 +102,6 @@ namespace ProjectFirmaModels.Models
             {
                 case PerformanceMeasureDataSourceTypeEnum.Project:
                     return Project;
-                case PerformanceMeasureDataSourceTypeEnum.TechnicalAssistanceValue:
-                    return TechnicalAssistanceValue;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -113,19 +110,12 @@ namespace ProjectFirmaModels.Models
 
     public enum PerformanceMeasureDataSourceTypeEnum
     {
-        Project = 1,
-        TechnicalAssistanceValue = 2
+        Project = 1
     }
 
     public partial class PerformanceMeasureDataSourceTypeProject : PerformanceMeasureDataSourceType
     {
         private PerformanceMeasureDataSourceTypeProject(int performanceMeasureDataSourceTypeID, string performanceMeasureDataSourceTypeName, string performanceMeasureDataSourceTypeDisplayName, bool isCustomCalculation) : base(performanceMeasureDataSourceTypeID, performanceMeasureDataSourceTypeName, performanceMeasureDataSourceTypeDisplayName, isCustomCalculation) {}
         public static readonly PerformanceMeasureDataSourceTypeProject Instance = new PerformanceMeasureDataSourceTypeProject(1, @"Project", @"Project", false);
-    }
-
-    public partial class PerformanceMeasureDataSourceTypeTechnicalAssistanceValue : PerformanceMeasureDataSourceType
-    {
-        private PerformanceMeasureDataSourceTypeTechnicalAssistanceValue(int performanceMeasureDataSourceTypeID, string performanceMeasureDataSourceTypeName, string performanceMeasureDataSourceTypeDisplayName, bool isCustomCalculation) : base(performanceMeasureDataSourceTypeID, performanceMeasureDataSourceTypeName, performanceMeasureDataSourceTypeDisplayName, isCustomCalculation) {}
-        public static readonly PerformanceMeasureDataSourceTypeTechnicalAssistanceValue Instance = new PerformanceMeasureDataSourceTypeTechnicalAssistanceValue(2, @"TechnicalAssistanceValue", @"Technical Assistance Value", true);
     }
 }
