@@ -321,8 +321,8 @@ namespace ProjectFirma.Web.Controllers
         {
 
             var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any()).ToList();
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().Where(x => x.TaxonomyLeafs.Intersect(taxonomyLeaves).Any()).ToList();
-            var taxonomyTrunk = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().Where(x => x.TaxonomyBranches.Intersect(taxonomyBranches).Any()).ToList();
+            var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
+            var taxonomyTrunk = taxonomyBranches.Select(x => x.TaxonomyTrunk).Distinct();
 
             var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
             var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();

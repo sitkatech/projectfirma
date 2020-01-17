@@ -25,6 +25,35 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Evaluation.Edit
 
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function () {
+        
+
+        var evaluationStatusInputID = @Html.IdFor(x => x.EvaluationStatusID);
+        var evaluationStatusDraftID = @((int)EvaluationStatusEnum.Draft);
+        console.log("evaluationStatusDraftID:" + evaluationStatusDraftID);
+           
+        jQuery(evaluationStatusInputID).change(function () {
+            console.log("changeEven:" + JSON.stringify(jQuery(this)));
+
+            console.log("thisVal:" + jQuery(this).val());
+            console.log("evaluationStatusDraftID:" + evaluationStatusDraftID);
+            if (jQuery(this).val() == evaluationStatusDraftID) {
+                console.log("hide");
+                jQuery(".conditionallyRequiredDateLabel").find("label sup").hide();
+            } else {
+                console.log("show");
+                jQuery(".conditionallyRequiredDateLabel").find("label sup").show();
+            }
+
+        }).change();
+
+        
+
+    });
+    // ]]>
+</script>
 
 <div class="row">
     <div class="col-md-12">
@@ -63,8 +92,8 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.EvaluationStartDate)
+            <div class="col-sm-3 control-label conditionallyRequiredDateLabel">
+                @Html.LabelWithSugarFor(x => x.EvaluationStartDate, true)
             </div>
             <div class="col-sm-9">
                 @Html.EditorFor(x => x.EvaluationStartDate)
@@ -72,8 +101,8 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(x => x.EvaluationEndDate)
+            <div class="col-sm-3 control-label conditionallyRequiredDateLabel">
+                @Html.LabelWithSugarFor(x => x.EvaluationEndDate, true)
             </div>
             <div class="col-sm-9">
                 @Html.EditorFor(x => x.EvaluationEndDate)
