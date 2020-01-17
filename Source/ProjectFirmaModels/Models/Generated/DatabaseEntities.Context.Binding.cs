@@ -947,6 +947,11 @@ namespace ProjectFirmaModels.Models
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);
 
+                case "ProjectType":
+                    var projectType = ProjectType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectType, "ProjectType", primaryKey);
+                    return projectType;
+
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
 
