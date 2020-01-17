@@ -228,6 +228,14 @@
                         @ViewDataTyped.TenantAttribute.GeoServerNamespace
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectType.ToType())
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableProjectTypes.ToYesNo()
+                    </div>
+                </div>
             </div>
         </div>
     </div>

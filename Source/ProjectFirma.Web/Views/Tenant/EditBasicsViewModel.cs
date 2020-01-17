@@ -123,6 +123,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("GeoServer Namespace")]
         public string GeoServerNamespace { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectType)]
+        public bool EnableProjectTypes { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -151,6 +154,7 @@ namespace ProjectFirma.Web.Views.Tenant
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
             EnableProjectEvaluations = tenantAttribute.EnableEvaluations;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
+            EnableProjectTypes = tenantAttribute.EnableProjectTypes;
         }
 
         public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
@@ -166,6 +170,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
             attribute.UseProjectTimeline = UseProjectTimeline;
             attribute.GeoServerNamespace = GeoServerNamespace;
+            attribute.EnableProjectTypes = EnableProjectTypes;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)

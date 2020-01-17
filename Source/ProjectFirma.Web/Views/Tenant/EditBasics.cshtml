@@ -264,5 +264,12 @@
             @Html.ValidationMessageFor(x => x.GeoServerNamespace)
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableProjectTypes)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.EnableProjectTypes)
+            @Html.ValidationMessageFor(x => x.EnableProjectTypes)
+        </div>
+    </div>
 </div>
 }

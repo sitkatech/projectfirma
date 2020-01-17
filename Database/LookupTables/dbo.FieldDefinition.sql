@@ -145,8 +145,8 @@ VALUES
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'FinalStatusUpdateStatus', N'Final Status Update'),
-(323,N'IsFinalStatusUpdate', N'Is Final Status Update'),
-(324,N'ProjectStatusLessonsLearned', N'Lessons Learned'),
+(323, N'IsFinalStatusUpdate', N'Is Final Status Update'),
+(324, N'ProjectStatusLessonsLearned', N'Lessons Learned'),
 (325, N'Evaluation', 'Evaluation'),
 (326, N'EvaluationCriterion', 'Evaluation Criterion'),
 (327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
@@ -159,4 +159,6 @@ VALUES
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
 (336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(338, N'ProjectType', 'Project Type'),
+(339, N'EnableProjectType', 'Enable Project Types')
