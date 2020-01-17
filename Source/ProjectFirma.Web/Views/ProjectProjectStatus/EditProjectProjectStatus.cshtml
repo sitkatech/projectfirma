@@ -134,7 +134,7 @@
                 @if (ViewDataTyped.AllowEditFinal)
                 {
                     <div class="form-group" id="lessonsLearnedDiv">
-                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.LessonsLearned)</div>
+                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.LessonsLearned, true)</div>
                         <div class="col-sm-8">
                             @Html.TextAreaWithMaxLengthFor(m => m.LessonsLearned, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                             @Html.ValidationMessageFor(m => m.LessonsLearned)
@@ -177,15 +177,17 @@
 
             if (value) {
                 jQuery('#lessonsLearnedDiv').show();
+                jQuery('#lessonsLearnedDiv :input').attr("required", true);
             } else {
                 jQuery('#lessonsLearnedDiv').hide();
+                jQuery('#lessonsLearnedDiv :input').attr("required", false);
             }
 
         });
 
 
         var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]');
-        console.log(radio);
+        //console.log(radio);
         var value = false;
         radio.each(function () {
             var textVal = jQuery(this).val();
@@ -193,12 +195,14 @@
                 value = true;
             }
         });
-        console.log(value);
+        //console.log(value);
        
         if (value) {
             jQuery('#lessonsLearnedDiv').show();
+            jQuery('#lessonsLearnedDiv :input').attr("required", true);
         } else {
             jQuery('#lessonsLearnedDiv').hide();
+            jQuery('#lessonsLearnedDiv :input').attr("required", false);
         }
 
 
