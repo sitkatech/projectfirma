@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectContactsDetailViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectTimelineDisplayViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using System.Web;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;

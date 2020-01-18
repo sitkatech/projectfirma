@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditNoteViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectProjectStatusViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,12 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
@@ -33,15 +31,15 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
     {
         [Required]
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusComments)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusComments)]
         public string ProjectProjectStatusComment { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatus)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Status)]
         public int ProjectStatusID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
         [Required]
@@ -49,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         public bool IsFinalStatusUpdate { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.LessonsLearned)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusLessonsLearned)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusLessonsLearned)]
         public string LessonsLearned { get; set; }
 
 
