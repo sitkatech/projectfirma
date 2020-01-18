@@ -18,8 +18,8 @@ namespace ProjectFirmaModels.Models
 {
     public abstract partial class ProjectType : IHavePrimaryKey
     {
-        public static readonly ProjectTypeNormalProject NormalProject = ProjectTypeNormalProject.Instance;
-        public static readonly ProjectTypeAdministrativeProject AdministrativeProject = ProjectTypeAdministrativeProject.Instance;
+        public static readonly ProjectTypeNormal Normal = ProjectTypeNormal.Instance;
+        public static readonly ProjectTypeAdministrative Administrative = ProjectTypeAdministrative.Instance;
 
         public static readonly List<ProjectType> All;
         public static readonly ReadOnlyDictionary<int, ProjectType> AllLookupDictionary;
@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectType()
         {
-            All = new List<ProjectType> { NormalProject, AdministrativeProject };
+            All = new List<ProjectType> { Normal, Administrative };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectType>(All.ToDictionary(x => x.ProjectTypeID));
         }
 
@@ -99,10 +99,10 @@ namespace ProjectFirmaModels.Models
         {
             switch (enumValue)
             {
-                case ProjectTypeEnum.AdministrativeProject:
-                    return AdministrativeProject;
-                case ProjectTypeEnum.NormalProject:
-                    return NormalProject;
+                case ProjectTypeEnum.Administrative:
+                    return Administrative;
+                case ProjectTypeEnum.Normal:
+                    return Normal;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -111,19 +111,19 @@ namespace ProjectFirmaModels.Models
 
     public enum ProjectTypeEnum
     {
-        NormalProject = 1,
-        AdministrativeProject = 2
+        Normal = 1,
+        Administrative = 2
     }
 
-    public partial class ProjectTypeNormalProject : ProjectType
+    public partial class ProjectTypeNormal : ProjectType
     {
-        private ProjectTypeNormalProject(int projectTypeID, string projectTypeName, string projectTypeDisplayName) : base(projectTypeID, projectTypeName, projectTypeDisplayName) {}
-        public static readonly ProjectTypeNormalProject Instance = new ProjectTypeNormalProject(1, @"NormalProject", @"Normal Project");
+        private ProjectTypeNormal(int projectTypeID, string projectTypeName, string projectTypeDisplayName) : base(projectTypeID, projectTypeName, projectTypeDisplayName) {}
+        public static readonly ProjectTypeNormal Instance = new ProjectTypeNormal(1, @"Normal", @"Normal");
     }
 
-    public partial class ProjectTypeAdministrativeProject : ProjectType
+    public partial class ProjectTypeAdministrative : ProjectType
     {
-        private ProjectTypeAdministrativeProject(int projectTypeID, string projectTypeName, string projectTypeDisplayName) : base(projectTypeID, projectTypeName, projectTypeDisplayName) {}
-        public static readonly ProjectTypeAdministrativeProject Instance = new ProjectTypeAdministrativeProject(2, @"AdministrativeProject", @"Administrative Project");
+        private ProjectTypeAdministrative(int projectTypeID, string projectTypeName, string projectTypeDisplayName) : base(projectTypeID, projectTypeName, projectTypeDisplayName) {}
+        public static readonly ProjectTypeAdministrative Instance = new ProjectTypeAdministrative(2, @"Administrative", @"Administrative");
     }
 }

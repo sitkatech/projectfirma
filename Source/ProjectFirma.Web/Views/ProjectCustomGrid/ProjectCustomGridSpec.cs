@@ -173,6 +173,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
                     break;
+                case ProjectCustomGridColumnEnum.ProjectType:
+                    if (MultiTenantHelpers.GetTenantAttribute().EnableProjectTypes)
+                    {
+                        Add(FieldDefinitionEnum.ProjectType.ToType().ToGridHeaderString(), x => x.ProjectType.ProjectTypeDisplayName, 140);
+                    }
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

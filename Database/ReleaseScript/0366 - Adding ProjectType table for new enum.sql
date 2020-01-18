@@ -27,8 +27,8 @@ CREATE TABLE [dbo].[ProjectType](
 GO
 
 insert dbo.ProjectType (ProjectTypeID, ProjectTypeName, ProjectTypeDisplayName) values 
-(1, 'NormalProject', 'Normal Project'),
-(2, 'AdministrativeProject', 'Administrative Project')
+(1, 'Normal', 'Normal'),
+(2, 'Administrative', 'Administrative')
 GO
 
 
