@@ -289,8 +289,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void AddWarningForSubmittingFinalStatusReportIfNeeded(Project project, HtmlString addProjectProjectStatusButton)
         {
-            var allowEditFinalStatusReport =
-                ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
+            var allowEditFinalStatusReport = ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
             var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             if (allowEditFinalStatusReport)
             {

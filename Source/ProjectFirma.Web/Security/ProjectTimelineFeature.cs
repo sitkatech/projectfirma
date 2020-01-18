@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Security
             // if the person is a project steward but can't steward this project, deny them permissions to see it
             if (firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !firmaSession.Person.CanStewardProject(contextModelObject))
             {
-                return new PermissionCheckResult("Does not have privelege to access this Project History Timeline");
+                return new PermissionCheckResult("Does not have privilege to access this Project History Timeline");
             }
 
             if (HasPermissionByFirmaSession(firmaSession))
