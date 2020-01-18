@@ -36,3 +36,17 @@ WHERE FieldDefinitionID = 309;
 UPDATE dbo.FieldDefinition  
 SET FieldDefinitionName = N'StatusLessonsLearned', FieldDefinitionDisplayName = N'Lessons Learned'
 WHERE FieldDefinitionID = 324;
+
+
+
+INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
+VALUES 
+(338, N'UseProjectTimeline', 'Use Project Timeline'),
+(339, N'EnableEvaluations', 'Enable Evaluations')
+
+--adding default definitions for new field definitions
+ insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
+ values(338, N'Use Project Timeline')
+
+ insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
+ values(339, N'Enable Evaluations')

@@ -284,6 +284,8 @@ namespace ProjectFirmaModels.Models
         EvaluationEndDate = 334,
         EvaluationVisibility = 335,
         EvaluationCriterionName = 336,
-        EvaluationCriterionDefinition = 337
+        EvaluationCriterionDefinition = 337,
+        UseProjectTimeline = 338,
+        EnableEvaluations = 339
     }
 }
