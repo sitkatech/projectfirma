@@ -178,6 +178,7 @@ namespace ProjectFirma.Web.Controllers
             if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
+                basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
             }
             
             return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
@@ -204,6 +205,7 @@ namespace ProjectFirma.Web.Controllers
                 PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
                 ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
                 CompletionYear = importExternalProjectStaging.EndYear,
+                ProjectTypeEnum = ProjectTypeEnum.Normal
             };
             return ViewCreateAndEditBasics(viewModel, true);
         }
