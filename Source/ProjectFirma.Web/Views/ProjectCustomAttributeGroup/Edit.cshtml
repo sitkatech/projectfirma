@@ -16,13 +16,32 @@
         <div class="col-xs-12">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-md-4">
-                        @Html.LabelFor(m => m.ProjectCustomAttributeGroupName)
+                    <div class="col-xs-12 col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeGroupName)
                     </div>
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.ProjectCustomAttributeGroupName, new { @class = "form-control", style = "width:100%" })
                     </div>
                 </div>
+                @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+                {
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(m => m.ProjectTypeEnum)
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.ProjectTypeEnum)
+                            <span class="smallExplanationText">
+                                @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().
+                            </span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.ProjectTypeEnum)
+                }
             </div>
         </div>
     </div>

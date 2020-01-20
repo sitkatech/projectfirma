@@ -40,7 +40,10 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var viewModel = new EditViewModel()
+            {
+                ProjectTypeEnum = ProjectTypeEnum.Normal
+            };
             return ViewEdit(viewModel, null);
         }
 
@@ -54,7 +57,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, null);
             }
 
-            var projectCustomAttributeGroup = ProjectCustomAttributeGroup.CreateNewBlank();
+            var projectCustomAttributeGroup = ProjectCustomAttributeGroup.CreateNewBlank(ProjectType.Normal);
             viewModel.UpdateModel(projectCustomAttributeGroup, CurrentFirmaSession);
 
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeGroups.Add(projectCustomAttributeGroup);

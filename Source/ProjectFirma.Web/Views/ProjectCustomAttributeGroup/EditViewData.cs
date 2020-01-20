@@ -10,6 +10,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string ProjectCustomAttributeGroupIndexUrl { get; }
         public string SubmitUrl { get; }
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
+        public TenantAttribute TenantAttribute { get; }
 
 
         public EditViewData(FirmaSession currentFirmaSession,
@@ -26,7 +27,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             SubmitUrl = submitUrl;
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
-
+            TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
         }
 
     }

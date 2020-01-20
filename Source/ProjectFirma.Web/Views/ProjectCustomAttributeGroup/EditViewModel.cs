@@ -1,4 +1,5 @@
-﻿using LtInfo.Common;
+﻿using System;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
 using ProjectFirma.Web.Common;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
@@ -22,6 +24,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         [DisplayName("Name of Group")]
         public string ProjectCustomAttributeGroupName { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectType)]
+        public ProjectTypeEnum ProjectTypeEnum { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -33,12 +39,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             ProjectCustomAttributeGroupID = projectCustomAttributeGroup.ProjectCustomAttributeGroupID;
             ProjectCustomAttributeGroupName = projectCustomAttributeGroup.ProjectCustomAttributeGroupName;
+            ProjectTypeEnum = projectCustomAttributeGroup.ProjectType.ToEnum;
         }
 
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup, FirmaSession currentFirmaSession)
         {
             projectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName;
+            projectCustomAttributeGroup.ProjectTypeID = (int) ProjectTypeEnum;
             if (projectCustomAttributeGroup.SortOrder != null) return;
             var allProjectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
             var maxSortOrder = allProjectCustomAttributeGroups.Select(x => x.SortOrder).Max();
@@ -47,8 +55,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            // todo: validate the group
-            return new List<ValidationResult>();
+            if (!Enum.IsDefined(typeof(ProjectTypeEnum), ProjectTypeEnum))
+            {
+                yield return new SitkaValidationResult<BasicsViewModel, ProjectTypeEnum>($"A valid value for {FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectTypeEnum);
+            }
         }
     }
 }
