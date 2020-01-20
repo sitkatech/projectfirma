@@ -321,15 +321,20 @@ namespace ProjectFirma.Web.Controllers
         {
 
             var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any()).ToList();
+            var taxonomyLeafSimples = taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
+
             var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
+            var taxonomyBranchSimples = taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
+
             var taxonomyTrunk = taxonomyBranches.Select(x => x.TaxonomyTrunk).Distinct();
+            var taxonomyTrunkSimples = taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
             var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
             var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 
-            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples, taxonomyLevel);
+            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunkSimples, taxonomyBranchSimples, taxonomyLeafSimples, projectSimples, taxonomyLevel);
 
             var firmaPage = FirmaPageTypeEnum.AddProjectToEvaluationPortfolioInstructions.GetFirmaPage();
             var viewData = new AddProjectEvaluationViewData(CurrentFirmaSession, angularViewData, evaluation, firmaPage);
