@@ -19,6 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectCustomAttributeGroupName).HasColumnName(@"ProjectCustomAttributeGroupName").HasColumnType("nvarchar").IsOptional().HasMaxLength(100);
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
+            Property(x => x.ProjectTypeID).HasColumnName(@"ProjectTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
 

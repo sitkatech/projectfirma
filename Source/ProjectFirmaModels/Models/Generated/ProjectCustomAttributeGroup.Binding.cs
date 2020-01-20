@@ -30,21 +30,41 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeGroup(int projectCustomAttributeGroupID, string projectCustomAttributeGroupName, int? sortOrder) : this()
+        public ProjectCustomAttributeGroup(int projectCustomAttributeGroupID, string projectCustomAttributeGroupName, int? sortOrder, int projectTypeID) : this()
         {
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroupID;
             this.ProjectCustomAttributeGroupName = projectCustomAttributeGroupName;
             this.SortOrder = sortOrder;
+            this.ProjectTypeID = projectTypeID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public ProjectCustomAttributeGroup(int projectTypeID) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.ProjectCustomAttributeGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            
+            this.ProjectTypeID = projectTypeID;
+        }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public ProjectCustomAttributeGroup(ProjectType projectType) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.ProjectCustomAttributeGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ProjectTypeID = projectType.ProjectTypeID;
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectCustomAttributeGroup CreateNewBlank()
+        public static ProjectCustomAttributeGroup CreateNewBlank(ProjectType projectType)
         {
-            return new ProjectCustomAttributeGroup();
+            return new ProjectCustomAttributeGroup(projectType);
         }
 
         /// <summary>
@@ -95,11 +115,13 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public string ProjectCustomAttributeGroupName { get; set; }
         public int? SortOrder { get; set; }
+        public int ProjectTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeGroupID; } set { ProjectCustomAttributeGroupID = value; } }
 
         public virtual ICollection<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public ProjectType ProjectType { get { return ProjectType.AllLookupDictionary[ProjectTypeID]; } }
 
         public static class FieldLengths
         {

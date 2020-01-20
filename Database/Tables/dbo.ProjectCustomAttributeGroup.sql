@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[ProjectCustomAttributeGroup](
 	[TenantID] [int] NOT NULL,
 	[ProjectCustomAttributeGroupName] [nvarchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SortOrder] [int] NULL,
+	[ProjectTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomAttributeGroupID] ASC
@@ -23,6 +24,13 @@ CREATE TABLE [dbo].[ProjectCustomAttributeGroup](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeGroup] ADD  DEFAULT ((1)) FOR [ProjectTypeID]
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeGroup]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeGroup_ProjectType_ProjectTypeID] FOREIGN KEY([ProjectTypeID])
+REFERENCES [dbo].[ProjectType] ([ProjectTypeID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeGroup] CHECK CONSTRAINT [FK_ProjectCustomAttributeGroup_ProjectType_ProjectTypeID]
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeGroup]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeGroup_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
