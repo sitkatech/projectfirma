@@ -230,7 +230,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now, 
-                ProjectType.NormalProject.ProjectTypeID)
+                ProjectType.Normal.ProjectTypeID)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
