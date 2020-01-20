@@ -145,7 +145,11 @@ VALUES
 (337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition');
 go
 
-
+-- Add a seeded value for PSP to replace the word "Project" with "Near Term Action"
+INSERT [dbo].[FieldDefinitionData] ([TenantID], [FieldDefinitionID], [FieldDefinitionLabel]) 
+VALUES 
+(11, 329, 'Near Term Action Evaluation')
+go
 
 INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefinition])
      VALUES
