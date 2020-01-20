@@ -149,19 +149,19 @@ go
 
 INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefinition])
      VALUES
-			(325, N''),
-			(326, N''),
-			(327, N''),
-			(328, N''),
-			(329, N''),
-			(330, N''),
-			(331, N''),
-			(332, N''),
-			(333, N''),
-			(334, N''),
-			(335, N''),
-			(336, N''),
-			(337, N'');
+			(325, N'<p>Evaluation</p>'),
+			(326, N'<p>Evaluation Criterion</p>'),
+			(327, N'<p>Evaluation Criterion Value</p>'),
+			(328, N'<p>Evaluation Portfolio</p>'),
+			(329, N'<p>Project Evaluation</p>'),
+			(330, N'<p>Evaluation Name</p>'),
+			(331, N'<p>Evaluation Definition</p>'),
+			(332, N'<p>Evaluation Status</p>'),
+			(333, N'<p>Evaluation Start Date</p>'),
+			(334, N'<p>Evaluation End Date</p>'),
+			(335, N'<p>Evaluation Visibility</p>'),
+			(336, N'<p>Evaluation Criterion Name</p>'),
+			(337, N'<p>Evaluation Criterion Definition</p>');
 GO
 
 
