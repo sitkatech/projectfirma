@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Use Project Timeline")]
         public bool UseProjectTimeline { get; set; }
 
-        [DisplayName("Enable Project Evaluations")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectEvaluations)]
         public bool EnableProjectEvaluations { get; set; }
 
         [DisplayName("GeoServer Namespace")]

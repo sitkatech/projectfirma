@@ -190,7 +190,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Enable @FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()?
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectEvaluations.ToType())
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.EnableEvaluations.ToYesNo()
