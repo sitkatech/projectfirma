@@ -90,10 +90,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var canManagePerformanceMeasure =
-                new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession) &&
-                performanceMeasure.PerformanceMeasureDataSourceType !=
-                PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
+            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure,
