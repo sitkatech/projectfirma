@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -28,6 +29,15 @@ namespace ProjectFirma.Web.Security
             }
 
             return new PermissionCheckResult();
+        }
+
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        {
+            if (HttpRequestStorage.Tenant.AreFundingSourcesExternallySourced)
+            {
+                return false;
+            }
+            return base.HasPermissionByFirmaSession(firmaSession);
         }
 
         public void DemandPermission(FirmaSession firmaSession, FundingSource contextModelObject)

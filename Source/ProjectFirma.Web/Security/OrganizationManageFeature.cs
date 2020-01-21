@@ -18,10 +18,23 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
+
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Manage Organization")]
     public class OrganizationManageFeature : FirmaAdminFeature
     {
+
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        {
+            if (HttpRequestStorage.Tenant.AreOrganizationsExternallySourced)
+            {
+                return false;
+            }
+            return base.HasPermissionByFirmaSession(firmaSession);
+        }
     }
 }
