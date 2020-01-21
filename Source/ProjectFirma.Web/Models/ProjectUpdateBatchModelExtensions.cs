@@ -770,29 +770,16 @@ namespace ProjectFirma.Web.Models
 
         public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
         {
-            List<PerformanceMeasureReportedValue> reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            PerformanceMeasure technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(projectUpdateBatch));
-            }
-
-            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            var reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
+            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
         {
-            List<PerformanceMeasureReportedValue> performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
+            var performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
                 .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .SelectMany(x => x.GetReportedPerformanceMeasureValues(projectUpdateBatch)).ToList();
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
-
-
     }
 }

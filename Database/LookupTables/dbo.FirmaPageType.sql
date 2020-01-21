@@ -55,4 +55,8 @@ values
 (70, 'ExternalMapLayers', 'External Map Layers', 1),
 (71, 'WebServicesIndex', 'Web Services Index' , 1), 
 (72, 'WebServicesList', 'Web Services List' , 1),
-(73, 'ReportCenter', 'Report Center' , 1)
+(73, 'EvaluationList', 'Evaluation List' , 1),
+(74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
+(75, 'CreateEvaluationCriterionInstructions', 'Create Evaluation Criterion Instructions' , 2),
+(76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2),
+(77, 'ReportCenter', 'Report Center' , 1)

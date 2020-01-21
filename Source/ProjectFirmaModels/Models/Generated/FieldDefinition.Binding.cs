@@ -269,8 +269,8 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerLayerIsOnByDefault = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
-        FinalStatusReportStatus = 322,
-        IsFinalStatusReport = 323,
+        FinalStatusUpdateStatus = 322,
+        IsFinalStatusUpdate = 323,
         ProjectStatusLessonsLearned = 324,
         Evaluation = 325,
         EvaluationCriterion = 326,
@@ -284,6 +284,7 @@ namespace ProjectFirmaModels.Models
         EvaluationEndDate = 334,
         EvaluationVisibility = 335,
         EvaluationCriterionName = 336,
-        EvaluationCriterionDefinition = 337
+        EvaluationCriterionDefinition = 337,
+        EnableProjectEvaluations = 338
     }
 }

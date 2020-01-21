@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Evaluation
+@using ProjectFirma.Web.Views.Shared
 @inherits EditEvaluationCriterion
 
 <script type="text/javascript">
@@ -32,8 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
             function()
             {
                 return {
-                    AngularModel: @Html.Raw(JObject.FromObject(Model)),
-                    AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+                    AngularModel: @Html.Raw(JObject.FromObject(Model))
                 };
             });
     angular.bootstrap(jQuery("[ng-controller=\"EditEvaluationCriterionController\"]"), ["ProjectFirmaApp"]);
@@ -63,8 +63,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
     <div class="row">
         <div class="col-md-12">
-            <p>Define your @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel().</p>
-        
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+
         </div>
     </div>
 
@@ -75,7 +75,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
             </div>
             <div class="col-xs-12 col-sm-7">
-                <input id="@Html.IdFor(m => m.EvaluationCriterionName)" type="text" required="required" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
+                <input id="@Html.IdFor(m => m.EvaluationCriterionName)" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
+                @Html.ValidationMessageFor(m => m.EvaluationCriterionName)
             </div>
         </div>
         <div class="form-group">
@@ -83,7 +84,8 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.EvaluationCriterionDefinition)
             </div>
             <div class="col-xs-12 col-sm-7">
-                <textarea id="@Html.IdFor(m => m.EvaluationCriterionDefinition)" type="text" size="4" required="required" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition" >@Model.EvaluationCriterionDefinition</textarea>
+                <textarea id="@Html.IdFor(m => m.EvaluationCriterionDefinition)" type="text" size="4" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition">@Model.EvaluationCriterionDefinition</textarea>
+                @Html.ValidationMessageFor(m => m.EvaluationCriterionDefinition)
             </div>
         </div>
     </div>

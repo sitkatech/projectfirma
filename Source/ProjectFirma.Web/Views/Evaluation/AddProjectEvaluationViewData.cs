@@ -26,12 +26,12 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Evaluation
 {
 
-    public class AddProjectEvaluationViewData
+    public class AddProjectEvaluationViewData : FirmaViewData
     {
         public ProjectFirmaModels.Models.Evaluation Evaluation { get; }
         public AddProjectEvaluationViewDataForAngular ViewDataForAngular { get; }
 
-        public AddProjectEvaluationViewData(AddProjectEvaluationViewDataForAngular viewDataForAngular, ProjectFirmaModels.Models.Evaluation evaluation)
+        public AddProjectEvaluationViewData(FirmaSession currentFirmaSession, AddProjectEvaluationViewDataForAngular viewDataForAngular, ProjectFirmaModels.Models.Evaluation evaluation, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             Evaluation = evaluation;
             ViewDataForAngular = viewDataForAngular;
@@ -45,14 +45,16 @@ namespace ProjectFirma.Web.Views.Evaluation
         public List<TaxonomyTierSimple> TaxonomyBranchSimples { get; set; }
         public List<TaxonomyTierSimple> TaxonomyLeafSimples { get; set; }
         public List<ProjectSimple> ProjectSimples { get; set; }
+        public int TaxonomyLevel { get; set; }
 
 
-        public AddProjectEvaluationViewDataForAngular(List<TaxonomyTierSimple> taxonomyTrunkSimples, List<TaxonomyTierSimple> taxonomyBranchSimples, List<TaxonomyTierSimple> taxonomyLeafSimples, List<ProjectSimple> projectSimples)
+        public AddProjectEvaluationViewDataForAngular(List<TaxonomyTierSimple> taxonomyTrunkSimples, List<TaxonomyTierSimple> taxonomyBranchSimples, List<TaxonomyTierSimple> taxonomyLeafSimples, List<ProjectSimple> projectSimples, TaxonomyLevel taxonomyLevel)
         {
             TaxonomyTrunkSimples = taxonomyTrunkSimples;
             TaxonomyBranchSimples = taxonomyBranchSimples;
             TaxonomyLeafSimples = taxonomyLeafSimples;
             ProjectSimples = projectSimples;
+            TaxonomyLevel = taxonomyLevel.TaxonomyLevelID;
         }
     }
 }

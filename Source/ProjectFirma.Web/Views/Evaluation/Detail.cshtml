@@ -40,7 +40,7 @@
 <div>
     <a class="btn backButton" href="@ViewDataTyped.IndexUrl">
         @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
-        Back to all @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized()
+        Back to all @FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()
     </a>
 </div>
 
@@ -93,7 +93,7 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel() Criterion
+                    @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
@@ -120,8 +120,14 @@
             <div class="panel-body">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
-                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} to this {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.AddProjectEvaluationUrl, string.Format("Add {0} to this {1}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.EvaluationPortfolio.ToType().GetFieldDefinitionLabel()), 1000, ViewDataTyped.UserHasEvaluationManagePermissions)
                     </div>
+                    @if (ViewDataTyped.Evaluation.EvaluationStatusID != (int) EvaluationStatusEnum.InProgress)
+                    {
+                        <div class="col-xs-12">
+                            You may only evaluate a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() when the @FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel() is set to @EvaluationStatus.InProgress.EvaluationStatusDisplayName
+                        </div>
+                    }
                 </div>
                 <div class="row">
                     <div class="col-xs-12">

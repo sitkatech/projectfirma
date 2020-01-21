@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 @using ProjectFirma.Web.Views.Shared.ProjectControls
@@ -88,9 +89,11 @@
     @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
     {
         <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
-        
     }
-    <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
+    @if (ViewDataTyped.Project.FactSheetIsAvailable())
+    {
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
+    }
 }
 
 
@@ -435,7 +438,7 @@
                 </div>
                 @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
                 {
-                    <h2 class="sectionHeader">Timeline</h2> 
+                    <h2 class="sectionHeader">Timeline</h2>
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3 class="project-detail-heading">
@@ -450,6 +453,59 @@
                 @if (ViewDataTyped.UserHasProjectAdminPermissions)
                 {
                     <h2 class="sectionHeader">Administrative</h2>
+
+                    
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                            {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationName.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</th>
+                                            <th scope="col">Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                    {
+                                        <tr>
+                                            <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                            <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                            <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                            <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                            <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                            <td>@projectEvaluation.Comments</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+
+                                if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
+                                {
+                                    <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
+                                }
+
+                            }
+                            else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                            {
+                                <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
+                            }
+                            else
+                            {
+                                <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                            }
+                        </div>
+                    </div>
+                    
+
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>

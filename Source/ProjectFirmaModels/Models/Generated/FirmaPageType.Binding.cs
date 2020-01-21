@@ -186,6 +186,10 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayers = 70,
         WebServicesIndex = 71,
         WebServicesList = 72,
-        ReportCenter = 73
+        EvaluationList = 73,
+        CreateEvaluationInstructions = 74,
+        CreateEvaluationCriterionInstructions = 75,
+        AddProjectToEvaluationPortfolioInstructions = 76,
+        ReportCenter = 77
     }
 }

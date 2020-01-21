@@ -65,6 +65,10 @@ namespace ProjectFirma.Web.Models
             return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static bool FactSheetIsAvailable(this Project project)
+        {
+            return project.ProjectStage != ProjectStage.Terminated;
+        }
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
         public static string GetFactSheetUrl(this Project project)
         {
@@ -312,18 +316,7 @@ namespace ProjectFirma.Web.Models
         public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Project project)
         {
             var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(project));
-            }
-
-            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            return reportedPerformanceMeasures.OrderByDescending<PerformanceMeasureReportedValue, int>(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static string GetPlanningDesignStartYear(Project project)

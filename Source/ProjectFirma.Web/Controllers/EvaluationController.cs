@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
@@ -40,8 +41,8 @@ namespace ProjectFirma.Web.Controllers
         [EvaluationViewFeature]
         public ViewResult Index()
         {
-
-            var viewData = new IndexViewData(CurrentFirmaSession);
+            var firmaPage = FirmaPageTypeEnum.EvaluationList.GetFirmaPage();
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -121,7 +122,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var evaluationStatuses = EvaluationStatus.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationStatusID.ToString(), t => t.EvaluationStatusDisplayName);
             var evaluationVisibilities = EvaluationVisibility.All.ToSelectListWithEmptyFirstRow(v => v.EvaluationVisibilityID.ToString(), t => t.EvaluationVisibilityDisplayName);
-            var viewData = new EditViewData(evaluationStatuses.ToList(), evaluationVisibilities.ToList());
+
+            var firmaPage = FirmaPageTypeEnum.CreateEvaluationInstructions.GetFirmaPage();
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, evaluationStatuses.ToList(), evaluationVisibilities.ToList());
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -154,17 +157,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Evaluation evaluation, ConfirmDialogFormViewModel viewModel)
         {
-            //todo: need to check for evals with connected data before deleting. prevent delete if eval has been run
-            var hasNoAssociations = false;//!evaluation.
-            var confirmMessage = hasNoAssociations
+            var canDelete = evaluation.CanDelete();
+            var confirmMessage = canDelete
                 ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel()} \"{evaluation.EvaluationName}\"?</p>"
-                : String.Format(
-                    "<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated evaluation data</strong>, and this action cannot be undone. Click {2} to review.</p>",
-                    FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(),
-                    evaluation.EvaluationName,
-                    SitkaRoute<EvaluationController>.BuildLinkFromExpression(x => x.Detail(evaluation), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel());
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -173,11 +171,6 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(EvaluationPrimaryKey evaluationPrimaryKey)
         {
             var evaluation = evaluationPrimaryKey.EntityObject;
-            //todo: TK need to fix permissions
-            //var canManageEvaluations = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            //var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-
-
             var viewData = new DetailViewData(CurrentFirmaSession, evaluation);
             return RazorView<Detail, DetailViewData>(viewData);
         }
@@ -251,7 +244,8 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditEvaluationCriterion(EditEvaluationCriterionViewModel viewModel)
         {
-            var viewData = new EditEvaluationCriterionViewData();
+            var firmaPage = FirmaPageTypeEnum.CreateEvaluationCriterionInstructions.GetFirmaPage();
+            var viewData = new EditEvaluationCriterionViewData(CurrentFirmaSession, firmaPage);
             return RazorPartialView<EditEvaluationCriterion, EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel>(viewData, viewModel);
         }
 
@@ -282,17 +276,12 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDeleteEvaluationCriterion(EvaluationCriterion evaluationCriterion, ConfirmDialogFormViewModel viewModel)
         {
-            //todo: need to check for evals with connected data before deleting. prevent delete if eval has been run
-            var hasNoAssociations = false;//!evaluation.
-            var confirmMessage = hasNoAssociations
+            bool canDelete = evaluationCriterion.CanDelete();
+            var confirmMessage = canDelete
                 ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} \"{evaluationCriterion.EvaluationCriterionName}\"?</p>"
-                : String.Format(
-                    "<p>Are you sure you want to delete {0} \"{1}\"?</p><p>Deleting this {0} will <strong>delete all associated evaluation criterion data</strong>, and this action cannot be undone. Click {2} to review.</p>",
-                    FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel(),
-                    evaluationCriterion.EvaluationCriterionName,
-                    SitkaRoute<EvaluationController>.BuildLinkFromExpression(x => x.Detail(evaluationCriterion.Evaluation), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel());
 
-            var viewData = new ConfirmDialogFormViewData(confirmMessage);
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
@@ -304,8 +293,8 @@ namespace ProjectFirma.Web.Controllers
         [EvaluationManageFeature]
         public PartialViewResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey)
         {
-            var viewModel = new AddProjectEvaluationViewModel();
             var evaluation = evaluationPrimaryKey.EntityObject;
+            var viewModel = new AddProjectEvaluationViewModel(evaluation);
             return ViewAddProjectEvaluation(viewModel, evaluation);
         }
 
@@ -330,16 +319,27 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel, Evaluation evaluation)
         {
+            var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var projectsThatAreNotSelectedAlready = allProjects.Where(x => !selectedProjectIDs.Contains(x.ProjectID)).ToList();
+            var projectIDsThatAreNotSelectedAlready = projectsThatAreNotSelectedAlready.Select(x => x.ProjectID).ToList();
+            var projectSimples = projectsThatAreNotSelectedAlready.Select(x => new ProjectSimple(x)).ToList();
 
-            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any()).ToList();
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.TaxonomyBranches.ToList().Where(x => x.TaxonomyLeafs.Intersect(taxonomyLeaves).Any()).ToList();
-            var taxonomyTrunk = HttpRequestStorage.DatabaseEntities.TaxonomyTrunks.ToList().Where(x => x.TaxonomyBranches.Intersect(taxonomyBranches).Any()).ToList();
+            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
+            var taxonomyLeafSimples = taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
-            var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(x => new ProjectSimple(x)).ToList();
+            var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
+            var taxonomyBranchSimples = taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
-            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyBranches.Select(x => new TaxonomyTierSimple(x)).ToList(), taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).ToList(), projectSimples);
+            var taxonomyTrunk = taxonomyBranches.Select(x => x.TaxonomyTrunk).Distinct();
+            var taxonomyTrunkSimples = taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
-            var viewData = new AddProjectEvaluationViewData(angularViewData, evaluation);
+            var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+
+            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunkSimples, taxonomyBranchSimples, taxonomyLeafSimples, projectSimples, taxonomyLevel);
+
+            var firmaPage = FirmaPageTypeEnum.AddProjectToEvaluationPortfolioInstructions.GetFirmaPage();
+            var viewData = new AddProjectEvaluationViewData(CurrentFirmaSession, angularViewData, evaluation, firmaPage);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
         }
 
@@ -361,9 +361,23 @@ namespace ProjectFirma.Web.Controllers
         [ProjectEvaluationManageFeature]
         public PartialViewResult EditProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationPrimaryKey)
         {
-            var viewModel = new EditProjectEvaluationViewModel();
             var projectEvaluation = projectEvaluationPrimaryKey.EntityObject;
-            return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+
+            if (projectEvaluation.Evaluation.EvaluationStatusID == (int)EvaluationStatusEnum.InProgress)
+            {
+                var viewModel = new EditProjectEvaluationViewModel(projectEvaluation);
+                return ViewEditProjectEvaluation(viewModel, projectEvaluation);
+            }
+            else
+            {
+                var confirmMessage = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be evaluated when the {FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()} is {EvaluationStatus.InProgress.EvaluationStatusDisplayName}";
+
+                var viewData = new ConfirmDialogFormViewData(confirmMessage, false);
+                var viewModel = new ConfirmDialogFormViewModel(projectEvaluation.ProjectEvaluationID);
+                return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+            }
+            
+            
         }
 
         [HttpPost]
@@ -390,6 +404,44 @@ namespace ProjectFirma.Web.Controllers
             var evaluationCriterionSimples = projectEvaluation.Evaluation.EvaluationCriterions.Select(x => new EvaluationCriterionSimple(x)).ToList();
             var viewData = new EditProjectEvaluationViewData(projectEvaluation, evaluationCriterionSimples);
             return RazorPartialView<EditProjectEvaluation, EditProjectEvaluationViewData, EditProjectEvaluationViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [ProjectEvaluationManageFeature]
+        public PartialViewResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey)
+        {
+            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(projectEvaluation.ProjectEvaluationID);
+            return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectEvaluationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);
+            }
+
+            var projectNameForDeletedEvaluation = projectEvaluation.Project.GetDisplayName();
+            projectEvaluation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectNameForDeletedEvaluation}'!");
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDeleteProjectEvaluation(ProjectEvaluation projectEvaluation, ConfirmDialogFormViewModel viewModel)
+        {
+            var canDelete = projectEvaluation.CanDelete();
+            var confirmMessage = canDelete
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{projectEvaluation.Project.GetDisplayName()}\"?</p>"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabel());
+
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
     }

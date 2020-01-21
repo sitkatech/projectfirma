@@ -32,8 +32,8 @@ namespace ProjectFirmaModels.Models
             }
             else
             {
-                var projectIDs = projectUpdateBatches.Select(x => x.ProjectID).ToList();
-                performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActualUpdates.Where(x => projectIDs.Contains(x.ProjectUpdateBatch.ProjectID)).ToList();
+                var projectUpdateBatchIDs = projectUpdateBatches.Select(x => x.ProjectUpdateBatchID).ToList();
+                performanceMeasureActualsFiltered = performanceMeasure.PerformanceMeasureActualUpdates.Where(x => projectUpdateBatchIDs.Contains(x.ProjectUpdateBatchID)).ToList();
             }
             var performanceMeasureReportedValues = PerformanceMeasureReportedValue.MakeFromList(performanceMeasureActualsFiltered);
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ToList();

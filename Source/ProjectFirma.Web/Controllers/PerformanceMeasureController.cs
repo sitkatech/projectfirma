@@ -90,10 +90,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var canManagePerformanceMeasure =
-                new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession) &&
-                performanceMeasure.PerformanceMeasureDataSourceType !=
-                PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
+            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var isAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure,
@@ -196,6 +193,12 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
                     rtfContent = performanceMeasure.ProjectReportingHtmlString;
                     break;
+                case EditRtfContent.PerformanceMeasureRichTextType.Importance:
+                    rtfContent = performanceMeasure.ImportanceHtmlString;
+                    break;
+                case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
+                    rtfContent = performanceMeasure.AdditionalInformationHtmlString;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(
                         $"Invalid PerformanceMeasure Rich Text Content Type: '{performanceMeasureRichTextType}'");
@@ -232,6 +235,8 @@ namespace ProjectFirma.Web.Controllers
                 case EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions:
                 case EditRtfContent.PerformanceMeasureRichTextType.AccountingPeriodAndScale:
                 case EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting:
+                case EditRtfContent.PerformanceMeasureRichTextType.Importance:
+                case EditRtfContent.PerformanceMeasureRichTextType.AdditionalInformation:
                     viewData = new EditRtfContentViewData(CkEditorExtension.CkEditorToolbar.Minimal, null);
                     break;
                 default:

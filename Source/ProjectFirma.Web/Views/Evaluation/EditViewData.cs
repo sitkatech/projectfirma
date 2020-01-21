@@ -21,16 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Web.Mvc;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class EditViewData : FirmaViewData
     {
 
         public List<SelectListItem> EvaluationStatuses { get; }
         public List<SelectListItem> EvaluationVisibilities { get; }
 
-        public EditViewData(List<SelectListItem> evaluationStatuses, List<SelectListItem> evaluationVisibilities)
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<SelectListItem> evaluationStatuses, List<SelectListItem> evaluationVisibilities) : base(currentFirmaSession, firmaPage)
         {
             EvaluationStatuses = evaluationStatuses;
             EvaluationVisibilities = evaluationVisibilities;

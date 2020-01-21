@@ -15,6 +15,12 @@ namespace ProjectFirma.Web.Models
             return EditUrlTemplate.ParameterReplace(projectEvaluation.ProjectEvaluationID);
         }
 
+        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<EvaluationController>.BuildUrlFromExpression(t => t.DeleteProjectEvaluation(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteUrl(this ProjectEvaluation projectEvaluation)
+        {
+            return DeleteUrlTemplate.ParameterReplace(projectEvaluation.ProjectEvaluationID);
+        }
+
 
         public static ProjectEvaluation GetOrCreateProjectEvaluation(Evaluation evaluation, Project project)
         {
