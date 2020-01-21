@@ -330,7 +330,8 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyTrunkSimples = taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
             var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
-            var projectSimples = HttpRequestStorage.DatabaseEntities.Projects.ToList().Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var projectSimples = allProjects.Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 

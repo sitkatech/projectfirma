@@ -34,6 +34,8 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         [Required]
         public int EvaluationID { get; set; }
+
+        [Required(ErrorMessage = "You must select at least one item to save.")]
         public List<int> ProjectIDs { get; set; }
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         public AddProjectEvaluationViewModel(ProjectFirmaModels.Models.Evaluation evaluation)
         {
             EvaluationID = evaluation.EvaluationID;
+            ProjectIDs = evaluation.ProjectEvaluations.Select(x => x.ProjectID).ToList();
         }
 
         public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
@@ -81,7 +84,6 @@ namespace ProjectFirma.Web.Views.Evaluation
                 var projectStringsAlreadyInEvaluation = projectsAlreadyInEvaluation.Select(x => $"\"{x.Project.ProjectName}\"").ToList();
                 yield return new SitkaValidationResult<AddProjectEvaluationViewModel, List<int>>($"The following {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} are already in this evaluation: {string.Join(", ", projectStringsAlreadyInEvaluation)}. {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} must be unique in an evaluation.",m => m.ProjectIDs);
             }
-
         }
     }
 }
