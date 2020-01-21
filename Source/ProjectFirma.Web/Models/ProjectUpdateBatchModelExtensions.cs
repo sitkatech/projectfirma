@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
@@ -644,7 +643,7 @@ namespace ProjectFirma.Web.Models
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
             // Technical Assistance Requests - for Idaho
-            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities, new ObservableCollection<TechnicalAssistanceRequest>());
+            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LtInfo.Common.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
@@ -26,8 +25,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            DatabaseEntities databaseEntities,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests)
+            DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var technicalAssistanceRequestsFromProjectUpdate =
@@ -36,7 +34,6 @@ namespace ProjectFirma.Web.Models
                         x.FiscalYear, x.PersonID, x.TechnicalAssistanceTypeID,
                         x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
             project.TechnicalAssistanceRequests.Merge(technicalAssistanceRequestsFromProjectUpdate,
-                allTechnicalAssistanceRequests,
                 (x, y) => x.TechnicalAssistanceRequestID == y.TechnicalAssistanceRequestID,
                 (x, y) =>
                 {
