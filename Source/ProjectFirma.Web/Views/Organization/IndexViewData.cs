@@ -40,16 +40,15 @@ namespace ProjectFirma.Web.Views.Organization
         public bool HasOrganizationManagePermissions { get; }
         public string NewUrl { get; }
 
-        public IndexGridSpec.OrganizationStatusFilterTypeEnum OrganizationStatusFilterType { get; }
         public List<SelectListItem> ActiveOrAllOrganizationsSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
 
 
-        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems)
+
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string gridDataUrl, List<SelectListItem> activeOrAllOrganizationsSelectListItems, bool hasOrganizationManagePermissions)
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}";
-            var hasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             GridSpec = new IndexGridSpec(currentFirmaSession, hasOrganizationManagePermissions)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}",
