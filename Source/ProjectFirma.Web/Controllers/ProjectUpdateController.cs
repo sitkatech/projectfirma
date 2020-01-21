@@ -1225,7 +1225,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectLocationUpdates();
 
             // refresh the data
-            ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectLocationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully reverted.");
             return new ModalDialogFormJsonResult();
@@ -1537,8 +1537,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectGeospatialAreaUpdates();
 
             // refresh the data
-            ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
-            ProjectGeospatialAreaTypeNoteUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaTypeNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             SetMessageForDisplay($" {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Geospatial Area successfully reverted.");
             return new ModalDialogFormJsonResult();
@@ -1926,74 +1926,8 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to approve for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}!");
             Check.Require(projectUpdateBatch.IsSubmitted(), $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in a state to be ready to be approved!");
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
-
-            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
-            var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectRelevantCostTypes.Load();
-            var allProjectRelevantCostTypes = HttpRequestStorage.DatabaseEntities.AllProjectRelevantCostTypes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
-            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
-            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
-            var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
-            var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptions.Load();
-            var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
-            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectNotes.Load();
-            var allProjectNotes = HttpRequestStorage.DatabaseEntities.AllProjectNotes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectImages.Load();
-            var allProjectImages = HttpRequestStorage.DatabaseEntities.AllProjectImages.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectLocations.Load();
-            var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Load();
-            var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreaTypeNotes.Load();
-            var allProjectGeospatialAreaTypeNotes = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNotes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
-            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectAttachments.Load();
-            var allProjectAttachments = HttpRequestStorage.DatabaseEntities.AllProjectAttachments.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
-            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
-            var allProjectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local;
-            // Technical Assistance Requests for Idaho
-            HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Load();
-            var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
-            var allProjectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
-
-            projectUpdateBatch.Approve(CurrentFirmaSession,
-                DateTime.Now,
-                allProjectExemptReportingYears,
-                allProjectRelevantCostTypes,
-                allProjectFundingSourceExpenditures,
-                allPerformanceMeasureActuals,
-                allPerformanceMeasureActualSubcategoryOptions,
-                allPerformanceMeasureExpecteds,
-                allPerformanceMeasureExpectedSubcategoryOptions,
-                allProjectExternalLinks,
-                allProjectNotes,
-                allProjectImages,
-                allProjectLocations,
-                allProjectGeospatialAreas,
-                allProjectGeospatialAreaTypeNotes,
-                allProjectFundingSourceBudgets,
-                allProjectNoFundingSourceIdentifieds,
-                allProjectOrganizations,
-                allProjectAttachments,
-                allProjectCustomAttributes,
-                allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests,
-                allProjectContacts);
+            
+            projectUpdateBatch.Approve(CurrentFirmaSession, DateTime.Now, HttpRequestStorage.DatabaseEntities);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
