@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels;
@@ -27,13 +26,13 @@ namespace ProjectFirma.Web.Models
                     pn => new ProjectNoteUpdate(projectUpdateBatch, pn.Note, pn.CreateDate) {CreatePerson = pn.CreatePerson, UpdateDate = pn.UpdateDate, UpdatePerson = pn.UpdatePerson}).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectNote> allProjectNotes)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectNotesFromProjectUpdate =
                 projectUpdateBatch.ProjectNoteUpdates.Select(
                     x => new ProjectNote(project.ProjectID, x.Note, x.CreateDate) {CreatePersonID = x.CreatePersonID, UpdateDate = x.UpdateDate, UpdatePersonID = x.UpdatePersonID}).ToList();
-            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, allProjectNotes, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note && x.CreateDate == y.CreateDate, HttpRequestStorage.DatabaseEntities);
+            project.ProjectNotes.Merge(projectNotesFromProjectUpdate, (x, y) => x.ProjectID == y.ProjectID && x.Note == y.Note && x.CreateDate == y.CreateDate, databaseEntities);
         }
     }
 }
