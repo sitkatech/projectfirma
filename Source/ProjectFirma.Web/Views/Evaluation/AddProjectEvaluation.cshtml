@@ -117,7 +117,7 @@
 
         @using (Html.BeginForm())
         {
-            <input type="hidden" name="@Html.NameFor(x => x.EvaluationID)" value="{{AngularModel.EvaluationID}}" />
+            @Html.HiddenFor(x => x.EvaluationID)
             <div ng-repeat="project in AngularModel.SelectedProjects">
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{project.ProjectID}}" />
             </div>

@@ -293,8 +293,8 @@ namespace ProjectFirma.Web.Controllers
         [EvaluationManageFeature]
         public PartialViewResult AddProjectEvaluation(EvaluationPrimaryKey evaluationPrimaryKey)
         {
-            var viewModel = new AddProjectEvaluationViewModel();
             var evaluation = evaluationPrimaryKey.EntityObject;
+            var viewModel = new AddProjectEvaluationViewModel(evaluation);
             return ViewAddProjectEvaluation(viewModel, evaluation);
         }
 
