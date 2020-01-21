@@ -319,8 +319,13 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewAddProjectEvaluation(AddProjectEvaluationViewModel viewModel, Evaluation evaluation)
         {
+            var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
+            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var projectsThatAreNotSelectedAlready = allProjects.Where(x => !selectedProjectIDs.Contains(x.ProjectID)).ToList();
+            var projectIDsThatAreNotSelectedAlready = projectsThatAreNotSelectedAlready.Select(x => x.ProjectID).ToList();
+            var projectSimples = projectsThatAreNotSelectedAlready.Select(x => new ProjectSimple(x)).ToList();
 
-            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any()).ToList();
+            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
             var taxonomyLeafSimples = taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
             var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
@@ -328,10 +333,6 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyTrunk = taxonomyBranches.Select(x => x.TaxonomyTrunk).Distinct();
             var taxonomyTrunkSimples = taxonomyTrunk.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
-
-            var selectedProjectIDs = viewModel.ProjectIDs ?? new List<int>();
-            var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var projectSimples = allProjects.Where(x => !selectedProjectIDs.Contains(x.ProjectID)).Select(x => new ProjectSimple(x)).ToList();
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 
