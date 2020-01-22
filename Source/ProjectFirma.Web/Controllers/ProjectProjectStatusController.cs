@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         public static bool AllowUserToSetNewStatusReportToFinal(Project project, FirmaSession currentFirmaSession)
         {
             var allowEditFinal = false;
-            var userHasPermissionToEditTimeline = new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            var userHasPermissionToEditTimeline = new ProjectTimelineFeature().HasPermission(currentFirmaSession, project).HasPermission;
             if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
             {
                 var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);

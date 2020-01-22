@@ -131,6 +131,7 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasStartUpdateWorkflowPermission = new ProjectStartUpdateWorkflowFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -283,7 +284,8 @@ namespace ProjectFirma.Web.Controllers
                 editExpectedFundingUrl,
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
-                projectEvaluationsUserHasAccessTo);
+                projectEvaluationsUserHasAccessTo,
+                userHasStartUpdateWorkflowPermission);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
