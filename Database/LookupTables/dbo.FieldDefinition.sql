@@ -159,4 +159,5 @@ VALUES
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
 (336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(338, N'EnableProjectEvaluations', 'Enable Project Evaluations')

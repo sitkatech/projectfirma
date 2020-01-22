@@ -106,10 +106,10 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
 
             // project locations - detailed
-            ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectLocationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // project geospatialArea
-            ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // photos
             ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -226,9 +226,9 @@ namespace ProjectFirma.Web.Models
         {
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
-                {
-                    projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-                }
+            {
+                projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
         public static void DeleteProjectNoFundingSourceIdentifiedUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -568,52 +568,83 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
-        public static void Approve(
-            this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectRelevantCostType> projectRelevantCostTypes,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectGeospatialArea> projectGeospatialAreas, 
-            IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
-            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
-            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
-            IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectAttachment> allProjectAttachments,
-            IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
-            IList<ProjectContact> allProjectContacts
-            )
+        public static void Approve(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate, DatabaseEntities databaseEntities)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears, projectRelevantCostTypes,
-                projectFundingSourceExpenditures,
-                performanceMeasureActuals,
-                performanceMeasureActualSubcategoryOptions,
-                performanceMeasureExpecteds,
-                performanceMeasureExpectedSubcategoryOptions,
-                projectExternalLinks,
-                projectNotes,
-                projectImages,
-                projectLocations,
-                projectGeospatialAreas,
-                projectGeospatialAreaTypeNotes,
-                projectFundingSourceBudgets,
-                projectNoFundingSourceIdentifieds,
-                allProjectOrganizations,
-                allProjectAttachments,
-                allProjectCustomAttributes,
-                allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests,
-                allProjectContacts);
+            projectUpdateBatch.CommitChangesToProject(databaseEntities);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentFirmaSession, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
+        }
+
+        private static void CommitChangesToProject(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
+        {
+            // basics
+            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
+
+            // expenditures
+            ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // expected funding
+            ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // project exempt reporting years
+            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
+
+            // project relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // only relevant for stages past planning/design
+            if (!projectUpdateBatch.NewStageIsPlanningDesign())
+            {
+                // reported performance measures
+                PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+                // project exempt reporting years reason
+                projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
+            }
+
+            // expected performance measures
+            PerformanceMeasureExpectedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+
+            // project location simple
+            projectUpdateBatch.ProjectUpdate.CommitSimpleLocationToProject(projectUpdateBatch.Project);
+
+            // project location detailed
+            ProjectLocationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // project geospatialArea
+            ProjectGeospatialAreaUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            ProjectGeospatialAreaTypeNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // photos
+            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            projectUpdateBatch.IsPhotosUpdated = false;
+
+            // external links
+            ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // notes
+            ProjectNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Organizations
+            ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            //  Contacts
+            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Project Custom Attributes
+            ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Technical Assistance Requests - for Idaho
+            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
         }
 
         private static void PushTransitionRecordsToAuditLog(this ProjectUpdateBatch projectUpdateBatch)
@@ -628,97 +659,6 @@ namespace ProjectFirma.Web.Models
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update record",
                     projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = projectUpdateBatch.ProjectID};
             }
-        }
-
-        private static void CommitChangesToProject(
-            this ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectRelevantCostType> projectRelevantCostTypes,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectGeospatialArea> projectGeospatialAreas,
-            IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
-            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
-            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
-            IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectAttachment> allProjectAttachments,
-            IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
-            IList<ProjectContact> allProjectContacts)
-        {
-            // basics
-            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
-
-            // expenditures
-            ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceExpenditures);
-
-            // expected funding
-            ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
-
-            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNoFundingSourceIdentifieds);
-
-            // project exempt reporting years
-            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
-            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
-
-            // project relevant cost types
-            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
-
-            // only relevant for stages past planning/design
-            if (!projectUpdateBatch.NewStageIsPlanningDesign())
-            {
-                // reported performance measures
-                PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureActuals,
-                    performanceMeasureActualSubcategoryOptions);
-
-                // project exempt reporting years reason
-                projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
-            }
-
-            // expected performance measures
-            PerformanceMeasureExpectedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureExpecteds,
-                performanceMeasureExpectedSubcategoryOptions);
-
-
-            // project location simple
-            projectUpdateBatch.ProjectUpdate.CommitSimpleLocationToProject(projectUpdateBatch.Project);
-
-            // project location detailed
-            ProjectLocationUpdate.CommitChangesToProject(projectUpdateBatch, projectLocations);
-
-            // project geospatialArea
-            ProjectGeospatialAreaUpdate.CommitChangesToProject(projectUpdateBatch, projectGeospatialAreas);
-            ProjectGeospatialAreaTypeNoteUpdate.CommitChangesToProject(projectUpdateBatch, projectGeospatialAreaTypeNotes);
-
-            // photos
-            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectImages);
-            projectUpdateBatch.IsPhotosUpdated = false;
-
-            // external links
-            ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExternalLinks);
-
-            // notes
-            ProjectNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNotes);
-
-            // Organizations
-            ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectOrganizations);
-
-            //  Contacts
-            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
-
-            // Attachments
-            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectAttachments);
-
-            // Project Custom Attributes
-            ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
-
-            // Technical Assistance Requests - for Idaho
-            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 
         public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)

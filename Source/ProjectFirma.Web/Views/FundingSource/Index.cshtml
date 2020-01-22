@@ -32,7 +32,7 @@
 
 @section RightOfPageTitle
 {
-    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
+    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasFundingSourceCreatePermissions)
 }
 
 <div>

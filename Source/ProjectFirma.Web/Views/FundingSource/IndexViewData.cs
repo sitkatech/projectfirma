@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.FundingSource
         public IndexGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
-        public bool HasPerformanceMeasureManagePermissions { get; }
+        public bool HasFundingSourceCreatePermissions { get; }
         public string NewUrl { get; }
 
         public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeType) :
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             GridName = "fundingSourcesGrid";
             GridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-            HasPerformanceMeasureManagePermissions = new FundingSourceCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            HasFundingSourceCreatePermissions = new FundingSourceCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             NewUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(t => t.New());
         }
     }

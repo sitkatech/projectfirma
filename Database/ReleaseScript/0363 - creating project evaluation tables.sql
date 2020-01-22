@@ -142,14 +142,21 @@ VALUES
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
 (336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition');
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(338, N'EnableProjectEvaluations', 'Enable Project Evaluations');
 go
 
--- Add a seeded value for PSP to replace the word "Project" with "Near Term Action"
+-- Add a seeded values for PSP to replace the word "Project" with "Near Term Action"
 INSERT [dbo].[FieldDefinitionData] ([TenantID], [FieldDefinitionID], [FieldDefinitionLabel]) 
 VALUES 
 (11, 329, 'Near Term Action Evaluation')
 go
+
+INSERT [dbo].[FieldDefinitionData] ([TenantID], [FieldDefinitionID], [FieldDefinitionLabel]) 
+VALUES 
+(11, 338, 'Enable Near Term Action Evaluations')
+go
+
 
 INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefinition])
      VALUES
@@ -165,9 +172,9 @@ INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefiniti
 			(334, N'<p>Evaluation End Date</p>'),
 			(335, N'<p>Evaluation Visibility</p>'),
 			(336, N'<p>Evaluation Criterion Name</p>'),
-			(337, N'<p>Evaluation Criterion Definition</p>');
+			(337, N'<p>Evaluation Criterion Definition</p>'),
+            (338, N'<p>Enables the Project Evaluations feature.</p>');
 GO
-
 
 
 

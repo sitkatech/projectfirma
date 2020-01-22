@@ -29,6 +29,7 @@ using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels.Models;
+using ProjectFirmaModels.UnitTestCommon;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Models
@@ -101,28 +102,7 @@ namespace ProjectFirma.Web.Models
                 Assert.Catch<PreconditionException>(
                     () =>
                         projectUpdateBatch.Approve(firmaSession,
-                            DateTime.Now.AddDays(4),
-                            new List<ProjectExemptReportingYear>(),
-                            new List<ProjectRelevantCostType>(),
-                            new List<ProjectFundingSourceExpenditure>(),
-                            new List<PerformanceMeasureActual>(),
-                            new List<PerformanceMeasureActualSubcategoryOption>(),
-                            new List<PerformanceMeasureExpected>(),
-                            new List<PerformanceMeasureExpectedSubcategoryOption>(),
-                            new List<ProjectExternalLink>(),
-                            new List<ProjectNote>(),
-                            new List<ProjectImage>(),
-                            new List<ProjectLocation>(),
-                            new List<ProjectGeospatialArea>(),
-                            new List<ProjectGeospatialAreaTypeNote>(),
-                            new List<ProjectFundingSourceBudget>(),
-                            new List<ProjectNoFundingSourceIdentified>(), 
-                            new List<ProjectOrganization>(),
-                            new List<ProjectAttachment>(),
-                            new List<ProjectCustomAttribute>(),
-                            new List<ProjectCustomAttributeValue>(),
-                            new List<TechnicalAssistanceRequest>(),
-                            new List<ProjectContact>()),
+                            DateTime.Now.AddDays(4), HttpRequestStorageForTest.DatabaseEntities),
                     "Should not be allowed to approve yet");
             Assert.That(preconditionException.Message, Is.StringContaining($"You cannot approve a Project update that has not been submitted"));
 
@@ -135,28 +115,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdateBatch.InEditableState(), Is.False);
 
             projectUpdateBatch.Approve(firmaSession,
-                DateTime.Now.AddDays(4),
-                new List<ProjectExemptReportingYear>(),
-                new List<ProjectRelevantCostType>(),
-                new List<ProjectFundingSourceExpenditure>(),
-                new List<PerformanceMeasureActual>(),
-                new List<PerformanceMeasureActualSubcategoryOption>(),
-                new List<PerformanceMeasureExpected>(),
-                new List<PerformanceMeasureExpectedSubcategoryOption>(),
-                new List<ProjectExternalLink>(),
-                new List<ProjectNote>(),
-                new List<ProjectImage>(),
-                new List<ProjectLocation>(),
-                new List<ProjectGeospatialArea>(),
-                new List<ProjectGeospatialAreaTypeNote>(),
-                new List<ProjectFundingSourceBudget>(),
-                new List<ProjectNoFundingSourceIdentified>(),
-                new List<ProjectOrganization>(),
-                new List<ProjectAttachment>(),
-                new List<ProjectCustomAttribute>(),
-                new List<ProjectCustomAttributeValue>(),
-                new List<TechnicalAssistanceRequest>(),
-                new List<ProjectContact>());
+                DateTime.Now.AddDays(4), HttpRequestStorageForTest.DatabaseEntities);
             Assert.That(projectUpdateBatch.IsApproved(), Is.True);
             Assert.That(projectUpdateBatch.IsReadyToSubmit(), Is.False);
             Assert.That(projectUpdateBatch.IsSubmitted(), Is.False);
