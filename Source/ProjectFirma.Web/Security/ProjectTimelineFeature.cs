@@ -17,16 +17,13 @@ namespace ProjectFirma.Web.Security
         
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            // if the person is a project steward but can't steward this project, deny them permissions to see it
-            if (firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !firmaSession.Person.CanStewardProject(contextModelObject))
-            {
-                return new PermissionCheckResult("Does not have privilege to access this Project History Timeline");
-            }
+            var timelinePermissionCheckResult = new ProjectStartUpdateWorkflowFeature().HasPermission(firmaSession, contextModelObject);
 
-            if (HasPermissionByFirmaSession(firmaSession))
+            if (timelinePermissionCheckResult.HasPermission)
             {
                 return new PermissionCheckResult();
             }
+            
             return new PermissionCheckResult("Does not have privilege to access the Project History Timeline");
         }
 
