@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ProjectTimelineFeature() : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectSteward})
+        public ProjectTimelineFeature() : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureForProject(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -38,7 +38,6 @@ namespace ProjectFirma.Web.Security
                 return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
             }
 
-            //return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
         }
 
         public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)

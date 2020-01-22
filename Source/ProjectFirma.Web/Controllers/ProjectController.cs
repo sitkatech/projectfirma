@@ -213,7 +213,7 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeGroups);
 
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions, userHasProjectAdminPermissions);
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
