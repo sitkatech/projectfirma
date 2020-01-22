@@ -17,14 +17,28 @@ namespace ProjectFirma.Web.Security
         
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            var timelinePermissionCheckResult = new ProjectStartUpdateWorkflowFeature().HasPermission(firmaSession, contextModelObject);
-
-            if (timelinePermissionCheckResult.HasPermission)
+            if (contextModelObject.IsRejected() || contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
-                return new PermissionCheckResult();
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject);
             }
-            
-            return new PermissionCheckResult("Does not have privilege to access the Project History Timeline");
+            else
+            {
+                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
+                if (!hasPermissionByPerson)
+                {
+                    return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
+                }
+                
+                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
+                if (projectIsEditableByUser)
+                {
+                    return new PermissionCheckResult();
+                }
+
+                return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
+            }
+
+            //return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
         }
 
         public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
