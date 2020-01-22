@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using ProjectFirmaModels.Models;
 
@@ -78,12 +79,26 @@ namespace ProjectFirmaModels
 
         public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, UpdateFunction<T> updateFunction, DatabaseEntities dbContext) where T : ICanDeleteFull
         {
-            existingList.MergeNew(updatedList, matchCriteria, new ObservableCollection<T>());
+            existingList.MergeNew(updatedList, matchCriteria, dbContext.Set(typeof(T)));
             if (updateFunction != null)
             {
                 existingList.MergeUpdate(updatedList, matchCriteria, updateFunction);
             }
             existingList.MergeDelete(updatedList, matchCriteria, dbContext);
+        }
+
+        private static void MergeNew<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, DbSet allInDatabase) where T : ICanDeleteFull
+        {
+            // Inserting new records
+            foreach (var currentRecordFromForm in updatedList)
+            {
+                var existingRecord = existingList.MatchRecord(currentRecordFromForm, matchCriteria);
+                if (Equals(existingRecord, default(T)))
+                {
+                    existingList.Add(currentRecordFromForm);
+                    allInDatabase.Add(currentRecordFromForm);
+                }
+            }
         }
 
         private static void MergeDelete<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull
