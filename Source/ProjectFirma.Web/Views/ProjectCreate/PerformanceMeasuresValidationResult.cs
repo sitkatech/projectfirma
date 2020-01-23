@@ -39,8 +39,16 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
 
-        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings, HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
+        public PerformanceMeasuresValidationResult(
+            int performanceMeasureID,
+            string performanceMeasureName,
+            HashSet<int> missingYears,
+            HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings,
+            HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings,
+            HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
         {
+            string performanceMeasurePrefixString = string.Format($"{performanceMeasureName} (PM ID # {performanceMeasureID})");
+
             var ints = new HashSet<int>();
             ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
             ints.UnionWith(performanceMeasureActualUpdatesWithDuplicateWarnings);
@@ -50,23 +58,29 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add(
-                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
+                _warningMessages.Add($"{performanceMeasurePrefixString} missing {MultiTenantHelpers.GetPerformanceMeasureName()} data for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
             }
             if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
             {
-                _warningMessages.Add(FoundIncompletePerformanceMeasureRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundIncompletePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithDuplicateWarnings.Any())
             {
-                _warningMessages.Add(FoundDuplicatePerformanceMeasureRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundDuplicatePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithExemptYear.Any())
             {
-                _warningMessages.Add(FoundReportedPerformanceMeasureForExemptYearRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundReportedPerformanceMeasureForExemptYearRowsMessage}");
             }
-
         }
+
+        public void Combine(PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
+        {
+            // Combine the other result with this one
+            _warningMessages.AddRange(performanceMeasuresValidationResult._warningMessages);
+            PerformanceMeasureActualUpdatesWithWarnings.UnionWith(performanceMeasuresValidationResult.PerformanceMeasureActualUpdatesWithWarnings);
+        }
+
 
         public PerformanceMeasuresValidationResult(string customErrorMessage)
         {
