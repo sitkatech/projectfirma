@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Models
             {
                 editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
                     projectProjectStatus.GetEditProjectProjectStatusUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
+                    , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
             }
             return editIconAsModalDialogLinkBootstrap;
         }
@@ -125,7 +125,7 @@ namespace ProjectFirma.Web.Models
                 null,
                 "Show Details",
                 projectProjectStatus.GetProjectProjectStatusDetailsUrl()
-                , $"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} Details"
+                , $"{FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details"
                 , 900
                 ,"Close"
                 , new List<string>());

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditNoteViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectProjectStatusViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,7 +27,6 @@ using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirmaModels.Models;
@@ -60,13 +58,17 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             , ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData
             , bool isFinalStatusReport) : base(currentFirmaSession)
         {
-            ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder).ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.ProjectStatusDisplayName);
+            ProjectStatuses = allProjectStatuses.OrderBy(x => x.ProjectStatusSortOrder)
+                                                .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), 
+                                                                                x => !string.IsNullOrEmpty(x.ProjectStatusDescription) 
+                                                                                         ? $"{x.ProjectStatusDisplayName} - {x.ProjectStatusDescription}" 
+                                                                                         : $"{x.ProjectStatusDisplayName}");
             ProjectStatusJsonList = new ProjectStatusJsonList(allProjectStatuses.Select(x => new ProjectStatusJson(x)).ToList());
             AllowEditUpdateDate = allowEditUpdateDate;
             CreatedByPerson = !string.IsNullOrEmpty(createdByPerson)
                 ? createdByPerson
                 : currentFirmaSession.UserDisplayName;
-            DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} Update", true);
+            DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()} Update", true);
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
             ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
             AllowEditFinal = isFinalStatusReport || ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, currentFirmaSession);
