@@ -48,9 +48,17 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
 
     $scope.addFromTaxonomy = function () {
         var selectedLeafID = this.SelectedTaxonomyLeaf.TaxonomyTierID;
-        var newProjects = _.filter($scope.selectableProjects, function (p) { return p.TaxonomyLeafID == selectedLeafID; });
+        var newProjects = _.filter($scope.selectableProjects, function (p) {
+            var correctTaxonomyLeaf = p.TaxonomyLeafID == selectedLeafID;
+            var correctProjectStage = $scope.SelectedProjectStage ? p.ProjectStageID == $scope.SelectedProjectStage.ProjectStageID : false;
+            var noSelectedProjectStage = !$scope.SelectedProjectStage;
+            return correctTaxonomyLeaf && (correctProjectStage || noSelectedProjectStage );
+        });
         $scope.AngularModel.SelectedProjects = $scope.AngularModel.SelectedProjects.concat(newProjects);
+
+        $scope.SelectedProjectStage = null;
         $scope.refreshSelectableProjects();
+        $scope.refreshSelectableProjectStages();
     };
 
     $scope.getSelectableProjects = function () {
@@ -141,6 +149,8 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
         });
 
         $scope.selectableTaxonomyBranches = sortedBranches;
+        // also want to clear the selectable taxonomy leafs and deselect the taxonomy leafs
+        $scope.clearTaxonomyLeaves();
         setTimeout(function () {
             jQuery(".selectpicker").selectpicker("refresh");
         }, 50);
@@ -165,17 +175,45 @@ angular.module("ProjectFirmaApp").controller("AddProjectEvaluationController", f
         });
 
         $scope.selectableTaxonomyLeaves = sortedLeaves;
+        // also want to clear the selected taxonomy leaf
+        $scope.clearSelectedTaxonomyLeaf();
         setTimeout(function () {
             jQuery(".selectpicker").selectpicker("refresh");
         }, 50);
     }
 
+    $scope.refreshSelectableProjectStages = function () {
+        var selectedLeafID = this.SelectedTaxonomyLeaf.TaxonomyTierID;
+        var projectsAbleToSelect = _.filter($scope.selectableProjects, function (p) { return p.TaxonomyLeafID == selectedLeafID; });
+
+        var projectStageIDs = _.uniq(projectsAbleToSelect.map(p => p.ProjectStageID));
+        $scope.selectableProjectStages = _.filter($scope.AngularViewData.ProjectStageSimples,
+            function (projectStage) {
+                
+                return projectStageIDs.includes(projectStage.ProjectStageID);
+            });
+        setTimeout(function () {
+            jQuery(".selectpicker").selectpicker("refresh");
+        }, 50);
+    }
+
+    $scope.clearTaxonomyLeaves = function() {
+        $scope.selectableTaxonomyLeaves = [];
+        $scope.clearSelectedTaxonomyLeaf();
+    }
+
+    $scope.clearSelectedTaxonomyLeaf = function () {
+        this.SelectedTaxonomyLeaf = null;
+    }
+
+    $scope.SelectedProjectStage = null;
     $scope.SelectedProjectID = "";
     $scope.SelectedProject = null;
     $scope.AngularModel.SelectedProjects = [];
     $scope.refreshSelectableProjects();
     $scope.selectableTaxonomyBranches = [];
     $scope.selectableTaxonomyLeaves = [];
+    $scope.selectableProjectStages = [];
 
     $scope.updateSelectedProjectsCount();
 

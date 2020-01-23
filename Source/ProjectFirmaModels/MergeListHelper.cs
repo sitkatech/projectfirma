@@ -31,6 +31,7 @@ namespace ProjectFirmaModels
         public delegate bool Match<in T>(T o1, T o2);
         public delegate void UpdateFunction<in T>(T o1, T o2);
 
+        #region TODO: Make all callers of these use the signature without allInDatabase; at the end we should kill these three functions
         public static void MergeNew<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, ICollection<T> allInDatabase)
         {
             // Inserting new records
@@ -41,18 +42,6 @@ namespace ProjectFirmaModels
                 {
                     existingList.Add(currentRecordFromForm);
                     allInDatabase.Add(currentRecordFromForm);
-                }
-            }
-        }
-
-        public static void MergeUpdate<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, UpdateFunction<T> updateFunction)
-        {
-            foreach (var currentRecordFromForm in updatedList)
-            {
-                var existingRecord = existingList.MatchRecord(currentRecordFromForm, matchCriteria);
-                if (!Equals(existingRecord, default(T)))
-                {
-                    updateFunction(existingRecord, currentRecordFromForm);
                 }
             }
         }
@@ -71,6 +60,7 @@ namespace ProjectFirmaModels
             }
             existingList.MergeDelete(updatedList, matchCriteria, dbContext);
         }
+        #endregion
 
         public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull
         {
@@ -97,6 +87,18 @@ namespace ProjectFirmaModels
                 {
                     existingList.Add(currentRecordFromForm);
                     allInDatabase.Add(currentRecordFromForm);
+                }
+            }
+        }
+
+        public static void MergeUpdate<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, UpdateFunction<T> updateFunction)
+        {
+            foreach (var currentRecordFromForm in updatedList)
+            {
+                var existingRecord = existingList.MatchRecord(currentRecordFromForm, matchCriteria);
+                if (!Equals(existingRecord, default(T)))
+                {
+                    updateFunction(existingRecord, currentRecordFromForm);
                 }
             }
         }

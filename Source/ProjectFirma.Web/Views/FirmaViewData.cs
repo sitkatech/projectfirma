@@ -256,7 +256,7 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
             {
-                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
             }
 
             if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)

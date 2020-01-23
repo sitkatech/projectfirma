@@ -16,7 +16,7 @@
     @if (ViewDataTyped.HasManagePermissions)
     {
        
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectStatusUrl, string.Format("Create New {0}", FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()), new List<string> { "btn btn-firma headerButtonText projectStatusButton" }, true)
+        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} {1}", BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus"), FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()), @ViewDataTyped.NewProjectStatusUrl, string.Format("Create New {0}", FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()), new List<string> { "btn btn-firma headerButtonText projectStatusButton" }, true)
         <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, true)</div>
         
     }

@@ -190,7 +190,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectEvaluations.ToType())
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectEvaluations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableProjectEvaluations.ToType().GetFieldDefinitionLabelPluralized()?
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.EnableEvaluations.ToYesNo()
@@ -214,7 +215,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        Use Project Timeline
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.UseProjectTimeline.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.UseProjectTimeline.ToType().GetFieldDefinitionLabelPluralized()?
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.UseProjectTimeline.ToYesNo()
