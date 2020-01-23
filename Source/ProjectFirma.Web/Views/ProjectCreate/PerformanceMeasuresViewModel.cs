@@ -70,6 +70,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             if (PerformanceMeasureActuals != null)
             {
+                // Renumber negative indexes for PerformanceMeasureActuals
+                RenumberPerformanceMeasureActuals(PerformanceMeasureActuals);
+
                 var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
@@ -137,6 +140,26 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 allProjectExemptYears,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
+        }
+
+        /// <summary>
+        /// For whatever reason - I haven't checked yet - we get batches of duplicate negative indexes,
+        /// which gives the merge function heartburn. So, here we re-number all the negative indexes (new records)
+        /// to eliminate dupes. -- SLG 1/23/2020
+        /// </summary>
+        /// <param name="performanceMeasureActuals"></param>
+        /// <returns></returns>
+        private void RenumberPerformanceMeasureActuals(List<PerformanceMeasureActualSimple> performanceMeasureActuals)
+        {
+            int currentNegativeIndex = -1;
+            foreach (var pmas in performanceMeasureActuals)
+            {
+                if (pmas.PerformanceMeasureActualID < 0)
+                {
+                    pmas.PerformanceMeasureActualID = currentNegativeIndex;
+                    currentNegativeIndex--;
+                }
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
