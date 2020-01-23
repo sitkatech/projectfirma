@@ -336,7 +336,9 @@ namespace ProjectFirma.Web.Controllers
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
 
-            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunkSimples, taxonomyBranchSimples, taxonomyLeafSimples, projectSimples, taxonomyLevel);
+            var projectStages = ProjectStage.All.Select(x => new ProjectStageSimple(x)).ToList();
+
+            var angularViewData = new AddProjectEvaluationViewDataForAngular(taxonomyTrunkSimples, taxonomyBranchSimples, taxonomyLeafSimples, projectSimples, taxonomyLevel, projectStages);
 
             var firmaPage = FirmaPageTypeEnum.AddProjectToEvaluationPortfolioInstructions.GetFirmaPage();
             var viewData = new AddProjectEvaluationViewData(CurrentFirmaSession, angularViewData, evaluation, firmaPage);
