@@ -32,7 +32,8 @@
     private static string GetSingleProjectCustomAttributeValue(IProjectCustomAttribute projectCustomAttribute)
     {
         var projectCustomAttributeValues = projectCustomAttribute.GetCustomAttributeValues().ToList();
-        return projectCustomAttributeValues.Single().AttributeValue;
+        var projectCustomAttributeValue = projectCustomAttributeValues.SingleOrDefault();
+        return projectCustomAttributeValue != null ? projectCustomAttributeValue.AttributeValue : null;
     }
 }
 

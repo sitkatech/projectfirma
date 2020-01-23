@@ -60,7 +60,7 @@
         </div>
         <hr />
         <div class="form-group">
-            <div class="col-xs-12 control-label"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12 control-label" style="margin-bottom: 20px;"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12" style="margin-bottom: 20px;">
                 <label class="small col-xs-2">
                     Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()
@@ -79,6 +79,7 @@
                     <button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()" ng-disabled="!SelectedTaxonomyLeaf"><span class="glyphicon glyphicon-plus"></span>Add</button>
                 </div>
             </div>
+            <div class="col-xs-12" style="margin-bottom: 20px;"><strong>--OR--</strong></div>
             <div class="col-xs-12">
                 <label class="small col-xs-2">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
                 <div class="col-xs-10">
@@ -109,6 +110,7 @@
                     </span>
                     <span ng-bind="selectedProject.DisplayName"></span>
                 </div>
+                
             </div>
         </div>
 
@@ -117,7 +119,7 @@
 
         @using (Html.BeginForm())
         {
-            <input type="hidden" name="@Html.NameFor(x => x.EvaluationID)" value="{{AngularModel.EvaluationID}}" />
+            @Html.HiddenFor(x => x.EvaluationID)
             <div ng-repeat="project in AngularModel.SelectedProjects">
                 <input type="hidden" name="@Html.NameFor(x => x.ProjectIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{project.ProjectID}}" />
             </div>

@@ -41,12 +41,11 @@ WHERE FieldDefinitionID = 324;
 
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
-(338, N'UseProjectTimeline', 'Use Project Timeline'),
-(339, N'EnableEvaluations', 'Enable Evaluations')
-
+--(338, N'EnableProjectEvaluations', 'Enable Project Evaluations'),
+(339, N'UseProjectTimeline', 'Use Project Timeline')
 --adding default definitions for new field definitions
  insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
- values(338, N'Use Project Timeline')
+ values(339, N'Use Project Timeline')
 
- insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
- values(339, N'Enable Evaluations')
+ --insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
+ --values(338, N'Enable Project Evaluations')

@@ -225,21 +225,34 @@ namespace ProjectFirma.Web
             // handle the organization
             if (keystoneUserClaims.OrganizationGuid.HasValue)
             {
-                // first look by guid, then by name; if not available, create it on the fly since it is a person org
-                var organization =
-                    (HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(
-                         keystoneUserClaims.OrganizationGuid.Value) ??
-                     HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(
-                         keystoneUserClaims.OrganizationName));
+                // We are having erratic errors here where we appear not to be able to look up Organizations in the database that definitely should be there. I'm 
+                // adding some additional debugging to track down the exact nature of the failure here, which I can't directly replicate. Sorry
+                // for the noise here. -- SLG 1/21/2020
 
+                // first look by guid, then by name; 
+                var organizationByGuid = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationGuid(keystoneUserClaims.OrganizationGuid.Value);
+                SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - organizationByGuid '{keystoneUserClaims.OrganizationGuid}' found: {organizationByGuid != null}");
+
+                var organizationByName = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(keystoneUserClaims.OrganizationName);
+                SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - organizationByName '{keystoneUserClaims.OrganizationName}' found: {organizationByName != null}");
+
+                var organization = organizationByGuid ?? organizationByName;
+
+                // If Organization not available, create it on the fly since it is a person org
                 if (organization == null)
                 {
                     SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - Could not find Organization with keystoneUserClaims.OrganizationGuid '{keystoneUserClaims.OrganizationGuid}' or keystoneUserClaims.OrganizationName '{keystoneUserClaims.OrganizationName}'. Will attempt to create new Organization.");
+                    // Do we have any Organizations at all?? (Have we somehow trashed HttpRequestStorage.DatabaseEntities.Organizations?)
+                    SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" HttpRequestStorage.DatabaseEntities.Organizations count: {HttpRequestStorage.DatabaseEntities.Organizations.Count()}");
 
                     var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     organization = new Organization(keystoneUserClaims.OrganizationName, true, defaultOrganizationType);
                     HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
                     sendNewOrganizationNotification = true;
+                }
+                else
+                {
+                    SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - Successfully found existing Organization with keystoneUserClaims.OrganizationGuid '{keystoneUserClaims.OrganizationGuid}' or keystoneUserClaims.OrganizationName '{keystoneUserClaims.OrganizationName}'.");
                 }
 
                 organization.OrganizationName = keystoneUserClaims.OrganizationName;

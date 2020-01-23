@@ -160,5 +160,5 @@ VALUES
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
 (336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
 (337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
-(338, N'UseProjectTimeline', 'Use Project Timeline'),
-(339, N'EnableEvaluations', 'Enable Evaluations')
+(338, N'EnableProjectEvaluations', 'Enable Project Evaluations'),
+(339, N'UseProjectTimeline', 'Use Project Timeline')
