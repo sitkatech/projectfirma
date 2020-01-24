@@ -176,12 +176,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
-            var pmValidationResult = ValidatePerformanceMeasures();
-            if (pmValidationResult != null)
-            {
-                errors.AddRange(pmValidationResult.GetWarningMessages().Select(m => new ValidationResult(m)));
-            }
-            
+            var pmValidationResults = ValidatePerformanceMeasures();
+            var allWarningMessages = pmValidationResults.SelectMany(pmvr => pmvr.GetWarningMessages());
+            errors.AddRange(allWarningMessages.Select(m => new ValidationResult(m)));
+
             return errors;
         }
 
@@ -189,7 +187,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         /// Validate Performance Measures by groups
         /// </summary>
         /// <returns>Null if there's nothing to validate, otherwise, a PerformanceMeasuresValidationResult</returns>
-        public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
+        public List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures()
         {
             List<PerformanceMeasuresValidationResult> results = new List<PerformanceMeasuresValidationResult>();
 
@@ -238,19 +236,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 results.Add(performanceMeasuresValidationResult);
             }
 
-            if (!results.Any())
-            {
-                return null;
-            }
-
-            // Combine all our results into one single result, if we have more than one
-            PerformanceMeasuresValidationResult resultToReturn = results.First();
-            foreach (var currentResult in results.Skip(1))
-            {
-                resultToReturn.Combine(currentResult);
-            }
-
-            return resultToReturn;
+            return results;
         }
 
 
