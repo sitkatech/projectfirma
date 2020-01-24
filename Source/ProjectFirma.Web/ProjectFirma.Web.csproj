@@ -160,6 +160,9 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectLocationUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStartUpdateWorkflowFeature.cs" />
     <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />

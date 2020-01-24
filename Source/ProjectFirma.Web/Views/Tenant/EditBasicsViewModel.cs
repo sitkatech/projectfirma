@@ -114,10 +114,10 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Google Analytics Tracking Code")]
         public string GoogleAnalyticsTrackingCode { get; set; }
 
-        [DisplayName("Use Project Timeline")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.UseProjectTimeline)]
         public bool UseProjectTimeline { get; set; }
 
-        [DisplayName("Enable Project Evaluations")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectEvaluations)]
         public bool EnableProjectEvaluations { get; set; }
 
         [DisplayName("GeoServer Namespace")]

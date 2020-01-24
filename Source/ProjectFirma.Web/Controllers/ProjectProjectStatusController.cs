@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectProjectStatusController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
@@ -54,8 +54,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var allowEditFinal = false;
             var userHasPermissionToEditTimeline = new ProjectTimelineFeature().HasPermission(currentFirmaSession, project).HasPermission;
-            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() ||
-                project.ProjectStage == ProjectStage.Completed)
+            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
             {
                 var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
 
@@ -72,7 +71,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
@@ -86,7 +85,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
@@ -97,7 +96,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
@@ -109,8 +108,7 @@ namespace ProjectFirma.Web.Controllers
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
 
-        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey,
-            EditProjectProjectStatusViewModel viewModel)
+        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectStatusFromViewModel = new ProjectStatusPrimaryKey(viewModel.ProjectStatusID).EntityObject;
@@ -123,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
@@ -133,7 +131,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
@@ -159,7 +157,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult DeleteProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
@@ -171,14 +169,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectProjectStatus.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()}");
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

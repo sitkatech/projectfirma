@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -29,10 +30,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public class AddProjectEvaluationViewModel : FormViewModel
+    public class AddProjectEvaluationViewModel : FormViewModel, IValidatableObject
     {
         [Required]
         public int EvaluationID { get; set; }
+
+        [Required(ErrorMessage = "You must select at least one item to save.")]
         public List<int> ProjectIDs { get; set; }
 
         /// <summary>
@@ -45,6 +48,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         public AddProjectEvaluationViewModel(ProjectFirmaModels.Models.Evaluation evaluation)
         {
             EvaluationID = evaluation.EvaluationID;
+            ProjectIDs = evaluation.ProjectEvaluations.Select(x => x.ProjectID).ToList();
         }
 
         public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Evaluation evaluation)
@@ -68,6 +72,18 @@ namespace ProjectFirma.Web.Views.Evaluation
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentFirmaSession);
         }
-        
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var currentProjectEvaluations = HttpRequestStorage.DatabaseEntities.ProjectEvaluations.Where(x => x.EvaluationID == EvaluationID).ToList();
+
+            // cannot have a project in an evaluation more than once
+            var projectsAlreadyInEvaluation = currentProjectEvaluations.Where(x => ProjectIDs.Contains(x.ProjectID)).ToList();
+            if (projectsAlreadyInEvaluation.Any())
+            {
+                var projectStringsAlreadyInEvaluation = projectsAlreadyInEvaluation.Select(x => $"\"{x.Project.ProjectName}\"").ToList();
+                yield return new SitkaValidationResult<AddProjectEvaluationViewModel, List<int>>($"The following {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} are already in this evaluation: {string.Join(", ", projectStringsAlreadyInEvaluation)}. {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} must be unique in an evaluation.",m => m.ProjectIDs);
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
             var technicalAssistanceRequests = new List<ProjectFirmaModels.Models.TechnicalAssistanceRequest>();
             if (project.TechnicalAssistanceRequests != null)
             {
-                technicalAssistanceRequests.AddRange(project.TechnicalAssistanceRequests.OrderByDescending(x => x.FiscalYear).Select(x => x).ToList());
+                technicalAssistanceRequests.AddRange(project.TechnicalAssistanceRequests.OrderByDescending(x => x.FiscalYear).ThenBy(x => x.TechnicalAssistanceType.TechnicalAssistanceTypeDisplayName).Select(x => x).ToList());
             }
             TechnicalAssistanceRequests = technicalAssistanceRequests;
             CanViewNotes = canViewNotes;

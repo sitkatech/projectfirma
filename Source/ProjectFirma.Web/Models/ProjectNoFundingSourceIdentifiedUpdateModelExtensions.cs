@@ -1,8 +1,6 @@
 ﻿using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ProjectFirma.Web.Models
@@ -16,8 +14,7 @@ namespace ProjectFirma.Web.Models
                 new ProjectNoFundingSourceIdentifiedUpdate(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), projectUpdateBatch.ProjectUpdateBatchID, x.CalendarYear.Value, x.NoFundingSourceIdentifiedYet)).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<ProjectNoFundingSourceIdentified> allProjectNoFundingSourceIdentifieds)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
 
@@ -25,12 +22,11 @@ namespace ProjectFirma.Web.Models
                 .ProjectNoFundingSourceIdentifiedUpdates
                 .Select(x => new ProjectNoFundingSourceIdentified(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), project.ProjectID, x.CalendarYear, x.NoFundingSourceIdentifiedYet)).ToList();
             project.ProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceIdentifiedsFromProjectUpdate,
-                allProjectNoFundingSourceIdentifieds,
                 (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear,
                 (x, y) =>
                 {
                     x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
-                }, HttpRequestStorage.DatabaseEntities);
+                }, databaseEntities);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+﻿using System.Linq;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectCustomAttributeUpdateModelExtensions
     {
@@ -22,9 +21,7 @@ namespace ProjectFirmaModels.Models
                 .ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectCustomAttributesFromProjectUpdate = projectUpdateBatch.ProjectCustomAttributeUpdates
@@ -47,13 +44,11 @@ namespace ProjectFirmaModels.Models
                 .ToList();
             var existingProjectCustomAttributes = project.ProjectCustomAttributes.ToList();
             existingProjectCustomAttributes.Merge(projectCustomAttributesFromProjectUpdate,
-                allProjectCustomAttributes,
-                (a, b) => a.ProjectID == b.ProjectID && a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, HttpRequestStorage.DatabaseEntities);
+                (a, b) => a.ProjectID == b.ProjectID && a.ProjectCustomAttributeTypeID == b.ProjectCustomAttributeTypeID, databaseEntities);
             existingProjectCustomAttributes.SelectMany(x => x.ProjectCustomAttributeValues)
                 .ToList()
                 .Merge(projectCustomAttributeValuesFromProjectUpdate,
-                    allProjectCustomAttributeValues,
-                    (x, y) => x.ProjectCustomAttributeValueID == y.ProjectCustomAttributeValueID, HttpRequestStorage.DatabaseEntities);
+                    (x, y) => x.ProjectCustomAttributeValueID == y.ProjectCustomAttributeValueID, databaseEntities);
         }
     }
 }

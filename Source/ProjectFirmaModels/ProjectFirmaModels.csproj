@@ -737,6 +737,7 @@
     <Compile Include="Models\ProjectRelevantCostType.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
+    <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

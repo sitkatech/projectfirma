@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
+﻿using System.Linq;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -32,14 +30,13 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectRelevantCostType> projectRelevantCostTypes)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectRelevantCostTypesFromProjectUpdate =
                 projectUpdateBatch.ProjectRelevantCostTypeUpdates.Select(x => new ProjectRelevantCostType(project.ProjectID, x.CostTypeID, x.ProjectRelevantCostTypeGroupID)).ToList();
             project.ProjectRelevantCostTypes.Merge(projectRelevantCostTypesFromProjectUpdate,
-                projectRelevantCostTypes,
-                (x, y) => x.ProjectID == y.ProjectID && x.CostTypeID == y.CostTypeID && x.ProjectRelevantCostTypeGroupID == y.ProjectRelevantCostTypeGroupID, HttpRequestStorage.DatabaseEntities);
+                (x, y) => x.ProjectID == y.ProjectID && x.CostTypeID == y.CostTypeID && x.ProjectRelevantCostTypeGroupID == y.ProjectRelevantCostTypeGroupID, databaseEntities);
         }
     }
 }

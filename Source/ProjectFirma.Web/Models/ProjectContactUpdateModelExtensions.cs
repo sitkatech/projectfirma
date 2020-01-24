@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectContactUpdateModelExtensions
     {
@@ -16,14 +16,15 @@ namespace ProjectFirmaModels.Models
                 ).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectContact> allProjectContacts)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectContactsFromProjectUpdate =
                 projectUpdateBatch.ProjectContactUpdates.Select(
                     x => new ProjectContact(project.ProjectID, x.ContactID, x.ContactRelationshipTypeID)).ToList();
-            project.ProjectContacts.Merge(projectContactsFromProjectUpdate, allProjectContacts,
-                (x, y) => x.ContactID == y.ContactID && x.ContactRelationshipTypeID == y.ContactRelationshipTypeID, HttpRequestStorage.DatabaseEntities);
+            project.ProjectContacts.Merge(projectContactsFromProjectUpdate,
+                (x, y) => x.ContactID == y.ContactID && x.ContactRelationshipTypeID == y.ContactRelationshipTypeID,
+                databaseEntities);
         }
     }
 }

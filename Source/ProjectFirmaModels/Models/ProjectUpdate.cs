@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;

@@ -96,17 +96,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureActualUpdate;
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<PerformanceMeasureActual> allPerformanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var currentPerformanceMeasureActuals = project.PerformanceMeasureActuals.ToList();
-            currentPerformanceMeasureActuals.ForEach(pmav =>
-            {
-                pmav.PerformanceMeasureActualSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureActualSubcategoryOptions.Remove(pmavso));
-                allPerformanceMeasureActuals.Remove(pmav);
-            });
+            currentPerformanceMeasureActuals.ForEach(pmav => pmav.DeleteFull(databaseEntities));
             currentPerformanceMeasureActuals.Clear();
 
             if (projectUpdateBatch.AreAccomplishmentsRelevant() && projectUpdateBatch.PerformanceMeasureActualUpdates.Any())
@@ -115,13 +109,13 @@ namespace ProjectFirma.Web.Models
                 projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().ForEach(x =>
                 {
                     var performanceMeasureActual = new PerformanceMeasureActual(project, x.PerformanceMeasure, x.ActualValue ?? 0, x.PerformanceMeasureReportingPeriod);
-                    allPerformanceMeasureActuals.Add(performanceMeasureActual);
+                    databaseEntities.AllPerformanceMeasureActuals.Add(performanceMeasureActual);
                     var performanceMeasureActualSubcategoryOptionUpdates = x.PerformanceMeasureActualSubcategoryOptionUpdates.ToList();
                     if (performanceMeasureActualSubcategoryOptionUpdates.Any())
                     {
                         performanceMeasureActualSubcategoryOptionUpdates.ForEach(
                             y =>
-                                allPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual,
+                                databaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(performanceMeasureActual,
                                     y.PerformanceMeasureSubcategoryOption,
                                     y.PerformanceMeasure,
                                     y.PerformanceMeasureSubcategory)));

@@ -65,14 +65,13 @@ namespace ProjectFirma.Web.Models
             }).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectImage> allProjectImages)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectImageUpdatesToCommit = new List<ProjectImage>();
 
             if (projectUpdateBatch.ProjectImageUpdates.Any())
             {
-                // Completely rebuild the list
                 projectImageUpdatesToCommit = projectUpdateBatch.ProjectImageUpdates.Select(x =>
                 {
                     var currentFileResource = x.FileResource;
@@ -88,7 +87,6 @@ namespace ProjectFirma.Web.Models
             }
 
             project.ProjectImages.Merge(projectImageUpdatesToCommit,
-                allProjectImages,
                 (x, y) => x.ProjectImageID == y.ProjectImageID,
                 (x, y) =>
                 {
@@ -97,7 +95,7 @@ namespace ProjectFirma.Web.Models
                     x.Credit = y.Credit;
                     x.IsKeyPhoto = y.IsKeyPhoto;
                     x.ExcludeFromFactSheet = y.ExcludeFromFactSheet;
-                }, HttpRequestStorage.DatabaseEntities);
+                }, databaseEntities);
         }
     }
 }

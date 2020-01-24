@@ -70,6 +70,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             if (PerformanceMeasureActuals != null)
             {
+                // Renumber negative indexes for PerformanceMeasureActuals
+                RenumberPerformanceMeasureActuals(PerformanceMeasureActuals);
+
                 var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
                 // Completely rebuild the list
                 performanceMeasureActualsUpdated = PerformanceMeasureActuals.Select(x =>
@@ -139,6 +142,26 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 
+        /// <summary>
+        /// For whatever reason - I haven't checked yet - we get batches of duplicate negative indexes,
+        /// which gives the merge function heartburn. So, here we re-number all the negative indexes (new records)
+        /// to eliminate dupes. -- SLG 1/23/2020
+        /// </summary>
+        /// <param name="performanceMeasureActuals"></param>
+        /// <returns></returns>
+        private void RenumberPerformanceMeasureActuals(List<PerformanceMeasureActualSimple> performanceMeasureActuals)
+        {
+            int currentNegativeIndex = -1;
+            foreach (var pmas in performanceMeasureActuals)
+            {
+                if (pmas.PerformanceMeasureActualID < 0)
+                {
+                    pmas.PerformanceMeasureActualID = currentNegativeIndex;
+                    currentNegativeIndex--;
+                }
+            }
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             return GetValidationResults();
@@ -161,58 +184,91 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
         {
+            List<PerformanceMeasuresValidationResult> results = new List<PerformanceMeasuresValidationResult>();
+
             var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
             var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
 
+            // What project are we dealing with?
             var project = HttpRequestStorage.DatabaseEntities.Projects.Single(x => x.ProjectID == ProjectID);
 
-            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
+            // What years are expected for this Project?
             var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
             var yearsExpected = project.GetProjectUpdateImplementationStartToCompletionYearRange()
                 .Where(x => !exemptYears.Contains(x)).ToList();
-            var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
-            var missingYears = yearsExpected.GetMissingYears(yearsEntered);
 
-            // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-            var performanceMeasureActualsWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualRow();
+            // What distinct PerformanceMeasures are being worked with? 
+            var pmasGrouped = performanceMeasureActualSimples.GroupBy(pmas => pmas.PerformanceMeasureID.Value);
 
-            //validation 3: duplicate PM row
-            var performanceMeasureActualsWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualRow();
+            // Examine each PerformanceMeasure group as a unit to check for problems within the group
+            foreach (var performanceMeasureActualSimpleGroup in pmasGrouped)
+            {
+                int currentPerformanceMeasureID = performanceMeasureActualSimpleGroup.Key;
+                var currentPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(pm => pm.PerformanceMeasureID == currentPerformanceMeasureID);
+                string currentPerformanceMeasureDisplayName = currentPerformanceMeasure.PerformanceMeasureDisplayName;
 
-            //validation4: data entered for exempt years
-            var performanceMeasureActualsWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
+                // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
+                var yearsEntered = performanceMeasureActualSimpleGroup.Select(x => x.CalendarYear).Distinct();
+                var missingYears = yearsExpected.GetMissingYears(yearsEntered);
 
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears,
-                performanceMeasureActualsWithIncompleteWarnings, performanceMeasureActualsWithDuplicateWarnings,
-                performanceMeasureActualsWithExemptYear);
-            return performanceMeasuresValidationResult;
+                // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
+                var performanceMeasureActualsWithIncompleteWarnings = ValidateNoIncompletePerformanceMeasureActualRow(currentPerformanceMeasureID);
+
+                // validation 3: duplicate PM row
+                var performanceMeasureActualsWithDuplicateWarnings = ValidateNoDuplicatePerformanceMeasureActualRow(currentPerformanceMeasureID);
+
+                // validation 4: data entered for exempt years
+                var performanceMeasureActualsWithExemptYear = ValidateNoExemptYearsWithReportedPerformanceMeasureRow(currentPerformanceMeasureID);
+
+                var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(
+                    currentPerformanceMeasureID,
+                    currentPerformanceMeasureDisplayName,
+                    missingYears,
+                    performanceMeasureActualsWithIncompleteWarnings,
+                    performanceMeasureActualsWithDuplicateWarnings,
+                    performanceMeasureActualsWithExemptYear);
+
+                results.Add(performanceMeasuresValidationResult);
+            }
+
+            // Combine all our results into one single result
+            PerformanceMeasuresValidationResult resultToReturn = results.First();
+            foreach (var currentResult in results.Skip(1))
+            {
+                resultToReturn.Combine(currentResult);
+            }
+
+            return resultToReturn;
         }
 
-        private HashSet<int> ValidateNoIncompletePerformanceMeasureActualRow()
+
+        private HashSet<int> ValidateNoIncompletePerformanceMeasureActualRow(int relevantPerformanceMeasureID)
         {
             if (PerformanceMeasureActuals == null)
             {
                 return new HashSet<int>();
             }
-            var performanceMeasureIDs =
-                PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
+
+            var performanceMeasureIDs = PerformanceMeasureActuals.Select(x => x.PerformanceMeasureID.GetValueOrDefault()).Distinct();
+
             var performanceMeasuresIDsAndSubcategoryCounts =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
                     performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new {x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count});
 
             var performanceMeasureActualsWithMissingSubcategoryOptions =
                 PerformanceMeasureActuals.Where(
-                    x => !x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y=>x.PerformanceMeasureID==y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count || x.PerformanceMeasureActualSubcategoryOptions.Any(y => y.PerformanceMeasureSubcategoryOptionID == null)).ToList();
+                    x => x.PerformanceMeasureID == relevantPerformanceMeasureID && (!x.ActualValue.HasValue || performanceMeasuresIDsAndSubcategoryCounts.Single(y => x.PerformanceMeasureID == y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptions.Count || x.PerformanceMeasureActualSubcategoryOptions.Any(y => y.PerformanceMeasureSubcategoryOptionID == null))).ToList();
             return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
 
-        private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualRow()
+        private HashSet<int> ValidateNoDuplicatePerformanceMeasureActualRow(int relevantPerformanceMeasureID)
         {
             if (PerformanceMeasureActuals == null)
             {
                 return new HashSet<int>();
             }
             var duplicates = PerformanceMeasureActuals
+                .Where(x => x.PerformanceMeasureID == relevantPerformanceMeasureID)
                 .GroupBy(x => new { x.PerformanceMeasureID, x.CalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
@@ -222,9 +278,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
         }
 
-        private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow()
+        private HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(int relevantPerformanceMeasureID)
         {
-            var performanceMeasureActualSimples = PerformanceMeasureActuals ?? new List<PerformanceMeasureActualSimple>();
+            var performanceMeasureActualSimples = PerformanceMeasureActuals.Where(pma => pma.PerformanceMeasureID == relevantPerformanceMeasureID).ToList();
             var projectExemptReportingYearSimples = ProjectExemptReportingYears ?? new List<ProjectExemptReportingYearSimple>();
             var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
             var performanceMeasureActualsWithExemptYear = performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();

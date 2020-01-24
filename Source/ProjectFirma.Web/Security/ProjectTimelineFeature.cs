@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ProjectTimelineFeature() : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectSteward})
+        public ProjectTimelineFeature() : base(new List<Role> {Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureForProject(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -17,17 +17,27 @@ namespace ProjectFirma.Web.Security
         
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            // if the person is a project steward but can't steward this project, deny them permissions to see it
-            if (firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !firmaSession.Person.CanStewardProject(contextModelObject))
+            if (contextModelObject.IsRejected() || contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
-                return new PermissionCheckResult("Does not have privelege to access this Project History Timeline");
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject);
+            }
+            else
+            {
+                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
+                if (!hasPermissionByPerson)
+                {
+                    return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
+                }
+                
+                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
+                if (projectIsEditableByUser)
+                {
+                    return new PermissionCheckResult();
+                }
+
+                return new PermissionCheckResult("You do not have permission to access the Project History Timeline");
             }
 
-            if (HasPermissionByFirmaSession(firmaSession))
-            {
-                return new PermissionCheckResult();
-            }
-            return new PermissionCheckResult("Does not have privilege to access the Project History Timeline");
         }
 
         public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
