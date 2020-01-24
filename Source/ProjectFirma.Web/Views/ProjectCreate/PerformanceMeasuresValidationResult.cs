@@ -75,13 +75,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
         }
 
-        // Combine two results into a single one
-        public void Combine(PerformanceMeasuresValidationResult performanceMeasuresValidationResult)
-        {
-            _warningMessages.AddRange(performanceMeasuresValidationResult._warningMessages);
-            PerformanceMeasureActualUpdatesWithWarnings.UnionWith(performanceMeasuresValidationResult.PerformanceMeasureActualUpdatesWithWarnings);
-        }
-
         public PerformanceMeasuresValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> {customErrorMessage};
