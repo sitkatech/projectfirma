@@ -132,6 +132,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FileResourceDto.cs" />
     <Compile Include="Controllers\FirmaWebApiConfiguration.cs" />
+    <Compile Include="Controllers\FundingSourceController.cs" />
+    <Compile Include="Controllers\FundingSourceDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureAdditionalInformationDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />
     <Compile Include="Controllers\PerformanceMeasureCriticalDefinitionsDto.cs" />
