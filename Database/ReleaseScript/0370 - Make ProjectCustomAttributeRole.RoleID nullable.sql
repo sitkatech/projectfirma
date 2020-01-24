@@ -1,0 +1,1 @@
+alter table dbo.ProjectCustomAttributeTypeRole alter column RoleID int null
