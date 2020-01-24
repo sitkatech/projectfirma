@@ -57,6 +57,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         public bool ViewableByNormal { get; set; }
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectSteward)]
         public bool ViewableByProjectSteward { get; set; }
+        [DisplayName("Anonymous (Public)")]
+        public bool ViewableByAnonymous { get; set; }
 
 
 
@@ -81,6 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
             ViewableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
+            ViewableByAnonymous = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == null);
             IsViewableOnFactSheet = projectCustomAttributeType.IsViewableOnFactSheet;
             ProjectCustomAttributeGroupID = projectCustomAttributeType.ProjectCustomAttributeGroupID;
         }
@@ -109,21 +112,41 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             }
 
             var newProjectCustomAttributeTypeRoles = new List<ProjectCustomAttributeTypeRole>();
-            if (this.EditableByNormal == true)
+            if (EditableByNormal)
             {
-                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectFirmaModels.Models.Role.Normal.RoleID, ProjectCustomAttributeTypeRolePermissionType.Edit.ProjectCustomAttributeTypeRolePermissionTypeID));
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.Edit.ProjectCustomAttributeTypeRolePermissionTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
+                });
             }
-            if (this.EditableByProjectSteward == true) { 
-                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectFirmaModels.Models.Role.ProjectSteward.RoleID, ProjectCustomAttributeTypeRolePermissionType.Edit.ProjectCustomAttributeTypeRolePermissionTypeID));
+            if (EditableByProjectSteward) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.Edit.ProjectCustomAttributeTypeRolePermissionTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
+                });
             }
-            if (this.ViewableByUnassigned == true) { 
-                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectFirmaModels.Models.Role.Unassigned.RoleID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID));
+            if (ViewableByUnassigned) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Unassigned.RoleID
+                });
             }
-            if (this.ViewableByNormal == true) { 
-                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectFirmaModels.Models.Role.Normal.RoleID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID));
+            if (ViewableByNormal) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.Normal.RoleID
+                });
             }
-            if (this.ViewableByProjectSteward == true) { 
-                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectFirmaModels.Models.Role.ProjectSteward.RoleID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID));
+            if (ViewableByProjectSteward) { 
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID)
+                {
+                    RoleID = ProjectFirmaModels.Models.Role.ProjectSteward.RoleID
+                });
+            }
+
+            if (ViewableByAnonymous)
+            {
+                newProjectCustomAttributeTypeRoles.Add(new ProjectCustomAttributeTypeRole(projectCustomAttributeType.ProjectCustomAttributeTypeID, ProjectCustomAttributeTypeRolePermissionType.View.ProjectCustomAttributeTypeRolePermissionTypeID));
             }
 
             projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Merge(newProjectCustomAttributeTypeRoles,

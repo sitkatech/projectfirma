@@ -18,7 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectCustomAttributeTypeRoleID).HasColumnName(@"ProjectCustomAttributeTypeRoleID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectCustomAttributeTypeID).HasColumnName(@"ProjectCustomAttributeTypeID").HasColumnType("int").IsRequired();
-            Property(x => x.RoleID).HasColumnName(@"RoleID").HasColumnType("int").IsRequired();
+            Property(x => x.RoleID).HasColumnName(@"RoleID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectCustomAttributeTypeRolePermissionTypeID).HasColumnName(@"ProjectCustomAttributeTypeRolePermissionTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
