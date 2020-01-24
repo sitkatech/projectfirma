@@ -18,15 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Globalization;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Project;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
