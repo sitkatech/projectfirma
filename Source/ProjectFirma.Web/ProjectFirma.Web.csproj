@@ -91,6 +91,8 @@
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\ReportTemplate\Models\ReportTemplateBaseViewModel.cs" />
+    <Compile Include="Models\ReportTemplate\Models\ReportTemplateOrganizationModel.cs" />
+    <Compile Include="Models\ReportTemplate\Models\ReportTemplatePersonModel.cs" />
     <Compile Include="Models\ReportTemplate\ProjectFirmaDocxDocument.cs" />
     <Compile Include="Models\ReportTemplate\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="Models\ReportTemplate\Models\ReportTemplateProjectModel.cs" />
