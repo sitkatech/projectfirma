@@ -148,7 +148,7 @@ VALUES
 (323, N'IsFinalStatusUpdate', N'Is Final Status Update'),
 (324, N'StatusLessonsLearned', N'Lessons Learned'),
 (325, N'Evaluation', 'Evaluation'),
-(326, N'EvaluationCriterion', 'Evaluation Criterion'),
+(326, N'EvaluationCriteria', 'Evaluation Criteria'),
 (327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
 (329, N'ProjectEvaluation', 'Project Evaluation'),

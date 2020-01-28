@@ -76,7 +76,7 @@
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationEndDate.ToStringDate()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabelPluralized()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</div>
                 </div>
 
@@ -93,13 +93,13 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()
+                    @FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
-                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewEvaluationCriterionUrl, string.Format("Create a new {0}", FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewEvaluationCriterionUrl, string.Format("Create a new {0}", FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
                     </div>
                 </div>
                 <div class="row">

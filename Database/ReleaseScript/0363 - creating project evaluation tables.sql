@@ -131,7 +131,7 @@ alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluati
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
 (325, N'Evaluation', 'Evaluation'),
-(326, N'EvaluationCriterion', 'Evaluation Criterion'),
+(326, N'EvaluationCriteria', 'Evaluation Criteria'),
 (327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
 (329, N'ProjectEvaluation', 'Project Evaluation'),
@@ -161,15 +161,15 @@ go
 INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefinition])
      VALUES
 			(325, N'<p>Evaluation</p>'),
-			(326, N'<p>Evaluation Criterion</p>'),
+			(326, N'<p>Measures used to evaluate projects assigned to this evaluation.</p>'),
 			(327, N'<p>Evaluation Criterion Value</p>'),
 			(328, N'<p>Evaluation Portfolio</p>'),
 			(329, N'<p>Project Evaluation</p>'),
-			(330, N'<p>Evaluation Name</p>'),
-			(331, N'<p>Evaluation Definition</p>'),
-			(332, N'<p>Evaluation Status</p>'),
-			(333, N'<p>Evaluation Start Date</p>'),
-			(334, N'<p>Evaluation End Date</p>'),
+			(330, N'<p>A succinct, descriptive name that captures the purpose and scope of this evaluation.</p>'),
+			(331, N'<p>Pertinent context that communicates additional information such as drivers, goals, themes, etc. of this evaluation.</p>'),
+			(332, N'<p>Indicates the current phase of all projects in this evaluation; i.e., planning, implementation, completed.</p>'),
+			(333, N'<p>The date on which the evaluation process is expected to begin.</p>'),
+			(334, N'<p>The date on which the evaluation process is expected to end.</p>'),
 			(335, N'<p>Evaluation Visibility</p>'),
 			(336, N'<p>Evaluation Criterion Name</p>'),
 			(337, N'<p>Evaluation Criterion Definition</p>'),
