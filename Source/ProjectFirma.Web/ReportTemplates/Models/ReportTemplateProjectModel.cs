@@ -82,26 +82,26 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             }
         }
 
-        public List<ReportTemplatePersonModel> GetContacts()
+        public List<ReportTemplateProjectContactModel> GetProjectContacts()
         {
-            return ProjectContacts.Select(x => new ReportTemplatePersonModel(x.Contact)).ToList();
+            return ProjectContacts.Select(x => new ReportTemplateProjectContactModel(x)).ToList();
         }
 
-        public List<ReportTemplatePersonModel> GetContactsByType(string contactTypeName)
+        public List<ReportTemplateProjectContactModel> GetProjectContactsByType(string contactTypeName)
         {
             var projectContactsInType = ProjectContacts.Where(x => x.ContactRelationshipType.ContactRelationshipTypeName == contactTypeName).ToList();
-            return projectContactsInType.Select(x => new ReportTemplatePersonModel(x.Contact)).ToList();
+            return projectContactsInType.Select(x => new ReportTemplateProjectContactModel(x)).ToList();
         }
 
-        public List<ReportTemplateOrganizationModel> GetOrganizations()
+        public List<ReportTemplateProjectOrganizationModel> GetProjectOrganizations()
         {
-            return ProjectOrganizations.Select(x => new ReportTemplateOrganizationModel(x.Organization)).ToList();
+            return ProjectOrganizations.Select(x => new ReportTemplateProjectOrganizationModel(x)).ToList();
         }
 
-        public List<ReportTemplateOrganizationModel> GetOrganizationsByType(string organizationTypeName)
+        public List<ReportTemplateProjectOrganizationModel> GetProjectOrganizationsByType(string organizationTypeName)
         {
             var organizationsInType = ProjectOrganizations.Where(x => x.OrganizationRelationshipType.OrganizationRelationshipTypeName == organizationTypeName).ToList();
-            return organizationsInType.Select(x => new ReportTemplateOrganizationModel(x.Organization)).ToList();
+            return organizationsInType.Select(x => new ReportTemplateProjectOrganizationModel(x)).ToList();
         }
 
         public string GetProjectContactNamesByType(string contactTypeName)

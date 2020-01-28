@@ -93,6 +93,8 @@
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectContactModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />

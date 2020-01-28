@@ -52,7 +52,10 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var viewModel = new EditViewModel
+            {
+                ReportTemplateModelTypeID = (int) ReportTemplateModelTypeEnum.MultipleModels
+            };
             return ViewEdit(viewModel);
         }
 

@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
             Add("Display Name", a => a.DisplayName, 200);
             Add("Description", a => a.Description, 400);
             Add("Model", a => a.ReportTemplateModel.ReportTemplateModelDisplayName, 100);
-            Add("Model Type", a => a.ReportTemplateModelType.ReportTemplateModelTypeDisplayName, 100);
+            //Add("Model Type", a => a.ReportTemplateModelType.ReportTemplateModelTypeDisplayName, 100);
             Add("Template File", a => a.DownloadTemplateLink(), 200, DhtmlxGridColumnFilterType.Html);
         }
     }
