@@ -90,12 +90,12 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
-    <Compile Include="Models\ReportTemplate\Models\ReportTemplateBaseViewModel.cs" />
-    <Compile Include="Models\ReportTemplate\Models\ReportTemplateOrganizationModel.cs" />
-    <Compile Include="Models\ReportTemplate\Models\ReportTemplatePersonModel.cs" />
-    <Compile Include="Models\ReportTemplate\ProjectFirmaDocxDocument.cs" />
-    <Compile Include="Models\ReportTemplate\Models\ReportTemplateBaseModel.cs" />
-    <Compile Include="Models\ReportTemplate\Models\ReportTemplateProjectModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateBaseViewModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
+    <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
     <Compile Include="Models\EvaluationCriterionModelExtensions.cs" />
@@ -195,7 +195,7 @@
     <Compile Include="Models\ReportedValueForDisplay.cs" />
     <Compile Include="Models\ReportingCategoryForDisplay.cs" />
     <Compile Include="Models\ReportTemplateModelExtensions.cs" />
-    <Compile Include="Models\ReportTemplate\ReportTemplateGenerator.cs" />
+    <Compile Include="ReportTemplates\ReportTemplateGenerator.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -3397,6 +3397,7 @@
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="Models\ReportTemplate\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -4,7 +4,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using SharpDocx;
 using SharpDocx.Extensions;
 
-namespace ProjectFirma.Web.Models.ReportTemplate
+namespace ProjectFirma.Web.ReportTemplates
 {
     public abstract class ProjectFirmaDocxDocument : DocumentBase
     {

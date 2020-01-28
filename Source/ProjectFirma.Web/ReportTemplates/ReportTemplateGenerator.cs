@@ -1,14 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models.ReportTemplate.Models;
-using ProjectFirmaModels.Models;
 using System.Web.Mvc;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.ReportTemplates.Models;
+using ProjectFirmaModels.Models;
 using SharpDocx;
 
-namespace ProjectFirma.Web.Models.ReportTemplate
+namespace ProjectFirma.Web.ReportTemplates
 {
     public class ReportTemplateGenerator
     {

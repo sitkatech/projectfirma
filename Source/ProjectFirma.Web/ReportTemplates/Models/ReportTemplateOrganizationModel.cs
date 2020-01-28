@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Models.ReportTemplate.Models
+namespace ProjectFirma.Web.ReportTemplates.Models
 {
     public class ReportTemplateOrganizationModel : ReportTemplateBaseModel
     {
