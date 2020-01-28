@@ -14,8 +14,8 @@ namespace ProjectFirma.Web.ReportTemplates
         {
             return new List<string>
             {
+                "using ProjectFirma.Web.ReportTemplates;",
                 "using ProjectFirma.Web.Models;",
-                "using ProjectFirma.Web.Models.ReportTemplate;",
                 "using System.Linq;",
                 "using Microsoft.CSharp.RuntimeBinder;"
 
