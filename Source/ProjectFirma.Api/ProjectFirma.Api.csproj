@@ -147,6 +147,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
     <Compile Include="Models\OrganizationDto.cs" />
+    <Compile Include="Models\ProjectBudgetDto.cs" />
     <Compile Include="Models\ProjectCustomAttributeDto.cs" />
     <Compile Include="Models\ProjectCalendarYearExpendituresDto.cs" />
     <Compile Include="Models\ProjectDto.cs" />
