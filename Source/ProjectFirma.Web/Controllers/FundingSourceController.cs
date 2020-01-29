@@ -18,23 +18,22 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.FundingSource;
-using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using MoreLinq;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.FundingSource;
 using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
 using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
 using Edit = ProjectFirma.Web.Views.FundingSource.Edit;
@@ -154,7 +153,6 @@ namespace ProjectFirma.Web.Controllers
                     chartContainerID,
                     fundingSource.GetDisplayName());
 
-            // Which makes this guy bork (bork bork bork)
             googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
             var projectFundingSourceBudgetGridSpec = new ProjectFundingSourceBudgetGridSpec()

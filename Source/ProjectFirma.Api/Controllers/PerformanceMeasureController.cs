@@ -12,11 +12,6 @@ namespace ProjectFirma.Api.Controllers
     {
         private readonly DatabaseEntities _databaseEntities = new DatabaseEntities(Tenant.ActionAgendaForPugetSound.TenantID, "ProjectFirmaDB");
 
-        //public PerformanceMeasuresController(DatabaseEntities databaseEntities)
-        //{
-        //    _databaseEntities = databaseEntities;
-        //}
-
         [Route("api/PerformanceMeasures/PostPerformanceMeasure/{apiKey}")]
         [HttpPost]
         public IHttpActionResult PostPerformanceMeasure(string apiKey, [FromBody] PerformanceMeasureDto performanceMeasureDto)
