@@ -18,26 +18,27 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common.Models;
 
-namespace ProjectFirma.Web.Views.Project
+namespace ProjectFirmaModels.Models
 {
     public class ProjectCalendarYearExpenditure
     {
-        public ProjectFirmaModels.Models.Project Project;
+        public Project Project;
         public Dictionary<int, decimal?> CalendarYearExpenditure;
 
-        public ProjectCalendarYearExpenditure(ProjectFirmaModels.Models.Project project, Dictionary<int, decimal?> calendarYearExpenditure)
+        public ProjectCalendarYearExpenditure(Project project, Dictionary<int, decimal?> calendarYearExpenditure)
         {
             Project = project;
             CalendarYearExpenditure = calendarYearExpenditure;
         }
 
-        public static List<ProjectCalendarYearExpenditure> CreateFromProjectsAndCalendarYears(List<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure> projectProjectExpenditures, List<int> calendarYears)
+        public static List<ProjectCalendarYearExpenditure> CreateFromProjectsAndCalendarYears(List<ProjectFundingSourceExpenditure> projectProjectExpenditures, List<int> calendarYears)
         {
-            var distinctProjects = projectProjectExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<ProjectFirmaModels.Models.Project>());
+            var distinctProjects = projectProjectExpenditures.Select(x => x.Project).Distinct(new HavePrimaryKeyComparer<Project>());
             var projectsCrossJoinCalendarYears =
                 distinctProjects.Select(x => new ProjectCalendarYearExpenditure(x, calendarYears.ToDictionary<int, int, decimal?>(calendarYear => calendarYear, calendarYear => null))).ToList();
 

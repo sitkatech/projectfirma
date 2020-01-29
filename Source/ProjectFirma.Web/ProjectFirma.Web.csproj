@@ -48,11 +48,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
+    <Compile Include="Common\FirmaDateUtilities.cs" />
+    <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
     <Compile Include="Common\IFieldDefinition.cs" />
     <Compile Include="Common\IFieldDefinitionDisplayAttribute.cs" />
     <Compile Include="Common\KeystoneService.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
+    <Compile Include="Common\MultiTenantHelpers.cs" />
     <Compile Include="Common\MultiTenantHelpersTest.cs" />
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
@@ -104,9 +107,9 @@
     <Compile Include="Models\FirmaPageTypeTest.cs" />
     <Compile Include="Models\FundingSourceCustomAttributes.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeModelExtensions.cs" />
-    <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\CostTypeSimple.cs" />
+    <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureFixedTargetModelExtensions.cs" />
@@ -1112,7 +1115,6 @@
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewModel.cs" />
-    <Compile Include="Common\MultiTenantHelpers.cs" />
     <Compile Include="Controllers\TaxonomyTierPerformanceMeasureController.cs" />
     <Compile Include="Controllers\TaxonomyTrunkController.cs" />
     <Compile Include="Controllers\ProgramInfoController.cs" />
@@ -1430,7 +1432,6 @@
     <Compile Include="Views\Project\IndexViewData.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjects.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjectsViewData.cs" />
-    <Compile Include="Views\Project\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Views\Project\ProjectCalendarYearExpenditureTest.cs" />
     <Compile Include="Views\Project\ProjectExcelSpec.cs" />
     <Compile Include="Views\Project\ProjectNotificationGridSpec.cs" />
@@ -1889,7 +1890,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AuditLog\IDescribableEntity.cs" />
-    <Compile Include="Common\FirmaDateUtilities.cs" />
     <Compile Include="Common\FirmaMathUtilities.cs" />
     <Compile Include="Common\FirmaHelpers.cs" />
     <Compile Include="Common\SecuredActionUrlHelper.cs" />
@@ -1901,11 +1901,10 @@
     <Compile Include="Models\ProjectLocationModelExtensions.cs" />
     <Compile Include="Models\OrganizationModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureModelExtensions.cs" />
-    <Compile Include="Models\ProjectFundingSourceExpenditureModelExtensions.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditureModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensions.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\ProjectModelExtensions.cs" />
-    <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectPerformanceMeasurePermissionsTest.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />
