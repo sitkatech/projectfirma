@@ -167,7 +167,7 @@ INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefiniti
 			(329, N'<p>Project Evaluation</p>'),
 			(330, N'<p>A succinct, descriptive name that captures the purpose and scope of this evaluation.</p>'),
 			(331, N'<p>Pertinent context that communicates additional information such as drivers, goals, themes, etc. of this evaluation.</p>'),
-			(332, N'<p>Indicates the current phase of all projects in this evaluation; i.e., planning, implementation, completed.</p>'),
+			(332, N'<p>Indicates the current phase of this evaluation and is used for tracking an evaluation''s progress over time.</p>'),
 			(333, N'<p>The date on which the evaluation process is expected to begin.</p>'),
 			(334, N'<p>The date on which the evaluation process is expected to end.</p>'),
 			(335, N'<p>Evaluation Visibility</p>'),
