@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     public class PerformanceMeasureDto
     {

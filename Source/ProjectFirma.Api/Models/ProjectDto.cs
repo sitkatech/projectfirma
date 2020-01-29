@@ -5,7 +5,7 @@ using GeoJSON.Net.Feature;
 using LtInfo.Common.GeoJson;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     public class ProjectDto
     {

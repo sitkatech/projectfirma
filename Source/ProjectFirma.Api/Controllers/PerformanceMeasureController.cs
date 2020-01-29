@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Api.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 

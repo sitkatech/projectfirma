@@ -1,7 +1,7 @@
 ﻿using System;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     public class PerformanceMeasureNoteDto
     {
