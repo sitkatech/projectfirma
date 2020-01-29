@@ -45,7 +45,9 @@
                             <option value="@value.EvaluationCriterionValueID" @(Model.SelectedEvaluationCriterionValues.Contains(value.EvaluationCriterionValueID) ? "selected" : string.Empty)>@(value.EvaluationCriterionValueRating)</option>
                         }
                     </select>
+                    <span style="margin-left: 20px;">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition</span>
                 </div>
+
             </div>
         }
         

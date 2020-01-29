@@ -176,13 +176,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
             }
 
-            errors.AddRange(ValidatePerformanceMeasures().GetWarningMessages().Select(m =>
-                new ValidationResult(m)));
+            var pmValidationResults = ValidatePerformanceMeasures();
+            var allWarningMessages = pmValidationResults.SelectMany(pmvr => pmvr.GetWarningMessages());
+            errors.AddRange(allWarningMessages.Select(m => new ValidationResult(m)));
 
             return errors;
         }
 
-        public PerformanceMeasuresValidationResult ValidatePerformanceMeasures()
+        /// <summary>
+        /// Validate Performance Measures by groups
+        /// </summary>
+        /// <returns>Null if there's nothing to validate, otherwise, a PerformanceMeasuresValidationResult</returns>
+        public List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures()
         {
             List<PerformanceMeasuresValidationResult> results = new List<PerformanceMeasuresValidationResult>();
 
@@ -231,14 +236,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 results.Add(performanceMeasuresValidationResult);
             }
 
-            // Combine all our results into one single result
-            PerformanceMeasuresValidationResult resultToReturn = results.First();
-            foreach (var currentResult in results.Skip(1))
-            {
-                resultToReturn.Combine(currentResult);
-            }
-
-            return resultToReturn;
+            return results;
         }
 
 

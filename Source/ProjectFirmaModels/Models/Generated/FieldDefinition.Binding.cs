@@ -273,7 +273,7 @@ namespace ProjectFirmaModels.Models
         IsFinalStatusUpdate = 323,
         StatusLessonsLearned = 324,
         Evaluation = 325,
-        EvaluationCriterion = 326,
+        EvaluationCriteria = 326,
         EvaluationCriterionValue = 327,
         EvaluationPortfolio = 328,
         ProjectEvaluation = 329,

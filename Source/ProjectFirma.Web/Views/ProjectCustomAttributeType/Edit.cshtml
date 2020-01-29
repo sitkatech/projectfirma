@@ -162,6 +162,7 @@
                         @Html.LabelWithSugarFor(@FieldDefinitionEnum.ProjectCustomAttributeTypeViewableBy.ToType())
                     </div>
                     <div class="col-sm-9">
+                        @Html.CheckBoxFor(x => x.ViewableByAnonymous) @Html.LabelFor(x => x.ViewableByAnonymous, new { style = "font-weight : normal; padding-right : 10px;" })
                         @Html.CheckBoxFor(x => x.ViewableByUnassigned) @Html.LabelFor(x => x.ViewableByUnassigned, new { style = "font-weight : normal; padding-right : 10px;" })
                         @Html.CheckBoxFor(x => x.ViewableByNormal) @Html.LabelFor(x => x.ViewableByNormal, new { style = "font-weight : normal; padding-right : 10px;" })
                         @Html.CheckBoxFor(x => x.ViewableByProjectSteward) @Html.LabelFor(x => x.ViewableByProjectSteward, new { style = "font-weight : normal; padding-right : 10px;" })

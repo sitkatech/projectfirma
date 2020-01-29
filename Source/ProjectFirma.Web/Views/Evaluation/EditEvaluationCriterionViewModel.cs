@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             var updatedEvaluationCriterionValues = new List<EvaluationCriterionValue>();
             foreach (var simpleValue in EvaluationCriterionValueSimples)
             {
-                var evaluationCriterionValue = HttpRequestStorage.DatabaseEntities.EvaluationCriterionValues.SingleOrDefault(x => x.EvaluationCriterionValueID == simpleValue.EvaluationCriterionID);
+                var evaluationCriterionValue = HttpRequestStorage.DatabaseEntities.EvaluationCriterionValues.SingleOrDefault(x => x.EvaluationCriterionValueID == simpleValue.EvaluationCriterionValueID);
                 if (evaluationCriterionValue == null)
                 {
                     evaluationCriterionValue = new EvaluationCriterionValue(evaluationCriterion, simpleValue.EvaluationCriterionValueRating, simpleValue.EvaluationCriterionValueDescription) { SortOrder = simpleValue.SortOrder };

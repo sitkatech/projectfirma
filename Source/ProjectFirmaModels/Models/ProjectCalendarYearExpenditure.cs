@@ -47,7 +47,7 @@ namespace ProjectFirmaModels.Models
                 var current = projectsCrossJoinCalendarYears.Single(x => x.Project.ProjectID == projectProjectExpenditure.Key);
                 foreach (var projectExpenditure in projectProjectExpenditure.Where(projectExpenditure => current.CalendarYearExpenditure.ContainsKey(projectExpenditure.CalendarYear)))
                 {
-                    current.CalendarYearExpenditure[projectExpenditure.CalendarYear] = projectExpenditure.ExpenditureAmount;
+                    current.CalendarYearExpenditure[projectExpenditure.CalendarYear] = (current.CalendarYearExpenditure[projectExpenditure.CalendarYear] ?? 0) + projectExpenditure.ExpenditureAmount;
                 }
             }
             return projectsCrossJoinCalendarYears.OrderBy(x => x.Project.ProjectID).ToList();

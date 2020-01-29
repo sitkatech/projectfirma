@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -238,7 +238,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(evaluationCriterion);
 
             SetMessageForDisplay(
-                $"Successfully updated {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
+                $"Successfully updated {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -270,7 +270,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             evaluationCriterion.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
+            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -278,8 +278,8 @@ namespace ProjectFirma.Web.Controllers
         {
             bool canDelete = evaluationCriterion.CanDelete();
             var confirmMessage = canDelete
-                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} \"{evaluationCriterion.EvaluationCriterionName}\"?</p>"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel());
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} \"{evaluationCriterion.EvaluationCriterionName}\"?</p>"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel());
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
