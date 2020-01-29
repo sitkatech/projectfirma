@@ -36,9 +36,11 @@ namespace ProjectFirma.Web.Views.Organization
     {
         public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
+        public readonly bool UserHasOrganizationManagePrimaryContactPermissions;
         public readonly string EditOrganizationUrl;
         public readonly string EditBoundaryUrl;
         public readonly string DeleteOrganizationBoundaryUrl;
+        public readonly string EditOrganizationPrimaryContactUrl;
 
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
@@ -92,6 +94,7 @@ namespace ProjectFirma.Web.Views.Organization
             PageTitle = organization.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            UserHasOrganizationManagePrimaryContactPermissions = new OrganizationManagePrimaryContactFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
             EditBoundaryUrl =
@@ -99,6 +102,7 @@ namespace ProjectFirma.Web.Views.Organization
             DeleteOrganizationBoundaryUrl =
                 SitkaRoute<OrganizationController>.BuildUrlFromExpression(
                     c => c.DeleteOrganizationBoundary(organization));
+            EditOrganizationPrimaryContactUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditPrimaryContact(organization));
 
             ProjectsIncludingLeadImplementingGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, false)
