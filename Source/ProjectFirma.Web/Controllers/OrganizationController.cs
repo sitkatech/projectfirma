@@ -155,7 +155,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [OrganizationManagePrimaryContactFeature]
+        [OrganizationPrimaryContactManageFeature]
         public PartialViewResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [OrganizationManagePrimaryContactFeature]
+        [OrganizationPrimaryContactManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey, EditPrimaryContactViewModel viewModel)
         {
