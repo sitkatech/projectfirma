@@ -1,5 +1,4 @@
-﻿using ProjectFirma.Api.Controllers;
-using ProjectFirmaModels.Models;
+﻿using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Models
 {

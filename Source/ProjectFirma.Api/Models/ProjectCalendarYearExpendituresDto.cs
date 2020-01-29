@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using ProjectFirmaModels.Models;
+﻿using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     public class ProjectCalendarYearExpendituresDto
     {
-        public ProjectCalendarYearExpendituresDto(Project project, Dictionary<int, decimal?> calendarYearExpenditureses)
+        public ProjectCalendarYearExpendituresDto(Project project, Dictionary<int, decimal?> calendarYearExpenditures)
         {
             ProjectDto = new ProjectDto(project);
-            CalendarYearExpenditures = calendarYearExpenditureses;
+            CalendarYearExpenditures = calendarYearExpenditures;
         }
 
         public ProjectCalendarYearExpendituresDto()

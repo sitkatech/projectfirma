@@ -1,6 +1,6 @@
 ﻿using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     /// <summary>
     /// Use this for returning a more lightweight PerformanceMeasure record via the APIs

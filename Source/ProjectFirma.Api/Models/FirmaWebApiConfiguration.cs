@@ -5,7 +5,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
-namespace ProjectFirma.Api.Controllers
+namespace ProjectFirma.Api.Models
 {
     public class FirmaWebApiConfiguration
     {
