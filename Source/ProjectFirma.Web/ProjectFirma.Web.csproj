@@ -214,6 +214,7 @@
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
+    <Compile Include="Security\OrganizationManagePrimaryContactFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
@@ -259,6 +260,9 @@
     <Compile Include="Views\ExternalMapLayer\Index.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContact.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -575,6 +579,7 @@
     <Content Include="Views\Evaluation\EditEvaluationCriterion.cshtml" />
     <Content Include="Views\Evaluation\AddProjectEvaluation.cshtml" />
     <Content Include="Views\Evaluation\EditProjectEvaluation.cshtml" />
+    <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

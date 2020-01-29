@@ -154,6 +154,43 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
+        [HttpGet]
+        [OrganizationManagePrimaryContactFeature]
+        public PartialViewResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditPrimaryContactViewModel(organization);
+            return ViewEditPrimaryContact(viewModel, organization.PrimaryContactPerson);
+        }
+
+        [HttpPost]
+        [OrganizationManagePrimaryContactFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey, EditPrimaryContactViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditPrimaryContact(viewModel, organization.PrimaryContactPerson);
+            }
+            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditPrimaryContact(EditPrimaryContactViewModel viewModel, Person currentPrimaryContactPerson)
+        {
+            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
+            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
+            {
+                activePeople.Add(currentPrimaryContactPerson);
+            }
+            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFullNameFirstLastAndOrg());
+
+            var viewData = new EditPrimaryContactViewData(people);
+            return RazorPartialView<EditPrimaryContact, EditPrimaryContactViewData, EditPrimaryContactViewModel>(viewData, viewModel);
+        }
+
         [OrganizationViewFeature]
         public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
