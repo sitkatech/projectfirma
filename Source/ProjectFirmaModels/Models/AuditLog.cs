@@ -93,7 +93,7 @@ namespace ProjectFirmaModels.Models
                 switch (dbEntry.State)
                 {
                     case EntityState.Deleted:
-                        var newAuditLog = CreateAuditLogEntryForDeleted(dbContext, dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted, tenantID);
+                        var newAuditLog = CreateAuditLogEntryForDeleted(dbEntry, tableName, person, DateTime.Now, AuditLogEventType.Deleted, tenantID);
                         result.Add(newAuditLog);
                         break;
 
@@ -145,7 +145,7 @@ namespace ProjectFirmaModels.Models
         /// Creates an audit log entry for a <see cref="DbEntityEntry"/> that has an <see cref="EntityState"/> of <see cref="EntityState.Deleted"/>
         /// Deleted log entries do not have columns/property names, so there will just be one record created
         /// </summary>
-        private static AuditLog CreateAuditLogEntryForDeleted(DatabaseEntities dbContext, DbEntityEntry dbEntry,
+        private static AuditLog CreateAuditLogEntryForDeleted(DbEntityEntry dbEntry,
             string tableName,
             Person person,
             DateTime changeDate,
@@ -154,7 +154,7 @@ namespace ProjectFirmaModels.Models
         {
             var auditableEntityDeleted = GetIAuditableEntityFromEntity(dbEntry.Entity, tableName);
             var optionalAuditDescriptionString = auditLogEventType.GetAuditStringForOperationType(tableName, null, auditableEntityDeleted.GetAuditDescriptionString());
-            var auditLogEntry = CreateAuditLogEntryImpl(dbContext, dbEntry,
+            var auditLogEntry = CreateAuditLogEntryImpl(dbEntry,
                 tableName,
                 person,
                 changeDate,
@@ -179,11 +179,10 @@ namespace ProjectFirmaModels.Models
             DbPropertyEntry modifiedProperty, int tenantID)
         {
             var propertyName = modifiedProperty.Name;
-            if (!string.Equals(propertyName, string.Format("{0}ID", tableName), StringComparison.InvariantCultureIgnoreCase) && !string.Equals(propertyName, "TenantID", StringComparison.InvariantCultureIgnoreCase))
+            if (!string.Equals(propertyName, $"{tableName}ID", StringComparison.InvariantCultureIgnoreCase) && !string.Equals(propertyName, "TenantID", StringComparison.InvariantCultureIgnoreCase))
             {
                 var optionalAuditDescriptionString = GetAuditDescriptionStringIfAnyForProperty(dbContext, dbEntry, propertyName, auditLogEventType);
-                var auditLogEntry = CreateAuditLogEntryImpl(dbContext,
-                    dbEntry,
+                var auditLogEntry = CreateAuditLogEntryImpl(dbEntry,
                     tableName,
                     person,
                     changeDate,
@@ -200,12 +199,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// This is for adding any extra optional columns like ProjectID to the audit log record
         /// </summary>
-        /// <param name="dbContext"></param>
         /// <param name="entry"></param>
         /// <param name="tableName"></param>
         /// <param name="auditLog"></param>
-        private static void AddAdditionalRecordColumns(DatabaseEntities dbContext,
-                                                       DbEntityEntry entry,
+        private static void AddAdditionalRecordColumns(DbEntityEntry entry,
                                                        string tableName,
                                                        AuditLog auditLog)
         {
@@ -215,17 +212,11 @@ namespace ProjectFirmaModels.Models
                 if (projectID.HasValue)
                 {
                     auditLog.ProjectID = projectID;
-                    var project = dbContext.Projects.GetProject(projectID.Value);
-                    project.LastUpdatedDate = DateTime.Now;
-                    // This could likely be optimized in some fashion, to indicate to the caller that project was changed,
-                    // and not do this N number of times, but only once per batch.
-                    dbContext.ChangeTracker.DetectChanges();
                 }
             }
         }
 
-        private static AuditLog CreateAuditLogEntryImpl(DatabaseEntities dbContext,
-            DbEntityEntry dbEntry,
+        private static AuditLog CreateAuditLogEntryImpl(DbEntityEntry dbEntry,
             string tableName,
             Person person,
             DateTime changeDate,
@@ -239,11 +230,11 @@ namespace ProjectFirmaModels.Models
             var newValueString = newValue != null ? newValue.ToString() : string.Empty;
             var auditLog = new AuditLog(person, changeDate, auditLogEventType, tableName, recordID, propertyName, newValueString)
             {
-                OriginalValue = originalValue != null ? originalValue.ToString() : null,
+                OriginalValue = originalValue?.ToString(),
                 AuditDescription = optionalAuditDescriptionString,
                 TenantID = tenantID
             };
-            AddAdditionalRecordColumns(dbContext, dbEntry, tableName, auditLog);
+            AddAdditionalRecordColumns(dbEntry, tableName, auditLog);
             return auditLog;
         }
 
@@ -297,12 +288,7 @@ namespace ProjectFirmaModels.Models
             }
 
             var enumsToHumanReadableString = ConvertEnumsToHumanReadableString(propertyName, objectStateEntry, auditLogEventType);
-            if (enumsToHumanReadableString != null)
-            {
-                return enumsToHumanReadableString;
-            }
-
-            return null;
+            return enumsToHumanReadableString;
         }
 
         /// <summary>

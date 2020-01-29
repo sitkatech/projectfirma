@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(projectStatus, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllProjectStatuses.Add(projectStatus);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\" successfully created.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\" successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
@@ -106,7 +106,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditSortOrder(IQueryable<ProjectStatus> projectStatuses, EditSortOrderViewModel viewModel)
         {
-            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(projectStatuses), FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized());
+            EditSortOrderViewData viewData = new EditSortOrderViewData(new List<IHaveASortOrder>(projectStatuses), FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized());
             return RazorPartialView<EditSortOrder, EditSortOrderViewData, EditSortOrderViewModel>(viewData, viewModel);
         }
 
@@ -141,8 +141,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var numberOfConnectedProjectProjectStatuses = projectStatus.ProjectProjectStatuses.Count;
             var confirmMessage = numberOfConnectedProjectProjectStatuses > 0 
-                ? $"Are you sure you want to delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"? WARNING: This will delete {numberOfConnectedProjectProjectStatuses} project statuses already set." 
-                : $"Are you sure you want to delete {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"?";
+                ? $"Are you sure you want to delete {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"? WARNING: This will delete {numberOfConnectedProjectProjectStatuses} project statuses already set." 
+                : $"Are you sure you want to delete {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()} \"{projectStatus.ProjectStatusDisplayName}\"?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

@@ -46,15 +46,17 @@ namespace ProjectFirma.Web.Views.Evaluation
         public List<TaxonomyTierSimple> TaxonomyLeafSimples { get; set; }
         public List<ProjectSimple> ProjectSimples { get; set; }
         public int TaxonomyLevel { get; set; }
+        public List<ProjectStageSimple> ProjectStageSimples { get; set; }
 
 
-        public AddProjectEvaluationViewDataForAngular(List<TaxonomyTierSimple> taxonomyTrunkSimples, List<TaxonomyTierSimple> taxonomyBranchSimples, List<TaxonomyTierSimple> taxonomyLeafSimples, List<ProjectSimple> projectSimples, TaxonomyLevel taxonomyLevel)
+        public AddProjectEvaluationViewDataForAngular(List<TaxonomyTierSimple> taxonomyTrunkSimples, List<TaxonomyTierSimple> taxonomyBranchSimples, List<TaxonomyTierSimple> taxonomyLeafSimples, List<ProjectSimple> projectSimples, TaxonomyLevel taxonomyLevel, List<ProjectStageSimple> projectStageSimples)
         {
             TaxonomyTrunkSimples = taxonomyTrunkSimples;
             TaxonomyBranchSimples = taxonomyBranchSimples;
             TaxonomyLeafSimples = taxonomyLeafSimples;
             ProjectSimples = projectSimples;
             TaxonomyLevel = taxonomyLevel.TaxonomyLevelID;
+            ProjectStageSimples = projectStageSimples;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             if (EvaluationManageFeature.HasEvaluationManagePermission(currentFirmaSession, evaluationCriterion.Evaluation))
             {
-                string linkTitleText = $"Edit {FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'";
+                string linkTitleText = $"Edit {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'";
                 string editDialogUrl = evaluationCriterion.GetEditUrl();
                 return DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(editDialogUrl, linkTitleText);
             }
