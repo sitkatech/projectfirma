@@ -188,7 +188,7 @@ namespace ProjectFirmaModels.Models
         WebServicesList = 72,
         EvaluationList = 73,
         CreateEvaluationInstructions = 74,
-        CreateEvaluationCriterionInstructions = 75,
+        CreateEvaluationCriteriaInstructions = 75,
         AddProjectToEvaluationPortfolioInstructions = 76
     }
 }

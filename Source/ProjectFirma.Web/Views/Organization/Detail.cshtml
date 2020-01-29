@@ -143,7 +143,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.OrganizationPrimaryContact.ToType())</div>
-                                            <div class="col-xs-6">@(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())</div>
+                                            <div class="col-xs-6">
+                                                <span style="padding-right: 5px">@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditOrganizationPrimaryContactUrl, string.Format("Edit {0} for {1}", FieldDefinitionEnum.OrganizationPrimaryContact.ToType().FieldDefinitionDisplayName, ViewDataTyped.Organization.OrganizationName), 800, ViewDataTyped.UserHasOrganizationManagePrimaryContactPermissions)</span>
+                                                @(new UserViewFeature().HasPermission(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Organization.PrimaryContactPerson).HasPermission ? ViewDataTyped.Organization.GetPrimaryContactPersonWithOrgAsUrl() : ViewDataTyped.Organization.GetPrimaryContactPersonAsStringAndOrgAsUrl())
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-6 fieldLabel text-right">@Html.Label("Home Page")</div>

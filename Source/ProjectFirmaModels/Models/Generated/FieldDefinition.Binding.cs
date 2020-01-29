@@ -274,7 +274,7 @@ namespace ProjectFirmaModels.Models
         StatusLessonsLearned = 324,
         Evaluation = 325,
         EvaluationCriteria = 326,
-        EvaluationCriterionValue = 327,
+        EvaluationCriteriaValue = 327,
         EvaluationPortfolio = 328,
         ProjectEvaluation = 329,
         EvaluationName = 330,
@@ -283,8 +283,8 @@ namespace ProjectFirmaModels.Models
         EvaluationStartDate = 333,
         EvaluationEndDate = 334,
         EvaluationVisibility = 335,
-        EvaluationCriterionName = 336,
-        EvaluationCriterionDefinition = 337,
+        EvaluationCriteriaName = 336,
+        EvaluationCriteriaDefinition = 337,
         EnableProjectEvaluations = 338,
         UseProjectTimeline = 339
     }
