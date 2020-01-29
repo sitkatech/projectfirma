@@ -34,28 +34,29 @@
         @for(var index = 0; index <= ViewDataTyped.EvaluationCriterionSimples.Count - 1; index++)
         {
             <div class="form-group">
-                <div class="col-sm-3 control-label">
+                <div class="col-sm-4 control-label">
                     <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
+                    <p class="smallExplanationText">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition</p>
                 </div>
-                <div class="col-sm-9">
-                    <select id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
+                <div class="col-sm-8">
+                    <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
                         <option value="-1">Choose One</option>
                         @foreach (var value in ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionValueSimples.OrderBy(x => x.SortOrder))
                         {
-                            <option value="@value.EvaluationCriterionValueID" @(Model.SelectedEvaluationCriterionValues.Contains(value.EvaluationCriterionValueID) ? "selected" : string.Empty)>@(value.EvaluationCriterionValueRating)</option>
+                        	<option value="@value.EvaluationCriterionValueID" @(Model.SelectedEvaluationCriterionValues.Contains(value.EvaluationCriterionValueID) ? "selected" : string.Empty)>@(value.EvaluationCriterionValueRating) - @(value.EvaluationCriterionValueDescription)</option>
                         }
                     </select>
-                    <span style="margin-left: 20px;">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition</span>
+                    
                 </div>
 
             </div>
         }
         
         <div class="form-group">
-            <div class="col-sm-3 control-label">
+            <div class="col-sm-4 control-label">
                 @Html.LabelWithSugarFor(m => m.Comments)
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 @Html.TextAreaWithMaxLengthFor(m => m.Comments, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.Comments)
             </div>
