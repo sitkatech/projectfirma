@@ -216,8 +216,9 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
-    <Compile Include="Security\OrganizationManagePrimaryContactFeature.cs" />
+    <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />

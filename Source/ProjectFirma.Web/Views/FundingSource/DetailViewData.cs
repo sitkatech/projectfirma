@@ -35,6 +35,7 @@ namespace ProjectFirma.Web.Views.FundingSource
     {
         public ProjectFirmaModels.Models.FundingSource FundingSource { get; }
         public bool UserHasFundingSourceManagePermissions { get; }
+        public bool UserHasFundingSourceCustomAttributeManagePermissions { get; }
         public bool UserHasProjectFundingSourceExpenditureManagePermissions { get; }
         public string EditFundingSourceUrl { get; }
         public string ManageFundingSourcesUrl { get; }
@@ -60,6 +61,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             PageTitle = fundingSource.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
+            UserHasFundingSourceCustomAttributeManagePermissions = new FundingSourceCustomAttributeEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
 
