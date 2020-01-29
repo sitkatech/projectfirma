@@ -33,11 +33,11 @@ namespace ProjectFirma.Web.Views.Evaluation
     {
         public int EvaluationCriterionID { get; set; }
         public int EvaluationID { get; set; }
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionName)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriteriaName)]
         [Required]
         [StringLength(EvaluationCriterion.FieldLengths.EvaluationCriterionName)]
         public string EvaluationCriterionName { get; set; }
-        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriterionDefinition)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EvaluationCriteriaDefinition)]
         [Required]
         [StringLength(EvaluationCriterion.FieldLengths.EvaluationCriterionDefinition)]
         public string EvaluationCriterionDefinition { get; set; }

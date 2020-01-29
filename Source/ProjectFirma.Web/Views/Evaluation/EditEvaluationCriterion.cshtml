@@ -92,7 +92,7 @@ Source code is available upon request via <support@sitkatech.com>.
     
     <div class="row">
         <div class="col-md-12">
-            <strong>@FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabelPluralized()</strong>
+            <strong>@FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabelPluralized()</strong>
             <hr style="border-bottom: 2px solid #ddd; margin: 0; border-top: 0;" />
         </div>
     </div>
@@ -119,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 <tbody>
                     <tr ng-show="!AngularModel.EvaluationCriterionValueSimples || !AngularModel.EvaluationCriterionValueSimples.length || AngularModel.EvaluationCriterionValueSimples.length < 1">
                         <td colspan="3">
-                            <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()).</div>
+                            <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()).</div>
                         </td>
                     </tr>
                     <tr ng-repeat="valueSimple in AngularModel.EvaluationCriterionValueSimples | orderBy: 'SortOrder'">
@@ -138,7 +138,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             </a>
 
                             <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriterionValue(valueSimple)">
-                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriterionValue.ToType().GetFieldDefinitionLabel()"></i>
+                                <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()"></i>
                             </a>
                         </td>
                         <td>
