@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditEvaluationCriterion(EditEvaluationCriterionViewModel viewModel)
         {
-            var firmaPage = FirmaPageTypeEnum.CreateEvaluationCriterionInstructions.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.CreateEvaluationCriteriaInstructions.GetFirmaPage();
             var viewData = new EditEvaluationCriterionViewData(CurrentFirmaSession, firmaPage);
             return RazorPartialView<EditEvaluationCriterion, EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel>(viewData, viewModel);
         }

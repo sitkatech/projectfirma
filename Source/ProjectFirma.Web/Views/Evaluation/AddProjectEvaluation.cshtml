@@ -63,7 +63,7 @@
             <div class="col-xs-12 control-label" style="margin-bottom: 20px;"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
             <div class="col-xs-12" style="margin-bottom: 20px;">
                 <label class="small col-xs-2">
-                    Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()
+                    Identify @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()
                 </label>
                 <div class="col-xs-10">
                     <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()">
@@ -76,12 +76,12 @@
                         <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()</option>
                     </select>
 
-                    <button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()" ng-disabled="!SelectedTaxonomyLeaf"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                    
                 </div>
             </div>
-            <div class="col-xs-12">
-                <label class="col-xs-2 small" style="margin-bottom: 20px;">
-                    Select a Project Stage
+            <div class="col-xs-12" style="margin-bottom: 20px;">
+                <label class="col-xs-2 small">
+                    Filter by @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()
                 </label>
                 <div class="col-xs-10">
                     <select class="selectpicker" ng-model="SelectedProjectStage" ng-options="projectStage.DisplayName for projectStage in selectableProjectStages track by projectStage.ProjectStageID" data-container="body" data-live-search="true" data-size="8" ng-change="projectStageChanged()" ng-disabled="!SelectedTaxonomyLeaf">
@@ -89,6 +89,8 @@
                     </select>
                 </div>
             </div>
+            <div class="col-xs-offset-2 col-xs-10" style="margin-bottom: 20px;"><button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()" ng-disabled="!SelectedTaxonomyLeaf"><span class="glyphicon glyphicon-plus"></span>Add</button></div>
+
             <div class="col-xs-12" style="margin-bottom: 20px;"><strong>--OR--</strong></div>
             <div class="col-xs-12">
                 <label class="small col-xs-2">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
