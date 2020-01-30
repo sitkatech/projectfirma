@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
             if (tenantAttribute.EnableProjectTypes)
             {
-                Add(FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel(), a => a.ProjectType.ProjectTypeDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                //Add(FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel(), a => a.ProjectType.ProjectTypeDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
 
             Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);

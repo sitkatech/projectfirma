@@ -1,7 +1,4 @@
 ﻿@using System.Web.Mvc.Html
-@using LtInfo.Common.HtmlHelperExtensions
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
@@ -9,6 +6,15 @@
 @inherits ProjectFirma.Web.Views.ProjectCustomAttributeGroup.Edit
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
+
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function ()
+    {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
+    // ]]>
+</script>
 
 @using (Html.BeginForm())
 {
@@ -30,7 +36,7 @@
                             @Html.LabelWithSugarFor(m => m.ProjectTypeEnum)
                         </div>
                         <div class="col-xs-12 col-sm-8">
-                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control"})
+                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control selectpicker", multiple = "multiple"})
                             @Html.ValidationMessageFor(m => m.ProjectTypeEnum)
                             <span class="smallExplanationText">
                                 @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().

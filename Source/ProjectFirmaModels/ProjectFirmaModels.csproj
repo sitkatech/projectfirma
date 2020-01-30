@@ -382,6 +382,10 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeGroup.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />

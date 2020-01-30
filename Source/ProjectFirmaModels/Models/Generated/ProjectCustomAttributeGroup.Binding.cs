@@ -24,47 +24,28 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ProjectCustomAttributeGroup()
         {
+            this.ProjectCustomAttributeGroupProjectTypes = new HashSet<ProjectCustomAttributeGroupProjectType>();
             this.ProjectCustomAttributeTypes = new HashSet<ProjectCustomAttributeType>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectCustomAttributeGroup(int projectCustomAttributeGroupID, string projectCustomAttributeGroupName, int? sortOrder, int projectTypeID) : this()
+        public ProjectCustomAttributeGroup(int projectCustomAttributeGroupID, string projectCustomAttributeGroupName, int? sortOrder) : this()
         {
             this.ProjectCustomAttributeGroupID = projectCustomAttributeGroupID;
             this.ProjectCustomAttributeGroupName = projectCustomAttributeGroupName;
             this.SortOrder = sortOrder;
-            this.ProjectTypeID = projectTypeID;
         }
 
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
-        /// </summary>
-        public ProjectCustomAttributeGroup(int projectTypeID) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.ProjectCustomAttributeGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            
-            this.ProjectTypeID = projectTypeID;
-        }
 
-        /// <summary>
-        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
-        /// </summary>
-        public ProjectCustomAttributeGroup(ProjectType projectType) : this()
-        {
-            // Mark this as a new object by setting primary key with special value
-            this.ProjectCustomAttributeGroupID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectTypeID = projectType.ProjectTypeID;
-        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectCustomAttributeGroup CreateNewBlank(ProjectType projectType)
+        public static ProjectCustomAttributeGroup CreateNewBlank()
         {
-            return new ProjectCustomAttributeGroup(projectType);
+            return new ProjectCustomAttributeGroup();
         }
 
         /// <summary>
@@ -73,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectCustomAttributeTypes.Any();
+            return ProjectCustomAttributeGroupProjectTypes.Any() || ProjectCustomAttributeTypes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroup).Name, typeof(ProjectCustomAttributeType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroup).Name, typeof(ProjectCustomAttributeGroupProjectType).Name, typeof(ProjectCustomAttributeType).Name};
 
 
         /// <summary>
@@ -104,6 +85,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in ProjectCustomAttributeGroupProjectTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectCustomAttributeTypes.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -115,13 +101,12 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public string ProjectCustomAttributeGroupName { get; set; }
         public int? SortOrder { get; set; }
-        public int ProjectTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeGroupID; } set { ProjectCustomAttributeGroupID = value; } }
 
+        public virtual ICollection<ProjectCustomAttributeGroupProjectType> ProjectCustomAttributeGroupProjectTypes { get; set; }
         public virtual ICollection<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public ProjectType ProjectType { get { return ProjectType.AllLookupDictionary[ProjectTypeID]; } }
 
         public static class FieldLengths
         {

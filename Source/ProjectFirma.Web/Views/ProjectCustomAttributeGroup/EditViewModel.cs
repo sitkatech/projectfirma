@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectType)]
-        public ProjectTypeEnum ProjectTypeEnum { get; set; }
+        public List<ProjectTypeEnum> ProjectTypeEnum { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -39,14 +39,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             ProjectCustomAttributeGroupID = projectCustomAttributeGroup.ProjectCustomAttributeGroupID;
             ProjectCustomAttributeGroupName = projectCustomAttributeGroup.ProjectCustomAttributeGroupName;
-            ProjectTypeEnum = projectCustomAttributeGroup.ProjectType.ToEnum;
+            //ProjectTypeEnum = projectCustomAttributeGroup.Proje
         }
 
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectCustomAttributeGroup projectCustomAttributeGroup, FirmaSession currentFirmaSession)
         {
             projectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName;
-            projectCustomAttributeGroup.ProjectTypeID = (int) ProjectTypeEnum;
+            //projectCustomAttributeGroup.ProjectTypeID = (int) ProjectTypeEnum;
             if (projectCustomAttributeGroup.SortOrder != null) return;
             var allProjectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
             var maxSortOrder = allProjectCustomAttributeGroups.Select(x => x.SortOrder).Max();
