@@ -78,9 +78,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (!Enum.IsDefined(typeof(ProjectTypeEnum), ProjectTypeEnums))
+            foreach (var projectTypeEnum in ProjectTypeEnums)
             {
-                yield return new SitkaValidationResult<BasicsViewModel, ProjectTypeEnum>($"A valid value for {FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectTypeEnum);
+                if (!Enum.IsDefined(typeof(ProjectTypeEnum), projectTypeEnum))
+                {
+                    yield return new SitkaValidationResult<EditViewModel, List<ProjectTypeEnum>>($"A valid value for {FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectTypeEnums);
+                }
             }
         }
     }

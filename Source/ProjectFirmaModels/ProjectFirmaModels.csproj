@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -727,6 +727,7 @@
     <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupProjectType.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectAttachment.cs" />
