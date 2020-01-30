@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[EvaluationCriterionValue]
+//  Source Table: [dbo].[EvaluationCriteriaValue]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[EvaluationCriterionValue] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[EvaluationCriterionValue]")]
-    public partial class EvaluationCriterionValue : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[EvaluationCriteriaValue] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[EvaluationCriteriaValue]")]
+    public partial class EvaluationCriteriaValue : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected EvaluationCriterionValue()
+        protected EvaluationCriteriaValue()
         {
             this.ProjectEvaluationSelectedValues = new HashSet<ProjectEvaluationSelectedValue>();
         }
@@ -30,48 +30,48 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterionValue(int evaluationCriterionValueID, int evaluationCriterionID, string evaluationCriterionValueRating, string evaluationCriterionValueDescription, int? sortOrder) : this()
+        public EvaluationCriteriaValue(int evaluationCriteriaValueID, int evaluationCriteriaID, string evaluationCriteriaValueRating, string evaluationCriteriaValueDescription, int? sortOrder) : this()
         {
-            this.EvaluationCriterionValueID = evaluationCriterionValueID;
-            this.EvaluationCriterionID = evaluationCriterionID;
-            this.EvaluationCriterionValueRating = evaluationCriterionValueRating;
-            this.EvaluationCriterionValueDescription = evaluationCriterionValueDescription;
+            this.EvaluationCriteriaValueID = evaluationCriteriaValueID;
+            this.EvaluationCriteriaID = evaluationCriteriaID;
+            this.EvaluationCriteriaValueRating = evaluationCriteriaValueRating;
+            this.EvaluationCriteriaValueDescription = evaluationCriteriaValueDescription;
             this.SortOrder = sortOrder;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterionValue(int evaluationCriterionID, string evaluationCriterionValueRating, string evaluationCriterionValueDescription) : this()
+        public EvaluationCriteriaValue(int evaluationCriteriaID, string evaluationCriteriaValueRating, string evaluationCriteriaValueDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.EvaluationCriterionValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.EvaluationCriteriaValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.EvaluationCriterionID = evaluationCriterionID;
-            this.EvaluationCriterionValueRating = evaluationCriterionValueRating;
-            this.EvaluationCriterionValueDescription = evaluationCriterionValueDescription;
+            this.EvaluationCriteriaID = evaluationCriteriaID;
+            this.EvaluationCriteriaValueRating = evaluationCriteriaValueRating;
+            this.EvaluationCriteriaValueDescription = evaluationCriteriaValueDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public EvaluationCriterionValue(EvaluationCriterion evaluationCriterion, string evaluationCriterionValueRating, string evaluationCriterionValueDescription) : this()
+        public EvaluationCriteriaValue(EvaluationCriteria evaluationCriteria, string evaluationCriteriaValueRating, string evaluationCriteriaValueDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.EvaluationCriterionValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.EvaluationCriterionID = evaluationCriterion.EvaluationCriterionID;
-            this.EvaluationCriterion = evaluationCriterion;
-            evaluationCriterion.EvaluationCriterionValues.Add(this);
-            this.EvaluationCriterionValueRating = evaluationCriterionValueRating;
-            this.EvaluationCriterionValueDescription = evaluationCriterionValueDescription;
+            this.EvaluationCriteriaValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.EvaluationCriteriaID = evaluationCriteria.EvaluationCriteriaID;
+            this.EvaluationCriteria = evaluationCriteria;
+            evaluationCriteria.EvaluationCriteriaValues.Add(this);
+            this.EvaluationCriteriaValueRating = evaluationCriteriaValueRating;
+            this.EvaluationCriteriaValueDescription = evaluationCriteriaValueDescription;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static EvaluationCriterionValue CreateNewBlank(EvaluationCriterion evaluationCriterion)
+        public static EvaluationCriteriaValue CreateNewBlank(EvaluationCriteria evaluationCriteria)
         {
-            return new EvaluationCriterionValue(evaluationCriterion, default(string), default(string));
+            return new EvaluationCriteriaValue(evaluationCriteria, default(string), default(string));
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(EvaluationCriterionValue).Name, typeof(ProjectEvaluationSelectedValue).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(EvaluationCriteriaValue).Name, typeof(ProjectEvaluationSelectedValue).Name};
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllEvaluationCriterionValues.Remove(this);
+            dbContext.AllEvaluationCriteriaValues.Remove(this);
         }
         
         /// <summary>
@@ -118,23 +118,23 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int EvaluationCriterionValueID { get; set; }
+        public int EvaluationCriteriaValueID { get; set; }
         public int TenantID { get; set; }
-        public int EvaluationCriterionID { get; set; }
-        public string EvaluationCriterionValueRating { get; set; }
-        public string EvaluationCriterionValueDescription { get; set; }
+        public int EvaluationCriteriaID { get; set; }
+        public string EvaluationCriteriaValueRating { get; set; }
+        public string EvaluationCriteriaValueDescription { get; set; }
         public int? SortOrder { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return EvaluationCriterionValueID; } set { EvaluationCriterionValueID = value; } }
+        public int PrimaryKey { get { return EvaluationCriteriaValueID; } set { EvaluationCriteriaValueID = value; } }
 
         public virtual ICollection<ProjectEvaluationSelectedValue> ProjectEvaluationSelectedValues { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual EvaluationCriterion EvaluationCriterion { get; set; }
+        public virtual EvaluationCriteria EvaluationCriteria { get; set; }
 
         public static class FieldLengths
         {
-            public const int EvaluationCriterionValueRating = 60;
-            public const int EvaluationCriterionValueDescription = 500;
+            public const int EvaluationCriteriaValueRating = 60;
+            public const int EvaluationCriteriaValueDescription = 500;
         }
     }
 }

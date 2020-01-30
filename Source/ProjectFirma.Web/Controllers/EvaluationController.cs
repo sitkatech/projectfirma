@@ -57,12 +57,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [EvaluationViewFeature]
-        public GridJsonNetJObjectResult<EvaluationCriterion> EvaluationCriterionGridJsonData(EvaluationPrimaryKey evaluationPrimaryKey)
+        public GridJsonNetJObjectResult<EvaluationCriteria> EvaluationCriteriaGridJsonData(EvaluationPrimaryKey evaluationPrimaryKey)
         {
-            var gridSpec = new EvaluationCriterionGridSpec(CurrentFirmaSession);
+            var gridSpec = new EvaluationCriteriaGridSpec(CurrentFirmaSession);
             var evaluation = evaluationPrimaryKey.EntityObject;
-            var evaluationCriterion = evaluation.EvaluationCriterions.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<EvaluationCriterion>(evaluationCriterion, gridSpec);
+            var evaluationCriteria = evaluation.EvaluationCriterias.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<EvaluationCriteria>(evaluationCriteria, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -181,105 +181,105 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [EvaluationManageFeature]
-        public PartialViewResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey)
+        public PartialViewResult NewEvaluationCriteria(EvaluationPrimaryKey evaluationPrimaryKey)
         {
-            var viewModel = new EditEvaluationCriterionViewModel();
-            return ViewEditEvaluationCriterion(viewModel);
+            var viewModel = new EditEvaluationCriteriaViewModel();
+            return ViewEditEvaluationCriteria(viewModel);
         }
 
         [HttpPost]
         [EvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewEvaluationCriterion(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriterionViewModel viewModel)
+        public ActionResult NewEvaluationCriteria(EvaluationPrimaryKey evaluationPrimaryKey, EditEvaluationCriteriaViewModel viewModel)
         {
 
             if (!ModelState.IsValid)
             {
-                return ViewEditEvaluationCriterion(viewModel);
+                return ViewEditEvaluationCriteria(viewModel);
             }
 
             var evaluation = evaluationPrimaryKey.EntityObject;
 
-            var evaluationCriterion = new EvaluationCriterion(evaluation, viewModel.EvaluationCriterionName, viewModel.EvaluationCriterionDefinition);
+            var evaluationCriteria = new EvaluationCriteria(evaluation, viewModel.EvaluationCriteriaName, viewModel.EvaluationCriteriaDefinition);
 
-            if (viewModel.EvaluationCriterionValueSimples.Count > 0)
+            if (viewModel.EvaluationCriteriaValueSimples.Count > 0)
             {
-                evaluationCriterion.EvaluationCriterionValues = viewModel.EvaluationCriterionValueSimples.Select(x => new EvaluationCriterionValue(evaluationCriterion, x.EvaluationCriterionValueRating, x.EvaluationCriterionValueDescription){SortOrder = x.SortOrder}).ToList();
+                evaluationCriteria.EvaluationCriteriaValues = viewModel.EvaluationCriteriaValueSimples.Select(x => new EvaluationCriteriaValue(evaluationCriteria, x.EvaluationCriteriaValueRating, x.EvaluationCriteriaValueDescription){SortOrder = x.SortOrder}).ToList();
             }
             
 
-            HttpRequestStorage.DatabaseEntities.AllEvaluationCriterions.Add(evaluationCriterion);
+            HttpRequestStorage.DatabaseEntities.AllEvaluationCriterias.Add(evaluationCriteria);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} {evaluationCriterion.EvaluationCriterionName} successfully created.");
+            SetMessageForDisplay($"{FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} {evaluationCriteria.EvaluationCriteriaName} successfully created.");
 
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
-        [EvaluationCriterionManageFeature]
-        public PartialViewResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
+        [EvaluationCriteriaManageFeature]
+        public PartialViewResult EditEvaluationCriteria(EvaluationCriteriaPrimaryKey evaluationCriteriaPrimaryKey)
         {
-            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
-            var viewModel = new EditEvaluationCriterionViewModel(evaluationCriterion);
-            return ViewEditEvaluationCriterion(viewModel);
+            var evaluationCriteria = evaluationCriteriaPrimaryKey.EntityObject;
+            var viewModel = new EditEvaluationCriteriaViewModel(evaluationCriteria);
+            return ViewEditEvaluationCriteria(viewModel);
         }
 
         [HttpPost]
-        [EvaluationCriterionManageFeature]
+        [EvaluationCriteriaManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey, EditEvaluationCriterionViewModel viewModel)
+        public ActionResult EditEvaluationCriteria(EvaluationCriteriaPrimaryKey evaluationCriteriaPrimaryKey, EditEvaluationCriteriaViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewEditEvaluationCriterion(viewModel);
+                return ViewEditEvaluationCriteria(viewModel);
             }
 
-            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
-            viewModel.UpdateModel(evaluationCriterion);
+            var evaluationCriteria = evaluationCriteriaPrimaryKey.EntityObject;
+            viewModel.UpdateModel(evaluationCriteria);
 
             SetMessageForDisplay(
-                $"Successfully updated {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
+                $"Successfully updated {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriteria.EvaluationCriteriaName}'!");
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditEvaluationCriterion(EditEvaluationCriterionViewModel viewModel)
+        private PartialViewResult ViewEditEvaluationCriteria(EditEvaluationCriteriaViewModel viewModel)
         {
             var firmaPage = FirmaPageTypeEnum.CreateEvaluationCriteriaInstructions.GetFirmaPage();
-            var viewData = new EditEvaluationCriterionViewData(CurrentFirmaSession, firmaPage);
-            return RazorPartialView<EditEvaluationCriterion, EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel>(viewData, viewModel);
+            var viewData = new EditEvaluationCriteriaViewData(CurrentFirmaSession, firmaPage);
+            return RazorPartialView<EditEvaluationCriteria, EditEvaluationCriteriaViewData, EditEvaluationCriteriaViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [EvaluationCriterionManageFeature]
-        public PartialViewResult DeleteEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
+        [EvaluationCriteriaManageFeature]
+        public PartialViewResult DeleteEvaluationCriteria(EvaluationCriteriaPrimaryKey evaluationCriteriaPrimaryKey)
         {
-            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(evaluationCriterion.EvaluationCriterionID);
-            return ViewDeleteEvaluationCriterion(evaluationCriterion, viewModel);
+            var evaluationCriteria = evaluationCriteriaPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(evaluationCriteria.EvaluationCriteriaID);
+            return ViewDeleteEvaluationCriteria(evaluationCriteria, viewModel);
         }
 
         [HttpPost]
-        [EvaluationCriterionManageFeature]
+        [EvaluationCriteriaManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteEvaluationCriterion(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteEvaluationCriteria(EvaluationCriteriaPrimaryKey evaluationCriteriaPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var evaluationCriterion = evaluationCriterionPrimaryKey.EntityObject;
+            var evaluationCriteria = evaluationCriteriaPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewDeleteEvaluationCriterion(evaluationCriterion, viewModel);
+                return ViewDeleteEvaluationCriteria(evaluationCriteria, viewModel);
             }
 
-            evaluationCriterion.DeleteFull(HttpRequestStorage.DatabaseEntities);
-            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriterion.EvaluationCriterionName}'!");
+            evaluationCriteria.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Successfully deleted {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} '{evaluationCriteria.EvaluationCriteriaName}'!");
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewDeleteEvaluationCriterion(EvaluationCriterion evaluationCriterion, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteEvaluationCriteria(EvaluationCriteria evaluationCriteria, ConfirmDialogFormViewModel viewModel)
         {
-            bool canDelete = evaluationCriterion.CanDelete();
+            bool canDelete = evaluationCriteria.CanDelete();
             var confirmMessage = canDelete
-                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} \"{evaluationCriterion.EvaluationCriterionName}\"?</p>"
+                ? $"<p>Are you sure you want to delete {FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()} \"{evaluationCriteria.EvaluationCriteriaName}\"?</p>"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel());
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -288,9 +288,9 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AnonymousUnclassifiedFeature]
-        public ContentResult EvaluationCriterionDefinition(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
+        public ContentResult EvaluationCriteriaDefinition(EvaluationCriteriaPrimaryKey evaluationCriteriaPrimaryKey)
         {
-            return Content(evaluationCriterionPrimaryKey.EntityObject.EvaluationCriterionDefinition);
+            return Content(evaluationCriteriaPrimaryKey.EntityObject.EvaluationCriteriaDefinition);
         }
 
 
@@ -411,17 +411,17 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditProjectEvaluation(EditProjectEvaluationViewModel viewModel, ProjectEvaluation projectEvaluation)
         {
-            var evaluationCriterionSimples = projectEvaluation.Evaluation.EvaluationCriterions.Select(x => new EvaluationCriterionSimple(x)).ToList();
-            var viewData = new EditProjectEvaluationViewData(projectEvaluation, evaluationCriterionSimples);
+            var evaluationCriteriaSimples = projectEvaluation.Evaluation.EvaluationCriterias.Select(x => new EvaluationCriteriaSimple(x)).ToList();
+            var viewData = new EditProjectEvaluationViewData(projectEvaluation, evaluationCriteriaSimples);
             return RazorPartialView<EditProjectEvaluation, EditProjectEvaluationViewData, EditProjectEvaluationViewModel>(viewData, viewModel);
         }
 
 
         [HttpGet]
         [ProjectEvaluationManageFeature]
-        public PartialViewResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey)
+        public PartialViewResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriteriaPrimaryKey)
         {
-            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            var projectEvaluation = projectEvaluationCriteriaPrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(projectEvaluation.ProjectEvaluationID);
             return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);
         }
@@ -429,9 +429,9 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ProjectEvaluationManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriterionPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteProjectEvaluation(ProjectEvaluationPrimaryKey projectEvaluationCriteriaPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var projectEvaluation = projectEvaluationCriterionPrimaryKey.EntityObject;
+            var projectEvaluation = projectEvaluationCriteriaPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewDeleteProjectEvaluation(projectEvaluation, viewModel);

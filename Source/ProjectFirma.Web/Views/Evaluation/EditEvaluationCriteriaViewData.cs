@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditEvaluationCriterionViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditEvaluationCriteriaViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -23,11 +23,11 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public class EditEvaluationCriterionViewData : FirmaViewData
+    public class EditEvaluationCriteriaViewData : FirmaViewData
     {
 
 
-        public EditEvaluationCriterionViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
+        public EditEvaluationCriteriaViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
 
         }

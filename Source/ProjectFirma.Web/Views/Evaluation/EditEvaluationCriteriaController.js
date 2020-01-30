@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditEvaluationCriterionController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditEvaluationCriteriaController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,35 +18,35 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-//# sourceURL=EditEvaluationCriterionController.js
+//# sourceURL=EditEvaluationCriteriaController.js
 angular.module("ProjectFirmaApp")
-    .controller("EditEvaluationCriterionController",
+    .controller("EditEvaluationCriteriaController",
         function($scope, $timeout, angularModelAndViewData) {
             //debugger;
             $scope.AngularModel = angularModelAndViewData.AngularModel;
             $scope.nextValueID = -1;
 
-            $scope.addEvaluationCriterionValue = function () {
+            $scope.addEvaluationCriteriaValue = function () {
 
-                //console.log("adding evaluation criterion value");
-                $scope.AngularModel.EvaluationCriterionValueSimples.push({
-                    EvaluationCriterionValueID: $scope.nextValueID--,
+                //console.log("adding evaluation Criteria value");
+                $scope.AngularModel.EvaluationCriteriaValueSimples.push({
+                    EvaluationCriteriaValueID: $scope.nextValueID--,
                     HasAssociatedActuals: false,
-                    SortOrder: $scope.AngularModel.EvaluationCriterionValueSimples.length + 1
+                    SortOrder: $scope.AngularModel.EvaluationCriteriaValueSimples.length + 1
                 });
                 //debugger;
             }
 
-            $scope.removeEvaluationCriterionValue = function(valueSimple)
+            $scope.removeEvaluationCriteriaValue = function(valueSimple)
             {
-                Sitka.Methods.removeFromJsonArray($scope.AngularModel.EvaluationCriterionValueSimples, valueSimple);
+                Sitka.Methods.removeFromJsonArray($scope.AngularModel.EvaluationCriteriaValueSimples, valueSimple);
             }
 
 
-            $scope.moveCriterionValueUp = function (valueSimple) {
-                var valuesForThisEvaluationCriterion = $scope.AngularModel.EvaluationCriterionValueSimples;
+            $scope.moveCriteriaValueUp = function (valueSimple) {
+                var valuesForThisEvaluationCriteria = $scope.AngularModel.EvaluationCriteriaValueSimples;
 
-                var optionBeforeThis = _.chain(valuesForThisEvaluationCriterion).filter(function(x) {
+                var optionBeforeThis = _.chain(valuesForThisEvaluationCriteria).filter(function(x) {
                     return x.SortOrder < valueSimple.SortOrder;
                 }).sortBy(function (x) { return x.SortOrder; }).last().value();
 
@@ -56,10 +56,10 @@ angular.module("ProjectFirmaApp")
                 valueSimple.SortOrder--;
             }
 
-            $scope.moveCriterionValueDown = function (valueSimple) {
-                var valuesForThisEvaluationCriterion = $scope.AngularModel.EvaluationCriterionValueSimples;
+            $scope.moveCriteriaValueDown = function (valueSimple) {
+                var valuesForThisEvaluationCriteria = $scope.AngularModel.EvaluationCriteriaValueSimples;
 
-                var optionAfterThis = _.chain(valuesForThisEvaluationCriterion).filter(function (x) {
+                var optionAfterThis = _.chain(valuesForThisEvaluationCriteria).filter(function (x) {
                     return x.SortOrder > valueSimple.SortOrder;
                 }).sortBy(function(x) { return x.SortOrder; }).first().value();
 
@@ -78,7 +78,7 @@ angular.module("ProjectFirmaApp")
             $scope.validateValueRating = function(valueSimple)
             {
                 var errors = [];
-                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriterionValueRating))
+                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriteriaValueRating))
                 {
                     errors.push("Please specify a rating for the value.");
                 }
@@ -88,23 +88,23 @@ angular.module("ProjectFirmaApp")
 
             $scope.validateValueDescription = function (valueSimple) {
                 var errors = [];
-                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriterionValueDescription)) {
+                if (Sitka.Methods.isUndefinedNullOrEmpty(valueSimple.EvaluationCriteriaValueDescription)) {
                     errors.push("Please specify a description for the value.");
                 }
 
                 return errors;
             }
 
-            if ($scope.AngularModel.EvaluationCriterionValueSimples.length < 1) {
-                $scope.addEvaluationCriterionValue();
+            if ($scope.AngularModel.EvaluationCriteriaValueSimples.length < 1) {
+                $scope.addEvaluationCriteriaValue();
             }
 
-            $scope.$watch("AngularModel.EvaluationCriterionValueSimples",
+            $scope.$watch("AngularModel.EvaluationCriteriaValueSimples",
                 function () {
                     var submitButton = jQuery("form").parents(".modal-dialog").find("#ltinfo-modal-dialog-save-button-id");
-                    var valueSimples = _.chain($scope.AngularModel.EvaluationCriterionValueSimples).value();
+                    var valueSimples = _.chain($scope.AngularModel.EvaluationCriteriaValueSimples).value();
 
-                    if ($scope.AngularModel.EvaluationCriterionValueSimples.length > 0 && !_.some(_.flatten(valueSimples), $scope.showValueValidationWarnings))
+                    if ($scope.AngularModel.EvaluationCriteriaValueSimples.length > 0 && !_.some(_.flatten(valueSimples), $scope.showValueValidationWarnings))
                     {
                         submitButton.prop("disabled", false);
                     }

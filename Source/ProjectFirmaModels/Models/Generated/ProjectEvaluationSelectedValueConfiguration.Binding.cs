@@ -18,11 +18,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectEvaluationSelectedValueID).HasColumnName(@"ProjectEvaluationSelectedValueID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectEvaluationID).HasColumnName(@"ProjectEvaluationID").HasColumnType("int").IsRequired();
-            Property(x => x.EvaluationCriterionValueID).HasColumnName(@"EvaluationCriterionValueID").HasColumnType("int").IsRequired();
+            Property(x => x.EvaluationCriteriaValueID).HasColumnName(@"EvaluationCriteriaValueID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.ProjectEvaluation).WithMany(b => b.ProjectEvaluationSelectedValues).HasForeignKey(c => c.ProjectEvaluationID).WillCascadeOnDelete(false); // FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID
-            HasRequired(a => a.EvaluationCriterionValue).WithMany(b => b.ProjectEvaluationSelectedValues).HasForeignKey(c => c.EvaluationCriterionValueID).WillCascadeOnDelete(false); // FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID
+            HasRequired(a => a.EvaluationCriteriaValue).WithMany(b => b.ProjectEvaluationSelectedValues).HasForeignKey(c => c.EvaluationCriteriaValueID).WillCascadeOnDelete(false); // FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="EditEvaluationCriterion.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditEvaluationCriteria.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -24,7 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Evaluation
 @using ProjectFirma.Web.Views.Shared
-@inherits EditEvaluationCriterion
+@inherits EditEvaluationCriteria
 
 <script type="text/javascript">
     // <![CDATA[
@@ -36,7 +36,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     AngularModel: @Html.Raw(JObject.FromObject(Model))
                 };
             });
-    angular.bootstrap(jQuery("[ng-controller=\"EditEvaluationCriterionController\"]"), ["ProjectFirmaApp"]);
+    angular.bootstrap(jQuery("[ng-controller=\"EditEvaluationCriteriaController\"]"), ["ProjectFirmaApp"]);
     // ]]>
 </script>
 
@@ -58,7 +58,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 @using (Html.BeginForm())
 {
-<div ng-app="ProjectFirmaApp" ng-controller="EditEvaluationCriterionController">
+<div ng-app="ProjectFirmaApp" ng-controller="EditEvaluationCriteriaController">
 
 
     <div class="row">
@@ -71,21 +71,21 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.EvaluationCriterionName)
+                @Html.LabelWithSugarFor(m => m.EvaluationCriteriaName)
 
             </div>
             <div class="col-xs-12 col-sm-7">
-                <input id="@Html.IdFor(m => m.EvaluationCriterionName)" type="text" class="form-control" ng-model="AngularModel.EvaluationCriterionName" name="EvaluationCriterionName" />
-                @Html.ValidationMessageFor(m => m.EvaluationCriterionName)
+                <input id="@Html.IdFor(m => m.EvaluationCriteriaName)" type="text" class="form-control" ng-model="AngularModel.EvaluationCriteriaName" name="EvaluationCriteriaName" />
+                @Html.ValidationMessageFor(m => m.EvaluationCriteriaName)
             </div>
         </div>
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.EvaluationCriterionDefinition)
+                @Html.LabelWithSugarFor(m => m.EvaluationCriteriaDefinition)
             </div>
             <div class="col-xs-12 col-sm-7">
-                <textarea id="@Html.IdFor(m => m.EvaluationCriterionDefinition)" type="text" size="4" class="form-control" ng-model="AngularModel.EvaluationCriterionDefinition" name="EvaluationCriterionDefinition">@Model.EvaluationCriterionDefinition</textarea>
-                @Html.ValidationMessageFor(m => m.EvaluationCriterionDefinition)
+                <textarea id="@Html.IdFor(m => m.EvaluationCriteriaDefinition)" type="text" size="4" class="form-control" ng-model="AngularModel.EvaluationCriteriaDefinition" name="EvaluationCriteriaDefinition">@Model.EvaluationCriteriaDefinition</textarea>
+                @Html.ValidationMessageFor(m => m.EvaluationCriteriaDefinition)
             </div>
         </div>
     </div>
@@ -101,9 +101,9 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="form-horizontal">
         <div class="form-group-condensed">
             <div class="col-sm-3 col-sm-offset-9">
-                <button type="button" class="btn btn-sm btn-firma" ng-click="addEvaluationCriterionValue()">
+                <button type="button" class="btn btn-sm btn-firma" ng-click="addEvaluationCriteriaValue()">
                     <span class="glyphicon glyphicon-plus"></span>
-                    Add Criterion Value
+                    Add Criteria Value
                 </button>
             </div>
         </div>
@@ -117,40 +117,40 @@ Source code is available upon request via <support@sitkatech.com>.
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-show="!AngularModel.EvaluationCriterionValueSimples || !AngularModel.EvaluationCriterionValueSimples.length || AngularModel.EvaluationCriterionValueSimples.length < 1">
+                    <tr ng-show="!AngularModel.EvaluationCriteriaValueSimples || !AngularModel.EvaluationCriteriaValueSimples.length || AngularModel.EvaluationCriteriaValueSimples.length < 1">
                         <td colspan="3">
                             <div class="alert alert-danger">There are currently no @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabelPluralized() on this @(FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()).</div>
                         </td>
                     </tr>
-                    <tr ng-repeat="valueSimple in AngularModel.EvaluationCriterionValueSimples | orderBy: 'SortOrder'">
+                    <tr ng-repeat="valueSimple in AngularModel.EvaluationCriteriaValueSimples | orderBy: 'SortOrder'">
                         <td>
-                            <input type="hidden" value="{{valueSimple.EvaluationCriterionValueID}}"
-                                   name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueID" />
+                            <input type="hidden" value="{{valueSimple.EvaluationCriteriaValueID}}"
+                                   name="EvaluationCriteriaValueSimples[{{$index}}].EvaluationCriteriaValueID" />
                             <input type="hidden" value="{{valueSimple.SortOrder}}"
-                                   name="EvaluationCriterionValueSimples[{{$index}}].SortOrder" />
+                                   name="EvaluationCriteriaValueSimples[{{$index}}].SortOrder" />
 
-                            <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueUp(valueSimple)">
+                            <a href="javascript:void(0)" ng-show="$index > 0 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueUp(valueSimple)">
                                 <i class="glyphicon glyphicon-arrow-up" title="Move Up" alt="Move Up"></i>
                             </a>
 
-                            <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriterionValueSimples.length - 1 && AngularModel.EvaluationCriterionValueSimples.length > 0" ng-click="moveCriterionValueDown(valueSimple)">
+                            <a href="javascript:void(0)" ng-show="$index < AngularModel.EvaluationCriteriaValueSimples.length - 1 && AngularModel.EvaluationCriteriaValueSimples.length > 0" ng-click="moveCriteriaValueDown(valueSimple)">
                                 <i class="glyphicon glyphicon-arrow-down" title="Move Down" alt="Move Down"></i>
                             </a>
 
-                            <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriterionValue(valueSimple)">
+                            <a href="javascript:void(0)" ng-show="!valueSimple.HasAssociatedActuals" ng-click="removeEvaluationCriteriaValue(valueSimple)">
                                 <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()" alt="Remove  @FieldDefinitionEnum.EvaluationCriteriaValue.ToType().GetFieldDefinitionLabel()"></i>
                             </a>
                         </td>
                         <td>
                             <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateValueRating(valueSimple).length != 0}">
-                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriterionValueRating"
-                                       name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueRating" />
+                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriteriaValueRating"
+                                       name="EvaluationCriteriaValueSimples[{{$index}}].EvaluationCriteriaValueRating" />
                             </div>
                         </td>
                         <td>
                             <div class="input-group input-group-sm" style="width: 100%;" ng-class="{'has-error': validateValueDescription(valueSimple).length != 0}">
-                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriterionValueDescription"
-                                       name="EvaluationCriterionValueSimples[{{$index}}].EvaluationCriterionValueDescription" />
+                                <input class="form-control" style="width: 100%;" type="text" ng-model="valueSimple.EvaluationCriteriaValueDescription"
+                                       name="EvaluationCriteriaValueSimples[{{$index}}].EvaluationCriteriaValueDescription" />
                             </div>
                         </td>
                     </tr>

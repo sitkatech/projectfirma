@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditEvaluationCriterion.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditEvaluationCriteria.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -22,5 +22,5 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirma.Web.Views.Evaluation
 {
-    public abstract class EditEvaluationCriterion : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditEvaluationCriterionViewData, EditEvaluationCriterionViewModel> { }
+    public abstract class EditEvaluationCriteria : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditEvaluationCriteriaViewData, EditEvaluationCriteriaViewModel> { }
 }

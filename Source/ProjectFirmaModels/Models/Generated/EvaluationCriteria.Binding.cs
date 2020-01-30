@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[EvaluationCriterion]
+//  Source Table: [dbo].[EvaluationCriteria]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,62 +15,62 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[EvaluationCriterion] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[EvaluationCriterion]")]
-    public partial class EvaluationCriterion : IHavePrimaryKey, IHaveATenantID
+    // Table [dbo].[EvaluationCriteria] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[dbo].[EvaluationCriteria]")]
+    public partial class EvaluationCriteria : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected EvaluationCriterion()
+        protected EvaluationCriteria()
         {
-            this.EvaluationCriterionValues = new HashSet<EvaluationCriterionValue>();
+            this.EvaluationCriteriaValues = new HashSet<EvaluationCriteriaValue>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterion(int evaluationCriterionID, int evaluationID, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
+        public EvaluationCriteria(int evaluationCriteriaID, int evaluationID, string evaluationCriteriaName, string evaluationCriteriaDefinition) : this()
         {
-            this.EvaluationCriterionID = evaluationCriterionID;
+            this.EvaluationCriteriaID = evaluationCriteriaID;
             this.EvaluationID = evaluationID;
-            this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
+            this.EvaluationCriteriaName = evaluationCriteriaName;
+            this.EvaluationCriteriaDefinition = evaluationCriteriaDefinition;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public EvaluationCriterion(int evaluationID, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
+        public EvaluationCriteria(int evaluationID, string evaluationCriteriaName, string evaluationCriteriaDefinition) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.EvaluationCriterionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.EvaluationCriteriaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.EvaluationID = evaluationID;
-            this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
+            this.EvaluationCriteriaName = evaluationCriteriaName;
+            this.EvaluationCriteriaDefinition = evaluationCriteriaDefinition;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public EvaluationCriterion(Evaluation evaluation, string evaluationCriterionName, string evaluationCriterionDefinition) : this()
+        public EvaluationCriteria(Evaluation evaluation, string evaluationCriteriaName, string evaluationCriteriaDefinition) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.EvaluationCriterionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.EvaluationCriteriaID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.EvaluationID = evaluation.EvaluationID;
             this.Evaluation = evaluation;
-            evaluation.EvaluationCriterions.Add(this);
-            this.EvaluationCriterionName = evaluationCriterionName;
-            this.EvaluationCriterionDefinition = evaluationCriterionDefinition;
+            evaluation.EvaluationCriterias.Add(this);
+            this.EvaluationCriteriaName = evaluationCriteriaName;
+            this.EvaluationCriteriaDefinition = evaluationCriteriaDefinition;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static EvaluationCriterion CreateNewBlank(Evaluation evaluation)
+        public static EvaluationCriteria CreateNewBlank(Evaluation evaluation)
         {
-            return new EvaluationCriterion(evaluation, default(string), default(string));
+            return new EvaluationCriteria(evaluation, default(string), default(string));
         }
 
         /// <summary>
@@ -79,13 +79,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EvaluationCriterionValues.Any();
+            return EvaluationCriteriaValues.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(EvaluationCriterion).Name, typeof(EvaluationCriterionValue).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(EvaluationCriteria).Name, typeof(EvaluationCriteriaValue).Name};
 
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.AllEvaluationCriterions.Remove(this);
+            dbContext.AllEvaluationCriterias.Remove(this);
         }
         
         /// <summary>
@@ -110,29 +110,29 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in EvaluationCriterionValues.ToList())
+            foreach(var x in EvaluationCriteriaValues.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int EvaluationCriterionID { get; set; }
+        public int EvaluationCriteriaID { get; set; }
         public int TenantID { get; set; }
         public int EvaluationID { get; set; }
-        public string EvaluationCriterionName { get; set; }
-        public string EvaluationCriterionDefinition { get; set; }
+        public string EvaluationCriteriaName { get; set; }
+        public string EvaluationCriteriaDefinition { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return EvaluationCriterionID; } set { EvaluationCriterionID = value; } }
+        public int PrimaryKey { get { return EvaluationCriteriaID; } set { EvaluationCriteriaID = value; } }
 
-        public virtual ICollection<EvaluationCriterionValue> EvaluationCriterionValues { get; set; }
+        public virtual ICollection<EvaluationCriteriaValue> EvaluationCriteriaValues { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Evaluation Evaluation { get; set; }
 
         public static class FieldLengths
         {
-            public const int EvaluationCriterionName = 120;
-            public const int EvaluationCriterionDefinition = 1000;
+            public const int EvaluationCriteriaName = 120;
+            public const int EvaluationCriteriaDefinition = 1000;
         }
     }
 }
