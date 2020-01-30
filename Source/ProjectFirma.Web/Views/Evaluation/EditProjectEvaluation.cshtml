@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Evaluation.EditProjectEvaluation
@@ -35,8 +36,7 @@
         {
             <div class="form-group">
                 <div class="col-sm-4 control-label">
-                    <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
-                    <p class="smallExplanationText">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition</p>
+                    <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@Html.Raw(LabelWithSugarForExtensions.GenerateHelpIconImgTag(ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName, ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition.ToHTMLFormattedString(), ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinitionUrl, 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)) @ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
                 </div>
                 <div class="col-sm-8">
                     <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">

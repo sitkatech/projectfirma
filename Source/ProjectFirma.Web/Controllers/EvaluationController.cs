@@ -29,6 +29,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Evaluation;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -283,6 +284,13 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [AnonymousUnclassifiedFeature]
+        public ContentResult EvaluationCriterionDefinition(EvaluationCriterionPrimaryKey evaluationCriterionPrimaryKey)
+        {
+            return Content(evaluationCriterionPrimaryKey.EntityObject.EvaluationCriterionDefinition);
         }
 
 

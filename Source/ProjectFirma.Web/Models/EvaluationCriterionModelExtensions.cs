@@ -22,6 +22,12 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationCriterionID);
         }
 
+        public static readonly UrlTemplate<int> DefinitionUrlTemplate = new UrlTemplate<int>(SitkaRoute<EvaluationController>.BuildUrlFromExpression(t => t.EvaluationCriterionDefinition(UrlTemplate.Parameter1Int)));
+        public static string GetDefinitionUrl(this EvaluationCriterion evaluationCriterion)
+        {
+            return DefinitionUrlTemplate.ParameterReplace(evaluationCriterion.EvaluationCriterionID);
+        }
+
         public static int GetNumberOfEvaluationCriterionValues(this EvaluationCriterion evaluationCriterion)
         {
             return evaluationCriterion.EvaluationCriterionValues.Count;
