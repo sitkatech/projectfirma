@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Views.Organization
             PageTitle = organization.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            UserHasOrganizationManagePrimaryContactPermissions = new OrganizationManagePrimaryContactFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            UserHasOrganizationManagePrimaryContactPermissions = new OrganizationPrimaryContactManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             EditOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Edit(organization));
             EditBoundaryUrl =

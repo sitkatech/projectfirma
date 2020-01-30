@@ -23,7 +23,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    public class OrganizationManagePrimaryContactFeature : FirmaAdminFeature
+    public class OrganizationPrimaryContactManageFeature : FirmaAdminFeature
     {
         public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
