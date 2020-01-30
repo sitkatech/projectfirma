@@ -35,10 +35,10 @@
         @for(var index = 0; index <= ViewDataTyped.EvaluationCriterionSimples.Count - 1; index++)
         {
             <div class="form-group">
-                <div class="col-sm-4 control-label">
+                <div class="col-sm-3 control-label">
                     <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@Html.Raw(LabelWithSugarForExtensions.GenerateHelpIconImgTag(ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName, ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinition.ToHTMLFormattedString(), ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionDefinitionUrl, 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)) @ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                     <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
                         <option value="-1">Choose One</option>
                         @foreach (var value in ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionValueSimples.OrderBy(x => x.SortOrder))
@@ -53,10 +53,10 @@
         }
         
         <div class="form-group">
-            <div class="col-sm-4 control-label">
+            <div class="col-sm-3 control-label">
                 @Html.LabelWithSugarFor(m => m.Comments)
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 @Html.TextAreaWithMaxLengthFor(m => m.Comments, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
                 @Html.ValidationMessageFor(m => m.Comments)
             </div>
