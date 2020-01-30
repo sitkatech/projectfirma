@@ -36,7 +36,7 @@
                             @Html.LabelWithSugarFor(m => m.ProjectTypeEnums)
                         </div>
                         <div class="col-xs-12 col-sm-8">
-                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnums, new {@class = "form-control selectpicker", multiple = "multiple"})
+                            @Html.ListBoxFor(m => m.ProjectTypeEnums, ViewDataTyped.ProjectTypeSelectListItems, new {@class = "form-control selectpicker"})
                             @Html.ValidationMessageFor(m => m.ProjectTypeEnums)
                             <span class="smallExplanationText">
                                 @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().

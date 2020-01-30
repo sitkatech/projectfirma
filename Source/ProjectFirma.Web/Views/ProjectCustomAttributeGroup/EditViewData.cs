@@ -1,4 +1,7 @@
-﻿using ProjectFirma.Web.Common;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -12,6 +15,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
         public TenantAttribute TenantAttribute { get; }
 
+        public IEnumerable<SelectListItem> ProjectTypeSelectListItems { get; }
 
         public EditViewData(FirmaSession currentFirmaSession,
             string submitUrl,
@@ -28,6 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
             TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            ProjectTypeSelectListItems = ProjectType.All.ToSelectList(x => x.ProjectTypeID.ToString(), x => x.ProjectTypeDisplayName );
         }
 
     }
