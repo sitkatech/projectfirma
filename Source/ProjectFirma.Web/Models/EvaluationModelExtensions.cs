@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetEvaluationCriteriaNamesAsCommaDelimitedString(this Evaluation evaluation)
         {
-            List<string> evaluationCriteriaNames = evaluation.EvaluationCriterions.Select(x => x.EvaluationCriterionName).ToList();
+            List<string> evaluationCriteriaNames = evaluation.EvaluationCriterias.Select(x => x.EvaluationCriteriaName).ToList();
             return string.Join(", ", evaluationCriteriaNames);
         }
 

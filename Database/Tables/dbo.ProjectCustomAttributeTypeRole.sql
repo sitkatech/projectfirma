@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[ProjectCustomAttributeTypeRole](
 	[ProjectCustomAttributeTypeRoleID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectCustomAttributeTypeID] [int] NOT NULL,
-	[RoleID] [int] NOT NULL,
+	[RoleID] [int] NULL,
 	[ProjectCustomAttributeTypeRolePermissionTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectCustomAttributeTypeRole_ProjectCustomAttributeTypeRoleID] PRIMARY KEY CLUSTERED 
 (

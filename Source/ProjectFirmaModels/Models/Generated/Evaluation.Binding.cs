@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Evaluation()
         {
-            this.EvaluationCriterions = new HashSet<EvaluationCriterion>();
+            this.EvaluationCriterias = new HashSet<EvaluationCriteria>();
             this.ProjectEvaluations = new HashSet<ProjectEvaluation>();
         }
 
@@ -91,13 +91,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return EvaluationCriterions.Any() || ProjectEvaluations.Any();
+            return EvaluationCriterias.Any() || ProjectEvaluations.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Evaluation).Name, typeof(EvaluationCriterion).Name, typeof(ProjectEvaluation).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Evaluation).Name, typeof(EvaluationCriteria).Name, typeof(ProjectEvaluation).Name};
 
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in EvaluationCriterions.ToList())
+            foreach(var x in EvaluationCriterias.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -147,7 +147,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return EvaluationID; } set { EvaluationID = value; } }
 
-        public virtual ICollection<EvaluationCriterion> EvaluationCriterions { get; set; }
+        public virtual ICollection<EvaluationCriteria> EvaluationCriterias { get; set; }
         public virtual ICollection<ProjectEvaluation> ProjectEvaluations { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public EvaluationVisibility EvaluationVisibility { get { return EvaluationVisibility.AllLookupDictionary[EvaluationVisibilityID]; } }

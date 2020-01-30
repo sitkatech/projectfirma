@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using ProjectFirma.Web.Common
 @inherits ProjectFirma.Web.Views.Evaluation.EditProjectEvaluation
@@ -31,21 +32,23 @@
 
     <div class="form-horizontal">
         
-        @for(var index = 0; index <= ViewDataTyped.EvaluationCriterionSimples.Count - 1; index++)
+        @for(var index = 0; index <= ViewDataTyped.EvaluationCriteriaSimples.Count - 1; index++)
         {
             <div class="form-group">
                 <div class="col-sm-3 control-label">
-                    <label for="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">@ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionName</label>
+                    <label for="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">@Html.Raw(LabelWithSugarForExtensions.GenerateHelpIconImgTag(ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName, ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinition.ToHTMLFormattedString(), ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinitionUrl, 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)) @ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName</label>
                 </div>
                 <div class="col-sm-9">
-                    <select id="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriterionValues[{0}]", index))">
+                    <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">
                         <option value="-1">Choose One</option>
-                        @foreach (var value in ViewDataTyped.EvaluationCriterionSimples[index].EvaluationCriterionValueSimples.OrderBy(x => x.SortOrder))
+                        @foreach (var value in ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaValueSimples.OrderBy(x => x.SortOrder))
                         {
-                            <option value="@value.EvaluationCriterionValueID" @(Model.SelectedEvaluationCriterionValues.Contains(value.EvaluationCriterionValueID) ? "selected" : string.Empty)>@(value.EvaluationCriterionValueRating)</option>
+                        	<option value="@value.EvaluationCriteriaValueID" @(Model.SelectedEvaluationCriteriaValues.Contains(value.EvaluationCriteriaValueID) ? "selected" : string.Empty)>@(value.EvaluationCriteriaValueRating) - @(value.EvaluationCriteriaValueDescription)</option>
                         }
                     </select>
+                    
                 </div>
+
             </div>
         }
         

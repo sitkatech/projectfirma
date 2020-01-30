@@ -2,7 +2,7 @@ insert into dbo.FirmaPageType (FirmaPageTypeID, FirmaPageTypeName, FirmaPageType
 values 
 (73, 'EvaluationList', 'Evaluation List' , 1),
 (74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
-(75, 'CreateEvaluationCriterionInstructions', 'Create Evaluation Criterion Instructions' , 2),
+(75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
 (76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2)
 
 --1/14/2020 TK - I left the case statements for a situation where the default value needs to be changed and specific to PSP and their term for project(near term actions)
@@ -35,8 +35,8 @@ select
     TenantID,
     75,
     case when TenantID = 11 
-    then '<p>Define your Evaluation Criterion.</p>' 
-    else '<p>Define your Evaluation Criterion.</p>' 
+    then '<p>Define your Evaluation Criteria.</p>' 
+    else '<p>Define your Evaluation Criteria.</p>' 
     end as FirmaPageContent
 from Tenant
 
