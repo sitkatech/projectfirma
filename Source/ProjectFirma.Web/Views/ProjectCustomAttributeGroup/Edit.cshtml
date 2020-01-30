@@ -33,11 +33,11 @@
                 {
                     <div class="form-group">
                         <div class="col-xs-12 col-sm-4 control-label">
-                            @Html.LabelWithSugarFor(m => m.ProjectTypeEnum)
+                            @Html.LabelWithSugarFor(m => m.ProjectTypeEnums)
                         </div>
                         <div class="col-xs-12 col-sm-8">
-                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control selectpicker", multiple = "multiple"})
-                            @Html.ValidationMessageFor(m => m.ProjectTypeEnum)
+                            @Html.EnumDropDownListFor(m => m.ProjectTypeEnums, new {@class = "form-control selectpicker", multiple = "multiple"})
+                            @Html.ValidationMessageFor(m => m.ProjectTypeEnums)
                             <span class="smallExplanationText">
                                 @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().
                             </span>
@@ -46,7 +46,7 @@
                 }
                 else
                 {
-                    @Html.HiddenFor(m => m.ProjectTypeEnum)
+                    @Html.HiddenFor(m => m.ProjectTypeEnums)
                 }
             </div>
         </div>

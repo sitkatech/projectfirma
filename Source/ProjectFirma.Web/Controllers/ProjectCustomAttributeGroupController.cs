@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var viewModel = new EditViewModel()
             {
-                //ProjectTypeEnum = ProjectTypeEnum.Normal
+                ProjectTypeEnums = new List<ProjectTypeEnum>() { ProjectTypeEnum.Normal }
             };
             return ViewEdit(viewModel, null);
         }
