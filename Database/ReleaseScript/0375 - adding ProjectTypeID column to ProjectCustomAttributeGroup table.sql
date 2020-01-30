@@ -23,5 +23,16 @@ create table dbo.ProjectCustomAttributeGroupProjectType(
 alter table dbo.ProjectCustomAttributeGroupProjectType add constraint FK_ProjectCustomAttributeGroupProjectType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID foreign key (ProjectCustomAttributeGroupID, TenantID) references dbo.ProjectCustomAttributeGroup(ProjectCustomAttributeGroupID, TenantID)
 
 
+
+insert into dbo.ProjectCustomAttributeGroupProjectType (TenantID, ProjectCustomAttributeGroupID, ProjectTypeID)
+	select 
+			 pcag.TenantID as TenantID,
+			 pcag.ProjectCustomAttributeGroupID as ProjectCustomAttributeGroupID,
+			 1 as ProjectTypeID
+	from 
+		dbo.ProjectCustomAttributeGroup as pcag
+
+
+
 --rollback tran
 
