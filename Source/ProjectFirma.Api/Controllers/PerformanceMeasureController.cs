@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Api.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -11,11 +12,6 @@ namespace ProjectFirma.Api.Controllers
     public class PerformanceMeasuresController : ApiController
     {
         private readonly DatabaseEntities _databaseEntities = new DatabaseEntities(Tenant.ActionAgendaForPugetSound.TenantID, "ProjectFirmaDB");
-
-        //public PerformanceMeasuresController(DatabaseEntities databaseEntities)
-        //{
-        //    _databaseEntities = databaseEntities;
-        //}
 
         [Route("api/PerformanceMeasures/PostPerformanceMeasure/{apiKey}")]
         [HttpPost]

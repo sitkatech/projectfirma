@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ApprovalTests.Reporters;
 using NUnit.Framework;
+using ProjectFirmaModels.Models;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
 namespace ProjectFirma.Web.Views.Project

@@ -47,45 +47,45 @@ REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 
 
-CREATE TABLE [dbo].EvaluationCriterion(
-	EvaluationCriterionID [int] IDENTITY(1,1) NOT NULL constraint PK_EvaluationCriterion_EvaluationCriterionID primary key,
-	[TenantID] [int] NOT NULL constraint FK_EvaluationCriterion_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
-	EvaluationID int not null constraint FK_EvaluationCriterion_Evaluation_EvaluationID foreign key references dbo.Evaluation(EvaluationID),
-	EvaluationCriterionName varchar(120) NOT NULL,
-	EvaluationCriterionDefinition varchar(1000) NOT NULL,
+CREATE TABLE [dbo].EvaluationCriteria(
+	EvaluationCriteriaID [int] IDENTITY(1,1) NOT NULL constraint PK_EvaluationCriteria_EvaluationCriteriaID primary key,
+	[TenantID] [int] NOT NULL constraint FK_EvaluationCriteria_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	EvaluationID int not null constraint FK_EvaluationCriteria_Evaluation_EvaluationID foreign key references dbo.Evaluation(EvaluationID),
+	EvaluationCriteriaName varchar(120) NOT NULL,
+	EvaluationCriteriaDefinition varchar(1000) NOT NULL,
 
- CONSTRAINT [AK_EvaluationCriterion_EvaluationCriterionID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_EvaluationCriteria_EvaluationCriteriaID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[EvaluationCriterionID] ASC,
+	[EvaluationCriteriaID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].EvaluationCriterion  WITH CHECK ADD  CONSTRAINT [FK_EvaluationCriterion_Evaluation_EvaluationID_TenantID] FOREIGN KEY([EvaluationID], [TenantID])
+ALTER TABLE [dbo].EvaluationCriteria  WITH CHECK ADD  CONSTRAINT [FK_EvaluationCriteria_Evaluation_EvaluationID_TenantID] FOREIGN KEY([EvaluationID], [TenantID])
 REFERENCES [dbo].Evaluation (EvaluationID, [TenantID])
 GO
 
 
 
 
-CREATE TABLE [dbo].EvaluationCriterionValue(
-	EvaluationCriterionValueID [int] IDENTITY(1,1) NOT NULL constraint PK_EvaluationCriterionValue_EvaluationCriterionValueID primary key,
-	[TenantID] [int] NOT NULL constraint FK_EvaluationCriterionValue_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
-	EvaluationCriterionID int not null constraint FK_EvaluationCriterionValue_EvaluationCriterion_EvaluationCriterionID foreign key references dbo.EvaluationCriterion(EvaluationCriterionID),
-	EvaluationCriterionValueRating varchar(60) NOT NULL,
-	EvaluationCriterionValueDescription varchar(500) NOT NULL,
+CREATE TABLE [dbo].EvaluationCriteriaValue(
+	EvaluationCriteriaValueID [int] IDENTITY(1,1) NOT NULL constraint PK_EvaluationCriteriaValue_EvaluationCriteriaValueID primary key,
+	[TenantID] [int] NOT NULL constraint FK_EvaluationCriteriaValue_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
+	EvaluationCriteriaID int not null constraint FK_EvaluationCriteriaValue_EvaluationCriteria_EvaluationCriteriaID foreign key references dbo.EvaluationCriteria(EvaluationCriteriaID),
+	EvaluationCriteriaValueRating varchar(60) NOT NULL,
+	EvaluationCriteriaValueDescription varchar(500) NOT NULL,
 	SortOrder int null,
- CONSTRAINT [AK_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_EvaluationCriteriaValue_EvaluationCriteriaValueID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[EvaluationCriterionValueID] ASC,
+	[EvaluationCriteriaValueID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].EvaluationCriterionValue  WITH CHECK ADD  CONSTRAINT [FK_EvaluationCriterionValue_EvaluationCriterion_EvaluationCriterionID_TenantID] FOREIGN KEY([EvaluationCriterionID], [TenantID])
-REFERENCES [dbo].EvaluationCriterion (EvaluationCriterionID, [TenantID])
+ALTER TABLE [dbo].EvaluationCriteriaValue  WITH CHECK ADD  CONSTRAINT [FK_EvaluationCriteriaValue_EvaluationCriteria_EvaluationCriteriaID_TenantID] FOREIGN KEY([EvaluationCriteriaID], [TenantID])
+REFERENCES [dbo].EvaluationCriteria (EvaluationCriteriaID, [TenantID])
 GO
 
 
@@ -109,7 +109,7 @@ CREATE TABLE [dbo].ProjectEvaluationSelectedValue(
 	ProjectEvaluationSelectedValueID [int] IDENTITY(1,1) NOT NULL constraint PK_ProjectEvaluationSelectedValue_ProjectEvaluationSelectedValueID primary key,
 	[TenantID] [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_Tenant_TenantID foreign key references dbo.Tenant(TenantID),
 	ProjectEvaluationID [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID foreign key references dbo.ProjectEvaluation(ProjectEvaluationID),
-	EvaluationCriterionValueID [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID foreign key references dbo.EvaluationCriterionValue(EvaluationCriterionValueID),
+	EvaluationCriteriaValueID [int] NOT NULL constraint FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID foreign key references dbo.EvaluationCriteriaValue(EvaluationCriteriaValueID),
  CONSTRAINT [AK_ProjectEvaluationSelectedValue_ProjectEvaluationSelectedValueID_TenantID] UNIQUE NONCLUSTERED 
 (
 	[ProjectEvaluationSelectedValueID] ASC,
@@ -123,7 +123,7 @@ GO
 
 alter table dbo.ProjectEvaluation add constraint FK_ProjectEvaluation_Evaluation_EvaluationID_TenantID foreign key (EvaluationID, TenantID) references dbo.Evaluation(EvaluationID, TenantID)
 alter table dbo.ProjectEvaluation add constraint FK_ProjectEvaluation_Project_ProjectID_TenantID foreign key (ProjectID, TenantID) references dbo.Project(ProjectID, TenantID)
-alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID foreign key (EvaluationCriterionValueID, TenantID) references dbo.EvaluationCriterionValue(EvaluationCriterionValueID, TenantID)
+alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID_TenantID foreign key (EvaluationCriteriaValueID, TenantID) references dbo.EvaluationCriteriaValue(EvaluationCriteriaValueID, TenantID)
 alter table dbo.ProjectEvaluationSelectedValue add constraint FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID_TenantID foreign key (ProjectEvaluationID, TenantID) references dbo.ProjectEvaluation(ProjectEvaluationID, TenantID)
 
 
@@ -132,7 +132,7 @@ INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [Fie
 VALUES 
 (325, N'Evaluation', 'Evaluation'),
 (326, N'EvaluationCriteria', 'Evaluation Criteria'),
-(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(327, N'EvaluationCriteriaValue', 'Evaluation Critera Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
 (329, N'ProjectEvaluation', 'Project Evaluation'),
 (330, N'EvaluationName', 'Evaluation Name'),
@@ -141,8 +141,8 @@ VALUES
 (333, N'EvaluationStartDate', 'Evaluation Start Date'),
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
-(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(336, N'EvaluationCriteriaName', 'Evaluation Criteria Name'),
+(337, N'EvaluationCriteriaDefinition', 'Evaluation Criteria Definition'),
 (338, N'EnableProjectEvaluations', 'Enable Project Evaluations');
 go
 
@@ -162,76 +162,77 @@ INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefiniti
      VALUES
 			(325, N'<p>Evaluation</p>'),
 			(326, N'<p>Measures used to evaluate projects assigned to this evaluation.</p>'),
-			(327, N'<p>Evaluation Criterion Value</p>'),
+			(327, N'<p>Evaluation Criteria Value</p>'),
 			(328, N'<p>Evaluation Portfolio</p>'),
 			(329, N'<p>Project Evaluation</p>'),
 			(330, N'<p>A succinct, descriptive name that captures the purpose and scope of this evaluation.</p>'),
 			(331, N'<p>Pertinent context that communicates additional information such as drivers, goals, themes, etc. of this evaluation.</p>'),
-			(332, N'<p>Indicates the current phase of all projects in this evaluation; i.e., planning, implementation, completed.</p>'),
+			(332, N'<p>Indicates the current phase of this evaluation and is used for tracking an evaluation''s progress over time.</p>'),
 			(333, N'<p>The date on which the evaluation process is expected to begin.</p>'),
 			(334, N'<p>The date on which the evaluation process is expected to end.</p>'),
 			(335, N'<p>Evaluation Visibility</p>'),
-			(336, N'<p>Evaluation Criterion Name</p>'),
-			(337, N'<p>Evaluation Criterion Definition</p>'),
+			(336, N'<p>Evaluation Criteria Name</p>'),
+			(337, N'<p>Evaluation Criteria Definition</p>'),
             (338, N'<p>Enables the Project Evaluations feature.</p>');
 GO
 
 
 
 
-
+/*
 --test content for easier testing
---SET IDENTITY_INSERT [dbo].[Evaluation] ON 
---INSERT INTO [dbo].[Evaluation]
---           (EvaluationID
---		   ,[TenantID]
---           ,[EvaluationVisibilityID]
---           ,[EvaluationStatusID]
---           ,[CreatePersonID]
---           ,[EvaluationName]
---           ,[EvaluationDefinition]
---           ,[EvaluationStartDate]
---           ,[EvaluationEndDate]
---           ,[CreateDate])
---     VALUES
---           (1
---		   ,9
---           ,2
---           ,2
---           ,5301
---           ,'Toms Test'
---           ,'This is a sample Evaluation'
---           ,'2019-12-31 00:00:00.000'
---           ,'2020-02-26 00:00:00.000'
---           ,'2019-12-27 12:05:54.017');
+SET IDENTITY_INSERT [dbo].[Evaluation] ON 
+INSERT INTO [dbo].[Evaluation]
+           (EvaluationID
+		   ,[TenantID]
+           ,[EvaluationVisibilityID]
+           ,[EvaluationStatusID]
+           ,[CreatePersonID]
+           ,[EvaluationName]
+           ,[EvaluationDefinition]
+           ,[EvaluationStartDate]
+           ,[EvaluationEndDate]
+           ,[CreateDate])
+     VALUES
+           (1
+		   ,9
+           ,2
+           ,2
+           ,5301
+           ,'Toms Test'
+           ,'This is a sample Evaluation'
+           ,'2019-12-31 00:00:00.000'
+           ,'2020-02-26 00:00:00.000'
+           ,'2019-12-27 12:05:54.017');
 
---SET IDENTITY_INSERT [dbo].[Evaluation] OFF
+SET IDENTITY_INSERT [dbo].[Evaluation] OFF
 
---SET IDENTITY_INSERT [dbo].[EvaluationCriterion] ON 
---GO
---INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (1, 9, 1, N'rank', N'rank these projects')
---GO
---INSERT [dbo].[EvaluationCriterion] ([EvaluationCriterionID], [TenantID], [EvaluationID], [EvaluationCriterionName], [EvaluationCriterionDefinition]) VALUES (2, 9, 1, N'cost', N'how expensive is this gonna be?')
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterion] OFF
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] ON 
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (1, 9, 1, N'very good', N'the best', 5)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (2, 9, 1, N'good', N'okay', 4)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (3, 9, 1, N'average', N'C+', 3)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (4, 9, 1, N'poor', N'eek', 2)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (5, 9, 1, N'very poor', N'not good', 1)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (6, 9, 2, N'high', N'this project is fancy', 3)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (7, 9, 2, N'medium', N'okay, keep an eye on the books, but we should be fine', 2)
---GO
---INSERT [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID], [EvaluationCriterionID], [EvaluationCriterionValueRating], [EvaluationCriterionValueDescription], [SortOrder]) VALUES (8, 9, 2, N'low', N'cheap, like free beer', 1)
---GO
---SET IDENTITY_INSERT [dbo].[EvaluationCriterionValue] OFF
---GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriteria] ON 
+GO
+INSERT [dbo].[EvaluationCriteria] ([EvaluationCriteriaID], [TenantID], [EvaluationID], [EvaluationCriteriaName], [EvaluationCriteriaDefinition]) VALUES (1, 9, 1, N'rank', N'rank these projects')
+GO
+INSERT [dbo].[EvaluationCriteria] ([EvaluationCriteriaID], [TenantID], [EvaluationID], [EvaluationCriteriaName], [EvaluationCriteriaDefinition]) VALUES (2, 9, 1, N'cost', N'how expensive is this gonna be?')
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriteria] OFF
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriteriaValue] ON 
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (1, 9, 1, N'very good', N'the best', 5)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (2, 9, 1, N'good', N'okay', 4)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (3, 9, 1, N'average', N'C+', 3)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (4, 9, 1, N'poor', N'eek', 2)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (5, 9, 1, N'very poor', N'not good', 1)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (6, 9, 2, N'high', N'this project is fancy', 3)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (7, 9, 2, N'medium', N'okay, keep an eye on the books, but we should be fine', 2)
+GO
+INSERT [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID], [EvaluationCriteriaID], [EvaluationCriteriaValueRating], [EvaluationCriteriaValueDescription], [SortOrder]) VALUES (8, 9, 2, N'low', N'cheap, like free beer', 1)
+GO
+SET IDENTITY_INSERT [dbo].[EvaluationCriteriaValue] OFF
+GO
+*/

@@ -36,22 +36,22 @@ namespace ProjectFirma.Web.Views.Evaluation
         public int ProjectEvaluationID { get; set; }
 
         public string Comments { get; set; }
-        public List<int> SelectedEvaluationCriterionValues { get; set; }
+        public List<int> SelectedEvaluationCriteriaValues { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditProjectEvaluationViewModel()
         {
-            SelectedEvaluationCriterionValues = new List<int>();
+            SelectedEvaluationCriteriaValues = new List<int>();
         }
 
         public EditProjectEvaluationViewModel(ProjectEvaluation projectEvaluation)
         {
             ProjectEvaluationID = projectEvaluation.ProjectEvaluationID;
             Comments = projectEvaluation.Comments;
-            SelectedEvaluationCriterionValues = projectEvaluation.ProjectEvaluationSelectedValues.Any()
-                                                ? projectEvaluation.ProjectEvaluationSelectedValues.Select(x => x.EvaluationCriterionValueID).ToList()
+            SelectedEvaluationCriteriaValues = projectEvaluation.ProjectEvaluationSelectedValues.Any()
+                                                ? projectEvaluation.ProjectEvaluationSelectedValues.Select(x => x.EvaluationCriteriaValueID).ToList()
                                                 : new List<int>();
         }
 
@@ -60,26 +60,26 @@ namespace ProjectFirma.Web.Views.Evaluation
             projectEvaluation.Comments = Comments;
 
             
-            //gather all eval criterion values selected to make sure they are valid
-            var selectedEvaluationCriterionValues = new List<EvaluationCriterionValue>();
-            foreach (var simpleValue in SelectedEvaluationCriterionValues)
+            //gather all eval Criteria values selected to make sure they are valid
+            var selectedEvaluationCriteriaValues = new List<EvaluationCriteriaValue>();
+            foreach (var simpleValue in SelectedEvaluationCriteriaValues)
             {
-                var evaluationCriterionValue = HttpRequestStorage.DatabaseEntities.EvaluationCriterionValues.SingleOrDefault(x => x.EvaluationCriterionValueID == simpleValue);
-                if (evaluationCriterionValue != null)
+                var evaluationCriteriaValue = HttpRequestStorage.DatabaseEntities.EvaluationCriteriaValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == simpleValue);
+                if (evaluationCriteriaValue != null)
                 {
-                    selectedEvaluationCriterionValues.Add(evaluationCriterionValue);
+                    selectedEvaluationCriteriaValues.Add(evaluationCriteriaValue);
                 }
             }
 
 
 
             var updatedSelectedProjectEvaluationValues = new List<ProjectEvaluationSelectedValue>();
-            foreach (var selectedEvaluationCriterionValue in selectedEvaluationCriterionValues)
+            foreach (var selectedEvaluationCriteriaValue in selectedEvaluationCriteriaValues)
             {
-                var projectEvaluationSelectedValue = HttpRequestStorage.DatabaseEntities.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriterionValueID == selectedEvaluationCriterionValue.EvaluationCriterionID && x.ProjectEvaluationID == ProjectEvaluationID);
+                var projectEvaluationSelectedValue = HttpRequestStorage.DatabaseEntities.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == selectedEvaluationCriteriaValue.EvaluationCriteriaID && x.ProjectEvaluationID == ProjectEvaluationID);
                 if (projectEvaluationSelectedValue == null)
                 {
-                    projectEvaluationSelectedValue = new ProjectEvaluationSelectedValue(ProjectEvaluationID, selectedEvaluationCriterionValue.EvaluationCriterionValueID);
+                    projectEvaluationSelectedValue = new ProjectEvaluationSelectedValue(ProjectEvaluationID, selectedEvaluationCriteriaValue.EvaluationCriteriaValueID);
                 }
 
                 updatedSelectedProjectEvaluationValues.Add(projectEvaluationSelectedValue);
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.Evaluation
                 (x, y) =>
                 {
                     x.ProjectEvaluationID = y.ProjectEvaluationID;
-                    x.EvaluationCriterionValueID = x.EvaluationCriterionValueID;
+                    x.EvaluationCriteriaValueID = x.EvaluationCriteriaValueID;
                 }, HttpRequestStorage.DatabaseEntities);
         }
         
