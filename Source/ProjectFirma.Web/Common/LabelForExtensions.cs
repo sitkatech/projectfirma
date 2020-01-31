@@ -194,6 +194,7 @@ namespace ProjectFirma.Web.Common
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
                     var labelWrapperTag = new TagBuilder("div");
+                    labelWrapperTag.Attributes.Add("style", "display:inline-block;");
                     var requiredAsterisk = BuildRequiredAsterisk(hasRequiredAttribute, labelTag);
 
                     labelTag.Attributes.Add("style", "display:inline;");
