@@ -202,11 +202,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             }
         }
 
-        private static decimal TryParseDecimalCustomAttributeValue(ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
+        private static decimal? TryParseDecimalCustomAttributeValue(ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
         {
-            if (Decimal.TryParse(project.GetProjectCustomAttributesValue(projectCustomAttributeType), out var value))
+            if (Decimal.TryParse(project.GetProjectCustomAttributesValue(projectCustomAttributeType).ToString(), out var value))
             {
                 return value;
+            }
+
+            if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            {
+                return null;
             }
             return 0;
         }
