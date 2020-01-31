@@ -286,6 +286,8 @@
     <Compile Include="Views\ReportCenter\EditViewData.cs" />
     <Compile Include="Views\ReportCenter\EditViewModel.cs" />
     <Compile Include="Views\ReportCenter\GenerateReportsViewData.cs" />
+    <Compile Include="Views\ReportCenter\Projects.cs" />
+    <Compile Include="Views\ReportCenter\ProjectsViewData.cs" />
     <Compile Include="Views\ReportCenter\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\ReportCenter\Index.cs" />
     <Compile Include="Views\ReportCenter\IndexViewData.cs" />
@@ -1710,6 +1712,7 @@
     <Content Include="Views\ReportCenter\Index.cshtml" />
     <Content Include="Views\ReportCenter\Edit.cshtml" />
     <Content Include="Views\ReportCenter\GenerateReports.cshtml" />
+    <Content Include="Views\ReportCenter\Projects.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

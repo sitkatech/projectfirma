@@ -40,6 +40,17 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         [HttpGet]
         [FirmaAdminFeature]
+        public ViewResult Projects()
+        {
+            var firmaPage = FirmaPageTypeEnum.ReportCenterProjects.GetFirmaPage();
+            var viewData = new ProjectsViewData(CurrentFirmaSession, firmaPage);
+            return RazorView<Projects, ProjectsViewData>(viewData);
+        }
+
+
+        [CrossAreaRoute]
+        [HttpGet]
+        [FirmaAdminFeature]
         public ViewResult Index()
         {
             // todo: firma page and firma page type

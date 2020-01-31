@@ -296,10 +296,14 @@ namespace ProjectFirma.Web.Views
         {
             var reportCenterMenu = new LtInfoMenuItem("Report Center");
 
+            reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Projects()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+
             if (new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
             {
-                reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, "Manage Report Templates"));
+                reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, "Manage Report Templates", "Group2"));
             }
+
+            
 
             return reportCenterMenu;
         }
