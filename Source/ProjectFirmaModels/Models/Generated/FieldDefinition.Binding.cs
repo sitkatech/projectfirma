@@ -286,6 +286,7 @@ namespace ProjectFirmaModels.Models
         EvaluationCriteriaName = 336,
         EvaluationCriteriaDefinition = 337,
         EnableProjectEvaluations = 338,
-        UseProjectTimeline = 339
+        UseProjectTimeline = 339,
+        EnableReportCenter = 340
     }
 }

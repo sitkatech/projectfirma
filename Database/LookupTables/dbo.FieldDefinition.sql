@@ -161,4 +161,5 @@ VALUES
 (336, N'EvaluationCriteriaName', 'Evaluation Criteria Name'),
 (337, N'EvaluationCriteriaDefinition', 'Evaluation Criteria Definition'),
 (338, N'EnableProjectEvaluations', 'Enable Project Evaluations'),
-(339, N'UseProjectTimeline', 'Use Project Timeline')
+(339, N'UseProjectTimeline', 'Use Project Timeline'),
+(340, N'EnableReportCenter', 'Enable Report Center')
