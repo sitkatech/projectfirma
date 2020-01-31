@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.Evaluation
             Add(FieldDefinitionEnum.EvaluationStatus.ToType().ToGridHeaderString(), a => a.GetEvaluationStatusDisplayName(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.EvaluationStartDate.ToType().ToGridHeaderString(), a => a.EvaluationStartDate.HasValue ? a.EvaluationStartDate.ToStringDate() : "not set", 80);
             Add(FieldDefinitionEnum.EvaluationEndDate.ToType().ToGridHeaderString(), a => a.EvaluationEndDate.HasValue ? a.EvaluationEndDate.ToStringDate() : "not set", 80);
-            Add(FieldDefinitionEnum.EvaluationCriterion.ToType().ToGridHeaderString(), a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.EvaluationCriteria.ToType().ToGridHeaderString(), a => a.GetEvaluationCriteriaNamesAsCommaDelimitedString(), 200, DhtmlxGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.EvaluationVisibility.ToType().ToGridHeaderString(), a => a.GetEvaluationVisibilityDisplayName(), 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
 

@@ -2,7 +2,7 @@
 {
     public partial class ProjectEvaluationSelectedValue : IAuditableEntity
     {
-        public string GetAuditDescriptionString() => $"ProjectEvaluationSelectedValueID: {ProjectEvaluationSelectedValueID}, ProjectEvaluationID: {ProjectEvaluationID}, EvaluationCriterionValueID: {EvaluationCriterionValueID}";
+        public string GetAuditDescriptionString() => $"ProjectEvaluationSelectedValueID: {ProjectEvaluationSelectedValueID}, ProjectEvaluationID: {ProjectEvaluationID}, EvaluationCriteriaValueID: {EvaluationCriteriaValueID}";
 
     }
 }

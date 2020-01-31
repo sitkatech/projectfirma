@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
+﻿using System.Linq;
+using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirma.Web.Models
 {
     public static class ProjectExternalLinkUpdateModelExtensions
     {
@@ -14,13 +14,13 @@ namespace ProjectFirmaModels.Models
                     pn => new ProjectExternalLinkUpdate(projectUpdateBatch, pn.ExternalLinkLabel, pn.ExternalLinkUrl)).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectExternalLink> allProjectExternalLinks)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectExternalLinksFromProjectUpdate =
                 projectUpdateBatch.ProjectExternalLinkUpdates.Select(
                     x => new ProjectExternalLink(project.ProjectID, x.ExternalLinkLabel, x.ExternalLinkUrl)).ToList();
-            project.ProjectExternalLinks.Merge(projectExternalLinksFromProjectUpdate, allProjectExternalLinks, (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, HttpRequestStorage.DatabaseEntities);
+            project.ProjectExternalLinks.Merge(projectExternalLinksFromProjectUpdate, (x, y) => x.ProjectID == y.ProjectID && x.ExternalLinkLabel == y.ExternalLinkLabel && x.ExternalLinkUrl == y.ExternalLinkUrl, databaseEntities);
         }
     }
 }

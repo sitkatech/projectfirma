@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Google Analytics Tracking Code")]
         public string GoogleAnalyticsTrackingCode { get; set; }
 
-        [DisplayName("Use Project Timeline")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.UseProjectTimeline)]
         public bool UseProjectTimeline { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectEvaluations)]

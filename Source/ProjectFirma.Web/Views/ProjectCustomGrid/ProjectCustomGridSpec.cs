@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
             editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakePlusIconAsModalDialogLinkBootstrap(
                 project.GetAddProjectProjectStatusFromGridUrl()
-                , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+                , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()}");
 
             var currentProjectStatus = project.GetCurrentProjectStatus();
             var colorString = currentProjectStatus != null ? currentProjectStatus.ProjectStatusColor : "transparent";
@@ -153,7 +153,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectStatus:
                     if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
-                        Add(FieldDefinitionEnum.ProjectStatus.ToType().ToGridHeaderString()
+                        Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString()
                             , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession)
                             , 100
                             , DhtmlxGridColumnFilterType.SelectFilterHtmlStrict

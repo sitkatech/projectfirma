@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
@@ -74,12 +75,16 @@ namespace ProjectFirmaModels.Models
 
             SetTenantIDForAllModifiedEntries(dbEntityEntries, tenantID);
 
+            // Project is such an important piece to PF; if we generate an audit log record that has a ProjectID, we need to update the last update date on the Project
+            var projectIDsModified = new List<int>();
+
             foreach (var entry in modifiedEntries)
             {
                 // For each changed record, get the audit record entries and add them
                 var auditRecordsForChange =
                     AuditLog.GetAuditLogRecordsForModifiedOrDeleted(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
+                projectIDsModified.AddRange(ExtractProjectIDsFromAuditLogs(auditRecordsForChange));
             }
 
             int changes;
@@ -112,13 +117,30 @@ namespace ProjectFirmaModels.Models
                 // For each added record, get the audit record entries and add them
                 var auditRecordsForChange = AuditLog.GetAuditLogRecordsForAdded(entry, person, this, tenantID);
                 AllAuditLogs.AddRange(auditRecordsForChange);
+                projectIDsModified.AddRange(ExtractProjectIDsFromAuditLogs(auditRecordsForChange));
             }
 
+            // now update LastUpdatedDate of any Projects that were touched
+            if (projectIDsModified.Any())
+            {
+                var projects = Projects.Where(x => projectIDsModified.Distinct().Contains(x.ProjectID));
+                foreach (var project in projects)
+                {
+                    project.LastUpdatedDate = DateTime.Now;
+                }
+                ChangeTracker.DetectChanges();
+            }
             // we need to save the audit log entries now
             base.SaveChanges();
 
             scope.Complete();
             return changes;
+        }
+
+        private static IEnumerable<int> ExtractProjectIDsFromAuditLogs(IEnumerable<AuditLog> auditRecordsForChange)
+        {
+            var auditLogsWithProjectID = auditRecordsForChange.Where(x => x.ProjectID.HasValue).ToList();
+            return auditLogsWithProjectID.Any() ? auditLogsWithProjectID.Select(x => x.ProjectID.Value) : new List<int>();
         }
 
         private static void SetTenantIDForAllModifiedEntries(List<DbEntityEntry> dbEntityEntries, int tenantID)

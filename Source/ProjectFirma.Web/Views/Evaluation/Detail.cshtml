@@ -31,7 +31,7 @@
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
-    <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/EditEvaluationCriterionController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/EditEvaluationCriteriaController.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Views/Evaluation/AddProjectEvaluationController.js")"></script>
 }
 
@@ -76,7 +76,7 @@
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.EvaluationEndDate.ToStringDate()</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</label></div>
+                    <div class="col-xs-5 fieldLabel text-right"><label>@FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabelPluralized()</label></div>
                     <div class="col-xs-7">@ViewDataTyped.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</div>
                 </div>
 
@@ -93,18 +93,18 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()
+                    @FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()
                 </h2>
             </div>
             <div class="panel-body">
                 <div class="row" style="margin-bottom: 20px">
                     <div class="col-xs-12">
-                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewEvaluationCriterionUrl, string.Format("Create a new {0}", FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
+                        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewEvaluationCriteriaUrl, string.Format("Create a new {0}", FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserHasEvaluationManagePermissions)
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriterionGridSpec, ViewDataTyped.EvaluationCriterionGridName, ViewDataTyped.EvaluationCriterionGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                        @Html.DhtmlxGrid(ViewDataTyped.EvaluationCriteriaGridSpec, ViewDataTyped.EvaluationCriteriaGridName, ViewDataTyped.EvaluationCriteriaGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
                     </div>
                 </div>
             </div>

@@ -70,6 +70,10 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -130,31 +134,37 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\FileResourceDto.cs" />
-    <Compile Include="Controllers\FirmaWebApiConfiguration.cs" />
-    <Compile Include="Controllers\PerformanceMeasureAdditionalInformationDto.cs" />
+    <Compile Include="Models\FileResourceDto.cs" />
+    <Compile Include="Models\FirmaWebApiConfiguration.cs" />
+    <Compile Include="Models\FundingSourceDto.cs" />
+    <Compile Include="Models\PerformanceMeasureAdditionalInformationDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureController.cs" />
-    <Compile Include="Controllers\PerformanceMeasureCriticalDefinitionsDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureExpectedValueFromProjectFirma.cs" />
-    <Compile Include="Controllers\PerformanceMeasureImportanceDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureNoteDto.cs" />
+    <Compile Include="Models\PerformanceMeasureCriticalDefinitionsDto.cs" />
+    <Compile Include="Models\PerformanceMeasureDto.cs" />
+    <Compile Include="Models\PerformanceMeasureExpectedValueFromProjectFirma.cs" />
+    <Compile Include="Models\PerformanceMeasureImportanceDto.cs" />
+    <Compile Include="Models\PerformanceMeasureNoteDto.cs" />
     <Compile Include="Controllers\PerformanceMeasureNotesController.cs" />
-    <Compile Include="Controllers\PerformanceMeasureReportedValueFromProjectFirma.cs" />
-    <Compile Include="Controllers\PerformanceMeasureProjectReportingDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureSimpleDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureSubcategoryDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionDto.cs" />
-    <Compile Include="Controllers\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
-    <Compile Include="Controllers\OrganizationDto.cs" />
-    <Compile Include="Controllers\ProjectCustomAttributeDto.cs" />
-    <Compile Include="Controllers\ProjectDto.cs" />
+    <Compile Include="Models\PerformanceMeasureReportedValueFromProjectFirma.cs" />
+    <Compile Include="Models\PerformanceMeasureProjectReportingDto.cs" />
+    <Compile Include="Models\PerformanceMeasureSimpleDto.cs" />
+    <Compile Include="Models\PerformanceMeasureSubcategoryDto.cs" />
+    <Compile Include="Models\PerformanceMeasureSubcategoryOptionDto.cs" />
+    <Compile Include="Models\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
+    <Compile Include="Models\OrganizationDto.cs" />
+    <Compile Include="Models\ProjectBudgetDto.cs" />
+    <Compile Include="Models\ProjectCalendarYearExpendituresDtoTest.cs" />
+    <Compile Include="Models\ProjectCustomAttributeDto.cs" />
+    <Compile Include="Models\ProjectCalendarYearExpendituresDto.cs" />
+    <Compile Include="Models\ProjectDto.cs" />
     <Compile Include="Controllers\OrganizationsController.cs" />
+    <Compile Include="Controllers\FundingSourcesController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectBudgetDtoTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">

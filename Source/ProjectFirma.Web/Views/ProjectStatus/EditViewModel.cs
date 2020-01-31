@@ -1,14 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using Newtonsoft.Json;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectStatus

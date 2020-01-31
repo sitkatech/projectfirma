@@ -57,6 +57,6 @@ values
 (72, 'WebServicesList', 'Web Services List' , 1),
 (73, 'EvaluationList', 'Evaluation List' , 1),
 (74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
-(75, 'CreateEvaluationCriterionInstructions', 'Create Evaluation Criterion Instructions' , 2),
+(75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
 (76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2),
 (77, 'ReportCenter', 'Report Center' , 1)

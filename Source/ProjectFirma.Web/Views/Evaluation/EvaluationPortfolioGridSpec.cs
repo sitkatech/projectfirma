@@ -20,21 +20,21 @@ namespace ProjectFirma.Web.Views.Evaluation
 
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), a => a.Project.GetDisplayNameAsUrl(), 280, DhtmlxGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), a => a.Project.ProjectStage.ProjectStageDisplayName, 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            foreach (var evaluationCriterionColumn in evaluation.EvaluationCriterions)
+            foreach (var evaluationCriteriaColumn in evaluation.EvaluationCriterias)
             {
-                Add(evaluationCriterionColumn.EvaluationCriterionName, a => GetCriterionValueIfAvailable(a, evaluationCriterionColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                Add(evaluationCriteriaColumn.EvaluationCriteriaName, a => GetCriteriaValueIfAvailable(a, evaluationCriteriaColumn), 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
             Add("Comments", a => a.Comments, 150, DhtmlxGridColumnFilterType.Text);
 
 
         }
 
-        private static HtmlString GetCriterionValueIfAvailable(ProjectEvaluation projectEvaluation, EvaluationCriterion evaluationCriterion)
+        private static HtmlString GetCriteriaValueIfAvailable(ProjectEvaluation projectEvaluation, EvaluationCriteria evaluationCriteria)
         {
-            var selectedValue = projectEvaluation.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriterionValue.EvaluationCriterionID == evaluationCriterion.EvaluationCriterionID);
+            var selectedValue = projectEvaluation.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriteriaValue.EvaluationCriteriaID == evaluationCriteria.EvaluationCriteriaID);
             if (selectedValue != null)
             {
-                return new HtmlString(selectedValue.EvaluationCriterionValue.EvaluationCriterionValueRating);
+                return new HtmlString(selectedValue.EvaluationCriteriaValue.EvaluationCriteriaValueRating);
             }
 
             return new HtmlString("not set");

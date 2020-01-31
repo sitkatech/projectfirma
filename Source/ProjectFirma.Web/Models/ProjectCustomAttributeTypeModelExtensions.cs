@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
         {
             var customAttributeTypViewableRoles = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID).ToList();
             return new HtmlString(customAttributeTypViewableRoles.Any()
-                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role.GetRoleDisplayName()).ToList())
+                ? String.Join(", ", customAttributeTypViewableRoles.OrderBy(x => x.RoleID).Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View).Select(x => x.Role == null ? "Anonymous (Public)" : x.Role.GetRoleDisplayName()).ToList())
                 : ViewUtilities.NoAnswerProvided);
         }
 
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
         public static bool HasViewPermission(this ProjectCustomAttributeType projectCustomAttributeType, FirmaSession currentFirmaSession)
         {
             var viewTypeRoles = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Where(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View);
-            return (currentFirmaSession.Person != null && viewTypeRoles.Select(x => x.Role).Contains(currentFirmaSession.Role)) || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            return (currentFirmaSession.Person != null && viewTypeRoles.Select(x => x.Role).Contains(currentFirmaSession.Role)) || new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession) || (currentFirmaSession.Person == null && viewTypeRoles.Any(x => x.Role == null));
         }
     }
 }

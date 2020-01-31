@@ -965,7 +965,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
+            var iHaveSqlGeometries = new List<IHaveSqlGeometry>(project.ProjectLocations.ToList());
+            if (!iHaveSqlGeometries.Any())
+            {
+                SetWarningForDisplay("No valid geometries found in upload");
+            }
+            else
+            {
+                DbSpatialHelper.Reduce(iHaveSqlGeometries);
+            }
             return new ModalDialogFormJsonResult();
         }
 
