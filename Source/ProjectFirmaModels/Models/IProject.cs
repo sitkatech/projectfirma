@@ -35,6 +35,7 @@ namespace ProjectFirmaModels.Models
         int? PlanningDesignStartYear { get; }
         int? ImplementationStartYear { get; }
         int? CompletionYear { get; }
+        int ProjectTypeID { get; }
 
         ProjectStage ProjectStage { get; }
         FundingType FundingType { get; }

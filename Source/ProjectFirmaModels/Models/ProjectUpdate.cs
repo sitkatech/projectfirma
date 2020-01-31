@@ -30,6 +30,7 @@ namespace ProjectFirmaModels.Models
 
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
+        public int ProjectTypeID => ProjectUpdateBatch.Project.ProjectTypeID;
 
         public decimal GetSecuredFunding()
         {
