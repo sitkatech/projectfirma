@@ -59,4 +59,5 @@ values
 (74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
 (75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
 (76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2),
-(77, 'ReportCenter', 'Report Center' , 1)
+(77, 'ReportCenter', 'Report Center' , 1),
+(78, 'ReportCenterProjects', 'Report Center Projects' , 1)
