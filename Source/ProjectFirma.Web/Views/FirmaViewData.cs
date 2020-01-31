@@ -108,12 +108,19 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
+
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession))
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }
+
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentFirmaSession));
             TopLevelLtInfoMenuItems.Add(BuildConfigureMenu(currentFirmaSession));
+
+            if (MultiTenantHelpers.DisplayReportCenter())
+            {
+                TopLevelLtInfoMenuItems.Add(BuildReportCenterMenu(currentFirmaSession));
+            }
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -285,6 +292,17 @@ namespace ProjectFirma.Web.Views
             return configureMenu;
         }
 
+        private static LtInfoMenuItem BuildReportCenterMenu(FirmaSession currentFirmaSession)
+        {
+            var reportCenterMenu = new LtInfoMenuItem("Report Center");
+
+            if (new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
+            {
+                reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, "Manage Report Templates"));
+            }
+
+            return reportCenterMenu;
+        }
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)
         {
