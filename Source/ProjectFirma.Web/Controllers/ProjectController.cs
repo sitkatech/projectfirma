@@ -205,7 +205,7 @@ namespace ProjectFirma.Web.Controllers
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
                 projectCustomAttributeTypes,

@@ -3665,18 +3665,18 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesUpdated = new List<IProjectCustomAttribute>(projectUpdate.GetProjectCustomAttributes());
 
             // get the html for the original custom attributes
-            var originalHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesOriginal);
+            var originalHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesOriginal, project);
             // get the html for the updated custom attributes
-            var updatedHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesUpdated);
+            var updatedHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesUpdated, project);
 
             // return a diff container for the original and updated html for the custom attributes
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes)
+        private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes, Project project)
         {
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes, projectCustomAttributeGroups);
             var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
             return partialViewAsString;
