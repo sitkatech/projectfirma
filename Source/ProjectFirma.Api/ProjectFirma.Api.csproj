@@ -134,7 +134,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\FundingSourcesControllerTest.cs" />
     <Compile Include="Models\FileResourceDto.cs" />
     <Compile Include="Models\FirmaWebApiConfiguration.cs" />
     <Compile Include="Models\FundingSourceDto.cs" />
