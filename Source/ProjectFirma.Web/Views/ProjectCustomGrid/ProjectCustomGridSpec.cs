@@ -194,12 +194,21 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                                     + "</div>").ToHTMLFormattedString();
             if (isCurrency)
             {
-                Add($"{gridHeaderHtmlString}", a => Decimal.Parse(a.GetProjectCustomAttributesValue(projectCustomAttributeType)), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                Add($"{gridHeaderHtmlString}", a => TryParseDecimalCustomAttributeValue(a, projectCustomAttributeType), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             }
             else
             {
                 Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
             }
+        }
+
+        private static decimal TryParseDecimalCustomAttributeValue(ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            if (Decimal.TryParse(project.GetProjectCustomAttributesValue(projectCustomAttributeType), out var value))
+            {
+                return value;
+            }
+            return 0;
         }
 
         private void AddProjectCustomGridGeospatialAreaField(ProjectCustomGridConfiguration projectCustomGridConfiguration)

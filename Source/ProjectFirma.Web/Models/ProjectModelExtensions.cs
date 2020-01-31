@@ -594,8 +594,7 @@ namespace ProjectFirma.Web.Models
                 }
                 else
                 {
-                    return string.Join(", ",
-                        projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
+                    return string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
                 }
             }
             else
