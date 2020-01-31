@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditProjectCustomAttributes(Project project, EditProjectCustomAttributesViewModel viewModel)
         {
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
             
             var viewData = new EditProjectCustomAttributesViewData(
                 projectCustomAttributeTypes.ToList(),

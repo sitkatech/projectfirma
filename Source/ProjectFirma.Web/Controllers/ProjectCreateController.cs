@@ -1802,7 +1802,7 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesValidationResult = project.ValidateCustomAttributes();
 
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 
