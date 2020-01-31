@@ -1,13 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.ModalDialog;
-using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -22,6 +16,11 @@ namespace ProjectFirma.Web.Models
         
         public static string GetDeleteUrl(this ProjectCustomAttributeGroup projectCustomAttributeGroup) => DeleteUrlTemplate.ParameterReplace(projectCustomAttributeGroup.ProjectCustomAttributeGroupID);
         public static string GetEditUrl(this ProjectCustomAttributeGroup projectCustomAttributeGroup) => EditUrlTemplate.ParameterReplace(projectCustomAttributeGroup.ProjectCustomAttributeGroupID);
+
+        public static string GetProjectTypeDisplayNamesAsCommaDelimitedList(this ProjectCustomAttributeGroup projectCustomAttributeGroup)
+        {
+            return string.Join(", ", projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Select(x => x.ProjectType.ProjectTypeDisplayName).ToList());
+        }
 
     }
 }
