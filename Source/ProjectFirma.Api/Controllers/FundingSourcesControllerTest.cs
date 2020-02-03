@@ -48,7 +48,7 @@ namespace ProjectFirma.Api.Controllers
                 var maxTargeted = testFundingSource.ProjectFundingSourceBudgets.OrderByDescending(x => x.TargetedAmount).First();
                 var minTargeted = testFundingSource.ProjectFundingSourceBudgets.OrderBy(x => x.TargetedAmount).First();
                 var controller = new FundingSourcesController();
-                var result = controller.GetProjectCalendarYearBudgetsByFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectBudgetDto>>;
+                var result = controller.GetProjectBudgetsForAFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectBudgetDto>>;
                 var maxSecuredResult = result.Content.Single(x => x.ProjectDto.ProjectID == maxSecured.ProjectID);
                 Assert.That(maxSecuredResult.SecuredFunding, Is.EqualTo(maxSecured.SecuredAmount));
                 var minSecuredResult = result.Content.Single(x => x.ProjectDto.ProjectID == minSecured.ProjectID);
@@ -72,7 +72,7 @@ namespace ProjectFirma.Api.Controllers
                 var firstTotal = firstProjectGroup.Sum(x => x.ExpenditureAmount);
                 var lastTotal = lastProjectGroup.Sum(x => x.ExpenditureAmount);
                 var controller = new FundingSourcesController();
-                var result = controller.GetProjectCalendarYearExpendituresByFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectCalendarYearExpendituresDto>>;
+                var result = controller.GetProjectCalendarYearExpendituresForAFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectCalendarYearExpendituresDto>>;
                 var firstResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == firstProjectGroup.Key.ProjectID).CalendarYearExpenditures.Sum(x => x.Value);
                 Assert.That(firstResultTotal, Is.EqualTo(firstTotal));
                 var lastResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == lastProjectGroup.Key.ProjectID).CalendarYearExpenditures.Sum(x => x.Value);
