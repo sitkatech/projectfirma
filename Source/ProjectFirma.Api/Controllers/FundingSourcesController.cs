@@ -13,9 +13,9 @@ namespace ProjectFirma.Api.Controllers
 
         /// API endpoint - currently only used by PS Info
         /// Any changes made here could have adverse effects on dependent applications 
-        [Route("api/FundingSources/GetProjectBudgetsByFundingSource/{apiKey}/{fundingSourceID}")]
+        [Route("api/FundingSources/GetProjectBudgetsForAFundingSource/{apiKey}/{fundingSourceID}")]
         [HttpGet]
-        public IHttpActionResult GetProjectCalendarYearBudgetsByFundingSource(string apiKey, int fundingSourceID)
+        public IHttpActionResult GetProjectBudgetsForAFundingSource(string apiKey, int fundingSourceID)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var result = new List<ProjectBudgetDto>();
@@ -36,9 +36,9 @@ namespace ProjectFirma.Api.Controllers
 
         /// API endpoint - currently only used by PS Info
         /// Any changes made here could have adverse effects on dependent applications
-        [Route("api/FundingSources/GetProjectCalendarYearExpendituresByFundingSource/{apiKey}/{fundingSourceID}")]
+        [Route("api/FundingSources/GetProjectCalendarYearExpendituresForAFundingSource/{apiKey}/{fundingSourceID}")]
         [HttpGet]
-        public IHttpActionResult GetProjectCalendarYearExpendituresByFundingSource(string apiKey, int fundingSourceID)
+        public IHttpActionResult GetProjectCalendarYearExpendituresForAFundingSource(string apiKey, int fundingSourceID)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
             var result = new List<ProjectCalendarYearExpendituresDto>();
@@ -52,6 +52,19 @@ namespace ProjectFirma.Api.Controllers
                     result.Add(new ProjectCalendarYearExpendituresDto(projectProjectFundingSourceExpenditures.Key, calendarYearExpenditures));
                 }
             }
+            return Ok(result);
+        }
+
+        /// API endpoint - currently only used by PS Info
+        /// Any changes made here could have adverse effects on dependent applications
+        [Route("api/FundingSources/GetFundingSourceFinancialTotals/{apiKey}")]
+        [HttpGet]
+        public IHttpActionResult GetFundingSourceFinancialTotals(string apiKey)
+        {
+            Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            var result = _databaseEntities.FundingSources.ToList().Select(x => new FundingSourceFinancialTotalsDto(x, 
+                    _databaseEntities.ProjectFundingSourceBudgets.Where(y => y.FundingSourceID == x.FundingSourceID), 
+                    _databaseEntities.ProjectFundingSourceExpenditures.Where(y => y.FundingSourceID == x.FundingSourceID))).ToList();
             return Ok(result);
         }
 
