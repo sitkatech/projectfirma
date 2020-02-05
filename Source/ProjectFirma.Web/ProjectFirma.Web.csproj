@@ -121,6 +121,7 @@
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
     <Compile Include="Models\NotificationTypeModelExtensions.cs" />
     <Compile Include="Models\ExternalMapLayerModelExtensions.cs" />
+    <Compile Include="Models\OrganizationDto.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureActualSimple.cs" />
