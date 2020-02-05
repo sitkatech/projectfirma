@@ -45,7 +45,10 @@ namespace ProjectFirma.Web.Common
         public static readonly string PsInfoDataCenterUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoDataCenterUrl");
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
         public static readonly string NEPAtlasUrl = SitkaConfiguration.GetRequiredAppSetting("NEPAtlasUrl");
-        
+        public static readonly string PsInfoPostOrganizationUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoPostOrganizationUrl");
+        public static readonly string PsInfoApiKey = SitkaConfiguration.GetRequiredAppSetting("PsInfoApiKey");
+
+
         public static readonly string KeystoneUserProfileUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneUserProfileUrl");
         public static readonly string KeystoneInviteUserUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneInviteUserUrl");
         public static readonly Guid KeystoneWebServiceApplicationGuid = Guid.Parse(SitkaConfiguration.GetRequiredAppSetting("KeystoneWebServiceApplicationGuid"));

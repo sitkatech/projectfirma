@@ -19,13 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http.Results;
 using NUnit.Framework;
 using ProjectFirma.Api.Models;
 using ProjectFirmaModels.Models;
-using ProjectFirmaModels.UnitTestCommon;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http.Results;
 
 namespace ProjectFirma.Api.Controllers
 {
