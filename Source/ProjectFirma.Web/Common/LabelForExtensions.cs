@@ -193,9 +193,16 @@ namespace ProjectFirma.Web.Common
                 case DisplayStyle.HelpIconOnly:
                     return MvcHtmlString.Create(helpIconImgTag);
                 case DisplayStyle.HelpIconWithLabel:
+                    var labelWrapperTag = new TagBuilder("div");
+                    labelWrapperTag.Attributes.Add("style", "display:inline-block;");
                     var requiredAsterisk = BuildRequiredAsterisk(hasRequiredAttribute, labelTag);
-                    labelTag.InnerHtml = string.Format("{0}{1}{2}", helpIconImgTag, labelText, requiredAsterisk);
-                    return MvcHtmlString.Create(labelTag.ToString(TagRenderMode.Normal));
+
+                    labelTag.Attributes.Add("style", "display:inline;");
+                    labelTag.InnerHtml = string.Format("{0}{1}", labelText, requiredAsterisk);
+                   
+                    labelWrapperTag.AddCssClass("firma-label-wrapper");
+                    labelWrapperTag.InnerHtml = string.Format("{0}{1}", helpIconImgTag, labelTag.ToString(TagRenderMode.Normal));
+                    return MvcHtmlString.Create(labelWrapperTag.ToString(TagRenderMode.Normal));
                 default:
                     throw new ArgumentOutOfRangeException("displayStyle");
             }

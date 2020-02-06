@@ -11,11 +11,6 @@ namespace ProjectFirma.Api.Controllers
     {
         private readonly DatabaseEntities _databaseEntities = new DatabaseEntities(Tenant.ActionAgendaForPugetSound.TenantID, "ProjectFirmaDB");
 
-        //public ProjectsController(DatabaseEntities databaseEntities)
-        //{
-        //    _databaseEntities = databaseEntities;
-        //}
-
         [Route("api/Projects/List/{apiKey}")]
         [HttpGet]
         public IHttpActionResult List(string apiKey)
