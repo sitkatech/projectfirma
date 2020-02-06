@@ -43,7 +43,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Projects()
         {
             var firmaPage = FirmaPageTypeEnum.ReportCenterProjects.GetFirmaPage();
-            var viewData = new ProjectsViewData(CurrentFirmaSession, firmaPage);
+            var projectCustomReportCenterGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.ReportCenter.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new ProjectsViewData(CurrentFirmaSession, firmaPage, projectCustomReportCenterGridConfigurations);
             return RazorView<Projects, ProjectsViewData>(viewData);
         }
 

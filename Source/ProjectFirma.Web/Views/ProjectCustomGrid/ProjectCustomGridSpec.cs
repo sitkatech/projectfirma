@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 {
     public class ProjectCustomGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-
+        
         public static HtmlString MakeProjectStatusAddLinkAndText(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
         {
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
@@ -58,9 +58,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             return returnString;
         }
 
-       
-
-
+        
         private void AddProjectCustomGridField(FirmaSession currentFirmaSession, ProjectCustomGridConfiguration projectCustomGridConfiguration,bool userHasEditProjectAsAdminPermissions)
         {
             switch (projectCustomGridConfiguration.ProjectCustomGridColumn.ToEnum)
@@ -203,40 +201,29 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
         }
 
-    public ProjectCustomGridSpec(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations)
+        public ProjectCustomGridSpec(FirmaSession currentFirmaSession,
+            List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
+            ProjectCustomGridTypeEnum projectCustomGridTypeEnum)
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasDeletePermissions = new ProjectDeleteFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             var userHasReportDownloadPermissions = new ReportTemplateViewListFeature().HasPermissionByFirmaSession(currentFirmaSession);
             
-            // Mandatory fields appearing BEFORE configurable fields
-            if (userHasTagManagePermissions)
-            {
-                BulkTagModalDialogForm = new BulkTagModalDialogForm(SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)), $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
-            }
-
-            if (userHasReportDownloadPermissions)
-            {
-                GenerateReportModalDialogForm = new SelectProjectsModalDialogForm(SitkaRoute<ReportCenterController>.BuildUrlFromExpression(x => x.SelectReportToGenerateFromSelectedProjects()), $"Generate Reports", $"Confirm Report Generation");
-            }
-
-            if (userHasTagManagePermissions || userHasReportDownloadPermissions)
-            {
-                AddCheckBoxColumn();
-                Add("ProjectID", x => x.ProjectID, 0);
-            }
-        
-            if (userHasDeletePermissions)
-            {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-            }
-
-            Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() + $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30, DhtmlxGridColumnFilterType.None);
-            //
-
+            // Mandatory fields before
+            AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissions, projectCustomGridTypeEnum);
+            
             // Implement configured fields here
-            //
+            AddConfiguredFields(currentFirmaSession, projectCustomGridConfigurations, userHasEditProjectAsAdminPermissions);
+
+            // Mandatory fields appearing AFTER configurable fields
+            AddMandatoryFieldsAfter(userHasTagManagePermissions);
+            
+        }
+
+        private void AddConfiguredFields(FirmaSession currentFirmaSession, List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
+            bool userHasEditProjectAsAdminPermissions)
+        {
             foreach (var projectCustomGridConfiguration in projectCustomGridConfigurations.OrderBy(x => x.SortOrder))
             {
                 if (projectCustomGridConfiguration.ProjectCustomAttributeType != null)
@@ -252,16 +239,67 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 }
                 else
                 {
-                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration, userHasEditProjectAsAdminPermissions);
+                    AddProjectCustomGridField(currentFirmaSession, projectCustomGridConfiguration,
+                        userHasEditProjectAsAdminPermissions);
                 }
             }
+        }
 
-            // Mandatory fields appearing AFTER configurable fields
+        private void AddMandatoryFieldsBefore(bool userHasTagManagePermissions, bool userHasReportDownloadPermissions,
+            bool userHasDeletePermissions, ProjectCustomGridTypeEnum projectCustomGridTypeEnum)
+        {
+            switch (projectCustomGridTypeEnum)
+            {
+                case ProjectCustomGridTypeEnum.Default:
+                case ProjectCustomGridTypeEnum.Full:
+                    if (userHasTagManagePermissions)
+                    {
+                        BulkTagModalDialogForm = new BulkTagModalDialogForm(
+                            SitkaRoute<TagController>.BuildUrlFromExpression(x => x.BulkTagProjects(null)),
+                            $"Tag Checked {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
+                            $"Tag {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
+                    }
+                    if (userHasTagManagePermissions)
+                    {
+                        AddCheckBoxColumn();
+                        Add("ProjectID", x => x.ProjectID, 0);
+                    }
+                    if (userHasDeletePermissions)
+                    {
+                        Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30,
+                            DhtmlxGridColumnFilterType.None);
+                    }
+                    Add(string.Empty,
+                        x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(),
+                            FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString() +
+                            $"<span class=\"sr-only\">Download the Fact Sheet for {x.ProjectName}</span>"), 30,
+                        DhtmlxGridColumnFilterType.None);
+                    break;
+                case ProjectCustomGridTypeEnum.ReportCenter:
+                    if (userHasReportDownloadPermissions)
+                    {
+                        GenerateReportModalDialogForm = new SelectProjectsModalDialogForm(
+                            SitkaRoute<ReportCenterController>.BuildUrlFromExpression(x =>
+                                x.SelectReportToGenerateFromSelectedProjects()), $"Generate Reports", $"Confirm Report Generation");
+                    }
+                    AddCheckBoxColumn();
+                    Add("ProjectID", x => x.ProjectID, 0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(projectCustomGridTypeEnum), projectCustomGridTypeEnum, null);
+            }
+        }
+
+        private void AddMandatoryFieldsAfter(bool userHasTagManagePermissions)
+        {
             if (userHasTagManagePermissions)
             {
-                Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, DhtmlxGridColumnFilterType.Html);
+                Add("Tags",
+                    x => new HtmlString(!x.ProjectTags.Any()
+                        ? string.Empty
+                        : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100,
+                    DhtmlxGridColumnFilterType.Html);
             }
-            //
         }
     }
 }
