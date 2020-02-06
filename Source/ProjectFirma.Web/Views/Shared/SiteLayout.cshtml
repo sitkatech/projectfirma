@@ -35,18 +35,25 @@ Source code is available upon request via <support@sitkatech.com>.
     @RenderSection("BeforeBodyContainer", false)
 }
 
-<div class="container firmaContent">  
+<div class="container firmaContent">
     <div class="rightFloatingInfo">
         @RenderSection("RightOfPageTitle", false)
     </div>
 
     <h2 class="pageTitle">@ViewDataTyped.PageTitle</h2>
-    
+
     @if (TempData.ContainsKey(SitkaController.StatusErrorIndex))
     {
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             @Html.Raw(TempData[SitkaController.StatusErrorIndex])
+        </div>
+    }
+    @if (TempData.ContainsKey(SitkaController.StatusErrorScrollablePreIndex))
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <pre style="max-height: 300px; overflow: scroll;">@Html.Raw(TempData[SitkaController.StatusErrorScrollablePreIndex])</pre>
         </div>
     }
     @if (TempData.ContainsKey(SitkaController.StatusMessageIndex))
@@ -70,6 +77,6 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.Raw(TempData[SitkaController.WarningMessageIndex])
         </div>
     }
-    
+
     @RenderBody()
 </div>
