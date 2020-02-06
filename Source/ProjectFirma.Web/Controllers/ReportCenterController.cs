@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
@@ -31,6 +33,7 @@ using ProjectFirma.Web.ReportTemplates;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ReportCenter;
 using ProjectFirma.Web.Views.Shared;
+using SharpDocx;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -73,7 +76,6 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(EditViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -84,12 +86,58 @@ namespace ProjectFirma.Web.Controllers
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession);
             var reportTemplateModelType = ReportTemplateModelType.All.FirstOrDefault(x => x.ReportTemplateModelTypeID == viewModel.ReportTemplateModelTypeID);
             var reportTemplateModel = ReportTemplateModel.All.FirstOrDefault(x => x.ReportTemplateModelID == viewModel.ReportTemplateModelID);
-
             var reportTemplate = ReportTemplate.CreateNewBlank(fileResource, reportTemplateModelType, reportTemplateModel);
-            viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
-            SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
+            ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
+
+            if (reportIsValid)
+            {
+                viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+                SitkaDbContext.SaveChanges();
+                SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
+            }
+            else
+            {
+                SetErrorForDisplay($"There was an error with this template: {errorMessage}");
+                SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+            }
+
+
             return new ModalDialogFormJsonResult();
+        }
+
+        void ValidateReportTemplate(ReportTemplate reportTemplate, out bool reportIsValid, out string errorMessage, out string sourceCode)
+        {
+            errorMessage = "";
+            sourceCode = "";
+
+            var reportTemplateModel = reportTemplate.ReportTemplateModel.ToEnum;
+            List<int> selectedModelIDs;
+
+            switch (reportTemplateModel)
+            {
+                case ReportTemplateModelEnum.Project:
+                    // select 10 random models to test the report with
+                    selectedModelIDs = HttpRequestStorage.DatabaseEntities.Projects.OrderBy(x => Guid.NewGuid())
+                        .Select(x => x.ProjectID).Take(10).ToList();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            try
+            {
+                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
+                reportTemplateGenerator.Generate();
+                reportIsValid = true;
+            }
+            catch (SharpDocxCompilationException exception)
+            {
+                errorMessage = exception.Errors;
+                sourceCode = exception.SourceCode;
+                reportIsValid = false;
+            }
+
         }
 
         [HttpGet]

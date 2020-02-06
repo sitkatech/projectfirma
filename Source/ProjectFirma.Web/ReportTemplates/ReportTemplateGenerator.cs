@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.ReportTemplates
             ReportTemplateUniqueIdentifier = Guid.NewGuid();
         }
 
-        private void Generate()
+        public void Generate()
         {
 
             var models = GetListOfModels();
