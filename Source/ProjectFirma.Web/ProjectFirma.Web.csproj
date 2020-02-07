@@ -217,6 +217,7 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />

@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.ReportTemplates
     {
         public const string TemplateTempDirectory = "ProjectFirmaReportTemplates";
         public const int TemplateTempDirectoryFileLifespanInDays = 1;
-        protected ProjectFirmaModels.Models.ReportTemplate ReportTemplate { get; set; }
+        protected ReportTemplate ReportTemplate { get; set; }
         protected ReportTemplateModelEnum ReportTemplateModelEnum { get; set; }
         protected ReportTemplateModelTypeEnum ReportTemplateModelTypeEnum { get; set; }
         protected List<int> SelectedModelIDs { get; set; }
@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// </summary>
         protected Guid ReportTemplateUniqueIdentifier { get; set; }
         
-        public ReportTemplateGenerator(ProjectFirmaModels.Models.ReportTemplate reportTemplate, List<int> selectedModelIDs)
+        public ReportTemplateGenerator(ReportTemplate reportTemplate, List<int> selectedModelIDs)
         {
             ReportTemplate = reportTemplate;
             ReportTemplateModelEnum = reportTemplate.ReportTemplateModel.ToEnum;
@@ -60,9 +60,9 @@ namespace ProjectFirma.Web.ReportTemplates
         public ActionResult GenerateAndDownload()
         {
             Generate();
-            var fileData = System.IO.File.ReadAllBytes(GetCompilePath());
+            var fileData = File.ReadAllBytes(GetCompilePath());
             var stream = new MemoryStream(fileData);
-            return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, ProjectFirmaModels.Models.FileResourceMimeType.WordDOCX);
+            return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
         private void DeleteDirectory(string targetDirectory)
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.ReportTemplates
         private void SaveTemplateFileToTempDirectory()
         {
             var filePath = GetTemplatePath();
-            System.IO.File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData);
+            File.WriteAllBytes(filePath, ReportTemplate.FileResource.FileResourceData);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetTemplatePath()
         {
-            var fileName = new System.IO.FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
@@ -111,14 +111,14 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetCompilePath()
         {
-            var fileName = new System.IO.FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
 
         private string GetFullTemporaryTemplateDirectory()
         {
-            return $"{System.IO.Path.GetTempPath()}{TemplateTempDirectory}\\";
+            return $"{Path.GetTempPath()}{TemplateTempDirectory}\\";
         }
 
         private List<ReportTemplateBaseModel> GetListOfModels()
@@ -137,6 +137,58 @@ namespace ProjectFirma.Web.ReportTemplates
             }
 
             return listOfModels;
+        }
+
+        public static void ValidateReportTemplate(ReportTemplate reportTemplate, out bool reportIsValid, out string errorMessage, out string sourceCode)
+        {
+            errorMessage = "";
+            sourceCode = "";
+
+            var reportTemplateModel = reportTemplate.ReportTemplateModel.ToEnum;
+            List<int> selectedModelIDs;
+
+            switch (reportTemplateModel)
+            {
+                case ReportTemplateModelEnum.Project:
+                    // select 10 random models to test the report with
+                    selectedModelIDs = HttpRequestStorage.DatabaseEntities.Projects
+                        .Select(x => x.ProjectID).Take(10).ToList();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            try
+            {
+                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
+                reportTemplateGenerator.Generate();
+                reportIsValid = true;
+            }
+            catch (SharpDocxCompilationException exception)
+            {
+                errorMessage = exception.Errors;
+                sourceCode = exception.SourceCode;
+                reportIsValid = false;
+            }
+
+        }
+
+        public static void ValidateReportTemplateForSelectedModelIDs(ReportTemplate reportTemplate, List<int> selectedModelIDs, out bool reportIsValid, out string errorMessage, out string sourceCode)
+        {
+            errorMessage = "";
+            sourceCode = "";
+            try
+            {
+                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
+                reportTemplateGenerator.Generate();
+                reportIsValid = true;
+            }
+            catch (SharpDocxCompilationException exception)
+            {
+                errorMessage = exception.Errors;
+                sourceCode = exception.SourceCode;
+                reportIsValid = false;
+            }
         }
 
     }

@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
             var reportTemplateModel = ReportTemplateModel.All.FirstOrDefault(x => x.ReportTemplateModelID == viewModel.ReportTemplateModelID);
             var reportTemplate = ReportTemplate.CreateNewBlank(fileResource, reportTemplateModelType, reportTemplateModel);
 
-            ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
+            ReportTemplateGenerator.ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
 
             if (reportIsValid)
             {
@@ -102,42 +102,7 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorWithScrollablePreForDisplay($"{sourceCode}");
             }
 
-
             return new ModalDialogFormJsonResult();
-        }
-
-        void ValidateReportTemplate(ReportTemplate reportTemplate, out bool reportIsValid, out string errorMessage, out string sourceCode)
-        {
-            errorMessage = "";
-            sourceCode = "";
-
-            var reportTemplateModel = reportTemplate.ReportTemplateModel.ToEnum;
-            List<int> selectedModelIDs;
-
-            switch (reportTemplateModel)
-            {
-                case ReportTemplateModelEnum.Project:
-                    // select 10 random models to test the report with
-                    selectedModelIDs = HttpRequestStorage.DatabaseEntities.Projects.OrderBy(x => Guid.NewGuid())
-                        .Select(x => x.ProjectID).Take(10).ToList();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            try
-            {
-                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
-                reportTemplateGenerator.Generate();
-                reportIsValid = true;
-            }
-            catch (SharpDocxCompilationException exception)
-            {
-                errorMessage = exception.Errors;
-                sourceCode = exception.SourceCode;
-                reportIsValid = false;
-            }
-
         }
 
         [HttpGet]
@@ -263,6 +228,5 @@ namespace ProjectFirma.Web.Controllers
             var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
             return reportTemplateGenerator.GenerateAndDownload();
         }
-
     }
 }
