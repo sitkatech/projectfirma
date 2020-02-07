@@ -19,6 +19,18 @@
     <!-- <RepositoryType>Repo type</RepositoryType> -->
     <!-- <PackageTags>Tags</PackageTags> -->
     <PackageReleaseNotes>Release</PackageReleaseNotes>
+    <AssemblyName>SharpDocx</AssemblyName>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
