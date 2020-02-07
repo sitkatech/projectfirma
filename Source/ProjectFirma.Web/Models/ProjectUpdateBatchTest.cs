@@ -423,9 +423,11 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ProjectStage, Is.Not.EqualTo(ProjectStage.PlanningDesign), "Should not be in Planning/Design");
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
 
-            var result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have an Implementation Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            var results = projectUpdateBatch.ValidatePerformanceMeasures();
+            //Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have an Implementation Start Year set");
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should not be valid since we do not have an Implementation Start Year set");
+            //Assert.That(results.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
             projectUpdate.PlanningDesignStartYear = 2004;
@@ -464,10 +466,10 @@ namespace ProjectFirma.Web.Models
             projectUpdate.PlanningDesignStartYear = 2001;
             projectUpdate.ImplementationStartYear = 2002;
             projectUpdate.CompletionYear = 2006;
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.EqualTo(true), $"Should be valid since the Project start and completion year is before 2007");
-            Assert.That(result.GetWarningMessages(), Is.Empty, "Should not have any validation warnings");
-            Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.EqualTo(true), $"Should be valid since the Project start and completion year is before 2007");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, "Should not have any validation warnings");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results), Is.Empty, "Should have no warnings");
 
             // now add some performance measure reported value records
             projectUpdate.ImplementationStartYear = currentYear - 1;
@@ -507,11 +509,12 @@ namespace ProjectFirma.Web.Models
                 performanceMeasureActualUpdate.ActualValue = index * 10;
                 index++;
             }
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.True, "Should have no warnings");
-            Assert.That(result.GetWarningMessages(), Is.Empty, "Should have no warnings");
-            Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.True, "Should have no warnings");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, "Should have no warnings");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results), Is.Empty, "Should have no warnings");
         }
+
 
         [Test]
         public void ValidatePerformanceMeasuresAndForceValidationProjectUpdateInPlanningDesignTest()
@@ -524,26 +527,26 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ProjectStage, Is.EqualTo(ProjectStage.PlanningDesign), "Should not be in Planning/Design");
 
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
-            var result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have a Implementation Start Year set");
-            Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
+            var results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should not be valid since we do not have a Implementation Start Year set");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = DateTime.Today.Year;
             projectUpdate.ImplementationStartYear = currentYear;
             projectUpdate.PlanningDesignStartYear = currentYear - 1;
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.True, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
-            Assert.That(result.GetWarningMessages(), Is.Empty, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.True, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, "ProjectUpdate in Planning/Design stage, ignore the missing years validation");
 
             // now add some performance measure reported value records
             var performanceMeasureActualUpdate1 = TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear); // record after current year
             var performanceMeasureActualUpdate2 = TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear - 1); // record before start year
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.False, "Should have warning about incomplete rows");
-            Assert.That(result.GetWarningMessages(),
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should have warning about incomplete rows");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results),
                 Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
                 "Should have warning about incomplete rows");
-            Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings,
+            Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results),
                 Is.EquivalentTo(new HashSet<int>
                 {
                     performanceMeasureActualUpdate1.PerformanceMeasureActualUpdateID,
@@ -552,20 +555,20 @@ namespace ProjectFirma.Web.Models
                 "Should have warning about incomplete rows");
 
             performanceMeasureActualUpdate1.ActualValue = 10;
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.False, "Should have warning about incomplete rows");
-            Assert.That(result.GetWarningMessages(),
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should have warning about incomplete rows");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results),
                 Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
                 "Should have warning about incomplete rows");
-            Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings,
+            Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results),
                 Is.EquivalentTo(new HashSet<int> { performanceMeasureActualUpdate2.PerformanceMeasureActualUpdateID }),
                 "Should have warning about incomplete rows");
 
             performanceMeasureActualUpdate2.ActualValue = 20;
-            result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.True, "Should have no warnings");
-            Assert.That(result.GetWarningMessages(), Is.Empty, "Should have no warnings");
-            Assert.That(result.PerformanceMeasureActualUpdatesWithWarnings, Is.Empty, "Should have no warnings");
+            results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.True, "Should have no warnings");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, "Should have no warnings");
+            Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results), Is.Empty, "Should have no warnings");
         }
 
         private static void AssertExpenditureYears(List<ProjectFundingSourceExpenditureUpdate> projectFundingSourceExpenditureUpdates,
@@ -636,8 +639,8 @@ namespace ProjectFirma.Web.Models
             bool isValid,
             string assertionMessage)
         {
-            var result = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(result.IsValid, Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
+            var results = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
             var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
             var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
@@ -645,22 +648,22 @@ namespace ProjectFirma.Web.Models
             var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
             if (expectedMissingYears.Any() && missingReportedValues.Any())
             {
-                Assert.That(result.GetWarningMessages(), Has.Count.EqualTo(2));
-                Assert.That(result.GetWarningMessages()[0], Is.StringEnding(missingYearsMessage));
-                Assert.That(result.GetWarningMessages()[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Has.Count.EqualTo(2));
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[0], Is.StringEnding(missingYearsMessage));
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
             }
             else if (expectedMissingYears.Any())
             {
-                Assert.That(result.GetWarningMessages(), Has.Count.EqualTo(1));
-                Assert.That(result.GetWarningMessages()[0], Is.StringEnding(missingYearsMessage));
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Has.Count.EqualTo(1));
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[0], Is.StringEnding(missingYearsMessage));
             }
             else if (missingReportedValues.Any())
             {
-                Assert.That(result.GetWarningMessages(), Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }), assertionMessage);
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }), assertionMessage);
             }
             else
             {
-                Assert.That(result.GetWarningMessages(), Is.Empty, assertionMessage);
+                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, assertionMessage);
             }
         }
 
