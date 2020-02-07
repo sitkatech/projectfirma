@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 }
             }
 
-            Assert.That(failedReportTemplates, Is.Empty, $"The following report templates (count: {failedReportTemplates.Count}) have failed to compile: {string.Join(", ", failedReportTemplates.Select(x => x.errorMessageForTest()))}. Was there any changes recently to the Docx ReportTemplating or associated models?");
+            Assert.That(failedReportTemplates, Is.Empty, $"The following report templates (count: {failedReportTemplates.Count}) have failed to compile: {string.Join(", ", failedReportTemplates.Select(x => x.ErrorMessageForTest()))}. Was there any changes recently to the Docx ReportTemplating or associated models?");
         }
 
         public class ReportTemplateTestFailedReportTemplate
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.ReportTemplates
                 SourceCode = sourceCode;
             }
 
-            public string errorMessageForTest()
+            public string ErrorMessageForTest()
             {
                 return $"(ReportTemplateID: {ReportTemplate.ReportTemplateID}, ReportTemplateModel: {ReportTemplate.ReportTemplateModel.ReportTemplateModelDisplayName}, TenantID: {ReportTemplate.TenantID}, ErrorMessage: \"{ErrorMessage.Trim()}\")";
             }
