@@ -81,6 +81,17 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.Project.ProjectStage.ProjectStageDisplayName
         </div>
     </div>
+    @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+    {
+        <div class="row">
+            <div class="col-xs-5">
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectType.ToType())
+            </div>
+            <div class="col-xs-7">
+                @ViewDataTyped.Project.ProjectType.ProjectTypeDisplayName
+            </div>
+        </div>
+    }
     <div class="row">
         <div class="col-xs-12">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectDescription.ToType())

@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
-            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired && x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             var projectrequiredCustomAttributeTypeIDs = project.GetProjectCustomAttributes().Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             if (requiredCustomAttributeTypeIDs.Any(x => !projectrequiredCustomAttributeTypeIDs.Contains(x)))
             {

@@ -108,12 +108,19 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
+
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession))
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }
+
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentFirmaSession));
             TopLevelLtInfoMenuItems.Add(BuildConfigureMenu(currentFirmaSession));
+
+            if (MultiTenantHelpers.DisplayReportCenter())
+            {
+                TopLevelLtInfoMenuItems.Add(BuildReportCenterMenu(currentFirmaSession));
+            }
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -226,11 +233,10 @@ namespace ProjectFirma.Web.Views
             // Group 3
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group3"));
-
+            
             // Group 4
-
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
-
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, $"Report Center", "Group4"));
             // Group 4 - Other
 
             // Group 5 - Project Firma Configuration stuff
@@ -286,6 +292,21 @@ namespace ProjectFirma.Web.Views
             return configureMenu;
         }
 
+        private static LtInfoMenuItem BuildReportCenterMenu(FirmaSession currentFirmaSession)
+        {
+            var reportCenterMenu = new LtInfoMenuItem("Report Center");
+
+            reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Projects()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+
+            if (new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
+            {
+                reportCenterMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportCenterController>(c => c.Index()), currentFirmaSession, "Manage Report Templates", "Group2"));
+            }
+
+            
+
+            return reportCenterMenu;
+        }
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)
         {

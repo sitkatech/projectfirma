@@ -36,6 +36,8 @@ CREATE TABLE [dbo].[TenantAttribute](
 	[UseProjectTimeline] [bit] NOT NULL,
 	[GeoServerNamespace] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[EnableEvaluations] [bit] NOT NULL,
+	[EnableProjectTypes] [bit] NOT NULL,
+	[EnableReportCenter] [bit] NOT NULL,
  CONSTRAINT [PK_TenantAttribute_TenantAttributeID] PRIMARY KEY CLUSTERED 
 (
 	[TenantAttributeID] ASC
@@ -50,6 +52,8 @@ CREATE TABLE [dbo].[TenantAttribute](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[TenantAttribute] ADD  DEFAULT ((0)) FOR [EnableProjectTypes]
 GO
 ALTER TABLE [dbo].[TenantAttribute]  WITH CHECK ADD  CONSTRAINT [FK_TenantAttribute_AccomplishmentsDashboardFundingDisplayType_AccomplishmentsDashboardFundingDisplayTypeID] FOREIGN KEY([AccomplishmentsDashboardFundingDisplayTypeID])
 REFERENCES [dbo].[AccomplishmentsDashboardFundingDisplayType] ([AccomplishmentsDashboardFundingDisplayTypeID])

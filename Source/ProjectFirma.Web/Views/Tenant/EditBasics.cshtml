@@ -23,6 +23,7 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Tenant
+@using ProjectFirmaModels.Models
 @inherits EditBasics
 
 <style>
@@ -251,6 +252,29 @@
         </div>
     </div>
     <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableProjectTypes)</div>
+        <div class="col-md-8">
+            @if (ViewDataTyped.CanEditEnableProjectTypesCheckbox)
+            {
+                @Html.CheckBoxFor(x => x.EnableProjectTypes)
+            }
+            else
+            {
+                @Html.CheckBoxFor(x => x.EnableProjectTypes, new { @checked = "checked", disabled = "disabled" })
+                <span class="systemText">You cannot edit this because there are projects in the database of a type other than @ProjectTypeEnum.Normal</span>
+            }
+
+            @Html.ValidationMessageFor(x => x.EnableProjectTypes)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.EnableReportCenter)</div>
+        <div class="col-md-8">
+            @Html.CheckBoxFor(x => x.EnableReportCenter)
+            @Html.ValidationMessageFor(x => x.EnableReportCenter)
+        </div>
+    </div>
+    <div class="form-group">
         <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.GoogleAnalyticsTrackingCode)</div>
         <div class="col-md-8">
             @Html.TextBoxFor(x => x.GoogleAnalyticsTrackingCode, new { @class = "form-control" })
@@ -265,5 +289,6 @@
             @Html.ValidationMessageFor(x => x.GeoServerNamespace)
         </div>
     </div>
+    
 </div>
 }

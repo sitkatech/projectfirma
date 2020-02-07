@@ -178,6 +178,7 @@ namespace ProjectFirma.Web.Controllers
             if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
+                basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
             }
             
             return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
@@ -204,6 +205,7 @@ namespace ProjectFirma.Web.Controllers
                 PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
                 ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
                 CompletionYear = importExternalProjectStaging.EndYear,
+                ProjectTypeEnum = ProjectTypeEnum.Normal
             };
             return ViewCreateAndEditBasics(viewModel, true);
         }
@@ -229,7 +231,8 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
-                now)
+                now, 
+                ProjectType.Normal.ProjectTypeID)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
@@ -1799,7 +1802,7 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesValidationResult = project.ValidateCustomAttributes();
 
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 

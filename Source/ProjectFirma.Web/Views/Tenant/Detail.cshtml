@@ -182,7 +182,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-5 fieldLabel text-right">
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType())
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.ExcludeTargetedFundingOrganizations.ToType().GetFieldDefinitionLabel()
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.ExcludeTargetedFundingOrganizations.ToYesNo()
@@ -204,6 +205,24 @@
                     </div>
                     <div class="col-sm-7">
                         @ViewDataTyped.TenantAttribute.UseProjectTimeline.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.EnableProjectType.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableProjectType.ToType().GetFieldDefinitionLabel()?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableProjectTypes.ToYesNo()
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5 fieldLabel text-right">
+                        @Html.LabelWithSugarFor(@FieldDefinitionEnum.EnableReportCenter.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
+                        @FieldDefinitionEnum.EnableReportCenter.ToType().GetFieldDefinitionLabel()?
+                    </div>
+                    <div class="col-sm-7">
+                        @ViewDataTyped.TenantAttribute.EnableReportCenter.ToYesNo()
                     </div>
                 </div>
                 <div class="row">
@@ -230,6 +249,7 @@
                         @ViewDataTyped.TenantAttribute.GeoServerNamespace
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

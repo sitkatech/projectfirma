@@ -119,7 +119,7 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
-                 @Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, true) 
+                @Html.LabelWithSugarFor(m => m.SecondaryProjectTaxonomyLeafIDs, true)
             </div>
             <div class="col-xs-12 col-sm-8">
                 <div class="input-group" style="margin-bottom: 1em;">
@@ -221,7 +221,25 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>
-
+    @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+    {
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.ProjectTypeEnum)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.ProjectTypeEnum)
+                <span class="smallExplanationText">
+                    The @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                </span>
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.HiddenFor(m => m.ProjectTypeEnum)
+    }
 </div>
 
     @Html.HiddenFor(m => m.ProjectID)

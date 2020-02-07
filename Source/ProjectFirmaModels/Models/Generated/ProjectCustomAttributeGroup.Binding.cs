@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ProjectCustomAttributeGroup()
         {
+            this.ProjectCustomAttributeGroupProjectTypes = new HashSet<ProjectCustomAttributeGroupProjectType>();
             this.ProjectCustomAttributeTypes = new HashSet<ProjectCustomAttributeType>();
         }
 
@@ -53,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectCustomAttributeTypes.Any();
+            return ProjectCustomAttributeGroupProjectTypes.Any() || ProjectCustomAttributeTypes.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroup).Name, typeof(ProjectCustomAttributeType).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectCustomAttributeGroup).Name, typeof(ProjectCustomAttributeGroupProjectType).Name, typeof(ProjectCustomAttributeType).Name};
 
 
         /// <summary>
@@ -84,6 +85,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in ProjectCustomAttributeGroupProjectTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectCustomAttributeTypes.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -98,6 +104,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ProjectCustomAttributeGroupID; } set { ProjectCustomAttributeGroupID = value; } }
 
+        public virtual ICollection<ProjectCustomAttributeGroupProjectType> ProjectCustomAttributeGroupProjectTypes { get; set; }
         public virtual ICollection<ProjectCustomAttributeType> ProjectCustomAttributeTypes { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
