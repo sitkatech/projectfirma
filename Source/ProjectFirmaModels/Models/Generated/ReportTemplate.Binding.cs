@@ -120,6 +120,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReportTemplateID; } set { ReportTemplateID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual FileResource FileResource { get; set; }
         public ReportTemplateModelType ReportTemplateModelType { get { return ReportTemplateModelType.AllLookupDictionary[ReportTemplateModelTypeID]; } }
         public ReportTemplateModel ReportTemplateModel { get { return ReportTemplateModel.AllLookupDictionary[ReportTemplateModelID]; } }
