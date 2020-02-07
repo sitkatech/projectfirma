@@ -12,6 +12,7 @@ namespace ProjectFirma.Api.Models
             OrganizationGuid = organization.OrganizationGuid;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
+            OrganizationTypeName = organization.OrganizationType.OrganizationTypeName;
             IsActive = organization.IsActive;
             OrganizationUrl = organization.OrganizationUrl;
             if (organization.LogoFileResource != null)
@@ -29,6 +30,7 @@ namespace ProjectFirma.Api.Models
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationShortName { get; set; }
         public int OrganizationTypeID { get; set; }
+        public string OrganizationTypeName { get; set; }
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
         public FileResourceDto LogoFileResource { get; set; }

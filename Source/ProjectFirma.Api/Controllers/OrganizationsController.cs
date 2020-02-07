@@ -26,19 +26,15 @@ namespace ProjectFirma.Api.Controllers
         public IHttpActionResult PostOrganization(string apiKey, [FromBody] OrganizationDto organizationDto)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
-            // If Organization already exists - Org created by Keystone or if a sync process failed
             var tenantID = Tenant.ActionAgendaForPugetSound.TenantID;
+            // If Organization already exists because it was created by Keystone - do an Update instead of a create
             if (_databaseEntities.Organizations.Any(x => x.OrganizationName == organizationDto.OrganizationName))
             {
                 var existingOrganization = _databaseEntities.Organizations.Single(x => x.OrganizationName == organizationDto.OrganizationName);
-                // Set guid if it's provided in Dto bu doesn't exist in Firma database yet
-                if (organizationDto.OrganizationGuid.HasValue && !existingOrganization.OrganizationGuid.HasValue)
-                {
-                    existingOrganization.OrganizationGuid = organizationDto.OrganizationGuid;
-                    _databaseEntities.SaveChangesWithNoAuditing(tenantID);
-                    var existingOrganizationReloaded = new OrganizationDto(existingOrganization);
-                    return Ok(existingOrganizationReloaded);
-                }
+                // Give the Dto the correct Organization ID and OrganizationTypeID for ProjectFirma
+                organizationDto.OrganizationID = existingOrganization.OrganizationID;
+                organizationDto.OrganizationTypeID = _databaseEntities.OrganizationTypes.SingleOrDefault(x => x.OrganizationTypeName == organizationDto.OrganizationTypeName)?.OrganizationTypeID ?? _databaseEntities.OrganizationTypes.Single(x => x.IsDefaultOrganizationType).OrganizationTypeID;
+                return UpdateOrganization(apiKey, organizationDto);
             }
             var organization = new Organization(organizationDto.OrganizationName, organizationDto.IsActive, organizationDto.OrganizationTypeID);
             organization.OrganizationGuid = organizationDto.OrganizationGuid;
