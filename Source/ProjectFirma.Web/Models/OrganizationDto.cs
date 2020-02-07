@@ -16,6 +16,7 @@ namespace ProjectFirma.Web.Models
             OrganizationGuid = organization.OrganizationGuid;
             OrganizationShortName = organization.OrganizationShortName;
             OrganizationTypeID = organization.OrganizationTypeID;
+            OrganizationTypeName = organization.OrganizationType.OrganizationTypeName;
             IsActive = organization.IsActive;
             OrganizationUrl = organization.OrganizationUrl;
         }
@@ -29,6 +30,7 @@ namespace ProjectFirma.Web.Models
         public Guid? OrganizationGuid { get; set; }
         public string OrganizationShortName { get; set; }
         public int OrganizationTypeID { get; set; }
+        public string OrganizationTypeName { get; set; }
         public bool IsActive { get; set; }
         public string OrganizationUrl { get; set; }
     }
