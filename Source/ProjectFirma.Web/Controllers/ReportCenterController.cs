@@ -116,7 +116,6 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ReportTemplatePrimaryKey reportTemplatePrimaryKey, EditViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -126,8 +125,21 @@ namespace ProjectFirma.Web.Controllers
 
             var fileResource = (viewModel.FileResourceData != null) ? FileResourceModelExtensions.CreateNewFromHttpPostedFileAndSave(viewModel.FileResourceData, CurrentFirmaSession) : HttpRequestStorage.DatabaseEntities.FileResources.First(x => x.FileResourceID == viewModel.FileResourceID);
             var reportTemplate = reportTemplatePrimaryKey.EntityObject;
-            viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
-            SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully updated.");
+
+            ReportTemplateGenerator.ValidateReportTemplate(reportTemplate, out var reportIsValid, out var errorMessage, out var sourceCode);
+
+            if (reportIsValid)
+            {
+                viewModel.UpdateModel(reportTemplate, fileResource, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+                SitkaDbContext.SaveChanges();
+                SetMessageForDisplay($"Report Template \"{reportTemplate.DisplayName}\" successfully created.");
+            }
+            else
+            {
+                SetErrorForDisplay($"There was an error with this template: {errorMessage}");
+                SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+            }
+
             return new ModalDialogFormJsonResult();
         }
 
