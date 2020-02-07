@@ -57,6 +57,7 @@ namespace LtInfo.Common.DhtmlWrappers
         public string GridInstructionsWhenEmpty { get; set; }
         public ModalDialogForm CreateEntityModalDialogForm { get; set; }
         public BulkTagModalDialogForm BulkTagModalDialogForm { get; set; }
+        public SelectProjectsModalDialogForm GenerateReportModalDialogForm { get; set; }
 
         public bool ShowFilterBar { get; set; }
 
@@ -399,7 +400,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
         public ColumnSpec<T> AddCheckBoxColumn()
         {
-            var columnSpec = new ColumnSpec<T>(string.Empty, x => 0.ToString(), 28, DhtmlxGridColumnDataType.Checkbox,
+            var columnSpec = new ColumnSpec<T>("#master_checkbox", x => 0.ToString(), 28, DhtmlxGridColumnDataType.Checkbox,
                 DhtmlxGridColumnFormatType.None, DhtmlxGridColumnAlignType.Center, new DhtmlxGridColumnSortType("ch"), DhtmlxGridColumnFilterType.None, null, null, null);
             Add(columnSpec);
             return columnSpec;

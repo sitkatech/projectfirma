@@ -30,6 +30,7 @@ using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
+using ImageHelper = LtInfo.Common.ImageHelper;
 
 namespace ProjectFirma.Web.Controllers
 {

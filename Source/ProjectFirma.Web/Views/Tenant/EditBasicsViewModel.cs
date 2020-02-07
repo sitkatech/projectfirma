@@ -126,6 +126,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectType)]
         public bool EnableProjectTypes { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableReportCenter)]
+        public bool EnableReportCenter { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -155,6 +158,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableProjectEvaluations = tenantAttribute.EnableEvaluations;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
             EnableProjectTypes = tenantAttribute.EnableProjectTypes;
+            EnableReportCenter = tenantAttribute.EnableReportCenter;
         }
 
         public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
@@ -185,6 +189,7 @@ namespace ProjectFirma.Web.Views.Tenant
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
             attribute.EnableEvaluations = EnableProjectEvaluations;
+            attribute.EnableReportCenter = EnableReportCenter;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

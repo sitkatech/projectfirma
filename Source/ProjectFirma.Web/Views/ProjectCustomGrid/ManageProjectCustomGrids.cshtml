@@ -21,6 +21,7 @@
 
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -58,3 +59,16 @@
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomDefaultGridSpec, ViewDataTyped.ProjectCustomDefaultGridName, ViewDataTyped.ProjectCustomDefaultGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
+
+<br /><br /><br />
+@if (MultiTenantHelpers.DisplayReportCenter())
+{
+    @* Report Center Grid *@
+    <div class="pull-right">
+        @ModalDialogFormHelper.ModalDialogFormLink("Customize Grid", ViewDataTyped.CustomizeReportCenterGridUrl, "Customize Report Center Project Grid", new List<string> { "btn", "btn-firma", "btn-sm" }, true)
+    </div>
+    <h4> Report Center @FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName List</h4>
+    <div style="margin-top: 10px">
+        @Html.DhtmlxGrid(ViewDataTyped.ProjectCustomReportCenterGridSpec, ViewDataTyped.ProjectCustomReportCenterGridName, ViewDataTyped.ProjectCustomReportCenterGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+}

@@ -331,6 +331,10 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        public static bool DisplayReportCenter()
+        {
+            return GetTenantAttribute().EnableReportCenter;
+        }
 
     }
 }

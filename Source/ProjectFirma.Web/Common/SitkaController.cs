@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Common
     public abstract partial class SitkaController : Controller
     {
         public const string StatusErrorIndex = "StatusError";
+        public const string StatusErrorScrollablePreIndex = "StatusErrorScrollablePre";
         public const string StatusMessageIndex = "StatusMessage";
         public const string InfoMessageIndex = "InfoMessage";
         public const string WarningMessageIndex = "WarningMessage";
@@ -71,6 +72,15 @@ namespace ProjectFirma.Web.Common
             }
 
             base.OnException(filterContext);
+        }
+
+        public void SetErrorWithScrollablePreForDisplay(string errorMessage)
+        {
+            SetMessage(StatusErrorScrollablePreIndex, errorMessage, TempData);
+        }
+        protected void ClearErrorWithScrollablePreForDisplay()
+        {
+            RemoveMessage(StatusErrorScrollablePreIndex, TempData);
         }
 
         public static void SetErrorForDisplay(TempDataDictionary tempData, string errorMessage)
