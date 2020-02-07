@@ -7,7 +7,7 @@ INSERT INTO dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
 select 
     TenantID,
     77,
-    '<p>This page is used to create and edit reports that have attached Word Document (.docx) templates.</p>'
+    '<p>In the Report Center you can review and upload report Word Document (.docx) templates. Report templates uploaded here can be used on their appropriate pages within the report center based on the model that is selected.</p>'
 from Tenant
 
 --rollback tran
