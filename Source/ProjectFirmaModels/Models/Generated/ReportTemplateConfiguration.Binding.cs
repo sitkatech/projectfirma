@@ -18,8 +18,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReportTemplateID).HasColumnName(@"ReportTemplateID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.FileResourceID).HasColumnName(@"FileResourceID").HasColumnType("int").IsRequired();
-            Property(x => x.DisplayName).HasColumnName(@"DisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
-            Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.DisplayName).HasColumnName(@"DisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
+            Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(250);
             Property(x => x.ReportTemplateModelTypeID).HasColumnName(@"ReportTemplateModelTypeID").HasColumnType("int").IsRequired();
             Property(x => x.ReportTemplateModelID).HasColumnName(@"ReportTemplateModelID").HasColumnType("int").IsRequired();
 

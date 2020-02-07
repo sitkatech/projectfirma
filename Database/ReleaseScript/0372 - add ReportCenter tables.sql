@@ -15,8 +15,8 @@ CREATE TABLE [dbo].[ReportTemplate](
 	[ReportTemplateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
-    [DisplayName] [varchar] (200) NOT NULL,
-	[Description] [varchar](1000) NULL,
+    [DisplayName] [varchar] (50) NOT NULL,
+	[Description] [varchar](250) NULL,
  CONSTRAINT [PK_ReportTemplate_ReportTemplateID] PRIMARY KEY CLUSTERED 
 (
 	[ReportTemplateID] ASC

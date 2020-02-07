@@ -28,19 +28,19 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ReportCenter
 {
-    public class EditViewData : FirmaUserControlViewData
+    public class EditViewData : FirmaViewData
     {
         public readonly ProjectFirmaModels.Models.ReportTemplate ReportTemplate;
         public IEnumerable<SelectListItem> AllReportTemplateModelTypeSelectItems;
         public IEnumerable<SelectListItem> AllReportTemplateModelSelectItems;
 
-        public EditViewData()
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base (currentFirmaSession, firmaPage)
         {
             AllReportTemplateModelTypeSelectItems = ReportTemplateModelType.All.ToSelectList(x => x.ReportTemplateModelTypeID.ToString(),x => x.ReportTemplateModelTypeDisplayName);
             AllReportTemplateModelSelectItems = ReportTemplateModel.All.ToSelectList(x => x.ReportTemplateModelID.ToString(),x => x.ReportTemplateModelDisplayName);
         }
 
-        public EditViewData(ProjectFirmaModels.Models.ReportTemplate reportTemplate) : this()
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, ProjectFirmaModels.Models.ReportTemplate reportTemplate) : this(currentFirmaSession, firmaPage)
         {
             ReportTemplate = reportTemplate;
         }

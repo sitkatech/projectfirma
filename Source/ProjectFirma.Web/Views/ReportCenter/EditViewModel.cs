@@ -42,11 +42,12 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public int? FileResourceID { get; set; }
 
         [Required]
-        [DisplayName("Display Name")]
+        [StringLength(50)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportTitle)]
         public string DisplayName { get; set; }
 
-        [DisplayName("Description")]
-        [StringLength(200)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportDescription)]
+        [StringLength(250)]
         public string Description { get; set; }
 
         [Required]
@@ -54,10 +55,10 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public int ReportTemplateModelTypeID { get; set; }
 
         [Required]
-        [DisplayName("Model")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportModel)]
         public int ReportTemplateModelID { get; set; }
 
-        [DisplayName("Word Document Template File")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterReportFile)]
         [SitkaFileExtensions("docx")]
         public HttpPostedFileBase FileResourceData { get; set; }
 

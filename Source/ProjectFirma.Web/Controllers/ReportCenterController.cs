@@ -145,13 +145,15 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
-            var viewData = new EditViewData();
+            var firmaPage = FirmaPageTypeEnum.ReportCenterAddReport.GetFirmaPage();
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel, ReportTemplate reportTemplate)
         {
-            var viewData = new EditViewData(reportTemplate);
+            var firmaPage = FirmaPageTypeEnum.ReportCenterAddReport.GetFirmaPage();
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, reportTemplate);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

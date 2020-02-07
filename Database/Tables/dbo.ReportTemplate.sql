@@ -6,8 +6,8 @@ CREATE TABLE [dbo].[ReportTemplate](
 	[ReportTemplateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[FileResourceID] [int] NOT NULL,
-	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[Description] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DisplayName] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Description] [varchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReportTemplateModelTypeID] [int] NOT NULL,
 	[ReportTemplateModelID] [int] NOT NULL,
  CONSTRAINT [PK_ReportTemplate_ReportTemplateID] PRIMARY KEY CLUSTERED 

@@ -191,6 +191,7 @@ namespace ProjectFirmaModels.Models
         CreateEvaluationCriteriaInstructions = 75,
         AddProjectToEvaluationPortfolioInstructions = 76,
         ReportCenter = 77,
-        ReportCenterProjects = 78
+        ReportCenterProjects = 78,
+        ReportCenterAddReport = 79
     }
 }

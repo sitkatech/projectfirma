@@ -162,4 +162,8 @@ VALUES
 (337, N'EvaluationCriteriaDefinition', 'Evaluation Criteria Definition'),
 (338, N'EnableProjectEvaluations', 'Enable Project Evaluations'),
 (339, N'UseProjectTimeline', 'Use Project Timeline'),
-(340, N'EnableReportCenter', 'Enable Report Center')
+(340, N'EnableReportCenter', 'Enable Report Center'),
+(341, N'ReportCenterReportTitle', 'Title'),
+(342, N'ReportCenterReportDescription', 'Description'),
+(343, N'ReportCenterReportFile', 'File'),
+(344, N'ReportCenterReportModel', 'Model')

@@ -126,8 +126,8 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int DisplayName = 200;
-            public const int Description = 1000;
+            public const int DisplayName = 50;
+            public const int Description = 250;
         }
     }
 }
