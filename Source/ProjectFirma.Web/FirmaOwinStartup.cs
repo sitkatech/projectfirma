@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -221,6 +222,7 @@ namespace ProjectFirma.Web
             person.Email = keystoneUserClaims.Email;
             person.Phone = keystoneUserClaims.PrimaryPhone?.ToPhoneNumberString();
             person.LoginName = keystoneUserClaims.LoginName;
+            Organization organization = null;
 
             // handle the organization
             if (keystoneUserClaims.OrganizationGuid.HasValue)
@@ -236,7 +238,7 @@ namespace ProjectFirma.Web
                 var organizationByName = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganizationByOrganizationName(keystoneUserClaims.OrganizationName);
                 SitkaHttpApplication.Logger.Info($"Tenant \"{HttpRequestStorage.Tenant.TenantName}\" (TenantID: {HttpRequestStorage.Tenant.TenantID}): In SyncLocalAccountStore - organizationByName '{keystoneUserClaims.OrganizationName}' found: {organizationByName != null}");
 
-                var organization = organizationByGuid ?? organizationByName;
+                organization = organizationByGuid ?? organizationByName;
 
                 // If Organization not available, create it on the fly since it is a person org
                 if (organization == null)
@@ -304,9 +306,27 @@ namespace ProjectFirma.Web
             if (sendNewOrganizationNotification)
             {
                 SendNewOrganizationCreatedMessage(person, keystoneUserClaims.LoginName);
+                // Post new Organization to ProjectFirma
+                if (person.Tenant.AreOrganizationsExternallySourced)
+                {
+                    PostOrganizationToExternalSystem(organization).ContinueWith(t => Console.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+                }
             }
 
             return HttpRequestStorage.Person;
+        }
+
+        private static async Task PostOrganizationToExternalSystem(Organization organization)
+        {
+            var tenant = HttpRequestStorage.Tenant;
+            if (tenant.TenantID == Tenant.ActionAgendaForPugetSound.TenantID)
+            {
+                var organizationPostDto = new OrganizationDto(organization);
+                var client = new HttpClient();
+                await client.PostAsJsonAsync(
+                    $"{FirmaWebConfiguration.PsInfoPostOrganizationUrl}/{FirmaWebConfiguration.PsInfoApiKey}",
+                    organizationPostDto);
+            }
         }
 
 

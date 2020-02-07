@@ -21,8 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -35,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             _warningMessages = new List<string>();
             // Validate that required Custom Attributes are present
-            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
+            var requiredCustomAttributeTypeIDs = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.IsRequired && x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == projectUpdate.ProjectTypeID)).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             var projectrequiredCustomAttributeTypeIDs = projectUpdate.GetProjectCustomAttributes().Where(x => x.ProjectCustomAttributeType.IsRequired).Select(x => x.ProjectCustomAttributeTypeID).ToList();
             if (requiredCustomAttributeTypeIDs.Any(x => !projectrequiredCustomAttributeTypeIDs.Contains(x)))
             {

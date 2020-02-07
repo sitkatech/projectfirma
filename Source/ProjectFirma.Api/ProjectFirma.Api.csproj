@@ -134,6 +134,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\ValidateModelAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FundingSourcesControllerTest.cs" />
     <Compile Include="Models\FileResourceDto.cs" />
     <Compile Include="Models\FirmaWebApiConfiguration.cs" />
     <Compile Include="Models\FundingSourceDto.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionFromProjectFirma.cs" />
     <Compile Include="Models\OrganizationDto.cs" />
     <Compile Include="Models\ProjectBudgetDto.cs" />
+    <Compile Include="Models\FundingSourceFinancialTotalsDto.cs" />
     <Compile Include="Models\ProjectCalendarYearExpendituresDtoTest.cs" />
     <Compile Include="Models\ProjectCustomAttributeDto.cs" />
     <Compile Include="Models\ProjectCalendarYearExpendituresDto.cs" />

@@ -382,6 +382,10 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeGroup.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
@@ -556,6 +560,8 @@
     <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectTagConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
@@ -729,6 +735,7 @@
     <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupProjectType.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectAttachment.cs" />

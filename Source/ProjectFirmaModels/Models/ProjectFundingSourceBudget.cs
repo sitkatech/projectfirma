@@ -38,13 +38,13 @@ namespace ProjectFirmaModels.Models
 
         public ProjectFundingSourceBudget(int projectID, int fundingSourceID, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
         {
-            this.ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectID = projectID;
-            this.FundingSourceID = fundingSourceID;
-            this.CalendarYear = calendarYear;
-            this.SecuredAmount = securedAmount;
-            this.TargetedAmount = targetedAmount;
-            this.CostTypeID = costTypeID;
+            ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectID = projectID;
+            FundingSourceID = fundingSourceID;
+            CalendarYear = calendarYear;
+            SecuredAmount = securedAmount;
+            TargetedAmount = targetedAmount;
+            CostTypeID = costTypeID;
         }
 
         public void SetSecuredAndTargetedAmounts(decimal? securedAmount, decimal? targetedAmount)

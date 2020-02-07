@@ -19,13 +19,13 @@ go
 -- Field Definition default
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
-(340, N'EnableReportCenter', 'Enable Report Center')
+(342, N'EnableReportCenter', 'Enable Report Center')
 
 go
 
 INSERT [dbo].[FieldDefinitionDefault] ([FieldDefinitionID], [DefaultDefinition]) 
 VALUES 
-(340, '<p>This will enable the word document reporting functionality, including adding a new menu group for the Report Center where users can upload word document report templates and run reports on select models within the system.</p>')
+(342, '<p>This will enable the word document reporting functionality, including adding a new menu group for the Report Center where users can upload word document report templates and run reports on select models within the system.</p>')
 
 go
 

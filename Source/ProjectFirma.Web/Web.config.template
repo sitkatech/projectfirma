@@ -33,6 +33,9 @@
     <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="PsInfoPostOrganizationUrl" value="${psinfo-post-organization-url}"/>
+    <add key="PSInfoApiKey" value="${psinfo-api-key}" />
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
     <add key="DefaultModalDialogButtonCssClasses" value="btn-firma,btn-xs"/>
     <add key="WkhtmltopdfExecutable" value="${wkhtmltopdf-executable}"/>

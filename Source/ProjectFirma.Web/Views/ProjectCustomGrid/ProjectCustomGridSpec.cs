@@ -172,6 +172,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
                     break;
+                case ProjectCustomGridColumnEnum.ProjectType:
+                    if (MultiTenantHelpers.GetTenantAttribute().EnableProjectTypes)
+                    {
+                        Add(FieldDefinitionEnum.ProjectType.ToType().ToGridHeaderString(), x => x.ProjectType.ProjectTypeDisplayName, 140);
+                    }
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -187,12 +193,26 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                                     + "</div>").ToHTMLFormattedString();
             if (isCurrency)
             {
-                Add($"{gridHeaderHtmlString}", a => Decimal.Parse(a.GetProjectCustomAttributesValue(projectCustomAttributeType)), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                Add($"{gridHeaderHtmlString}", a => TryParseDecimalCustomAttributeValue(a, projectCustomAttributeType), 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             }
             else
             {
                 Add($"{gridHeaderHtmlString}", a => a.GetProjectCustomAttributesValue(projectCustomAttributeType), 150, DhtmlxGridColumnFilterType.Text);
             }
+        }
+
+        private static decimal? TryParseDecimalCustomAttributeValue(ProjectFirmaModels.Models.Project project, ProjectFirmaModels.Models.ProjectCustomAttributeType projectCustomAttributeType)
+        {
+            if (Decimal.TryParse(project.GetProjectCustomAttributesValue(projectCustomAttributeType).ToString(), out var value))
+            {
+                return value;
+            }
+
+            if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            {
+                return null;
+            }
+            return 0;
         }
 
         private void AddProjectCustomGridGeospatialAreaField(ProjectCustomGridConfiguration projectCustomGridConfiguration)
