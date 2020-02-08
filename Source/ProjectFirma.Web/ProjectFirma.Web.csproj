@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProjectFirma.Web</RootNamespace>
     <AssemblyName>ProjectFirma.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -540,6 +540,11 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Libraries\DocumentFormat.OpenXml.dll" />
+    <Content Include="Libraries\SharpDocx.dll" />
+    <Content Include="Libraries\SharpDocx.pdb" />
+    <Content Include="Libraries\SharpImage.dll" />
+    <Content Include="Libraries\SharpImage.pdb" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1846,6 +1851,14 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDocx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\SharpDocx.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\SharpImage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -1874,9 +1887,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -3427,10 +3440,6 @@
     <ProjectReference Include="..\ProjectFirmaModels\ProjectFirmaModels.csproj">
       <Project>{5c78ffe9-5dd5-4a8e-882c-f49549f6fbf8}</Project>
       <Name>ProjectFirmaModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDocx\SharpDocx.csproj">
-      <Project>{29BFD080-D805-4848-B5E1-C6B9C3D24B95}</Project>
-      <Name>SharpDocx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
