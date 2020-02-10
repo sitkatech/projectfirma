@@ -543,6 +543,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should have warning about incomplete rows");
             {
                 var allWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(results);
+                Assert.That(allWarningMessages.Count, Is.EqualTo(2), "Expected only two warning messages");
                 bool allMessagesContainIncompleteRowMessages = allWarningMessages.All(wm => wm.Contains(PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage));
                 Assert.That(allMessagesContainIncompleteRowMessages, Is.True, "All messages should be warnings about incomplete rows");
             }
@@ -557,9 +558,12 @@ namespace ProjectFirma.Web.Models
             performanceMeasureActualUpdate1.ActualValue = 10;
             results = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should have warning about incomplete rows");
-            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results),
-                Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
-                "Should have warning about incomplete rows");
+            {
+                var allWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(results);
+                Assert.That(allWarningMessages.Count, Is.EqualTo(1), "Expected only one warning message");
+                bool allMessagesContainIncompleteRowMessages = allWarningMessages.All(wm => wm.Contains(PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage));
+                Assert.That(allMessagesContainIncompleteRowMessages, Is.True, "All messages should be warnings about incomplete rows");
+            }
             Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results),
                 Is.EquivalentTo(new HashSet<int> { performanceMeasureActualUpdate2.PerformanceMeasureActualUpdateID }),
                 "Should have warning about incomplete rows");
