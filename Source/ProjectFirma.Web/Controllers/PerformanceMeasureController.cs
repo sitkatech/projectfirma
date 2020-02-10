@@ -553,44 +553,44 @@ namespace ProjectFirma.Web.Controllers
             {
                 var performanceMeasureHeaderCell = ws.Cell(row, 1);
                 performanceMeasureHeaderCell.SetValue(fieldDefinitionLabel);
-                performanceMeasureHeaderCell.SetDataType(XLCellValues.Text);
+                performanceMeasureHeaderCell.SetDataType(XLDataType.Text);
                 performanceMeasureHeaderCell.Style.Font.SetBold();
                 var unitsHeaderCell = ws.Cell(row, 2);
                 unitsHeaderCell.SetValue("Units");
-                unitsHeaderCell.SetDataType(XLCellValues.Text);
+                unitsHeaderCell.SetDataType(XLDataType.Text);
                 unitsHeaderCell.Style.Font.SetBold();
                 var subcategoryHeaderCell = ws.Cell(row, 3);
                 subcategoryHeaderCell.SetValue(FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType()
                     .GetFieldDefinitionLabel());
-                subcategoryHeaderCell.SetDataType(XLCellValues.Text);
+                subcategoryHeaderCell.SetDataType(XLDataType.Text);
                 subcategoryHeaderCell.Style.Font.SetBold();
                 var numberOfOptionsHeaderCell = ws.Cell(row, 4);
                 numberOfOptionsHeaderCell.SetValue("Number of Options");
-                numberOfOptionsHeaderCell.SetDataType(XLCellValues.Text);
+                numberOfOptionsHeaderCell.SetDataType(XLDataType.Text);
                 numberOfOptionsHeaderCell.Style.Font.SetBold();
                 var optionsHeaderCell = ws.Cell(row, 5);
                 optionsHeaderCell.SetValue("Options");
-                optionsHeaderCell.SetDataType(XLCellValues.Text);
+                optionsHeaderCell.SetDataType(XLDataType.Text);
                 optionsHeaderCell.Style.Font.SetBold();
                 row++;
 
                 var performanceMeasureNameCell = ws.Cell(row, 1);
                 performanceMeasureNameCell.SetValue(performanceMeasure.PerformanceMeasureDisplayName);
-                performanceMeasureNameCell.SetDataType(XLCellValues.Text);
+                performanceMeasureNameCell.SetDataType(XLDataType.Text);
                 var unitsNameCell = ws.Cell(row, 2);
                 unitsNameCell.SetValue(performanceMeasure.MeasurementUnitType.MeasurementUnitTypeDisplayName);
-                unitsNameCell.SetDataType(XLCellValues.Text);
+                unitsNameCell.SetDataType(XLDataType.Text);
 
                 foreach (var performanceMeasureSubcategory in performanceMeasure.PerformanceMeasureSubcategories)
                 {
                     var subcategoryNameCell = ws.Cell(row, 3);
                     subcategoryNameCell.SetValue(performanceMeasureSubcategory
                         .PerformanceMeasureSubcategoryDisplayName);
-                    subcategoryNameCell.SetDataType(XLCellValues.Text);
+                    subcategoryNameCell.SetDataType(XLDataType.Text);
                     var numberOfOptionsCell = ws.Cell(row, 4);
                     numberOfOptionsCell.SetValue(performanceMeasureSubcategory.PerformanceMeasureSubcategoryOptions
                         .Count);
-                    numberOfOptionsCell.SetDataType(XLCellValues.Number);
+                    numberOfOptionsCell.SetDataType(XLDataType.Number);
                     var optionColNumberStart = 5;
                     foreach (var performanceMeasureSubcategoryOption in performanceMeasureSubcategory
                         .PerformanceMeasureSubcategoryOptions)
@@ -598,7 +598,7 @@ namespace ProjectFirma.Web.Controllers
                         var optionNameCell = ws.Cell(row, optionColNumberStart);
                         optionNameCell.SetValue(performanceMeasureSubcategoryOption
                             .PerformanceMeasureSubcategoryOptionName);
-                        optionNameCell.SetDataType(XLCellValues.Text);
+                        optionNameCell.SetDataType(XLDataType.Text);
                         optionColNumberStart++;
                     }
 
