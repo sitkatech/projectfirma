@@ -34,10 +34,10 @@ namespace ProjectFirma.Web.Views.Evaluation
         public bool UserHasEvaluationManagePermissions { get; }
         public string IndexUrl { get; }
         public string EditEvaluationUrl { get; }
-        public EvaluationCriterionGridSpec EvaluationCriterionGridSpec { get; }
-        public string EvaluationCriterionGridName { get; }
-        public string EvaluationCriterionGridDataUrl { get; }
-        public string NewEvaluationCriterionUrl { get; set; }
+        public EvaluationCriteriaGridSpec EvaluationCriteriaGridSpec { get; }
+        public string EvaluationCriteriaGridName { get; }
+        public string EvaluationCriteriaGridDataUrl { get; }
+        public string NewEvaluationCriteriaUrl { get; set; }
         public string AddProjectEvaluationUrl { get; set; }
 
         public EvaluationPortfolioGridSpec EvaluationPortfolioGridSpec { get; }
@@ -54,11 +54,11 @@ namespace ProjectFirma.Web.Views.Evaluation
             IndexUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(x => x.Index());
             EditEvaluationUrl = evaluation.GetEditUrl();
 
-            EvaluationCriterionGridSpec = new EvaluationCriterionGridSpec(currentFirmaSession) { ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true };
-            EvaluationCriterionGridName = "evaluationCriteriaGrid";
-            EvaluationCriterionGridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriterionGridJsonData(evaluation.EvaluationID));
+            EvaluationCriteriaGridSpec = new EvaluationCriteriaGridSpec(currentFirmaSession) { ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true };
+            EvaluationCriteriaGridName = "evaluationCriteriaGrid";
+            EvaluationCriteriaGridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.EvaluationCriteriaGridJsonData(evaluation.EvaluationID));
 
-            NewEvaluationCriterionUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.NewEvaluationCriterion(evaluation));
+            NewEvaluationCriteriaUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.NewEvaluationCriteria(evaluation));
 
             AddProjectEvaluationUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(ec => ec.AddProjectEvaluation(evaluation));
 

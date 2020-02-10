@@ -114,14 +114,20 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Google Analytics Tracking Code")]
         public string GoogleAnalyticsTrackingCode { get; set; }
 
-        [DisplayName("Use Project Timeline")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.UseProjectTimeline)]
         public bool UseProjectTimeline { get; set; }
 
-        [DisplayName("Enable Evaluations")]
-        public bool EnableEvaluations { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectEvaluations)]
+        public bool EnableProjectEvaluations { get; set; }
 
         [DisplayName("GeoServer Namespace")]
         public string GeoServerNamespace { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableProjectType)]
+        public bool EnableProjectTypes { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableReportCenter)]
+        public bool EnableReportCenter { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -149,8 +155,10 @@ namespace ProjectFirma.Web.Views.Tenant
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
             GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
             UseProjectTimeline = tenantAttribute.UseProjectTimeline;
-            EnableEvaluations = tenantAttribute.EnableEvaluations;
+            EnableProjectEvaluations = tenantAttribute.EnableEvaluations;
             GeoServerNamespace = tenantAttribute.GeoServerNamespace;
+            EnableProjectTypes = tenantAttribute.EnableProjectTypes;
+            EnableReportCenter = tenantAttribute.EnableReportCenter;
         }
 
         public void UpdateModel(TenantAttribute attribute, FirmaSession currentFirmaSession)
@@ -166,6 +174,7 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
             attribute.UseProjectTimeline = UseProjectTimeline;
             attribute.GeoServerNamespace = GeoServerNamespace;
+            attribute.EnableProjectTypes = EnableProjectTypes;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
@@ -179,7 +188,8 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.BudgetTypeID = BudgetTypeID;
 
             attribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
-            attribute.EnableEvaluations = EnableEvaluations;
+            attribute.EnableEvaluations = EnableProjectEvaluations;
+            attribute.EnableReportCenter = EnableReportCenter;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

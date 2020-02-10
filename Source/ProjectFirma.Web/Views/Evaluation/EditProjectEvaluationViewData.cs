@@ -29,13 +29,13 @@ namespace ProjectFirma.Web.Views.Evaluation
     public class EditProjectEvaluationViewData
     {
         public ProjectEvaluation ProjectEvaluation { get; }
-        public List<EvaluationCriterionSimple> EvaluationCriterionSimples { get; }
+        public List<EvaluationCriteriaSimple> EvaluationCriteriaSimples { get; }
 
 
-        public EditProjectEvaluationViewData(ProjectEvaluation projectEvaluation, List<EvaluationCriterionSimple> evaluationCriterionSimples)
+        public EditProjectEvaluationViewData(ProjectEvaluation projectEvaluation, List<EvaluationCriteriaSimple> evaluationCriteriaSimples)
         {
             ProjectEvaluation = projectEvaluation;
-            EvaluationCriterionSimples = evaluationCriterionSimples;
+            EvaluationCriteriaSimples = evaluationCriteriaSimples;
         }
     }
 }

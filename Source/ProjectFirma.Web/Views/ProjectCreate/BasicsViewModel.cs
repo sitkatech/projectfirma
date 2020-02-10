@@ -70,6 +70,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public int? ImportExternalProjectStagingID { get; set; }
 
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectType)]
+        public ProjectTypeEnum ProjectTypeEnum { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -88,6 +92,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
+            ProjectTypeEnum = project.ProjectType.ToEnum;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -108,6 +113,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
+            project.ProjectTypeID = (int) ProjectTypeEnum;
 
             var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) { TenantID = HttpRequestStorage.Tenant.TenantID })
@@ -127,6 +133,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+
+            if (!Enum.IsDefined(typeof(ProjectTypeEnum), ProjectTypeEnum))
+            {
+                yield return new SitkaValidationResult<BasicsViewModel, ProjectTypeEnum>($"A valid value for {FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectTypeEnum);
+            }
 
             if (TaxonomyLeafID == -1)
             {

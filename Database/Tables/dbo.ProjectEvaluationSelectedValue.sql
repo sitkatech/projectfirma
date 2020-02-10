@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[ProjectEvaluationSelectedValue](
 	[ProjectEvaluationSelectedValueID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectEvaluationID] [int] NOT NULL,
-	[EvaluationCriterionValueID] [int] NOT NULL,
+	[EvaluationCriteriaValueID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectEvaluationSelectedValue_ProjectEvaluationSelectedValueID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectEvaluationSelectedValueID] ASC
@@ -19,15 +19,15 @@ CREATE TABLE [dbo].[ProjectEvaluationSelectedValue](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID] FOREIGN KEY([EvaluationCriterionValueID])
-REFERENCES [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID])
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID] FOREIGN KEY([EvaluationCriteriaValueID])
+REFERENCES [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID])
 GO
-ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID]
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID]
 GO
-ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID] FOREIGN KEY([EvaluationCriterionValueID], [TenantID])
-REFERENCES [dbo].[EvaluationCriterionValue] ([EvaluationCriterionValueID], [TenantID])
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID_TenantID] FOREIGN KEY([EvaluationCriteriaValueID], [TenantID])
+REFERENCES [dbo].[EvaluationCriteriaValue] ([EvaluationCriteriaValueID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriterionValue_EvaluationCriterionValueID_TenantID]
+ALTER TABLE [dbo].[ProjectEvaluationSelectedValue] CHECK CONSTRAINT [FK_ProjectEvaluationSelectedValue_EvaluationCriteriaValue_EvaluationCriteriaValueID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectEvaluationSelectedValue]  WITH CHECK ADD  CONSTRAINT [FK_ProjectEvaluationSelectedValue_ProjectEvaluation_ProjectEvaluationID] FOREIGN KEY([ProjectEvaluationID])
 REFERENCES [dbo].[ProjectEvaluation] ([ProjectEvaluationID])

@@ -8,7 +8,8 @@
             
             
             
+            
             <span><a href="javascript:void(0);" onclick="Sitka.testGridName.clearAllCookies()" title="Reset this grid to default column widths and filters"><span class="glyphicon glyphicon-regular undo gi-1x blue"></span> Reset</a>&nbsp;</span>
-            <span><a class="excelbutton" id="testGridNameDownloadLink" href="javascript:void(0)" onclick="Sitka.testGridName.grid.toExcel('\/Home\/ExportGridToExcel\/testGridName\/False')" title="Download this table as an Excel file">Download Table</a></span>
+            <span><a class="excelbutton" id="testGridNameDownloadLink" href="javascript:void(0)" onclick="Sitka.testGridName.grid.toExcel('\/Home\/ExportGridToExcel\/testGridName')" title="Download this table as an Excel file">Download Table</a></span>
             
     </span>

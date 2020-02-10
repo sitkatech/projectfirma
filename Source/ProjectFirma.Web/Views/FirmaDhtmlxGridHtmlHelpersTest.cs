@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using ApprovalTests;
 using ApprovalTests.Reporters;
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using NUnit.Framework;
@@ -96,7 +97,7 @@ namespace ProjectFirma.Web.Views
         public void BuildDhtmlxGridHeaderTest()
         {
             var gridSpec = new TestGridSpec();
-            var result = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithFooterUrl, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithoutFooterUrl);
+            var result = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 
@@ -131,7 +132,7 @@ namespace ProjectFirma.Web.Views
         public void CreateFilteredExcelDownloadIconHtmlTest()
         {
             const string gridName = "testGridName";
-            var result = DhtmlxGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, true, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithFooterUrl, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithoutFooterUrl);
+            var result = DhtmlxGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 

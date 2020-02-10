@@ -1,0 +1,51 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Controllers
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.ReportCenter.GenerateReports
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm<ReportCenterController>(x => x.GenerateReportsFromSelectedProjects(null)))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.ReportTemplateID, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.ReportTemplateID, ViewDataTyped.ReportTemplates, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.ReportTemplateID)
+        </div>
+    </div>
+
+    <p>This report will be generated for the following projects:</p>
+    <ul>
+        @foreach (var project in ViewDataTyped.Projects)
+        {
+            <li>@project.ProjectName @project.ProjectID</li>
+        }
+    </ul>
+    foreach (var projectID in Model.ProjectIDList)
+    {
+        <input type="hidden" name="@Html.NameFor(x => x.ProjectIDList)" value="@projectID"/>
+    }
+}

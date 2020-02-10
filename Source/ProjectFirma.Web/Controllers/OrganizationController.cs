@@ -19,12 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.Models;
@@ -33,11 +27,16 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Spatial;
+using System.Globalization;
+using System.Linq;
+using System.Web.Mvc;
 using Detail = ProjectFirma.Web.Views.Organization.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
@@ -52,24 +51,16 @@ namespace ProjectFirma.Web.Controllers
         [OrganizationViewFeature]
         public ViewResult Index()
         {
-            const IndexGridSpec.OrganizationStatusFilterTypeEnum filterTypeEnum =
-                IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations;
-            return ViewIndex(
-                SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
-
-        }
-
-        [OrganizationViewFeature]
-        public ViewResult ViewIndex(string gridDataUrl)
-        {
             var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
-            List<SelectListItem> activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
+            var hasManageOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var gridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations));
+            var activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
             {
                 new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
                 new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
             };
 
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems, hasManageOrganizationPermission);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -161,6 +152,43 @@ namespace ProjectFirma.Web.Controllers
             var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var viewData = new EditViewData(organizationTypesAsSelectListItems, people, isInKeystone, SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange()), isSitkaAdmin);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [OrganizationPrimaryContactManageFeature]
+        public PartialViewResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditPrimaryContactViewModel(organization);
+            return ViewEditPrimaryContact(viewModel, organization.PrimaryContactPerson);
+        }
+
+        [HttpPost]
+        [OrganizationPrimaryContactManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditPrimaryContact(OrganizationPrimaryKey organizationPrimaryKey, EditPrimaryContactViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditPrimaryContact(viewModel, organization.PrimaryContactPerson);
+            }
+            viewModel.UpdateModel(organization, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditPrimaryContact(EditPrimaryContactViewModel viewModel, Person currentPrimaryContactPerson)
+        {
+            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
+            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
+            {
+                activePeople.Add(currentPrimaryContactPerson);
+            }
+            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFullNameFirstLastAndOrg());
+
+            var viewData = new EditPrimaryContactViewData(people);
+            return RazorPartialView<EditPrimaryContact, EditPrimaryContactViewData, EditPrimaryContactViewModel>(viewData, viewModel);
         }
 
         [OrganizationViewFeature]

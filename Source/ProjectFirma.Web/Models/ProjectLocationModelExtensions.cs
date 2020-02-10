@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using GeoJSON.Net.Feature;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using ProjectFirmaModels.Models;
@@ -29,9 +30,9 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectLocationModelExtensions
     {
-        public static GeoJSON.Net.Feature.FeatureCollection ToGeoJsonFeatureCollection(this IEnumerable<IProjectLocation> projectLocations)
+        public static FeatureCollection ToGeoJsonFeatureCollection(this IEnumerable<IProjectLocation> projectLocations)
         {
-            return new GeoJSON.Net.Feature.FeatureCollection(projectLocations.Where(x => DbGeometryToGeoJsonHelper.CanParseGeometry(x.GetProjectLocationGeometry())).Select(x =>
+            return new FeatureCollection(projectLocations.Where(x => DbGeometryToGeoJsonHelper.CanParseGeometry(x.GetProjectLocationGeometry())).Select(x =>
             {
                 var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(x.GetProjectLocationGeometry());
                 feature.Properties.Add("Info", x.Annotation);
@@ -39,7 +40,7 @@ namespace ProjectFirma.Web.Models
             }).ToList());
         }
 
-        public static string ToGeoJsonString(this GeoJSON.Net.Feature.FeatureCollection featureCollection)
+        public static string ToGeoJsonString(this FeatureCollection featureCollection)
         {
             return JsonTools.SerializeObject(featureCollection);
         }

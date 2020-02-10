@@ -30,46 +30,46 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectEvaluationSelectedValue(int projectEvaluationSelectedValueID, int projectEvaluationID, int evaluationCriterionValueID) : this()
+        public ProjectEvaluationSelectedValue(int projectEvaluationSelectedValueID, int projectEvaluationID, int evaluationCriteriaValueID) : this()
         {
             this.ProjectEvaluationSelectedValueID = projectEvaluationSelectedValueID;
             this.ProjectEvaluationID = projectEvaluationID;
-            this.EvaluationCriterionValueID = evaluationCriterionValueID;
+            this.EvaluationCriteriaValueID = evaluationCriteriaValueID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectEvaluationSelectedValue(int projectEvaluationID, int evaluationCriterionValueID) : this()
+        public ProjectEvaluationSelectedValue(int projectEvaluationID, int evaluationCriteriaValueID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectEvaluationSelectedValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectEvaluationID = projectEvaluationID;
-            this.EvaluationCriterionValueID = evaluationCriterionValueID;
+            this.EvaluationCriteriaValueID = evaluationCriteriaValueID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectEvaluationSelectedValue(ProjectEvaluation projectEvaluation, EvaluationCriterionValue evaluationCriterionValue) : this()
+        public ProjectEvaluationSelectedValue(ProjectEvaluation projectEvaluation, EvaluationCriteriaValue evaluationCriteriaValue) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectEvaluationSelectedValueID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectEvaluationID = projectEvaluation.ProjectEvaluationID;
             this.ProjectEvaluation = projectEvaluation;
             projectEvaluation.ProjectEvaluationSelectedValues.Add(this);
-            this.EvaluationCriterionValueID = evaluationCriterionValue.EvaluationCriterionValueID;
-            this.EvaluationCriterionValue = evaluationCriterionValue;
-            evaluationCriterionValue.ProjectEvaluationSelectedValues.Add(this);
+            this.EvaluationCriteriaValueID = evaluationCriteriaValue.EvaluationCriteriaValueID;
+            this.EvaluationCriteriaValue = evaluationCriteriaValue;
+            evaluationCriteriaValue.ProjectEvaluationSelectedValues.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectEvaluationSelectedValue CreateNewBlank(ProjectEvaluation projectEvaluation, EvaluationCriterionValue evaluationCriterionValue)
+        public static ProjectEvaluationSelectedValue CreateNewBlank(ProjectEvaluation projectEvaluation, EvaluationCriteriaValue evaluationCriteriaValue)
         {
-            return new ProjectEvaluationSelectedValue(projectEvaluation, evaluationCriterionValue);
+            return new ProjectEvaluationSelectedValue(projectEvaluation, evaluationCriteriaValue);
         }
 
         /// <summary>
@@ -108,13 +108,13 @@ namespace ProjectFirmaModels.Models
         public int ProjectEvaluationSelectedValueID { get; set; }
         public int TenantID { get; set; }
         public int ProjectEvaluationID { get; set; }
-        public int EvaluationCriterionValueID { get; set; }
+        public int EvaluationCriteriaValueID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectEvaluationSelectedValueID; } set { ProjectEvaluationSelectedValueID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectEvaluation ProjectEvaluation { get; set; }
-        public virtual EvaluationCriterionValue EvaluationCriterionValue { get; set; }
+        public virtual EvaluationCriteriaValue EvaluationCriteriaValue { get; set; }
 
         public static class FieldLengths
         {

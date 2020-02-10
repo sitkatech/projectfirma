@@ -131,6 +131,7 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasStartUpdateWorkflowPermission = new ProjectStartUpdateWorkflowFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -204,7 +205,7 @@ namespace ProjectFirma.Web.Controllers
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
                 projectCustomAttributeTypes,
@@ -212,7 +213,7 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeGroups);
 
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions, userHasProjectAdminPermissions);
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
@@ -223,6 +224,16 @@ namespace ProjectFirma.Web.Controllers
             var addProjectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
             AddWarningForSubmittingFinalStatusReportIfNeeded(project, addProjectProjectStatusButton);
+
+            List<ProjectEvaluation> projectEvaluationsUserHasAccessTo = new List<ProjectEvaluation>();
+            foreach (var projectEvaluation in project.ProjectEvaluations)
+            {
+                if (ProjectEvaluationManageFeature.HasProjectEvaluationManagePermission(CurrentFirmaSession, projectEvaluation))
+                {
+                    //we only want to show the evaluations that this user has access to
+                    projectEvaluationsUserHasAccessTo.Add(projectEvaluation);
+                }
+            }
 
 
             var viewData = new DetailViewData(CurrentFirmaSession,
@@ -272,14 +283,15 @@ namespace ProjectFirma.Web.Controllers
                 editContactsUrl, 
                 editExpectedFundingUrl,
                 projectTimelineViewData,
-                userHasProjectTimelinePermissions);
+                userHasProjectTimelinePermissions,
+                projectEvaluationsUserHasAccessTo,
+                userHasStartUpdateWorkflowPermission);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
         private void AddWarningForSubmittingFinalStatusReportIfNeeded(Project project, HtmlString addProjectProjectStatusButton)
         {
-            var allowEditFinalStatusReport =
-                ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
+            var allowEditFinalStatusReport = ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
             var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             if (allowEditFinalStatusReport)
             {
@@ -401,7 +413,8 @@ namespace ProjectFirma.Web.Controllers
             new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
+            // do not include external map layers
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
@@ -424,7 +437,8 @@ namespace ProjectFirma.Web.Controllers
             new ProjectViewFeature().DemandPermission(CurrentFirmaSession, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
+            // do not include external map layers
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false);
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =

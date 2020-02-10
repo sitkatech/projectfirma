@@ -65,7 +65,7 @@ namespace LtInfo.Common
                 var context = System.Web.HttpContext.Current;
                 var exception = theSingleEvent.ExceptionObject;
 
-                var pathAndQuery = context == null ? string.Empty : context.Request.Url.PathAndQuery;
+                var pathAndQuery = context == null ? string.Empty : context.Request.HttpMethod + " " + context.Request.Url.PathAndQuery;
                 var rootExceptionType = ExceptionToInfoForMessageSubjectIfAny(exception);
                 var pathAndException = string.Join(" ", (new[] {pathAndQuery, rootExceptionType}).Where(s => !string.IsNullOrWhiteSpace(s)));
                 var additionalDetails = (!string.IsNullOrWhiteSpace(pathAndException) ? string.Format(" {0}", pathAndException) : string.Empty);

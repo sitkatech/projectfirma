@@ -33,6 +33,9 @@
     <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
     <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="NEPAtlasUrl" value="${nep-atlas-url}"/>
+    <add key="PsInfoPostOrganizationUrl" value="${psinfo-post-organization-url}"/>
+    <add key="PSInfoApiKey" value="${psinfo-api-key}" />
     <add key="KeystoneWebServiceApplicationGuid" value="CE8E2CB7-7865-42FD-BD44-1458D825860D"/>
     <add key="DefaultModalDialogButtonCssClasses" value="btn-firma,btn-xs"/>
     <add key="WkhtmltopdfExecutable" value="${wkhtmltopdf-executable}"/>
@@ -71,12 +74,8 @@
   -->
   <system.web>
     <!-- this next line seems to be needed since moving to ASP.Net 4.0 - otherwise validation errors occur even despite the presence of ValidateInput(false) attribute on the controller action and the ValidatePageRequest=false in the page directive -->
-    <httpRuntime requestValidationMode="2.0" maxRequestLength="${max-request-length}" maxUrlLength="${max-request-url-length}" maxQueryStringLength="${max-request-querystring-length}" ${httpruntime-executiontimeout-optional}/>
-    <compilation debug="true" targetFramework="4.6.2">
-      <assemblies>
-        <add assembly="System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-      </assemblies>
-    </compilation>
+    <httpRuntime targetFramework="4.8" requestValidationMode="2.0" maxRequestLength="${max-request-length}" maxUrlLength="${max-request-url-length}" maxQueryStringLength="${max-request-querystring-length}" ${httpruntime-executiontimeout-optional}/>
+    <compilation debug="true" targetFramework="4.8"/>
     <!-- ASP.NET session cookie should be httponly and secure -->
     <httpCookies httpOnlyCookies="true" requireSSL="true" lockItem="true"/>
     <sessionState mode="Custom" customProvider="InMemorySessionStateStore" timeout="720">
@@ -197,10 +196,6 @@
         <bindingRedirect oldVersion="0.0.0.0-2.0.0.0" newVersion="2.0.0.0"/>
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="DocumentFormat.OpenXml" publicKeyToken="31bf3856ad364e35" culture="neutral"/>
-        <bindingRedirect oldVersion="0.0.0.0-2.5.5631.0" newVersion="2.5.5631.0"/>
-      </dependentAssembly>
-      <dependentAssembly>
         <assemblyIdentity name="Microsoft.Owin.Security" publicKeyToken="31bf3856ad364e35" culture="neutral" />
         <bindingRedirect oldVersion="0.0.0.0-3.1.0.0" newVersion="3.1.0.0" />
       </dependentAssembly>
@@ -236,6 +231,10 @@
         <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
         <bindingRedirect oldVersion="0.0.0.0-5.2.3.0" newVersion="5.2.3.0" />
       </dependentAssembly>
+      <dependentAssembly>
+		    <assemblyIdentity name="DocumentFormat.OpenXml" culture="neutral" publicKeyToken="8fb06cb64d019a17" />
+		    <bindingRedirect oldVersion="0.0.0.0-2.10.0.0" newVersion="2.10.0.0" />
+	    </dependentAssembly>
     </assemblyBinding>
   </runtime>
   <entityFramework>

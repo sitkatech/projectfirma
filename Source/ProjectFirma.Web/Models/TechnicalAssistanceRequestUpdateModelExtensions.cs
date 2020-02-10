@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using LtInfo.Common.Models;
-using ProjectFirma.Web.Common;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -26,7 +24,8 @@ namespace ProjectFirma.Web.Models
                             technicalAssistanceRequest.Notes)).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
+            DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var technicalAssistanceRequestsFromProjectUpdate =
@@ -35,7 +34,6 @@ namespace ProjectFirma.Web.Models
                         x.FiscalYear, x.PersonID, x.TechnicalAssistanceTypeID,
                         x.HoursRequested, x.HoursAllocated, x.HoursProvided, x.Notes)).ToList();
             project.TechnicalAssistanceRequests.Merge(technicalAssistanceRequestsFromProjectUpdate,
-                allTechnicalAssistanceRequests,
                 (x, y) => x.TechnicalAssistanceRequestID == y.TechnicalAssistanceRequestID,
                 (x, y) =>
                 {
@@ -48,7 +46,7 @@ namespace ProjectFirma.Web.Models
                     x.HoursProvided = y.HoursProvided;
                     x.Notes = y.Notes;
                 },
-                HttpRequestStorage.DatabaseEntities);
+                databaseEntities);
         }
     }
 }

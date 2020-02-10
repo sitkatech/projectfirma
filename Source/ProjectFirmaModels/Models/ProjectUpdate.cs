@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
@@ -31,6 +30,7 @@ namespace ProjectFirmaModels.Models
 
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
+        public int ProjectTypeID => ProjectUpdateBatch.Project.ProjectTypeID;
 
         public decimal GetSecuredFunding()
         {

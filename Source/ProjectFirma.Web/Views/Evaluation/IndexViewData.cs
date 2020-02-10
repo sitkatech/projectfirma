@@ -35,9 +35,9 @@ namespace ProjectFirma.Web.Views.Evaluation
         public bool HasEvaluationManagePermissions { get; set; }
         public string NewUrl { get; set; }
 
-        public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public IndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
-            PageTitle = $"Manage {FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized()}";
+            PageTitle = $"Manage {FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()}";
             GridSpec = new IndexGridSpec(currentFirmaSession) {ObjectNameSingular = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabel(), ObjectNamePlural = FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), SaveFiltersInCookie = true};
             GridName = "evaluationsGrid";
             GridDataUrl = SitkaRoute<EvaluationController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());

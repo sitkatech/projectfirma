@@ -32,7 +32,8 @@
     private static string GetSingleProjectCustomAttributeValue(IProjectCustomAttribute projectCustomAttribute)
     {
         var projectCustomAttributeValues = projectCustomAttribute.GetCustomAttributeValues().ToList();
-        return projectCustomAttributeValues.Single().AttributeValue;
+        var projectCustomAttributeValue = projectCustomAttributeValues.SingleOrDefault();
+        return projectCustomAttributeValue != null ? projectCustomAttributeValue.AttributeValue : null;
     }
 }
 
@@ -46,40 +47,43 @@
     <dl class="dl-horizontal">
         @foreach (var projectCustomAttributeType in projectCustomAttributeGroup.ProjectCustomAttributeTypes.OrderBy(x => x.SortOrder))
         {
-            var projectCustomAttribute = ViewDataTyped.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
-            <dt class="projectCustomAttributes">
-                @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
-                {
-                    @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
-                }
-                @projectCustomAttributeType.ProjectCustomAttributeTypeName
-            </dt>
-            <dd class="projectCustomAttributes">
-                @if (projectCustomAttribute != null)
-                {
-                    if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+            if (ViewDataTyped.ProjectCustomAttributeTypes.Contains(projectCustomAttributeType))
+            {
+                var projectCustomAttribute = ViewDataTyped.ProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+                <dt class="projectCustomAttributes">
+                    @if (!string.IsNullOrWhiteSpace(projectCustomAttributeType.ProjectCustomAttributeTypeDescription))
                     {
-                        @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                        @LabelWithSugarForExtensions.GenerateHelpIconImgTag(projectCustomAttributeType.ProjectCustomAttributeTypeName, projectCustomAttributeType.ProjectCustomAttributeTypeDescription.ToHTMLFormattedString(), projectCustomAttributeType.GetDescriptionUrl(), 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly).ToHTMLFormattedString()
                     }
-                    else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                    @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                </dt>
+                <dd class="projectCustomAttributes">
+                    @if (projectCustomAttribute != null)
                     {
-                        @StringFormats.ParseNullableDecimalFromCurrencyString(GetSingleProjectCustomAttributeValue(projectCustomAttribute)).ToStringCurrency()
-                    }
-                    else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
-                    {
-                        <span>@projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue</span>
-                        <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                        if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                        {
+                            @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                        }
+                        else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                        {
+                            @StringFormats.ParseNullableDecimalFromCurrencyString(GetSingleProjectCustomAttributeValue(projectCustomAttribute)).ToStringCurrency()
+                        }
+                        else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                        {
+                            <span>@projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue</span>
+                            <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                        }
+                        else
+                        {
+                            @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                        }
                     }
                     else
                     {
-                        @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                        <em class="text-muted">None</em>
                     }
-                }
-                else
-                {
-                    <em class="text-muted">None</em>
-                }
-            </dd>
+                </dd>
+            }
         }
     </dl>
 }

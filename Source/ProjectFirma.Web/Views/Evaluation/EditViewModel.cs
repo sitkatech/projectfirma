@@ -94,6 +94,16 @@ namespace ProjectFirma.Web.Views.Evaluation
         {
             var validationResults = new List<ValidationResult>();
 
+            if (EvaluationStartDate.HasValue && EvaluationEndDate.HasValue)
+            {
+                if (EvaluationStartDate.Value.CompareTo(EvaluationEndDate.Value) > 0)
+                {
+                    validationResults.Add(new SitkaValidationResult<EditViewModel, DateTime?>(
+                        $"{FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()} must come before {FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()}.",
+                        m => m.EvaluationStartDate));
+                }
+            }
+
             if (EvaluationStatusID != EvaluationStatus.Draft.EvaluationStatusID)
             {
                 if (!EvaluationStartDate.HasValue)

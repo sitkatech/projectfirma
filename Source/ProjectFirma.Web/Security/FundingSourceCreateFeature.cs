@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -27,6 +28,19 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Create New {0}", FieldDefinitionEnum.FundingSource)]
     public class FundingSourceCreateFeature : FirmaFeature
     {
-        public FundingSourceCreateFeature() : base(new List<Role> { Role.Admin, Role.SitkaAdmin, Role.ProjectSteward }) { }
+        public FundingSourceCreateFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectSteward})
+        {
+        }
+
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
+        {
+            if (HttpRequestStorage.Tenant.AreFundingSourcesExternallySourced)
+            {
+                return false;
+            }
+            return base.HasPermissionByFirmaSession(firmaSession);
+        }
     }
+
 }
+

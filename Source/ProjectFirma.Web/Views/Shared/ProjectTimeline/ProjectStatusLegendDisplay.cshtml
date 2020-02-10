@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    <copyright file="ProjectStatusLegendDisplay.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
     </copyright>
@@ -25,7 +25,7 @@
 
 @if (ViewDataTyped.ProjectStatuses != null)
 {
-<h5>@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusLegend.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectStatusLegend.ToType().GetFieldDefinitionLabel()</h5>
+    <p class="h5">@Html.LabelWithSugarFor(FieldDefinitionEnum.StatusLegend.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.StatusLegend.ToType().GetFieldDefinitionLabel()</p>
     <div class="project-status-legend">
         <ul>
             @foreach (var status in ViewDataTyped.ProjectStatuses)

@@ -33,10 +33,8 @@ namespace ProjectFirma.Web.Views
     {
         public static readonly HtmlString PlusIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus-sign gi-1x blue");
         public static readonly HtmlString FactSheetIcon = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-search gi-1x blue");
-        public static readonly UrlTemplate<string> ExcelDownloadWithFooterUrl =
-            new UrlTemplate<string>(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ExportGridToExcel(UrlTemplate.Parameter1String, true)));
-        public static readonly UrlTemplate<string> ExcelDownloadWithoutFooterUrl =
-            new UrlTemplate<string>(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ExportGridToExcel(UrlTemplate.Parameter1String, false)));
+        public static readonly UrlTemplate<string> ExcelDownloadUrl =
+            new UrlTemplate<string>(SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.ExportGridToExcel(UrlTemplate.Parameter1String)));
 
         /// <summary>
         /// All grids use this
@@ -51,7 +49,7 @@ namespace ProjectFirma.Web.Views
         /// <returns></returns>
         public static HtmlString DhtmlxGrid<T>(this HtmlHelper html, GridSpec<T> gridSpec, string gridName, string optionalGridDataUrl, string styleString, DhtmlxGridResizeType dhtmlxGridResizeType)
         {
-            var dhtmlxGridHeader = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadWithFooterUrl, ExcelDownloadWithoutFooterUrl);
+            var dhtmlxGridHeader = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, gridName, ExcelDownloadUrl);
 
             var dhtmlxGrid = DhtmlxGridHtmlHelpers.DhtmlxGridImpl(gridSpec,
                 gridName,

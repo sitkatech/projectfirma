@@ -18,9 +18,8 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
+
 using System.Data.Entity.Spatial;
-using System.Linq;
 using LtInfo.Common.DbSpatial;
 using Microsoft.SqlServer.Types;
 
@@ -53,35 +52,6 @@ namespace ProjectFirmaModels.Models
         public SqlGeometry GetSqlGeometry()
         {
             return ProjectLocationUpdateGeometry.ToSqlGeometry();
-        }
-
-        public static void CreateFromProject(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var project = projectUpdateBatch.Project;
-            projectUpdateBatch.ProjectLocationUpdates =
-                project.ProjectLocations.Select(
-                    projectLocationToClone => new ProjectLocationUpdate(projectUpdateBatch, projectLocationToClone.ProjectLocationGeometry, projectLocationToClone.Annotation)).ToList();
-        }
-
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectLocation> allProjectLocations)
-        {
-            var project = projectUpdateBatch.Project;
-            var currentProjectLocations = project.ProjectLocations.ToList();
-            currentProjectLocations.ForEach(projectLocation =>
-            {
-                allProjectLocations.Remove(projectLocation);
-            });
-            currentProjectLocations.Clear();
-
-            if (projectUpdateBatch.ProjectLocationUpdates.Any())
-            {
-                // Completely rebuild the list
-                projectUpdateBatch.ProjectLocationUpdates.ToList().ForEach(x =>
-                {
-                    var projectLocation = new ProjectLocation(project, x.ProjectLocationUpdateGeometry, x.Annotation);
-                    allProjectLocations.Add(projectLocation);
-                });
-            }
         }
     }
 }

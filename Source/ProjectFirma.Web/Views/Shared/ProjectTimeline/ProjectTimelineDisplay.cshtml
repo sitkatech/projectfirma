@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    <copyright file="ProjectTimelineDisplay.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
     </copyright>
@@ -19,9 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using System.Globalization
-@using System.Web.UI.WebControls
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.Views
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.ProjectTimeline
@@ -66,12 +64,12 @@
         <div class="row project-timeline-header">
             <div class="col-md-6">
                 <h4>
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectUpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectUpdateHistory.ToType().GetFieldDefinitionLabel()
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.UpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.UpdateHistory.ToType().GetFieldDefinitionLabel()
                 </h4>
             </div>
             <div class="col-md-6">
                 <h4>
-                    @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.ProjectStatusHistory.ToType().GetFieldDefinitionLabel()
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.StatusHistory.ToType().GetFieldDefinitionLabel()
                 </h4>
             </div>
         </div>
@@ -130,8 +128,8 @@
             }
         </div>
     }
-        
-    {ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
-        
-    
+
+    { ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData); }
+
+
 }

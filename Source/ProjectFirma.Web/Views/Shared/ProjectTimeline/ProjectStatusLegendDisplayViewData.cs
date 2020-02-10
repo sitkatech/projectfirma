@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using LtInfo.Common.HtmlHelperExtensions;
-using LtInfo.Common.Mvc;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectTimeline
 {

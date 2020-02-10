@@ -218,10 +218,10 @@ namespace LtInfo.Common.DhtmlWrappers
             return string.Format(template, gridName);
         }
 
-        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
             var filteredStateHtml = CreateFilteredStateHtml(gridName, gridSpec.ShowFilterBar);
-            var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
+            var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadUrl);
 
             return $@"
     <span class=""record-count"">
@@ -233,13 +233,14 @@ namespace LtInfo.Common.DhtmlWrappers
     </span>";
         }
 
-        private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
             var clearCookiesIconHtml = CreateClearAllCookiesIconHtml(gridName);
-            var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, gridSpec.HasColumnTotals, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
+            var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, excelDownloadUrl);
             var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
+            var generateReportsIconHtml = (gridSpec.GenerateReportModalDialogForm != null) ? CreateGenerateReportUrlHtml(gridName, gridSpec.GenerateReportModalDialogForm) : null;
             var arbitraryHtml = CreateArbitraryHtml(gridSpec.ArbitraryHtml, "    ");
             return $@"
             {
@@ -252,6 +253,7 @@ namespace LtInfo.Common.DhtmlWrappers
                         ? $"<span>{createIconHtml}</span>"
                         : string.Empty)
                 }
+            {(!string.IsNullOrWhiteSpace(generateReportsIconHtml) ? $"<span>{generateReportsIconHtml}</span>" : string.Empty)}
             {(!string.IsNullOrWhiteSpace(tagIconHtml) ? $"<span>{tagIconHtml}</span>" : string.Empty)}
             {
                     (!string.IsNullOrWhiteSpace(clearCookiesIconHtml)
@@ -291,6 +293,26 @@ namespace LtInfo.Common.DhtmlWrappers
                     new List<string>(),
                     null,
                     getProjectIDFunctionString).ToString();
+        }
+
+        public static string CreateGenerateReportUrlHtml(string gridName, SelectProjectsModalDialogForm modalDialogForm)
+        {
+            var tagIconHtml =
+                $"<span style=\"margin-right:5px\">{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-file")}</span>";
+            var getProjectIDFunctionString =
+                $"function() {{ return Sitka.{gridName}.getValuesFromCheckedGridRows({modalDialogForm.CheckboxColumnIndex}, '{modalDialogForm.ValueColumnName}', '{modalDialogForm.ReturnListName}'); }}";
+
+            return ModalDialogFormHelper.ModalDialogFormLink($"{tagIconHtml} Generate Reports",
+                modalDialogForm.DialogUrl,
+                modalDialogForm.DialogTitle,
+                ModalDialogFormHelper.DefaultDialogWidth,
+                "Generate",
+                "Close",
+                new List<string>(),
+                null,
+                getProjectIDFunctionString,
+                true).ToString();
+
         }
 
         /// <summary>
@@ -395,19 +417,17 @@ namespace LtInfo.Common.DhtmlWrappers
         /// Creates the download to excel icon, using the filtered grid results
         /// </summary>
         /// <param name="gridName"></param>
-        /// <param name="printFooter"></param>
-        /// <param name="excelDownloadWithFooterUrl"></param>
-        /// <param name="excelDownloadWithoutFooterUrl"></param>
+        /// <param name="excelDownloadUrl"></param>
         /// <returns></returns>
-        public static string CreateFilteredExcelDownloadIconHtml(string gridName, bool printFooter, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        public static string CreateFilteredExcelDownloadIconHtml(string gridName, UrlTemplate<string> excelDownloadUrl)
         {
-            if (excelDownloadWithFooterUrl == null || excelDownloadWithoutFooterUrl == null) return string.Empty;
+            if (excelDownloadUrl == null) return string.Empty;
 
             return
                 String.Format(
                     @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.grid.toExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
                     gridName,
-                    printFooter ? excelDownloadWithFooterUrl.ParameterReplace(gridName).ToJS() : excelDownloadWithoutFooterUrl.ParameterReplace(gridName).ToJS());
+                    excelDownloadUrl.ParameterReplace(gridName).ToJS());
         }
 
         /// <summary>
@@ -594,6 +614,21 @@ namespace LtInfo.Common.DhtmlWrappers
         }
 
         /// <summary>
+        /// For making an edit icon on the grid with an edit jquery ui dialog confirm.
+        /// Will make a grey edit icon if edit is not possible. *** WILL NOT PREVENT AN EDIT FROM HAPPENING! YOU MUST ENFORCE AT THE CONTROLLER LEVEL ***
+        /// </summary>
+        /// <param name="editDialogUrl"></param>
+        /// <param name="formTitle"></param>
+        /// <param name="editPossibleForObject">Is an edit possible for the given object?</param>
+        /// <returns></returns>
+        public static HtmlString MakeEditIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle, bool editPossibleForObject)
+        {
+            var editIcon = editPossibleForObject ? $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>"
+                : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled").ToString();
+            return MakeModalDialogLink(editIcon, editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
+        }
+
+        /// <summary>
         /// For making a plus icon on the grid with an editor in a jquery ui dialog
         /// </summary>
         public static HtmlString MakePlusIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle)
@@ -660,7 +695,7 @@ namespace LtInfo.Common.DhtmlWrappers
 
         /// <summary>
         /// For making a delete icon on the grid with a delete jquery ui dialog confirm.
-        /// Will make a grey trash can icon if delete is not possible.
+        /// Will make a grey trash can icon if delete is not possible. *** WILL NOT PREVENT A DELETE FROM HAPPENING! YOU MUST ENFORCE AT THE CONTROLLER LEVEL ***
         /// </summary>
         /// <param name="deleteDialogUrl"></param>
         /// <param name="userHasDeletePermission">Does the given user have permission to perform a delete?</param>

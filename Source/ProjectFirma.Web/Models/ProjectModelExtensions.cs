@@ -25,6 +25,7 @@ using System.Data.Entity.Spatial;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
@@ -65,6 +66,10 @@ namespace ProjectFirma.Web.Models
             return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static bool FactSheetIsAvailable(this Project project)
+        {
+            return project.ProjectStage != ProjectStage.Terminated;
+        }
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
         public static string GetFactSheetUrl(this Project project)
         {
@@ -312,18 +317,7 @@ namespace ProjectFirma.Web.Models
         public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Project project)
         {
             var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(project));
-            }
-
-            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            return reportedPerformanceMeasures.OrderByDescending<PerformanceMeasureReportedValue, int>(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static string GetPlanningDesignStartYear(Project project)
@@ -601,15 +595,21 @@ namespace ProjectFirma.Web.Models
                 }
                 else
                 {
-                    return string.Join(", ",
-                        projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
+                    return string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
                 }
+            }
+            else if(projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            {
+                //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
+                return "N/A";
             }
             else
             {
+                //This just has no value
                 return "None";
             }
         }
+
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {

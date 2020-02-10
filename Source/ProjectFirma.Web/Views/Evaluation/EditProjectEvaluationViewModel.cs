@@ -22,7 +22,10 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Evaluation
@@ -33,27 +36,71 @@ namespace ProjectFirma.Web.Views.Evaluation
         public int ProjectEvaluationID { get; set; }
 
         public string Comments { get; set; }
-        public List<int> SelectedEvaluationCriterionValues { get; set; }
+        public List<int> SelectedEvaluationCriteriaValues { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
         public EditProjectEvaluationViewModel()
         {
+            SelectedEvaluationCriteriaValues = new List<int>();
         }
 
-        public EditProjectEvaluationViewModel(ProjectFirmaModels.Models.ProjectEvaluation projectEvaluation)
+        public EditProjectEvaluationViewModel(ProjectEvaluation projectEvaluation)
         {
             ProjectEvaluationID = projectEvaluation.ProjectEvaluationID;
             Comments = projectEvaluation.Comments;
-            SelectedEvaluationCriterionValues = projectEvaluation.ProjectEvaluationSelectedValues.Any()
-                                                ? projectEvaluation.ProjectEvaluationSelectedValues.Select(x => x.EvaluationCriterionValueID).ToList()
+            SelectedEvaluationCriteriaValues = projectEvaluation.ProjectEvaluationSelectedValues.Any()
+                                                ? projectEvaluation.ProjectEvaluationSelectedValues.Select(x => x.EvaluationCriteriaValueID).ToList()
                                                 : new List<int>();
         }
 
-        public void UpdateModel(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.ProjectEvaluation projectEvaluation)
+        public void UpdateModel(FirmaSession currentFirmaSession, ProjectEvaluation projectEvaluation)
         {
+            projectEvaluation.Comments = Comments;
+
             
+            //gather all eval Criteria values selected to make sure they are valid
+            var selectedEvaluationCriteriaValues = new List<EvaluationCriteriaValue>();
+            foreach (var simpleValue in SelectedEvaluationCriteriaValues)
+            {
+                var evaluationCriteriaValue = HttpRequestStorage.DatabaseEntities.EvaluationCriteriaValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == simpleValue);
+                if (evaluationCriteriaValue != null)
+                {
+                    selectedEvaluationCriteriaValues.Add(evaluationCriteriaValue);
+                }
+            }
+
+
+
+            var updatedSelectedProjectEvaluationValues = new List<ProjectEvaluationSelectedValue>();
+            foreach (var selectedEvaluationCriteriaValue in selectedEvaluationCriteriaValues)
+            {
+                var projectEvaluationSelectedValue = HttpRequestStorage.DatabaseEntities.ProjectEvaluationSelectedValues.SingleOrDefault(x => x.EvaluationCriteriaValueID == selectedEvaluationCriteriaValue.EvaluationCriteriaID && x.ProjectEvaluationID == ProjectEvaluationID);
+                if (projectEvaluationSelectedValue == null)
+                {
+                    projectEvaluationSelectedValue = new ProjectEvaluationSelectedValue(ProjectEvaluationID, selectedEvaluationCriteriaValue.EvaluationCriteriaValueID);
+                }
+
+                updatedSelectedProjectEvaluationValues.Add(projectEvaluationSelectedValue);
+            }
+
+
+            
+
+
+            var allProjectEvaluationSelectedValuesFromDatabase = HttpRequestStorage.DatabaseEntities.AllProjectEvaluationSelectedValues.Local;
+
+
+            projectEvaluation.ProjectEvaluationSelectedValues.Merge(
+                updatedSelectedProjectEvaluationValues,
+                allProjectEvaluationSelectedValuesFromDatabase,
+                (x, y) => x.ProjectEvaluationSelectedValueID == y.ProjectEvaluationSelectedValueID,
+                (x, y) =>
+                {
+                    x.ProjectEvaluationID = y.ProjectEvaluationID;
+                    x.EvaluationCriteriaValueID = x.EvaluationCriteriaValueID;
+                }, HttpRequestStorage.DatabaseEntities);
         }
         
     }

@@ -327,10 +327,14 @@ namespace ProjectFirma.Web.Common
             if (UsesEvaluations() && new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
             {
 
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<EvaluationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<EvaluationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
             }
         }
 
+        public static bool DisplayReportCenter()
+        {
+            return GetTenantAttribute().EnableReportCenter;
+        }
 
     }
 }

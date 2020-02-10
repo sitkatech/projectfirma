@@ -56,8 +56,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
-            modelBuilder.Configurations.Add(new EvaluationCriterionConfiguration());
-            modelBuilder.Configurations.Add(new EvaluationCriterionValueConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriteriaConfiguration());
+            modelBuilder.Configurations.Add(new EvaluationCriteriaValueConfiguration());
             modelBuilder.Configurations.Add(new ExternalMapLayerConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
@@ -117,6 +117,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupProjectTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
@@ -160,6 +161,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
+            modelBuilder.Configurations.Add(new ReportTemplateConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
@@ -207,10 +209,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<EvaluationCriterion> AllEvaluationCriterions { get; set; }
-        public virtual IQueryable<EvaluationCriterion> EvaluationCriterions { get { return AllEvaluationCriterions.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<EvaluationCriterionValue> AllEvaluationCriterionValues { get; set; }
-        public virtual IQueryable<EvaluationCriterionValue> EvaluationCriterionValues { get { return AllEvaluationCriterionValues.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriteria> AllEvaluationCriterias { get; set; }
+        public virtual IQueryable<EvaluationCriteria> EvaluationCriterias { get { return AllEvaluationCriterias.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<EvaluationCriteriaValue> AllEvaluationCriteriaValues { get; set; }
+        public virtual IQueryable<EvaluationCriteriaValue> EvaluationCriteriaValues { get { return AllEvaluationCriteriaValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Evaluation> AllEvaluations { get; set; }
         public virtual IQueryable<Evaluation> Evaluations { get { return AllEvaluations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ExternalMapLayer> AllExternalMapLayers { get; set; }
@@ -322,6 +324,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectContact> ProjectContacts { get { return AllProjectContacts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContactUpdate> AllProjectContactUpdates { get; set; }
         public virtual IQueryable<ProjectContactUpdate> ProjectContactUpdates { get { return AllProjectContactUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeGroupProjectType> AllProjectCustomAttributeGroupProjectTypes { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeGroupProjectType> ProjectCustomAttributeGroupProjectTypes { get { return AllProjectCustomAttributeGroupProjectTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeGroup> AllProjectCustomAttributeGroups { get; set; }
         public virtual IQueryable<ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get { return AllProjectCustomAttributeGroups.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
@@ -413,6 +417,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
+        public virtual DbSet<ReportTemplate> AllReportTemplates { get; set; }
+        public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
@@ -512,11 +518,11 @@ namespace ProjectFirmaModels.Models
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
 
-                case "EvaluationCriterion":
-                    return EvaluationCriterions.GetEvaluationCriterion(primaryKey);
+                case "EvaluationCriteria":
+                    return EvaluationCriterias.GetEvaluationCriteria(primaryKey);
 
-                case "EvaluationCriterionValue":
-                    return EvaluationCriterionValues.GetEvaluationCriterionValue(primaryKey);
+                case "EvaluationCriteriaValue":
+                    return EvaluationCriteriaValues.GetEvaluationCriteriaValue(primaryKey);
 
                 case "Evaluation":
                     return Evaluations.GetEvaluation(primaryKey);
@@ -774,6 +780,9 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(projectCustomAttributeDataType, "ProjectCustomAttributeDataType", primaryKey);
                     return projectCustomAttributeDataType;
 
+                case "ProjectCustomAttributeGroupProjectType":
+                    return ProjectCustomAttributeGroupProjectTypes.GetProjectCustomAttributeGroupProjectType(primaryKey);
+
                 case "ProjectCustomAttributeGroup":
                     return ProjectCustomAttributeGroups.GetProjectCustomAttributeGroup(primaryKey);
 
@@ -947,6 +956,11 @@ namespace ProjectFirmaModels.Models
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);
 
+                case "ProjectType":
+                    var projectType = ProjectType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectType, "ProjectType", primaryKey);
+                    return projectType;
+
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
 
@@ -976,6 +990,19 @@ namespace ProjectFirmaModels.Models
 
                 case "ReleaseNote":
                     return ReleaseNotes.GetReleaseNote(primaryKey);
+
+                case "ReportTemplateModel":
+                    var reportTemplateModel = ReportTemplateModel.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(reportTemplateModel, "ReportTemplateModel", primaryKey);
+                    return reportTemplateModel;
+
+                case "ReportTemplateModelType":
+                    var reportTemplateModelType = ReportTemplateModelType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(reportTemplateModelType, "ReportTemplateModelType", primaryKey);
+                    return reportTemplateModelType;
+
+                case "ReportTemplate":
+                    return ReportTemplates.GetReportTemplate(primaryKey);
 
                 case "Role":
                     var role = Role.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
