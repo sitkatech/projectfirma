@@ -331,43 +331,6 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
         }
 
-        // OLD
-        // REMOVE THIS ASAP
-        
-        /*
-        public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures_OLD_OBSOLETE(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            if (!projectUpdateBatch.AreProjectBasicsValid())
-            {
-                return new PerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
-            }
-            
-            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
-            var missingYears = new HashSet<int>();
-            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
-            {
-                var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
-                var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
-                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
-                missingYears = yearsExpected.GetMissingYears(yearsEntered);
-            }
-            // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-            var performanceMeasureActualUpdatesWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow();
-
-            //validation 3: duplicate PM row
-            var performanceMeasureActualUpdatesWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow();
-
-            //validation4: data entered for exempt years
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
-
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings, performanceMeasureActualUpdatesWithExemptYear);
-            return performanceMeasuresValidationResult;
-        }
-        */
-        
-
-        // NEW (modded)
-
         public static List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (!projectUpdateBatch.AreProjectBasicsValid())
@@ -384,22 +347,22 @@ namespace ProjectFirma.Web.Models
             var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
 
             // What distinct PerformanceMeasures are being worked with? 
-            var pmausGrouped = performanceMeasureActualUpdates.GroupBy(pmas => pmas.PerformanceMeasureActualUpdateID);
+            var pmausGrouped = performanceMeasureActualUpdates.GroupBy(pmas => pmas.PerformanceMeasureID);
 
             // Examine each PerformanceMeasure group as a unit to check for problems within the group
             foreach (var performanceMeasureActualUpdateGroup in pmausGrouped)
             {
-                // These are new, so, can't be looked up from DB...Maybe can't use.
-                int currentPerformanceMeasureActualUpdateID = performanceMeasureActualUpdateGroup.Key;
-                // May have to use this? But very unsure.
-                int currentPerformanceMeasureID = performanceMeasureActualUpdateGroup.First().PerformanceMeasureID;
-
-                var currentPerformanceMeasureActualUpdate = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Single(pm => pm.PerformanceMeasureActualUpdateID == currentPerformanceMeasureActualUpdateID);
-                string currentPerformanceMeasureActualUpdateDisplayName = currentPerformanceMeasureActualUpdate.PerformanceMeasure.PerformanceMeasureDisplayName;
+                var currentPerformanceMeasureActualUpdate = performanceMeasureActualUpdateGroup.First();
+                int currentPerformanceMeasureActualUpdateID = currentPerformanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
 
                 // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
-                var yearsEntered = performanceMeasureActualUpdateGroup.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
-                var missingYears = yearsExpected.GetMissingYears(yearsEntered);
+                // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
+                var missingYears = new HashSet<int>();
+                if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+                {
+                    var yearsEntered = performanceMeasureActualUpdateGroup.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().OrderBy(year => year).ToList();
+                    missingYears = yearsExpected.GetMissingYears(yearsEntered);
+                }
 
                 // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
                 var performanceMeasureActualsWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
@@ -410,9 +373,12 @@ namespace ProjectFirma.Web.Models
                 // validation 4: data entered for exempt years
                 var performanceMeasureActualsWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow(currentPerformanceMeasureActualUpdateID);
 
+                int currentPerformanceMeasureID = currentPerformanceMeasureActualUpdate.PerformanceMeasureID;
+                string currentPerformanceMeasureDisplayName = currentPerformanceMeasureActualUpdate.PerformanceMeasure.PerformanceMeasureDisplayName;
+
                 var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(
-                    currentPerformanceMeasureActualUpdateID,
-                    currentPerformanceMeasureActualUpdateDisplayName,
+                    currentPerformanceMeasureID,
+                    currentPerformanceMeasureDisplayName,
                     missingYears,
                     performanceMeasureActualsWithIncompleteWarnings,
                     performanceMeasureActualsWithDuplicateWarnings,
@@ -423,45 +389,6 @@ namespace ProjectFirma.Web.Models
 
             return results;
         }
-
-        // PerformanceMeasureActualUpdateID!!!! not PerformanceMeasureID!!!!
-
-        //private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow_OLD(this ProjectUpdateBatch projectUpdateBatch)
-        //{
-        //    var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
-        //        x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
-        //    return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
-        //}
-
-
-
-        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow_OLD(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
-            {
-                return new HashSet<int>();
-            }
-            var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
-
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();            
-
-            return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
-        }
-
-
-
-
-
-
-
-
-        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow_OLD(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
-                x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
-            return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
-        }
-
 
 
         private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
@@ -477,25 +404,6 @@ namespace ProjectFirma.Web.Models
                                                                                     performanceMeasuresIDsAndSubcategoryCounts.Single(y => x.PerformanceMeasureID == y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count /*|| x.PerformanceMeasureActualSubcategoryOptionUpdates.Any(y => y.PerformanceMeasureSubcategoryOptionID == null)*/)).ToList();
             return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
-
-        /*
-        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow_OLD(this ProjectUpdateBatch projectUpdateBatch)
-        {
-            if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
-            {
-                return new HashSet<int>();
-            }
-            var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
-                .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
-                .Select(x => x.ToList())
-                .ToList()
-                .Select(x => x)
-                .Where(x => x.Select(m => m.PerformanceMeasureActualSubcategoryOptionUpdates).ToList().Select(z => String.Join("_", z.Select(s => s.PerformanceMeasureSubcategoryOptionID).ToList())).ToList().HasDuplicates()).ToList();
-
-            return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
-        }
-        */
-
 
         private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
         {
@@ -521,26 +429,7 @@ namespace ProjectFirma.Web.Models
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
             var performanceMeasureActualsWithExemptYear = performanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();
             return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
-
-            /*
-            var performanceMeasureActualSimples = PerformanceMeasureActualSimples.Where(pma => pma.PerformanceMeasureID == relevantPerformanceMeasureID).ToList();
-            var projectExemptReportingYearSimples = ProjectExemptReportingYearSimples ?? new List<ProjectExemptReportingYearSimple>();
-            var exemptYears = projectExemptReportingYearSimples.Where(x => x.IsExempt).Select(x => x.CalendarYear).ToList();
-            var performanceMeasureActualsWithExemptYear = performanceMeasureActualSimples.Where(x => exemptYears.Contains(x.CalendarYear)).ToList();
-            return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualID.GetValueOrDefault()));
-            */
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
