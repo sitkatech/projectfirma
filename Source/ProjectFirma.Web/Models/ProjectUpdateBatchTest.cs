@@ -424,9 +424,7 @@ namespace ProjectFirma.Web.Models
             Assert.That(projectUpdate.ImplementationStartYear, Is.Null, "Should not have an Implementation Start Year set");
 
             var results = projectUpdateBatch.ValidatePerformanceMeasures();
-            //Assert.That(result.IsValid, Is.False, "Should not be valid since we do not have an Implementation Start Year set");
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should not be valid since we do not have an Implementation Start Year set");
-            //Assert.That(results.GetWarningMessages(), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
             Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
@@ -543,9 +541,11 @@ namespace ProjectFirma.Web.Models
             var performanceMeasureActualUpdate2 = TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentYear - 1); // record before start year
             results = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.False, "Should have warning about incomplete rows");
-            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results),
-                Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }),
-                "Should have warning about incomplete rows");
+            {
+                var allWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(results);
+                bool allMessagesContainIncompleteRowMessages = allWarningMessages.All(wm => wm.Contains(PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage));
+                Assert.That(allMessagesContainIncompleteRowMessages, Is.True, "All messages should be warnings about incomplete rows");
+            }
             Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results),
                 Is.EquivalentTo(new HashSet<int>
                 {

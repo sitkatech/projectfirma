@@ -28,21 +28,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 {
     public class PerformanceMeasuresValidationResult
     {
-        // OLD
-        /*
-        public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
-            $"Found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
-
-        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"Found duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
-
-        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
-
-        private readonly List<string> _warningMessages;
-
-        public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
-        */
-
-        // New
         public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
             $"found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
 
@@ -54,44 +39,6 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
 
-
-        /*
-         * OLD
-         */
-        /*
-        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, 
-                                                   HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, 
-                                                   HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings, 
-                                                   HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
-        {
-            var ints = new HashSet<int>();
-            ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
-            ints.UnionWith(performanceMeasureActualUpdatesWithDuplicateWarnings);
-            ints.UnionWith(performanceMeasureActualUpdatesWithExemptYear);
-
-            PerformanceMeasureActualUpdatesWithWarnings = ints;
-            _warningMessages = new List<string>();
-            if (missingYears.Any())
-            {
-                _warningMessages.Add(
-                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
-            }
-            if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
-            {
-                _warningMessages.Add(FoundIncompletePerformanceMeasureRowsMessage);
-            }
-            if (performanceMeasureActualUpdatesWithDuplicateWarnings.Any())
-            {
-                _warningMessages.Add(FoundDuplicatePerformanceMeasureRowsMessage);
-            }
-            if (performanceMeasureActualUpdatesWithExemptYear.Any())
-            {
-                _warningMessages.Add(FoundReportedPerformanceMeasureForExemptYearRowsMessage);
-            }
-        }
-        */
-
-        // New version
         public PerformanceMeasuresValidationResult(
             int performanceMeasureID,
             string performanceMeasureName,
