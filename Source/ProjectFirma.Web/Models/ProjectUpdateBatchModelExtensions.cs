@@ -389,7 +389,11 @@ namespace ProjectFirma.Web.Models
             // Examine each PerformanceMeasure group as a unit to check for problems within the group
             foreach (var performanceMeasureActualUpdateGroup in pmausGrouped)
             {
+                // These are new, so, can't be looked up from DB...Maybe can't use.
                 int currentPerformanceMeasureActualUpdateID = performanceMeasureActualUpdateGroup.Key;
+                // May have to use this? But very unsure.
+                int currentPerformanceMeasureID = performanceMeasureActualUpdateGroup.First().PerformanceMeasureID;
+
                 var currentPerformanceMeasureActualUpdate = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualUpdates.Single(pm => pm.PerformanceMeasureActualUpdateID == currentPerformanceMeasureActualUpdateID);
                 string currentPerformanceMeasureActualUpdateDisplayName = currentPerformanceMeasureActualUpdate.PerformanceMeasure.PerformanceMeasureDisplayName;
 
