@@ -334,8 +334,9 @@ namespace ProjectFirma.Web.Common
             return new RedirectResult(route.BuildUrlFromExpression());
         }
 
-        protected FileResult ExportGridToExcelImpl(string gridName, bool printFooter)
+        protected FileResult ExportGridToExcelImpl(string gridName)
         {
+            // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
             xml = Server.UrlDecode(xml);
