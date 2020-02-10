@@ -1,4 +1,5 @@
 param($companyname = "Tahoe Regional Planning Agency")
+Write-Host "Begin running script $PSCommandPath at $(Get-Date)"
 
 [System.Globalization.CultureInfo] $ci = [System.Globalization.CultureInfo]::GetCurrentCulture
 
@@ -73,13 +74,15 @@ function Write-Header ($file)
 }
 
 #Filter files getting only .cs ones and exclude specific file extensions
-svn status | % {
+git status --short | % {
     $fileString = ($_ -split '\s+')[1]
     $fileInfo = ([System.IO.FileInfo]$fileString)
         
     if (($fileInfo.Extension -match "\.(cs|cshtml|js)$") -and ($fileInfo.FullName -notmatch "\\(bin|obj|Content|Generated|Scripts|_Annotations.cs|NuGetPackages)(\\|$)"))
     {
-        Write-Host Updating license and copyright header: $fileInfo.FullName
+        Write-Host "Updating license and copyright header: $fileInfo.FullName"
         Write-Header  $fileInfo.FullName;
     } 
 }
+
+Write-Host "End running script $PSCommandPath at $(Get-Date)"
