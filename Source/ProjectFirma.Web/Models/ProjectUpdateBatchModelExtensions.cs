@@ -397,7 +397,12 @@ namespace ProjectFirma.Web.Models
 
             var performanceMeasuresIDsAndSubcategoryCounts =
                 HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
-                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new { x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count });
+                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new { x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count }).ToList();
+
+            if (!performanceMeasuresIDsAndSubcategoryCounts.Any())
+            {
+                return new HashSet<int>();
+            }
 
             var performanceMeasureActualsWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
                     x => x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID && (!x.ActualValue.HasValue ||
