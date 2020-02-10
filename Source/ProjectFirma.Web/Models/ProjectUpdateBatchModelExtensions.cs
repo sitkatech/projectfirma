@@ -391,23 +391,15 @@ namespace ProjectFirma.Web.Models
         }
 
 
+
+
         private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
         {
-            List<int> performanceMeasureIDs = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureID).Distinct().ToList();
-
-            var performanceMeasuresIDsAndSubcategoryCounts =
-                HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(x =>
-                    performanceMeasureIDs.Contains(x.PerformanceMeasureID)).Select(x => new { x.PerformanceMeasureID, SubcategoryCount = x.PerformanceMeasureSubcategories.Count }).ToList();
-
-            if (!performanceMeasuresIDsAndSubcategoryCounts.Any())
-            {
-                return new HashSet<int>();
-            }
-
-            var performanceMeasureActualsWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
-                    x => x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID && (!x.ActualValue.HasValue ||
-                                                                                    performanceMeasuresIDsAndSubcategoryCounts.Single(y => x.PerformanceMeasureID == y.PerformanceMeasureID).SubcategoryCount != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count /*|| x.PerformanceMeasureActualSubcategoryOptionUpdates.Any(y => y.PerformanceMeasureSubcategoryOptionID == null)*/)).ToList();
-            return new HashSet<int>(performanceMeasureActualsWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
+            var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
+                x => (!x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count) 
+                     && x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID
+            ).ToList();
+            return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
         private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
