@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.ProjectType:
                     if (MultiTenantHelpers.GetTenantAttribute().EnableProjectTypes)
                     {
-                        Add(FieldDefinitionEnum.ProjectType.ToType().ToGridHeaderString(), x => x.ProjectType.ProjectTypeDisplayName, 140);
+                        Add(FieldDefinitionEnum.ProjectType.ToType().ToGridHeaderString(), x => x.ProjectType.ProjectTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
                 default:
