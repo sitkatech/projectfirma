@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
@@ -14,6 +15,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string SubmitUrl { get; }
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
         public TenantAttribute TenantAttribute { get; }
+        public bool HasExistingData { get; }
 
         public IEnumerable<SelectListItem> ProjectTypeSelectListItems { get; }
 
@@ -33,6 +35,15 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
             TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             ProjectTypeSelectListItems = ProjectType.All.ToSelectList(x => x.ProjectTypeID.ToString(), x => x.ProjectTypeDisplayName );
+
+            if (projectCustomAttributeGroup != null && projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeValues.Any())))
+            {
+                HasExistingData = true;
+            }
+            else
+            {
+                HasExistingData = false;
+            }
         }
 
     }

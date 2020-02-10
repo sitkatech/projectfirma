@@ -489,15 +489,6 @@
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
-    <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
-    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
-    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
-    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
-    <Content Include="Content\document-templates\model-testing.docx" />
-    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
-    <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
-      <DependentUpon>bor.theme.css</DependentUpon>
-    </Content>
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
@@ -541,11 +532,20 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
+    <Content Include="Content\document-templates\model-testing.docx" />
+    <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
+      <DependentUpon>bor.theme.css</DependentUpon>
+    </Content>
     <Content Include="Libraries\DocumentFormat.OpenXml.dll" />
     <Content Include="Libraries\SharpDocx.dll" />
     <Content Include="Libraries\SharpDocx.pdb" />
     <Content Include="Libraries\SharpImage.dll" />
     <Content Include="Libraries\SharpImage.pdb" />
+    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -588,8 +588,6 @@
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\Help\RequestSupport.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Detail.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Edit.cshtml" />
@@ -617,6 +615,8 @@
     <Content Include="Views\AttachmentType\Index.cshtml" />
     <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
     <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1879,6 +1879,8 @@
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
