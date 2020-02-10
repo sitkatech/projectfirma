@@ -69,7 +69,7 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             {
                 var titleCell = ws.Cell(row, col);
                 titleCell.SetValue(column.ColumnName);
-                titleCell.SetDataType(XLCellValues.Text);
+                titleCell.SetDataType(XLDataType.Text);
                 titleCell.Style.Font.SetBold();
                 col++;
             }

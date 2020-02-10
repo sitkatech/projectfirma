@@ -74,8 +74,8 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
                         Is.EquivalentTo(
                             new[]
                                 {
-                                    XLCellValues.Text, XLCellValues.Number, XLCellValues.DateTime, XLCellValues.Number,
-                                    XLCellValues.Boolean
+                                    XLDataType.Text, XLDataType.Number, XLDataType.DateTime, XLDataType.Number,
+                                    XLDataType.Boolean
                                 }.ToList()), "Data types should match up");
 
         }
