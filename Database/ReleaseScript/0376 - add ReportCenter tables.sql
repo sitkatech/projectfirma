@@ -2,15 +2,6 @@
 
 -- New table for ReportTemplate
 
-USE [ProjectFirma]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[ReportTemplate](
 	[ReportTemplateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,

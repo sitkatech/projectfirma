@@ -218,10 +218,10 @@ namespace LtInfo.Common.DhtmlWrappers
             return string.Format(template, gridName);
         }
 
-        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        public static string BuildDhtmlxGridHeader<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
             var filteredStateHtml = CreateFilteredStateHtml(gridName, gridSpec.ShowFilterBar);
-            var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
+            var gridHeaderIconsHtml = CreateGridHeaderIconsHtml(gridSpec, gridName, excelDownloadUrl);
 
             return $@"
     <span class=""record-count"">
@@ -233,10 +233,10 @@ namespace LtInfo.Common.DhtmlWrappers
     </span>";
         }
 
-        private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        private static string CreateGridHeaderIconsHtml<T>(GridSpec<T> gridSpec, string gridName, UrlTemplate<string> excelDownloadUrl)
         {
             var clearCookiesIconHtml = CreateClearAllCookiesIconHtml(gridName);
-            var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, gridSpec.HasColumnTotals, excelDownloadWithFooterUrl, excelDownloadWithoutFooterUrl);
+            var filteredExcelDownloadIconHtml = CreateFilteredExcelDownloadIconHtml(gridName, excelDownloadUrl);
             var customExcelDownloadIconHtml = CreateFullDatabaseExcelDownloadIconHtml(gridName, gridSpec.CustomExcelDownloadUrl, gridSpec.CustomExcelDownloadLinkText ?? "Download Full Database");
             var createIconHtml = CreateCreateUrlHtml(gridSpec.CreateEntityUrl, gridSpec.CreateEntityUrlClass, gridSpec.CreateEntityModalDialogForm, gridSpec.CreateEntityActionPhrase, gridSpec.ObjectNameSingular);
             var tagIconHtml = CreateTagUrlHtml(gridName, gridSpec.BulkTagModalDialogForm);
@@ -417,19 +417,17 @@ namespace LtInfo.Common.DhtmlWrappers
         /// Creates the download to excel icon, using the filtered grid results
         /// </summary>
         /// <param name="gridName"></param>
-        /// <param name="printFooter"></param>
-        /// <param name="excelDownloadWithFooterUrl"></param>
-        /// <param name="excelDownloadWithoutFooterUrl"></param>
+        /// <param name="excelDownloadUrl"></param>
         /// <returns></returns>
-        public static string CreateFilteredExcelDownloadIconHtml(string gridName, bool printFooter, UrlTemplate<string> excelDownloadWithFooterUrl, UrlTemplate<string> excelDownloadWithoutFooterUrl)
+        public static string CreateFilteredExcelDownloadIconHtml(string gridName, UrlTemplate<string> excelDownloadUrl)
         {
-            if (excelDownloadWithFooterUrl == null || excelDownloadWithoutFooterUrl == null) return string.Empty;
+            if (excelDownloadUrl == null) return string.Empty;
 
             return
                 String.Format(
                     @"<a class=""excelbutton"" id=""{0}DownloadLink"" href=""javascript:void(0)"" onclick=""Sitka.{0}.grid.toExcel({1})"" title=""Download this table as an Excel file"">Download Table</a>",
                     gridName,
-                    printFooter ? excelDownloadWithFooterUrl.ParameterReplace(gridName).ToJS() : excelDownloadWithoutFooterUrl.ParameterReplace(gridName).ToJS());
+                    excelDownloadUrl.ParameterReplace(gridName).ToJS());
         }
 
         /// <summary>
