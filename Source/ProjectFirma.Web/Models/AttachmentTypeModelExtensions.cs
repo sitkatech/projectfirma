@@ -6,7 +6,7 @@ using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirmaModels.Models
 {
-    public static class AttachmentRelationshipTypeModelExtensions
+    public static class AttachmentTypeModelExtensions
     {
 
         public static bool IsAttachmentTypeNameUnique(this List<AttachmentType> existingAttachmentTypes, string contactRelationshipTypeName, int currentAttachmentTypeID)

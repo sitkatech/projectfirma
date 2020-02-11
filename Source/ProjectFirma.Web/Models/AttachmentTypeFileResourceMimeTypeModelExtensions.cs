@@ -4,11 +4,11 @@ using System.Text;
 
 namespace ProjectFirmaModels.Models
 {
-    public static class AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions
+    public static class AttachmentTypeFileResourceMimeTypeModelExtensions
     {
-        public static string GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(this ICollection<AttachmentTypeFileResourceMimeType> attachmentRelationshipTypeFileResourceMimeTypes)
+        public static string GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(this ICollection<AttachmentTypeFileResourceMimeType> attachmentTypeFileResourceMimeTypes)
         {
-            List<string> displayNames = attachmentRelationshipTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
+            List<string> displayNames = attachmentTypeFileResourceMimeTypes.Select(x => x.FileResourceMimeType.FileResourceMimeTypeDisplayName).ToList();
             return string.Join(", ", displayNames);
         }
     }

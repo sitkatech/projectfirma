@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="AttachmentRelationshipTypeController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="AttachmentTypeController.js" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp").controller("AttachmentRelationshipTypeController", function ($scope, angularModelAndViewData) {
+angular.module("ProjectFirmaApp").controller("AttachmentTypeController", function ($scope, angularModelAndViewData) {
 
 
     // File Types

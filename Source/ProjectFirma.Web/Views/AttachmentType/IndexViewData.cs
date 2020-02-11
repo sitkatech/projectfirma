@@ -31,8 +31,8 @@ namespace ProjectFirma.Web.Views.AttachmentType
     {
 
         public AttachmentTypeGridSpec AttachmentTypeGridSpec { get; }
-        public string AttachmentRelationshipTypeGridName { get; }
-        public string AttachmentRelationshipTypeGridDataUrl { get; }
+        public string AttachmentTypeGridName { get; }
+        public string AttachmentTypeGridDataUrl { get; }
         public bool HasManagePermissions { get; }
         public string NewProjectAssociationUrl { get; }
 
@@ -44,8 +44,8 @@ namespace ProjectFirma.Web.Views.AttachmentType
 
             AttachmentTypeGridSpec = new AttachmentTypeGridSpec(hasManagePermissions) { ObjectNameSingular = $"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{ FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-            AttachmentRelationshipTypeGridName = "relationshipTypeGrid";
-            AttachmentRelationshipTypeGridDataUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(otc => otc.AttachmentTypeGridJsonData());
+            AttachmentTypeGridName = "relationshipTypeGrid";
+            AttachmentTypeGridDataUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(otc => otc.AttachmentTypeGridJsonData());
             HasManagePermissions = hasManagePermissions;
             NewProjectAssociationUrl = SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.NewAttachmentType());
         }

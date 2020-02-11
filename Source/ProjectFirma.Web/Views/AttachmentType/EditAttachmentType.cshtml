@@ -39,7 +39,7 @@ Source code is available upon request via <support@sitkatech.com>.
     });
     jQuery(document).ready(function ()
     {
-        angular.bootstrap(jQuery("#EditAttachmentRelationshipTypeAngularApp"), ["ProjectFirmaApp"]);
+        angular.bootstrap(jQuery("#EditAttachmentTypeAngularApp"), ["ProjectFirmaApp"]);
 
         jQuery(".selectpicker").selectpicker("refresh");
         jQuery(".modal").on("hidden.bs.modal",
@@ -58,7 +58,7 @@ Source code is available upon request via <support@sitkatech.com>.
 <div>
     @using (Html.BeginForm())
     {
-    <div class="form-horizontal" id="EditAttachmentRelationshipTypeAngularApp" ng-controller="AttachmentTypeController">
+    <div class="form-horizontal" id="EditAttachmentTypeAngularApp" ng-controller="AttachmentTypeController">
         <div class="form-group">
             <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentTypeName)</div>
             <div class="col-xs-12 col-sm-9">

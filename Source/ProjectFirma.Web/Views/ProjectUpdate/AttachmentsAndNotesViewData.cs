@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                                                                 SitkaRoute<ProjectAttachmentUpdateController>.BuildUrlFromExpression(x => x.New(projectUpdateBatch)),
                                                                 projectUpdateBatch.Project.GetDisplayName(),
                                                                 IsEditable,
-                                                                projectUpdateBatch.GetAllAttachmentRelationshipTypes().ToList(),
+                                                                projectUpdateBatch.GetAllAttachmentTypes().ToList(),
                                                                 currentFirmaSession);
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshNotesAndAttachments(projectUpdateBatch.Project));
             DiffUrl = diffUrl;
