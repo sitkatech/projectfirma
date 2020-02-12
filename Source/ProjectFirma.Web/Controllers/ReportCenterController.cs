@@ -27,6 +27,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.ReportTemplates;
@@ -98,7 +99,10 @@ namespace ProjectFirma.Web.Controllers
             else
             {
                 SetErrorForDisplay($"There was an error with this template: {errorMessage}");
-                SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+                if (!sourceCode.IsEmpty())
+                {
+                    SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+                }
             }
 
             return new ModalDialogFormJsonResult();
@@ -136,7 +140,10 @@ namespace ProjectFirma.Web.Controllers
             else
             {
                 SetErrorForDisplay($"There was an error with this template: {errorMessage}");
-                SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+                if (!sourceCode.IsEmpty())
+                {
+                    SetErrorWithScrollablePreForDisplay($"{sourceCode}");
+                }
             }
 
             return new ModalDialogFormJsonResult();
@@ -219,7 +226,7 @@ namespace ProjectFirma.Web.Controllers
             projectsList = projectsList.OrderBy(p => viewModel.ProjectIDList.IndexOf(p.ProjectID)).ToList();
             var reportTemplateSelectListItems =
                 HttpRequestStorage.DatabaseEntities.ReportTemplates.ToList().Where(x => x.ReportTemplateModel.ReportTemplateModelID == ReportTemplateModel.Project.PrimaryKey).ToSelectList(x => x.ReportTemplateID.ToString(),
-                    x => x.DisplayName);
+                    x => $"{x.DisplayName} - {x.Description}");
             var viewData = new GenerateReportsViewData(CurrentFirmaSession, projectsList, reportTemplateSelectListItems);
             return RazorPartialView<GenerateReports, GenerateReportsViewData, GenerateReportsViewModel>(viewData, viewModel);
         }
