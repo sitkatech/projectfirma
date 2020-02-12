@@ -3,6 +3,9 @@
         Currently viewing <span id="testGridNameFilteredRowCount"></span> of <span id="testGridNameUnfilteredRowCount"></span> SOYs
         <span id="testGridNameFilteredButton" style="display:none">(<a href="javascript:void(0);" onclick="Sitka.testGridName.clearGridFilters()">clear filters</a>)</span>
     </span>
+    <span class="checked-checkboxes" style="display:none;">
+        Selected rows: <span id="testGridNameCheckedCheckboxCount"></span> 
+    </span>
     <span class="actions pull-right">
     
             
