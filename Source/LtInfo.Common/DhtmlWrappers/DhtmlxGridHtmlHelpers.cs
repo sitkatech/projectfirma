@@ -135,6 +135,15 @@ namespace LtInfo.Common.DhtmlWrappers
                 Sitka.{0}.setGridInstructions(""<div style=\""padding:10px; font-weight:bold\"">{11}</div>"", true);
             }}
         }});
+    
+        Sitka.{0}.grid.attachEvent(""onCheckbox"", function(rId,cInd,state) {{
+            Sitka.{0}.updateSelectedCheckboxCount();
+        }});
+        
+        Sitka.{0}.grid.attachEvent(""onFilterEnd"", function() {{
+            Sitka.{0}.updateSelectedCheckboxCount();
+        }});
+
         {12}
         {13}
     }});";
@@ -227,6 +236,9 @@ namespace LtInfo.Common.DhtmlWrappers
     <span class=""record-count"">
         {CreateViewingRowCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
         {filteredStateHtml}
+    </span>
+    <span class=""checked-checkboxes"" style=""display:none;"">
+        {CreateViewingCheckedCheckboxesCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
     </span>
     <span class=""actions pull-right"">
     {gridHeaderIconsHtml}
@@ -482,6 +494,17 @@ namespace LtInfo.Common.DhtmlWrappers
         public static string CreateViewingRowCountGridHeaderHtml(string gridName, string objectNamePlural)
         {
             return String.Format("Currently viewing <span id=\"{0}FilteredRowCount\"></span> of <span id=\"{0}UnfilteredRowCount\"></span> {1}", gridName, objectNamePlural);
+        }
+
+        /// <summary>
+        /// Html that shows the count of checked checkboxes "Number of selected rows ..."
+        /// </summary>
+        /// <param name="gridName"></param>
+        /// <param name="objectNamePlural"></param>
+        /// <returns></returns>
+        public static string CreateViewingCheckedCheckboxesCountGridHeaderHtml(string gridName, string objectNamePlural)
+        {
+            return String.Format("Selected rows: <span id=\"{0}CheckedCheckboxCount\"></span> ", gridName);
         }
 
         /// <summary>
