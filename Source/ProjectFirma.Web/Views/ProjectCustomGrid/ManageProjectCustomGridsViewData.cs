@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 ProjectCustomReportCenterGridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
             ProjectCustomReportCenterGridName = "projectsCustomReportCenterGrid";
-            ProjectCustomReportCenterGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsCustomGridReportCenterJsonData());
+            ProjectCustomReportCenterGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.AllActiveProjectsAndProposalsCustomGridReportCenterJsonData());
             CustomizeReportCenterGridUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.EditProjectCustomGrid(3));
 
 

@@ -57,7 +57,6 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult Index()
         {
-            // todo: firma page and firma page type
             var firmaPage = FirmaPageTypeEnum.ReportCenter.GetFirmaPage();
             var viewData = new IndexViewData(CurrentFirmaSession, firmaPage);
             return RazorView<Index, IndexViewData>(viewData);

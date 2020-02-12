@@ -909,6 +909,24 @@ Sitka.Grid.Class.Grid.prototype.updateFilterCountElement = function () {
     }
 };
 
+Sitka.Grid.Class.Grid.prototype.updateSelectedCheckboxCount = _.debounce(function () {
+    var checkedCheckboxSpan = jQuery("#" + this.gridName + "MetaDivID .checked-checkboxes");
+    var checkedCheckboxSpanNumber = jQuery("#" + this.gridName + "MetaDivID span#" + this.gridName + "CheckedCheckboxCount");
+    
+    var checkedRows = this.grid.getCheckedRows(0);
+    var checkedRowsArray = checkedRows.split(",");
+    var checkedRowsArrayLength = checkedRowsArray.length;
+
+    var checkedRowsCount = (checkedRows === "") ? 0 : checkedRowsArrayLength;
+
+    checkedCheckboxSpanNumber.html(checkedRowsCount);
+    if (checkedRowsCount > 0) {
+        checkedCheckboxSpan.show();
+    } else {
+        checkedCheckboxSpan.hide();
+    }
+}, 200);
+
 Sitka.Grid.Class.Grid.prototype.updateFilterDownloadElement = function () {
     if (this.filterDownloadElement) {
         var msg = "all rows";
