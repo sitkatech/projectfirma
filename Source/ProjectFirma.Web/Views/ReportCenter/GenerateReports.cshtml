@@ -21,6 +21,7 @@
 @using Microsoft.Web.Mvc
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ReportCenter.GenerateReports
 
 @Html.ValidationSummary()
@@ -37,7 +38,7 @@
         </div>
     </div>
 
-    <p>This report will be generated for the following projects:</p>
+    <p>This report will be generated for the following @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() (@ViewDataTyped.Projects.Count selected):</p>
     <ul>
         @foreach (var project in ViewDataTyped.Projects)
         {
