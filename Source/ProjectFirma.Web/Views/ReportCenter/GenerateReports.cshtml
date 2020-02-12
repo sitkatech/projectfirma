@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using Microsoft.Web.Mvc
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Controllers
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
@@ -30,9 +31,11 @@
 {
     <div class="form-horizontal">
         <div class="form-group">
-            @Html.LabelFor(x => x.ReportTemplateID, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(x => x.ReportTemplateID, ViewDataTyped.ReportTemplates, new { @class = "form-control" })
+            <div class="col-md-4 text-right">
+                @Html.LabelWithSugarFor(x => x.ReportTemplateID)
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownListFor(x => x.ReportTemplateID, ViewDataTyped.ReportTemplates, new {@class = "form-control"})
             </div>
             @Html.ValidationMessageFor(x => x.ReportTemplateID)
         </div>
