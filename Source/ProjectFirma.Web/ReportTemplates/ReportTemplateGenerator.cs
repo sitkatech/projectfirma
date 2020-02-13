@@ -146,7 +146,6 @@ namespace ProjectFirma.Web.ReportTemplates
 
             var reportTemplateModel = reportTemplate.ReportTemplateModel.ToEnum;
             List<int> selectedModelIDs;
-
             switch (reportTemplateModel)
             {
                 case ReportTemplateModelEnum.Project:
@@ -158,19 +157,7 @@ namespace ProjectFirma.Web.ReportTemplates
                     throw new ArgumentOutOfRangeException();
             }
 
-            try
-            {
-                var reportTemplateGenerator = new ReportTemplateGenerator(reportTemplate, selectedModelIDs);
-                reportTemplateGenerator.Generate();
-                reportIsValid = true;
-            }
-            catch (SharpDocxCompilationException exception)
-            {
-                errorMessage = exception.Errors;
-                sourceCode = exception.SourceCode;
-                reportIsValid = false;
-            }
-
+            ValidateReportTemplateForSelectedModelIDs(reportTemplate, selectedModelIDs, out reportIsValid, out errorMessage, out sourceCode);
         }
 
         public static void ValidateReportTemplateForSelectedModelIDs(ReportTemplate reportTemplate, List<int> selectedModelIDs, out bool reportIsValid, out string errorMessage, out string sourceCode)
@@ -188,6 +175,27 @@ namespace ProjectFirma.Web.ReportTemplates
                 errorMessage = exception.Errors;
                 sourceCode = exception.SourceCode;
                 reportIsValid = false;
+            }
+            catch (Exception exception)
+            {
+                reportIsValid = false;
+
+                // SMG 2/12/2020 submitted an issue on the SharpDocx repo https://github.com/egonl/SharpDocx/issues/13 for better exceptions to be able to refactor this out later.
+                switch (exception.Message)
+                {
+                    case "No end tag found for code.":
+                        errorMessage =
+                            $"CodeBlockBuilder exception: \"{exception.Message}\". Could not find a matching closing tag \"%>\" for an opening tag.";
+                        break;
+                    case "TextBlock is not terminated with '<% } %>'.":
+                        errorMessage = $"CodeBlockBuilder exception: \"{exception.Message}\".";
+                        break;
+                    default:
+                        errorMessage = exception.Message;
+                        break;
+                }
+
+                sourceCode = exception.StackTrace;
             }
         }
 

@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ReportCenter
 {
@@ -11,7 +13,7 @@ namespace ProjectFirma.Web.Views.ReportCenter
         public List<int> ProjectIDList { get; set; }
 
         [Required]
-        [DisplayName("Report Template")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ReportCenterSelectedReportTemplate)]
         public int ReportTemplateID { get; set; }
 
         public GenerateReportsViewModel()

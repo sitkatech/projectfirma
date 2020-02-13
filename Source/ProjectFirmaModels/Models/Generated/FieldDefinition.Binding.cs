@@ -293,6 +293,7 @@ namespace ProjectFirmaModels.Models
         ReportCenterReportTitle = 343,
         ReportCenterReportDescription = 344,
         ReportCenterReportFile = 345,
-        ReportCenterReportModel = 346
+        ReportCenterReportModel = 346,
+        ReportCenterSelectedReportTemplate = 347
     }
 }

@@ -27,3 +27,7 @@
 # /Source/ProjectFirma.Api/
 /Source/ProjectFirma.Api/ProjectFirma.Api.csproj.user
 /Source/LtInfo.Common/LtInfo.Common.csproj.user
+
+# /Database/Utilities/
+/Database/Utilities/.idea/*
+/Database/Utilities/venv/*
