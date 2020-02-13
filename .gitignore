@@ -28,6 +28,6 @@
 /Source/ProjectFirma.Api/ProjectFirma.Api.csproj.user
 /Source/LtInfo.Common/LtInfo.Common.csproj.user
 
-# /Database/Utilities/Generate/FieldDefinition/
-/Database/Utilities/Generate/FieldDefinition/.idea/*
-/Database/Utilities/Generate/FieldDefinition/venv/*
+# /Database/Utilities/
+/Database/Utilities/.idea/*
+/Database/Utilities/venv/*
