@@ -3,24 +3,24 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[AttachmentType](
-	[AttachmentRelationshipTypeID] [int] IDENTITY(1,1) NOT NULL,
+	[AttachmentTypeID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[AttachmentRelationshipTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[AttachmentRelationshipTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AttachmentTypeName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[AttachmentTypeDescription] [varchar](360) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[MaxFileSize] [int] NOT NULL,
 	[NumberOfAllowedAttachments] [int] NULL,
- CONSTRAINT [PK_AttachmentRelationshipType_AttachmentRelationshipTypeID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AttachmentType_AttachmentTypeID] PRIMARY KEY CLUSTERED 
 (
-	[AttachmentRelationshipTypeID] ASC
+	[AttachmentTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_AttachmentType_AttachmentTypeID_TenantID] UNIQUE NONCLUSTERED 
 (
-	[AttachmentRelationshipTypeID] ASC,
+	[AttachmentTypeID] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_AttachmentRelationshipType_AttachmentRelationshipTypeName_TenantID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_AttachmentType_AttachmentTypeName_TenantID] UNIQUE NONCLUSTERED 
 (
-	[AttachmentRelationshipTypeName] ASC,
+	[AttachmentTypeName] ASC,
 	[TenantID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]

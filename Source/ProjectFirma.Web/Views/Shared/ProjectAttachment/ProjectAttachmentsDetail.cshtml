@@ -36,13 +36,13 @@ else
 
 @foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
 {
-    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentType.AttachmentTypeID == attachmentRelationshipType.AttachmentTypeID).ToList();
      
     <div class="row">
         <div class="col-sm-3">
-            <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
+            <p><strong>@attachmentRelationshipType.AttachmentTypeName</strong></p>
             <div class="help-block">
-                <p class="smallExplanationText">@attachmentRelationshipType.AttachmentRelationshipTypeDescription</p>
+                <p class="smallExplanationText">@attachmentRelationshipType.AttachmentTypeDescription</p>
                 @if (attachmentRelationshipType.NumberOfAllowedAttachments != null)
                 {
                     <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentRelationshipType.NumberOfAllowedAttachments </span></p>
@@ -92,7 +92,7 @@ else
 
             @if (!thisAttachmentList.Any())
             {
-                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
+                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
             }
         </div>
     </div>

@@ -12,10 +12,10 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AttachmentTypeFileResourceMimeType GetAttachmentTypeFileResourceMimeType(this IQueryable<AttachmentTypeFileResourceMimeType> attachmentTypeFileResourceMimeTypes, int attachmentRelationshipTypeFileResourceMimeTypeID)
+        public static AttachmentTypeFileResourceMimeType GetAttachmentTypeFileResourceMimeType(this IQueryable<AttachmentTypeFileResourceMimeType> attachmentTypeFileResourceMimeTypes, int attachmentTypeFileResourceMimeTypeID)
         {
-            var attachmentTypeFileResourceMimeType = attachmentTypeFileResourceMimeTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeFileResourceMimeTypeID == attachmentRelationshipTypeFileResourceMimeTypeID);
-            Check.RequireNotNullThrowNotFound(attachmentTypeFileResourceMimeType, "AttachmentTypeFileResourceMimeType", attachmentRelationshipTypeFileResourceMimeTypeID);
+            var attachmentTypeFileResourceMimeType = attachmentTypeFileResourceMimeTypes.SingleOrDefault(x => x.AttachmentTypeFileResourceMimeTypeID == attachmentTypeFileResourceMimeTypeID);
+            Check.RequireNotNullThrowNotFound(attachmentTypeFileResourceMimeType, "AttachmentTypeFileResourceMimeType", attachmentTypeFileResourceMimeTypeID);
             return attachmentTypeFileResourceMimeType;
         }
 

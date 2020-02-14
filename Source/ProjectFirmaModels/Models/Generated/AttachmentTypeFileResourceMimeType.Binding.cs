@@ -30,44 +30,44 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentTypeFileResourceMimeType(int attachmentRelationshipTypeFileResourceMimeTypeID, int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
+        public AttachmentTypeFileResourceMimeType(int attachmentTypeFileResourceMimeTypeID, int attachmentTypeID, int fileResourceMimeTypeID) : this()
         {
-            this.AttachmentRelationshipTypeFileResourceMimeTypeID = attachmentRelationshipTypeFileResourceMimeTypeID;
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeFileResourceMimeTypeID = attachmentTypeFileResourceMimeTypeID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentTypeFileResourceMimeType(int attachmentRelationshipTypeID, int fileResourceMimeTypeID) : this()
+        public AttachmentTypeFileResourceMimeType(int attachmentTypeID, int fileResourceMimeTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.AttachmentRelationshipTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AttachmentTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.FileResourceMimeTypeID = fileResourceMimeTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AttachmentTypeFileResourceMimeType(AttachmentType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType) : this()
+        public AttachmentTypeFileResourceMimeType(AttachmentType attachmentType, FileResourceMimeType fileResourceMimeType) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.AttachmentRelationshipTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
-            this.AttachmentRelationshipType = attachmentRelationshipType;
-            attachmentRelationshipType.AttachmentTypeFileResourceMimeTypes.Add(this);
+            this.AttachmentTypeFileResourceMimeTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AttachmentTypeID = attachmentType.AttachmentTypeID;
+            this.AttachmentType = attachmentType;
+            attachmentType.AttachmentTypeFileResourceMimeTypes.Add(this);
             this.FileResourceMimeTypeID = fileResourceMimeType.FileResourceMimeTypeID;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AttachmentTypeFileResourceMimeType CreateNewBlank(AttachmentType attachmentRelationshipType, FileResourceMimeType fileResourceMimeType)
+        public static AttachmentTypeFileResourceMimeType CreateNewBlank(AttachmentType attachmentType, FileResourceMimeType fileResourceMimeType)
         {
-            return new AttachmentTypeFileResourceMimeType(attachmentRelationshipType, fileResourceMimeType);
+            return new AttachmentTypeFileResourceMimeType(attachmentType, fileResourceMimeType);
         }
 
         /// <summary>
@@ -103,15 +103,15 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int AttachmentRelationshipTypeFileResourceMimeTypeID { get; set; }
+        public int AttachmentTypeFileResourceMimeTypeID { get; set; }
         public int TenantID { get; set; }
-        public int AttachmentRelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
         public int FileResourceMimeTypeID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return AttachmentRelationshipTypeFileResourceMimeTypeID; } set { AttachmentRelationshipTypeFileResourceMimeTypeID = value; } }
+        public int PrimaryKey { get { return AttachmentTypeFileResourceMimeTypeID; } set { AttachmentTypeFileResourceMimeTypeID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual AttachmentType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentType { get; set; }
         public FileResourceMimeType FileResourceMimeType { get { return FileResourceMimeType.AllLookupDictionary[FileResourceMimeTypeID]; } }
 
         public static class FieldLengths

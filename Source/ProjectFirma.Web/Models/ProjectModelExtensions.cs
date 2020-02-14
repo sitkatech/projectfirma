@@ -786,7 +786,7 @@ namespace ProjectFirma.Web.Models
 
         public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
         public static decimal GetSecuredFundingForAllProjects()

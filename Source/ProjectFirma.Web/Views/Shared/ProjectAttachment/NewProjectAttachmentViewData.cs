@@ -30,9 +30,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 
         public AttachmentRelationshipTypeSimple(ProjectFirmaModels.Models.AttachmentType attachmentType)
         {
-            AttachmentRelationshipTypeID = attachmentType.AttachmentRelationshipTypeID;
-            AttachmentRelationshipTypeName = attachmentType.AttachmentRelationshipTypeName;
-            AttachmentRelationshipTypeDescription = attachmentType.AttachmentRelationshipTypeDescription;
+            AttachmentRelationshipTypeID = attachmentType.AttachmentTypeID;
+            AttachmentRelationshipTypeName = attachmentType.AttachmentTypeName;
+            AttachmentRelationshipTypeDescription = attachmentType.AttachmentTypeDescription;
             MaxFileSize = attachmentType.MaxFileSize;
             NumberOfAllowedAttachments = attachmentType.NumberOfAllowedAttachments;
             AllowedFileResourceMimeTypes =

@@ -40,13 +40,13 @@ namespace ProjectFirma.Web.Views.AttachmentType
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true, x.CanDelete()), 30, DhtmlxGridColumnFilterType.None);
                 Add(string.Empty, a => DhtmlxGridHtmlHelpers.MakeLtInfoEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(t => t.EditAttachmentType(a)),
-                        $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentRelationshipTypeName}\"")),
+                        $"Edit {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} \"{a.AttachmentTypeName}\"")),
                     30, DhtmlxGridColumnFilterType.None);
                 basicsColumnGroupCount += 2;
             }
 
-            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentRelationshipTypeName, 240);
-            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentRelationshipTypeDescription, 240);
+            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Name", a => a.AttachmentTypeName, 240);
+            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} Description", a => a.AttachmentTypeDescription, 240);
             Add($"Allowed File Types", a => a.AttachmentTypeFileResourceMimeTypes.GetFileResourceMimeTypeDisplayNamesAsCommaDelimitedList(), 240);
             if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
             {

@@ -30,35 +30,35 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentTypeTaxonomyTrunk(int attachmentRelationshipTypeTaxonomyTrunkID, int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
+        public AttachmentTypeTaxonomyTrunk(int attachmentTypeTaxonomyTrunkID, int attachmentTypeID, int taxonomyTrunkID) : this()
         {
-            this.AttachmentRelationshipTypeTaxonomyTrunkID = attachmentRelationshipTypeTaxonomyTrunkID;
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeTaxonomyTrunkID = attachmentTypeTaxonomyTrunkID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.TaxonomyTrunkID = taxonomyTrunkID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentTypeTaxonomyTrunk(int attachmentRelationshipTypeID, int taxonomyTrunkID) : this()
+        public AttachmentTypeTaxonomyTrunk(int attachmentTypeID, int taxonomyTrunkID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.AttachmentRelationshipTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AttachmentTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.TaxonomyTrunkID = taxonomyTrunkID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AttachmentTypeTaxonomyTrunk(AttachmentType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk) : this()
+        public AttachmentTypeTaxonomyTrunk(AttachmentType attachmentType, TaxonomyTrunk taxonomyTrunk) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.AttachmentRelationshipTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
-            this.AttachmentRelationshipType = attachmentRelationshipType;
-            attachmentRelationshipType.AttachmentTypeTaxonomyTrunks.Add(this);
+            this.AttachmentTypeTaxonomyTrunkID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AttachmentTypeID = attachmentType.AttachmentTypeID;
+            this.AttachmentType = attachmentType;
+            attachmentType.AttachmentTypeTaxonomyTrunks.Add(this);
             this.TaxonomyTrunkID = taxonomyTrunk.TaxonomyTrunkID;
             this.TaxonomyTrunk = taxonomyTrunk;
             taxonomyTrunk.AttachmentTypeTaxonomyTrunks.Add(this);
@@ -67,9 +67,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AttachmentTypeTaxonomyTrunk CreateNewBlank(AttachmentType attachmentRelationshipType, TaxonomyTrunk taxonomyTrunk)
+        public static AttachmentTypeTaxonomyTrunk CreateNewBlank(AttachmentType attachmentType, TaxonomyTrunk taxonomyTrunk)
         {
-            return new AttachmentTypeTaxonomyTrunk(attachmentRelationshipType, taxonomyTrunk);
+            return new AttachmentTypeTaxonomyTrunk(attachmentType, taxonomyTrunk);
         }
 
         /// <summary>
@@ -105,15 +105,15 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int AttachmentRelationshipTypeTaxonomyTrunkID { get; set; }
+        public int AttachmentTypeTaxonomyTrunkID { get; set; }
         public int TenantID { get; set; }
-        public int AttachmentRelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
         public int TaxonomyTrunkID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return AttachmentRelationshipTypeTaxonomyTrunkID; } set { AttachmentRelationshipTypeTaxonomyTrunkID = value; } }
+        public int PrimaryKey { get { return AttachmentTypeTaxonomyTrunkID; } set { AttachmentTypeTaxonomyTrunkID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual AttachmentType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentType { get; set; }
         public virtual TaxonomyTrunk TaxonomyTrunk { get; set; }
 
         public static class FieldLengths

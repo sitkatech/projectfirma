@@ -33,11 +33,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentType(int attachmentRelationshipTypeID, string attachmentRelationshipTypeName, string attachmentRelationshipTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
+        public AttachmentType(int attachmentTypeID, string attachmentTypeName, string attachmentTypeDescription, int maxFileSize, int? numberOfAllowedAttachments) : this()
         {
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
-            this.AttachmentRelationshipTypeName = attachmentRelationshipTypeName;
-            this.AttachmentRelationshipTypeDescription = attachmentRelationshipTypeDescription;
+            this.AttachmentTypeID = attachmentTypeID;
+            this.AttachmentTypeName = attachmentTypeName;
+            this.AttachmentTypeDescription = attachmentTypeDescription;
             this.MaxFileSize = maxFileSize;
             this.NumberOfAllowedAttachments = numberOfAllowedAttachments;
         }
@@ -45,12 +45,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AttachmentType(string attachmentRelationshipTypeName, int maxFileSize) : this()
+        public AttachmentType(string attachmentTypeName, int maxFileSize) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.AttachmentRelationshipTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AttachmentTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.AttachmentRelationshipTypeName = attachmentRelationshipTypeName;
+            this.AttachmentTypeName = attachmentTypeName;
             this.MaxFileSize = maxFileSize;
         }
 
@@ -122,14 +122,14 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int AttachmentRelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
         public int TenantID { get; set; }
-        public string AttachmentRelationshipTypeName { get; set; }
-        public string AttachmentRelationshipTypeDescription { get; set; }
+        public string AttachmentTypeName { get; set; }
+        public string AttachmentTypeDescription { get; set; }
         public int MaxFileSize { get; set; }
         public int? NumberOfAllowedAttachments { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return AttachmentRelationshipTypeID; } set { AttachmentRelationshipTypeID = value; } }
+        public int PrimaryKey { get { return AttachmentTypeID; } set { AttachmentTypeID = value; } }
 
         public virtual ICollection<AttachmentTypeFileResourceMimeType> AttachmentTypeFileResourceMimeTypes { get; set; }
         public virtual ICollection<AttachmentTypeTaxonomyTrunk> AttachmentTypeTaxonomyTrunks { get; set; }
@@ -139,8 +139,8 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int AttachmentRelationshipTypeName = 200;
-            public const int AttachmentRelationshipTypeDescription = 360;
+            public const int AttachmentTypeName = 200;
+            public const int AttachmentTypeDescription = 360;
         }
     }
 }

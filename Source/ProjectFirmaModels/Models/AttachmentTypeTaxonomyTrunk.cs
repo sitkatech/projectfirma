@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         { 
-            return $"AttachmentRelationshipTypeTaxonomyTrunkID: {AttachmentRelationshipTypeTaxonomyTrunkID}";
+            return $"AttachmentTypeTaxonomyTrunkID: {AttachmentTypeTaxonomyTrunkID}";
         }
 
     }

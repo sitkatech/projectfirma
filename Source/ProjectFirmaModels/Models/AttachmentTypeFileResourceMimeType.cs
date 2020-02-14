@@ -8,7 +8,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"AttachmentTypeFileResourceMimeTypeID: {AttachmentRelationshipTypeFileResourceMimeTypeID}";
+            return $"AttachmentTypeFileResourceMimeTypeID: {AttachmentTypeFileResourceMimeTypeID}";
         }
 
     }

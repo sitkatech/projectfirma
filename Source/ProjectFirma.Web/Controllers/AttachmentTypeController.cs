@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var hasManagePermissions = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new AttachmentTypeGridSpec(hasManagePermissions);
-            var attachmentTypes = HttpRequestStorage.DatabaseEntities.AttachmentTypes.ToList().OrderBy(x => x.AttachmentRelationshipTypeName).ToList();
+            var attachmentTypes = HttpRequestStorage.DatabaseEntities.AttachmentTypes.ToList().OrderBy(x => x.AttachmentTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AttachmentType>(attachmentTypes, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(attachmentType, attachmentTypeFileResourceMimeTypes, attachmentTypeTaxonomyTrunks);
             
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {attachmentType.AttachmentRelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {attachmentType.AttachmentTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteAttachmentType(AttachmentTypePrimaryKey attachmentTypePrimaryKey)
         {
             var attachmentType = attachmentTypePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(attachmentType.AttachmentRelationshipTypeID);
+            var viewModel = new ConfirmDialogFormViewModel(attachmentType.AttachmentTypeID);
             return ViewDeleteAttachmentType(attachmentType, viewModel);
         }
 
@@ -137,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = attachmentType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} '{attachmentType.AttachmentRelationshipTypeName}'?"
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} '{attachmentType.AttachmentTypeName}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel(), SitkaRoute<AttachmentTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

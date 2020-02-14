@@ -11,14 +11,14 @@ namespace ProjectFirmaModels.Models
 
         public static bool IsAttachmentTypeNameUnique(this List<AttachmentType> existingAttachmentTypes, string contactRelationshipTypeName, int currentAttachmentTypeID)
         {
-            var contactRelationshipType = existingAttachmentTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeID != currentAttachmentTypeID && String.Equals(x.AttachmentRelationshipTypeName, contactRelationshipTypeName, StringComparison.InvariantCultureIgnoreCase));
+            var contactRelationshipType = existingAttachmentTypes.SingleOrDefault(x => x.AttachmentTypeID != currentAttachmentTypeID && String.Equals(x.AttachmentTypeName, contactRelationshipTypeName, StringComparison.InvariantCultureIgnoreCase));
             return contactRelationshipType == null;
         }
 
         public static string GetDeleteUrl(this AttachmentType contactType)
         {
             return SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(c =>
-                c.DeleteAttachmentType(contactType.AttachmentRelationshipTypeID));
+                c.DeleteAttachmentType(contactType.AttachmentTypeID));
         }
     }
 }

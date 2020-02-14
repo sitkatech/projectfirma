@@ -49,11 +49,11 @@ namespace ProjectFirma.Web.Models
 
         public static List<EntityAttachment> CreateFromProjectAttachment(IEnumerable<ProjectAttachment> projectAttachments)
         {
-            return projectAttachments.Select(x => new EntityAttachment(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, x.AttachmentRelationshipType, null, x.DisplayName, x.Description)).ToList();
+            return projectAttachments.Select(x => new EntityAttachment(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, x.AttachmentType, null, x.DisplayName, x.Description)).ToList();
         }
         public static List<EntityAttachment> CreateFromProjectAttachment(IEnumerable<ProjectAttachmentUpdate> projectAttachments)
         {
-            return projectAttachments.Select(x => new EntityAttachment(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, x.AttachmentRelationshipType, null, x.DisplayName, x.Description)).ToList();
+            return projectAttachments.Select(x => new EntityAttachment(x.GetDeleteUrl(), x.GetEditUrl(), x.Attachment, x.AttachmentType, null, x.DisplayName, x.Description)).ToList();
         }
 
     }

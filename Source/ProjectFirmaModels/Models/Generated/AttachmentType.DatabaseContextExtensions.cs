@@ -12,10 +12,10 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AttachmentType GetAttachmentType(this IQueryable<AttachmentType> attachmentTypes, int attachmentRelationshipTypeID)
+        public static AttachmentType GetAttachmentType(this IQueryable<AttachmentType> attachmentTypes, int attachmentTypeID)
         {
-            var attachmentType = attachmentTypes.SingleOrDefault(x => x.AttachmentRelationshipTypeID == attachmentRelationshipTypeID);
-            Check.RequireNotNullThrowNotFound(attachmentType, "AttachmentType", attachmentRelationshipTypeID);
+            var attachmentType = attachmentTypes.SingleOrDefault(x => x.AttachmentTypeID == attachmentTypeID);
+            Check.RequireNotNullThrowNotFound(attachmentType, "AttachmentType", attachmentTypeID);
             return attachmentType;
         }
 

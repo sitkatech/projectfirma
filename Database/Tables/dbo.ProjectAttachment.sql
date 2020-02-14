@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[ProjectAttachment](
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
 	[AttachmentID] [int] NOT NULL,
-	[AttachmentRelationshipTypeID] [int] NOT NULL,
+	[AttachmentTypeID] [int] NOT NULL,
 	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Description] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectAttachment_ProjectAttachmentID] PRIMARY KEY CLUSTERED 
@@ -22,13 +22,13 @@ CREATE TABLE [dbo].[ProjectAttachment](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentRelationshipTypeID])
-REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID])
+ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentTypeID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID])
 GO
 ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID]
 GO
-ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentRelationshipTypeID], [TenantID])
-REFERENCES [dbo].[AttachmentType] ([AttachmentRelationshipTypeID], [TenantID])
+ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID], [TenantID])
 GO
 ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
 GO

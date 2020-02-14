@@ -14,14 +14,14 @@ namespace ProjectFirmaModels.Models
         public AttachmentTypeTaxonomyTrunkConfiguration(string schema)
         {
             ToTable("AttachmentTypeTaxonomyTrunk", schema);
-            HasKey(x => x.AttachmentRelationshipTypeTaxonomyTrunkID);
-            Property(x => x.AttachmentRelationshipTypeTaxonomyTrunkID).HasColumnName(@"AttachmentRelationshipTypeTaxonomyTrunkID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.AttachmentTypeTaxonomyTrunkID);
+            Property(x => x.AttachmentTypeTaxonomyTrunkID).HasColumnName(@"AttachmentTypeTaxonomyTrunkID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
-            Property(x => x.AttachmentRelationshipTypeID).HasColumnName(@"AttachmentRelationshipTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.AttachmentTypeID).HasColumnName(@"AttachmentTypeID").HasColumnType("int").IsRequired();
             Property(x => x.TaxonomyTrunkID).HasColumnName(@"TaxonomyTrunkID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.AttachmentRelationshipType).WithMany(b => b.AttachmentTypeTaxonomyTrunks).HasForeignKey(c => c.AttachmentRelationshipTypeID).WillCascadeOnDelete(false); // FK_AttachmentTypeTaxonomyTrunk_AttachmentType_AttachmentRelationshipTypeID
+            HasRequired(a => a.AttachmentType).WithMany(b => b.AttachmentTypeTaxonomyTrunks).HasForeignKey(c => c.AttachmentTypeID).WillCascadeOnDelete(false); // FK_AttachmentTypeTaxonomyTrunk_AttachmentType_AttachmentTypeID
             HasRequired(a => a.TaxonomyTrunk).WithMany(b => b.AttachmentTypeTaxonomyTrunks).HasForeignKey(c => c.TaxonomyTrunkID).WillCascadeOnDelete(false); // FK_AttachmentTypeTaxonomyTrunk_TaxonomyTrunk_TaxonomyTrunkID
         }
     }

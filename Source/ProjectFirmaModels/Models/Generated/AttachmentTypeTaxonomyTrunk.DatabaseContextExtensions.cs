@@ -12,10 +12,10 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AttachmentTypeTaxonomyTrunk GetAttachmentTypeTaxonomyTrunk(this IQueryable<AttachmentTypeTaxonomyTrunk> attachmentTypeTaxonomyTrunks, int attachmentRelationshipTypeTaxonomyTrunkID)
+        public static AttachmentTypeTaxonomyTrunk GetAttachmentTypeTaxonomyTrunk(this IQueryable<AttachmentTypeTaxonomyTrunk> attachmentTypeTaxonomyTrunks, int attachmentTypeTaxonomyTrunkID)
         {
-            var attachmentTypeTaxonomyTrunk = attachmentTypeTaxonomyTrunks.SingleOrDefault(x => x.AttachmentRelationshipTypeTaxonomyTrunkID == attachmentRelationshipTypeTaxonomyTrunkID);
-            Check.RequireNotNullThrowNotFound(attachmentTypeTaxonomyTrunk, "AttachmentTypeTaxonomyTrunk", attachmentRelationshipTypeTaxonomyTrunkID);
+            var attachmentTypeTaxonomyTrunk = attachmentTypeTaxonomyTrunks.SingleOrDefault(x => x.AttachmentTypeTaxonomyTrunkID == attachmentTypeTaxonomyTrunkID);
+            Check.RequireNotNullThrowNotFound(attachmentTypeTaxonomyTrunk, "AttachmentTypeTaxonomyTrunk", attachmentTypeTaxonomyTrunkID);
             return attachmentTypeTaxonomyTrunk;
         }
 
