@@ -49,21 +49,21 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             // Public properties
             ProjectName = Project.ProjectName;
             ProjectUrl = Project.GetDetailUrl();
-            PrimaryContactOrganization = new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization());
+            PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
             
             ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
             NumberOfReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Count;
-            ProjectPrimaryContact = new ReportTemplatePersonModel(Project.GetPrimaryContact());
+            ProjectPrimaryContact = Project.GetPrimaryContact() != null ? new ReportTemplatePersonModel(Project.GetPrimaryContact()) : null;
             PlanningDesignStartYear = ProjectModelExtensions.GetPlanningDesignStartYear(Project);
             ImplementationStartYear = ProjectModelExtensions.GetImplementationStartYear(Project);
             CompletionYear = ProjectModelExtensions.GetCompletionYear(Project);
-            PrimaryTaxonomyLeaf = Project.TaxonomyLeaf.GetDisplayName();
+            PrimaryTaxonomyLeaf = Project.TaxonomyLeaf?.GetDisplayName();
             NumberOfReportedExpenditures = Project.ProjectFundingSourceExpenditures.Count;
-            FundingType = Project.FundingType.FundingTypeDisplayName;
-            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency();
+            FundingType = Project.FundingType?.FundingTypeDisplayName;
+            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType()?.ToStringCurrency();
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
             TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
-            NoFundingSourceIdentified = Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency();
+            NoFundingSourceIdentified = Project.GetNoFundingSourceIdentifiedAmount()?.ToStringCurrency();
             ProjectDescription = Project.ProjectDescription;
             ProjectID = Project.ProjectID;
             ProjectLastUpdated = Project.LastUpdatedDate;
