@@ -63,10 +63,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNew(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            var attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+            var attachmentTypes = project.GetValidAttachmentTypesForForms();
 
-            Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
-            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
+            Check.Assert(attachmentTypes != null, "Cannot find any valid attachment relationship types for this project.");
+            var viewData = new NewProjectAttachmentViewData(attachmentTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 

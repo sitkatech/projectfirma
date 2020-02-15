@@ -8,7 +8,7 @@
 
 
 
-@if (MultiTenantHelpers.HasAttachmentRelationshipTypeConfigured())
+@if (MultiTenantHelpers.HasAttachmentTypeConfigured())
 {
     <div class="pull-right">
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Attachment", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddAttachmentUrl, "Upload New Attachment", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.CanEditAttachments)
@@ -19,9 +19,9 @@ else
     <div class="row">
         <div class="alert alert-danger" role="alert">
             There are no @FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized() configured.
-            @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentRelationshipTypesIndexUrl))
+            @if (!string.IsNullOrEmpty(ViewDataTyped.AttachmentTypesIndexUrl))
             {
-                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentRelationshipTypesIndexUrl" title="@FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
+                <span>You may configure them <a target="_blank" href="@ViewDataTyped.AttachmentTypesIndexUrl" title="@FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel() Index page">here</a>.</span>
             }
             else
             {
@@ -34,20 +34,20 @@ else
 
 
 
-@foreach (var attachmentRelationshipType in ViewDataTyped.AttachmentRelationshipTypes)
+@foreach (var attachmentType in ViewDataTyped.AttachmentTypes)
 {
-    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentRelationshipType.AttachmentRelationshipTypeID == attachmentRelationshipType.AttachmentRelationshipTypeID).ToList();
+    var thisAttachmentList = ViewDataTyped.Attachments.Where(x => x.AttachmentType.AttachmentTypeID == attachmentType.AttachmentTypeID).ToList();
      
     <div class="row">
         <div class="col-sm-3">
-            <p><strong>@attachmentRelationshipType.AttachmentRelationshipTypeName</strong></p>
+            <p><strong>@attachmentType.AttachmentTypeName</strong></p>
             <div class="help-block">
-                <p class="smallExplanationText">@attachmentRelationshipType.AttachmentRelationshipTypeDescription</p>
-                @if (attachmentRelationshipType.NumberOfAllowedAttachments != null)
+                <p class="smallExplanationText">@attachmentType.AttachmentTypeDescription</p>
+                @if (attachmentType.NumberOfAllowedAttachments != null)
                 {
-                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentRelationshipType.NumberOfAllowedAttachments </span></p>
+                    <p class="smallExplanationText"><strong>Maximum File Uploads:</strong> <span>@attachmentType.NumberOfAllowedAttachments </span></p>
 
-                    if (thisAttachmentList.Count >= attachmentRelationshipType.NumberOfAllowedAttachments)
+                    if (thisAttachmentList.Count >= attachmentType.NumberOfAllowedAttachments)
                     {
                         <div class="alert alert-warning smallExplanationText">You have reached the maximum number of files for this type. To upload another of this type, you will need to delete an existing file.</div>
                     }
@@ -92,7 +92,7 @@ else
 
             @if (!thisAttachmentList.Any())
             {
-                <p class="systemText">No attachments associated with the <strong>'@(attachmentRelationshipType.AttachmentRelationshipTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
+                <p class="systemText">No attachments associated with the <strong>'@(attachmentType.AttachmentTypeName)'</strong> @(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()).</p>
             }
         </div>
     </div>

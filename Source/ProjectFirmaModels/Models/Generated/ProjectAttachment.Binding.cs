@@ -30,12 +30,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectAttachment(int projectAttachmentID, int projectID, int attachmentID, int attachmentRelationshipTypeID, string displayName, string description) : this()
+        public ProjectAttachment(int projectAttachmentID, int projectID, int attachmentID, int attachmentTypeID, string displayName, string description) : this()
         {
             this.ProjectAttachmentID = projectAttachmentID;
             this.ProjectID = projectID;
             this.AttachmentID = attachmentID;
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.DisplayName = displayName;
             this.Description = description;
         }
@@ -43,21 +43,21 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectAttachment(int projectID, int attachmentID, int attachmentRelationshipTypeID, string displayName) : this()
+        public ProjectAttachment(int projectID, int attachmentID, int attachmentTypeID, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
             this.AttachmentID = attachmentID;
-            this.AttachmentRelationshipTypeID = attachmentRelationshipTypeID;
+            this.AttachmentTypeID = attachmentTypeID;
             this.DisplayName = displayName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectAttachment(Project project, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType, string displayName) : this()
+        public ProjectAttachment(Project project, FileResource attachment, AttachmentType attachmentType, string displayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectAttachmentID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,18 +67,18 @@ namespace ProjectFirmaModels.Models
             this.AttachmentID = attachment.FileResourceID;
             this.Attachment = attachment;
             attachment.ProjectAttachmentsWhereYouAreTheAttachment.Add(this);
-            this.AttachmentRelationshipTypeID = attachmentRelationshipType.AttachmentRelationshipTypeID;
-            this.AttachmentRelationshipType = attachmentRelationshipType;
-            attachmentRelationshipType.ProjectAttachments.Add(this);
+            this.AttachmentTypeID = attachmentType.AttachmentTypeID;
+            this.AttachmentType = attachmentType;
+            attachmentType.ProjectAttachments.Add(this);
             this.DisplayName = displayName;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectAttachment CreateNewBlank(Project project, FileResource attachment, AttachmentRelationshipType attachmentRelationshipType)
+        public static ProjectAttachment CreateNewBlank(Project project, FileResource attachment, AttachmentType attachmentType)
         {
-            return new ProjectAttachment(project, attachment, attachmentRelationshipType, default(string));
+            return new ProjectAttachment(project, attachment, attachmentType, default(string));
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int AttachmentID { get; set; }
-        public int AttachmentRelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         [NotMapped]
@@ -127,7 +127,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual FileResource Attachment { get; set; }
-        public virtual AttachmentRelationshipType AttachmentRelationshipType { get; set; }
+        public virtual AttachmentType AttachmentType { get; set; }
 
         public static class FieldLengths
         {

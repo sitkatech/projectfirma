@@ -64,13 +64,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             var projectAttachment = projectAttachmentPrimaryKey.EntityObject;
 
             // We want to validate that the DisplayName is unique per project & attachment type. A project can have duplicate display names as long as they are different attachment types
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ParentID && x.ProjectAttachmentID != AttachmentID && x.AttachmentRelationshipTypeID == projectAttachment.AttachmentRelationshipTypeID)
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Where(x => x.ProjectID == ParentID && x.ProjectAttachmentID != AttachmentID && x.AttachmentTypeID == projectAttachment.AttachmentTypeID)
                 .Any(x => x.DisplayName.ToLower() == DisplayName.ToLower()))
             {
-                AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey = projectAttachment.AttachmentRelationshipTypeID;
-                var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+                AttachmentTypePrimaryKey attachmentTypePrimaryKey = projectAttachment.AttachmentTypeID;
+                var attachmentType = attachmentTypePrimaryKey.EntityObject;
 
-                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentRelationshipType.AttachmentRelationshipTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m => m.DisplayName));
+                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentType.AttachmentTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m => m.DisplayName));
             }
 
             return validationResults;

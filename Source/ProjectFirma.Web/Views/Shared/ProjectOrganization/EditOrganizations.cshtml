@@ -89,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
                     @*Selectpicker*@
                     <div class="col-md-12">
                         <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" id="todo{{AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID],AngularViewData.PrimaryContactRelationshipTypeSimple)" data-width="100%" data-live-search="true" data-size="8">
+                            <select class="selectpicker" id="todo{{AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationAttachmentTypeID]" ng-change="selectionChanged(selectedOrganizationID[AngularViewData.PrimaryContactRelationshipTypeSimple.OrganizationAttachmentTypeID],AngularViewData.PrimaryContactRelationshipTypeSimple)" data-width="100%" data-live-search="true" data-size="8">
                                 <option value="" disabled selected ng-bind="dropdownDefaultOption(AngularViewData.PrimaryContactRelationshipTypeSimple)">Select one</option>
                                 <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(AngularViewData.PrimaryContactRelationshipTypeSimple)"
                                         ng-bind="organization.OrganizationName"
@@ -134,14 +134,14 @@ Source code is available upon request via <support@sitkatech.com>.
                     @*Selectpicker*@
                     <div class="col-md-12">
                         <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
+                            <select class="selectpicker" id="todo{{relationshipType.OrganizationRelationshipTypeID}}" ng-model="selectedOrganizationID[relationshipType.OrganizationAttachmentTypeID]" ng-change="selectionChanged(selectedOrganizationID[relationshipType.OrganizationAttachmentTypeID],relationshipType)" data-width="100%" data-live-search="true" data-size="8">
                                 <option value="" disabled selected ng-bind="dropdownDefaultOption(relationshipType)">Select one</option>
                                 <option ng-repeat="organization in getAvailableOrganizationsForRelationshipType(relationshipType)"
                                         ng-bind="organization.OrganizationName"
                                         ng-value="organization.OrganizationID"
                                         ng-selected="isOptionSelected(organization,relationshipType)"></option>
                             </select>
-                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID], relationshipType.OrganizationRelationshipTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.OrganizationRelationshipTypeID]" ng-show="!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="addProjectOrganizationSimple(selectedOrganizationID[relationshipType.OrganizationAttachmentTypeID], relationshipType.OrganizationAttachmentTypeID)" ng-disabled="!selectedOrganizationID[relationshipType.OrganizationAttachmentTypeID]" ng-show="!relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Add
                             </button>
@@ -155,11 +155,11 @@ Source code is available upon request via <support@sitkatech.com>.
                         </p>
                     </div>                   
                 </div>
-                <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.OrganizationRelationshipTypeID)" ng-hide="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
+                <div class="row" ng-repeat="organization in chosenOrganizationsForRelationshipType(relationshipType.OrganizationAttachmentTypeID)" ng-hide="relationshipType.OrganizationRelationshipTypeCanOnlyBeRelatedOnceToAProject" style="margin-top: 5px;">
                     @*Selections*@
                     <div class="col-md-12">
                         <span>
-                            <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.OrganizationRelationshipTypeID); $event.preventDefault();">
+                            <a href="#" ng-click="removeProjectOrganizationSimple(organization.OrganizationID, relationshipType.OrganizationAttachmentTypeID); $event.preventDefault();">
                                 <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.ProjectOrganizationRelationshipType.ToType().GetFieldDefinitionLabel()"></i>
                             </a>
                         </span><span ng-bind="organization.OrganizationName"></span>
@@ -174,7 +174,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <input type="hidden" name="@Html.NameFor(x => x.PrimaryContactPersonID)" value="{{AngularModel.PrimaryContactPersonID}}" />
         <div ng-repeat="projectOrganization in AngularModel.ProjectOrganizationSimples">
             <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationRelationshipTypeID}}" />
+            <input type="hidden" name="@Html.NameFor(x => x.ProjectOrganizationSimples[0].OrganizationRelationshipTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectOrganization.OrganizationAttachmentTypeID}}" />
         </div>
     }
 </div>
