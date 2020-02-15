@@ -2,15 +2,6 @@
 
 -- New table for ReportTemplate
 
-USE [ProjectFirma]
-GO
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[ReportTemplate](
 	[ReportTemplateID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
@@ -41,6 +32,14 @@ REFERENCES [dbo].[FileResource] ([FileResourceID], [TenantID])
 GO
 
 ALTER TABLE [dbo].[ReportTemplate] CHECK CONSTRAINT [FK_ReportTemplate_FileResource_FileResourceID_TenantID]
+GO
+
+
+ALTER TABLE [dbo].[ReportTemplate]  WITH CHECK ADD  CONSTRAINT [FK_ReportTemplate_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+
+ALTER TABLE [dbo].[ReportTemplate] CHECK CONSTRAINT [FK_ReportTemplate_Tenant_TenantID]
 GO
 
 USE [ProjectFirma]

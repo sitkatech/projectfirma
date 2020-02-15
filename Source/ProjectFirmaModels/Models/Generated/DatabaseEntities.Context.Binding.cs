@@ -43,9 +43,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentGoalConfiguration());
             modelBuilder.Configurations.Add(new AssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
-            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeConfiguration());
-            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeFileResourceMimeTypeConfiguration());
-            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeTaxonomyTrunkConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentTypeFileResourceMimeTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentTypeTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
@@ -185,12 +185,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AssessmentQuestion> AssessmentQuestions { get { return AllAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentSubGoal> AllAssessmentSubGoals { get; set; }
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<AttachmentRelationshipTypeFileResourceMimeType> AllAttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
-        public virtual IQueryable<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get { return AllAttachmentRelationshipTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<AttachmentRelationshipType> AllAttachmentRelationshipTypes { get; set; }
-        public virtual IQueryable<AttachmentRelationshipType> AttachmentRelationshipTypes { get { return AllAttachmentRelationshipTypes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<AttachmentRelationshipTypeTaxonomyTrunk> AllAttachmentRelationshipTypeTaxonomyTrunks { get; set; }
-        public virtual IQueryable<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get { return AllAttachmentRelationshipTypeTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentTypeFileResourceMimeType> AllAttachmentTypeFileResourceMimeTypes { get; set; }
+        public virtual IQueryable<AttachmentTypeFileResourceMimeType> AttachmentTypeFileResourceMimeTypes { get { return AllAttachmentTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentType> AllAttachmentTypes { get; set; }
+        public virtual IQueryable<AttachmentType> AttachmentTypes { get { return AllAttachmentTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentTypeTaxonomyTrunk> AllAttachmentTypeTaxonomyTrunks { get; set; }
+        public virtual IQueryable<AttachmentTypeTaxonomyTrunk> AttachmentTypeTaxonomyTrunks { get { return AllAttachmentTypeTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
@@ -467,14 +467,14 @@ namespace ProjectFirmaModels.Models
                 case "AssessmentSubGoal":
                     return AssessmentSubGoals.GetAssessmentSubGoal(primaryKey);
 
-                case "AttachmentRelationshipTypeFileResourceMimeType":
-                    return AttachmentRelationshipTypeFileResourceMimeTypes.GetAttachmentRelationshipTypeFileResourceMimeType(primaryKey);
+                case "AttachmentTypeFileResourceMimeType":
+                    return AttachmentTypeFileResourceMimeTypes.GetAttachmentTypeFileResourceMimeType(primaryKey);
 
-                case "AttachmentRelationshipType":
-                    return AttachmentRelationshipTypes.GetAttachmentRelationshipType(primaryKey);
+                case "AttachmentType":
+                    return AttachmentTypes.GetAttachmentType(primaryKey);
 
-                case "AttachmentRelationshipTypeTaxonomyTrunk":
-                    return AttachmentRelationshipTypeTaxonomyTrunks.GetAttachmentRelationshipTypeTaxonomyTrunk(primaryKey);
+                case "AttachmentTypeTaxonomyTrunk":
+                    return AttachmentTypeTaxonomyTrunks.GetAttachmentTypeTaxonomyTrunk(primaryKey);
 
                 case "AuditLogEventType":
                     var auditLogEventType = AuditLogEventType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

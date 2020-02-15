@@ -18,7 +18,6 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
 using ApprovalTests;
 using ApprovalTests.Reporters;
 using LtInfo.Common.DhtmlWrappers;
@@ -26,6 +25,7 @@ using LtInfo.Common.ModalDialog;
 using NUnit.Framework;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views
 {
@@ -96,7 +96,7 @@ namespace ProjectFirma.Web.Views
         public void BuildDhtmlxGridHeaderTest()
         {
             var gridSpec = new TestGridSpec();
-            var result = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithFooterUrl, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithoutFooterUrl);
+            var result = DhtmlxGridHtmlHelpers.BuildDhtmlxGridHeader(gridSpec, GridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 
@@ -131,7 +131,7 @@ namespace ProjectFirma.Web.Views
         public void CreateFilteredExcelDownloadIconHtmlTest()
         {
             const string gridName = "testGridName";
-            var result = DhtmlxGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, true, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithFooterUrl, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadWithoutFooterUrl);
+            var result = DhtmlxGridHtmlHelpers.CreateFilteredExcelDownloadIconHtml(gridName, FirmaDhtmlxGridHtmlHelpers.ExcelDownloadUrl);
             Approvals.Verify(result);
         }
 

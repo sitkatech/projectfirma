@@ -110,13 +110,13 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        // All active projects for custom Full grid
+        // All projects for report center grid grid. This includes active projects and active proposals
         [ProjectsViewFullListFeature]
-        public GridJsonNetJObjectResult<Project> AllActiveProjectsCustomGridReportCenterJsonData()
+        public GridJsonNetJObjectResult<Project> AllActiveProjectsAndProposalsCustomGridReportCenterJsonData()
         {
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.ReportCenter.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.ReportCenter.ToEnum);
-            var projects = GetProjectEnumerableWithIncludesForPerformance().ToList().GetActiveProjects();
+            var projects = GetProjectEnumerableWithIncludesForPerformance().ToList().GetActiveProjectsAndProposals(true);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }

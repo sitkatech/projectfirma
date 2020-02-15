@@ -25,3 +25,9 @@ INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefiniti
             (341, N'<p>Enabling Project Types adds support for additional project types such as "Administrative" projects. By default without this enabled, all projects are of the type "Normal". This also enables the capability of Custom Attribute Groups to be assigned to these Project Types.</p>')
 
 GO
+
+
+INSERT INTO FieldDefinitionData (TenantID, FieldDefinitionID, FieldDefinitionDataValue, FieldDefinitionLabel)
+values (11, 340, '<p>Near Term Action Type</p>', 'Near Term Action Type')
+
+

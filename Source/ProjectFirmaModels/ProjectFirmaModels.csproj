@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProjectFirmaModels</RootNamespace>
     <AssemblyName>ProjectFirmaModels</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -19,18 +19,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
@@ -47,18 +49,18 @@
     <Compile Include="Models\Generated\AssessmentSubGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentSubGoalConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentSubGoalPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipType.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentType.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeType.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunk.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunkPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AuditLogConfiguration.Binding.cs" />
@@ -672,9 +674,9 @@
     <Compile Include="Models\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
     <Compile Include="Models\FirmaSession.cs" />
     <Compile Include="Models\FirmaSessionExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
-    <Compile Include="Models\AttachmentRelationshipType.cs" />
+    <Compile Include="Models\AttachmentTypeTaxonomyTrunk.cs" />
+    <Compile Include="Models\AttachmentTypeFileResourceMimeType.cs" />
+    <Compile Include="Models\AttachmentType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
@@ -839,7 +841,6 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
