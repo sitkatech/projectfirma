@@ -22,15 +22,15 @@ CREATE TABLE [dbo].[ProjectAttachment](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentTypeID])
+ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentType_AttachmentTypeID] FOREIGN KEY([AttachmentTypeID])
 REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID])
 GO
-ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID]
+ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentType_AttachmentTypeID]
 GO
-ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
+ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_AttachmentType_AttachmentTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
 REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
+ALTER TABLE [dbo].[ProjectAttachment] CHECK CONSTRAINT [FK_ProjectAttachment_AttachmentType_AttachmentTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectAttachment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachment_FileResource_AttachmentID_FileResourceID] FOREIGN KEY([AttachmentID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])

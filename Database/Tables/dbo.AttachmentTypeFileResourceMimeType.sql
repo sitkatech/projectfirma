@@ -14,22 +14,22 @@ CREATE TABLE [dbo].[AttachmentTypeFileResourceMimeType](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentTypeID])
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_AttachmentType_AttachmentTypeID] FOREIGN KEY([AttachmentTypeID])
 REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID])
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID]
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_AttachmentType_AttachmentTypeID]
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_AttachmentType_AttachmentTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
 REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID], [TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_AttachmentType_AttachmentTypeID_TenantID]
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_FileResourceMimeType_FileResourceMimeTypeID] FOREIGN KEY([FileResourceMimeTypeID])
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_FileResourceMimeType_FileResourceMimeTypeID] FOREIGN KEY([FileResourceMimeTypeID])
 REFERENCES [dbo].[FileResourceMimeType] ([FileResourceMimeTypeID])
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_FileResourceMimeType_FileResourceMimeTypeID]
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_FileResourceMimeType_FileResourceMimeTypeID]
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentRelationshipTypeFileResourceMimeType_Tenant_TenantID]
+ALTER TABLE [dbo].[AttachmentTypeFileResourceMimeType] CHECK CONSTRAINT [FK_AttachmentTypeFileResourceMimeType_Tenant_TenantID]

@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[AttachmentType](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[AttachmentType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID] FOREIGN KEY([TenantID])
+ALTER TABLE [dbo].[AttachmentType]  WITH CHECK ADD  CONSTRAINT [FK_AttachmentType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
-ALTER TABLE [dbo].[AttachmentType] CHECK CONSTRAINT [FK_AttachmentRelationshipType_Tenant_TenantID]
+ALTER TABLE [dbo].[AttachmentType] CHECK CONSTRAINT [FK_AttachmentType_Tenant_TenantID]
