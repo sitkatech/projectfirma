@@ -59,11 +59,11 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             CompletionYear = ProjectModelExtensions.GetCompletionYear(Project);
             PrimaryTaxonomyLeaf = Project.TaxonomyLeaf?.GetDisplayName();
             NumberOfReportedExpenditures = Project.ProjectFundingSourceExpenditures.Count;
-            FundingType = Project.FundingType.FundingTypeDisplayName;
-            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency();
+            FundingType = Project.FundingType?.FundingTypeDisplayName;
+            EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType()?.ToStringCurrency();
             SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
             TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
-            NoFundingSourceIdentified = Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency();
+            NoFundingSourceIdentified = Project.GetNoFundingSourceIdentifiedAmount()?.ToStringCurrency();
             ProjectDescription = Project.ProjectDescription;
             ProjectID = Project.ProjectID;
             ProjectLastUpdated = Project.LastUpdatedDate;
