@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [AttachmentRelationshipTypeManageFeature]
+        [AttachmentTypeManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult AddGeospatialAreaToPerformanceMeasure(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey, AddGeospatialAreaToPerformanceMeasureViewModel viewModel)
         {

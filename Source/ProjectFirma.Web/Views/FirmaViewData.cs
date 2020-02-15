@@ -272,7 +272,7 @@ namespace ProjectFirma.Web.Views
             }
 
             // Group 3 - Attachments
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized(), "Group3"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized(), "Group3"));
 
             // Group 4 - External Map Layers
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExternalMapLayerController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));

@@ -1153,12 +1153,12 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
 
-            var attachmentRelationshipTypes = project.GetAllAttachmentRelationshipTypes().ToList();
+            var attachmentTypes = project.GetAllAttachmentTypes().ToList();
             var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
                                                                                         EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
                                                                                         canEditAttachmentsAndNotes,
-                                                                                        attachmentRelationshipTypes,
+                                                                                        attachmentTypes,
 
                                                                                         CurrentFirmaSession);
             var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
@@ -1312,10 +1312,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+            IEnumerable<AttachmentType> attachmentTypes = project.GetValidAttachmentTypesForForms();
 
-            Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
-            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
+            Check.Assert(attachmentTypes != null, "Cannot find any valid attachment relationship types for this project.");
+            var viewData = new NewProjectAttachmentViewData(attachmentTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 

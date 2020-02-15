@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="AttachmentRelationshipTypeGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="AttachmentTypeGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectAttachment
             Add($"Attachment Name", a => UrlTemplate.MakeHrefString(a.Attachment.GetFileResourceUrl(), a.DisplayName + " " + BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-download"), new Dictionary<string, string> { { "target", "_blank" } }), 240);
             Add($"Attachment Description", a => a.Description, 240);
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Name", a => UrlTemplate.MakeHrefString(a.Project.GetDetailUrl(), a.Project.ProjectName), 240, DhtmlxGridColumnFilterType.Text);
-            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentRelationshipType.AttachmentRelationshipTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}", a => a.AttachmentType.AttachmentTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"File Type", a => a.Attachment.FileResourceMimeType.FileResourceMimeTypeName, 240, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }

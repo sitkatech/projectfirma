@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.AttachmentType)]
-        public int AttachmentRelationshipTypeID { get; set; }
+        public int AttachmentTypeID { get; set; }
 
         [Required]
         [DisplayName("Display Name")]
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             CheckForNotNullProjectId();
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
+            var projectAttachment = new ProjectFirmaModels.Models.ProjectAttachment(project.ProjectID, fileResource.FileResourceID, AttachmentTypeID, DisplayName)
             {
                 Description = Description
             };
@@ -66,12 +66,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             FileResourceModelExtensions.ValidateFileSize(UploadedFile, validationResults, "File");
 
             // Attachments must have unique display names at the project and attachment type level
-            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Any(x => x.ProjectID == ProjectID && x.DisplayName == DisplayName && x.AttachmentRelationshipTypeID == AttachmentRelationshipTypeID))
+            if (HttpRequestStorage.DatabaseEntities.ProjectAttachments.Any(x => x.ProjectID == ProjectID && x.DisplayName == DisplayName && x.AttachmentTypeID == AttachmentTypeID))
             {
-                AttachmentRelationshipTypePrimaryKey attachmentRelationshipTypePrimaryKey = AttachmentRelationshipTypeID;
-                var attachmentRelationshipType = attachmentRelationshipTypePrimaryKey.EntityObject;
+                AttachmentTypePrimaryKey attachmentTypePrimaryKey = AttachmentTypeID;
+                var attachmentType = attachmentTypePrimaryKey.EntityObject;
 
-                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentRelationshipType.AttachmentRelationshipTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m=>m.DisplayName));
+                validationResults.Add(new SitkaValidationResult<NewProjectAttachmentViewModel, string>($"There is already an attachment with the display name \"{DisplayName}\" under the {attachmentType.AttachmentTypeName} attachment type for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}.", m=>m.DisplayName));
             }
 
             return validationResults;

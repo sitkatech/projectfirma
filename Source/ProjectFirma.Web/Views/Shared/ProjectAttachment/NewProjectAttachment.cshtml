@@ -42,16 +42,16 @@
             @Html.HiddenFor(m => m.ProjectUpdateBatchID)
             <div class="form-group">
                 <div class="col-xs-12 col-sm-3 control-label">
-                    @Html.LabelWithSugarFor(m => m.AttachmentRelationshipTypeID)
+                    @Html.LabelWithSugarFor(m => m.AttachmentTypeID)
                 </div>
                 <div class="col-xs-12 col-sm-9">
-                    <select class="attachmentDropdown form-control" id="@Html.IdFor(m => m.AttachmentRelationshipTypeID)" name="@Html.NameFor(m => m.AttachmentRelationshipTypeID)" ng-model="AttachmentRelationshipTypeID" ng-change="attachmentRelationshipTypeChange(AttachmentRelationshipTypeID)" ng-required="true" data-width="100%">
-                        <option ng-repeat="attachmentRelationshipType in getAttachmentRelationshipTypesForDropdown()"
-                                ng-bind="attachmentRelationshipType.AttachmentRelationshipTypeName"
-                                ng-value="attachmentRelationshipType.AttachmentRelationshipTypeID"
-                                ng-selected="isAttachmentRelationshipTypeSelected(attachmentRelationshipType.AttachmentRelationshipTypeID)"></option>
+                    <select class="attachmentDropdown form-control" id="@Html.IdFor(m => m.AttachmentTypeID)" name="@Html.NameFor(m => m.AttachmentTypeID)" ng-model="AttachmentTypeID" ng-change="attachmentTypeChange(AttachmentTypeID)" ng-required="true" data-width="100%">
+                        <option ng-repeat="attachmentType in getAttachmentTypesForDropdown()"
+                                ng-bind="attachmentType.AttachmentTypeName"
+                                ng-value="attachmentType.AttachmentTypeID"
+                                ng-selected="isAttachmentTypeSelected(attachmentType.AttachmentTypeID)"></option>
                     </select>
-                    <div ng-messages="attachmentForm.AttachmentRelationshipTypeID.$error" ng-show="attachmentForm.AttachmentRelationshipTypeID.$touched" role="alert">
+                    <div ng-messages="attachmentForm.AttachmentTypeID.$error" ng-show="attachmentForm.AttachmentTypeID.$touched" role="alert">
                         <div class="alert alert-danger" ng-message="required">Attachment Relationship Type is a required field</div>
                     </div>
                 </div>

@@ -779,14 +779,14 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this Project project)
+        public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this Project project)
         {
-            return project.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
+            return project.GetAllAttachmentTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this Project project)
+        public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
         public static decimal GetSecuredFundingForAllProjects()
