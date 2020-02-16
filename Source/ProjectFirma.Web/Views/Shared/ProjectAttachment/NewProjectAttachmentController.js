@@ -22,48 +22,46 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.AngularModel.AttachmentRelationshipTypeID = $scope.AngularViewData.AllAttachmentRelationshipTypes[0].AttachmentRelationshipTypeID;
+    $scope.AngularModel.AttachmentTypeID = $scope.AngularViewData.AllAttachmentTypes[0].AttachmentTypeID;
 
-
-
-    $scope.isAttachmentRelationshipTypeSelected = function (attachmentRelationshipTypeID) {
-        return ($scope.AngularModel.AttachmentRelationshipTypeID === attachmentRelationshipTypeID);
+    $scope.isAttachmentTypeSelected = function (attachmentTypeID) {
+        return ($scope.AngularModel.AttachmentTypeID === attachmentTypeID);
     }
 
-    $scope.getAttachmentRelationshipTypesForDropdown = function () {
-        return $scope.AngularViewData.AllAttachmentRelationshipTypes;
+    $scope.getAttachmentTypesForDropdown = function () {
+        return $scope.AngularViewData.AllAttachmentTypes;
     }
 
-    $scope.attachmentRelationshipTypeChange = function (attachmentRelationshipTypeID) {
-        $scope.populateAllowedMimeTypes(attachmentRelationshipTypeID);
-        $scope.populateAllowedExtensions(attachmentRelationshipTypeID);
-        $scope.populateMaxFileSize(attachmentRelationshipTypeID);
+    $scope.attachmentTypeChange = function (attachmentTypeID) {
+        $scope.populateAllowedMimeTypes(attachmentTypeID);
+        $scope.populateAllowedExtensions(attachmentTypeID);
+        $scope.populateMaxFileSize(attachmentTypeID);
 
         //clear the model value and the input value to reset the form after a relationship type change
         $scope.UploadedFile = null;
         angular.element("input[type='file']").val(null);
     }
 
-    $scope.populateAllowedMimeTypes = function (attachmentRelationshipTypeID) {
-        //console.log("populateAllowedMimeTypes artID:" + attachmentRelationshipTypeID);
-        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+    $scope.populateAllowedMimeTypes = function (attachmentTypeID) {
+        //console.log("populateAllowedMimeTypes artID:" + attachmentTypeID);
+        var attachmentType = _.find($scope.AngularViewData.AllAttachmentTypes, function (art) { return art.AttachmentTypeID == attachmentTypeID });
 
-        $scope.AllowedMimeTypes = attachmentRelationshipType.AllowedFileResourceMimeTypes.join(",");
+        $scope.AllowedMimeTypes = attachmentType.AllowedFileResourceMimeTypes.join(",");
     }
 
-    $scope.populateAllowedExtensions = function (attachmentRelationshipTypeID) {
-        //console.log("populateAllowedExtensions artID:" + attachmentRelationshipTypeID);
-        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+    $scope.populateAllowedExtensions = function (attachmentTypeID) {
+        //console.log("populateAllowedExtensions artID:" + attachmentTypeID);
+        var attachmentType = _.find($scope.AngularViewData.AllAttachmentTypes, function (art) { return art.AttachmentTypeID == attachmentTypeID });
 
-        $scope.AllowedExtensions = attachmentRelationshipType.AllowedFileResourceExtensions.join(", ");
+        $scope.AllowedExtensions = attachmentType.AllowedFileResourceExtensions.join(", ");
     }
 
-    $scope.populateMaxFileSize = function (attachmentRelationshipTypeID) {
-        //console.log("populateMaxFileSize artID:" + attachmentRelationshipTypeID);
-        var attachmentRelationshipType = _.find($scope.AngularViewData.AllAttachmentRelationshipTypes, function (art) { return art.AttachmentRelationshipTypeID == attachmentRelationshipTypeID });
+    $scope.populateMaxFileSize = function (attachmentTypeID) {
+        //console.log("populateMaxFileSize artID:" + attachmentTypeID);
+        var attachmentType = _.find($scope.AngularViewData.AllAttachmentTypes, function (art) { return art.AttachmentTypeID == attachmentTypeID });
 
-        $scope.MaxFileSize = attachmentRelationshipType.MaxFileSize;
-        $scope.MaxFileSizeForDisplay = (attachmentRelationshipType.MaxFileSize / 1024 / 1000) + "MB";
+        $scope.MaxFileSize = attachmentType.MaxFileSize;
+        $scope.MaxFileSizeForDisplay = (attachmentType.MaxFileSize / 1024 / 1000) + "MB";
     }
 
 
@@ -80,8 +78,8 @@ angular.module("ProjectFirmaApp").controller("NewProjectAttachmentController", f
         }
     });
 
-    $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentRelationshipTypeID);
-    $scope.populateAllowedExtensions($scope.AngularModel.AttachmentRelationshipTypeID);
-    $scope.populateMaxFileSize($scope.AngularModel.AttachmentRelationshipTypeID);
+    $scope.populateAllowedMimeTypes($scope.AngularModel.AttachmentTypeID);
+    $scope.populateAllowedExtensions($scope.AngularModel.AttachmentTypeID);
+    $scope.populateMaxFileSize($scope.AngularModel.AttachmentTypeID);
 
 });

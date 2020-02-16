@@ -697,14 +697,14 @@ namespace ProjectFirma.Web.Models
                    areAllProjectGeospatialAreasValid;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
+        public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
+            return projectUpdateBatch.GetAllAttachmentTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this ProjectUpdateBatch projectUpdateBatch)
+        public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
 

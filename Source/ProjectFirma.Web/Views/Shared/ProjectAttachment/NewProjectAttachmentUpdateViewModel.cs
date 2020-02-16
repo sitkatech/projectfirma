@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             CheckForNotNullProjectUpdateBatchId();
             var fileResource = FileResourceModelExtensions.CreateNewFromHttpPostedFile(UploadedFile, currentFirmaSession.Person);
             HttpRequestStorage.DatabaseEntities.AllFileResources.Add(fileResource);
-            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResource.FileResourceID, AttachmentRelationshipTypeID, DisplayName)
+            var projectAttachment = new ProjectAttachmentUpdate(projectUpdateBatch.ProjectUpdateBatchID, fileResource.FileResourceID, AttachmentTypeID, DisplayName)
             {
                 Description = Description
             };

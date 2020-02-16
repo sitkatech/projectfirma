@@ -355,7 +355,7 @@ namespace ProjectFirma.Web.Views.Project
                 SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(x => x.New(project)), 
                 project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission,
-                project.GetAllAttachmentRelationshipTypes().ToList(),
+                project.GetAllAttachmentTypes().ToList(),
                 currentFirmaSession);
 
             ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;

@@ -23,11 +23,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
         public string AddAttachmentUrl { get; }
         public string ProjectName { get; }
         public bool CanEditAttachments { get; }
-        public List<ProjectFirmaModels.Models.AttachmentRelationshipType> AttachmentRelationshipTypes { get; }
+        public List<ProjectFirmaModels.Models.AttachmentType> AttachmentTypes { get; }
 
-        public string AttachmentRelationshipTypesIndexUrl { get; }
+        public string AttachmentTypesIndexUrl { get; }
 
-        public ProjectAttachmentsDetailViewData(List<EntityAttachment> attachments, string addAttachmentUrl, string projectName, bool canEditAttachments, List<ProjectFirmaModels.Models.AttachmentRelationshipType> attachmentRelationshipTypes, FirmaSession currentFirmaSession)
+        public ProjectAttachmentsDetailViewData(List<EntityAttachment> attachments, string addAttachmentUrl, string projectName, bool canEditAttachments, List<ProjectFirmaModels.Models.AttachmentType> attachmentTypes, FirmaSession currentFirmaSession)
         {
             CurrentPerson = currentFirmaSession.Person;
             Attachments = attachments;
@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectAttachment
             ProjectName = projectName;
             CanEditAttachments = canEditAttachments;
             ShowDownload = true;
-            AttachmentRelationshipTypesIndexUrl = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession) ? SitkaRoute<AttachmentRelationshipTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
-            AttachmentRelationshipTypes = attachmentRelationshipTypes;
+            AttachmentTypesIndexUrl = new AttachmentTypeManageFeature().HasPermissionByFirmaSession(currentFirmaSession) ? SitkaRoute<AttachmentTypeController>.BuildUrlFromExpression(x => x.Index()) : string.Empty;
+            AttachmentTypes = attachmentTypes;
         }
 
     }

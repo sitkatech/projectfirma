@@ -1,0 +1,162 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AttachmentType.EditAttachmentType
+
+
+<script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+<script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped))
+        };
+    });
+    jQuery(document).ready(function ()
+    {
+        angular.bootstrap(jQuery("#EditAttachmentTypeAngularApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+        jQuery(".modal").on("hidden.bs.modal",
+            function() {
+                jQuery(".bootstrap-select.open").removeClass("open");
+            });
+    });
+    // ]]>
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+
+<div>
+    @using (Html.BeginForm())
+    {
+    <div class="form-horizontal" id="EditAttachmentTypeAngularApp" ng-controller="AttachmentTypeController">
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentTypeName)</div>
+            <div class="col-xs-12 col-sm-9">
+                @Html.TextBoxFor(m => m.AttachmentTypeName, new { style = "width: 100%", @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.AttachmentTypeDescription)</div>
+            <div class="col-sm-9">
+                @Html.TextAreaFor(m => m.AttachmentTypeDescription, new Dictionary<string, object> { { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.AttachmentTypeDescription)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.MaxFileSize)</div>
+            <div class="col-sm-3">
+                @Html.DropDownListFor(m => m.MaxFileSize, ViewDataTyped.MaxFileSizes, new Dictionary<string, object> { { "class", "form-control" } })
+                @Html.ValidationMessageFor(m => m.MaxFileSize)
+            </div>
+            <div class="col-sm-3 control-label">@Html.LabelWithSugarFor(m => m.NumberOfAllowedAttachments)</div>
+            <div class="col-sm-3">
+                @Html.TextBoxFor(m => m.NumberOfAllowedAttachments, new Dictionary<string, object> { { "class", "form-control" }, { "type", "number" } })
+                @Html.ValidationMessageFor(m => m.NumberOfAllowedAttachments)
+            </div>
+        </div>
+        
+        @if (ViewDataTyped.HasTaxonomyTrunks)
+        {
+            <div class="form-group">
+                @*Selectpicker for Taxonomy Trunks*@
+                <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.TaxonomyTrunkIDs, string.Format("Applicable to the Following {0}", FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()), true)</div>
+                <div class="col-md-9">
+                    <div class="input-group" style="width: 100%;">
+                        <select class="selectpicker" ng-model="TaxonomyTrunkIDToAdd" data-size="6">
+                            <option value="">Select one</option>
+                            <option ng-repeat="taxonomyTrunk in getAvailableTaxonomyTrunks()"
+                                    ng-bind="taxonomyTrunk.TaxonomyTrunkName"
+                                    ng-value="taxonomyTrunk.TaxonomyTrunkID"></option>
+                        </select>
+                        <div class="btn-group input-group-btn">
+                            <button type="button" class="btn btn-sm btn-firma" ng-click="addRowTaxonomyTrunk()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                            <button type="button" class="btn btn-sm btn-firma" style="margin-left: 5px;" ng-click="addAllTaxonomyTrunks()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                        </div>
+                    </div>
+                </div>
+
+                @*Selections for Taxonomy Trunks*@
+                <div class="col-md-9 col-md-offset-3">
+                    <div class="col-md-4" ng-repeat="selectedTaxonomyTrunkID in AngularModel.TaxonomyTrunkIDs">
+                        <span>
+                            <a href="#" ng-click="deleteRowTaxonomyTrunk(selectedTaxonomyTrunkID); $event.preventDefault();">
+                                <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                            </a>
+                        </span>
+
+                        <span ng-bind="getTaxonomyTrunkDisplayName(selectedTaxonomyTrunkID)"></span>
+                    </div>
+                </div>
+            </div>
+        }
+        <input ng-repeat="selectedTaxonomyTrunkID in AngularModel.TaxonomyTrunkIDs" type="hidden" name="@Html.NameFor(x => x.TaxonomyTrunkIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedTaxonomyTrunkID}}">
+
+        <div class="form-group">
+            @*Selectpicker for FileTypes*@
+            <div class="col-md-3 control-label">@Html.LabelWithSugarFor(m => m.FileResourceMimeTypeIDs)</div>
+            <div class="col-md-9">
+                <div class="input-group" style="width: 100%;">
+                    <select class="selectpicker" ng-model="FileResourceMimeTypeIDToAdd" data-live-search="true" data-size="6">
+                        <option value="">Select one</option>
+                        <option ng-repeat="fileType in getAvailableFileTypes()"
+                                ng-bind="fileType.FileResourceMimeTypeDisplayName"
+                                ng-value="fileType.FileResourceMimeTypeID"></option>
+                    </select>
+                    <div class="btn-group input-group-btn">
+                        <button type="button" class="btn btn-sm btn-firma" ng-click="addRow()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                        <button type="button" class="btn btn-sm btn-firma" style="margin-left:5px" ng-click="addAllFileResourceMimeTypes()"><span class="glyphicon glyphicon-plus"></span>Add All</button>
+                    </div>
+                </div>
+            </div>
+            @*Selections for FileTypes*@
+            <div class="col-md-9 col-md-offset-3" style="margin-top: 5px;">
+                <div class="col-md-4" ng-repeat="selectedFileTypeID in AngularModel.FileResourceMimeTypeIDs">
+                    <span>
+                        <a href="#" ng-click="deleteRow(selectedFileTypeID); $event.preventDefault();">
+                            <i class="glyphicon glyphicon-trash" title="Remove row" alt="Remove row"></i>
+                        </a>
+                    </span>
+
+                    <span ng-bind="getFileResourceMimeTypeDisplayName(selectedFileTypeID)"></span>
+                </div>
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.AttachmentTypeID)
+        <input ng-repeat="selectedFileTypeID in AngularModel.FileResourceMimeTypeIDs" type="hidden" name="@Html.NameFor(x => x.FileResourceMimeTypeIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{selectedFileTypeID}}">
+    </div>
+        
+    }
+
+</div>

@@ -7,7 +7,7 @@ CREATE TABLE [dbo].[ProjectAttachmentUpdate](
 	[TenantID] [int] NOT NULL,
 	[ProjectUpdateBatchID] [int] NOT NULL,
 	[AttachmentID] [int] NOT NULL,
-	[AttachmentRelationshipTypeID] [int] NOT NULL,
+	[AttachmentTypeID] [int] NOT NULL,
 	[DisplayName] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Description] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectAttachmentUpdate_ProjectAttachmentUpdateID] PRIMARY KEY CLUSTERED 
@@ -22,15 +22,15 @@ CREATE TABLE [dbo].[ProjectAttachmentUpdate](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID] FOREIGN KEY([AttachmentRelationshipTypeID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID])
+ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentType_AttachmentTypeID] FOREIGN KEY([AttachmentTypeID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID])
 GO
-ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID]
+ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentType_AttachmentTypeID]
 GO
-ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID] FOREIGN KEY([AttachmentRelationshipTypeID], [TenantID])
-REFERENCES [dbo].[AttachmentRelationshipType] ([AttachmentRelationshipTypeID], [TenantID])
+ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentType_AttachmentTypeID_TenantID] FOREIGN KEY([AttachmentTypeID], [TenantID])
+REFERENCES [dbo].[AttachmentType] ([AttachmentTypeID], [TenantID])
 GO
-ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentRelationshipType_AttachmentRelationshipTypeID_TenantID]
+ALTER TABLE [dbo].[ProjectAttachmentUpdate] CHECK CONSTRAINT [FK_ProjectAttachmentUpdate_AttachmentType_AttachmentTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectAttachmentUpdate]  WITH CHECK ADD  CONSTRAINT [FK_ProjectAttachmentUpdate_FileResource_AttachmentID_FileResourceID] FOREIGN KEY([AttachmentID])
 REFERENCES [dbo].[FileResource] ([FileResourceID])
