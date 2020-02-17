@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.ReportTemplates
             var compilePath = GetCompilePath();
             document.Generate(compilePath);
 
-            DeleteDirectory(GetFullTemporaryTemplateDirectory());
+            CleanDirectoryOfOldTemplates(GetFullTemporaryTemplateDirectory());
         }
 
         public ActionResult GenerateAndDownload()
@@ -66,20 +66,20 @@ namespace ProjectFirma.Web.ReportTemplates
             return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
-        private void DeleteDirectory(string targetDirectory)
+        private void CleanDirectoryOfOldTemplates(string targetDirectory)
         {
             if (Directory.Exists(targetDirectory))
             {
                 var fileEntries = Directory.GetFiles(targetDirectory);
                 foreach (string fileName in fileEntries)
-                    DeleteFile(fileName);
+                    DeleteFileIfOlderThanLifespan(fileName);
                 var directories = Directory.GetDirectories(targetDirectory);
                 foreach (string directory in directories)
-                    DeleteDirectory(directory);
+                    CleanDirectoryOfOldTemplates(directory);
             }
         }
 
-        private void DeleteFile(string filePath)
+        private void DeleteFileIfOlderThanLifespan(string filePath)
         {
             var fileInfo = new FileInfo(filePath);
             if(fileInfo.LastAccessTime < DateTime.Now.AddDays(-TemplateTempDirectoryFileLifespanInDays))
