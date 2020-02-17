@@ -427,7 +427,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             
             var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
-            var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
+            var performanceMeasuresValidationResults = projectUpdateBatch.ValidatePerformanceMeasures();
 
             var viewDataForAngularEditor = new ReportedPerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
                 performanceMeasureSimples,
@@ -436,7 +436,7 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearStrings,
                 showExemptYears);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new ReportedPerformanceMeasuresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResult);
+            var viewData = new ReportedPerformanceMeasuresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResults);
             return RazorView<ReportedPerformanceMeasures, ReportedPerformanceMeasuresViewData, ReportedPerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
