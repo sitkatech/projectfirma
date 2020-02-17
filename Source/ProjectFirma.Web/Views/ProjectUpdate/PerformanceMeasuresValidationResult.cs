@@ -35,6 +35,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
 
+        private readonly int _performanceMeasureID;
+
         private readonly List<string> _warningMessages;
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
@@ -49,6 +51,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         {
             //string performanceMeasurePrefixString = string.Format($"{performanceMeasureName} (PM ID # {performanceMeasureID})");
             string performanceMeasurePrefixString = string.Format($"{performanceMeasureName}");
+
+            _performanceMeasureID = performanceMeasureID;
 
             var ints = new HashSet<int>();
             ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
@@ -84,6 +88,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public PerformanceMeasuresValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> {customErrorMessage};
+        }
+
+        public int GetPerformanceMeasureID()
+        {
+            return _performanceMeasureID;
         }
 
         public List<string> GetWarningMessages()

@@ -412,6 +412,19 @@ namespace ProjectFirma.Web.Models
                 "Has start year and completion year after current year, all years filled, should be valid");
         }
 
+        /// <summary>
+        /// This test has caused me concern and grief.
+        ///
+        /// RL wrote it with the very best of intentions, but what it turns into is a complex parallel implementation of the complex original code,
+        /// with potential for implementation bugs on either side. I believe I've corrected this test to handle the new per-PerformanceMeasureID
+        /// validation introduced by PF story #2045, but it's again it is complicated and further problems here won't surprise me.
+        ///
+        /// If this test continues to be an issue, I would think about a more rote test that just creates sets of data and then does hard, per-index
+        /// validations, going line by line. It will be somewhat tedious to write, but future failures requiring maintenance will be arguably easier
+        /// to deal with. Something to think about - feel free to discuss with me.
+        ///
+        /// -- SLG 2/16/2020
+        /// </summary>
         [Test]
         public void ValidatePerformanceMeasuresAndForceValidationTest()
         {
@@ -428,13 +441,25 @@ namespace ProjectFirma.Web.Models
             Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection }));
 
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForRequiredReporting();
+
+            // This portion of the test I believe got a negative result originally for bad reasons; it was not yet checking for validation on a per-PerformanceMeasureID basis,
+            // and I'd argue the code below should not have been able to have failing validations to check if there are NO PerformanceMeasureActualUpdates. If there are no records,
+            // there's nothing to check for validation. 
+            //
+            // But, if I'm wrong, the original code is here for discussion. 
+            // -- SLG 2/16/20202
+
+            /*
             projectUpdate.PlanningDesignStartYear = 2004;
             projectUpdate.ImplementationStartYear = 2005;
+
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.True, "Should now be valid since we have an Implementation Start Year set");
+
             AssertPerformanceMeasures(projectUpdateBatch.PerformanceMeasureActualUpdates.ToList(),
                 MultiTenantHelpers.GetMinimumYear(),
                 currentYear,
                 projectUpdateBatch,
-                false,
+                false, 
                 "Has start year before 2007 but no completion year, expect range of 2007 to at least current year to be missing");
 
             projectUpdate.ImplementationStartYear = currentYear - 1;
@@ -460,6 +485,7 @@ namespace ProjectFirma.Web.Models
                 projectUpdateBatch,
                 false,
                 "Has start year and completion year after current year, expect range of start year to current year to be missing");
+            */
 
             projectUpdate.PlanningDesignStartYear = 2001;
             projectUpdate.ImplementationStartYear = 2002;
@@ -479,6 +505,7 @@ namespace ProjectFirma.Web.Models
                 currentYear,
                 projectUpdateBatch,
                 false,
+                2,
                 "Has start year and completion year after current year, expenditure record outside of validatable range, expect range of start year to current year to be missing");
 
             TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, projectUpdate.ImplementationStartYear.Value); // record at start year
@@ -488,6 +515,7 @@ namespace ProjectFirma.Web.Models
                 currentYear,
                 projectUpdateBatch,
                 false,
+                2,
                 "Has start year and completion year after current year, expenditure records inside validatable range, expect range of start year to current year to be missing except for the start year and completion year");
 
             // fill in the other years missing
@@ -499,17 +527,54 @@ namespace ProjectFirma.Web.Models
                 currentYear,
                 projectUpdateBatch,
                 false,
+                2,
                 "Has start year and completion year after current year, all years filled, just incomplete rows");
 
-            var index = 0;
-            foreach (var performanceMeasureActualUpdate in projectUpdateBatch.PerformanceMeasureActualUpdates)
+            // Clean up our data, and create a new set of consistent data that should pass validation
+            // --------------------------------------------------------------------------------------
+
+            // Keep track of all current PerformanceMeasureIDs; we'll need an arbitrary set of them shortly
+            var allTestPerformanceMeasures = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(pmau => pmau.PerformanceMeasure).Distinct().ToList();
+
+            // Clear the current PMAUs.
+            projectUpdateBatch.PerformanceMeasureActualUpdates.Clear();
+            var allPmaus = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
+
+            foreach (var currentTestPerformanceMeasure in allTestPerformanceMeasures)
             {
-                performanceMeasureActualUpdate.ActualValue = index * 10;
+                // Get all the PMAUS for this current PerformanceMeasure
+                List<PerformanceMeasureActualUpdate> currentPmausForCurrentPm = allPmaus.Where(pmau => pmau.PerformanceMeasureID == currentTestPerformanceMeasure.PerformanceMeasureID).ToList();
+                // Get all the calendar years we already have
+                List<int> calendarYearsInCurrentPmaus = currentPmausForCurrentPm.Select(pmau => pmau.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).ToList();
+
+                // Go through all the years
+                for (int currentCalendarYear = projectUpdate.ImplementationStartYear.Value; currentCalendarYear <= projectUpdate.CompletionYear; currentCalendarYear++)
+                {
+                    // If we don't already have this year, create it
+                    bool alreadyHaveCurrentCalendarYear = calendarYearsInCurrentPmaus.Contains(currentCalendarYear);
+                    if (!alreadyHaveCurrentCalendarYear)
+                    {
+                        TestFramework.TestPerformanceMeasureActualUpdate.Create(projectUpdateBatch, currentTestPerformanceMeasure, currentCalendarYear); 
+                    }
+                }
+            }
+
+            // Refresh this list
+            allPmaus = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
+
+            // Give all the PMAUs a value
+            var index = 0;
+            foreach (var currentPmau in allPmaus)
+            {
+                currentPmau.ActualValue = index * 10;
                 index++;
             }
+
+            // Check to ensure all is now well
             results = projectUpdateBatch.ValidatePerformanceMeasures();
             Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.True, "Should have no warnings");
-            Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, "Should have no warnings");
+            var allFinalWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(results);
+            Assert.That(allFinalWarningMessages, Is.Empty, "Should have no warnings");
             Assert.That(PerformanceMeasuresValidationResult.GetAllPerformanceMeasureActualUpdatesWithWarnings(results), Is.Empty, "Should have no warnings");
         }
 
@@ -636,39 +701,57 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private static void AssertPerformanceMeasures(List<PerformanceMeasureActualUpdate> performanceMeasureActualUpdates,
+        private static void AssertPerformanceMeasures(List<PerformanceMeasureActualUpdate> performanceMeasureActualUpdatesToCheck,
             int startYear,
             int currentYear,
             ProjectUpdateBatch projectUpdateBatch,
             bool isValid,
+            int expectedWarningMessageCount,
             string assertionMessage)
         {
-            var results = projectUpdateBatch.ValidatePerformanceMeasures();
-            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(results), Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
+            var totalResults = projectUpdateBatch.ValidatePerformanceMeasures();
+            Assert.That(PerformanceMeasuresValidationResult.AreAllValid(totalResults), Is.EqualTo(isValid), $"Should be {(isValid ? " valid" : "not valid")}");
 
-            var currentYearsEntered = performanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
-            var missingReportedValues = performanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
-            var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
-            var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
-            if (expectedMissingYears.Any() && missingReportedValues.Any())
+            // What distinct PerformanceMeasures are being worked with? 
+            var pmausGrouped = performanceMeasureActualUpdatesToCheck.GroupBy(pmas => pmas.PerformanceMeasureID);
+
+            // Examine each PerformanceMeasure group as a unit to check for problems within the group
+            foreach (var performanceMeasureActualUpdateGroup in pmausGrouped)
             {
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Has.Count.EqualTo(2));
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[0], Is.StringEnding(missingYearsMessage));
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
+                int currentPerformanceMeasureID = performanceMeasureActualUpdateGroup.Key;
+
+                var currentLocalResults = totalResults.Where(r => r.GetPerformanceMeasureID() == currentPerformanceMeasureID).ToList();
+                List<PerformanceMeasureActualUpdate> currentPerformanceMeasureActualUpdates = performanceMeasureActualUpdateGroup.ToList();
+
+                var currentYearsEntered = currentPerformanceMeasureActualUpdates.Select(y => y.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().ToList();
+                var missingReportedValues = currentPerformanceMeasureActualUpdates.Where(x => !x.ActualValue.HasValue).ToList();
+                var expectedMissingYears = FirmaDateUtilities.GetRangeOfYears(startYear, currentYear).Where(x => !currentYearsEntered.Contains(x)).ToList();
+                var missingYearsMessage = $"for {string.Join(", ", expectedMissingYears)}";
+
+                var currentWarningMessages = PerformanceMeasuresValidationResult.GetAllWarningMessages(currentLocalResults);
+                //var allActualWarningMessages = currentPerformanceMeasureActualUpdates.SelectMany(pmau => pmau);
+
+                if (expectedMissingYears.Any() && missingReportedValues.Any())
+                {
+                    Assert.That(currentWarningMessages, Has.Count.EqualTo(expectedWarningMessageCount));
+                    Assert.That(currentWarningMessages[0], Is.StringEnding(missingYearsMessage));
+                    Assert.That(currentWarningMessages[1], Is.StringEnding("You must either delete irrelevant rows, or provide complete information for each row."));
+                }
+                else if (expectedMissingYears.Any())
+                {
+                    Assert.That(currentWarningMessages, Has.Count.EqualTo(1));
+                    Assert.That(currentWarningMessages[0], Is.StringEnding(missingYearsMessage));
+                }
+                else if (missingReportedValues.Any())
+                {
+                    Assert.That(currentWarningMessages, Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }), assertionMessage);
+                }
+                else
+                {
+                    Assert.That(currentWarningMessages, Is.Empty, assertionMessage);
+                }
             }
-            else if (expectedMissingYears.Any())
-            {
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Has.Count.EqualTo(1));
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results)[0], Is.StringEnding(missingYearsMessage));
-            }
-            else if (missingReportedValues.Any())
-            {
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.EquivalentTo(new List<string> { PerformanceMeasuresValidationResult.FoundIncompletePerformanceMeasureRowsMessage }), assertionMessage);
-            }
-            else
-            {
-                Assert.That(PerformanceMeasuresValidationResult.GetAllWarningMessages(results), Is.Empty, assertionMessage);
-            }
+
         }
 
         private static void AssertYearRangeForPerformanceMeasuresCorrect(ProjectUpdateBatch projectUpdateBatch, int startYear, int currentYear)
