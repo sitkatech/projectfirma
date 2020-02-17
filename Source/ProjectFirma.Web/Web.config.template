@@ -29,6 +29,7 @@
     <add key="OgrInfoExecutable" value="C:\Program Files\GDAL\ogrinfo.exe"/>
     <add key="DefaultSupportPersonID" value="2"/>
     <add key="LogFileFolder" value="${application-root-dir}\Logs"/>
+    <add key="TempFolder" value="${application-root-dir}\Temp"/>
     <add key="PsInfoUrl" value="${psinfo-url}"/>
     <add key="PsInfoDataCenterUrl" value="${psinfo-url}DataCenter"/>
     <add key="VitalSignsUrl" value="${vital-signs-url}"/>
