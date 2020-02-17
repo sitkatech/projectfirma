@@ -19,16 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System.Collections.Generic;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Home
 {
     public class FeaturedProjectsViewData : FirmaUserControlViewData
     {
         public readonly List<ProjectFirmaModels.Models.Project> FeaturedProjects;
+        public FirmaSession CurrentFirmaSession;
 
-        public FeaturedProjectsViewData(List<ProjectFirmaModels.Models.Project> featureProjects )
+        public FeaturedProjectsViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Project> featureProjects )
         {
             FeaturedProjects = featureProjects;
+            CurrentFirmaSession = currentFirmaSession;
         }
     }
 }

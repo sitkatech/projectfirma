@@ -103,6 +103,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public string ProjectUpdateButtonText { get; }
         public bool CanLaunchProjectOrProposalWizard { get; }
+        public bool ShowFactSheetButton { get; }
         public string ProjectWizardUrl { get; }
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
@@ -361,6 +362,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;
 
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
+
+            ShowFactSheetButton = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
         }
     }
 }

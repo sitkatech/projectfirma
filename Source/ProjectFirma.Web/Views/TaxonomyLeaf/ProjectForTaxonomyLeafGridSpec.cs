@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             if (userHasTagManagePermissions)
             {
                 Add("Tags", x => new HtmlString(!x.ProjectTags.Any() ? string.Empty : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100, DhtmlxGridColumnFilterType.Html);    
-            }            
+            }
         }
     }
 }
