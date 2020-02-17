@@ -182,6 +182,16 @@ namespace ProjectFirmaModels.Models
         ManageProjectCustomAttributeGroupsList = 66,
         ProjectStatusFromTimelineDialog = 67,
         ProjectStatusFromGridDialog = 68,
-        ProjectStatusListEditor = 69
+        ProjectStatusListEditor = 69,
+        ExternalMapLayers = 70,
+        WebServicesIndex = 71,
+        WebServicesList = 72,
+        EvaluationList = 73,
+        CreateEvaluationInstructions = 74,
+        CreateEvaluationCriteriaInstructions = 75,
+        AddProjectToEvaluationPortfolioInstructions = 76,
+        ReportCenter = 77,
+        ReportCenterProjects = 78,
+        ReportCenterAddReport = 79
     }
 }

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProjectFirmaModels</RootNamespace>
     <AssemblyName>ProjectFirmaModels</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -19,18 +19,20 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
@@ -47,18 +49,18 @@
     <Compile Include="Models\Generated\AssessmentSubGoal.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AssessmentSubGoalConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\AssessmentSubGoalPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipType.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeType.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypeConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunk.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\AttachmentRelationshipTypeTaxonomyTrunkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentType.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeType.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeFileResourceMimeTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunk.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunk.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunkConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\AttachmentTypeTaxonomyTrunkPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.Binding.cs" />
     <Compile Include="Models\Generated\AuditLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\AuditLogConfiguration.Binding.cs" />
@@ -102,6 +104,26 @@
     <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
+    <Compile Include="Models\Generated\Evaluation.Binding.cs" />
+    <Compile Include="Models\Generated\Evaluation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\EvaluationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteria.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteria.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaValue.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaValueConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationCriteriaValuePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationStatus.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationStatusPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationVisibility.Binding.cs" />
+    <Compile Include="Models\Generated\EvaluationVisibilityPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ExternalMapLayer.Binding.cs" />
+    <Compile Include="Models\Generated\ExternalMapLayer.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ExternalMapLayerConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ExternalMapLayerPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FieldDefinitionConfiguration.Binding.cs" />
@@ -113,6 +135,10 @@
     <Compile Include="Models\Generated\FieldDefinitionDataImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionDataImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionDataPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefault.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefaultConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\FieldDefinitionDefaultPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinitionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FileResource.Binding.cs" />
     <Compile Include="Models\Generated\FileResource.DatabaseContextExtensions.cs" />
@@ -175,14 +201,14 @@
     <Compile Include="Models\Generated\GeospatialAreaImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaImageConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaImagePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureFixedTarget.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureFixedTarget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureFixedTargetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureFixedTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureNoTarget.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureNoTarget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureNoTargetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureNoTargetPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureOverallTarget.Binding.cs" />
-    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureOverallTarget.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureOverallTargetConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureOverallTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureReportingPeriodTarget.Binding.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureReportingPeriodTarget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration.Binding.cs" />
@@ -267,6 +293,10 @@
     <Compile Include="Models\Generated\PerformanceMeasureExpectedUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpectedUpdateConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureExpectedUpdatePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureFixedTarget.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureFixedTarget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureFixedTargetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PerformanceMeasureFixedTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureImage.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureImage.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureImageConfiguration.Binding.cs" />
@@ -275,10 +305,6 @@
     <Compile Include="Models\Generated\PerformanceMeasureNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureNoteConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureNotePrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureOverallTarget.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureOverallTarget.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureOverallTargetConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\PerformanceMeasureOverallTargetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasurePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureReportingPeriod.DatabaseContextExtensions.cs" />
@@ -358,6 +384,10 @@
     <Compile Include="Models\Generated\ProjectCustomAttributeGroup.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeGroupPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectCustomAttributeGroupProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomAttributeType.DatabaseContextExtensions.cs" />
@@ -389,6 +419,14 @@
     <Compile Include="Models\Generated\ProjectCustomGridConfigurationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectCustomGridTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluation.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValue.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValue.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValueConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectEvaluationSelectedValuePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectExemptReportingYear.Binding.cs" />
@@ -524,6 +562,8 @@
     <Compile Include="Models\Generated\ProjectTag.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectTagConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectTagPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectType.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
@@ -550,6 +590,14 @@
     <Compile Include="Models\Generated\ReleaseNote.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReleaseNoteConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReleaseNotePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplate.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReportTemplateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModel.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModelPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModelType.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplateModelTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReportTemplatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Role.Binding.cs" />
     <Compile Include="Models\Generated\RolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.Binding.cs" />
@@ -614,11 +662,21 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectDetailedLocations.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectDetailedLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectSimpleLocations.Binding.cs" />
+    <Compile Include="Models\Generated\vGeoServerProjectSimpleLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\EvaluationCriteriaValue.cs" />
+    <Compile Include="Models\EvaluationCriteria.cs" />
+    <Compile Include="Models\Evaluation.cs" />
+    <Compile Include="Models\EvaluationStatus.cs" />
+    <Compile Include="Models\EvaluationVisibility.cs" />
+    <Compile Include="Models\FieldDefinitionDefault.DatabaseContextExtensions.cs" />
     <Compile Include="Models\FirmaSession.cs" />
     <Compile Include="Models\FirmaSessionExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunk.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeType.cs" />
-    <Compile Include="Models\AttachmentRelationshipType.cs" />
+    <Compile Include="Models\AttachmentTypeTaxonomyTrunk.cs" />
+    <Compile Include="Models\AttachmentTypeFileResourceMimeType.cs" />
+    <Compile Include="Models\AttachmentType.cs" />
     <Compile Include="Models\CalendarYearBudgetAmounts.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeRole.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeValue.cs" />
@@ -666,6 +724,7 @@
     <Compile Include="Models\ICanDeleteFull.cs" />
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
+    <Compile Include="Models\ExternalMapLayer.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
@@ -675,7 +734,10 @@
     <Compile Include="Models\PerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\Person.DatabaseContextExtensions.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
+    <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
+    <Compile Include="Models\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupProjectType.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectAttachment.cs" />
@@ -684,13 +746,19 @@
     <Compile Include="Models\ProjectContactRelationship.cs" />
     <Compile Include="Models\ProjectContactSimple.cs" />
     <Compile Include="Models\ProjectContactUpdate.cs" />
+    <Compile Include="Models\ProjectEvaluation.cs" />
+    <Compile Include="Models\ProjectEvaluationSelectedValue.cs" />
     <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdate.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetSimple.cs" />
     <Compile Include="Models\ProjectProjectStatus.cs" />
     <Compile Include="Models\ProjectRelevantCostType.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
+    <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
+    <Compile Include="Models\ReportTemplate.cs" />
+    <Compile Include="Models\ReportTemplateModel.cs" />
+    <Compile Include="Models\ReportTemplateModelType.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
     <Compile Include="Models\TechnicalAssistanceRequest.cs" />
@@ -730,6 +798,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureReportingPeriod.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
+    <Compile Include="Models\ProjectLocationTest.cs" />
     <Compile Include="UnitTestCommon\TestTenant.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />
     <Compile Include="UnitTestCommon\TestProject.cs" />
@@ -772,7 +841,6 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

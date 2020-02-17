@@ -1,0 +1,90 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.ReportCenter.Edit
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+@Html.ValidationSummary()
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.FileResourceID)
+    @Html.HiddenFor(x => x.ReportTemplateID)
+    @Html.HiddenFor(x => x.ReportTemplateModelTypeID)
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-2 text-right">
+                @Html.LabelWithSugarFor(x => x.DisplayName)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.DisplayName, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.DisplayName)
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 text-right">
+                @Html.LabelWithSugarFor(x => x.Description)
+            </div>
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.Description)
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 text-right">
+                @Html.LabelWithSugarFor(x => x.ReportTemplateModelID)
+            </div>
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.ReportTemplateModelID, ViewDataTyped.AllReportTemplateModelSelectItems, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.ReportTemplateModelID)
+        </div>
+        @*Commented out for now because there isn't really a use case for this yet. Added a hidden field for it above - 1/27/2020 SMG*@
+        @*<div class="form-group">
+                @Html.LabelFor(x => x.ReportTemplateModelTypeID, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(x => x.ReportTemplateModelTypeID, ViewDataTyped.AllReportTemplateModelTypeSelectItems, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(x => x.ReportTemplateModelTypeID)
+            </div>*@
+        <div class="form-group">
+            <div class="col-md-2 text-right">
+                @Html.LabelWithSugarFor(x => x.FileResourceData)
+            </div>
+            <div class="col-md-10">
+                @if (ViewDataTyped.ReportTemplate != null)
+                {
+                    <div class="alert alert-info">
+                        This report currently has a template: "@ViewDataTyped.ReportTemplate.DownloadTemplateLink()". Using the field below will replace this current template.
+                    </div>
+                }
+                @Html.EditorFor(x => x.FileResourceData)
+                <span class="smallExplanationText">
+                    Max File Size: @FileResourceModelExtensions.MaxFileSizeHumanReadable Allowed Extensions: .docx
+                </span>
+            </div>
+            @Html.ValidationMessageFor(x => x.Description)
+        </div>
+    </div>
+
+}

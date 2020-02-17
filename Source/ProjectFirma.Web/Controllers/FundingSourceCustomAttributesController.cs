@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Controllers
     public class FundingSourceCustomAttributesController : FirmaBaseController
     {
         [HttpGet]
-        [FundingSourceEditFeature]
+        [FundingSourceCustomAttributeEditFeature]
         public PartialViewResult EditFundingSourceCustomAttributesForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [FundingSourceEditFeature]
+        [FundingSourceCustomAttributeEditFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditFundingSourceCustomAttributesForFundingSource(FundingSourcePrimaryKey fundingSourcePrimaryKey, EditFundingSourceCustomAttributesViewModel viewModel)
         {

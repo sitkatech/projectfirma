@@ -16,8 +16,8 @@
     <add key="PSInfoApiKey" value="${psinfo-api-key}" />
   </appSettings>
   <system.web>
-    <compilation debug="true" targetFramework="4.6.2" />
-    <httpRuntime targetFramework="4.6.2" />
+    <compilation debug="true" targetFramework="4.8" />
+    <httpRuntime targetFramework="4.8" />
   </system.web>
   <system.webServer>
     <modules>
@@ -58,16 +58,16 @@
         <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
       </dependentAssembly>
       <dependentAssembly>
-        <assemblyIdentity name="DocumentFormat.OpenXml" publicKeyToken="31bf3856ad364e35" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-2.5.5631.0" newVersion="2.5.5631.0" />
-      </dependentAssembly>
-      <dependentAssembly>
         <assemblyIdentity name="System.Web.WebPages" publicKeyToken="31bf3856ad364e35" />
         <bindingRedirect oldVersion="0.0.0.0-3.0.0.0" newVersion="3.0.0.0" />
       </dependentAssembly>
       <dependentAssembly>
         <assemblyIdentity name="System.Web.Mvc" publicKeyToken="31bf3856ad364e35" />
         <bindingRedirect oldVersion="0.0.0.0-5.2.4.0" newVersion="5.2.4.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="DocumentFormat.OpenXml" culture="neutral" publicKeyToken="8fb06cb64d019a17" />
+        <bindingRedirect oldVersion="0.0.0.0-2.10.0.0" newVersion="2.10.0.0" />
       </dependentAssembly>
     </assemblyBinding>
   </runtime>

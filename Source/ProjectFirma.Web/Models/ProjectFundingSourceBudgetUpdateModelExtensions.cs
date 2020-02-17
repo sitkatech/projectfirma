@@ -43,8 +43,7 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.ExpectedFundingUpdateNote = project.ExpectedFundingUpdateNote;
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<ProjectFundingSourceBudget> allProjectFundingSourceBudget)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             project.NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet;
@@ -56,13 +55,12 @@ namespace ProjectFirma.Web.Models
                         x.SecuredAmount, x.TargetedAmount, x.CalendarYear, x.CostTypeID)
                 ).ToList();
             project.ProjectFundingSourceBudgets.Merge(projectFundingSourceExpectedFundingFromProjectUpdate,
-                allProjectFundingSourceBudget,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) =>
                 {
                     x.SecuredAmount = y.SecuredAmount;
                     x.TargetedAmount = y.TargetedAmount;
-                }, HttpRequestStorage.DatabaseEntities);
+                }, databaseEntities);
         }
     }
 }

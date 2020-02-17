@@ -38,52 +38,77 @@ namespace ProjectFirma.Web.Controllers
     public class ProjectProjectStatusController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel(DateTime.Now);
+            var allowEditFinal = AllowUserToSetNewStatusReportToFinal(projectPrimaryKey.EntityObject, CurrentFirmaSession);
+            viewModel.IsFinalStatusUpdate = allowEditFinal;
+
+
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
-            return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage);
+            return ViewEdit( viewModel, false, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
+        }
+
+        public static bool AllowUserToSetNewStatusReportToFinal(Project project, FirmaSession currentFirmaSession)
+        {
+            var allowEditFinal = false;
+            var userHasPermissionToEditTimeline = new ProjectTimelineFeature().HasPermission(currentFirmaSession, project).HasPermission;
+            if (project.HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted() || project.ProjectStage == ProjectStage.Completed)
+            {
+                var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+
+                if (!finalStatusReport.Any())
+                {
+                    if (userHasPermissionToEditTimeline)
+                    {
+                        allowEditFinal = true;
+                    }
+                }
+            }
+
+            return allowEditFinal;
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewFromGrid(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromGridDialog.GetFirmaPage();
-                return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage);
+                return ViewEdit(viewModel, false, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
 
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var viewModel = new EditProjectProjectStatusViewModel();
+            var allowEditFinal = AllowUserToSetNewStatusReportToFinal(projectPrimaryKey.EntityObject, CurrentFirmaSession);
+            viewModel.IsFinalStatusUpdate = allowEditFinal;
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-            return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage);
+            return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-                return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage);
+                return ViewEdit(viewModel, true, null, null, projectStatusFirmaPage, projectPrimaryKey.EntityObject, false);
             }
             return MakeTheNewProjectProjectStatus(projectPrimaryKey, viewModel);
         }
 
-        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey,
-            EditProjectProjectStatusViewModel viewModel)
+        private ActionResult MakeTheNewProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectStatusFromViewModel = new ProjectStatusPrimaryKey(viewModel.ProjectStatusID).EntityObject;
@@ -96,42 +121,43 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
             var viewModel = new EditProjectProjectStatusViewModel(projectProjectStatus);
             var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-            return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
+            return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage, projectPrimaryKey.EntityObject, projectProjectStatus.IsFinalStatusUpdate);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditProjectProjectStatusViewModel viewModel)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+            var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 var projectStatusFirmaPage = FirmaPageTypeEnum.ProjectStatusFromTimelineDialog.GetFirmaPage();
-                return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage);
+                return ViewEdit(viewModel, true, projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast(), projectProjectStatus.GetDeleteProjectProjectStatusUrl(), projectStatusFirmaPage, project, projectProjectStatus.IsFinalStatusUpdate);
             }
             viewModel.UpdateModel(projectProjectStatus, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage)
+        private PartialViewResult ViewEdit(EditProjectProjectStatusViewModel viewModel, bool allowEditUpdateDate, string personCreatedDisplay, string deleteUrl, FirmaPage firmaPage, ProjectFirmaModels.Models.Project project, bool isFinalStatusReport)
         {
             var projectStatusFirmaPage = firmaPage;
             var allProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectStatuses.ToList();
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
-            var viewData = new EditProjectProjectStatusViewData(allowEditUpdateDate, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses, projectStatusLegendDisplayViewData);
+            var viewData = new EditProjectProjectStatusViewData(project,allowEditUpdateDate, personCreatedDisplay, deleteUrl, projectStatusFirmaPage, CurrentFirmaSession, allProjectStatuses, projectStatusLegendDisplayViewData, isFinalStatusReport);
             return RazorPartialView<EditProjectProjectStatus, EditProjectProjectStatusViewData, EditProjectProjectStatusViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         public PartialViewResult DeleteProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
         {
             var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
@@ -143,14 +169,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !projectProjectStatus.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()}");
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{projectProjectStatus.Project.GetDisplayName()}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()}");
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
-        [ProjectEditAsAdminFeature]
+        [ProjectStatusUpdateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteProjectProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {

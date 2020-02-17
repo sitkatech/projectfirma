@@ -1,0 +1,140 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="AddProjectEvaluation.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Evaluation.AddProjectEvaluation
+    <script type="text/javascript">
+    // <![CDATA[
+    angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function()
+    {
+        return {
+            AngularModel: @Html.Raw(JObject.FromObject(Model)),
+            AngularViewData: @Html.Raw(JObject.FromObject(ViewDataTyped.ViewDataForAngular))
+        };
+    });
+
+    jQuery(document).ready(function () {
+        angular.bootstrap(jQuery("#AddProjectEvaluationApp"), ["ProjectFirmaApp"]);
+
+        jQuery(".selectpicker").selectpicker("refresh");
+
+    });
+    // ]]>
+    </script>
+
+    <style>
+        #AddProjectEvaluationApp {
+            min-height: 400px;
+        }
+    </style>
+
+
+
+    @Html.ValidationSummary()
+
+    <div ng-app="ProjectFirmaApp" id="AddProjectEvaluationApp" ng-controller="AddProjectEvaluationController" style="max-height: 600px">
+
+        <div style="margin-bottom: 20px;">
+            @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-xs-12 control-label" style="margin-bottom: 20px;"><strong>1. Select @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong></div>
+            <div class="col-xs-12" style="margin-bottom: 20px;">
+                <label class="small col-xs-2">
+                    Identify @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().GetFieldDefinitionLabel()
+                </label>
+                <div class="col-xs-10">
+                    <select class="selectpicker" ng-model="SelectedTaxonomyTrunk" ng-options="trunk.DisplayName for trunk in AngularViewData.TaxonomyTrunkSimples track by trunk.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 2" ng-change="refreshSelectableTaxonomyBranches()">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <select class="selectpicker" ng-model="SelectedTaxonomyBranch" ng-options="branch.DisplayName for branch in selectableTaxonomyBranches track by branch.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-if="AngularViewData.TaxonomyLevel > 1" ng-change="refreshSelectableTaxonomyLeaves()">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <select class="selectpicker" ng-model="SelectedTaxonomyLeaf" ng-options="leaf.DisplayName for leaf in selectableTaxonomyLeaves track by leaf.TaxonomyTierID" data-container="body" data-live-search="true" data-size="8" ng-change="refreshSelectableProjectStages()">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+
+                    
+                </div>
+            </div>
+            <div class="col-xs-12" style="margin-bottom: 20px;">
+                <label class="col-xs-2 small">
+                    Filter by @FieldDefinitionEnum.ProjectStage.ToType().GetFieldDefinitionLabel()
+                </label>
+                <div class="col-xs-10">
+                    <select class="selectpicker" ng-model="SelectedProjectStage" ng-options="projectStage.DisplayName for projectStage in selectableProjectStages track by projectStage.ProjectStageID" data-container="body" data-live-search="true" data-size="8" ng-change="projectStageChanged()" ng-disabled="!SelectedTaxonomyLeaf">
+                        <option value="">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-offset-2 col-xs-10" style="margin-bottom: 20px;"><button type="button" class="btn btn-sm btn-firma" ng-click="addFromTaxonomy()" ng-disabled="!SelectedTaxonomyLeaf"><span class="glyphicon glyphicon-plus"></span>Add</button></div>
+
+            <div class="col-xs-12" style="margin-bottom: 20px;"><strong>--OR--</strong></div>
+            <div class="col-xs-12">
+                <label class="small col-xs-2">Add @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() individually</label>
+                <div class="col-xs-10">
+                    <select class="selectpicker" ng-model="SelectedProject" ng-options="project.DisplayName for project in selectableProjects track by project.ProjectID" data-container="body" data-live-search="true" data-size="8">
+                        <option value="" disabled selected>Select a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() by @FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-firma" ng-click="addProject(SelectedProject)" ng-disabled="!SelectedProject"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+
+        <div class="form-group">
+            <div class="col-xs-12 control-label" style="margin-top: 80px; padding-top:10px; border-top: 2px solid #ddd;">
+                <strong>2. Review and confirm selected @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()</strong>
+                <div class="pull-right smallExplanationText">
+                    {{SelectedProjectCount}} @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() selected
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-md-6" ng-repeat="selectedProject in AngularModel.SelectedProjects">
+                    <span>
+                        <a href="#" ng-click="deleteProject(selectedProject); $event.preventDefault();">
+                            <i class="glyphicon glyphicon-trash" title="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()" alt="Remove @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()"></i>
+                        </a>
+                    </span>
+                    <span ng-bind="selectedProject.DisplayName"></span>
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(x => x.EvaluationID)
+            <div ng-repeat="project in AngularModel.SelectedProjects">
+                <input type="hidden" name="@Html.NameFor(x => x.ProjectIDs[0]).ToString().Replace("0", "{{$index}}")" value="{{project.ProjectID}}" />
+            </div>
+        }
+    </div>
+

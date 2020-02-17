@@ -53,6 +53,15 @@
                 Sitka.testGridName.setGridInstructions("<div style=\"padding:10px; font-weight:bold\">I am empty</div>", true);
             }
         });
+    
+        Sitka.testGridName.grid.attachEvent("onCheckbox", function(rId,cInd,state) {
+            Sitka.testGridName.updateSelectedCheckboxCount();
+        });
+        
+        Sitka.testGridName.grid.attachEvent("onFilterEnd", function() {
+            Sitka.testGridName.updateSelectedCheckboxCount();
+        });
+
         
         
     });

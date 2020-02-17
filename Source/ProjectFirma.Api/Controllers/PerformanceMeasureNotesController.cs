@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Http;
 using LtInfo.Common.DesignByContract;
+using ProjectFirma.Api.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Api.Controllers

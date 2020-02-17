@@ -63,6 +63,7 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
                 layers,
+                MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
@@ -201,7 +202,9 @@ namespace ProjectFirma.Web.Controllers
             var budgetTypes = BudgetType.All.ToDictionary(x => x.BudgetTypeID, x => x.BudgetTypeDisplayName);
             var disabledBudgetTypeValues = new List<int>() { BudgetType.NoBudget.BudgetTypeID, BudgetType.AnnualBudget.BudgetTypeID };
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList();
-            var viewData = new EditBasicsViewData(CurrentFirmaSession, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
+            // if any projects exist that are not ProjectType.Normal we do not want them to be able to turn off Enable Project Type checkbox
+            bool canEditEnableProjectTypeCheckbox = !HttpRequestStorage.DatabaseEntities.Projects.Any(x => x.ProjectTypeID != (int)ProjectTypeEnum.Normal);
+            var viewData = new EditBasicsViewData(CurrentFirmaSession, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes, canEditEnableProjectTypeCheckbox);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
 
@@ -302,7 +305,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);

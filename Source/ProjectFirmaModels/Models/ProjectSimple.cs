@@ -24,11 +24,15 @@ namespace ProjectFirmaModels.Models
     {
         public int ProjectID { get; set; }
         public string DisplayName { get; set; }
+        public int TaxonomyLeafID { get; set; }
+        public int ProjectStageID { get; set; }
 
         public ProjectSimple(Project project)
         {
             ProjectID = project.ProjectID;
             DisplayName = project.GetDisplayName();
+            TaxonomyLeafID = project.TaxonomyLeafID;
+            ProjectStageID = project.ProjectStageID;
         }
 
         public ProjectSimple(int projectID, string displayName)

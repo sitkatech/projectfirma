@@ -12,9 +12,17 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
     {
         public ProjectCustomAttributeGroupGridSpec()
         {
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel()}")), 30, DhtmlxGridColumnFilterType.None);
             Add("Name", a => a.ProjectCustomAttributeGroupName, 300, DhtmlxGridColumnFilterType.Text);
+
+            if (tenantAttribute.EnableProjectTypes)
+            {
+                Add(FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel(), a => a.GetProjectTypeDisplayNamesAsCommaDelimitedList(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            }
+
             Add("Sort Order", a => a.SortOrder, 60, DhtmlxGridColumnFormatType.Integer);
         }
     }

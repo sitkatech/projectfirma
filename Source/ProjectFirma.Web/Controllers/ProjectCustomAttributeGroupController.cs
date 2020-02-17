@@ -40,7 +40,10 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public PartialViewResult New()
         {
-            var viewModel = new EditViewModel();
+            var viewModel = new EditViewModel()
+            {
+                ProjectTypeEnums = new List<ProjectTypeEnum>() { ProjectTypeEnum.Normal }
+            };
             return ViewEdit(viewModel, null);
         }
 

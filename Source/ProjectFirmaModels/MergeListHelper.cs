@@ -18,9 +18,10 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 
 namespace ProjectFirmaModels
 {
@@ -29,7 +30,53 @@ namespace ProjectFirmaModels
         public delegate bool Match<in T>(T o1, T o2);
         public delegate void UpdateFunction<in T>(T o1, T o2);
 
+        #region TODO: Make all callers of these use the signature without allInDatabase; at the end we should kill these three functions
         public static void MergeNew<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, ICollection<T> allInDatabase)
+        {
+            // Inserting new records
+            foreach (var currentRecordFromForm in updatedList)
+            {
+                var existingRecord = existingList.MatchRecord(currentRecordFromForm, matchCriteria);
+                if (Equals(existingRecord, default(T)))
+                {
+                    existingList.Add(currentRecordFromForm);
+                    allInDatabase.Add(currentRecordFromForm);
+                }
+            }
+        }
+
+        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, ICollection<T> allInDatabase, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull
+        {
+            existingList.Merge(updatedList, allInDatabase, matchCriteria, null, dbContext);
+        }
+
+        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, ICollection<T> allInDatabase, Match<T> matchCriteria, UpdateFunction<T> updateFunction, DatabaseEntities dbContext) where T : ICanDeleteFull
+        {
+            existingList.MergeNew(updatedList, matchCriteria, allInDatabase);
+            if (updateFunction != null)
+            {
+                existingList.MergeUpdate(updatedList, matchCriteria, updateFunction);
+            }
+            existingList.MergeDelete(updatedList, matchCriteria, dbContext);
+        }
+        #endregion
+
+        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull
+        {
+            existingList.Merge(updatedList, matchCriteria, null, dbContext);
+        }
+
+        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, UpdateFunction<T> updateFunction, DatabaseEntities dbContext) where T : ICanDeleteFull
+        {
+            existingList.MergeNew(updatedList, matchCriteria, dbContext.Set(typeof(T)));
+            if (updateFunction != null)
+            {
+                existingList.MergeUpdate(updatedList, matchCriteria, updateFunction);
+            }
+            existingList.MergeDelete(updatedList, matchCriteria, dbContext);
+        }
+
+        private static void MergeNew<T>(this ICollection<T> existingList, ICollection<T> updatedList, Match<T> matchCriteria, DbSet allInDatabase) where T : ICanDeleteFull
         {
             // Inserting new records
             foreach (var currentRecordFromForm in updatedList)
@@ -53,21 +100,6 @@ namespace ProjectFirmaModels
                     updateFunction(existingRecord, currentRecordFromForm);
                 }
             }
-        }
-
-        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, ICollection<T> allInDatabase, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull
-        {
-            existingList.Merge(updatedList, allInDatabase, matchCriteria, null, dbContext);
-        }
-
-        public static void Merge<T>(this ICollection<T> existingList, ICollection<T> updatedList, ICollection<T> allInDatabase, Match<T> matchCriteria, UpdateFunction<T> updateFunction, DatabaseEntities dbContext) where T : ICanDeleteFull
-        {
-            existingList.MergeNew(updatedList, matchCriteria, allInDatabase);
-            if (updateFunction != null)
-            {
-                existingList.MergeUpdate(updatedList, matchCriteria, updateFunction);
-            }
-            existingList.MergeDelete(updatedList, matchCriteria, dbContext);
         }
 
         private static void MergeDelete<T>(this ICollection<T> existingList, IEnumerable<T> updatedList, Match<T> matchCriteria, DatabaseEntities dbContext) where T : ICanDeleteFull

@@ -186,9 +186,9 @@ namespace ProjectFirma.Web.Common
             return GetCanStewardProjectsOrganizationRelationship() != null;
         }
 
-        public static bool HasAttachmentRelationshipTypeConfigured()
+        public static bool HasAttachmentTypeConfigured()
         {
-            return HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.Any();
+            return HttpRequestStorage.DatabaseEntities.AttachmentTypes.Any();
         }
 
         public static OrganizationRelationshipType GetCanStewardProjectsOrganizationRelationship()
@@ -316,6 +316,24 @@ namespace ProjectFirma.Web.Common
         public static string GetTenantGoogleAnalyticsTrackingCode()
         {
             return GetTenantAttribute().GoogleAnalyticsTrackingCode;
+        }
+
+        public static bool UsesEvaluations()
+        {
+            return GetTenantAttribute().EnableEvaluations;
+        }
+        public static void AddEvaluationsMenuItem(LtInfoMenuItem manageMenu, FirmaSession currentFirmaSession, string menuGroupName)
+        {
+            if (UsesEvaluations() && new FirmaAdminFeature().HasPermission(currentFirmaSession).HasPermission)
+            {
+
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<EvaluationController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized(), "Group1"));
+            }
+        }
+
+        public static bool DisplayReportCenter()
+        {
+            return GetTenantAttribute().EnableReportCenter;
         }
 
     }

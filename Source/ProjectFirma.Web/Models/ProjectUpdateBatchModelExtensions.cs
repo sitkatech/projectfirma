@@ -106,10 +106,10 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.SyncPerformanceMeasureActualYearsExemptionExplanation();
 
             // project locations - detailed
-            ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectLocationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // project geospatialArea
-            ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // photos
             ProjectImageUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -226,9 +226,9 @@ namespace ProjectFirma.Web.Models
         {
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
-                {
-                    projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
-                }
+            {
+                projectFundingSourceBudgetUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
         }
 
         public static void DeleteProjectNoFundingSourceIdentifiedUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -331,49 +331,86 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
         }
 
-        public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
+        public static List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
             if (!projectUpdateBatch.AreProjectBasicsValid())
             {
-                return new PerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection);
+                return new List<PerformanceMeasuresValidationResult> { new PerformanceMeasuresValidationResult(FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection)};
             }
-            
-            // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear); if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
-            var missingYears = new HashSet<int>();
-            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+
+            List<PerformanceMeasuresValidationResult> results = new List<PerformanceMeasuresValidationResult>();
+
+            var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates ?? new List<PerformanceMeasureActualUpdate>();
+
+            // What years are expected for this Project?
+            var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
+            var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
+
+            // What distinct PerformanceMeasures are being worked with? 
+            var pmausGrouped = performanceMeasureActualUpdates.GroupBy(pmas => pmas.PerformanceMeasureID);
+
+            // Examine each PerformanceMeasure group as a unit to check for problems within the group
+            foreach (var performanceMeasureActualUpdateGroup in pmausGrouped)
             {
-                var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
-                var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
-                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
-                missingYears = yearsExpected.GetMissingYears(yearsEntered);
+                var currentPerformanceMeasureActualUpdate = performanceMeasureActualUpdateGroup.First();
+                int currentPerformanceMeasureActualUpdateID = currentPerformanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
+
+                // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
+                // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
+                var missingYears = new HashSet<int>();
+                if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+                {
+                    var yearsEntered = performanceMeasureActualUpdateGroup.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().OrderBy(year => year).ToList();
+                    missingYears = yearsExpected.GetMissingYears(yearsEntered);
+                }
+
+                // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
+                var performanceMeasureActualsWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
+
+                // validation 3: duplicate PM row
+                var performanceMeasureActualsWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
+
+                // validation 4: data entered for exempt years
+                var performanceMeasureActualsWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow(currentPerformanceMeasureActualUpdateID);
+
+                int currentPerformanceMeasureID = currentPerformanceMeasureActualUpdate.PerformanceMeasureID;
+                string currentPerformanceMeasureDisplayName = currentPerformanceMeasureActualUpdate.PerformanceMeasure.PerformanceMeasureDisplayName;
+
+                var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(
+                    currentPerformanceMeasureID,
+                    currentPerformanceMeasureDisplayName,
+                    missingYears,
+                    performanceMeasureActualsWithIncompleteWarnings,
+                    performanceMeasureActualsWithDuplicateWarnings,
+                    performanceMeasureActualsWithExemptYear);
+
+                results.Add(performanceMeasuresValidationResult);
             }
-            // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
-            var performanceMeasureActualUpdatesWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow();
 
-            //validation 3: duplicate PM row
-            var performanceMeasureActualUpdatesWithDuplicateWarnings = projectUpdateBatch.ValidateNoDuplicatePerformanceMeasureActualUpdateRow();
-
-            //validation4: data entered for exempt years
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.ValidateNoExemptYearsWithReportedPerformanceMeasureRow();
-
-            var performanceMeasuresValidationResult = new PerformanceMeasuresValidationResult(missingYears, performanceMeasureActualUpdatesWithIncompleteWarnings, performanceMeasureActualUpdatesWithDuplicateWarnings, performanceMeasureActualUpdatesWithExemptYear);
-            return performanceMeasuresValidationResult;
+            return results;
         }
 
-        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch)
+
+
+
+        private static HashSet<int> ValidateNoIncompletePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
         {
             var performanceMeasureActualUpdatesWithMissingSubcategoryOptions = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(
-                x => !x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count).ToList();
+                x => (!x.ActualValue.HasValue || x.PerformanceMeasure.PerformanceMeasureSubcategories.Count != x.PerformanceMeasureActualSubcategoryOptionUpdates.Count) 
+                     && x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID
+            ).ToList();
             return new HashSet<int>(performanceMeasureActualUpdatesWithMissingSubcategoryOptions.Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch)
+        private static HashSet<int> ValidateNoDuplicatePerformanceMeasureActualUpdateRow(this ProjectUpdateBatch projectUpdateBatch, int relevantPerformanceMeasureActualUpdateID)
         {
             if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
             {
                 return new HashSet<int>();
             }
+
             var duplicates = projectUpdateBatch.PerformanceMeasureActualUpdates
+                .Where(x => x.PerformanceMeasureActualUpdateID == relevantPerformanceMeasureActualUpdateID)
                 .GroupBy(x => new { x.PerformanceMeasureID, x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear })
                 .Select(x => x.ToList())
                 .ToList()
@@ -383,22 +420,24 @@ namespace ProjectFirma.Web.Models
             return new HashSet<int>(duplicates.SelectMany(x => x).ToList().Select(x => x.PerformanceMeasureActualUpdateID));
         }
 
-        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(this ProjectUpdateBatch projectUpdateBatch)
+        private static HashSet<int> ValidateNoExemptYearsWithReportedPerformanceMeasureRow(this ProjectUpdateBatch projectUpdateBatch, int currentPerformanceMeasureActualUpdateID)
         {
-            if (projectUpdateBatch.PerformanceMeasureActualUpdates == null)
-            {
-                return new HashSet<int>();
-            }
+            var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(pma => pma.PerformanceMeasureActualUpdateID == currentPerformanceMeasureActualUpdateID).ToList();
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
-
-            var performanceMeasureActualUpdatesWithExemptYear = projectUpdateBatch.PerformanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();            
-
-            return new HashSet<int>(performanceMeasureActualUpdatesWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
+            var performanceMeasureActualsWithExemptYear = performanceMeasureActualUpdates.Where(x => exemptYears.Contains(x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)).ToList();
+            return new HashSet<int>(performanceMeasureActualsWithExemptYear.Select(x => x.PerformanceMeasureActualUpdateID));
         }
+
+
+
+
+
+
+
 
         public static bool AreReportedPerformanceMeasuresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.NewStageIsPlanningDesign() || projectUpdateBatch.ValidatePerformanceMeasures().IsValid;
+            return projectUpdateBatch.NewStageIsPlanningDesign() || PerformanceMeasuresValidationResult.AreAllValid(projectUpdateBatch.ValidatePerformanceMeasures());
         }
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
@@ -568,52 +607,83 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Returned, currentFirmaSession, transitionDate);
         }
 
-        public static void Approve(
-            this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate,
-            IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectRelevantCostType> projectRelevantCostTypes,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectGeospatialArea> projectGeospatialAreas, 
-            IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
-            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
-            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
-            IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectAttachment> allProjectAttachments,
-            IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
-            IList<ProjectContact> allProjectContacts
-            )
+        public static void Approve(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate, DatabaseEntities databaseEntities)
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears, projectRelevantCostTypes,
-                projectFundingSourceExpenditures,
-                performanceMeasureActuals,
-                performanceMeasureActualSubcategoryOptions,
-                performanceMeasureExpecteds,
-                performanceMeasureExpectedSubcategoryOptions,
-                projectExternalLinks,
-                projectNotes,
-                projectImages,
-                projectLocations,
-                projectGeospatialAreas,
-                projectGeospatialAreaTypeNotes,
-                projectFundingSourceBudgets,
-                projectNoFundingSourceIdentifieds,
-                allProjectOrganizations,
-                allProjectAttachments,
-                allProjectCustomAttributes,
-                allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests,
-                allProjectContacts);
+            projectUpdateBatch.CommitChangesToProject(databaseEntities);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentFirmaSession, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
+        }
+
+        private static void CommitChangesToProject(this ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
+        {
+            // basics
+            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
+
+            // expenditures
+            ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // expected funding
+            ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // project exempt reporting years
+            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
+
+            // project relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // only relevant for stages past planning/design
+            if (!projectUpdateBatch.NewStageIsPlanningDesign())
+            {
+                // reported performance measures
+                PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+                // project exempt reporting years reason
+                projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
+            }
+
+            // expected performance measures
+            PerformanceMeasureExpectedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+
+            // project location simple
+            projectUpdateBatch.ProjectUpdate.CommitSimpleLocationToProject(projectUpdateBatch.Project);
+
+            // project location detailed
+            ProjectLocationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // project geospatialArea
+            ProjectGeospatialAreaUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            ProjectGeospatialAreaTypeNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // photos
+            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+            projectUpdateBatch.IsPhotosUpdated = false;
+
+            // external links
+            ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // notes
+            ProjectNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Organizations
+            ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            //  Contacts
+            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Attachments
+            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Project Custom Attributes
+            ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
+            // Technical Assistance Requests - for Idaho
+            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
         }
 
         private static void PushTransitionRecordsToAuditLog(this ProjectUpdateBatch projectUpdateBatch)
@@ -628,97 +698,6 @@ namespace ProjectFirma.Web.Models
                     $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update record",
                     projectUpdateHistory.ProjectUpdateState.ProjectUpdateStateDisplayName) {ProjectID = projectUpdateBatch.ProjectID};
             }
-        }
-
-        private static void CommitChangesToProject(
-            this ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears,
-            IList<ProjectRelevantCostType> projectRelevantCostTypes,
-            IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
-            IList<PerformanceMeasureActual> performanceMeasureActuals,
-            IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
-            IList<PerformanceMeasureExpected> performanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> performanceMeasureExpectedSubcategoryOptions,
-            IList<ProjectExternalLink> projectExternalLinks, IList<ProjectNote> projectNotes,
-            IList<ProjectImage> projectImages, IList<ProjectLocation> projectLocations,
-            IList<ProjectGeospatialArea> projectGeospatialAreas,
-            IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
-            IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
-            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
-            IList<ProjectOrganization> allProjectOrganizations,
-            IList<ProjectAttachment> allProjectAttachments,
-            IList<ProjectCustomAttribute> allProjectCustomAttributes,
-            IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
-            IList<ProjectContact> allProjectContacts)
-        {
-            // basics
-            projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
-
-            // expenditures
-            ProjectFundingSourceExpenditureUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceExpenditures);
-
-            // expected funding
-            ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
-
-            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNoFundingSourceIdentifieds);
-
-            // project exempt reporting years
-            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
-            projectUpdateBatch.Project.ExpendituresNote = projectUpdateBatch.ExpendituresNote;
-
-            // project relevant cost types
-            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
-
-            // only relevant for stages past planning/design
-            if (!projectUpdateBatch.NewStageIsPlanningDesign())
-            {
-                // reported performance measures
-                PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureActuals,
-                    performanceMeasureActualSubcategoryOptions);
-
-                // project exempt reporting years reason
-                projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
-            }
-
-            // expected performance measures
-            PerformanceMeasureExpectedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureExpecteds,
-                performanceMeasureExpectedSubcategoryOptions);
-
-
-            // project location simple
-            projectUpdateBatch.ProjectUpdate.CommitSimpleLocationToProject(projectUpdateBatch.Project);
-
-            // project location detailed
-            ProjectLocationUpdate.CommitChangesToProject(projectUpdateBatch, projectLocations);
-
-            // project geospatialArea
-            ProjectGeospatialAreaUpdate.CommitChangesToProject(projectUpdateBatch, projectGeospatialAreas);
-            ProjectGeospatialAreaTypeNoteUpdate.CommitChangesToProject(projectUpdateBatch, projectGeospatialAreaTypeNotes);
-
-            // photos
-            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectImages);
-            projectUpdateBatch.IsPhotosUpdated = false;
-
-            // external links
-            ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExternalLinks);
-
-            // notes
-            ProjectNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNotes);
-
-            // Organizations
-            ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectOrganizations);
-
-            //  Contacts
-            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
-
-            // Attachments
-            ProjectAttachmentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectAttachments);
-
-            // Project Custom Attributes
-            ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
-
-            // Technical Assistance Requests - for Idaho
-            TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 
         public static void RejectSubmission(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, DateTime transitionDate)
@@ -757,42 +736,29 @@ namespace ProjectFirma.Web.Models
                    areAllProjectGeospatialAreasValid;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
+        public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
+            return projectUpdateBatch.GetAllAttachmentTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachmentUpdates.Where(pau => pau.ProjectUpdateBatchID == projectUpdateBatch.ProjectUpdateBatchID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this ProjectUpdateBatch projectUpdateBatch)
+        public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
 
         public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
         {
-            List<PerformanceMeasureReportedValue> reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            PerformanceMeasure technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(projectUpdateBatch));
-            }
-
-            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            var reportedPerformanceMeasures = projectUpdateBatch.GetNonVirtualPerformanceMeasureReportedValues();
+            return reportedPerformanceMeasures.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this ProjectUpdateBatch projectUpdateBatch)
         {
-            List<PerformanceMeasureReportedValue> performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
+            var performanceMeasureReportedValues = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasure)
                 .Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
                 .SelectMany(x => x.GetReportedPerformanceMeasureValues(projectUpdateBatch)).ToList();
             return performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
-
-
     }
 }

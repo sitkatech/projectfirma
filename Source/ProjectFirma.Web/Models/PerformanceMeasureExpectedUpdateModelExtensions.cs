@@ -44,17 +44,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasureExpectedUpdate;
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch,
-            IList<PerformanceMeasureExpected> allPerformanceMeasureExpecteds,
-            IList<PerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var currentPerformanceMeasureExpecteds = project.PerformanceMeasureExpecteds.ToList();
-            currentPerformanceMeasureExpecteds.ForEach(pmav =>
-            {
-                pmav.PerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureExpectedSubcategoryOptions.Remove(pmavso));
-                allPerformanceMeasureExpecteds.Remove(pmav);
-            });
+            currentPerformanceMeasureExpecteds.ForEach(pmav => pmav.DeleteFull(databaseEntities));
             currentPerformanceMeasureExpecteds.Clear();
 
             if (projectUpdateBatch.AreAccomplishmentsRelevant() && projectUpdateBatch.PerformanceMeasureExpectedUpdates.Any())
@@ -66,13 +60,13 @@ namespace ProjectFirma.Web.Models
                     {
                         ExpectedValue = x.ExpectedValue
                     };
-                    allPerformanceMeasureExpecteds.Add(performanceMeasureExpected);
+                    databaseEntities.AllPerformanceMeasureExpecteds.Add(performanceMeasureExpected);
                     var performanceMeasureExpectedSubcategoryOptionUpdates = x.PerformanceMeasureExpectedSubcategoryOptionUpdates.ToList();
                     if (performanceMeasureExpectedSubcategoryOptionUpdates.Any())
                     {
                         performanceMeasureExpectedSubcategoryOptionUpdates.ForEach(
                             y =>
-                                allPerformanceMeasureExpectedSubcategoryOptions.Add(new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected,
+                                databaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Add(new PerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected,
                                     y.PerformanceMeasureSubcategoryOption,
                                     y.PerformanceMeasure,
                                     y.PerformanceMeasureSubcategory)));

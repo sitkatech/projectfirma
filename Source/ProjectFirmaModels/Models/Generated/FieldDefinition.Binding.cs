@@ -24,30 +24,29 @@ namespace ProjectFirmaModels.Models
         protected FieldDefinition()
         {
             this.FieldDefinitionDatas = new HashSet<FieldDefinitionData>();
+            this.FieldDefinitionDefaults = new HashSet<FieldDefinitionDefault>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : this()
+        public FieldDefinition(int fieldDefinitionID, string fieldDefinitionName, string fieldDefinitionDisplayName) : this()
         {
             this.FieldDefinitionID = fieldDefinitionID;
             this.FieldDefinitionName = fieldDefinitionName;
             this.FieldDefinitionDisplayName = fieldDefinitionDisplayName;
-            this.DefaultDefinition = defaultDefinition;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FieldDefinition(string fieldDefinitionName, string fieldDefinitionDisplayName, string defaultDefinition) : this()
+        public FieldDefinition(string fieldDefinitionName, string fieldDefinitionDisplayName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FieldDefinitionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.FieldDefinitionName = fieldDefinitionName;
             this.FieldDefinitionDisplayName = fieldDefinitionDisplayName;
-            this.DefaultDefinition = defaultDefinition;
         }
 
 
@@ -56,7 +55,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static FieldDefinition CreateNewBlank()
         {
-            return new FieldDefinition(default(string), default(string), default(string));
+            return new FieldDefinition(default(string), default(string));
         }
 
         /// <summary>
@@ -65,13 +64,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FieldDefinitionDatas.Any();
+            return FieldDefinitionDatas.Any() || (FieldDefinitionDefault != null);
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinition).Name, typeof(FieldDefinitionData).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FieldDefinition).Name, typeof(FieldDefinitionData).Name, typeof(FieldDefinitionDefault).Name};
 
 
         /// <summary>
@@ -100,23 +99,24 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in FieldDefinitionDefaults.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
         public int FieldDefinitionID { get; set; }
         public string FieldDefinitionName { get; set; }
         public string FieldDefinitionDisplayName { get; set; }
-        public string DefaultDefinition { get; set; }
-        [NotMapped]
-        public HtmlString DefaultDefinitionHtmlString
-        { 
-            get { return DefaultDefinition == null ? null : new HtmlString(DefaultDefinition); }
-            set { DefaultDefinition = value?.ToString(); }
-        }
         [NotMapped]
         public int PrimaryKey { get { return FieldDefinitionID; } set { FieldDefinitionID = value; } }
 
         public virtual ICollection<FieldDefinitionData> FieldDefinitionDatas { get; set; }
+        public virtual ICollection<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
+        [NotMapped]
+        public FieldDefinitionDefault FieldDefinitionDefault { get { return FieldDefinitionDefaults.SingleOrDefault(); } set { FieldDefinitionDefaults = new List<FieldDefinitionDefault>{value};} }
 
         public static class FieldLengths
         {
@@ -249,16 +249,51 @@ namespace ProjectFirmaModels.Models
         TotalProjectSecuredFunds = 299,
         TotalProjectTargetedFunds = 300,
         PerformanceMeasureCanBeChartedCumulatively = 301,
-        ProjectStatus = 302,
-        ProjectStatusUpdate = 303,
-        ProjectStatusHistory = 304,
-        ProjectUpdateHistory = 305,
-        ProjectStatusLegend = 306,
-        ProjectStatusUpdateCreatedBy = 307,
-        ProjectStatusUpdateDate = 308,
-        ProjectStatusComments = 309,
+        Status = 302,
+        StatusUpdate = 303,
+        StatusHistory = 304,
+        UpdateHistory = 305,
+        StatusLegend = 306,
+        StatusUpdateCreatedBy = 307,
+        StatusUpdateDate = 308,
+        StatusComments = 309,
         GeospatialArea = 310,
         ArcGISFileGeodatabase = 311,
-        KMLFile = 312
+        KMLFile = 312,
+        ExternalMapLayer = 313,
+        ExternalMapLayerDisplayName = 314,
+        ExternalMapLayerUrl = 315,
+        ExternalMapLayerDescription = 316,
+        ExternalMapLayerFeatureNameField = 317,
+        ExternalMapLayerDisplayOnAllMaps = 318,
+        ExternalMapLayerLayerIsOnByDefault = 319,
+        ExternalMapLayerIsActive = 320,
+        ExternalMapLayerIsATiledMapService = 321,
+        FinalStatusUpdateStatus = 322,
+        IsFinalStatusUpdate = 323,
+        StatusLessonsLearned = 324,
+        Evaluation = 325,
+        EvaluationCriteria = 326,
+        EvaluationCriteriaValue = 327,
+        EvaluationPortfolio = 328,
+        ProjectEvaluation = 329,
+        EvaluationName = 330,
+        EvaluationDefinition = 331,
+        EvaluationStatus = 332,
+        EvaluationStartDate = 333,
+        EvaluationEndDate = 334,
+        EvaluationVisibility = 335,
+        EvaluationCriteriaName = 336,
+        EvaluationCriteriaDefinition = 337,
+        EnableProjectEvaluations = 338,
+        UseProjectTimeline = 339,
+        ProjectType = 340,
+        EnableProjectType = 341,
+        EnableReportCenter = 342,
+        ReportCenterReportTitle = 343,
+        ReportCenterReportDescription = 344,
+        ReportCenterReportFile = 345,
+        ReportCenterReportModel = 346,
+        ReportCenterSelectedReportTemplate = 347
     }
 }

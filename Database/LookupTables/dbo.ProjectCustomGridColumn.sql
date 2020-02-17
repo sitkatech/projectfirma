@@ -27,4 +27,6 @@ values
 (22, 'CustomAttribute', 'Custom Attribute', 1),
 (23, 'ProjectID', 'ProjectID', 1),
 (24, 'ProjectLastUpdated', 'Last Updated', 1),
-(25, 'ProjectStatus', 'Status', 1)
+(25, 'ProjectStatus', 'Status', 1),
+(26, 'FinalStatusUpdateStatus', 'Final Status Update', 1),
+(27, 'ProjectType', 'Project Type', 1)

@@ -58,7 +58,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool IsInstructionsPage { get;  }
         public string InstructionsPageUrl { get; }
 
-        public ProjectUpdateViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<string> validationWarnings, string currentSectionDisplayName) : base(currentFirmaSession, null)
+        public ProjectUpdateViewData(FirmaSession currentFirmaSession, 
+                                     ProjectUpdateBatch projectUpdateBatch, 
+                                     ProjectUpdateStatus projectUpdateStatus, 
+                                     List<string> validationWarnings, 
+                                     string currentSectionDisplayName) : base(currentFirmaSession, null)
         {
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(projectUpdateBatch.Project));

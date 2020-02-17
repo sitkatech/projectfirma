@@ -105,11 +105,11 @@ namespace LtInfo.Common.DbSpatial
             return SqlGeometry.STGeomFromWKB(new SqlBytes(dbGeometry.AsBinary()), dbGeometry.CoordinateSystemId);
         }
 
-        public static void Reduce(List<IHaveSqlGeometry> geometries)
+        public static void Reduce(List<IHaveSqlGeometry> iHaveSqlGeometries)
         {
             const int thresholdInFeet = 1;
-            var thresholdInDegrees = FeetToAverageLatLonDegree(geometries.First().GetDbGeometry(), thresholdInFeet);
-            geometries.ForEach(x =>
+            var thresholdInDegrees = FeetToAverageLatLonDegree(iHaveSqlGeometries.First().GetDbGeometry(), thresholdInFeet);
+            iHaveSqlGeometries.ForEach(x =>
             {
                 x.SetDbGeometry(x.GetSqlGeometry().MakeValid().Reduce(thresholdInDegrees).ToDbGeometry());
             });

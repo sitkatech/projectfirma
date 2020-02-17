@@ -220,15 +220,14 @@ namespace ProjectFirma.Web.Models
 
         private static string GetTargetColumnLabel(PerformanceMeasure performanceMeasure)
         {
-            var isOverallTarget = performanceMeasure.GetTargetValueType() ==
-                                  PerformanceMeasureTargetValueType.OverallTarget;
-            return isOverallTarget ? performanceMeasure.PerformanceMeasureOverallTargets.First().PerformanceMeasureTargetValueLabel : "Target";
+            var isFixedTarget = performanceMeasure.GetTargetValueType() == PerformanceMeasureTargetValueType.FixedTarget;
+            return isFixedTarget ? performanceMeasure.PerformanceMeasureFixedTargets.First().PerformanceMeasureTargetValueLabel : $"{FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()} Target";
         }
 
         private static string GetGeospatialAreaTargetColumnLabel(PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea)
         {
-            var isOverallTarget = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.OverallTarget;
-            string response = isOverallTarget ? performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel : "Geospatial Area Target";
+            var isFixedTarget = performanceMeasure.GetGeospatialAreaTargetValueType(geospatialArea) == PerformanceMeasureTargetValueType.FixedTarget;
+            string response = isFixedTarget ? performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.First(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).GeospatialAreaPerformanceMeasureTargetValueLabel : $"{FieldDefinitionEnum.GeospatialArea.ToType().GetFieldDefinitionLabel()} Target";
             return response;
         }
 

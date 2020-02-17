@@ -35,4 +35,7 @@ insert into dbo.MeasurementUnitType(MeasurementUnitTypeID, MeasurementUnitTypeNa
 (32, 'Kilometer', 'Kilometer (km)', 'km', 'Kilometer', 1),
 (33, 'ChemicalConcentrationWetWeight', 'Chemical Concentration Wet Weight (ng/g wet weight)', 'ng/g wet weight', 'Chemical Concentration Wet Weight', 1),
 (34, 'ChemicalConcentrationLipidWeight', 'Chemical Concentration Lipid Weight (ng/g lipid weight)', 'ng/g lipid weight', 'Chemical Concentration Lipid Weight', 1),
-(35, 'CanopyBulkDensity', 'Canopy Bulk Density (kg/m^3)', 'kg/m^3', 'Canopy Bulk Density', 2)
+(35, 'CanopyBulkDensity', 'Canopy Bulk Density (kg/m^3)', 'kg/m^3', 'Canopy Bulk Density', 2),
+(36, 'LinearStreamMiles', 'Linear Stream Miles', 'linear stream miles', 'Linear Stream Mile', 2),
+(37, 'Celsius', 'Celsius (C)', 'C', 'Celsius', 2),
+(38, 'PerSquareMeter', 'Per Square Meter (per sq m)', 'per sq m', 'Per Square Meter', 2) 

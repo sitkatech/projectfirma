@@ -427,7 +427,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureSubcategoryOptionSimples = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
             
             var calendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
-            var performanceMeasuresValidationResult = projectUpdateBatch.ValidatePerformanceMeasures();
+            var performanceMeasuresValidationResults = projectUpdateBatch.ValidatePerformanceMeasures();
 
             var viewDataForAngularEditor = new ReportedPerformanceMeasuresViewData.ViewDataForAngularEditor(projectUpdateBatch.ProjectUpdateBatchID,
                 performanceMeasureSimples,
@@ -436,7 +436,7 @@ namespace ProjectFirma.Web.Controllers
                 calendarYearStrings,
                 showExemptYears);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
-            var viewData = new ReportedPerformanceMeasuresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResult);
+            var viewData = new ReportedPerformanceMeasuresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, updateStatus, performanceMeasuresValidationResults);
             return RazorView<ReportedPerformanceMeasures, ReportedPerformanceMeasuresViewData, ReportedPerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
@@ -1078,6 +1078,7 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJsonForEdit = new MapInitJson($"project_{project.ProjectID}_EditMap",
                 10,
                 MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide),
+                MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeNewDefaultBoundingBox(),
                 false) {DisablePopups = true};
             var locationSimpleValidationResult = projectUpdateBatch.ValidateProjectLocationSimple();
@@ -1183,7 +1184,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(projectUpdate);
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(projectUpdate));
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) {AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.ProjectID));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationDetailed(project.ProjectID, null));
@@ -1224,7 +1225,7 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectLocationUpdates();
 
             // refresh the data
-            ProjectLocationUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectLocationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             SetMessageForDisplay($"Detailed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} successfully reverted.");
             return new ModalDialogFormJsonResult();
@@ -1318,7 +1319,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson($"project_{projectUpdateBatch.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson($"project_{projectUpdateBatch.ProjectID}_PreviewMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox, false) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = ProjectLocationController.GenerateEditProjectLocationFormID(projectUpdateBatch.ProjectID);
             var approveGisUploadUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ApproveGisUpload(projectUpdateBatch.Project, null));
 
@@ -1417,7 +1418,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdate));
-            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
            
             var geospatialAreaValidationResult = projectUpdateBatch.ValidateProjectGeospatialArea(geospatialAreaType);
             var geospatialAreas = projectUpdate.GetProjectGeospatialAreas().ToList();
@@ -1467,7 +1468,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(projectUpdateBatch.ProjectUpdate);
 
-            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
@@ -1536,8 +1537,8 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.DeleteProjectGeospatialAreaUpdates();
 
             // refresh the data
-            ProjectGeospatialAreaUpdate.CreateFromProject(projectUpdateBatch);
-            ProjectGeospatialAreaTypeNoteUpdate.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectGeospatialAreaTypeNoteUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             SetMessageForDisplay($" {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Geospatial Area successfully reverted.");
             return new ModalDialogFormJsonResult();
@@ -1925,74 +1926,8 @@ namespace ProjectFirma.Web.Controllers
             var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project, $"There is no current {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update to approve for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}!");
             Check.Require(projectUpdateBatch.IsSubmitted(), $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in a state to be ready to be approved!");
             WriteHtmlDiffLogs(projectPrimaryKey, projectUpdateBatch);
-
-            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
-            var allProjectExemptReportingYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectRelevantCostTypes.Load();
-            var allProjectRelevantCostTypes = HttpRequestStorage.DatabaseEntities.AllProjectRelevantCostTypes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectNoFundingSourceIdentifieds.Load();
-            var allProjectNoFundingSourceIdentifieds = HttpRequestStorage.DatabaseEntities.AllProjectNoFundingSourceIdentifieds.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Load();
-            var allPerformanceMeasureActuals = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActuals.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureActualSubcategoryOptions.Load();
-            var allPerformanceMeasureActualSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureActualSubcategoryOptions.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpecteds.Load();
-            var allPerformanceMeasureExpecteds = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpecteds.Local;
-            HttpRequestStorage.DatabaseEntities.PerformanceMeasureExpectedSubcategoryOptions.Load();
-            var allPerformanceMeasureExpectedSubcategoryOptions = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureExpectedSubcategoryOptions.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectExternalLinks.Load();
-            var allProjectExternalLinks = HttpRequestStorage.DatabaseEntities.AllProjectExternalLinks.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectNotes.Load();
-            var allProjectNotes = HttpRequestStorage.DatabaseEntities.AllProjectNotes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectImages.Load();
-            var allProjectImages = HttpRequestStorage.DatabaseEntities.AllProjectImages.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectLocations.Load();
-            var allProjectLocations = HttpRequestStorage.DatabaseEntities.AllProjectLocations.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Load();
-            var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreaTypeNotes.Load();
-            var allProjectGeospatialAreaTypeNotes = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreaTypeNotes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectOrganizations.Load();
-            var allProjectOrganizations = HttpRequestStorage.DatabaseEntities.AllProjectOrganizations.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectAttachments.Load();
-            var allProjectAttachments = HttpRequestStorage.DatabaseEntities.AllProjectAttachments.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdates.Load();
-            var allProjectCustomAttributes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributes.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeUpdateValues.Load();
-            var allProjectCustomAttributeValues = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeValues.Local;
-            // Technical Assistance Requests for Idaho
-            HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Load();
-            var allTechnicalAssistanceRequests = HttpRequestStorage.DatabaseEntities.AllTechnicalAssistanceRequests.Local;
-            HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
-            var allProjectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
-
-            projectUpdateBatch.Approve(CurrentFirmaSession,
-                DateTime.Now,
-                allProjectExemptReportingYears,
-                allProjectRelevantCostTypes,
-                allProjectFundingSourceExpenditures,
-                allPerformanceMeasureActuals,
-                allPerformanceMeasureActualSubcategoryOptions,
-                allPerformanceMeasureExpecteds,
-                allPerformanceMeasureExpectedSubcategoryOptions,
-                allProjectExternalLinks,
-                allProjectNotes,
-                allProjectImages,
-                allProjectLocations,
-                allProjectGeospatialAreas,
-                allProjectGeospatialAreaTypeNotes,
-                allProjectFundingSourceBudgets,
-                allProjectNoFundingSourceIdentifieds,
-                allProjectOrganizations,
-                allProjectAttachments,
-                allProjectCustomAttributes,
-                allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests,
-                allProjectContacts);
+            
+            projectUpdateBatch.Approve(CurrentFirmaSession, DateTime.Now, HttpRequestStorage.DatabaseEntities);
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
@@ -3638,7 +3573,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewProjectCustomAttributes(Project project, ProjectUpdateBatch projectUpdateBatch, ProjectCustomAttributesViewModel viewModel)
         {
             var customAttributesValidationResult = projectUpdateBatch.ValidateProjectCustomAttributes();
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
 
@@ -3730,18 +3665,18 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesUpdated = new List<IProjectCustomAttribute>(projectUpdate.GetProjectCustomAttributes());
 
             // get the html for the original custom attributes
-            var originalHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesOriginal);
+            var originalHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesOriginal, project);
             // get the html for the updated custom attributes
-            var updatedHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesUpdated);
+            var updatedHtml = GeneratePartialViewForProjectCustomAttributes(customAttributesUpdated, project);
 
             // return a diff container for the original and updated html for the custom attributes
             return new HtmlDiffContainer(originalHtml, updatedHtml);
         }
 
-        private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes)
+        private string GeneratePartialViewForProjectCustomAttributes(List<IProjectCustomAttribute> projectCustomAttributes, Project project)
         {
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentFirmaSession)).OrderBy(x => x.SortOrder).ToList();
-            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Where(x => x.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).Distinct().OrderBy(x => x.SortOrder).ToList();
             var viewData = new DisplayProjectCustomAttributesViewData(projectCustomAttributeTypes, projectCustomAttributes, projectCustomAttributeGroups);
             var partialViewAsString = RenderPartialViewToString(ProjectCustomAttributesPartialViewPath, viewData);
             return partialViewAsString;

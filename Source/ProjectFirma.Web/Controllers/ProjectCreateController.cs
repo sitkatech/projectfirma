@@ -178,6 +178,7 @@ namespace ProjectFirma.Web.Controllers
             if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
+                basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
             }
             
             return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
@@ -204,6 +205,7 @@ namespace ProjectFirma.Web.Controllers
                 PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
                 ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
                 CompletionYear = importExternalProjectStaging.EndYear,
+                ProjectTypeEnum = ProjectTypeEnum.Normal
             };
             return ViewCreateAndEditBasics(viewModel, true);
         }
@@ -229,7 +231,8 @@ namespace ProjectFirma.Web.Controllers
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
-                now)
+                now, 
+                ProjectType.Normal.ProjectTypeID)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
@@ -789,7 +792,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewEditLocationSimple(Project project, LocationSimpleViewModel viewModel)
         {
             var layerGeoJsons = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide);
-            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName)
@@ -841,7 +844,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
             var layers = MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
-            var mapInitJson = new MapInitJson(mapDivID, 10, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var uploadGisFileUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
             var saveFeatureCollectionUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditLocationDetailed(project, null));
@@ -946,7 +949,7 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layerGeoJsons);
 
-            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, boundingBox, false) {AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson($"project_{project.ProjectID}_PreviewMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayers(), boundingBox, false) {AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
             var approveGisUploadUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ApproveGisUpload(project, null));
 
@@ -965,7 +968,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
+            var iHaveSqlGeometries = new List<IHaveSqlGeometry>(project.ProjectLocations.ToList());
+            if (!iHaveSqlGeometries.Any())
+            {
+                SetWarningForDisplay("No valid geometries found in upload");
+            }
+            else
+            {
+                DbSpatialHelper.Reduce(iHaveSqlGeometries);
+            }
             return new ModalDialogFormJsonResult();
         }
 
@@ -1008,7 +1019,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetGeospatialAreaMapLayersForGeospatialAreaType(geospatialAreaType, LayerInitialVisibility.Show);
             layers.AddRange(MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project));
-            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true};
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var geospatialAreaIDs = viewModel.GeospatialAreaIDs ?? new List<int>();
             var geospatialAreasInViewModel = HttpRequestStorage.DatabaseEntities.GeospatialAreas.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).ToList();
             var editProjectGeospatialAreasPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditGeospatialArea(project, geospatialAreaType, null));
@@ -1085,7 +1096,7 @@ namespace ProjectFirma.Web.Controllers
             var boundingBox = BoundingBox.MakeNewDefaultBoundingBox();
             var layers = MapInitJson.GetProjectLocationSimpleAndDetailedMapLayers(project);
 
-            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, boundingBox) { AllowFullScreen = false, DisablePopups = true };
+            var mapInitJson = new MapInitJson("projectGeospatialAreaMap", 0, layers, MapInitJson.GetExternalMapLayers(), boundingBox) { AllowFullScreen = false, DisablePopups = true };
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var bulkSetSpatialAreaUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.BulkSetSpatialInformation(project, null));
             var editProjectGeospatialAreasFormId = GenerateEditProjectGeospatialAreaFormID(project);
@@ -1142,12 +1153,12 @@ namespace ProjectFirma.Web.Controllers
 
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
 
-            var attachmentRelationshipTypes = project.GetAllAttachmentRelationshipTypes().ToList();
+            var attachmentTypes = project.GetAllAttachmentTypes().ToList();
             var projectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
                                                                                         EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
                                                                                         SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.NewAttachment(project)), project.ProjectName,
                                                                                         canEditAttachmentsAndNotes,
-                                                                                        attachmentRelationshipTypes,
+                                                                                        attachmentTypes,
 
                                                                                         CurrentFirmaSession);
             var viewData = new AttachmentsAndNotesViewData(CurrentFirmaSession, project, proposalSectionsStatus, entityNotesViewData, projectAttachmentsDetailViewData);
@@ -1301,10 +1312,10 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewNewAttachment(NewProjectAttachmentViewModel viewModel, Project project)
         {
-            IEnumerable<AttachmentRelationshipType> attachmentRelationshipTypes = project.GetValidAttachmentRelationshipTypesForForms();
+            IEnumerable<AttachmentType> attachmentTypes = project.GetValidAttachmentTypesForForms();
 
-            Check.Assert(attachmentRelationshipTypes != null, "Cannot find any valid attachment relationship types for this project.");
-            var viewData = new NewProjectAttachmentViewData(attachmentRelationshipTypes);
+            Check.Assert(attachmentTypes != null, "Cannot find any valid attachment relationship types for this project.");
+            var viewData = new NewProjectAttachmentViewData(attachmentTypes);
             return RazorPartialView<NewProjectAttachment, NewProjectAttachmentViewData, NewProjectAttachmentViewModel>(viewData, viewModel);
         }
 
@@ -1791,7 +1802,7 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesValidationResult = project.ValidateCustomAttributes();
 
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 

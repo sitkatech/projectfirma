@@ -1,0 +1,67 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditProjectEvaluation.cshtml" company="Tahoe Regional Planning Agency">
+    Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+
+@using LtInfo.Common
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Common
+@inherits ProjectFirma.Web.Views.Evaluation.EditProjectEvaluation
+
+
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        
+        @for(var index = 0; index <= ViewDataTyped.EvaluationCriteriaSimples.Count - 1; index++)
+        {
+            <div class="form-group">
+                <div class="col-sm-3 control-label">
+                    <label for="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">@Html.Raw(LabelWithSugarForExtensions.GenerateHelpIconImgTag(ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName, ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinition.ToHTMLFormattedString(), ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaDefinitionUrl, 300, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)) @ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaName</label>
+                </div>
+                <div class="col-sm-9">
+                    <select style="width: 100%;" id="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))" name="@(string.Format("SelectedEvaluationCriteriaValues[{0}]", index))">
+                        <option value="-1">Choose One</option>
+                        @foreach (var value in ViewDataTyped.EvaluationCriteriaSimples[index].EvaluationCriteriaValueSimples.OrderBy(x => x.SortOrder))
+                        {
+                        	<option value="@value.EvaluationCriteriaValueID" @(Model.SelectedEvaluationCriteriaValues.Contains(value.EvaluationCriteriaValueID) ? "selected" : string.Empty)>@(value.EvaluationCriteriaValueRating) - @(value.EvaluationCriteriaValueDescription)</option>
+                        }
+                    </select>
+                    
+                </div>
+
+            </div>
+        }
+        
+        <div class="form-group">
+            <div class="col-sm-3 control-label">
+                @Html.LabelWithSugarFor(m => m.Comments)
+            </div>
+            <div class="col-sm-9">
+                @Html.TextAreaWithMaxLengthFor(m => m.Comments, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> {"form-control"})
+                @Html.ValidationMessageFor(m => m.Comments)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.ProjectEvaluationID)
+}
+

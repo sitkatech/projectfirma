@@ -37,8 +37,10 @@ namespace ProjectFirma.Web.Common
     public abstract partial class SitkaController : Controller
     {
         public const string StatusErrorIndex = "StatusError";
+        public const string StatusErrorScrollablePreIndex = "StatusErrorScrollablePre";
         public const string StatusMessageIndex = "StatusMessage";
         public const string InfoMessageIndex = "InfoMessage";
+        public const string WarningMessageIndex = "WarningMessage";
 
         public const string NotAuthorizedLoginText = "You do not have permission to do that, please log in.";
 
@@ -72,6 +74,15 @@ namespace ProjectFirma.Web.Common
             base.OnException(filterContext);
         }
 
+        public void SetErrorWithScrollablePreForDisplay(string errorMessage)
+        {
+            SetMessage(StatusErrorScrollablePreIndex, errorMessage, TempData);
+        }
+        protected void ClearErrorWithScrollablePreForDisplay()
+        {
+            RemoveMessage(StatusErrorScrollablePreIndex, TempData);
+        }
+
         public static void SetErrorForDisplay(TempDataDictionary tempData, string errorMessage)
         {
             SetMessage(StatusErrorIndex, errorMessage, tempData);
@@ -80,6 +91,11 @@ namespace ProjectFirma.Web.Common
         public void SetErrorForDisplay(string errorMessage)
         {
             SetMessage(StatusErrorIndex, errorMessage, TempData);
+        }
+
+        public void SetWarningForDisplay(string errorMessage)
+        {
+            SetMessage(WarningMessageIndex, errorMessage, TempData);
         }
 
         protected void ClearErrorForDisplay()
@@ -318,8 +334,9 @@ namespace ProjectFirma.Web.Common
             return new RedirectResult(route.BuildUrlFromExpression());
         }
 
-        protected FileResult ExportGridToExcelImpl(string gridName, bool printFooter)
+        protected FileResult ExportGridToExcelImpl(string gridName)
         {
+            // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
             xml = Server.UrlDecode(xml);

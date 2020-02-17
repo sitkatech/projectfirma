@@ -20,7 +20,7 @@ namespace ProjectFirma.Web.Models
             GeospatialAreaTypeName = geospatialAreaType.GeospatialAreaTypeName;
             GeospatialAreaTypeNamePluralized = geospatialAreaType.GeospatialAreaTypeNamePluralized;
             GeospatialAreaTypeLayerName = geospatialAreaType.GeospatialAreaLayerName;
-            GeospatialAreaTypeMapServiceUrl = geospatialAreaType.MapServiceUrl;
+            GeospatialAreaTypeMapServiceUrl = geospatialAreaType.MapServiceUrl();
         }
 
         public GeospatialAreaTypeSimple(GeospatialAreaType geospatialAreaType, List<int> geospatialAreaIDsContainingProjectSimpleLocation, List<int> geospatialAreaIDsInitiallySelected) : this(geospatialAreaType)

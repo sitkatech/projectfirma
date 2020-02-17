@@ -51,4 +51,14 @@ values
 (66, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2),
 (67, 'ProjectStatusFromTimelineDialog', 'Project Status Timeline Dialog', 2),
 (68, 'ProjectStatusFromGridDialog', 'Project Status Grid Dialog', 2),
-(69, 'ProjectStatusListEditor', 'Project Status List Editor', 2)
+(69, 'ProjectStatusListEditor', 'Project Status List Editor', 2),
+(70, 'ExternalMapLayers', 'External Map Layers', 1),
+(71, 'WebServicesIndex', 'Web Services Index' , 1), 
+(72, 'WebServicesList', 'Web Services List' , 1),
+(73, 'EvaluationList', 'Evaluation List' , 1),
+(74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
+(75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
+(76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2),
+(77, 'ReportCenter', 'Report Center' , 1),
+(78, 'ReportCenterProjects', 'Report Center Projects' , 1),
+(79, 'ReportCenterAddReport', 'Add a Report' , 2)

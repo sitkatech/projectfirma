@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ProjectStatusUpdateFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        public ProjectStatusUpdateFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureForProject(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -17,16 +17,12 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            // if the person is a project steward but can't steward this project, deny them permissions to see it
-            if (firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !firmaSession.Person.CanStewardProject(contextModelObject))
-            {
-                return new PermissionCheckResult("Does not have privilege to add, edit, or delete project statuses");
-            }
-
-            if (HasPermissionByFirmaSession(firmaSession))
+            var statusPermissionCheckResult = new ProjectTimelineFeature().HasPermission(firmaSession, contextModelObject);
+            if (statusPermissionCheckResult.HasPermission)
             {
                 return new PermissionCheckResult();
             }
+
             return new PermissionCheckResult("Does not have privilege to add, edit, or delete project statuses");
         }
 

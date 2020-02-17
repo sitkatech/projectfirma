@@ -39,12 +39,12 @@ namespace ProjectFirmaModels.Models
 
         public ProjectFundingSourceExpenditure(int projectID, int fundingSourceID, int calendarYear, decimal expenditureAmount, int? costTypeID) : this()
         {
-            this.ProjectFundingSourceExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ProjectID = projectID;
-            this.FundingSourceID = fundingSourceID;
-            this.CalendarYear = calendarYear;
-            this.ExpenditureAmount = expenditureAmount;
-            this.CostTypeID = costTypeID;
+            ProjectFundingSourceExpenditureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            ProjectID = projectID;
+            FundingSourceID = fundingSourceID;
+            CalendarYear = calendarYear;
+            ExpenditureAmount = expenditureAmount;
+            CostTypeID = costTypeID;
         }
     }
 }

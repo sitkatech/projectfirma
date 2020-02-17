@@ -18,17 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -36,6 +35,7 @@ namespace ProjectFirma.Web.Views.FundingSource
     {
         public ProjectFirmaModels.Models.FundingSource FundingSource { get; }
         public bool UserHasFundingSourceManagePermissions { get; }
+        public bool UserHasFundingSourceCustomAttributeManagePermissions { get; }
         public bool UserHasProjectFundingSourceExpenditureManagePermissions { get; }
         public string EditFundingSourceUrl { get; }
         public string ManageFundingSourcesUrl { get; }
@@ -61,6 +61,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             PageTitle = fundingSource.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}";
             UserHasFundingSourceManagePermissions = new FundingSourceEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
+            UserHasFundingSourceCustomAttributeManagePermissions = new FundingSourceCustomAttributeEditFeature().HasPermission(currentFirmaSession, fundingSource).HasPermission;
             UserHasProjectFundingSourceExpenditureManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             EditFundingSourceUrl = fundingSource.GetEditUrl();
 

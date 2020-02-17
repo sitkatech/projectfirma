@@ -25,6 +25,7 @@ using System.Data.Entity.Spatial;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
@@ -63,6 +64,11 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectCreateUrl(this Project project)
         {
             return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
+        }
+
+        public static bool FactSheetIsAvailable(this Project project)
+        {
+            return project.ProjectStage != ProjectStage.Terminated;
         }
 
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
@@ -312,18 +318,7 @@ namespace ProjectFirma.Web.Models
         public static List<PerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Project project)
         {
             var reportedPerformanceMeasures = project.GetNonVirtualPerformanceMeasureReportedValues();
-
-            // Idaho's special PM.
-            // There Might Be A Better Way To Do This™
-            var technicalAssistanceValue = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.SingleOrDefault(x =>
-                x.PerformanceMeasureDataSourceTypeID == PerformanceMeasureDataSourceType.TechnicalAssistanceValue
-                    .PerformanceMeasureDataSourceTypeID);
-            if (technicalAssistanceValue != null)
-            {
-                reportedPerformanceMeasures.AddRange(technicalAssistanceValue.GetReportedPerformanceMeasureValues(project));
-            }
-
-            return Enumerable.OrderByDescending<PerformanceMeasureReportedValue, int>(reportedPerformanceMeasures, pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
+            return reportedPerformanceMeasures.OrderByDescending<PerformanceMeasureReportedValue, int>(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
         }
 
         public static string GetPlanningDesignStartYear(Project project)
@@ -601,15 +596,21 @@ namespace ProjectFirma.Web.Models
                 }
                 else
                 {
-                    return string.Join(", ",
-                        projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
+                    return string.Join(", ", projectCustomAttribute.ProjectCustomAttributeValues.Select(x => x.AttributeValue));
                 }
+            }
+            else if(projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            {
+                //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
+                return "N/A";
             }
             else
             {
+                //This just has no value
                 return "None";
             }
         }
+
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
@@ -707,6 +708,15 @@ namespace ProjectFirma.Web.Models
             return project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState != ProjectUpdateState.Approved).OrderByDescending(x => x.LastUpdateDate).FirstOrDefault();
         }
 
+        public static bool HasSubmittedOrApprovedUpdateBatchChangingProjectToCompleted(this Project project)
+        {
+            return project
+                .ProjectUpdateBatches
+                .Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved ||
+                            x.ProjectUpdateState == ProjectUpdateState.Submitted)
+                .Any(x => x.ProjectUpdate?.ProjectStage == ProjectStage.Completed);
+        }
+
         public static ProjectUpdateBatch GetLatestApprovedUpdateBatch(this Project project)
         {
             var projectUpdateBatches = project.ProjectUpdateBatches.Where(x => x.ProjectUpdateState == ProjectUpdateState.Approved).ToList();
@@ -777,14 +787,14 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this Project project)
+        public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this Project project)
         {
-            return project.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
+            return project.GetAllAttachmentTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this Project project)
+        public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
         public static decimal GetSecuredFundingForAllProjects()

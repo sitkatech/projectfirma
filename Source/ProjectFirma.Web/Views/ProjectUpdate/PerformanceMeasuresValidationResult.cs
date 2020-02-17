@@ -29,18 +29,31 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
     public class PerformanceMeasuresValidationResult
     {
         public static readonly string FoundIncompletePerformanceMeasureRowsMessage =
-            $"Found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
+            $"found incomplete {MultiTenantHelpers.GetPerformanceMeasureName()} rows. You must either delete irrelevant rows, or provide complete information for each row.";
 
-        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"Found duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
+        public static readonly string FoundDuplicatePerformanceMeasureRowsMessage = $"found duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.";
 
-        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"Found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+        public static readonly string FoundReportedPerformanceMeasureForExemptYearRowsMessage = $"found reported value for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.";
+
+        private readonly int _performanceMeasureID;
 
         private readonly List<string> _warningMessages;
 
         public readonly HashSet<int> PerformanceMeasureActualUpdatesWithWarnings;
 
-        public PerformanceMeasuresValidationResult(HashSet<int> missingYears, HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings, HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings, HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
+        public PerformanceMeasuresValidationResult(
+            int performanceMeasureID,
+            string performanceMeasureName,
+            HashSet<int> missingYears,
+            HashSet<int> performanceMeasureActualUpdatesWithIncompleteWarnings,
+            HashSet<int> performanceMeasureActualUpdatesWithDuplicateWarnings,
+            HashSet<int> performanceMeasureActualUpdatesWithExemptYear)
         {
+            //string performanceMeasurePrefixString = string.Format($"{performanceMeasureName} (PM ID # {performanceMeasureID})");
+            string performanceMeasurePrefixString = string.Format($"{performanceMeasureName}");
+
+            _performanceMeasureID = performanceMeasureID;
+
             var ints = new HashSet<int>();
             ints.UnionWith(performanceMeasureActualUpdatesWithIncompleteWarnings);
             ints.UnionWith(performanceMeasureActualUpdatesWithDuplicateWarnings);
@@ -50,22 +63,26 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string>();
             if (missingYears.Any())
             {
-                _warningMessages.Add(
-                    $"Missing {MultiTenantHelpers.GetPerformanceMeasureName()} for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
+                _warningMessages.Add($"{performanceMeasurePrefixString} missing {MultiTenantHelpers.GetPerformanceMeasureName()} data for {string.Join(", ", missingYears.Select(MultiTenantHelpers.FormatReportingYear))}");
             }
             if (performanceMeasureActualUpdatesWithIncompleteWarnings.Any())
             {
-                _warningMessages.Add(FoundIncompletePerformanceMeasureRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundIncompletePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithDuplicateWarnings.Any())
             {
-                _warningMessages.Add(FoundDuplicatePerformanceMeasureRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundDuplicatePerformanceMeasureRowsMessage}");
             }
             if (performanceMeasureActualUpdatesWithExemptYear.Any())
             {
-                _warningMessages.Add(FoundReportedPerformanceMeasureForExemptYearRowsMessage);
+                _warningMessages.Add($"{performanceMeasurePrefixString} {FoundReportedPerformanceMeasureForExemptYearRowsMessage}");
             }
+        }
 
+
+        public static bool AreAllValid(List<PerformanceMeasuresValidationResult> performanceMeasuresValidationResults)
+        {
+            return performanceMeasuresValidationResults.All(pmvr => pmvr.IsValid);
         }
 
         public PerformanceMeasuresValidationResult(string customErrorMessage)
@@ -73,9 +90,31 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             _warningMessages = new List<string> {customErrorMessage};
         }
 
+        public int GetPerformanceMeasureID()
+        {
+            return _performanceMeasureID;
+        }
+
         public List<string> GetWarningMessages()
         {
             return _warningMessages;
+        }
+
+        public static List<string> GetAllWarningMessages(List<PerformanceMeasuresValidationResult> performanceMeasuresValidationResults)
+        {
+            return performanceMeasuresValidationResults.SelectMany(pmvr => pmvr.GetWarningMessages()).ToList();
+        }
+
+        public static HashSet<int> GetAllPerformanceMeasureActualUpdatesWithWarnings(List<PerformanceMeasuresValidationResult> performanceMeasuresValidationResults)
+        {
+            HashSet<int> allPerformanceMeasureActualUpdatesWithWarnings = new HashSet<int>();
+
+            foreach (var pmvr in performanceMeasuresValidationResults)
+            {
+                allPerformanceMeasureActualUpdatesWithWarnings.UnionWith(pmvr.PerformanceMeasureActualUpdatesWithWarnings);
+            }
+
+            return allPerformanceMeasureActualUpdatesWithWarnings;
         }
 
         public bool IsValid => !_warningMessages.Any();

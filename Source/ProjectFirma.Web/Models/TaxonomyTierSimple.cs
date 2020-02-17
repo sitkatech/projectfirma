@@ -39,16 +39,19 @@ namespace ProjectFirma.Web.Models
         {
             TaxonomyTierID = taxonomyBranch.TaxonomyBranchID;
             DisplayName = taxonomyBranch.GetDisplayName();
+            ParentTaxonomyID = taxonomyBranch.TaxonomyTrunkID;
         }
         public TaxonomyTierSimple(TaxonomyTrunk taxonomyTrunk) : this()
         {
             TaxonomyTierID = taxonomyTrunk.TaxonomyTrunkID;
             DisplayName = taxonomyTrunk.GetDisplayName();
+            ParentTaxonomyID = null; //trunks don't have parents
         }
         public TaxonomyTierSimple(TaxonomyLeaf taxonomyLeaf) : this()
         {
             TaxonomyTierID = taxonomyLeaf.TaxonomyLeafID;
             DisplayName = taxonomyLeaf.GetDisplayName();
+            ParentTaxonomyID = taxonomyLeaf.TaxonomyBranchID;
         }
 
         public TaxonomyTierSimple(TaxonomyTier taxonomyTier) : this()
@@ -59,5 +62,6 @@ namespace ProjectFirma.Web.Models
 
         public int TaxonomyTierID { get; set; }
         public string DisplayName { get; set; }
+        public int? ParentTaxonomyID { get; set; }
     }
 }

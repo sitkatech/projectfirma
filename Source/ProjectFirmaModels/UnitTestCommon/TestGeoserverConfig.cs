@@ -15,8 +15,6 @@ namespace ProjectFirmaModels.UnitTestCommon
         // Might need to vary, but I'm hoping it's consistent
         public const string SvnSitkaGeoserverWorkspacesRootDir = "c:\\svn\\sitkatech\\trunk\\ProjectFirma\\Geoserver\\data_dir\\workspaces";
 
-
-
         public static List<string> GetWorkspaceDirectories()
         {
             var workspaceDirectories =  Directory.GetDirectories(SvnSitkaGeoserverWorkspacesRootDir).ToList();
@@ -67,7 +65,6 @@ namespace ProjectFirmaModels.UnitTestCommon
             foreach (string workspaceDir in workspaceDirs)
             {
                 string pathToCurrentDatastoreXmlFile = GetDatastoreXmlFilePathForWorkspaceDir(workspaceDir);
-                
                 string dataStoreInfoImplValue = GetIdValue(pathToCurrentDatastoreXmlFile, dataStoreInfoImpl);
                 workspaceDirNameToDataStoreInfoImplDict.Add(workspaceDir, dataStoreInfoImplValue);
             }
@@ -82,7 +79,7 @@ namespace ProjectFirmaModels.UnitTestCommon
                 errorString += message;
             }
 
-            Check.Ensure(errorString == string.Empty, $"Found duplicate values for {dataStoreInfoImpl} in the following Geoserver workspaces: {errorString}. These values must be distinct across Geoserver Workspaces, and should not be copied.");
+            Check.Ensure(errorString == string.Empty, $"Found duplicate values for {dataStoreInfoImpl} in the following Geoserver datastore.xml workspaces: {errorString}. These values must be distinct across Geoserver Workspaces, and should not be copied.");
         }
     }
 }

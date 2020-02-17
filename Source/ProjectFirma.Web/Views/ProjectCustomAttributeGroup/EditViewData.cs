@@ -1,4 +1,8 @@
-﻿using ProjectFirma.Web.Common;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -10,7 +14,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string ProjectCustomAttributeGroupIndexUrl { get; }
         public string SubmitUrl { get; }
         public ViewPageContentViewData ViewInstructionsFirmaPage { get; }
+        public TenantAttribute TenantAttribute { get; }
+        public bool HasExistingData { get; }
 
+        public IEnumerable<SelectListItem> ProjectTypeSelectListItems { get; }
 
         public EditViewData(FirmaSession currentFirmaSession,
             string submitUrl,
@@ -26,7 +33,17 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
             SubmitUrl = submitUrl;
 
             ViewInstructionsFirmaPage = new ViewPageContentViewData(instructionsFirmaPage, currentFirmaSession);
+            TenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            ProjectTypeSelectListItems = ProjectType.All.ToSelectList(x => x.ProjectTypeID.ToString(), x => x.ProjectTypeDisplayName );
 
+            if (projectCustomAttributeGroup != null && projectCustomAttributeGroup.ProjectCustomAttributeTypes.Any(x => x.ProjectCustomAttributes.Any(y => y.ProjectCustomAttributeValues.Any())))
+            {
+                HasExistingData = true;
+            }
+            else
+            {
+                HasExistingData = false;
+            }
         }
 
     }

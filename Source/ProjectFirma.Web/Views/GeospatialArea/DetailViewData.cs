@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             UserHasGeospatialAreaManagePermissions = new GeospatialAreaManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
             IndexUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x => x.Index(geospatialArea.GeospatialAreaType));
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "geospatialAreaProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.GeospatialAreaProjectsGridJsonData(geospatialArea));

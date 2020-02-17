@@ -1,2 +1,0 @@
-DELETE FROM dbo.FieldDefinitionData WHERE FieldDefinitionID = 291;
-UPDATE dbo.FieldDefinition SET FieldDefinitionName = 'AttachmentType', FieldDefinitionDisplayName = 'Attachment Type' WHERE FieldDefinitionID = 291;

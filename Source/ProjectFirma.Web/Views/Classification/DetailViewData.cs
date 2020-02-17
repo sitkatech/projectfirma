@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.Classification
             ClassificationDisplayNamePluralized = ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classification.ClassificationSystem);
             ClassificationDisplayName = classification.ClassificationSystem.ClassificationSystemName;
 
-            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            ProjectCustomDefaultGridSpec = new ProjectCustomGridSpec(currentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
             ProjectCustomDefaultGridName = "classificationProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.ClassificationProjectsGridJsonData(classification));

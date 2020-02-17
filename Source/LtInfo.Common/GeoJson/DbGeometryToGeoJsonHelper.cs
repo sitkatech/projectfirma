@@ -24,6 +24,7 @@ using System.Data.Entity.Spatial;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using LtInfo.Common.DesignByContract;
+using Newtonsoft.Json;
 
 namespace LtInfo.Common.GeoJson
 {
@@ -153,6 +154,12 @@ namespace LtInfo.Common.GeoJson
         public static bool CanParseGeometry(DbGeometry geometry)
         {
             return geometry != null && geometry.IsValid && geometry.SpatialTypeName != "GeometryCollection";
+        }
+
+        public static string MakeDbGeometryIntoGeoJsonString(DbGeometry geometry, Formatting formatting)
+        {
+            var dbGeometryAsFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(geometry);
+            return JsonTools.SerializeObject(dbGeometryAsFeature, formatting);
         }
 
     }

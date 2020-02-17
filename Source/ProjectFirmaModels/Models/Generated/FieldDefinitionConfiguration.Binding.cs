@@ -18,7 +18,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FieldDefinitionID).HasColumnName(@"FieldDefinitionID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(x => x.FieldDefinitionName).HasColumnName(@"FieldDefinitionName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
             Property(x => x.FieldDefinitionDisplayName).HasColumnName(@"FieldDefinitionDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(300);
-            Property(x => x.DefaultDefinition).HasColumnName(@"DefaultDefinition").HasColumnType("varchar").IsRequired();
 
             // Foreign keys
 

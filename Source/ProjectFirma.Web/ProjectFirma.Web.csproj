@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ProjectFirma.Web</RootNamespace>
     <AssemblyName>ProjectFirma.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>true</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -45,21 +45,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Common\FieldDefinitionHelpers.cs" />
+    <Compile Include="Common\FirmaDateUtilities.cs" />
+    <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
     <Compile Include="Common\IFieldDefinition.cs" />
     <Compile Include="Common\IFieldDefinitionDisplayAttribute.cs" />
     <Compile Include="Common\KeystoneService.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
+    <Compile Include="Common\MultiTenantHelpers.cs" />
     <Compile Include="Common\MultiTenantHelpersTest.cs" />
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
-    <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
+    <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -72,6 +78,7 @@
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
     <Compile Include="Controllers\ProjectNoteController.cs" />
     <Compile Include="Controllers\ProjectStatusController.cs" />
+    <Compile Include="Controllers\ReportCenterController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
@@ -79,16 +86,28 @@
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
-    <Compile Include="Models\AttachmentRelationshipTypeTaxonomyTrunkModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeFileResourceMimeTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeModelExtensions.cs" />
+    <Compile Include="Models\AttachmentTypeTaxonomyTrunkModelExtensions.cs" />
     <Compile Include="Models\BootstrapTag.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateBaseViewModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectContactModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
+    <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
     <Compile Include="Models\EntityAttachment.cs" />
     <Compile Include="Models\EntityNote.cs" />
+    <Compile Include="Models\EvaluationCriteriaModelExtensions.cs" />
+    <Compile Include="Models\EvaluationCriteriaSimple.cs" />
+    <Compile Include="Models\EvaluationCriteriaValueSimple.cs" />
+    <Compile Include="Models\EvaluationModelExtensions.cs" />
     <Compile Include="Models\FieldDefinitionModelExtensions.cs" />
     <Compile Include="Models\FileResourceModelExtensions.cs" />
     <Compile Include="Models\FileResourcePhoto.cs" />
@@ -98,12 +117,12 @@
     <Compile Include="Models\FirmaPageTypeTest.cs" />
     <Compile Include="Models\FundingSourceCustomAttributes.cs" />
     <Compile Include="Models\FundingSourceCustomAttributeTypeModelExtensions.cs" />
-    <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\CostTypeSimple.cs" />
+    <Compile Include="Models\FundingSourceModelExtensions.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
-    <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTargetModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureFixedTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeSimple.cs" />
@@ -111,6 +130,8 @@
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
     <Compile Include="Models\NotificationTypeModelExtensions.cs" />
+    <Compile Include="Models\ExternalMapLayerModelExtensions.cs" />
+    <Compile Include="Models\OrganizationDto.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureActualSimple.cs" />
@@ -122,7 +143,7 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
-    <Compile Include="Models\PerformanceMeasureOverallTargetModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureFixedTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportingPeriodModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
@@ -142,6 +163,7 @@
     <Compile Include="Models\ProjectCustomAttributeGroupModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectEvaluationModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearUpdateSimple.cs" />
@@ -149,6 +171,9 @@
     <Compile Include="Models\ProjectExternalImportDataSimple.cs" />
     <Compile Include="Models\ProjectExternalLinkUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetModelExtensions.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaTypeNoteUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectGeospatialAreaUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectLocationUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectNoFundingSourceIdentifiedUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectFundingSourceCostTypeAmount.cs" />
     <Compile Include="Models\ProjectFundingSourceBudgetsByCostTypeBulk.cs" />
@@ -179,6 +204,8 @@
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\ReportedValueForDisplay.cs" />
     <Compile Include="Models\ReportingCategoryForDisplay.cs" />
+    <Compile Include="Models\ReportTemplateModelExtensions.cs" />
+    <Compile Include="ReportTemplates\ReportTemplateGenerator.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -192,32 +219,82 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
-    <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
-    <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\AttachmentTypeManageFeature.cs" />
+    <Compile Include="Security\AttachmentTypeViewFeature.cs" />
+    <Compile Include="Security\EvaluationCriteriaManageFeature.cs" />
+    <Compile Include="Security\EvaluationViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
+    <Compile Include="Security\EvaluationManageFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
+    <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\OfferProjectFactSheetLinkFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStartUpdateWorkflowFeature.cs" />
+    <Compile Include="Security\ProjectEvaluationManageFeature.cs" />
     <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
     <Compile Include="Security\ProjectTimelineFeature.cs" />
+    <Compile Include="Security\ReportTemplateManageFeature.cs" />
+    <Compile Include="Security\ReportTemplateViewListFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
-    <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\AttachmentType\AttachmentTypeGridSpec.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentType.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentTypeViewData.cs" />
+    <Compile Include="Views\AttachmentType\EditAttachmentTypeViewModel.cs" />
+    <Compile Include="Views\AttachmentType\Index.cs" />
+    <Compile Include="Views\AttachmentType\IndexViewData.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
+    <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
+    <Compile Include="Views\Evaluation\AddProjectEvaluationViewData.cs" />
+    <Compile Include="Views\Evaluation\EditProjectEvaluationViewModel.cs" />
+    <Compile Include="Views\Evaluation\AddProjectEvaluationViewModel.cs" />
+    <Compile Include="Views\Evaluation\Detail.cs" />
+    <Compile Include="Views\Evaluation\DetailViewData.cs" />
+    <Compile Include="Views\Evaluation\Edit.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriteria.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriteriaViewData.cs" />
+    <Compile Include="Views\Evaluation\EditEvaluationCriteriaViewModel.cs" />
+    <Compile Include="Views\Evaluation\EditViewData.cs" />
+    <Compile Include="Views\Evaluation\EditViewModel.cs" />
+    <Compile Include="Views\Evaluation\EvaluationCriteriaGridSpec.cs" />
+    <Compile Include="Views\Evaluation\EvaluationPortfolioGridSpec.cs" />
+    <Compile Include="Views\Evaluation\Index.cs" />
+    <Compile Include="Views\Evaluation\IndexGridSpec.cs" />
+    <Compile Include="Views\Evaluation\IndexViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
     <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\Edit.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewData.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewModel.cs" />
+    <Compile Include="Views\ExternalMapLayer\Index.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContact.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContactViewData.cs" />
+    <Compile Include="Views\Organization\EditPrimaryContactViewModel.cs" />
+    <Compile Include="Views\ReportCenter\GenerateReports.cs" />
+    <Compile Include="Views\ReportCenter\GenerateReportsViewModel.cs" />
+    <Compile Include="Views\ReportCenter\Edit.cs" />
+    <Compile Include="Views\ReportCenter\EditViewData.cs" />
+    <Compile Include="Views\ReportCenter\EditViewModel.cs" />
+    <Compile Include="Views\ReportCenter\GenerateReportsViewData.cs" />
+    <Compile Include="Views\ReportCenter\Projects.cs" />
+    <Compile Include="Views\ReportCenter\ProjectsViewData.cs" />
+    <Compile Include="Views\ReportCenter\ReportTemplateGridSpec.cs" />
+    <Compile Include="Views\ReportCenter\Index.cs" />
+    <Compile Include="Views\ReportCenter\IndexViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -412,12 +489,7 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
-    <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
-    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
-    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
-    <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
-      <DependentUpon>bor.theme.css</DependentUpon>
-    </Content>
+    <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
     <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
@@ -461,6 +533,15 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
+    <Content Include="Content\document-templates\model-testing.docx" />
+    <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
+      <DependentUpon>bor.theme.css</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -483,7 +564,9 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
-    <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
+    <Content Include="Views\AttachmentType\AttachmentTypeController.js" />
+    <Content Include="Views\Evaluation\AddProjectEvaluationController.js" />
+    <Content Include="Views\Evaluation\EditEvaluationCriteriaController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
@@ -501,8 +584,6 @@
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequestsController.js" />
     <Content Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cshtml" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\Help\RequestSupport.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Detail.cshtml" />
     <Content Include="Views\FundingSourceCustomAttributeType\Edit.cshtml" />
@@ -513,14 +594,25 @@
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
-    <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
-    <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargets.cshtml" />
     <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Index.cshtml" />
+    <Content Include="Views\Evaluation\Index.cshtml" />
+    <Content Include="Views\Evaluation\Edit.cshtml" />
+    <Content Include="Views\Evaluation\Detail.cshtml" />
+    <Content Include="Views\Evaluation\EditEvaluationCriteria.cshtml" />
+    <Content Include="Views\Evaluation\AddProjectEvaluation.cshtml" />
+    <Content Include="Views\Evaluation\EditProjectEvaluation.cshtml" />
+    <Content Include="Views\AttachmentType\Index.cshtml" />
+    <Content Include="Views\AttachmentType\EditAttachmentType.cshtml" />
+    <Content Include="Views\Organization\EditPrimaryContact.cshtml" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-1.11.0.min.map" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1053,7 +1145,6 @@
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewData.cs" />
     <Compile Include="Views\PerformanceMeasure\EditSubcategoriesAndOptionsViewModel.cs" />
-    <Compile Include="Common\MultiTenantHelpers.cs" />
     <Compile Include="Controllers\TaxonomyTierPerformanceMeasureController.cs" />
     <Compile Include="Controllers\TaxonomyTrunkController.cs" />
     <Compile Include="Controllers\ProgramInfoController.cs" />
@@ -1371,7 +1462,6 @@
     <Compile Include="Views\Project\IndexViewData.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjects.cs" />
     <Compile Include="Views\Project\MyOrganizationsProjectsViewData.cs" />
-    <Compile Include="Views\Project\ProjectCalendarYearExpenditure.cs" />
     <Compile Include="Views\Project\ProjectCalendarYearExpenditureTest.cs" />
     <Compile Include="Views\Project\ProjectExcelSpec.cs" />
     <Compile Include="Views\Project\ProjectNotificationGridSpec.cs" />
@@ -1623,6 +1713,10 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
+    <Content Include="Views\ReportCenter\Index.cshtml" />
+    <Content Include="Views\ReportCenter\Edit.cshtml" />
+    <Content Include="Views\ReportCenter\GenerateReports.cshtml" />
+    <Content Include="Views\ReportCenter\Projects.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
@@ -1653,20 +1747,26 @@
     <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
     </Reference>
-    <Reference Include="ClosedXML, Version=0.76.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\ClosedXML.0.76.0\lib\net40-client\ClosedXML.dll</HintPath>
+    <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ClosedXML.0.94.2\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="DHTMLX.Export.Excel">
       <HintPath>..\Libraries\DhtmlxGrid\DHTMLX.Export.Excel.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.10.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.10.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\FastMember.1.3.0\lib\net45\FastMember.dll</HintPath>
     </Reference>
     <Reference Include="FluentValidation, Version=5.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\FluentValidation.5.6.2.0\lib\Net45\FluentValidation.dll</HintPath>
@@ -1754,6 +1854,13 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDocx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\SharpDocx.2.0.1\lib\net45\SharpDocx.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\SharpImage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -1765,6 +1872,14 @@
     </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -1776,9 +1891,9 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -1821,6 +1936,7 @@
     <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.WebPages.WebData.3.2.3\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="XmlDiffPatch, Version=1.0.8.28, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>..\NuGetPackages\XMLDiffPatch.1.0.8.28\lib\net\XmlDiffPatch.dll</HintPath>
     </Reference>
@@ -1830,7 +1946,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AuditLog\IDescribableEntity.cs" />
-    <Compile Include="Common\FirmaDateUtilities.cs" />
     <Compile Include="Common\FirmaMathUtilities.cs" />
     <Compile Include="Common\FirmaHelpers.cs" />
     <Compile Include="Common\SecuredActionUrlHelper.cs" />
@@ -1842,11 +1957,10 @@
     <Compile Include="Models\ProjectLocationModelExtensions.cs" />
     <Compile Include="Models\OrganizationModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureModelExtensions.cs" />
-    <Compile Include="Models\ProjectFundingSourceExpenditureModelExtensions.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\ProjectFundingSourceExpenditureModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensions.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\ProjectModelExtensions.cs" />
-    <Compile Include="Common\FirmaDateUtilitiesTest.cs" />
     <Compile Include="Models\ProjectFundingSourceExpenditureBulk.cs" />
     <Compile Include="Models\ProjectPerformanceMeasurePermissionsTest.cs" />
     <Compile Include="Security\FirmaFeatureTest.cs" />
@@ -3316,6 +3430,7 @@
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="Models\ReportTemplate\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -3392,14 +3507,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
-  <Target Name="WriteCopyrightAndLicense" BeforeTargets="PrepareForBuild" Condition="'$(Configuration)' != 'Release' ">
-    <PropertyGroup>
-      <PowerShellExe Condition=" '$(PowerShellExe)'=='' ">%WINDIR%\System32\WindowsPowerShell\v1.0\powershell.exe</PowerShellExe>
-      <ScriptLocation Condition=" '$(ScriptLocation)'=='' ">.\..\AddCopyrightAndLicense.ps1</ScriptLocation>
-      <CopyrightHolder>Tahoe Regional Planning Agency</CopyrightHolder>
-    </PropertyGroup>
-    <Exec Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;&amp; {&amp;'$(ScriptLocation)' '$(CopyrightHolder)' } &quot;" />
   </Target>
   <Import Project="..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\NuGetPackages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -57,6 +57,16 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             {
                 projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectStatus).ToList();
             }
+            // Remove the Final Status Update Status Column if Tenant doesn't use the require submitting lessons learned
+            if (!MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.FinalStatusUpdateStatus).ToList();
+            }
+            // Remove the Project Type Column if Tenant doesn't use the attribute
+            if (!MultiTenantHelpers.GetTenantAttribute().EnableProjectTypes)
+            {
+                projectCustomGridColumns = projectCustomGridColumns.Where(x => x != ProjectCustomGridColumnEnum.ProjectType).ToList();
+            }
 
             foreach (var projectCustomGridColumn in projectCustomGridColumns)
             {

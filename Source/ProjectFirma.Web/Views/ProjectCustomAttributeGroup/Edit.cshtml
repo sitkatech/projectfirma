@@ -1,7 +1,5 @@
 ﻿@using System.Web.Mvc.Html
-@using LtInfo.Common.HtmlHelperExtensions
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
+@using DocumentFormat.OpenXml.EMMA
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
@@ -10,19 +8,60 @@
 
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewInstructionsFirmaPage); }
 
+<script type="text/javascript">
+    // <![CDATA[
+    jQuery(document).ready(function ()
+    {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
+    // ]]>
+</script>
+
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(m => m.ProjectCustomAttributeGroupID)
+    if (ViewDataTyped.HasExistingData)
+    {
+        <div class="alert alert-warning">
+            <strong>Potential data loss! </strong>
+            Changing the @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel() may result in data loss. @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() have data in the database.
+        </div>
+    }
     <div class="row">
         <div class="col-xs-12">
             <div class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-md-4">
-                        @Html.LabelFor(m => m.ProjectCustomAttributeGroupName)
+                    <div class="col-xs-12 col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectCustomAttributeGroupName)
                     </div>
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.ProjectCustomAttributeGroupName, new { @class = "form-control", style = "width:100%" })
                     </div>
                 </div>
+                @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+                {
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(m => m.ProjectTypeEnums)
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            @Html.ListBoxFor(m => m.ProjectTypeEnums, ViewDataTyped.ProjectTypeSelectListItems, new { @class = "form-control selectpicker" })
+                            @Html.ValidationMessageFor(m => m.ProjectTypeEnums)
+                            <span class="smallExplanationText">
+                                @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().
+                            </span>
+                            
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    var modelProjectTypeEnums = Model.ProjectTypeEnums;
+                    for (int i = 0; i < modelProjectTypeEnums.Count; i++)
+                    {
+                        @Html.HiddenFor(m => Model.ProjectTypeEnums[i])
+                    }
+                }
             </div>
         </div>
     </div>

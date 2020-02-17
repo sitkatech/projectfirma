@@ -149,9 +149,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             if (HasExistingProjectUpdate && OldProjectStageID != ProjectStageID)
             {
-                var errorMessage = $"There are updates to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} that have not been submitted.<br />" +
-                                   "Making this change can potentially affect that update in process.<br />" +
-                                   $"Please delete the update if you want to change this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s stage.";
+                var errorMessage = $"There are updates to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} that have not been submitted. Please delete the update if you want to change this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}'s stage.";
                 yield return new SitkaValidationResult<EditProjectViewModel, int>(errorMessage, m => m.ProjectStageID);
             }
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -27,18 +26,18 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.ProjectUpdate.PrimaryContactPersonID = project.PrimaryContactPersonID;
             projectUpdateBatch.ProjectAttachmentUpdates =
                 project.ProjectAttachments.Select(
-                    po => new ProjectAttachmentUpdate(projectUpdateBatch, po.Attachment, po.AttachmentRelationshipType, po.DisplayName) { Description = po.Description}
+                    po => new ProjectAttachmentUpdate(projectUpdateBatch, po.Attachment, po.AttachmentType, po.DisplayName) { Description = po.Description}
                 ).ToList();
         }
 
-        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, IList<ProjectAttachment> allProjectAttachments)
+        public static void CommitChangesToProject(ProjectUpdateBatch projectUpdateBatch, DatabaseEntities databaseEntities)
         {
             var project = projectUpdateBatch.Project;
             var projectAttachmentsFromProjectUpdate =
                 projectUpdateBatch.ProjectAttachmentUpdates.Select(
-                    x => new ProjectAttachment(project.ProjectID, x.AttachmentID, x.AttachmentRelationshipTypeID, x.DisplayName){Description = x.Description}).ToList();
-            project.ProjectAttachments.Merge(projectAttachmentsFromProjectUpdate, allProjectAttachments,
-                (x, y) => x.ProjectID == y.ProjectID && x.AttachmentID == y.AttachmentID, HttpRequestStorage.DatabaseEntities);
+                    x => new ProjectAttachment(project.ProjectID, x.AttachmentID, x.AttachmentTypeID, x.DisplayName){Description = x.Description}).ToList();
+            project.ProjectAttachments.Merge(projectAttachmentsFromProjectUpdate,
+                (x, y) => x.ProjectID == y.ProjectID && x.AttachmentID == y.AttachmentID, databaseEntities);
         }
     }
 }

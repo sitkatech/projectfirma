@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    <copyright file="EditProjectProjectStatus.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
     </copyright>
@@ -41,6 +41,10 @@
     }
 </style>
 
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
 @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
 @using (Html.BeginForm())
 {
@@ -50,7 +54,7 @@
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         <label>
-                            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStatusUpdateCreatedBy.ToType())
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusUpdateCreatedBy.ToType())
                         </label>
                     </div>
                     <div class="col-sm-8">
@@ -70,11 +74,40 @@
                         else
                         {
                             @Html.HiddenFor(m => m.ProjectStatusUpdateDate);
-                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly/>
+                            <input type="text" class="form-control" value="@DateTime.Now.ToShortDateString()" readonly />
                         }
                         @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
                     </div>
                 </div>
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="finalStatusUpdateSection">
+                        <div class="col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(x => x.IsFinalStatusUpdate)
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, true) Yes
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, false) No
+                                    </label>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.IsFinalStatusUpdate)
+                        </div>
+                    </div>
+                }
+                @if (!ViewDataTyped.AllowEditFinal)
+                {
+                    @Html.HiddenFor(m => m.IsFinalStatusUpdate);
+                }
+
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
@@ -89,10 +122,26 @@
                 <div class="form-group">
                     <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
                     <div class="col-sm-8">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
                         @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
                     </div>
                 </div>
+
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="lessonsLearnedDiv">
+                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.LessonsLearned, true)</div>
+                        <div class="col-sm-8">
+                            @Html.TextAreaWithMaxLengthFor(m => m.LessonsLearned, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                            @Html.ValidationMessageFor(m => m.LessonsLearned)
+                        </div>
+                    </div>
+                }
+                @if (!ViewDataTyped.AllowEditFinal)
+                {
+                    @Html.HiddenFor(m => m.LessonsLearned);
+                }
             </div>
         </div>
     </div>
@@ -102,11 +151,7 @@
             @ViewDataTyped.DeleteButton
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            @{ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData);}
-        </div>
-    </div>
+
 }
 
 <script type="text/javascript">
@@ -119,6 +164,46 @@
         function mapOptionToColor(optionVal) {
             return projectStatuses[optionVal].Color;
         }
+
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').change(function () {
+            var value = false;
+
+            if (this.value == 'True') {
+                value = true;
+            }
+
+            if (value) {
+                jQuery('#lessonsLearnedDiv').show();
+                jQuery('#lessonsLearnedDiv :input').attr("required", true);
+            } else {
+                jQuery('#lessonsLearnedDiv').hide();
+                jQuery('#lessonsLearnedDiv :input').attr("required", false);
+            }
+
+        });
+
+
+        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]');
+        //console.log(radio);
+        var value = false;
+        radio.each(function () {
+            var textVal = jQuery(this).val();
+            if ( textVal== 'True' && jQuery(this).prop('checked')) {
+                value = true;
+            }
+        });
+        //console.log(value);
+
+        if (value) {
+            jQuery('#lessonsLearnedDiv').show();
+            jQuery('#lessonsLearnedDiv :input').attr("required", true);
+        } else {
+            jQuery('#lessonsLearnedDiv').hide();
+            jQuery('#lessonsLearnedDiv :input').attr("required", false);
+        }
+
+
+
 
         jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
             var option = jQuery(this);
