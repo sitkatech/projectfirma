@@ -90,7 +90,8 @@
     {
         <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@DhtmlxGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
     }
-    @if (ViewDataTyped.Project.FactSheetIsAvailable())
+
+    @if (ViewDataTyped.ShowFactSheetButton)
     {
         <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaDhtmlxGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
     }

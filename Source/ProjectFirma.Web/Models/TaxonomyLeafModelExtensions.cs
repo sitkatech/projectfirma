@@ -188,7 +188,7 @@ namespace ProjectFirma.Web.Models
             {
                 ThemeColor = String.IsNullOrWhiteSpace(taxonomyLeaf.ThemeColor) ? taxonomyLeaf.TaxonomyBranch.ThemeColor : taxonomyLeaf.ThemeColor,
                 MapUrl = GetCustomizedMapUrl(taxonomyLeaf),
-                Children = taxonomyLeaf.GetAssociatedProjects(currentFirmaSession).Select(x => x.ToFancyTreeNode()).OrderBy(x => x.Title).ToList()
+                Children = taxonomyLeaf.GetAssociatedProjects(currentFirmaSession).Select(x => x.ToFancyTreeNode(currentFirmaSession)).OrderBy(x => x.Title).ToList()
             };
             return fancyTreeNode;
         }

@@ -97,22 +97,33 @@
                 </dl>
             </div>
         </div>
-        <div class="row popupRow">
-            <div class="col-xs-12 text-center">
-                <span>
-                    @ViewDataTyped.DetailLinkDescriptor
-                    <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet</a>
-                </span>
+        
+        @if (ViewDataTyped.OfferFactSheetLink)
+        {
+            <div class="row popupRow">
+                <div class="col-xs-12 text-center">
+                    <span>
+                        @ViewDataTyped.DetailLinkDescriptor
+                        <a href="@ViewDataTyped.FactSheetUrl">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet</a>
+                    </span>
+                </div>
             </div>
-        </div>
+        }
     </div>
 }
 else
 {
-    <div style="max-width: 200px">
-        <div class="text-center">
-            <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
-        </div>
-    </div>
+         <div style="max-width: 200px">
+             <div class="text-center">
+                 if (ViewDataTyped.OfferFactSheetLink)
+                 {
+                 <a href="@ViewDataTyped.FactSheetUrl" title="View @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet"><strong>@ViewDataTyped.DisplayName</strong></a>
+                 }
+                 else
+                 {
+                 <strong>@ViewDataTyped.DisplayName</strong>
+                 }
+             </div>
+         </div>
 }
 
