@@ -237,7 +237,7 @@ namespace LtInfo.Common.DhtmlWrappers
         {CreateViewingRowCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
         {filteredStateHtml}
     </span>
-    <span class=""checked-checkboxes"" style=""display:none;"">
+    <span class=""checked-checkboxes"" style=""display:none;margin-left:20px;"">
         {CreateViewingCheckedCheckboxesCountGridHeaderHtml(gridName, gridSpec.ObjectNamePlural)}
     </span>
     <span class=""actions pull-right"">
