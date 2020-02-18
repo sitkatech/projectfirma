@@ -172,10 +172,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
                     break;
-                case ProjectCustomGridColumnEnum.ProjectType:
-                    if (MultiTenantHelpers.GetTenantAttribute().EnableProjectTypes)
+                case ProjectCustomGridColumnEnum.ProjectCategory:
+                    if (MultiTenantHelpers.GetTenantAttribute().EnableProjectCategories)
                     {
-                        Add(FieldDefinitionEnum.ProjectType.ToType().ToGridHeaderString(), x => x.ProjectType.ProjectTypeDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
                 default:
@@ -208,7 +208,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 return value;
             }
 
-            if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.All(x => x.ProjectTypeID != project.ProjectTypeID))
+            if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
             {
                 return null;
             }

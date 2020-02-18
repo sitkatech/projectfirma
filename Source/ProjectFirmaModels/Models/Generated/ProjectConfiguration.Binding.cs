@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.NoFundingSourceIdentifiedYet).HasColumnName(@"NoFundingSourceIdentifiedYet").HasColumnType("money").IsOptional().HasPrecision(19,4);
             Property(x => x.ExpectedFundingUpdateNote).HasColumnName(@"ExpectedFundingUpdateNote").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.LastUpdatedDate).HasColumnName(@"LastUpdatedDate").HasColumnType("datetime").IsRequired();
-            Property(x => x.ProjectTypeID).HasColumnName(@"ProjectTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.ProjectCategoryID).HasColumnName(@"ProjectCategoryID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.Projects).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_TaxonomyLeafID

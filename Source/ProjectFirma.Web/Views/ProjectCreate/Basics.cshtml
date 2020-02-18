@@ -221,24 +221,24 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>
-    @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+    @if (ViewDataTyped.TenantAttribute.EnableProjectCategories)
     {
         <div class="form-group">
             <div class="col-xs-12 col-sm-4 control-label">
-                @Html.LabelWithSugarFor(m => m.ProjectTypeEnum)
+                @Html.LabelWithSugarFor(m => m.ProjectCategoryEnum)
             </div>
             <div class="col-xs-12 col-sm-8">
-                @Html.EnumDropDownListFor(m => m.ProjectTypeEnum, new {@class = "form-control"})
-                @Html.ValidationMessageFor(m => m.ProjectTypeEnum)
+                @Html.EnumDropDownListFor(m => m.ProjectCategoryEnum, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.ProjectCategoryEnum)
                 <span class="smallExplanationText">
-                    The @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
+                    The @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() cannot be changed after a proposal is accepted.
                 </span>
             </div>
         </div>
     }
     else
     {
-        @Html.HiddenFor(m => m.ProjectTypeEnum)
+        @Html.HiddenFor(m => m.ProjectCategoryEnum)
     }
 </div>
 

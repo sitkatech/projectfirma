@@ -25,8 +25,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         public string ProjectCustomAttributeGroupName { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectType)]
-        public List<ProjectTypeEnum> ProjectTypeEnums { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
+        public List<ProjectCategoryEnum> ProjectCategoryEnums { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             ProjectCustomAttributeGroupID = projectCustomAttributeGroup.ProjectCustomAttributeGroupID;
             ProjectCustomAttributeGroupName = projectCustomAttributeGroup.ProjectCustomAttributeGroupName;
-            ProjectTypeEnums = projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Select(x => x.ProjectType.ToEnum).ToList();
+            ProjectCategoryEnums = projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Select(x => x.ProjectCategory.ToEnum).ToList();
         }
 
 
@@ -47,27 +47,27 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
         {
             projectCustomAttributeGroup.ProjectCustomAttributeGroupName = ProjectCustomAttributeGroupName; 
 
-            List<ProjectCustomAttributeGroupProjectType> updatedProjectCustomAttributeGroupProjectTypes = new List<ProjectCustomAttributeGroupProjectType>();
-            foreach (var projectTypeEnum in ProjectTypeEnums)
+            List<ProjectCustomAttributeGroupProjectCategory> updatedProjectCustomAttributeGroupProjectCategories = new List<ProjectCustomAttributeGroupProjectCategory>();
+            foreach (var projectCategoryEnum in ProjectCategoryEnums)
             {
-                var projectCustomAttributeGroupProjectType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroupProjectTypes
+                var projectCustomAttributeGroupProjectType = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroupProjectCategories
                                                                                                 .FirstOrDefault(x => 
-                                                                                                                x.ProjectTypeID == (int)projectTypeEnum && 
+                                                                                                                x.ProjectCategoryID == (int)projectCategoryEnum && 
                                                                                                                 x.ProjectCustomAttributeGroupID == ProjectCustomAttributeGroupID);
 
                 if (projectCustomAttributeGroupProjectType == null)
                 {
-                    projectCustomAttributeGroupProjectType = new ProjectCustomAttributeGroupProjectType(ProjectCustomAttributeGroupID, (int)projectTypeEnum);
+                    projectCustomAttributeGroupProjectType = new ProjectCustomAttributeGroupProjectCategory(ProjectCustomAttributeGroupID, (int)projectCategoryEnum);
                 }
 
-                updatedProjectCustomAttributeGroupProjectTypes.Add(projectCustomAttributeGroupProjectType);
+                updatedProjectCustomAttributeGroupProjectCategories.Add(projectCustomAttributeGroupProjectType);
             }
-            var allProjectCustomAttributeGroupProjectTypes = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeGroupProjectTypes.Local;
+            var allProjectCustomAttributeGroupProjectCategories = HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeGroupProjectCategories.Local;
 
-            projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Merge(
-                updatedProjectCustomAttributeGroupProjectTypes,
-                allProjectCustomAttributeGroupProjectTypes,
-                (x, y) => x.ProjectCustomAttributeGroupProjectTypeID == y.ProjectCustomAttributeGroupProjectTypeID, HttpRequestStorage.DatabaseEntities);
+            projectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Merge(
+                updatedProjectCustomAttributeGroupProjectCategories,
+                allProjectCustomAttributeGroupProjectCategories,
+                (x, y) => x.ProjectCustomAttributeGroupProjectCategoryID == y.ProjectCustomAttributeGroupProjectCategoryID, HttpRequestStorage.DatabaseEntities);
 
 
             if (projectCustomAttributeGroup.SortOrder != null) return;
@@ -78,11 +78,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeGroup
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            foreach (var projectTypeEnum in ProjectTypeEnums)
+            foreach (var ProjectCategoryEnum in ProjectCategoryEnums)
             {
-                if (!Enum.IsDefined(typeof(ProjectTypeEnum), projectTypeEnum))
+                if (!Enum.IsDefined(typeof(ProjectCategoryEnum), ProjectCategoryEnum))
                 {
-                    yield return new SitkaValidationResult<EditViewModel, List<ProjectTypeEnum>>($"A valid value for {FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectTypeEnums);
+                    yield return new SitkaValidationResult<EditViewModel, List<ProjectCategoryEnum>>($"A valid value for {FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectCategoryEnums);
                 }
             }
         }

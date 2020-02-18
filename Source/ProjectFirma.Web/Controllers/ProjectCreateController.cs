@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult CreateAndEditBasics(bool newProjectIsProposal)
         {
             var basicsViewModel = new BasicsViewModel();
-            basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
+            basicsViewModel.ProjectCategoryEnum = ProjectCategoryEnum.Normal;
             if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
@@ -205,7 +205,7 @@ namespace ProjectFirma.Web.Controllers
                 PlanningDesignStartYear = importExternalProjectStaging.PlanningDesignStartYear,
                 ImplementationStartYear = importExternalProjectStaging.ImplementationStartYear,
                 CompletionYear = importExternalProjectStaging.EndYear,
-                ProjectTypeEnum = ProjectTypeEnum.Normal
+                ProjectCategoryEnum = ProjectCategoryEnum.Normal
             };
             return ViewCreateAndEditBasics(viewModel, true);
         }
@@ -232,7 +232,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now, 
-                ProjectType.Normal.ProjectTypeID)
+                ProjectCategory.Normal.ProjectCategoryID)
             {
 
                 ProposingPerson = CurrentFirmaSession.Person,
@@ -1802,7 +1802,7 @@ namespace ProjectFirma.Web.Controllers
             var customAttributesValidationResult = project.ValidateCustomAttributes();
 
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectTypes.Any(pcagpt => pcagpt.ProjectTypeID == project.ProjectTypeID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.Where(x => x.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.Any(pcagpt => pcagpt.ProjectCategoryID == project.ProjectCategoryID)).ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
 
             var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
 

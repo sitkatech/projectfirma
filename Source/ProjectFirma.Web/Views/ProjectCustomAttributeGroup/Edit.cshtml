@@ -24,7 +24,7 @@
     {
         <div class="alert alert-warning">
             <strong>Potential data loss! </strong>
-            Changing the @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel() may result in data loss. @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() have data in the database.
+            Changing the @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel() may result in data loss. @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() have data in the database.
         </div>
     }
     <div class="row">
@@ -38,17 +38,17 @@
                         @Html.TextBoxFor(m => m.ProjectCustomAttributeGroupName, new { @class = "form-control", style = "width:100%" })
                     </div>
                 </div>
-                @if (ViewDataTyped.TenantAttribute.EnableProjectTypes)
+                @if (ViewDataTyped.TenantAttribute.EnableProjectCategories)
                 {
                     <div class="form-group">
                         <div class="col-xs-12 col-sm-4 control-label">
-                            @Html.LabelWithSugarFor(m => m.ProjectTypeEnums)
+                            @Html.LabelWithSugarFor(m => m.ProjectCategoryEnums)
                         </div>
                         <div class="col-xs-12 col-sm-8">
-                            @Html.ListBoxFor(m => m.ProjectTypeEnums, ViewDataTyped.ProjectTypeSelectListItems, new { @class = "form-control selectpicker" })
-                            @Html.ValidationMessageFor(m => m.ProjectTypeEnums)
+                            @Html.ListBoxFor(m => m.ProjectCategoryEnums, ViewDataTyped.ProjectTypeSelectListItems, new { @class = "form-control selectpicker" })
+                            @Html.ValidationMessageFor(m => m.ProjectCategoryEnums)
                             <span class="smallExplanationText">
-                                @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectType.ToType().GetFieldDefinitionLabel().
+                                @FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized() within this @FieldDefinitionEnum.ProjectCustomAttributeGroup.ToType().GetFieldDefinitionLabel() will only be shown on projects with the selected @FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel().
                             </span>
                             
                         </div>
@@ -56,10 +56,10 @@
                 }
                 else
                 {
-                    var modelProjectTypeEnums = Model.ProjectTypeEnums;
-                    for (int i = 0; i < modelProjectTypeEnums.Count; i++)
+                    var modelProjectCategoryEnums = Model.ProjectCategoryEnums;
+                    for (int i = 0; i < modelProjectCategoryEnums.Count; i++)
                     {
-                        @Html.HiddenFor(m => Model.ProjectTypeEnums[i])
+                        @Html.HiddenFor(m => Model.ProjectCategoryEnums[i])
                     }
                 }
             </div>

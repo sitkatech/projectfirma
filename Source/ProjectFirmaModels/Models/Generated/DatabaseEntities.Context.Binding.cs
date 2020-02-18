@@ -117,7 +117,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupConfiguration());
-            modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupProjectTypeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomAttributeGroupProjectCategoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
@@ -324,8 +324,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectContact> ProjectContacts { get { return AllProjectContacts.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContactUpdate> AllProjectContactUpdates { get; set; }
         public virtual IQueryable<ProjectContactUpdate> ProjectContactUpdates { get { return AllProjectContactUpdates.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectCustomAttributeGroupProjectType> AllProjectCustomAttributeGroupProjectTypes { get; set; }
-        public virtual IQueryable<ProjectCustomAttributeGroupProjectType> ProjectCustomAttributeGroupProjectTypes { get { return AllProjectCustomAttributeGroupProjectTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomAttributeGroupProjectCategory> AllProjectCustomAttributeGroupProjectCategories { get; set; }
+        public virtual IQueryable<ProjectCustomAttributeGroupProjectCategory> ProjectCustomAttributeGroupProjectCategories { get { return AllProjectCustomAttributeGroupProjectCategories.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeGroup> AllProjectCustomAttributeGroups { get; set; }
         public virtual IQueryable<ProjectCustomAttributeGroup> ProjectCustomAttributeGroups { get { return AllProjectCustomAttributeGroups.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
@@ -756,6 +756,11 @@ namespace ProjectFirmaModels.Models
                 case "ProjectAttachmentUpdate":
                     return ProjectAttachmentUpdates.GetProjectAttachmentUpdate(primaryKey);
 
+                case "ProjectCategory":
+                    var projectCategory = ProjectCategory.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCategory, "ProjectCategory", primaryKey);
+                    return projectCategory;
+
                 case "ProjectClassification":
                     return ProjectClassifications.GetProjectClassification(primaryKey);
 
@@ -780,8 +785,8 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(projectCustomAttributeDataType, "ProjectCustomAttributeDataType", primaryKey);
                     return projectCustomAttributeDataType;
 
-                case "ProjectCustomAttributeGroupProjectType":
-                    return ProjectCustomAttributeGroupProjectTypes.GetProjectCustomAttributeGroupProjectType(primaryKey);
+                case "ProjectCustomAttributeGroupProjectCategory":
+                    return ProjectCustomAttributeGroupProjectCategories.GetProjectCustomAttributeGroupProjectCategory(primaryKey);
 
                 case "ProjectCustomAttributeGroup":
                     return ProjectCustomAttributeGroups.GetProjectCustomAttributeGroup(primaryKey);
@@ -955,11 +960,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectTag":
                     return ProjectTags.GetProjectTag(primaryKey);
-
-                case "ProjectType":
-                    var projectType = ProjectType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectType, "ProjectType", primaryKey);
-                    return projectType;
 
                 case "ProjectUpdateBatch":
                     return ProjectUpdateBatches.GetProjectUpdateBatch(primaryKey);
