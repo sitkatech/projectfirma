@@ -175,12 +175,12 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult CreateAndEditBasics(bool newProjectIsProposal)
         {
             var basicsViewModel = new BasicsViewModel();
+            basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
             if (newProjectIsProposal)
             {
                 basicsViewModel.ProjectStageID = ProjectStage.Proposal.ProjectStageID;
-                basicsViewModel.ProjectTypeEnum = ProjectTypeEnum.Normal;
             }
-            
+
             return ViewCreateAndEditBasics(basicsViewModel, !newProjectIsProposal);
         }
 
