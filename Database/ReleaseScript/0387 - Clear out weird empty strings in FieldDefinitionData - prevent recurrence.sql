@@ -24,6 +24,15 @@ GO
 ALTER TABLE [dbo].FieldDefinitionData  WITH CHECK ADD  CONSTRAINT [CK_FieldDefinitionData_FieldDefinitionDataValue_IsNotEmptyString] CHECK  (FieldDefinitionDataValue != '')
 GO
 
+-- Oh, also, Stewart Gordon did this and he's wrong.
+update dbo.FieldDefinition
+set FieldDefinitionDisplayName = 'Report Description'
+where FieldDefinitionID = 344
+
+--select * from dbo.FieldDefinition where FieldDefinitionID = 344
+
+
+
 
 
 
