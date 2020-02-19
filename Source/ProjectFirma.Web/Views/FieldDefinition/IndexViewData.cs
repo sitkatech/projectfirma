@@ -25,6 +25,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.FieldDefinition
 {
@@ -67,17 +68,34 @@ namespace ProjectFirma.Web.Views.FieldDefinition
 
     public class CustomFieldDefinitionCollisions
     {
+        /// <summary>
+        /// System Field Definition is referring to the System Display Name that conflicts with the tenant override
+        /// </summary>
         public int SystemFieldDefinitionID { get; set; }
         public string SystemFieldDefinitionDisplayName { get; set; }
+        
+        /// <summary>
+        /// Override Field Definition is referring to the tenant override value that conflicts with the system display name
+        /// </summary>
         public int OverrideFieldDefinitionDataID { get; set; }
         public string OverrideFieldDefinitionLabel { get; set; }
+
+        /// <summary>
+        /// Override Original System Field Definition is referring to the field definition that is being overridden by the tenant
+        /// </summary>
+        public int OverrideOriginalSystemFieldDefinitionID { get; set; }
+        public string OverrideOriginalSystemFieldDefinitionDisplayName { get; set; }
 
         public CustomFieldDefinitionCollisions(ProjectFirmaModels.Models.FieldDefinition fieldDefinition, FieldDefinitionData fieldDefinitionData)
         {
             SystemFieldDefinitionID = fieldDefinition.FieldDefinitionID;
             SystemFieldDefinitionDisplayName = fieldDefinition.FieldDefinitionDisplayName;
+
             OverrideFieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
             OverrideFieldDefinitionLabel = fieldDefinitionData.FieldDefinitionLabel;
+
+            OverrideOriginalSystemFieldDefinitionID = fieldDefinitionData.FieldDefinition.FieldDefinitionID;
+            OverrideOriginalSystemFieldDefinitionDisplayName = fieldDefinitionData.FieldDefinition.FieldDefinitionDisplayName;
         }
     }
 }

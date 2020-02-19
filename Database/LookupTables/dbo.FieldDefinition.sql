@@ -166,7 +166,7 @@ VALUES
 (341, N'EnableProjectCategory', 'Enable Project Categories'),
 (342, N'EnableReportCenter', 'Enable Report Center'),
 (343, N'ReportCenterReportTitle', 'Title'),
-(344, N'ReportCenterReportDescription', 'Description'),
+(344, N'ReportCenterReportDescription', 'Report Description'),
 (345, N'ReportCenterReportFile', 'File'),
 (346, N'ReportCenterReportModel', 'Model'),
 (347, N'ReportCenterSelectedReportTemplate', 'Selected Report Template')
