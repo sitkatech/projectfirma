@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public FieldDefinitionGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
-        public List<CustomFieldDefinitionCollisions> FieldDefinitionsWithCollision { get; }
+        public List<CustomFieldDefinitionConflicts> FieldDefinitionsWithConflict { get; }
 
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
@@ -51,51 +51,51 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             GridDataUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
 
             var customFieldDefinitions = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.ToList().Where(fdd => !string.IsNullOrWhiteSpace(fdd.FieldDefinitionLabel)).ToList();
-            FieldDefinitionsWithCollision = new List<CustomFieldDefinitionCollisions>();
+            FieldDefinitionsWithConflict = new List<CustomFieldDefinitionConflicts>();
             foreach (var customFieldDefinition in customFieldDefinitions)
             {
                 var fieldDefinitions = HttpRequestStorage.DatabaseEntities.FieldDefinitions.Where(fd =>
                     fd.FieldDefinitionID != customFieldDefinition.FieldDefinitionID && fd.FieldDefinitionDisplayName ==
                     customFieldDefinition.FieldDefinitionLabel).ToList();
-                var itemsWithCollision = fieldDefinitions.Select(x => new CustomFieldDefinitionCollisions(x, customFieldDefinition));
+                var itemsWithCollision = fieldDefinitions.Select(x => new CustomFieldDefinitionConflicts(x, customFieldDefinition));
 
-                FieldDefinitionsWithCollision.AddRange(itemsWithCollision);
+                FieldDefinitionsWithConflict.AddRange(itemsWithCollision);
             }
 
         }
     }
 
 
-    public class CustomFieldDefinitionCollisions
+    public class CustomFieldDefinitionConflicts
     {
         /// <summary>
-        /// System Field Definition is referring to the System Display Name that conflicts with the tenant override
+        /// Default In Conflict Field Definition is referring to the system Default Display Name that conflicts with the tenant custom label
         /// </summary>
-        public int SystemFieldDefinitionID { get; set; }
-        public string SystemFieldDefinitionDisplayName { get; set; }
+        public int DefaultInConflictFieldDefinitionID { get; set; }
+        public string DefaultInConflictFieldDefinitionDisplayName { get; set; }
         
         /// <summary>
-        /// Override Field Definition is referring to the tenant override value that conflicts with the system display name
+        /// Custom Field Definition is referring to the tenant custom label value that conflicts with the default display name
         /// </summary>
-        public int OverrideFieldDefinitionDataID { get; set; }
-        public string OverrideFieldDefinitionLabel { get; set; }
+        public int CustomFieldDefinitionDataID { get; set; }
+        public string CustomFieldDefinitionLabel { get; set; }
 
         /// <summary>
-        /// Override Original System Field Definition is referring to the field definition that is being overridden by the tenant
+        /// Default Field Definition is referring to the field definition that is being overridden by the tenant custom label
         /// </summary>
-        public int OverrideOriginalSystemFieldDefinitionID { get; set; }
-        public string OverrideOriginalSystemFieldDefinitionDisplayName { get; set; }
+        public int DefaultFieldDefinitionID { get; set; }
+        public string DefaultFieldDefinitionDisplayName { get; set; }
 
-        public CustomFieldDefinitionCollisions(ProjectFirmaModels.Models.FieldDefinition fieldDefinition, FieldDefinitionData fieldDefinitionData)
+        public CustomFieldDefinitionConflicts(ProjectFirmaModels.Models.FieldDefinition fieldDefinitionInConflict, FieldDefinitionData fieldDefinitionData)
         {
-            SystemFieldDefinitionID = fieldDefinition.FieldDefinitionID;
-            SystemFieldDefinitionDisplayName = fieldDefinition.FieldDefinitionDisplayName;
+            DefaultInConflictFieldDefinitionID = fieldDefinitionInConflict.FieldDefinitionID;
+            DefaultInConflictFieldDefinitionDisplayName = fieldDefinitionInConflict.FieldDefinitionDisplayName;
 
-            OverrideFieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
-            OverrideFieldDefinitionLabel = fieldDefinitionData.FieldDefinitionLabel;
+            CustomFieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
+            CustomFieldDefinitionLabel = fieldDefinitionData.FieldDefinitionLabel;
 
-            OverrideOriginalSystemFieldDefinitionID = fieldDefinitionData.FieldDefinition.FieldDefinitionID;
-            OverrideOriginalSystemFieldDefinitionDisplayName = fieldDefinitionData.FieldDefinition.FieldDefinitionDisplayName;
+            DefaultFieldDefinitionID = fieldDefinitionData.FieldDefinition.FieldDefinitionID;
+            DefaultFieldDefinitionDisplayName = fieldDefinitionData.FieldDefinition.FieldDefinitionDisplayName;
         }
     }
 }
