@@ -48,6 +48,7 @@ namespace ProjectFirma.Api.Models
             {
                 LocationPointAsGeoJsonFeature = DbGeometryToGeoJsonHelper.FromDbGeometry(project.ProjectLocationPoint);
             }
+            LastUpdatedDate = project.LastUpdatedDate;
 
             //ProjectCustomAttributes = project.ProjectCustomAttributes.OrderBy(x => x.ProjectCustomAttributeType.ProjectCustomAttributeTypeName).Select(x => new ProjectCustomAttributeDto(x)).ToList();
         }
@@ -80,6 +81,8 @@ namespace ProjectFirma.Api.Models
 
         public decimal? EstimatedTotalCost { get; set; }
         public Feature LocationPointAsGeoJsonFeature { get; set; }
+
+        public DateTime LastUpdatedDate { get; set; }
 
 //        public List<ProjectCustomAttributeDto> ProjectCustomAttributes { get; set; }
     }
