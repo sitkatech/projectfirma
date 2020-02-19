@@ -13,6 +13,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         private Project Project { get; set; }
         private List<ProjectContact> ProjectContacts { get; set; }
         private List<ProjectOrganization> ProjectOrganizations { get; set; }
+        private List<ProjectImage> ProjectImages { get; set; }
 
 
         public string ProjectName { get; set; }
@@ -45,6 +46,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             Project = project;
             ProjectContacts = project.ProjectContacts.ToList();
             ProjectOrganizations = project.ProjectOrganizations.ToList();
+            ProjectImages = project.ProjectImages.ToList();
 
             // Public properties
             ProjectName = Project.ProjectName;
@@ -116,6 +118,22 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             var organizationsInType = ProjectOrganizations.Where(x => x.OrganizationRelationshipType.OrganizationRelationshipTypeName == organizationTypeName).ToList();
             var organizationNames = organizationsInType.Select(x => x.Organization.GetDisplayName()).ToList();
             return $"{string.Join(", ", organizationNames)}";
+        }
+
+        public List<ReportTemplateProjectImageModel> GetProjectImages()
+        {
+            return ProjectImages.Select(x => new ReportTemplateProjectImageModel(x)).ToList();
+        }
+
+        public List<ReportTemplateProjectImageModel> GetProjectImagesByTiming(string timingName)
+        {
+            return ProjectImages.Where(x => x.ProjectImageTiming.ProjectImageTimingName == timingName).Select(x => new ReportTemplateProjectImageModel(x)).ToList();
+        }
+
+        public ReportTemplateProjectImageModel GetProjectKeyPhoto()
+        {
+            var projectKeyPhoto = ProjectImages.FirstOrDefault(x => x.IsKeyPhoto == true);
+            return projectKeyPhoto != null ? new ReportTemplateProjectImageModel(projectKeyPhoto) : null;
         }
 
     }
