@@ -16,8 +16,8 @@ namespace ProjectFirma.Web.ReportTemplates
             {
                 "using ProjectFirma.Web.ReportTemplates;",
                 "using ProjectFirma.Web.Models;",
-                "using System.Linq;",
-                "using Microsoft.CSharp.RuntimeBinder;"
+                "using Microsoft.CSharp.RuntimeBinder;",
+                "using System.Linq;"
 
             };
         }

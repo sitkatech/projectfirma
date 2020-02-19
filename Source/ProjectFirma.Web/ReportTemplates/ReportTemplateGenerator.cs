@@ -13,12 +13,16 @@ namespace ProjectFirma.Web.ReportTemplates
 {
     public class ReportTemplateGenerator
     {
-        public const string TemplateTempDirectory = "ProjectFirmaReportTemplates";
+        public const string TemplateTempDirectoryName = "ProjectFirmaReportTemplates";
+        public const string TemplateTempImageDirectoryName = "Images";
         public const int TemplateTempDirectoryFileLifespanInDays = 2;
         protected ReportTemplate ReportTemplate { get; set; }
         protected ReportTemplateModelEnum ReportTemplateModelEnum { get; set; }
         protected ReportTemplateModelTypeEnum ReportTemplateModelTypeEnum { get; set; }
         protected List<int> SelectedModelIDs { get; set; }
+        protected string FullTemplateTempDirectory { get; set; }
+        protected string FullTemplateTempImageDirectory { get; set; }
+
         /// <summary>
         /// ReportTemplateUniqueIdentifier is used for file names in the TEMP directory.
         /// </summary>
@@ -31,11 +35,21 @@ namespace ProjectFirma.Web.ReportTemplates
             ReportTemplateModelTypeEnum = reportTemplate.ReportTemplateModelType.ToEnum;
             SelectedModelIDs = selectedModelIDs;
             ReportTemplateUniqueIdentifier = Guid.NewGuid();
+            InitializeTempFolders();
+        }
+
+        private void InitializeTempFolders()
+        {
+            var tempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
+            var baseTempDirectory = new DirectoryInfo($"{tempPath.FullName}\\{TemplateTempDirectoryName}\\");
+            baseTempDirectory.Create();
+            FullTemplateTempDirectory = baseTempDirectory.FullName;
+            FullTemplateTempImageDirectory = baseTempDirectory.CreateSubdirectory(TemplateTempImageDirectoryName).FullName;
         }
 
         public void Generate()
         {
-
+            
             var models = GetListOfModels();
             var templateViewModel = new ReportTemplateBaseViewModel()
             {
@@ -44,18 +58,41 @@ namespace ProjectFirma.Web.ReportTemplates
             };
 
             var templatePath = GetTemplatePath();
+
             SaveTemplateFileToTempDirectory();
+            SaveImageFilesToTempDirectory();
             
             var document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, templateViewModel);
             
-            // TODO: Figure out solution/need for images in the reports
-            //document.ImageDirectory =
-            //    "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\images";
+            document.ImageDirectory = FullTemplateTempImageDirectory;
 
             var compilePath = GetCompilePath();
             document.Generate(compilePath);
 
-            CleanDirectoryOfOldTemplates(GetFullTemporaryTemplateDirectory());
+            CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
+        }
+
+        /// <summary>
+        /// Because Sharpdocx uses directories for images we need to save the images that can be used with the chosen model into a directory that can be accessed
+        /// when the report generates. This allows us to create a helper on the ReportTemplateProjectImage model that can then call Image() and pass in the
+        /// same file name (that uses the file resource unique GUID)
+        /// </summary>
+        private void SaveImageFilesToTempDirectory()
+        {
+            switch (ReportTemplateModelEnum)
+            {
+                case ReportTemplateModelEnum.Project:
+                    var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
+                    var projectImages = projectsList.SelectMany(x => x.ProjectImages).ToList();
+                    foreach (var projectImage in projectImages)
+                    {
+                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResource.GetFullGuidBasedFilename()}";
+                        File.WriteAllBytes(imagePath, projectImage.FileResource.FileResourceData);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public ActionResult GenerateAndDownload()
@@ -66,7 +103,7 @@ namespace ProjectFirma.Web.ReportTemplates
             return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
-        private void CleanDirectoryOfOldTemplates(string targetDirectory)
+        private void CleanTempDirectoryOfOldFiles(string targetDirectory)
         {
             if (Directory.Exists(targetDirectory))
             {
@@ -75,7 +112,7 @@ namespace ProjectFirma.Web.ReportTemplates
                     DeleteFileIfOlderThanLifespan(fileName);
                 var directories = Directory.GetDirectories(targetDirectory);
                 foreach (string directory in directories)
-                    CleanDirectoryOfOldTemplates(directory);
+                    CleanTempDirectoryOfOldFiles(directory);
             }
         }
 
@@ -101,28 +138,22 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetTemplatePath()
         {
-            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
-
+        
         /// <summary>
         /// Get the compile path for this ReportTemplate that the .docx template will compile to.
         /// </summary>
         /// <returns></returns>
         private string GetCompilePath()
         {
-            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
-
-        private string GetFullTemporaryTemplateDirectory()
-        {
-            var tempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
-            return $"{tempPath.FullName}\\{TemplateTempDirectory}\\";
-        }
-
+        
         private List<ReportTemplateBaseModel> GetListOfModels()
         {
             var listOfModels = new List<ReportTemplateBaseModel>();
