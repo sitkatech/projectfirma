@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
@@ -30,6 +33,8 @@ namespace ProjectFirma.Web.Views.FieldDefinition
         public FieldDefinitionGridSpec GridSpec { get; }
         public string GridName { get; }
         public string GridDataUrl { get; }
+        public List<CustomFieldDefinitionCollisions> FieldDefinitionsWithCollision { get; }
+
 
         public IndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
@@ -43,6 +48,36 @@ namespace ProjectFirma.Web.Views.FieldDefinition
             };
             GridName = "fieldDefinitionsGrid";
             GridDataUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+
+            var customFieldDefinitions = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.ToList().Where(fdd => !string.IsNullOrWhiteSpace(fdd.FieldDefinitionLabel)).ToList();
+            FieldDefinitionsWithCollision = new List<CustomFieldDefinitionCollisions>();
+            foreach (var customFieldDefinition in customFieldDefinitions)
+            {
+                var fieldDefinitions = HttpRequestStorage.DatabaseEntities.FieldDefinitions.Where(fd =>
+                    fd.FieldDefinitionID != customFieldDefinition.FieldDefinitionID && fd.FieldDefinitionDisplayName ==
+                    customFieldDefinition.FieldDefinitionLabel).ToList();
+                var itemsWithCollision = fieldDefinitions.Select(x => new CustomFieldDefinitionCollisions(x, customFieldDefinition));
+
+                FieldDefinitionsWithCollision.AddRange(itemsWithCollision);
+            }
+
+        }
+    }
+
+
+    public class CustomFieldDefinitionCollisions
+    {
+        public int SystemFieldDefinitionID { get; set; }
+        public string SystemFieldDefinitionDisplayName { get; set; }
+        public int OverrideFieldDefinitionDataID { get; set; }
+        public string OverrideFieldDefinitionLabel { get; set; }
+
+        public CustomFieldDefinitionCollisions(ProjectFirmaModels.Models.FieldDefinition fieldDefinition, FieldDefinitionData fieldDefinitionData)
+        {
+            SystemFieldDefinitionID = fieldDefinition.FieldDefinitionID;
+            SystemFieldDefinitionDisplayName = fieldDefinition.FieldDefinitionDisplayName;
+            OverrideFieldDefinitionDataID = fieldDefinitionData.FieldDefinitionDataID;
+            OverrideFieldDefinitionLabel = fieldDefinitionData.FieldDefinitionLabel;
         }
     }
 }

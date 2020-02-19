@@ -33,6 +33,19 @@ Source code is available upon request via <support@sitkatech.com>.
     Use this page to update the definitions for fields used in this system. These definitions provide guidance or help to users who are viewing or editing information in this system. These definitions are visible to users when viewing a page or editor that lists these fields (e.g. the summary page for a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), and its popup editors).
 </p>
 
+@if (ViewDataTyped.FieldDefinitionsWithCollision.Any())
+{
+    <div class="alert alert-warning">
+        <p>We have found Custom Label(s) you entered that have the same Label as a different system Default Label.</p>
+        @foreach (var fieldDefinition in ViewDataTyped.FieldDefinitionsWithCollision)
+        {
+            <p>Default Field Definition ID: @fieldDefinition.SystemFieldDefinitionID, Default Label: @fieldDefinition.SystemFieldDefinitionDisplayName <br/>
+            Custom Field Definition Data ID: @fieldDefinition.OverrideFieldDefinitionDataID, Custom Label: @fieldDefinition.OverrideFieldDefinitionLabel
+                </p>
+        }
+    </div>
+}
+
 <div class="container-fluid">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
