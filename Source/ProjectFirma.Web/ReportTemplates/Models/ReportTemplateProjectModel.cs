@@ -35,8 +35,8 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string ProjectDescription { get; set; }
         public int ProjectID { get; set; }
         public DateTime ProjectLastUpdated { get; set; }
-        public string ProjectStatus { get; set; }
-        public string ProjectStatusColor { get; set; }
+        public string CurrentProjectStatus { get; set; }
+        public string CurrentProjectStatusColor { get; set; }
         public string FinalStatusUpdateStatus { get; set; }
 
 
@@ -73,8 +73,8 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             var projectStatus = project.GetCurrentProjectStatus();
             if (projectStatus != null)
             {
-                ProjectStatusColor = projectStatus.ProjectStatusColor;
-                ProjectStatus = projectStatus.ProjectStatusDisplayName;
+                CurrentProjectStatusColor = projectStatus.ProjectStatusColor;
+                CurrentProjectStatus = projectStatus.ProjectStatusDisplayName;
             }
 
             var finalProjectStatus = Project.FinalStatusReportStatusDescription;
