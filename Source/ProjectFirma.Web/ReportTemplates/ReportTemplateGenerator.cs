@@ -5,6 +5,7 @@ using ProjectFirmaModels.Models;
 using SharpDocx;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -49,24 +50,27 @@ namespace ProjectFirma.Web.ReportTemplates
 
         public void Generate()
         {
-            
-            var models = GetListOfModels();
-            var templateViewModel = new ReportTemplateBaseViewModel()
-            {
-                ReportTitle = ReportTemplate.DisplayName,
-                ReportModel = models
-            };
-
             var templatePath = GetTemplatePath();
-
+            ProjectFirmaDocxDocument document;
             SaveTemplateFileToTempDirectory();
             SaveImageFilesToTempDirectory();
-            
-            var document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, templateViewModel);
-            
-            document.ImageDirectory = FullTemplateTempImageDirectory;
+
+            switch (ReportTemplateModelEnum)
+            {
+                case ReportTemplateModelEnum.Project:
+                    var baseViewModel = new ReportTemplateProjectBaseViewModel()
+                    {
+                        ReportTitle = ReportTemplate.DisplayName,
+                        ReportModel = GetListOfProjectModels()
+                    };
+                    document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, baseViewModel);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             var compilePath = GetCompilePath();
+            document.ImageDirectory = FullTemplateTempImageDirectory;
             document.Generate(compilePath);
 
             CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
@@ -87,11 +91,37 @@ namespace ProjectFirma.Web.ReportTemplates
                     foreach (var projectImage in projectImages)
                     {
                         var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResource.GetFullGuidBasedFilename()}";
-                        File.WriteAllBytes(imagePath, projectImage.FileResource.FileResourceData);
+                        CorrectImageProblemsAndSaveToDisk(projectImage, imagePath);
                     }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// In testing the sharpdocx image functionality at least two issues with images uploaded to ProjectFirma came up
+        /// 1. Encountered an image with a corrupt color profile
+        /// 2. Encountered an image with no DPI set
+        ///
+        /// In case #1, this caused caused the generation to crash
+        /// In case #2, this caused the the image in the OpenXML for the .docx to have invalid x and y extents, corrupting the .docx file
+        ///
+        /// It is likely that doing this will fix other potential issues with uploaded images to ProjectFirma
+        ///
+        /// todo: let the owner of the SharpDocx repository know about these issues to be able to set defaults there instead
+        /// </summary>
+        /// <param name="projectImage"></param>
+        /// <param name="imagePath"></param>
+        private static void CorrectImageProblemsAndSaveToDisk(ProjectImage projectImage, string imagePath)
+        {
+            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData))
+            {
+                var bitmap = new Bitmap(ms);
+                using (Bitmap newBitmap = new Bitmap(bitmap))
+                {
+                    newBitmap.Save(imagePath);
+                }
             }
         }
 
@@ -154,21 +184,12 @@ namespace ProjectFirma.Web.ReportTemplates
             return fileName.FullName;
         }
         
-        private List<ReportTemplateBaseModel> GetListOfModels()
+        private List<ReportTemplateProjectModel> GetListOfProjectModels()
         {
-            var listOfModels = new List<ReportTemplateBaseModel>();
-
-            switch (ReportTemplateModelEnum)
-            {
-                case ReportTemplateModelEnum.Project:
-                    var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
-                    var orderedProjectList = projectsList.OrderBy(p => SelectedModelIDs.IndexOf(p.ProjectID)).ToList();
-                    orderedProjectList.ForEach(x => listOfModels.Add(new ReportTemplateProjectModel(x)));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            var listOfModels = new List<ReportTemplateProjectModel>();
+            var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
+            var orderedProjectList = projectsList.OrderBy(p => SelectedModelIDs.IndexOf(p.ProjectID)).ToList();
+            orderedProjectList.ForEach(x => listOfModels.Add(new ReportTemplateProjectModel(x)));
             return listOfModels;
         }
 
