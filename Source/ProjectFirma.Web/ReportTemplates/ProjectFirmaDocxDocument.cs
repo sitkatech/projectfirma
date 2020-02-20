@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
+using LtInfo.Common;
 using SharpDocx;
 using SharpDocx.Extensions;
+using ImageHelper = SharpDocx.ImageHelper;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
@@ -78,7 +80,7 @@ namespace ProjectFirma.Web.ReportTemplates
             const long emusPerTwip = 635;
             var maxWidthInEmus = GetPageContentWidthInTwips() * emusPerTwip;
 
-            // There were issues with corrupt JPG color profiles
+            // This try catch here was what was modified from the original -- 2/20/2020 SMG 
             try
             {
                 Drawing drawing;
@@ -95,9 +97,15 @@ namespace ProjectFirma.Web.ReportTemplates
                     CurrentCodeBlock.Placeholder.Text = "\u200B";
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 CurrentCodeBlock.Placeholder.Text = "(Couldn't insert image due to corrupted color profiles on the image file)";
+                var run = CurrentCodeBlock.Placeholder.GetParent<Run>();
+                if (run != null)
+                {
+                    run.RunProperties.Color = new Color { Val = "#FF0000" };
+                }
+                SitkaLogger.Instance.LogDetailedErrorMessage($"There was an error inserting an image into a document template. Possible image color profile corruption. Temporary image file location:\"{filePath}\"", exception);
             }
 
         }
