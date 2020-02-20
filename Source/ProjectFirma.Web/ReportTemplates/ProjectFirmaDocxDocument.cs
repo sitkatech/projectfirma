@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
 using SharpDocx;
@@ -53,5 +55,52 @@ namespace ProjectFirma.Web.ReportTemplates
             if (run == null) return;
             run.RunProperties.Color = new Color { Val = color };
         }
+
+        /// <summary>
+        /// This is an override to the DocumentBase implementation of Image. This way we can catch the exception that is occuring on images
+        /// that have corrupt color profiles and move on with the document generation.
+        /// More info on corrupt color profiles: https://www.hanselman.com/blog/DealingWithImagesWithBadMetadataCorruptedColorProfilesInWPF.aspx
+        /// 
+        /// todo: create pull request on SharpDocx to fix this at the core instead of overloading it here
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="percentage"></param>
+        protected new void Image(string filePath, int percentage = 100)
+        {
+            if (string.IsNullOrEmpty(Path.GetDirectoryName(filePath)) &&
+                !string.IsNullOrEmpty(ImageDirectory))
+            {
+                filePath = $"{ImageDirectory}/{filePath}";
+            }
+
+            var imageTypePart = ImageHelper.GetImagePartType(filePath);
+
+            const long emusPerTwip = 635;
+            var maxWidthInEmus = GetPageContentWidthInTwips() * emusPerTwip;
+
+            // There were issues with corrupt JPG color profiles
+            try
+            {
+                Drawing drawing;
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    drawing = ImageHelper.CreateDrawing(Package, fs, imageTypePart, percentage, maxWidthInEmus);
+                }
+
+                CurrentCodeBlock.Placeholder.InsertAfterSelf(drawing);
+
+                if (!CurrentCodeBlock.Placeholder.GetParent<Paragraph>().HasText())
+                {
+                    // Insert a zero-width space, so the image doesn't get deleted by CodeBlock.RemoveEmptyParagraphs.
+                    CurrentCodeBlock.Placeholder.Text = "\u200B";
+                }
+            }
+            catch (Exception)
+            {
+                CurrentCodeBlock.Placeholder.Text = "(Couldn't insert image due to corrupted color profiles on the image file)";
+            }
+
+        }
+
     }
 }
