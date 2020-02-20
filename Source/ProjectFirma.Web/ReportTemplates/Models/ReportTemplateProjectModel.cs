@@ -136,5 +136,12 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             return projectKeyPhoto != null ? new ReportTemplateProjectImageModel(projectKeyPhoto) : null;
         }
 
+
+        public List<ReportTemplateProjectStatusModel> GetAllProjectStatusesFromTheLastWeek()
+        {
+            var allProjectStatuses = Project.ProjectProjectStatuses.ToList();
+            return allProjectStatuses.Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
+        }
+
     }
 }

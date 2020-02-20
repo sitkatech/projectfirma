@@ -100,6 +100,7 @@
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectContactModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectImageModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectStatusModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
