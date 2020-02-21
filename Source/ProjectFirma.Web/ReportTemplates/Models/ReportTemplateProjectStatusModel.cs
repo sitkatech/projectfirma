@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             UpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate.ToShortDateString();
             CreatePersonName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             CreateDate = projectProjectStatus.ProjectProjectStatusCreateDate.ToShortDateString();
-            LastEditedPersonName = projectProjectStatus.ProjectProjectStatusLastEditedPerson.GetFullNameFirstLast();
+            LastEditedPersonName = projectProjectStatus.ProjectProjectStatusLastEditedPerson?.GetFullNameFirstLast();
             LastEditedDate = projectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? projectProjectStatus.ProjectProjectStatusLastEditedDate.Value.ToShortDateString() : String.Empty;
             ProjectStatusDisplayName = projectProjectStatus.ProjectStatus.ProjectStatusDisplayName;
             ProjectStatusColor = projectProjectStatus.ProjectStatus.ProjectStatusColor;
