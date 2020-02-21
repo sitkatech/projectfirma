@@ -53,6 +53,8 @@ namespace ProjectFirma.Web.ReportTemplates
             var templatePath = GetTemplatePath();
             ProjectFirmaDocxDocument document;
             SaveTemplateFileToTempDirectory();
+            // todo: find a way to skip saving the image files altogether if the report doesn't use the images
+            // todo: if someone generates a report with all projects, the resulting .docx can get up to 3gb+ depending on the tenant, how do we want to handle this situation?
             SaveImageFilesToTempDirectory();
 
             switch (ReportTemplateModelEnum)
@@ -115,6 +117,13 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <param name="imagePath"></param>
         private static void CorrectImageProblemsAndSaveToDisk(ProjectImage projectImage, string imagePath)
         {
+            // in order to save time on subsequent reports, we should check to see if the file already exists at the path and return early
+            var fileInfo = new FileInfo(imagePath);
+            if (fileInfo.Exists)
+            {
+                return;
+            }
+
             using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData))
             {
                 var bitmap = new Bitmap(ms);
