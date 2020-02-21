@@ -139,8 +139,16 @@ namespace ProjectFirma.Web.ReportTemplates.Models
 
         public List<ReportTemplateProjectStatusModel> GetAllProjectStatusesFromTheLastWeek()
         {
+            var lastMonday = GetStartOfWeek(DateTime.Now, DayOfWeek.Monday).AddDays(-7);
             var allProjectStatuses = Project.ProjectProjectStatuses.ToList();
-            return allProjectStatuses.Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
+            var filteredProjectStatuses = allProjectStatuses.Where(x => x.ProjectProjectStatusUpdateDate >= lastMonday);
+            return filteredProjectStatuses.OrderByDescending(x => x.ProjectProjectStatusUpdateDate).Select(x => new ReportTemplateProjectStatusModel(x)).ToList();
+        }
+
+        private DateTime GetStartOfWeek(DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = dt.DayOfWeek - startOfWeek;
+            return dt.AddDays(-1 * diff).Date;
         }
 
     }
