@@ -13,6 +13,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string CreateDate { get; set; }
         public string LastEditedPersonName { get; set; }
         public string LastEditedDate { get; set; }
+        public string ProjectStatusComment { get; set; }
         public string ProjectStatusDisplayName { get; set; }
         public string ProjectStatusColor { get; set; }
         public string ProjectStatusDescription { get; set; }
@@ -30,9 +31,12 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             CreateDate = projectProjectStatus.ProjectProjectStatusCreateDate.ToShortDateString();
             LastEditedPersonName = projectProjectStatus.ProjectProjectStatusLastEditedPerson?.GetFullNameFirstLast();
             LastEditedDate = projectProjectStatus.ProjectProjectStatusLastEditedDate.HasValue ? projectProjectStatus.ProjectProjectStatusLastEditedDate.Value.ToShortDateString() : String.Empty;
+            ProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
+
             ProjectStatusDisplayName = projectProjectStatus.ProjectStatus.ProjectStatusDisplayName;
             ProjectStatusColor = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ProjectStatusDescription = projectProjectStatus.ProjectStatus.ProjectStatusDescription;
+
         }
 
 
